@@ -2304,11 +2304,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the saveVersion property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getSaveVersion()
    {
@@ -2317,11 +2317,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the saveVersion property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setSaveVersion(BigInteger value)
    {
@@ -2330,11 +2330,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the uid property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getUID()
    {
@@ -2343,11 +2343,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the uid property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUID(String value)
    {
@@ -2356,11 +2356,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -2369,11 +2369,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -2382,11 +2382,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the title property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTitle()
    {
@@ -2395,11 +2395,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the title property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTitle(String value)
    {
@@ -2408,11 +2408,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the subject property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getSubject()
    {
@@ -2421,11 +2421,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the subject property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSubject(String value)
    {
@@ -2434,11 +2434,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the category property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCategory()
    {
@@ -2447,11 +2447,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the category property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCategory(String value)
    {
@@ -2460,11 +2460,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the company property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCompany()
    {
@@ -2473,11 +2473,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the company property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCompany(String value)
    {
@@ -2486,11 +2486,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the manager property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getManager()
    {
@@ -2499,11 +2499,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the manager property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setManager(String value)
    {
@@ -2512,11 +2512,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the author property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAuthor()
    {
@@ -2525,11 +2525,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the author property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAuthor(String value)
    {
@@ -2538,11 +2538,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the creationDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getCreationDate()
    {
@@ -2551,11 +2551,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the creationDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreationDate(Date value)
    {
@@ -2564,11 +2564,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the revision property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getRevision()
    {
@@ -2577,11 +2577,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the revision property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setRevision(BigInteger value)
    {
@@ -2590,11 +2590,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the lastSaved property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getLastSaved()
    {
@@ -2603,11 +2603,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the lastSaved property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastSaved(Date value)
    {
@@ -2616,11 +2616,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the scheduleFromStart property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isScheduleFromStart()
    {
@@ -2629,11 +2629,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the scheduleFromStart property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setScheduleFromStart(Boolean value)
    {
@@ -2642,11 +2642,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the startDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getStartDate()
    {
@@ -2655,11 +2655,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the startDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStartDate(Date value)
    {
@@ -2668,11 +2668,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the finishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getFinishDate()
    {
@@ -2681,11 +2681,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the finishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFinishDate(Date value)
    {
@@ -2694,11 +2694,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the fyStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getFYStartDate()
    {
@@ -2707,11 +2707,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the fyStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setFYStartDate(BigInteger value)
    {
@@ -2720,11 +2720,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the criticalSlackLimit property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getCriticalSlackLimit()
    {
@@ -2733,11 +2733,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the criticalSlackLimit property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setCriticalSlackLimit(BigInteger value)
    {
@@ -2746,11 +2746,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the currencyDigits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getCurrencyDigits()
    {
@@ -2759,11 +2759,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the currencyDigits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setCurrencyDigits(BigInteger value)
    {
@@ -2772,11 +2772,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the currencySymbol property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCurrencySymbol()
    {
@@ -2785,11 +2785,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the currencySymbol property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCurrencySymbol(String value)
    {
@@ -2798,11 +2798,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the currencyCode property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCurrencyCode()
    {
@@ -2811,11 +2811,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the currencyCode property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCurrencyCode(String value)
    {
@@ -2824,11 +2824,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the currencySymbolPosition property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public CurrencySymbolPosition getCurrencySymbolPosition()
    {
@@ -2837,11 +2837,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the currencySymbolPosition property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCurrencySymbolPosition(CurrencySymbolPosition value)
    {
@@ -2850,11 +2850,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the calendarUID property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getCalendarUID()
    {
@@ -2863,11 +2863,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the calendarUID property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setCalendarUID(BigInteger value)
    {
@@ -2876,11 +2876,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultStartTime property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getDefaultStartTime()
    {
@@ -2889,11 +2889,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultStartTime property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultStartTime(Date value)
    {
@@ -2902,11 +2902,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultFinishTime property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getDefaultFinishTime()
    {
@@ -2915,11 +2915,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultFinishTime property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultFinishTime(Date value)
    {
@@ -2928,11 +2928,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the minutesPerDay property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getMinutesPerDay()
    {
@@ -2941,11 +2941,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the minutesPerDay property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setMinutesPerDay(BigInteger value)
    {
@@ -2954,11 +2954,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the minutesPerWeek property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getMinutesPerWeek()
    {
@@ -2967,11 +2967,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the minutesPerWeek property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setMinutesPerWeek(BigInteger value)
    {
@@ -2980,11 +2980,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the daysPerMonth property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getDaysPerMonth()
    {
@@ -2993,11 +2993,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the daysPerMonth property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setDaysPerMonth(BigInteger value)
    {
@@ -3006,11 +3006,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultTaskType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public TaskType getDefaultTaskType()
    {
@@ -3019,11 +3019,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultTaskType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultTaskType(TaskType value)
    {
@@ -3032,11 +3032,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultFixedCostAccrual property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public AccrueType getDefaultFixedCostAccrual()
    {
@@ -3045,11 +3045,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultFixedCostAccrual property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultFixedCostAccrual(AccrueType value)
    {
@@ -3058,11 +3058,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultStandardRate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public BigDecimal getDefaultStandardRate()
    {
@@ -3071,11 +3071,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultStandardRate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultStandardRate(BigDecimal value)
    {
@@ -3084,11 +3084,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultOvertimeRate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public BigDecimal getDefaultOvertimeRate()
    {
@@ -3097,11 +3097,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultOvertimeRate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultOvertimeRate(BigDecimal value)
    {
@@ -3110,11 +3110,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the durationFormat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getDurationFormat()
    {
@@ -3123,11 +3123,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the durationFormat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setDurationFormat(BigInteger value)
    {
@@ -3136,11 +3136,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the workFormat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getWorkFormat()
    {
@@ -3149,11 +3149,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the workFormat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setWorkFormat(BigInteger value)
    {
@@ -3162,11 +3162,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the editableActualCosts property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isEditableActualCosts()
    {
@@ -3175,11 +3175,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the editableActualCosts property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setEditableActualCosts(Boolean value)
    {
@@ -3188,11 +3188,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the honorConstraints property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isHonorConstraints()
    {
@@ -3201,11 +3201,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the honorConstraints property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHonorConstraints(Boolean value)
    {
@@ -3214,11 +3214,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the earnedValueMethod property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getEarnedValueMethod()
    {
@@ -3227,11 +3227,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the earnedValueMethod property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setEarnedValueMethod(BigInteger value)
    {
@@ -3240,11 +3240,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the insertedProjectsLikeSummary property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isInsertedProjectsLikeSummary()
    {
@@ -3253,11 +3253,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the insertedProjectsLikeSummary property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setInsertedProjectsLikeSummary(Boolean value)
    {
@@ -3266,11 +3266,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the multipleCriticalPaths property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMultipleCriticalPaths()
    {
@@ -3279,11 +3279,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the multipleCriticalPaths property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMultipleCriticalPaths(Boolean value)
    {
@@ -3292,11 +3292,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the newTasksEffortDriven property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isNewTasksEffortDriven()
    {
@@ -3305,11 +3305,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the newTasksEffortDriven property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setNewTasksEffortDriven(Boolean value)
    {
@@ -3318,11 +3318,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the newTasksEstimated property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isNewTasksEstimated()
    {
@@ -3331,11 +3331,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the newTasksEstimated property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setNewTasksEstimated(Boolean value)
    {
@@ -3344,11 +3344,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the splitsInProgressTasks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isSplitsInProgressTasks()
    {
@@ -3357,11 +3357,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the splitsInProgressTasks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSplitsInProgressTasks(Boolean value)
    {
@@ -3370,11 +3370,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the spreadActualCost property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isSpreadActualCost()
    {
@@ -3383,11 +3383,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the spreadActualCost property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSpreadActualCost(Boolean value)
    {
@@ -3396,11 +3396,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the spreadPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isSpreadPercentComplete()
    {
@@ -3409,11 +3409,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the spreadPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSpreadPercentComplete(Boolean value)
    {
@@ -3422,11 +3422,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the taskUpdatesResource property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isTaskUpdatesResource()
    {
@@ -3435,11 +3435,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the taskUpdatesResource property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTaskUpdatesResource(Boolean value)
    {
@@ -3448,11 +3448,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the fiscalYearStart property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isFiscalYearStart()
    {
@@ -3461,11 +3461,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the fiscalYearStart property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFiscalYearStart(Boolean value)
    {
@@ -3474,11 +3474,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the weekStartDay property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getWeekStartDay()
    {
@@ -3487,11 +3487,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the weekStartDay property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setWeekStartDay(BigInteger value)
    {
@@ -3500,11 +3500,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the moveCompletedEndsBack property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMoveCompletedEndsBack()
    {
@@ -3513,11 +3513,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the moveCompletedEndsBack property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMoveCompletedEndsBack(Boolean value)
    {
@@ -3526,11 +3526,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the moveRemainingStartsBack property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMoveRemainingStartsBack()
    {
@@ -3539,11 +3539,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the moveRemainingStartsBack property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMoveRemainingStartsBack(Boolean value)
    {
@@ -3552,11 +3552,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the moveRemainingStartsForward property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMoveRemainingStartsForward()
    {
@@ -3565,11 +3565,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the moveRemainingStartsForward property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMoveRemainingStartsForward(Boolean value)
    {
@@ -3578,11 +3578,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the moveCompletedEndsForward property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMoveCompletedEndsForward()
    {
@@ -3591,11 +3591,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the moveCompletedEndsForward property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMoveCompletedEndsForward(Boolean value)
    {
@@ -3604,11 +3604,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the baselineForEarnedValue property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getBaselineForEarnedValue()
    {
@@ -3617,11 +3617,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the baselineForEarnedValue property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setBaselineForEarnedValue(BigInteger value)
    {
@@ -3630,11 +3630,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the autoAddNewResourcesAndTasks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isAutoAddNewResourcesAndTasks()
    {
@@ -3643,11 +3643,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the autoAddNewResourcesAndTasks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAutoAddNewResourcesAndTasks(Boolean value)
    {
@@ -3656,11 +3656,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the statusDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getStatusDate()
    {
@@ -3669,11 +3669,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the statusDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStatusDate(Date value)
    {
@@ -3682,11 +3682,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the currentDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getCurrentDate()
    {
@@ -3695,11 +3695,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the currentDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCurrentDate(Date value)
    {
@@ -3708,11 +3708,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the microsoftProjectServerURL property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMicrosoftProjectServerURL()
    {
@@ -3721,11 +3721,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the microsoftProjectServerURL property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMicrosoftProjectServerURL(Boolean value)
    {
@@ -3734,11 +3734,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the autolink property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isAutolink()
    {
@@ -3747,11 +3747,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the autolink property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAutolink(Boolean value)
    {
@@ -3760,11 +3760,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the newTaskStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getNewTaskStartDate()
    {
@@ -3773,11 +3773,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the newTaskStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setNewTaskStartDate(BigInteger value)
    {
@@ -3786,11 +3786,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the defaultTaskEVMethod property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getDefaultTaskEVMethod()
    {
@@ -3799,11 +3799,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the defaultTaskEVMethod property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setDefaultTaskEVMethod(BigInteger value)
    {
@@ -3812,11 +3812,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the projectExternallyEdited property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isProjectExternallyEdited()
    {
@@ -3825,11 +3825,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the projectExternallyEdited property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectExternallyEdited(Boolean value)
    {
@@ -3838,11 +3838,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the extendedCreationDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Date getExtendedCreationDate()
    {
@@ -3851,11 +3851,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the extendedCreationDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setExtendedCreationDate(Date value)
    {
@@ -3864,11 +3864,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the actualsInSync property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isActualsInSync()
    {
@@ -3877,11 +3877,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the actualsInSync property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActualsInSync(Boolean value)
    {
@@ -3890,11 +3890,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the removeFileProperties property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isRemoveFileProperties()
    {
@@ -3903,11 +3903,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the removeFileProperties property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRemoveFileProperties(Boolean value)
    {
@@ -3916,11 +3916,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the adminProject property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isAdminProject()
    {
@@ -3929,11 +3929,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the adminProject property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAdminProject(Boolean value)
    {
@@ -3942,11 +3942,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the baslineCalendar property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getBaslineCalendar()
    {
@@ -3955,11 +3955,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the baslineCalendar property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setBaslineCalendar(String value)
    {
@@ -3968,11 +3968,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the newTasksAreManual property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isNewTasksAreManual()
    {
@@ -3981,11 +3981,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the newTasksAreManual property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setNewTasksAreManual(Boolean value)
    {
@@ -3994,11 +3994,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the updateManuallyScheduledTasksWhenEditingLinks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isUpdateManuallyScheduledTasksWhenEditingLinks()
    {
@@ -4007,11 +4007,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the updateManuallyScheduledTasksWhenEditingLinks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUpdateManuallyScheduledTasksWhenEditingLinks(Boolean value)
    {
@@ -4020,11 +4020,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the keepTaskOnNearestWorkingTimeWhenMadeAutoScheduled property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isKeepTaskOnNearestWorkingTimeWhenMadeAutoScheduled()
    {
@@ -4033,11 +4033,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the keepTaskOnNearestWorkingTimeWhenMadeAutoScheduled property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setKeepTaskOnNearestWorkingTimeWhenMadeAutoScheduled(Boolean value)
    {
@@ -4046,11 +4046,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the outlineCodes property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.OutlineCodes }
-    *     
+    *
     */
    public Project.OutlineCodes getOutlineCodes()
    {
@@ -4059,11 +4059,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the outlineCodes property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.OutlineCodes }
-    *     
+    *
     */
    public void setOutlineCodes(Project.OutlineCodes value)
    {
@@ -4072,11 +4072,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the wbsMasks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.WBSMasks }
-    *     
+    *
     */
    public Project.WBSMasks getWBSMasks()
    {
@@ -4085,11 +4085,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the wbsMasks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.WBSMasks }
-    *     
+    *
     */
    public void setWBSMasks(Project.WBSMasks value)
    {
@@ -4098,11 +4098,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the extendedAttributes property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.ExtendedAttributes }
-    *     
+    *
     */
    public Project.ExtendedAttributes getExtendedAttributes()
    {
@@ -4111,11 +4111,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the extendedAttributes property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.ExtendedAttributes }
-    *     
+    *
     */
    public void setExtendedAttributes(Project.ExtendedAttributes value)
    {
@@ -4124,11 +4124,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the calendars property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Calendars }
-    *     
+    *
     */
    public Project.Calendars getCalendars()
    {
@@ -4137,11 +4137,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the calendars property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Calendars }
-    *     
+    *
     */
    public void setCalendars(Project.Calendars value)
    {
@@ -4150,11 +4150,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the tasks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Tasks }
-    *     
+    *
     */
    public Project.Tasks getTasks()
    {
@@ -4163,11 +4163,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the tasks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Tasks }
-    *     
+    *
     */
    public void setTasks(Project.Tasks value)
    {
@@ -4176,11 +4176,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the resources property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Resources }
-    *     
+    *
     */
    public Project.Resources getResources()
    {
@@ -4189,11 +4189,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the resources property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Resources }
-    *     
+    *
     */
    public void setResources(Project.Resources value)
    {
@@ -4202,11 +4202,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Gets the value of the assignments property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Assignments }
-    *     
+    *
     */
    public Project.Assignments getAssignments()
    {
@@ -4215,11 +4215,11 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * Sets the value of the assignments property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Assignments }
-    *     
+    *
     */
    public void setAssignments(Project.Assignments value)
    {
@@ -4228,9 +4228,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -4658,8 +4658,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -4671,25 +4671,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the assignment property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the assignment property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getAssignment().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Assignments.Assignment }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Assignments.Assignment> getAssignment()
       {
@@ -4702,9 +4702,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -5122,8 +5122,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -5665,11 +5665,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the uid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getUID()
          {
@@ -5678,11 +5678,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the uid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setUID(BigInteger value)
          {
@@ -5691,11 +5691,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the taskUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getTaskUID()
          {
@@ -5704,11 +5704,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the taskUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setTaskUID(BigInteger value)
          {
@@ -5717,11 +5717,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the resourceUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getResourceUID()
          {
@@ -5730,11 +5730,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the resourceUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setResourceUID(BigInteger value)
          {
@@ -5743,11 +5743,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the percentWorkComplete property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPercentWorkComplete()
          {
@@ -5756,11 +5756,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the percentWorkComplete property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPercentWorkComplete(BigInteger value)
          {
@@ -5769,11 +5769,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualCost()
          {
@@ -5782,11 +5782,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualCost(BigDecimal value)
          {
@@ -5795,11 +5795,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getActualFinish()
          {
@@ -5808,11 +5808,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualFinish(Date value)
          {
@@ -5821,11 +5821,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualOvertimeCost()
          {
@@ -5834,11 +5834,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualOvertimeCost(BigDecimal value)
          {
@@ -5847,11 +5847,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWork()
          {
@@ -5860,11 +5860,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWork(String value)
          {
@@ -5873,11 +5873,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getActualStart()
          {
@@ -5886,11 +5886,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualStart(Date value)
          {
@@ -5899,11 +5899,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWork()
          {
@@ -5912,11 +5912,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWork(String value)
          {
@@ -5925,11 +5925,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the acwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getACWP()
          {
@@ -5938,11 +5938,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the acwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setACWP(BigDecimal value)
          {
@@ -5951,11 +5951,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the confirmed property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isConfirmed()
          {
@@ -5964,11 +5964,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the confirmed property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setConfirmed(Boolean value)
          {
@@ -5977,11 +5977,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getCost()
          {
@@ -5990,11 +5990,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setCost(BigDecimal value)
          {
@@ -6003,11 +6003,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the costRateTable property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCostRateTable()
          {
@@ -6016,11 +6016,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the costRateTable property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCostRateTable(BigInteger value)
          {
@@ -6029,11 +6029,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the costVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getCostVariance()
          {
@@ -6042,11 +6042,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the costVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCostVariance(BigDecimal value)
          {
@@ -6055,11 +6055,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cv property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getCV()
          {
@@ -6068,11 +6068,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cv property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCV(BigDecimal value)
          {
@@ -6081,11 +6081,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the delay property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getDelay()
          {
@@ -6094,11 +6094,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the delay property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setDelay(BigInteger value)
          {
@@ -6107,11 +6107,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getFinish()
          {
@@ -6120,11 +6120,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFinish(Date value)
          {
@@ -6133,11 +6133,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finishVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getFinishVariance()
          {
@@ -6146,11 +6146,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finishVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setFinishVariance(BigInteger value)
          {
@@ -6159,11 +6159,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlink property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlink()
          {
@@ -6172,11 +6172,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlink property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlink(String value)
          {
@@ -6185,11 +6185,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkAddress()
          {
@@ -6198,11 +6198,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkAddress(String value)
          {
@@ -6211,11 +6211,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkSubAddress()
          {
@@ -6224,11 +6224,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkSubAddress(String value)
          {
@@ -6237,11 +6237,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getWorkVariance()
          {
@@ -6250,11 +6250,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkVariance(BigDecimal value)
          {
@@ -6263,11 +6263,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hasFixedRateUnits property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isHasFixedRateUnits()
          {
@@ -6276,11 +6276,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hasFixedRateUnits property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHasFixedRateUnits(Boolean value)
          {
@@ -6289,11 +6289,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fixedMaterial property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isFixedMaterial()
          {
@@ -6302,11 +6302,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fixedMaterial property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFixedMaterial(Boolean value)
          {
@@ -6315,11 +6315,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelingDelay property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getLevelingDelay()
          {
@@ -6328,11 +6328,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelingDelay property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setLevelingDelay(BigInteger value)
          {
@@ -6341,11 +6341,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelingDelayFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getLevelingDelayFormat()
          {
@@ -6354,11 +6354,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelingDelayFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setLevelingDelayFormat(BigInteger value)
          {
@@ -6367,11 +6367,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the linkedFields property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isLinkedFields()
          {
@@ -6380,11 +6380,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the linkedFields property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLinkedFields(Boolean value)
          {
@@ -6393,11 +6393,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the milestone property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isMilestone()
          {
@@ -6406,11 +6406,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the milestone property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setMilestone(Boolean value)
          {
@@ -6419,11 +6419,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the notes property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getNotes()
          {
@@ -6432,11 +6432,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the notes property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setNotes(String value)
          {
@@ -6445,11 +6445,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overallocated property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isOverallocated()
          {
@@ -6458,11 +6458,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overallocated property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOverallocated(Boolean value)
          {
@@ -6471,11 +6471,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getOvertimeCost()
          {
@@ -6484,11 +6484,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setOvertimeCost(BigDecimal value)
          {
@@ -6497,11 +6497,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getOvertimeWork()
          {
@@ -6510,11 +6510,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOvertimeWork(String value)
          {
@@ -6523,11 +6523,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the peakUnits property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getPeakUnits()
          {
@@ -6536,11 +6536,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the peakUnits property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPeakUnits(BigDecimal value)
          {
@@ -6549,11 +6549,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the rateScale property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getRateScale()
          {
@@ -6562,11 +6562,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the rateScale property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setRateScale(BigInteger value)
          {
@@ -6575,11 +6575,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the regularWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRegularWork()
          {
@@ -6588,11 +6588,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the regularWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRegularWork(String value)
          {
@@ -6601,11 +6601,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingCost()
          {
@@ -6614,11 +6614,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingCost(BigDecimal value)
          {
@@ -6627,11 +6627,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingOvertimeCost()
          {
@@ -6640,11 +6640,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingOvertimeCost(BigDecimal value)
          {
@@ -6653,11 +6653,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingOvertimeWork()
          {
@@ -6666,11 +6666,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingOvertimeWork(String value)
          {
@@ -6679,11 +6679,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingWork()
          {
@@ -6692,11 +6692,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingWork(String value)
          {
@@ -6705,11 +6705,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the responsePending property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isResponsePending()
          {
@@ -6718,11 +6718,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the responsePending property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setResponsePending(Boolean value)
          {
@@ -6731,11 +6731,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the start property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStart()
          {
@@ -6744,11 +6744,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the start property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStart(Date value)
          {
@@ -6757,11 +6757,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the stop property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStop()
          {
@@ -6770,11 +6770,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the stop property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStop(Date value)
          {
@@ -6783,11 +6783,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the resume property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getResume()
          {
@@ -6796,11 +6796,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the resume property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setResume(Date value)
          {
@@ -6809,11 +6809,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the startVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getStartVariance()
          {
@@ -6822,11 +6822,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the startVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setStartVariance(BigInteger value)
          {
@@ -6835,11 +6835,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the summary property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isSummary()
          {
@@ -6848,11 +6848,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the summary property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSummary(Boolean value)
          {
@@ -6861,11 +6861,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the sv property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getSV()
          {
@@ -6874,11 +6874,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the sv property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSV(BigDecimal value)
          {
@@ -6887,11 +6887,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the units property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getUnits()
          {
@@ -6900,11 +6900,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the units property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUnits(BigDecimal value)
          {
@@ -6913,11 +6913,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the updateNeeded property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isUpdateNeeded()
          {
@@ -6926,11 +6926,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the updateNeeded property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUpdateNeeded(Boolean value)
          {
@@ -6939,11 +6939,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the vac property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getVAC()
          {
@@ -6952,11 +6952,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the vac property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setVAC(BigDecimal value)
          {
@@ -6965,11 +6965,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the work property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWork()
          {
@@ -6978,11 +6978,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the work property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWork(String value)
          {
@@ -6991,11 +6991,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workContour property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public WorkContour getWorkContour()
          {
@@ -7004,11 +7004,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workContour property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkContour(WorkContour value)
          {
@@ -7017,11 +7017,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcws property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWS()
          {
@@ -7030,11 +7030,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcws property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWS(BigDecimal value)
          {
@@ -7043,11 +7043,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWP()
          {
@@ -7056,11 +7056,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWP(BigDecimal value)
          {
@@ -7069,11 +7069,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bookingType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getBookingType()
          {
@@ -7082,11 +7082,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bookingType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setBookingType(BigInteger value)
          {
@@ -7095,11 +7095,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWorkProtected()
          {
@@ -7108,11 +7108,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWorkProtected(String value)
          {
@@ -7121,11 +7121,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWorkProtected()
          {
@@ -7134,11 +7134,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWorkProtected(String value)
          {
@@ -7147,11 +7147,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the creationDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCreationDate()
          {
@@ -7160,11 +7160,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the creationDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCreationDate(Date value)
          {
@@ -7173,11 +7173,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the assnOwner property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAssnOwner()
          {
@@ -7186,11 +7186,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the assnOwner property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAssnOwner(String value)
          {
@@ -7199,11 +7199,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the assnOwnerGuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAssnOwnerGuid()
          {
@@ -7212,11 +7212,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the assnOwnerGuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAssnOwnerGuid(String value)
          {
@@ -7225,11 +7225,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the budgetCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getBudgetCost()
          {
@@ -7238,11 +7238,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the budgetCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setBudgetCost(BigDecimal value)
          {
@@ -7251,11 +7251,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the budgetWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getBudgetWork()
          {
@@ -7264,11 +7264,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the budgetWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBudgetWork(String value)
          {
@@ -7277,25 +7277,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the extendedAttribute property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the extendedAttribute property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getExtendedAttribute().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Assignments.Assignment.ExtendedAttribute }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Assignments.Assignment.ExtendedAttribute> getExtendedAttribute()
          {
@@ -7308,25 +7308,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the baseline property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the baseline property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getBaseline().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Assignments.Assignment.Baseline }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Assignments.Assignment.Baseline> getBaseline()
          {
@@ -7339,11 +7339,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404000 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404000()
          {
@@ -7352,11 +7352,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404000 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404000(Object value)
          {
@@ -7365,11 +7365,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404001 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404001()
          {
@@ -7378,11 +7378,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404001 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404001(Object value)
          {
@@ -7391,11 +7391,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404002 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404002()
          {
@@ -7404,11 +7404,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404002 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404002(Object value)
          {
@@ -7417,11 +7417,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404003 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404003()
          {
@@ -7430,11 +7430,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404003 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404003(Object value)
          {
@@ -7443,11 +7443,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404004 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404004()
          {
@@ -7456,11 +7456,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404004 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404004(Object value)
          {
@@ -7469,11 +7469,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404005 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404005()
          {
@@ -7482,11 +7482,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404005 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404005(Object value)
          {
@@ -7495,11 +7495,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404006 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404006()
          {
@@ -7508,11 +7508,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404006 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404006(Object value)
          {
@@ -7521,11 +7521,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404007 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404007()
          {
@@ -7534,11 +7534,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404007 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404007(Object value)
          {
@@ -7547,11 +7547,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404008 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404008()
          {
@@ -7560,11 +7560,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404008 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404008(Object value)
          {
@@ -7573,11 +7573,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404009 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404009()
          {
@@ -7586,11 +7586,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404009 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404009(Object value)
          {
@@ -7599,11 +7599,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400A()
          {
@@ -7612,11 +7612,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400A(Object value)
          {
@@ -7625,11 +7625,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400B()
          {
@@ -7638,11 +7638,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400B(Object value)
          {
@@ -7651,11 +7651,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400C()
          {
@@ -7664,11 +7664,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400C(Object value)
          {
@@ -7677,11 +7677,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400D()
          {
@@ -7690,11 +7690,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400D(Object value)
          {
@@ -7703,11 +7703,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400E()
          {
@@ -7716,11 +7716,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400E(Object value)
          {
@@ -7729,11 +7729,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40400F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40400F()
          {
@@ -7742,11 +7742,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40400F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40400F(Object value)
          {
@@ -7755,11 +7755,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404010 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404010()
          {
@@ -7768,11 +7768,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404010 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404010(Object value)
          {
@@ -7781,11 +7781,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404011 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404011()
          {
@@ -7794,11 +7794,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404011 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404011(Object value)
          {
@@ -7807,11 +7807,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404012 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404012()
          {
@@ -7820,11 +7820,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404012 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404012(Object value)
          {
@@ -7833,11 +7833,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404013 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404013()
          {
@@ -7846,11 +7846,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404013 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404013(Object value)
          {
@@ -7859,11 +7859,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404014 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404014()
          {
@@ -7872,11 +7872,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404014 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404014(Object value)
          {
@@ -7885,11 +7885,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404015 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404015()
          {
@@ -7898,11 +7898,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404015 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404015(Object value)
          {
@@ -7911,11 +7911,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404016 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404016()
          {
@@ -7924,11 +7924,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404016 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404016(Object value)
          {
@@ -7937,11 +7937,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404017 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404017()
          {
@@ -7950,11 +7950,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404017 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404017(Object value)
          {
@@ -7963,11 +7963,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404018 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404018()
          {
@@ -7976,11 +7976,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404018 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404018(Object value)
          {
@@ -7989,11 +7989,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404019 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404019()
          {
@@ -8002,11 +8002,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404019 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404019(Object value)
          {
@@ -8015,11 +8015,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401A()
          {
@@ -8028,11 +8028,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401A(Object value)
          {
@@ -8041,11 +8041,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401B()
          {
@@ -8054,11 +8054,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401B(Object value)
          {
@@ -8067,11 +8067,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401C()
          {
@@ -8080,11 +8080,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401C(Object value)
          {
@@ -8093,11 +8093,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401D()
          {
@@ -8106,11 +8106,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401D(Object value)
          {
@@ -8119,11 +8119,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401E()
          {
@@ -8132,11 +8132,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401E(Object value)
          {
@@ -8145,11 +8145,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40401F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40401F()
          {
@@ -8158,11 +8158,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40401F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40401F(Object value)
          {
@@ -8171,11 +8171,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404020 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404020()
          {
@@ -8184,11 +8184,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404020 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404020(Object value)
          {
@@ -8197,11 +8197,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404021 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404021()
          {
@@ -8210,11 +8210,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404021 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404021(Object value)
          {
@@ -8223,11 +8223,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404022 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404022()
          {
@@ -8236,11 +8236,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404022 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404022(Object value)
          {
@@ -8249,11 +8249,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404023 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404023()
          {
@@ -8262,11 +8262,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404023 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404023(Object value)
          {
@@ -8275,11 +8275,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404024 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404024()
          {
@@ -8288,11 +8288,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404024 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404024(Object value)
          {
@@ -8301,11 +8301,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404025 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404025()
          {
@@ -8314,11 +8314,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404025 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404025(Object value)
          {
@@ -8327,11 +8327,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404026 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404026()
          {
@@ -8340,11 +8340,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404026 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404026(Object value)
          {
@@ -8353,11 +8353,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404027 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404027()
          {
@@ -8366,11 +8366,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404027 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404027(Object value)
          {
@@ -8379,11 +8379,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404028 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404028()
          {
@@ -8392,11 +8392,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404028 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404028(Object value)
          {
@@ -8405,11 +8405,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404029 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404029()
          {
@@ -8418,11 +8418,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404029 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404029(Object value)
          {
@@ -8431,11 +8431,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402A()
          {
@@ -8444,11 +8444,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402A(Object value)
          {
@@ -8457,11 +8457,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402B()
          {
@@ -8470,11 +8470,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402B(Object value)
          {
@@ -8483,11 +8483,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402C()
          {
@@ -8496,11 +8496,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402C(Object value)
          {
@@ -8509,11 +8509,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402D()
          {
@@ -8522,11 +8522,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402D(Object value)
          {
@@ -8535,11 +8535,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402E()
          {
@@ -8548,11 +8548,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402E(Object value)
          {
@@ -8561,11 +8561,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40402F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40402F()
          {
@@ -8574,11 +8574,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40402F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40402F(Object value)
          {
@@ -8587,11 +8587,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404030 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404030()
          {
@@ -8600,11 +8600,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404030 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404030(Object value)
          {
@@ -8613,11 +8613,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404031 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404031()
          {
@@ -8626,11 +8626,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404031 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404031(Object value)
          {
@@ -8639,11 +8639,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404032 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404032()
          {
@@ -8652,11 +8652,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404032 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404032(Object value)
          {
@@ -8665,11 +8665,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404033 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404033()
          {
@@ -8678,11 +8678,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404033 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404033(Object value)
          {
@@ -8691,11 +8691,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404034 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404034()
          {
@@ -8704,11 +8704,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404034 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404034(Object value)
          {
@@ -8717,11 +8717,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404035 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404035()
          {
@@ -8730,11 +8730,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404035 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404035(Object value)
          {
@@ -8743,11 +8743,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404036 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404036()
          {
@@ -8756,11 +8756,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404036 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404036(Object value)
          {
@@ -8769,11 +8769,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404037 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404037()
          {
@@ -8782,11 +8782,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404037 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404037(Object value)
          {
@@ -8795,11 +8795,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404038 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404038()
          {
@@ -8808,11 +8808,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404038 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404038(Object value)
          {
@@ -8821,11 +8821,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404039 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404039()
          {
@@ -8834,11 +8834,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404039 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404039(Object value)
          {
@@ -8847,11 +8847,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403A()
          {
@@ -8860,11 +8860,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403A(Object value)
          {
@@ -8873,11 +8873,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403B()
          {
@@ -8886,11 +8886,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403B(Object value)
          {
@@ -8899,11 +8899,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403C()
          {
@@ -8912,11 +8912,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403C(Object value)
          {
@@ -8925,11 +8925,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403D()
          {
@@ -8938,11 +8938,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403D(Object value)
          {
@@ -8951,11 +8951,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403E()
          {
@@ -8964,11 +8964,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403E(Object value)
          {
@@ -8977,11 +8977,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40403F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40403F()
          {
@@ -8990,11 +8990,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40403F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40403F(Object value)
          {
@@ -9003,11 +9003,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404040 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404040()
          {
@@ -9016,11 +9016,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404040 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404040(Object value)
          {
@@ -9029,11 +9029,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404041 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404041()
          {
@@ -9042,11 +9042,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404041 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404041(Object value)
          {
@@ -9055,11 +9055,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404042 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404042()
          {
@@ -9068,11 +9068,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404042 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404042(Object value)
          {
@@ -9081,11 +9081,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404043 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404043()
          {
@@ -9094,11 +9094,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404043 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404043(Object value)
          {
@@ -9107,11 +9107,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404044 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404044()
          {
@@ -9120,11 +9120,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404044 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404044(Object value)
          {
@@ -9133,11 +9133,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404045 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404045()
          {
@@ -9146,11 +9146,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404045 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404045(Object value)
          {
@@ -9159,11 +9159,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404046 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404046()
          {
@@ -9172,11 +9172,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404046 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404046(Object value)
          {
@@ -9185,11 +9185,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404047 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404047()
          {
@@ -9198,11 +9198,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404047 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404047(Object value)
          {
@@ -9211,11 +9211,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404048 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404048()
          {
@@ -9224,11 +9224,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404048 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404048(Object value)
          {
@@ -9237,11 +9237,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404049 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404049()
          {
@@ -9250,11 +9250,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404049 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404049(Object value)
          {
@@ -9263,11 +9263,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404A()
          {
@@ -9276,11 +9276,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404A(Object value)
          {
@@ -9289,11 +9289,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404B()
          {
@@ -9302,11 +9302,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404B(Object value)
          {
@@ -9315,11 +9315,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404C()
          {
@@ -9328,11 +9328,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404C(Object value)
          {
@@ -9341,11 +9341,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404D()
          {
@@ -9354,11 +9354,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404D(Object value)
          {
@@ -9367,11 +9367,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404E()
          {
@@ -9380,11 +9380,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404E(Object value)
          {
@@ -9393,11 +9393,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40404F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40404F()
          {
@@ -9406,11 +9406,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40404F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40404F(Object value)
          {
@@ -9419,11 +9419,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404050 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404050()
          {
@@ -9432,11 +9432,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404050 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404050(Object value)
          {
@@ -9445,11 +9445,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404051 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404051()
          {
@@ -9458,11 +9458,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404051 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404051(Object value)
          {
@@ -9471,11 +9471,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404052 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404052()
          {
@@ -9484,11 +9484,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404052 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404052(Object value)
          {
@@ -9497,11 +9497,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404053 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404053()
          {
@@ -9510,11 +9510,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404053 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404053(Object value)
          {
@@ -9523,11 +9523,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404054 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404054()
          {
@@ -9536,11 +9536,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404054 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404054(Object value)
          {
@@ -9549,11 +9549,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404055 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404055()
          {
@@ -9562,11 +9562,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404055 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404055(Object value)
          {
@@ -9575,11 +9575,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404056 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404056()
          {
@@ -9588,11 +9588,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404056 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404056(Object value)
          {
@@ -9601,11 +9601,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404057 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404057()
          {
@@ -9614,11 +9614,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404057 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404057(Object value)
          {
@@ -9627,11 +9627,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404058 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404058()
          {
@@ -9640,11 +9640,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404058 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404058(Object value)
          {
@@ -9653,11 +9653,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404059 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404059()
          {
@@ -9666,11 +9666,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404059 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404059(Object value)
          {
@@ -9679,11 +9679,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405A()
          {
@@ -9692,11 +9692,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405A(Object value)
          {
@@ -9705,11 +9705,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405B()
          {
@@ -9718,11 +9718,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405B(Object value)
          {
@@ -9731,11 +9731,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405C()
          {
@@ -9744,11 +9744,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405C(Object value)
          {
@@ -9757,11 +9757,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405D()
          {
@@ -9770,11 +9770,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405D(Object value)
          {
@@ -9783,11 +9783,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405E()
          {
@@ -9796,11 +9796,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405E(Object value)
          {
@@ -9809,11 +9809,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40405F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40405F()
          {
@@ -9822,11 +9822,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40405F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40405F(Object value)
          {
@@ -9835,11 +9835,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404060 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404060()
          {
@@ -9848,11 +9848,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404060 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404060(Object value)
          {
@@ -9861,11 +9861,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404061 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404061()
          {
@@ -9874,11 +9874,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404061 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404061(Object value)
          {
@@ -9887,11 +9887,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404062 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404062()
          {
@@ -9900,11 +9900,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404062 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404062(Object value)
          {
@@ -9913,11 +9913,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404063 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404063()
          {
@@ -9926,11 +9926,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404063 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404063(Object value)
          {
@@ -9939,11 +9939,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404064 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404064()
          {
@@ -9952,11 +9952,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404064 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404064(Object value)
          {
@@ -9965,11 +9965,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404065 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404065()
          {
@@ -9978,11 +9978,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404065 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404065(Object value)
          {
@@ -9991,11 +9991,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404066 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404066()
          {
@@ -10004,11 +10004,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404066 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404066(Object value)
          {
@@ -10017,11 +10017,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404067 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404067()
          {
@@ -10030,11 +10030,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404067 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404067(Object value)
          {
@@ -10043,11 +10043,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404068 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404068()
          {
@@ -10056,11 +10056,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404068 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404068(Object value)
          {
@@ -10069,11 +10069,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404069 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404069()
          {
@@ -10082,11 +10082,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404069 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404069(Object value)
          {
@@ -10095,11 +10095,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406A()
          {
@@ -10108,11 +10108,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406A(Object value)
          {
@@ -10121,11 +10121,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406B()
          {
@@ -10134,11 +10134,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406B(Object value)
          {
@@ -10147,11 +10147,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406C()
          {
@@ -10160,11 +10160,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406C(Object value)
          {
@@ -10173,11 +10173,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406D()
          {
@@ -10186,11 +10186,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406D(Object value)
          {
@@ -10199,11 +10199,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406E()
          {
@@ -10212,11 +10212,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406E(Object value)
          {
@@ -10225,11 +10225,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40406F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40406F()
          {
@@ -10238,11 +10238,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40406F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40406F(Object value)
          {
@@ -10251,11 +10251,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404070 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404070()
          {
@@ -10264,11 +10264,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404070 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404070(Object value)
          {
@@ -10277,11 +10277,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404071 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404071()
          {
@@ -10290,11 +10290,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404071 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404071(Object value)
          {
@@ -10303,11 +10303,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404072 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404072()
          {
@@ -10316,11 +10316,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404072 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404072(Object value)
          {
@@ -10329,11 +10329,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404073 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404073()
          {
@@ -10342,11 +10342,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404073 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404073(Object value)
          {
@@ -10355,11 +10355,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404074 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404074()
          {
@@ -10368,11 +10368,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404074 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404074(Object value)
          {
@@ -10381,11 +10381,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404075 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404075()
          {
@@ -10394,11 +10394,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404075 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404075(Object value)
          {
@@ -10407,11 +10407,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404076 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404076()
          {
@@ -10420,11 +10420,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404076 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404076(Object value)
          {
@@ -10433,11 +10433,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404077 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404077()
          {
@@ -10446,11 +10446,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404077 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404077(Object value)
          {
@@ -10459,11 +10459,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404078 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404078()
          {
@@ -10472,11 +10472,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404078 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404078(Object value)
          {
@@ -10485,11 +10485,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404079 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404079()
          {
@@ -10498,11 +10498,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404079 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404079(Object value)
          {
@@ -10511,11 +10511,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407A()
          {
@@ -10524,11 +10524,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407A(Object value)
          {
@@ -10537,11 +10537,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407B()
          {
@@ -10550,11 +10550,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407B(Object value)
          {
@@ -10563,11 +10563,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407C()
          {
@@ -10576,11 +10576,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407C(Object value)
          {
@@ -10589,11 +10589,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407D()
          {
@@ -10602,11 +10602,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407D(Object value)
          {
@@ -10615,11 +10615,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407E()
          {
@@ -10628,11 +10628,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407E(Object value)
          {
@@ -10641,11 +10641,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40407F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40407F()
          {
@@ -10654,11 +10654,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40407F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40407F(Object value)
          {
@@ -10667,11 +10667,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404080 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404080()
          {
@@ -10680,11 +10680,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404080 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404080(Object value)
          {
@@ -10693,11 +10693,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404081 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404081()
          {
@@ -10706,11 +10706,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404081 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404081(Object value)
          {
@@ -10719,11 +10719,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404082 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404082()
          {
@@ -10732,11 +10732,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404082 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404082(Object value)
          {
@@ -10745,11 +10745,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404083 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404083()
          {
@@ -10758,11 +10758,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404083 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404083(Object value)
          {
@@ -10771,11 +10771,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404084 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404084()
          {
@@ -10784,11 +10784,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404084 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404084(Object value)
          {
@@ -10797,11 +10797,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404085 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404085()
          {
@@ -10810,11 +10810,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404085 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404085(Object value)
          {
@@ -10823,11 +10823,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404086 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404086()
          {
@@ -10836,11 +10836,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404086 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404086(Object value)
          {
@@ -10849,11 +10849,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404087 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404087()
          {
@@ -10862,11 +10862,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404087 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404087(Object value)
          {
@@ -10875,11 +10875,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404088 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404088()
          {
@@ -10888,11 +10888,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404088 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404088(Object value)
          {
@@ -10901,11 +10901,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404089 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404089()
          {
@@ -10914,11 +10914,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404089 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404089(Object value)
          {
@@ -10927,11 +10927,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408A()
          {
@@ -10940,11 +10940,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408A(Object value)
          {
@@ -10953,11 +10953,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408B()
          {
@@ -10966,11 +10966,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408B(Object value)
          {
@@ -10979,11 +10979,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408C()
          {
@@ -10992,11 +10992,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408C(Object value)
          {
@@ -11005,11 +11005,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408D()
          {
@@ -11018,11 +11018,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408D(Object value)
          {
@@ -11031,11 +11031,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408E()
          {
@@ -11044,11 +11044,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408E(Object value)
          {
@@ -11057,11 +11057,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40408F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40408F()
          {
@@ -11070,11 +11070,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40408F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40408F(Object value)
          {
@@ -11083,11 +11083,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404090 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404090()
          {
@@ -11096,11 +11096,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404090 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404090(Object value)
          {
@@ -11109,11 +11109,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404091 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404091()
          {
@@ -11122,11 +11122,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404091 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404091(Object value)
          {
@@ -11135,11 +11135,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404092 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404092()
          {
@@ -11148,11 +11148,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404092 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404092(Object value)
          {
@@ -11161,11 +11161,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404093 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404093()
          {
@@ -11174,11 +11174,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404093 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404093(Object value)
          {
@@ -11187,11 +11187,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404094 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404094()
          {
@@ -11200,11 +11200,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404094 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404094(Object value)
          {
@@ -11213,11 +11213,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404095 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404095()
          {
@@ -11226,11 +11226,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404095 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404095(Object value)
          {
@@ -11239,11 +11239,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404096 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404096()
          {
@@ -11252,11 +11252,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404096 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404096(Object value)
          {
@@ -11265,11 +11265,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404097 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404097()
          {
@@ -11278,11 +11278,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404097 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404097(Object value)
          {
@@ -11291,11 +11291,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404098 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404098()
          {
@@ -11304,11 +11304,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404098 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404098(Object value)
          {
@@ -11317,11 +11317,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f404099 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF404099()
          {
@@ -11330,11 +11330,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f404099 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF404099(Object value)
          {
@@ -11343,11 +11343,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409A property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409A()
          {
@@ -11356,11 +11356,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409A property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409A(Object value)
          {
@@ -11369,11 +11369,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409B property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409B()
          {
@@ -11382,11 +11382,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409B property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409B(Object value)
          {
@@ -11395,11 +11395,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409C property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409C()
          {
@@ -11408,11 +11408,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409C property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409C(Object value)
          {
@@ -11421,11 +11421,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409D property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409D()
          {
@@ -11434,11 +11434,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409D property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409D(Object value)
          {
@@ -11447,11 +11447,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409E property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409E()
          {
@@ -11460,11 +11460,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409E property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409E(Object value)
          {
@@ -11473,11 +11473,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f40409F property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF40409F()
          {
@@ -11486,11 +11486,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f40409F property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF40409F(Object value)
          {
@@ -11499,11 +11499,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A0 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A0()
          {
@@ -11512,11 +11512,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A0 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A0(Object value)
          {
@@ -11525,11 +11525,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A1 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A1()
          {
@@ -11538,11 +11538,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A1 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A1(Object value)
          {
@@ -11551,11 +11551,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A2 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A2()
          {
@@ -11564,11 +11564,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A2 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A2(Object value)
          {
@@ -11577,11 +11577,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A3 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A3()
          {
@@ -11590,11 +11590,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A3 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A3(Object value)
          {
@@ -11603,11 +11603,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A4 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A4()
          {
@@ -11616,11 +11616,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A4 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A4(Object value)
          {
@@ -11629,11 +11629,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A5 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A5()
          {
@@ -11642,11 +11642,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A5 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A5(Object value)
          {
@@ -11655,11 +11655,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A6 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A6()
          {
@@ -11668,11 +11668,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A6 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A6(Object value)
          {
@@ -11681,11 +11681,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A7 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A7()
          {
@@ -11694,11 +11694,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A7 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A7(Object value)
          {
@@ -11707,11 +11707,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A8 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A8()
          {
@@ -11720,11 +11720,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A8 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A8(Object value)
          {
@@ -11733,11 +11733,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040A9 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040A9()
          {
@@ -11746,11 +11746,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040A9 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040A9(Object value)
          {
@@ -11759,11 +11759,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Aa property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Aa()
          {
@@ -11772,11 +11772,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Aa property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Aa(Object value)
          {
@@ -11785,11 +11785,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Ab property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Ab()
          {
@@ -11798,11 +11798,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Ab property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Ab(Object value)
          {
@@ -11811,11 +11811,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Ac property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Ac()
          {
@@ -11824,11 +11824,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Ac property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Ac(Object value)
          {
@@ -11837,11 +11837,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Ad property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Ad()
          {
@@ -11850,11 +11850,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Ad property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Ad(Object value)
          {
@@ -11863,11 +11863,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Ae property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Ae()
          {
@@ -11876,11 +11876,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Ae property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Ae(Object value)
          {
@@ -11889,11 +11889,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Af property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Af()
          {
@@ -11902,11 +11902,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Af property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Af(Object value)
          {
@@ -11915,11 +11915,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B0 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B0()
          {
@@ -11928,11 +11928,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B0 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B0(Object value)
          {
@@ -11941,11 +11941,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B1 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B1()
          {
@@ -11954,11 +11954,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B1 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B1(Object value)
          {
@@ -11967,11 +11967,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B2 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B2()
          {
@@ -11980,11 +11980,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B2 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B2(Object value)
          {
@@ -11993,11 +11993,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B3 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B3()
          {
@@ -12006,11 +12006,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B3 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B3(Object value)
          {
@@ -12019,11 +12019,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B4 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B4()
          {
@@ -12032,11 +12032,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B4 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B4(Object value)
          {
@@ -12045,11 +12045,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B5 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B5()
          {
@@ -12058,11 +12058,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B5 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B5(Object value)
          {
@@ -12071,11 +12071,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B6 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B6()
          {
@@ -12084,11 +12084,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B6 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B6(Object value)
          {
@@ -12097,11 +12097,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B7 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B7()
          {
@@ -12110,11 +12110,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B7 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B7(Object value)
          {
@@ -12123,11 +12123,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B8 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B8()
          {
@@ -12136,11 +12136,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B8 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B8(Object value)
          {
@@ -12149,11 +12149,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040B9 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040B9()
          {
@@ -12162,11 +12162,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040B9 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040B9(Object value)
          {
@@ -12175,11 +12175,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Ba property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Ba()
          {
@@ -12188,11 +12188,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Ba property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Ba(Object value)
          {
@@ -12201,11 +12201,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Bb property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Bb()
          {
@@ -12214,11 +12214,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Bb property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Bb(Object value)
          {
@@ -12227,11 +12227,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Bc property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Bc()
          {
@@ -12240,11 +12240,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Bc property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Bc(Object value)
          {
@@ -12253,11 +12253,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Bd property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Bd()
          {
@@ -12266,11 +12266,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Bd property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Bd(Object value)
          {
@@ -12279,11 +12279,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Be property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Be()
          {
@@ -12292,11 +12292,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Be property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Be(Object value)
          {
@@ -12305,11 +12305,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040Bf property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040Bf()
          {
@@ -12318,11 +12318,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040Bf property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040Bf(Object value)
          {
@@ -12331,11 +12331,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C0 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C0()
          {
@@ -12344,11 +12344,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C0 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C0(Object value)
          {
@@ -12357,11 +12357,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C1 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C1()
          {
@@ -12370,11 +12370,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C1 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C1(Object value)
          {
@@ -12383,11 +12383,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C2 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C2()
          {
@@ -12396,11 +12396,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C2 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C2(Object value)
          {
@@ -12409,11 +12409,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C3 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C3()
          {
@@ -12422,11 +12422,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C3 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C3(Object value)
          {
@@ -12435,11 +12435,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C4 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C4()
          {
@@ -12448,11 +12448,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C4 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C4(Object value)
          {
@@ -12461,11 +12461,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C5 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C5()
          {
@@ -12474,11 +12474,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C5 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C5(Object value)
          {
@@ -12487,11 +12487,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C6 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C6()
          {
@@ -12500,11 +12500,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C6 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C6(Object value)
          {
@@ -12513,11 +12513,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C7 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C7()
          {
@@ -12526,11 +12526,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C7 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C7(Object value)
          {
@@ -12539,11 +12539,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the f4040C8 property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Object }
-          *     
+          *
           */
          public Object getF4040C8()
          {
@@ -12552,11 +12552,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the f4040C8 property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Object }
-          *     
+          *
           */
          public void setF4040C8(Object value)
          {
@@ -12565,25 +12565,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the timephasedData property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the timephasedData property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getTimephasedData().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link TimephasedDataType }
-          * 
-          * 
+          *
+          *
           */
          public List<TimephasedDataType> getTimephasedData()
          {
@@ -12596,9 +12596,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -12617,8 +12617,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -12644,25 +12644,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the timephasedData property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the timephasedData property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getTimephasedData().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link TimephasedDataType }
-             * 
-             * 
+             *
+             *
              */
             public List<TimephasedDataType> getTimephasedData()
             {
@@ -12675,11 +12675,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the number property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getNumber()
             {
@@ -12688,11 +12688,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the number property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setNumber(String value)
             {
@@ -12701,11 +12701,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the start property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getStart()
             {
@@ -12714,11 +12714,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the start property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setStart(String value)
             {
@@ -12727,11 +12727,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the finish property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFinish()
             {
@@ -12740,11 +12740,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the finish property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFinish(String value)
             {
@@ -12753,11 +12753,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the work property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getWork()
             {
@@ -12766,11 +12766,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the work property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setWork(String value)
             {
@@ -12779,11 +12779,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the cost property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCost()
             {
@@ -12792,11 +12792,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the cost property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCost(String value)
             {
@@ -12805,11 +12805,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcws property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWS()
             {
@@ -12818,11 +12818,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcws property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWS(BigDecimal value)
             {
@@ -12831,11 +12831,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcwp property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWP()
             {
@@ -12844,11 +12844,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcwp property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWP(BigDecimal value)
             {
@@ -12859,9 +12859,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -12907,8 +12907,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -12926,11 +12926,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fieldID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFieldID()
             {
@@ -12939,11 +12939,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fieldID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFieldID(String value)
             {
@@ -12952,11 +12952,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the value property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getValue()
             {
@@ -12965,11 +12965,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the value property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setValue(String value)
             {
@@ -12978,11 +12978,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueGUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueGUID()
             {
@@ -12991,11 +12991,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueGUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueGUID(BigInteger value)
             {
@@ -13004,11 +13004,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the durationFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getDurationFormat()
             {
@@ -13017,11 +13017,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the durationFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setDurationFormat(BigInteger value)
             {
@@ -13036,9 +13036,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -13368,8 +13368,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -13381,25 +13381,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the calendar property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the calendar property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getCalendar().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Calendars.Calendar }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Calendars.Calendar> getCalendar()
       {
@@ -13412,9 +13412,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -13734,8 +13734,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -13761,11 +13761,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the uid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getUID()
          {
@@ -13774,11 +13774,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the uid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setUID(BigInteger value)
          {
@@ -13787,11 +13787,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -13800,11 +13800,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -13813,11 +13813,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isBaseCalendar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsBaseCalendar()
          {
@@ -13826,11 +13826,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isBaseCalendar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsBaseCalendar(Boolean value)
          {
@@ -13839,11 +13839,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isBaselineCalendar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsBaselineCalendar()
          {
@@ -13852,11 +13852,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isBaselineCalendar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsBaselineCalendar(Boolean value)
          {
@@ -13865,11 +13865,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the baseCalendarUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getBaseCalendarUID()
          {
@@ -13878,11 +13878,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the baseCalendarUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setBaseCalendarUID(BigInteger value)
          {
@@ -13891,11 +13891,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the weekDays property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Calendars.Calendar.WeekDays }
-          *     
+          *
           */
          public Project.Calendars.Calendar.WeekDays getWeekDays()
          {
@@ -13904,11 +13904,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the weekDays property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Calendars.Calendar.WeekDays }
-          *     
+          *
           */
          public void setWeekDays(Project.Calendars.Calendar.WeekDays value)
          {
@@ -13917,11 +13917,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the exceptions property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Calendars.Calendar.Exceptions }
-          *     
+          *
           */
          public Project.Calendars.Calendar.Exceptions getExceptions()
          {
@@ -13930,11 +13930,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the exceptions property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Calendars.Calendar.Exceptions }
-          *     
+          *
           */
          public void setExceptions(Project.Calendars.Calendar.Exceptions value)
          {
@@ -13943,11 +13943,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workWeeks property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Calendars.Calendar.WorkWeeks }
-          *     
+          *
           */
          public Project.Calendars.Calendar.WorkWeeks getWorkWeeks()
          {
@@ -13956,11 +13956,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workWeeks property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Calendars.Calendar.WorkWeeks }
-          *     
+          *
           */
          public void setWorkWeeks(Project.Calendars.Calendar.WorkWeeks value)
          {
@@ -13969,9 +13969,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -14101,8 +14101,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -14114,25 +14114,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the exception property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the exception property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getException().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Calendars.Calendar.Exceptions.Exception }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Calendars.Calendar.Exceptions.Exception> getException()
             {
@@ -14145,9 +14145,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -14267,8 +14267,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -14304,11 +14304,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the enteredByOccurrences property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Boolean isEnteredByOccurrences()
                {
@@ -14317,11 +14317,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the enteredByOccurrences property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setEnteredByOccurrences(Boolean value)
                {
@@ -14330,11 +14330,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the timePeriod property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.Exceptions.Exception.TimePeriod }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.Exceptions.Exception.TimePeriod getTimePeriod()
                {
@@ -14343,11 +14343,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the timePeriod property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.Exceptions.Exception.TimePeriod }
-                *     
+                *
                 */
                public void setTimePeriod(Project.Calendars.Calendar.Exceptions.Exception.TimePeriod value)
                {
@@ -14356,11 +14356,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the occurrences property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getOccurrences()
                {
@@ -14369,11 +14369,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the occurrences property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setOccurrences(BigInteger value)
                {
@@ -14382,11 +14382,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -14395,11 +14395,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -14408,11 +14408,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getType()
                {
@@ -14421,11 +14421,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setType(BigInteger value)
                {
@@ -14434,11 +14434,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the period property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getPeriod()
                {
@@ -14447,11 +14447,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the period property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setPeriod(BigInteger value)
                {
@@ -14460,11 +14460,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the daysOfWeek property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getDaysOfWeek()
                {
@@ -14473,11 +14473,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the daysOfWeek property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setDaysOfWeek(BigInteger value)
                {
@@ -14486,11 +14486,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the monthItem property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getMonthItem()
                {
@@ -14499,11 +14499,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the monthItem property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setMonthItem(BigInteger value)
                {
@@ -14512,11 +14512,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the monthPosition property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getMonthPosition()
                {
@@ -14525,11 +14525,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the monthPosition property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setMonthPosition(BigInteger value)
                {
@@ -14538,11 +14538,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the month property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getMonth()
                {
@@ -14551,11 +14551,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the month property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setMonth(BigInteger value)
                {
@@ -14564,11 +14564,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the monthDay property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getMonthDay()
                {
@@ -14577,11 +14577,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the monthDay property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setMonthDay(BigInteger value)
                {
@@ -14590,11 +14590,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the dayWorking property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Boolean isDayWorking()
                {
@@ -14603,11 +14603,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the dayWorking property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDayWorking(Boolean value)
                {
@@ -14616,11 +14616,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the workingTimes property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes getWorkingTimes()
                {
@@ -14629,11 +14629,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the workingTimes property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes }
-                *     
+                *
                 */
                public void setWorkingTimes(Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes value)
                {
@@ -14642,9 +14642,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -14657,8 +14657,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -14672,11 +14672,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the fromDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getFromDate()
                   {
@@ -14685,11 +14685,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the fromDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setFromDate(Date value)
                   {
@@ -14698,11 +14698,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the toDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getToDate()
                   {
@@ -14711,11 +14711,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the toDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setToDate(Date value)
                   {
@@ -14726,9 +14726,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -14753,8 +14753,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -14766,25 +14766,25 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the workingTime property.
-                   * 
+                   *
                    * <p>
                    * This accessor method returns a reference to the live list,
                    * not a snapshot. Therefore any modification you make to the
                    * returned list will be present inside the JAXB object.
                    * This is why there is not a <CODE>set</CODE> method for the workingTime property.
-                   * 
+                   *
                    * <p>
                    * For example, to add a new item, do as follows:
                    * <pre>
                    *    getWorkingTime().add(newItem);
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    * <p>
                    * Objects of the following type(s) are allowed in the list
                    * {@link Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime }
-                   * 
-                   * 
+                   *
+                   *
                    */
                   public List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> getWorkingTime()
                   {
@@ -14797,9 +14797,9 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * <p>Java class for anonymous complex type.
-                   * 
+                   *
                    * <p>The following schema fragment specifies the expected content contained within this class.
-                   * 
+                   *
                    * <pre>
                    * &lt;complexType>
                    *   &lt;complexContent>
@@ -14812,8 +14812,8 @@ import net.sf.mpxj.WorkGroup;
                    *   &lt;/complexContent>
                    * &lt;/complexType>
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                   {
@@ -14827,11 +14827,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the fromTime property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public Date getFromTime()
                      {
@@ -14840,11 +14840,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the fromTime property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public void setFromTime(Date value)
                      {
@@ -14853,11 +14853,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the toTime property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public Date getToTime()
                      {
@@ -14866,11 +14866,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the toTime property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public void setToTime(Date value)
                      {
@@ -14887,9 +14887,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -14961,8 +14961,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -14974,25 +14974,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the weekDay property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the weekDay property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getWeekDay().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Calendars.Calendar.WeekDays.WeekDay }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Calendars.Calendar.WeekDays.WeekDay> getWeekDay()
             {
@@ -15005,9 +15005,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -15069,8 +15069,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -15088,11 +15088,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the dayType property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getDayType()
                {
@@ -15101,11 +15101,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the dayType property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setDayType(BigInteger value)
                {
@@ -15114,11 +15114,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the dayWorking property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Boolean isDayWorking()
                {
@@ -15127,11 +15127,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the dayWorking property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDayWorking(Boolean value)
                {
@@ -15140,11 +15140,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the timePeriod property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod getTimePeriod()
                {
@@ -15153,11 +15153,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the timePeriod property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod }
-                *     
+                *
                 */
                public void setTimePeriod(Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod value)
                {
@@ -15166,11 +15166,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the workingTimes property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes getWorkingTimes()
                {
@@ -15179,11 +15179,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the workingTimes property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes }
-                *     
+                *
                 */
                public void setWorkingTimes(Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes value)
                {
@@ -15192,9 +15192,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -15207,8 +15207,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -15222,11 +15222,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the fromDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getFromDate()
                   {
@@ -15235,11 +15235,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the fromDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setFromDate(Date value)
                   {
@@ -15248,11 +15248,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the toDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getToDate()
                   {
@@ -15261,11 +15261,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the toDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setToDate(Date value)
                   {
@@ -15276,9 +15276,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -15303,8 +15303,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -15316,25 +15316,25 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the workingTime property.
-                   * 
+                   *
                    * <p>
                    * This accessor method returns a reference to the live list,
                    * not a snapshot. Therefore any modification you make to the
                    * returned list will be present inside the JAXB object.
                    * This is why there is not a <CODE>set</CODE> method for the workingTime property.
-                   * 
+                   *
                    * <p>
                    * For example, to add a new item, do as follows:
                    * <pre>
                    *    getWorkingTime().add(newItem);
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    * <p>
                    * Objects of the following type(s) are allowed in the list
                    * {@link Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime }
-                   * 
-                   * 
+                   *
+                   *
                    */
                   public List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> getWorkingTime()
                   {
@@ -15347,9 +15347,9 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * <p>Java class for anonymous complex type.
-                   * 
+                   *
                    * <p>The following schema fragment specifies the expected content contained within this class.
-                   * 
+                   *
                    * <pre>
                    * &lt;complexType>
                    *   &lt;complexContent>
@@ -15362,8 +15362,8 @@ import net.sf.mpxj.WorkGroup;
                    *   &lt;/complexContent>
                    * &lt;/complexType>
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                   {
@@ -15377,11 +15377,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the fromTime property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public Date getFromTime()
                      {
@@ -15390,11 +15390,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the fromTime property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public void setFromTime(Date value)
                      {
@@ -15403,11 +15403,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the toTime property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public Date getToTime()
                      {
@@ -15416,11 +15416,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the toTime property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public void setToTime(Date value)
                      {
@@ -15437,9 +15437,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -15538,8 +15538,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -15551,25 +15551,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the workWeek property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the workWeek property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getWorkWeek().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Calendars.Calendar.WorkWeeks.WorkWeek> getWorkWeek()
             {
@@ -15582,9 +15582,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -15673,8 +15673,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -15690,11 +15690,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the timePeriod property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod getTimePeriod()
                {
@@ -15703,11 +15703,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the timePeriod property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod }
-                *     
+                *
                 */
                public void setTimePeriod(Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod value)
                {
@@ -15716,11 +15716,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -15729,11 +15729,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -15742,11 +15742,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the weekDays property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays }
-                *     
+                *
                 */
                public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays getWeekDays()
                {
@@ -15755,11 +15755,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the weekDays property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays }
-                *     
+                *
                 */
                public void setWeekDays(Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays value)
                {
@@ -15768,9 +15768,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -15783,8 +15783,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -15798,11 +15798,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the fromDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getFromDate()
                   {
@@ -15811,11 +15811,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the fromDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setFromDate(Date value)
                   {
@@ -15824,11 +15824,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the toDate property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Date getToDate()
                   {
@@ -15837,11 +15837,11 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Sets the value of the toDate property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setToDate(Date value)
                   {
@@ -15852,9 +15852,9 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * <p>Java class for anonymous complex type.
-                * 
+                *
                 * <p>The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * <pre>
                 * &lt;complexType>
                 *   &lt;complexContent>
@@ -15914,8 +15914,8 @@ import net.sf.mpxj.WorkGroup;
                 *   &lt;/complexContent>
                 * &lt;/complexType>
                 * </pre>
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                {
@@ -15927,25 +15927,25 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * Gets the value of the weekDay property.
-                   * 
+                   *
                    * <p>
                    * This accessor method returns a reference to the live list,
                    * not a snapshot. Therefore any modification you make to the
                    * returned list will be present inside the JAXB object.
                    * This is why there is not a <CODE>set</CODE> method for the weekDay property.
-                   * 
+                   *
                    * <p>
                    * For example, to add a new item, do as follows:
                    * <pre>
                    *    getWeekDay().add(newItem);
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    * <p>
                    * Objects of the following type(s) are allowed in the list
                    * {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay }
-                   * 
-                   * 
+                   *
+                   *
                    */
                   public List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay> getWeekDay()
                   {
@@ -15958,9 +15958,9 @@ import net.sf.mpxj.WorkGroup;
 
                   /**
                    * <p>Java class for anonymous complex type.
-                   * 
+                   *
                    * <p>The following schema fragment specifies the expected content contained within this class.
-                   * 
+                   *
                    * <pre>
                    * &lt;complexType>
                    *   &lt;complexContent>
@@ -16010,8 +16010,8 @@ import net.sf.mpxj.WorkGroup;
                    *   &lt;/complexContent>
                    * &lt;/complexType>
                    * </pre>
-                   * 
-                   * 
+                   *
+                   *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                   {
@@ -16027,11 +16027,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the dayType property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link BigInteger }
-                      *     
+                      *
                       */
                      public BigInteger getDayType()
                      {
@@ -16040,11 +16040,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the dayType property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link BigInteger }
-                      *     
+                      *
                       */
                      public void setDayType(BigInteger value)
                      {
@@ -16053,11 +16053,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the dayWorking property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public Boolean isDayWorking()
                      {
@@ -16066,11 +16066,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the dayWorking property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link String }
-                      *     
+                      *
                       */
                      public void setDayWorking(Boolean value)
                      {
@@ -16079,11 +16079,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Gets the value of the workingTimes property.
-                      * 
+                      *
                       * @return
                       *     possible object is
                       *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes }
-                      *     
+                      *
                       */
                      public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes getWorkingTimes()
                      {
@@ -16092,11 +16092,11 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * Sets the value of the workingTimes property.
-                      * 
+                      *
                       * @param value
                       *     allowed object is
                       *     {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes }
-                      *     
+                      *
                       */
                      public void setWorkingTimes(Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes value)
                      {
@@ -16105,9 +16105,9 @@ import net.sf.mpxj.WorkGroup;
 
                      /**
                       * <p>Java class for anonymous complex type.
-                      * 
+                      *
                       * <p>The following schema fragment specifies the expected content contained within this class.
-                      * 
+                      *
                       * <pre>
                       * &lt;complexType>
                       *   &lt;complexContent>
@@ -16132,8 +16132,8 @@ import net.sf.mpxj.WorkGroup;
                       *   &lt;/complexContent>
                       * &lt;/complexType>
                       * </pre>
-                      * 
-                      * 
+                      *
+                      *
                       */
                      @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                      {
@@ -16145,25 +16145,25 @@ import net.sf.mpxj.WorkGroup;
 
                         /**
                          * Gets the value of the workingTime property.
-                         * 
+                         *
                          * <p>
                          * This accessor method returns a reference to the live list,
                          * not a snapshot. Therefore any modification you make to the
                          * returned list will be present inside the JAXB object.
                          * This is why there is not a <CODE>set</CODE> method for the workingTime property.
-                         * 
+                         *
                          * <p>
                          * For example, to add a new item, do as follows:
                          * <pre>
                          *    getWorkingTime().add(newItem);
                          * </pre>
-                         * 
-                         * 
+                         *
+                         *
                          * <p>
                          * Objects of the following type(s) are allowed in the list
                          * {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime }
-                         * 
-                         * 
+                         *
+                         *
                          */
                         public List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime> getWorkingTime()
                         {
@@ -16176,9 +16176,9 @@ import net.sf.mpxj.WorkGroup;
 
                         /**
                          * <p>Java class for anonymous complex type.
-                         * 
+                         *
                          * <p>The following schema fragment specifies the expected content contained within this class.
-                         * 
+                         *
                          * <pre>
                          * &lt;complexType>
                          *   &lt;complexContent>
@@ -16191,8 +16191,8 @@ import net.sf.mpxj.WorkGroup;
                          *   &lt;/complexContent>
                          * &lt;/complexType>
                          * </pre>
-                         * 
-                         * 
+                         *
+                         *
                          */
                         @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
                         {
@@ -16206,11 +16206,11 @@ import net.sf.mpxj.WorkGroup;
 
                            /**
                             * Gets the value of the fromTime property.
-                            * 
+                            *
                             * @return
                             *     possible object is
                             *     {@link String }
-                            *     
+                            *
                             */
                            public Date getFromTime()
                            {
@@ -16219,11 +16219,11 @@ import net.sf.mpxj.WorkGroup;
 
                            /**
                             * Sets the value of the fromTime property.
-                            * 
+                            *
                             * @param value
                             *     allowed object is
                             *     {@link String }
-                            *     
+                            *
                             */
                            public void setFromTime(Date value)
                            {
@@ -16232,11 +16232,11 @@ import net.sf.mpxj.WorkGroup;
 
                            /**
                             * Gets the value of the toTime property.
-                            * 
+                            *
                             * @return
                             *     possible object is
                             *     {@link String }
-                            *     
+                            *
                             */
                            public Date getToTime()
                            {
@@ -16245,11 +16245,11 @@ import net.sf.mpxj.WorkGroup;
 
                            /**
                             * Sets the value of the toTime property.
-                            * 
+                            *
                             * @param value
                             *     allowed object is
                             *     {@link String }
-                            *     
+                            *
                             */
                            public void setToTime(Date value)
                            {
@@ -16274,9 +16274,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -16404,8 +16404,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -16417,25 +16417,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the extendedAttribute property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the extendedAttribute property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getExtendedAttribute().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.ExtendedAttributes.ExtendedAttribute }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.ExtendedAttributes.ExtendedAttribute> getExtendedAttribute()
       {
@@ -16448,9 +16448,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -16568,8 +16568,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -16623,11 +16623,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fieldID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFieldID()
          {
@@ -16636,11 +16636,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fieldID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFieldID(String value)
          {
@@ -16649,11 +16649,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fieldName property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFieldName()
          {
@@ -16662,11 +16662,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fieldName property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFieldName(String value)
          {
@@ -16675,11 +16675,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cfType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCFType()
          {
@@ -16688,11 +16688,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cfType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCFType(BigInteger value)
          {
@@ -16701,11 +16701,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the guid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getGuid()
          {
@@ -16714,11 +16714,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the guid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setGuid(String value)
          {
@@ -16727,11 +16727,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the elemType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getElemType()
          {
@@ -16740,11 +16740,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the elemType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setElemType(BigInteger value)
          {
@@ -16753,11 +16753,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the maxMultiValues property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getMaxMultiValues()
          {
@@ -16766,11 +16766,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the maxMultiValues property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setMaxMultiValues(BigInteger value)
          {
@@ -16779,11 +16779,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the userDef property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isUserDef()
          {
@@ -16792,11 +16792,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the userDef property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUserDef(Boolean value)
          {
@@ -16805,11 +16805,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the alias property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAlias()
          {
@@ -16818,11 +16818,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the alias property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAlias(String value)
          {
@@ -16831,11 +16831,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the secondaryPID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getSecondaryPID()
          {
@@ -16844,11 +16844,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the secondaryPID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSecondaryPID(String value)
          {
@@ -16857,11 +16857,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the autoRollDown property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isAutoRollDown()
          {
@@ -16870,11 +16870,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the autoRollDown property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAutoRollDown(Boolean value)
          {
@@ -16883,11 +16883,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the defaultGuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDefaultGuid()
          {
@@ -16896,11 +16896,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the defaultGuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDefaultGuid(String value)
          {
@@ -16909,11 +16909,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the ltuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getLtuid()
          {
@@ -16922,11 +16922,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the ltuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLtuid(String value)
          {
@@ -16935,11 +16935,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the secondaryGuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getSecondaryGuid()
          {
@@ -16948,11 +16948,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the secondaryGuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSecondaryGuid(String value)
          {
@@ -16961,11 +16961,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the phoneticAlias property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getPhoneticAlias()
          {
@@ -16974,11 +16974,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the phoneticAlias property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPhoneticAlias(String value)
          {
@@ -16987,11 +16987,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the rollupType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getRollupType()
          {
@@ -17000,11 +17000,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the rollupType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setRollupType(BigInteger value)
          {
@@ -17013,11 +17013,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the calculationType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCalculationType()
          {
@@ -17026,11 +17026,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the calculationType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCalculationType(BigInteger value)
          {
@@ -17039,11 +17039,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the formula property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFormula()
          {
@@ -17052,11 +17052,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the formula property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFormula(String value)
          {
@@ -17065,11 +17065,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the restrictValues property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isRestrictValues()
          {
@@ -17078,11 +17078,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the restrictValues property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRestrictValues(Boolean value)
          {
@@ -17091,11 +17091,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the valuelistSortOrder property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getValuelistSortOrder()
          {
@@ -17104,11 +17104,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the valuelistSortOrder property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setValuelistSortOrder(BigInteger value)
          {
@@ -17117,11 +17117,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the appendNewValues property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isAppendNewValues()
          {
@@ -17130,11 +17130,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the appendNewValues property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAppendNewValues(Boolean value)
          {
@@ -17143,11 +17143,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the default property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDefault()
          {
@@ -17156,11 +17156,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the default property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDefault(String value)
          {
@@ -17169,11 +17169,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the valueList property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.ExtendedAttributes.ExtendedAttribute.ValueList }
-          *     
+          *
           */
          public Project.ExtendedAttributes.ExtendedAttribute.ValueList getValueList()
          {
@@ -17182,11 +17182,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the valueList property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.ExtendedAttributes.ExtendedAttribute.ValueList }
-          *     
+          *
           */
          public void setValueList(Project.ExtendedAttributes.ExtendedAttribute.ValueList value)
          {
@@ -17195,9 +17195,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -17222,8 +17222,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -17235,25 +17235,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the value property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the value property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getValue().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.ExtendedAttributes.ExtendedAttribute.ValueList.Value }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.ExtendedAttributes.ExtendedAttribute.ValueList.Value> getValue()
             {
@@ -17266,9 +17266,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -17283,8 +17283,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder = {
 
@@ -17298,11 +17298,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the id property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getID()
                {
@@ -17311,11 +17311,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the id property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setID(BigInteger value)
                {
@@ -17324,11 +17324,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the value property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getValue()
                {
@@ -17337,11 +17337,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the value property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setValue(String value)
                {
@@ -17350,11 +17350,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the description property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getDescription()
                {
@@ -17363,11 +17363,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the description property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDescription(String value)
                {
@@ -17376,11 +17376,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the phonetic property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getPhonetic()
                {
@@ -17389,11 +17389,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the phonetic property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setPhonetic(String value)
                {
@@ -17410,9 +17410,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -17517,8 +17517,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -17530,25 +17530,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the outlineCode property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the outlineCode property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getOutlineCode().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.OutlineCodes.OutlineCode }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.OutlineCodes.OutlineCode> getOutlineCode()
       {
@@ -17561,9 +17561,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -17658,8 +17658,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -17697,11 +17697,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the guid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getGuid()
          {
@@ -17710,11 +17710,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the guid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setGuid(String value)
          {
@@ -17723,11 +17723,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fieldID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFieldID()
          {
@@ -17736,11 +17736,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fieldID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFieldID(String value)
          {
@@ -17749,11 +17749,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fieldName property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFieldName()
          {
@@ -17762,11 +17762,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fieldName property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFieldName(String value)
          {
@@ -17775,11 +17775,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the alias property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAlias()
          {
@@ -17788,11 +17788,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the alias property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAlias(String value)
          {
@@ -17801,11 +17801,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the phoneticAlias property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getPhoneticAlias()
          {
@@ -17814,11 +17814,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the phoneticAlias property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPhoneticAlias(String value)
          {
@@ -17827,11 +17827,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the values property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.OutlineCodes.OutlineCode.Values }
-          *     
+          *
           */
          public Project.OutlineCodes.OutlineCode.Values getValues()
          {
@@ -17840,11 +17840,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the values property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.OutlineCodes.OutlineCode.Values }
-          *     
+          *
           */
          public void setValues(Project.OutlineCodes.OutlineCode.Values value)
          {
@@ -17853,11 +17853,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the enterprise property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isEnterprise()
          {
@@ -17866,11 +17866,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the enterprise property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEnterprise(Boolean value)
          {
@@ -17879,11 +17879,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the enterpriseOutlineCodeAlias property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getEnterpriseOutlineCodeAlias()
          {
@@ -17892,11 +17892,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the enterpriseOutlineCodeAlias property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setEnterpriseOutlineCodeAlias(BigInteger value)
          {
@@ -17905,11 +17905,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the resourceSubstitutionEnabled property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isResourceSubstitutionEnabled()
          {
@@ -17918,11 +17918,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the resourceSubstitutionEnabled property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setResourceSubstitutionEnabled(Boolean value)
          {
@@ -17931,11 +17931,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the leafOnly property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isLeafOnly()
          {
@@ -17944,11 +17944,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the leafOnly property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLeafOnly(Boolean value)
          {
@@ -17957,11 +17957,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the allLevelsRequired property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isAllLevelsRequired()
          {
@@ -17970,11 +17970,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the allLevelsRequired property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAllLevelsRequired(Boolean value)
          {
@@ -17983,11 +17983,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the onlyTableValuesAllowed property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isOnlyTableValuesAllowed()
          {
@@ -17996,11 +17996,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the onlyTableValuesAllowed property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOnlyTableValuesAllowed(Boolean value)
          {
@@ -18009,11 +18009,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the showIndent property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isShowIndent()
          {
@@ -18022,11 +18022,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the showIndent property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowIndent(Boolean value)
          {
@@ -18035,11 +18035,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the masks property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.OutlineCodes.OutlineCode.Masks }
-          *     
+          *
           */
          public Project.OutlineCodes.OutlineCode.Masks getMasks()
          {
@@ -18048,11 +18048,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the masks property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.OutlineCodes.OutlineCode.Masks }
-          *     
+          *
           */
          public void setMasks(Project.OutlineCodes.OutlineCode.Masks value)
          {
@@ -18061,9 +18061,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -18097,8 +18097,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -18110,25 +18110,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the mask property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the mask property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getMask().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.OutlineCodes.OutlineCode.Masks.Mask }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.OutlineCodes.OutlineCode.Masks.Mask> getMask()
             {
@@ -18141,9 +18141,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -18167,8 +18167,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -18186,11 +18186,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the level property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getLevel()
                {
@@ -18199,11 +18199,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the level property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setLevel(BigInteger value)
                {
@@ -18212,11 +18212,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getType()
                {
@@ -18225,11 +18225,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setType(BigInteger value)
                {
@@ -18238,11 +18238,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the length property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getLength()
                {
@@ -18251,11 +18251,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the length property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setLength(BigInteger value)
                {
@@ -18264,11 +18264,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the separator property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getSeparator()
                {
@@ -18277,11 +18277,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the separator property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setSeparator(String value)
                {
@@ -18294,9 +18294,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -18336,8 +18336,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -18349,25 +18349,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the value property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the value property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getValue().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.OutlineCodes.OutlineCode.Values.Value }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.OutlineCodes.OutlineCode.Values.Value> getValue()
             {
@@ -18380,9 +18380,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -18412,8 +18412,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder = {
 
@@ -18430,11 +18430,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the valueID property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getValueID()
                {
@@ -18443,11 +18443,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the valueID property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setValueID(BigInteger value)
                {
@@ -18456,11 +18456,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the fieldGUID property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFieldGUID()
                {
@@ -18469,11 +18469,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the fieldGUID property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFieldGUID(String value)
                {
@@ -18482,11 +18482,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getType()
                {
@@ -18495,11 +18495,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setType(BigInteger value)
                {
@@ -18508,11 +18508,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the isCollapsed property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Boolean isIsCollapsed()
                {
@@ -18521,11 +18521,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the isCollapsed property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setIsCollapsed(Boolean value)
                {
@@ -18534,11 +18534,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the parentValueID property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getParentValueID()
                {
@@ -18547,11 +18547,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the parentValueID property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setParentValueID(BigInteger value)
                {
@@ -18560,11 +18560,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the value property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getValue()
                {
@@ -18573,11 +18573,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the value property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setValue(String value)
                {
@@ -18586,11 +18586,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the description property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getDescription()
                {
@@ -18599,11 +18599,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the description property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDescription(String value)
                {
@@ -18620,9 +18620,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -18992,8 +18992,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -19005,25 +19005,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the resource property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the resource property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getResource().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Resources.Resource }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Resources.Resource> getResource()
       {
@@ -19036,9 +19036,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -19398,8 +19398,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -19551,11 +19551,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the uid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getUID()
          {
@@ -19564,11 +19564,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the uid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUID(Integer value)
          {
@@ -19577,11 +19577,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the id property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getID()
          {
@@ -19590,11 +19590,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the id property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setID(BigInteger value)
          {
@@ -19603,11 +19603,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -19616,11 +19616,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -19629,11 +19629,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the type property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public ResourceType getType()
          {
@@ -19642,11 +19642,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the type property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setType(ResourceType value)
          {
@@ -19655,11 +19655,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isNull property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsNull()
          {
@@ -19668,11 +19668,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isNull property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsNull(Boolean value)
          {
@@ -19681,11 +19681,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the initials property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getInitials()
          {
@@ -19694,11 +19694,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the initials property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setInitials(String value)
          {
@@ -19707,11 +19707,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the phonetics property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getPhonetics()
          {
@@ -19720,11 +19720,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the phonetics property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPhonetics(String value)
          {
@@ -19733,11 +19733,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the ntAccount property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getNTAccount()
          {
@@ -19746,11 +19746,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the ntAccount property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setNTAccount(String value)
          {
@@ -19759,11 +19759,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the materialLabel property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getMaterialLabel()
          {
@@ -19772,11 +19772,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the materialLabel property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setMaterialLabel(String value)
          {
@@ -19785,11 +19785,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the code property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCode()
          {
@@ -19798,11 +19798,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the code property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCode(String value)
          {
@@ -19811,11 +19811,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the group property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getGroup()
          {
@@ -19824,11 +19824,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the group property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setGroup(String value)
          {
@@ -19837,11 +19837,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workGroup property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public WorkGroup getWorkGroup()
          {
@@ -19850,11 +19850,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workGroup property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkGroup(WorkGroup value)
          {
@@ -19863,11 +19863,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the emailAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getEmailAddress()
          {
@@ -19876,11 +19876,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the emailAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEmailAddress(String value)
          {
@@ -19889,11 +19889,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlink property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlink()
          {
@@ -19902,11 +19902,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlink property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlink(String value)
          {
@@ -19915,11 +19915,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkAddress()
          {
@@ -19928,11 +19928,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkAddress(String value)
          {
@@ -19941,11 +19941,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkSubAddress()
          {
@@ -19954,11 +19954,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkSubAddress(String value)
          {
@@ -19967,11 +19967,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the maxUnits property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getMaxUnits()
          {
@@ -19980,11 +19980,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the maxUnits property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setMaxUnits(BigDecimal value)
          {
@@ -19993,11 +19993,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the peakUnits property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getPeakUnits()
          {
@@ -20006,11 +20006,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the peakUnits property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPeakUnits(BigDecimal value)
          {
@@ -20019,11 +20019,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overAllocated property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isOverAllocated()
          {
@@ -20032,11 +20032,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overAllocated property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOverAllocated(Boolean value)
          {
@@ -20045,11 +20045,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the availableFrom property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getAvailableFrom()
          {
@@ -20058,11 +20058,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the availableFrom property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAvailableFrom(Date value)
          {
@@ -20071,11 +20071,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the availableTo property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getAvailableTo()
          {
@@ -20084,11 +20084,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the availableTo property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAvailableTo(Date value)
          {
@@ -20097,11 +20097,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the start property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStart()
          {
@@ -20110,11 +20110,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the start property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStart(Date value)
          {
@@ -20123,11 +20123,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getFinish()
          {
@@ -20136,11 +20136,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFinish(Date value)
          {
@@ -20149,11 +20149,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the canLevel property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isCanLevel()
          {
@@ -20162,11 +20162,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the canLevel property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCanLevel(Boolean value)
          {
@@ -20175,11 +20175,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the accrueAt property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public AccrueType getAccrueAt()
          {
@@ -20188,11 +20188,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the accrueAt property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAccrueAt(AccrueType value)
          {
@@ -20201,11 +20201,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the work property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWork()
          {
@@ -20214,11 +20214,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the work property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWork(String value)
          {
@@ -20227,11 +20227,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the regularWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRegularWork()
          {
@@ -20240,11 +20240,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the regularWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRegularWork(String value)
          {
@@ -20253,11 +20253,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getOvertimeWork()
          {
@@ -20266,11 +20266,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOvertimeWork(String value)
          {
@@ -20279,11 +20279,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWork()
          {
@@ -20292,11 +20292,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWork(String value)
          {
@@ -20305,11 +20305,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingWork()
          {
@@ -20318,11 +20318,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingWork(String value)
          {
@@ -20331,11 +20331,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWork()
          {
@@ -20344,11 +20344,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWork(String value)
          {
@@ -20357,11 +20357,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingOvertimeWork()
          {
@@ -20370,11 +20370,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingOvertimeWork(String value)
          {
@@ -20383,11 +20383,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the percentWorkComplete property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPercentWorkComplete()
          {
@@ -20396,11 +20396,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the percentWorkComplete property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPercentWorkComplete(BigInteger value)
          {
@@ -20409,11 +20409,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the standardRate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getStandardRate()
          {
@@ -20422,11 +20422,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the standardRate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setStandardRate(BigDecimal value)
          {
@@ -20435,11 +20435,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the standardRateFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getStandardRateFormat()
          {
@@ -20448,11 +20448,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the standardRateFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setStandardRateFormat(BigInteger value)
          {
@@ -20461,11 +20461,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getCost()
          {
@@ -20474,11 +20474,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setCost(BigDecimal value)
          {
@@ -20487,11 +20487,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeRate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getOvertimeRate()
          {
@@ -20500,11 +20500,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeRate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setOvertimeRate(BigDecimal value)
          {
@@ -20513,11 +20513,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeRateFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getOvertimeRateFormat()
          {
@@ -20526,11 +20526,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeRateFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setOvertimeRateFormat(BigInteger value)
          {
@@ -20539,11 +20539,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getOvertimeCost()
          {
@@ -20552,11 +20552,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setOvertimeCost(BigDecimal value)
          {
@@ -20565,11 +20565,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the costPerUse property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getCostPerUse()
          {
@@ -20578,11 +20578,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the costPerUse property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setCostPerUse(BigDecimal value)
          {
@@ -20591,11 +20591,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualCost()
          {
@@ -20604,11 +20604,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualCost(BigDecimal value)
          {
@@ -20617,11 +20617,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualOvertimeCost()
          {
@@ -20630,11 +20630,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualOvertimeCost(BigDecimal value)
          {
@@ -20643,11 +20643,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingCost()
          {
@@ -20656,11 +20656,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingCost(BigDecimal value)
          {
@@ -20669,11 +20669,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingOvertimeCost()
          {
@@ -20682,11 +20682,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingOvertimeCost(BigDecimal value)
          {
@@ -20695,11 +20695,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getWorkVariance()
          {
@@ -20708,11 +20708,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkVariance(BigDecimal value)
          {
@@ -20721,11 +20721,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the costVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getCostVariance()
          {
@@ -20734,11 +20734,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the costVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCostVariance(BigDecimal value)
          {
@@ -20747,11 +20747,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the sv property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getSV()
          {
@@ -20760,11 +20760,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the sv property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSV(BigDecimal value)
          {
@@ -20773,11 +20773,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cv property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getCV()
          {
@@ -20786,11 +20786,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cv property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCV(BigDecimal value)
          {
@@ -20799,11 +20799,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the acwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getACWP()
          {
@@ -20812,11 +20812,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the acwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setACWP(BigDecimal value)
          {
@@ -20825,11 +20825,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the calendarUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCalendarUID()
          {
@@ -20838,11 +20838,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the calendarUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCalendarUID(BigInteger value)
          {
@@ -20851,11 +20851,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the notes property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getNotes()
          {
@@ -20864,11 +20864,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the notes property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setNotes(String value)
          {
@@ -20877,11 +20877,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcws property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWS()
          {
@@ -20890,11 +20890,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcws property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWS(BigDecimal value)
          {
@@ -20903,11 +20903,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWP()
          {
@@ -20916,11 +20916,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWP(BigDecimal value)
          {
@@ -20929,11 +20929,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isGeneric property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsGeneric()
          {
@@ -20942,11 +20942,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isGeneric property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsGeneric(Boolean value)
          {
@@ -20955,11 +20955,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isInactive property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsInactive()
          {
@@ -20968,11 +20968,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isInactive property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsInactive(Boolean value)
          {
@@ -20981,11 +20981,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isEnterprise property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsEnterprise()
          {
@@ -20994,11 +20994,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isEnterprise property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsEnterprise(Boolean value)
          {
@@ -21007,11 +21007,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bookingType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BookingType getBookingType()
          {
@@ -21020,11 +21020,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bookingType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBookingType(BookingType value)
          {
@@ -21033,11 +21033,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWorkProtected()
          {
@@ -21046,11 +21046,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWorkProtected(String value)
          {
@@ -21059,11 +21059,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWorkProtected()
          {
@@ -21072,11 +21072,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWorkProtected(String value)
          {
@@ -21085,11 +21085,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the activeDirectoryGUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActiveDirectoryGUID()
          {
@@ -21098,11 +21098,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the activeDirectoryGUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActiveDirectoryGUID(String value)
          {
@@ -21111,11 +21111,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the creationDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCreationDate()
          {
@@ -21124,11 +21124,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the creationDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCreationDate(Date value)
          {
@@ -21137,25 +21137,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the extendedAttribute property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the extendedAttribute property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getExtendedAttribute().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Resources.Resource.ExtendedAttribute }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Resources.Resource.ExtendedAttribute> getExtendedAttribute()
          {
@@ -21168,25 +21168,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the baseline property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the baseline property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getBaseline().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Resources.Resource.Baseline }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Resources.Resource.Baseline> getBaseline()
          {
@@ -21199,25 +21199,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the outlineCode property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the outlineCode property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getOutlineCode().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Resources.Resource.OutlineCode }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Resources.Resource.OutlineCode> getOutlineCode()
          {
@@ -21230,11 +21230,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isCostResource property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsCostResource()
          {
@@ -21243,11 +21243,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isCostResource property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsCostResource(Boolean value)
          {
@@ -21256,11 +21256,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the assnOwner property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAssnOwner()
          {
@@ -21269,11 +21269,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the assnOwner property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAssnOwner(String value)
          {
@@ -21282,11 +21282,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the assnOwnerGuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAssnOwnerGuid()
          {
@@ -21295,11 +21295,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the assnOwnerGuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAssnOwnerGuid(String value)
          {
@@ -21308,11 +21308,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isBudget property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsBudget()
          {
@@ -21321,11 +21321,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isBudget property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsBudget(Boolean value)
          {
@@ -21334,11 +21334,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the availabilityPeriods property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Resources.Resource.AvailabilityPeriods }
-          *     
+          *
           */
          public Project.Resources.Resource.AvailabilityPeriods getAvailabilityPeriods()
          {
@@ -21347,11 +21347,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the availabilityPeriods property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Resources.Resource.AvailabilityPeriods }
-          *     
+          *
           */
          public void setAvailabilityPeriods(Project.Resources.Resource.AvailabilityPeriods value)
          {
@@ -21360,11 +21360,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the rates property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Resources.Resource.Rates }
-          *     
+          *
           */
          public Project.Resources.Resource.Rates getRates()
          {
@@ -21373,11 +21373,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the rates property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Resources.Resource.Rates }
-          *     
+          *
           */
          public void setRates(Project.Resources.Resource.Rates value)
          {
@@ -21386,25 +21386,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the timephasedData property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the timephasedData property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getTimephasedData().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link TimephasedDataType }
-          * 
-          * 
+          *
+          *
           */
          public List<TimephasedDataType> getTimephasedData()
          {
@@ -21417,9 +21417,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -21443,8 +21443,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -21456,25 +21456,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the availabilityPeriod property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the availabilityPeriod property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getAvailabilityPeriod().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod> getAvailabilityPeriod()
             {
@@ -21487,9 +21487,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -21503,8 +21503,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -21520,11 +21520,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the availableFrom property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getAvailableFrom()
                {
@@ -21533,11 +21533,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the availableFrom property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAvailableFrom(Date value)
                {
@@ -21546,11 +21546,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the availableTo property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getAvailableTo()
                {
@@ -21559,11 +21559,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the availableTo property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAvailableTo(Date value)
                {
@@ -21572,11 +21572,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the availableUnits property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public BigDecimal getAvailableUnits()
                {
@@ -21585,11 +21585,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the availableUnits property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAvailableUnits(BigDecimal value)
                {
@@ -21602,9 +21602,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -21620,8 +21620,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -21641,11 +21641,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the number property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getNumber()
             {
@@ -21654,11 +21654,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the number property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setNumber(BigInteger value)
             {
@@ -21667,11 +21667,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the work property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getWork()
             {
@@ -21680,11 +21680,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the work property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setWork(String value)
             {
@@ -21693,11 +21693,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the cost property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getCost()
             {
@@ -21706,11 +21706,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the cost property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCost(BigDecimal value)
             {
@@ -21719,11 +21719,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcws property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWS()
             {
@@ -21732,11 +21732,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcws property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWS(BigDecimal value)
             {
@@ -21745,11 +21745,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcwp property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWP()
             {
@@ -21758,11 +21758,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcwp property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWP(BigDecimal value)
             {
@@ -21773,9 +21773,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -21821,8 +21821,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -21840,11 +21840,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fieldID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFieldID()
             {
@@ -21853,11 +21853,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fieldID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFieldID(String value)
             {
@@ -21866,11 +21866,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the value property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getValue()
             {
@@ -21879,11 +21879,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the value property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setValue(String value)
             {
@@ -21892,11 +21892,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueGUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueGUID()
             {
@@ -21905,11 +21905,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueGUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueGUID(BigInteger value)
             {
@@ -21918,11 +21918,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the durationFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getDurationFormat()
             {
@@ -21931,11 +21931,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the durationFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setDurationFormat(BigInteger value)
             {
@@ -21946,9 +21946,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -21962,8 +21962,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -21979,11 +21979,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fieldID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFieldID()
             {
@@ -21992,11 +21992,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fieldID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFieldID(String value)
             {
@@ -22005,11 +22005,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueID()
             {
@@ -22018,11 +22018,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueID(BigInteger value)
             {
@@ -22031,11 +22031,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueGUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueGUID()
             {
@@ -22044,11 +22044,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueGUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueGUID(BigInteger value)
             {
@@ -22059,9 +22059,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -22122,8 +22122,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -22135,25 +22135,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the rate property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the rate property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getRate().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Resources.Resource.Rates.Rate }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Resources.Resource.Rates.Rate> getRate()
             {
@@ -22166,9 +22166,9 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * <p>Java class for anonymous complex type.
-             * 
+             *
              * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * <pre>
              * &lt;complexType>
              *   &lt;complexContent>
@@ -22219,8 +22219,8 @@ import net.sf.mpxj.WorkGroup;
              *   &lt;/complexContent>
              * &lt;/complexType>
              * </pre>
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -22246,11 +22246,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the ratesFrom property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getRatesFrom()
                {
@@ -22259,11 +22259,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the ratesFrom property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRatesFrom(Date value)
                {
@@ -22272,11 +22272,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the ratesTo property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getRatesTo()
                {
@@ -22285,11 +22285,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the ratesTo property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRatesTo(Date value)
                {
@@ -22298,11 +22298,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the rateTable property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getRateTable()
                {
@@ -22311,11 +22311,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the rateTable property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setRateTable(BigInteger value)
                {
@@ -22324,11 +22324,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the standardRate property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public BigDecimal getStandardRate()
                {
@@ -22337,11 +22337,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the standardRate property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public void setStandardRate(BigDecimal value)
                {
@@ -22350,11 +22350,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the standardRateFormat property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getStandardRateFormat()
                {
@@ -22363,11 +22363,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the standardRateFormat property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setStandardRateFormat(BigInteger value)
                {
@@ -22376,11 +22376,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the overtimeRate property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public BigDecimal getOvertimeRate()
                {
@@ -22389,11 +22389,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the overtimeRate property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public void setOvertimeRate(BigDecimal value)
                {
@@ -22402,11 +22402,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the overtimeRateFormat property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public BigInteger getOvertimeRateFormat()
                {
@@ -22415,11 +22415,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the overtimeRateFormat property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigInteger }
-                *     
+                *
                 */
                public void setOvertimeRateFormat(BigInteger value)
                {
@@ -22428,11 +22428,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Gets the value of the costPerUse property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public BigDecimal getCostPerUse()
                {
@@ -22441,11 +22441,11 @@ import net.sf.mpxj.WorkGroup;
 
                /**
                 * Sets the value of the costPerUse property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link BigDecimal }
-                *     
+                *
                 */
                public void setCostPerUse(BigDecimal value)
                {
@@ -22462,9 +22462,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -22909,8 +22909,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -22922,25 +22922,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the task property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the task property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getTask().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Tasks.Task }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Tasks.Task> getTask()
       {
@@ -22953,9 +22953,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -23390,8 +23390,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -23615,11 +23615,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the uid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getUID()
          {
@@ -23628,11 +23628,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the uid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUID(Integer value)
          {
@@ -23641,11 +23641,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the id property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getID()
          {
@@ -23654,11 +23654,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the id property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setID(BigInteger value)
          {
@@ -23667,11 +23667,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -23680,11 +23680,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -23693,11 +23693,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the type property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public TaskType getType()
          {
@@ -23706,11 +23706,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the type property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setType(TaskType value)
          {
@@ -23719,11 +23719,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isNull property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsNull()
          {
@@ -23732,11 +23732,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isNull property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsNull(Boolean value)
          {
@@ -23745,11 +23745,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the createDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCreateDate()
          {
@@ -23758,11 +23758,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the createDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCreateDate(Date value)
          {
@@ -23771,11 +23771,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the contact property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getContact()
          {
@@ -23784,11 +23784,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the contact property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setContact(String value)
          {
@@ -23797,11 +23797,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the wbs property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWBS()
          {
@@ -23810,11 +23810,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the wbs property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWBS(String value)
          {
@@ -23823,11 +23823,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the wbsLevel property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWBSLevel()
          {
@@ -23836,11 +23836,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the wbsLevel property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWBSLevel(String value)
          {
@@ -23849,11 +23849,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the outlineNumber property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getOutlineNumber()
          {
@@ -23862,11 +23862,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the outlineNumber property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOutlineNumber(String value)
          {
@@ -23875,11 +23875,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the outlineLevel property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getOutlineLevel()
          {
@@ -23888,11 +23888,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the outlineLevel property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setOutlineLevel(BigInteger value)
          {
@@ -23901,11 +23901,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the priority property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPriority()
          {
@@ -23914,11 +23914,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the priority property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPriority(BigInteger value)
          {
@@ -23927,11 +23927,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the start property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStart()
          {
@@ -23940,11 +23940,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the start property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStart(Date value)
          {
@@ -23953,11 +23953,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getFinish()
          {
@@ -23966,11 +23966,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFinish(Date value)
          {
@@ -23979,11 +23979,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the duration property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDuration()
          {
@@ -23992,11 +23992,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the duration property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDuration(String value)
          {
@@ -24005,11 +24005,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the durationFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getDurationFormat()
          {
@@ -24018,11 +24018,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the durationFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setDurationFormat(BigInteger value)
          {
@@ -24031,11 +24031,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the work property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWork()
          {
@@ -24044,11 +24044,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the work property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWork(String value)
          {
@@ -24057,11 +24057,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the stop property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStop()
          {
@@ -24070,11 +24070,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the stop property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStop(Date value)
          {
@@ -24083,11 +24083,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the resume property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getResume()
          {
@@ -24096,11 +24096,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the resume property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setResume(Date value)
          {
@@ -24109,11 +24109,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the resumeValid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isResumeValid()
          {
@@ -24122,11 +24122,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the resumeValid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setResumeValid(Boolean value)
          {
@@ -24135,11 +24135,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the effortDriven property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isEffortDriven()
          {
@@ -24148,11 +24148,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the effortDriven property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEffortDriven(Boolean value)
          {
@@ -24161,11 +24161,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the recurring property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isRecurring()
          {
@@ -24174,11 +24174,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the recurring property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRecurring(Boolean value)
          {
@@ -24187,11 +24187,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overAllocated property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isOverAllocated()
          {
@@ -24200,11 +24200,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overAllocated property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOverAllocated(Boolean value)
          {
@@ -24213,11 +24213,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the estimated property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isEstimated()
          {
@@ -24226,11 +24226,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the estimated property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEstimated(Boolean value)
          {
@@ -24239,11 +24239,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the milestone property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isMilestone()
          {
@@ -24252,11 +24252,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the milestone property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setMilestone(Boolean value)
          {
@@ -24265,11 +24265,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the summary property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isSummary()
          {
@@ -24278,11 +24278,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the summary property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSummary(Boolean value)
          {
@@ -24291,11 +24291,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the displayAsSummary property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isDisplayAsSummary()
          {
@@ -24304,11 +24304,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the displayAsSummary property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDisplayAsSummary(Boolean value)
          {
@@ -24317,11 +24317,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the critical property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isCritical()
          {
@@ -24330,11 +24330,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the critical property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCritical(Boolean value)
          {
@@ -24343,11 +24343,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isSubproject property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsSubproject()
          {
@@ -24356,11 +24356,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isSubproject property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsSubproject(Boolean value)
          {
@@ -24369,11 +24369,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isSubprojectReadOnly property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsSubprojectReadOnly()
          {
@@ -24382,11 +24382,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isSubprojectReadOnly property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsSubprojectReadOnly(Boolean value)
          {
@@ -24395,11 +24395,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the subprojectName property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getSubprojectName()
          {
@@ -24408,11 +24408,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the subprojectName property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSubprojectName(String value)
          {
@@ -24421,11 +24421,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the externalTask property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isExternalTask()
          {
@@ -24434,11 +24434,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the externalTask property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setExternalTask(Boolean value)
          {
@@ -24447,11 +24447,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the externalTaskProject property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getExternalTaskProject()
          {
@@ -24460,11 +24460,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the externalTaskProject property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setExternalTaskProject(String value)
          {
@@ -24473,11 +24473,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the earlyStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getEarlyStart()
          {
@@ -24486,11 +24486,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the earlyStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEarlyStart(Date value)
          {
@@ -24499,11 +24499,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the earlyFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getEarlyFinish()
          {
@@ -24512,11 +24512,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the earlyFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setEarlyFinish(Date value)
          {
@@ -24525,11 +24525,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the lateStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getLateStart()
          {
@@ -24538,11 +24538,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the lateStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLateStart(Date value)
          {
@@ -24551,11 +24551,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the lateFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getLateFinish()
          {
@@ -24564,11 +24564,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the lateFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLateFinish(Date value)
          {
@@ -24577,11 +24577,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the startVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getStartVariance()
          {
@@ -24590,11 +24590,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the startVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setStartVariance(BigInteger value)
          {
@@ -24603,11 +24603,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finishVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getFinishVariance()
          {
@@ -24616,11 +24616,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finishVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setFinishVariance(BigInteger value)
          {
@@ -24629,11 +24629,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the workVariance property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getWorkVariance()
          {
@@ -24642,11 +24642,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the workVariance property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkVariance(BigDecimal value)
          {
@@ -24655,11 +24655,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the freeSlack property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getFreeSlack()
          {
@@ -24668,11 +24668,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the freeSlack property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setFreeSlack(BigInteger value)
          {
@@ -24681,11 +24681,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the startSlack property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getStartSlack()
          {
@@ -24694,11 +24694,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the startSlack property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setStartSlack(BigInteger value)
          {
@@ -24707,11 +24707,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finishSlack property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getFinishSlack()
          {
@@ -24720,11 +24720,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finishSlack property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setFinishSlack(BigInteger value)
          {
@@ -24733,11 +24733,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the totalSlack property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getTotalSlack()
          {
@@ -24746,11 +24746,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the totalSlack property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setTotalSlack(BigInteger value)
          {
@@ -24759,11 +24759,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fixedCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getFixedCost()
          {
@@ -24772,11 +24772,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fixedCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFixedCost(BigDecimal value)
          {
@@ -24785,11 +24785,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the fixedCostAccrual property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public AccrueType getFixedCostAccrual()
          {
@@ -24798,11 +24798,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the fixedCostAccrual property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFixedCostAccrual(AccrueType value)
          {
@@ -24811,11 +24811,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the percentComplete property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPercentComplete()
          {
@@ -24824,11 +24824,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the percentComplete property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPercentComplete(BigInteger value)
          {
@@ -24837,11 +24837,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the percentWorkComplete property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPercentWorkComplete()
          {
@@ -24850,11 +24850,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the percentWorkComplete property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPercentWorkComplete(BigInteger value)
          {
@@ -24863,11 +24863,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getCost()
          {
@@ -24876,11 +24876,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setCost(BigDecimal value)
          {
@@ -24889,11 +24889,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getOvertimeCost()
          {
@@ -24902,11 +24902,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setOvertimeCost(BigDecimal value)
          {
@@ -24915,11 +24915,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the overtimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getOvertimeWork()
          {
@@ -24928,11 +24928,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the overtimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setOvertimeWork(String value)
          {
@@ -24941,11 +24941,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getActualStart()
          {
@@ -24954,11 +24954,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualStart(Date value)
          {
@@ -24967,11 +24967,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getActualFinish()
          {
@@ -24980,11 +24980,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualFinish(Date value)
          {
@@ -24993,11 +24993,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualDuration property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualDuration()
          {
@@ -25006,11 +25006,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualDuration property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualDuration(String value)
          {
@@ -25019,11 +25019,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualCost()
          {
@@ -25032,11 +25032,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualCost(BigDecimal value)
          {
@@ -25045,11 +25045,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getActualOvertimeCost()
          {
@@ -25058,11 +25058,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setActualOvertimeCost(BigDecimal value)
          {
@@ -25071,11 +25071,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWork()
          {
@@ -25084,11 +25084,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWork(String value)
          {
@@ -25097,11 +25097,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWork()
          {
@@ -25110,11 +25110,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWork(String value)
          {
@@ -25123,11 +25123,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the regularWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRegularWork()
          {
@@ -25136,11 +25136,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the regularWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRegularWork(String value)
          {
@@ -25149,11 +25149,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingDuration property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingDuration()
          {
@@ -25162,11 +25162,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingDuration property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingDuration(String value)
          {
@@ -25175,11 +25175,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingCost()
          {
@@ -25188,11 +25188,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingCost(BigDecimal value)
          {
@@ -25201,11 +25201,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingWork()
          {
@@ -25214,11 +25214,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingWork(String value)
          {
@@ -25227,11 +25227,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public BigDecimal getRemainingOvertimeCost()
          {
@@ -25240,11 +25240,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeCost property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigDecimal }
-          *     
+          *
           */
          public void setRemainingOvertimeCost(BigDecimal value)
          {
@@ -25253,11 +25253,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRemainingOvertimeWork()
          {
@@ -25266,11 +25266,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the remainingOvertimeWork property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRemainingOvertimeWork(String value)
          {
@@ -25279,11 +25279,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the acwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getACWP()
          {
@@ -25292,11 +25292,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the acwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setACWP(BigDecimal value)
          {
@@ -25305,11 +25305,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the cv property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getCV()
          {
@@ -25318,11 +25318,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the cv property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCV(BigDecimal value)
          {
@@ -25331,11 +25331,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the constraintType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getConstraintType()
          {
@@ -25344,11 +25344,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the constraintType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setConstraintType(BigInteger value)
          {
@@ -25357,11 +25357,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the calendarUID property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCalendarUID()
          {
@@ -25370,11 +25370,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the calendarUID property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCalendarUID(BigInteger value)
          {
@@ -25383,11 +25383,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the constraintDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getConstraintDate()
          {
@@ -25396,11 +25396,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the constraintDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setConstraintDate(Date value)
          {
@@ -25409,11 +25409,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the deadline property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getDeadline()
          {
@@ -25422,11 +25422,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the deadline property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDeadline(Date value)
          {
@@ -25435,11 +25435,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelAssignments property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isLevelAssignments()
          {
@@ -25448,11 +25448,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelAssignments property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLevelAssignments(Boolean value)
          {
@@ -25461,11 +25461,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelingCanSplit property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isLevelingCanSplit()
          {
@@ -25474,11 +25474,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelingCanSplit property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLevelingCanSplit(Boolean value)
          {
@@ -25487,11 +25487,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelingDelay property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getLevelingDelay()
          {
@@ -25500,11 +25500,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelingDelay property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setLevelingDelay(BigInteger value)
          {
@@ -25513,11 +25513,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the levelingDelayFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getLevelingDelayFormat()
          {
@@ -25526,11 +25526,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the levelingDelayFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setLevelingDelayFormat(BigInteger value)
          {
@@ -25539,11 +25539,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the preLeveledStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getPreLeveledStart()
          {
@@ -25552,11 +25552,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the preLeveledStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPreLeveledStart(Date value)
          {
@@ -25565,11 +25565,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the preLeveledFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getPreLeveledFinish()
          {
@@ -25578,11 +25578,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the preLeveledFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setPreLeveledFinish(Date value)
          {
@@ -25591,11 +25591,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlink property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlink()
          {
@@ -25604,11 +25604,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlink property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlink(String value)
          {
@@ -25617,11 +25617,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkAddress()
          {
@@ -25630,11 +25630,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkAddress(String value)
          {
@@ -25643,11 +25643,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getHyperlinkSubAddress()
          {
@@ -25656,11 +25656,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hyperlinkSubAddress property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHyperlinkSubAddress(String value)
          {
@@ -25669,11 +25669,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the ignoreResourceCalendar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIgnoreResourceCalendar()
          {
@@ -25682,11 +25682,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the ignoreResourceCalendar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIgnoreResourceCalendar(Boolean value)
          {
@@ -25695,11 +25695,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the notes property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getNotes()
          {
@@ -25708,11 +25708,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the notes property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setNotes(String value)
          {
@@ -25721,11 +25721,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the hideBar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isHideBar()
          {
@@ -25734,11 +25734,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the hideBar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setHideBar(Boolean value)
          {
@@ -25747,11 +25747,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the rollup property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isRollup()
          {
@@ -25760,11 +25760,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the rollup property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRollup(Boolean value)
          {
@@ -25773,11 +25773,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcws property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWS()
          {
@@ -25786,11 +25786,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcws property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWS(BigDecimal value)
          {
@@ -25799,11 +25799,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the bcwp property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public BigDecimal getBCWP()
          {
@@ -25812,11 +25812,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the bcwp property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBCWP(BigDecimal value)
          {
@@ -25825,11 +25825,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the physicalPercentComplete property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getPhysicalPercentComplete()
          {
@@ -25838,11 +25838,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the physicalPercentComplete property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setPhysicalPercentComplete(BigInteger value)
          {
@@ -25851,11 +25851,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the earnedValueMethod property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getEarnedValueMethod()
          {
@@ -25864,11 +25864,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the earnedValueMethod property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setEarnedValueMethod(BigInteger value)
          {
@@ -25877,25 +25877,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the predecessorLink property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the predecessorLink property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getPredecessorLink().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Tasks.Task.PredecessorLink }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Tasks.Task.PredecessorLink> getPredecessorLink()
          {
@@ -25908,11 +25908,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualWorkProtected()
          {
@@ -25921,11 +25921,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualWorkProtected(String value)
          {
@@ -25934,11 +25934,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActualOvertimeWorkProtected()
          {
@@ -25947,11 +25947,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the actualOvertimeWorkProtected property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActualOvertimeWorkProtected(String value)
          {
@@ -25960,25 +25960,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the extendedAttribute property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the extendedAttribute property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getExtendedAttribute().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Tasks.Task.ExtendedAttribute }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Tasks.Task.ExtendedAttribute> getExtendedAttribute()
          {
@@ -25991,25 +25991,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the baseline property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the baseline property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getBaseline().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Tasks.Task.Baseline }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Tasks.Task.Baseline> getBaseline()
          {
@@ -26022,25 +26022,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the outlineCode property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the outlineCode property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getOutlineCode().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link Project.Tasks.Task.OutlineCode }
-          * 
-          * 
+          *
+          *
           */
          public List<Project.Tasks.Task.OutlineCode> getOutlineCode()
          {
@@ -26053,11 +26053,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the isPublished property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isIsPublished()
          {
@@ -26066,11 +26066,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the isPublished property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIsPublished(Boolean value)
          {
@@ -26079,11 +26079,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the statusManager property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getStatusManager()
          {
@@ -26092,11 +26092,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the statusManager property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStatusManager(String value)
          {
@@ -26105,11 +26105,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the commitmentStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCommitmentStart()
          {
@@ -26118,11 +26118,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the commitmentStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCommitmentStart(Date value)
          {
@@ -26131,11 +26131,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the commitmentFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCommitmentFinish()
          {
@@ -26144,11 +26144,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the commitmentFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCommitmentFinish(Date value)
          {
@@ -26157,11 +26157,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the commitmentType property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getCommitmentType()
          {
@@ -26170,11 +26170,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the commitmentType property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setCommitmentType(BigInteger value)
          {
@@ -26183,11 +26183,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the active property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isActive()
          {
@@ -26196,11 +26196,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the active property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActive(Boolean value)
          {
@@ -26209,11 +26209,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the manual property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Boolean isManual()
          {
@@ -26222,11 +26222,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the manual property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setManual(Boolean value)
          {
@@ -26235,11 +26235,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the startText property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getStartText()
          {
@@ -26248,11 +26248,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the startText property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStartText(String value)
          {
@@ -26261,11 +26261,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the finishText property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getFinishText()
          {
@@ -26274,11 +26274,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the finishText property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setFinishText(String value)
          {
@@ -26287,11 +26287,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the durationText property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDurationText()
          {
@@ -26300,11 +26300,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the durationText property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDurationText(String value)
          {
@@ -26313,11 +26313,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the manualStart property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getManualStart()
          {
@@ -26326,11 +26326,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the manualStart property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setManualStart(Date value)
          {
@@ -26339,11 +26339,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the manualFinish property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getManualFinish()
          {
@@ -26352,11 +26352,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the manualFinish property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setManualFinish(Date value)
          {
@@ -26365,11 +26365,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the manualDuration property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getManualDuration()
          {
@@ -26378,11 +26378,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the manualDuration property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setManualDuration(String value)
          {
@@ -26391,25 +26391,25 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the timephasedData property.
-          * 
+          *
           * <p>
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a <CODE>set</CODE> method for the timephasedData property.
-          * 
+          *
           * <p>
           * For example, to add a new item, do as follows:
           * <pre>
           *    getTimephasedData().add(newItem);
           * </pre>
-          * 
-          * 
+          *
+          *
           * <p>
           * Objects of the following type(s) are allowed in the list
           * {@link TimephasedDataType }
-          * 
-          * 
+          *
+          *
           */
          public List<TimephasedDataType> getTimephasedData()
          {
@@ -26422,9 +26422,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -26479,8 +26479,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -26516,25 +26516,25 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the timephasedData property.
-             * 
+             *
              * <p>
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a <CODE>set</CODE> method for the timephasedData property.
-             * 
+             *
              * <p>
              * For example, to add a new item, do as follows:
              * <pre>
              *    getTimephasedData().add(newItem);
              * </pre>
-             * 
-             * 
+             *
+             *
              * <p>
              * Objects of the following type(s) are allowed in the list
              * {@link TimephasedDataType }
-             * 
-             * 
+             *
+             *
              */
             public List<TimephasedDataType> getTimephasedData()
             {
@@ -26547,11 +26547,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the number property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getNumber()
             {
@@ -26560,11 +26560,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the number property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setNumber(BigInteger value)
             {
@@ -26573,11 +26573,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the interim property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Boolean isInterim()
             {
@@ -26586,11 +26586,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the interim property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setInterim(Boolean value)
             {
@@ -26599,11 +26599,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the start property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Date getStart()
             {
@@ -26612,11 +26612,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the start property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setStart(Date value)
             {
@@ -26625,11 +26625,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the finish property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Date getFinish()
             {
@@ -26638,11 +26638,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the finish property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFinish(Date value)
             {
@@ -26651,11 +26651,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the duration property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDuration()
             {
@@ -26664,11 +26664,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the duration property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDuration(String value)
             {
@@ -26677,11 +26677,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the durationFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getDurationFormat()
             {
@@ -26690,11 +26690,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the durationFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setDurationFormat(BigInteger value)
             {
@@ -26703,11 +26703,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the estimatedDuration property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Boolean isEstimatedDuration()
             {
@@ -26716,11 +26716,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the estimatedDuration property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setEstimatedDuration(Boolean value)
             {
@@ -26729,11 +26729,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the work property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getWork()
             {
@@ -26742,11 +26742,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the work property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setWork(String value)
             {
@@ -26755,11 +26755,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the cost property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigDecimal }
-             *     
+             *
              */
             public BigDecimal getCost()
             {
@@ -26768,11 +26768,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the cost property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigDecimal }
-             *     
+             *
              */
             public void setCost(BigDecimal value)
             {
@@ -26781,11 +26781,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcws property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWS()
             {
@@ -26794,11 +26794,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcws property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWS(BigDecimal value)
             {
@@ -26807,11 +26807,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the bcwp property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getBCWP()
             {
@@ -26820,11 +26820,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the bcwp property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBCWP(BigDecimal value)
             {
@@ -26833,11 +26833,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fixedCost property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public BigDecimal getFixedCost()
             {
@@ -26846,11 +26846,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fixedCost property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFixedCost(BigDecimal value)
             {
@@ -26861,9 +26861,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -26909,8 +26909,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -26928,11 +26928,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fieldID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFieldID()
             {
@@ -26941,11 +26941,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fieldID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFieldID(String value)
             {
@@ -26954,11 +26954,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the value property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getValue()
             {
@@ -26967,11 +26967,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the value property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setValue(String value)
             {
@@ -26980,11 +26980,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueGUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getValueGUID()
             {
@@ -26993,11 +26993,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueGUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setValueGUID(String value)
             {
@@ -27006,11 +27006,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the durationFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getDurationFormat()
             {
@@ -27019,11 +27019,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the durationFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setDurationFormat(BigInteger value)
             {
@@ -27034,9 +27034,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -27050,8 +27050,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -27067,11 +27067,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the fieldID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFieldID()
             {
@@ -27080,11 +27080,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the fieldID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFieldID(String value)
             {
@@ -27093,11 +27093,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueID()
             {
@@ -27106,11 +27106,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueID(BigInteger value)
             {
@@ -27119,11 +27119,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the valueGUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getValueGUID()
             {
@@ -27132,11 +27132,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the valueGUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setValueGUID(BigInteger value)
             {
@@ -27147,9 +27147,9 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * <p>Java class for anonymous complex type.
-          * 
+          *
           * <p>The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * <pre>
           * &lt;complexType>
           *   &lt;complexContent>
@@ -27205,8 +27205,8 @@ import net.sf.mpxj.WorkGroup;
           *   &lt;/complexContent>
           * &lt;/complexType>
           * </pre>
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -27228,11 +27228,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the predecessorUID property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getPredecessorUID()
             {
@@ -27241,11 +27241,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the predecessorUID property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setPredecessorUID(BigInteger value)
             {
@@ -27254,11 +27254,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the type property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getType()
             {
@@ -27267,11 +27267,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the type property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setType(BigInteger value)
             {
@@ -27280,11 +27280,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the crossProject property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Boolean isCrossProject()
             {
@@ -27293,11 +27293,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the crossProject property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCrossProject(Boolean value)
             {
@@ -27306,11 +27306,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the crossProjectName property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCrossProjectName()
             {
@@ -27319,11 +27319,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the crossProjectName property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCrossProjectName(String value)
             {
@@ -27332,11 +27332,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the linkLag property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getLinkLag()
             {
@@ -27345,11 +27345,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the linkLag property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setLinkLag(BigInteger value)
             {
@@ -27358,11 +27358,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Gets the value of the lagFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public BigInteger getLagFormat()
             {
@@ -27371,11 +27371,11 @@ import net.sf.mpxj.WorkGroup;
 
             /**
              * Sets the value of the lagFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link BigInteger }
-             *     
+             *
              */
             public void setLagFormat(BigInteger value)
             {
@@ -27390,9 +27390,9 @@ import net.sf.mpxj.WorkGroup;
 
    /**
     * <p>Java class for anonymous complex type.
-    * 
+    *
     * <p>The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * <pre>
     * &lt;complexType>
     *   &lt;complexContent>
@@ -27435,8 +27435,8 @@ import net.sf.mpxj.WorkGroup;
     *   &lt;/complexContent>
     * &lt;/complexType>
     * </pre>
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -27454,11 +27454,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the verifyUniqueCodes property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Boolean isVerifyUniqueCodes()
       {
@@ -27467,11 +27467,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Sets the value of the verifyUniqueCodes property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setVerifyUniqueCodes(Boolean value)
       {
@@ -27480,11 +27480,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the generateCodes property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Boolean isGenerateCodes()
       {
@@ -27493,11 +27493,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Sets the value of the generateCodes property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setGenerateCodes(Boolean value)
       {
@@ -27506,11 +27506,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the prefix property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getPrefix()
       {
@@ -27519,11 +27519,11 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Sets the value of the prefix property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPrefix(String value)
       {
@@ -27532,25 +27532,25 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * Gets the value of the wbsMask property.
-       * 
+       *
        * <p>
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a <CODE>set</CODE> method for the wbsMask property.
-       * 
+       *
        * <p>
        * For example, to add a new item, do as follows:
        * <pre>
        *    getWBSMask().add(newItem);
        * </pre>
-       * 
-       * 
+       *
+       *
        * <p>
        * Objects of the following type(s) are allowed in the list
        * {@link Project.WBSMasks.WBSMask }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.WBSMasks.WBSMask> getWBSMask()
       {
@@ -27563,9 +27563,9 @@ import net.sf.mpxj.WorkGroup;
 
       /**
        * <p>Java class for anonymous complex type.
-       * 
+       *
        * <p>The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * <pre>
        * &lt;complexType>
        *   &lt;complexContent>
@@ -27589,8 +27589,8 @@ import net.sf.mpxj.WorkGroup;
        *   &lt;/complexContent>
        * &lt;/complexType>
        * </pre>
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -27608,11 +27608,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the level property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getLevel()
          {
@@ -27621,11 +27621,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the level property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setLevel(BigInteger value)
          {
@@ -27634,11 +27634,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the type property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public BigInteger getType()
          {
@@ -27647,11 +27647,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the type property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link BigInteger }
-          *     
+          *
           */
          public void setType(BigInteger value)
          {
@@ -27660,11 +27660,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the length property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getLength()
          {
@@ -27673,11 +27673,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the length property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLength(String value)
          {
@@ -27686,11 +27686,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Gets the value of the separator property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getSeparator()
          {
@@ -27699,11 +27699,11 @@ import net.sf.mpxj.WorkGroup;
 
          /**
           * Sets the value of the separator property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setSeparator(String value)
          {
