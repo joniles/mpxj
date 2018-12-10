@@ -293,31 +293,31 @@ public final class MSPDIReader extends AbstractProjectReader
       properties.setDefaultCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
       properties.setCategory(project.getCategory());
       properties.setCompany(project.getCompany());
-      properties.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
+      properties.setCreationDate(project.getCreationDate());
       properties.setCriticalSlackLimit(NumberHelper.getInteger(project.getCriticalSlackLimit()));
       properties.setCurrencyDigits(NumberHelper.getInteger(project.getCurrencyDigits()));
       properties.setCurrencyCode(project.getCurrencyCode());
       properties.setCurrencySymbol(project.getCurrencySymbol());
-      properties.setCurrentDate(DatatypeConverter.parseDate(project.getCurrentDate()));
+      properties.setCurrentDate(project.getCurrentDate());
       properties.setDaysPerMonth(NumberHelper.getInteger(project.getDaysPerMonth()));
       properties.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
-      properties.setDefaultEndTime(DatatypeConverter.parseTime(project.getDefaultFinishTime()));
+      properties.setDefaultEndTime(project.getDefaultFinishTime());
       properties.setDefaultFixedCostAccrual(project.getDefaultFixedCostAccrual());
       properties.setDefaultOvertimeRate(DatatypeConverter.parseRate(project.getDefaultOvertimeRate()));
       properties.setDefaultStandardRate(DatatypeConverter.parseRate(project.getDefaultStandardRate()));
-      properties.setDefaultStartTime(DatatypeConverter.parseTime(project.getDefaultStartTime()));
+      properties.setDefaultStartTime(project.getDefaultStartTime());
       properties.setDefaultTaskEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getDefaultTaskEVMethod()));
       properties.setDefaultTaskType(project.getDefaultTaskType());
       properties.setDefaultWorkUnits(DatatypeConverter.parseWorkUnits(project.getWorkFormat()));
       properties.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getEarnedValueMethod()));
       properties.setEditableActualCosts(BooleanHelper.getBoolean(project.isEditableActualCosts()));
-      properties.setExtendedCreationDate(DatatypeConverter.parseDate(project.getExtendedCreationDate()));
-      properties.setFinishDate(DatatypeConverter.parseDate(project.getFinishDate()));
+      properties.setExtendedCreationDate(project.getExtendedCreationDate());
+      properties.setFinishDate(project.getFinishDate());
       properties.setFiscalYearStart(BooleanHelper.getBoolean(project.isFiscalYearStart()));
       properties.setFiscalYearStartMonth(NumberHelper.getInteger(project.getFYStartDate()));
       properties.setHonorConstraints(BooleanHelper.getBoolean(project.isHonorConstraints()));
       properties.setInsertedProjectsLikeSummary(BooleanHelper.getBoolean(project.isInsertedProjectsLikeSummary()));
-      properties.setLastSaved(DatatypeConverter.parseDate(project.getLastSaved()));
+      properties.setLastSaved(project.getLastSaved());
       properties.setManager(project.getManager());
       properties.setMicrosoftProjectServerURL(BooleanHelper.getBoolean(project.isMicrosoftProjectServerURL()));
       properties.setMinutesPerDay(NumberHelper.getInteger(project.getMinutesPerDay()));
@@ -340,8 +340,8 @@ public final class MSPDIReader extends AbstractProjectReader
       properties.setSplitInProgressTasks(BooleanHelper.getBoolean(project.isSplitsInProgressTasks()));
       properties.setSpreadActualCost(BooleanHelper.getBoolean(project.isSpreadActualCost()));
       properties.setSpreadPercentComplete(BooleanHelper.getBoolean(project.isSpreadPercentComplete()));
-      properties.setStartDate(DatatypeConverter.parseDate(project.getStartDate()));
-      properties.setStatusDate(DatatypeConverter.parseDate(project.getStatusDate()));
+      properties.setStartDate(project.getStartDate());
+      properties.setStatusDate(project.getStatusDate());
       properties.setSymbolPosition(project.getCurrencySymbolPosition());
       properties.setUniqueID(project.getUID());
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
@@ -525,8 +525,8 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
          {
-            Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-            Date endTime = DatatypeConverter.parseTime(period.getToTime());
+            Date startTime = period.getFromTime();
+            Date endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
@@ -550,8 +550,8 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readExceptionDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
    {
       Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod timePeriod = day.getTimePeriod();
-      Date fromDate = DatatypeConverter.parseDate(timePeriod.getFromDate());
-      Date toDate = DatatypeConverter.parseDate(timePeriod.getToDate());
+      Date fromDate = timePeriod.getFromDate();
+      Date toDate = timePeriod.getToDate();
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = day.getWorkingTimes();
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
 
@@ -560,8 +560,8 @@ public final class MSPDIReader extends AbstractProjectReader
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : time)
          {
-            Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-            Date endTime = DatatypeConverter.parseTime(period.getToTime());
+            Date startTime = period.getFromTime();
+            Date endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
@@ -603,8 +603,8 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readException(ProjectCalendar bc, Project.Calendars.Calendar.Exceptions.Exception exception)
    {
-      Date fromDate = DatatypeConverter.parseDate(exception.getTimePeriod().getFromDate());
-      Date toDate = DatatypeConverter.parseDate(exception.getTimePeriod().getToDate());
+      Date fromDate = exception.getTimePeriod().getFromDate();
+      Date toDate = exception.getTimePeriod().getToDate();
 
       // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
       // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
@@ -620,8 +620,8 @@ public final class MSPDIReader extends AbstractProjectReader
             List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
             for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
             {
-               Date startTime = DatatypeConverter.parseTime(period.getFromTime());
-               Date endTime = DatatypeConverter.parseTime(period.getToTime());
+               Date startTime = period.getFromTime();
+               Date endTime = period.getToTime();
 
                if (startTime != null && endTime != null)
                {
@@ -777,8 +777,8 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
             week.setName(xmlWeek.getName());
-            Date startTime = DatatypeConverter.parseDate(xmlWeek.getTimePeriod().getFromDate());
-            Date endTime = DatatypeConverter.parseDate(xmlWeek.getTimePeriod().getToDate());
+            Date startTime = xmlWeek.getTimePeriod().getFromDate();
+            Date endTime = xmlWeek.getTimePeriod().getToDate();
             week.setDateRange(new DateRange(startTime, endTime));
 
             WeekDays xmlWeekDays = xmlWeek.getWeekDays();
@@ -796,8 +796,8 @@ public final class MSPDIReader extends AbstractProjectReader
                   {
                      for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
                      {
-                        startTime = DatatypeConverter.parseTime(period.getFromTime());
-                        endTime = DatatypeConverter.parseTime(period.getToTime());
+                        startTime = period.getFromTime();
+                        endTime = period.getToTime();
 
                         if (startTime != null && endTime != null)
                         {
@@ -885,8 +885,8 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWork()));
       mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
-      mpx.setAvailableFrom(DatatypeConverter.parseDate(xml.getAvailableFrom()));
-      mpx.setAvailableTo(DatatypeConverter.parseDate(xml.getAvailableTo()));
+      mpx.setAvailableFrom(xml.getAvailableFrom());
+      mpx.setAvailableTo(xml.getAvailableTo());
       mpx.setBCWS(DatatypeConverter.parseCurrency(xml.getBCWS()));
       mpx.setBCWP(DatatypeConverter.parseCurrency(xml.getBCWP()));
       mpx.setBookingType(xml.getBookingType());
@@ -899,7 +899,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
       mpx.setCostPerUse(DatatypeConverter.parseCurrency(xml.getCostPerUse()));
       mpx.setCostVariance(DatatypeConverter.parseCurrency(xml.getCostVariance()));
-      mpx.setCreationDate(DatatypeConverter.parseDate(xml.getCreationDate()));
+      mpx.setCreationDate(xml.getCreationDate());
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setEmailAddress(xml.getEmailAddress());
       mpx.setGroup(xml.getGroup());
@@ -1050,7 +1050,7 @@ public final class MSPDIReader extends AbstractProjectReader
             Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate());
             TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
-            Date endDate = DatatypeConverter.parseDate(rate.getRatesTo());
+            Date endDate = rate.getRatesTo();
 
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
 
@@ -1086,8 +1086,8 @@ public final class MSPDIReader extends AbstractProjectReader
          List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
          for (AvailabilityPeriod period : list)
          {
-            Date start = DatatypeConverter.parseDate(period.getAvailableFrom());
-            Date end = DatatypeConverter.parseDate(period.getAvailableTo());
+            Date start = period.getAvailableFrom();
+            Date end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
             Availability availability = new Availability(start, end, units);
             table.add(availability);
@@ -1159,11 +1159,11 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setActive(xml.isActive() == null ? true : BooleanHelper.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
-         mpx.setActualFinish(DatatypeConverter.parseDate(xml.getActualFinish()));
+         mpx.setActualFinish(xml.getActualFinish());
          mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
          mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualOvertimeWork()));
          mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualOvertimeWorkProtected()));
-         mpx.setActualStart(DatatypeConverter.parseDate(xml.getActualStart()));
+         mpx.setActualStart(xml.getActualStart());
          mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualWork()));
          mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualWorkProtected()));
          mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
@@ -1176,7 +1176,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setBCWS();
          mpx.setCalendar(getTaskCalendar(xml));
          //mpx.setConfirmed();
-         mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
+         mpx.setConstraintDate(xml.getConstraintDate());
          mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));
          mpx.setContact(xml.getContact());
          mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
@@ -1184,9 +1184,9 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setCost2();
          //mpx.setCost3();
          //mpx.setCostVariance();
-         mpx.setCreateDate(DatatypeConverter.parseDate(xml.getCreateDate()));
+         mpx.setCreateDate(xml.getCreateDate());
          mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
-         mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
+         mpx.setDeadline(xml.getDeadline());
          //mpx.setDelay();
          mpx.setDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getDuration()));
          mpx.setDurationText(xml.getDurationText());
@@ -1194,14 +1194,14 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setDuration2();
          //mpx.setDuration3();
          //mpx.setDurationVariance();
-         mpx.setEarlyFinish(DatatypeConverter.parseDate(xml.getEarlyFinish()));
-         mpx.setEarlyStart(DatatypeConverter.parseDate(xml.getEarlyStart()));
+         mpx.setEarlyFinish(xml.getEarlyFinish());
+         mpx.setEarlyStart(xml.getEarlyStart());
          mpx.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(xml.getEarnedValueMethod()));
          mpx.setEffortDriven(BooleanHelper.getBoolean(xml.isEffortDriven()));
          mpx.setEstimated(BooleanHelper.getBoolean(xml.isEstimated()));
          mpx.setExternalTask(BooleanHelper.getBoolean(xml.isExternalTask()));
          mpx.setProject(xml.getExternalTaskProject());
-         mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
+         mpx.setFinish(xml.getFinish());
          mpx.setFinishText(xml.getFinishText());
          //mpx.setFinish1();
          //mpx.setFinish2();
@@ -1229,8 +1229,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
 
          mpx.setIgnoreResourceCalendar(BooleanHelper.getBoolean(xml.isIgnoreResourceCalendar()));
-         mpx.setLateFinish(DatatypeConverter.parseDate(xml.getLateFinish()));
-         mpx.setLateStart(DatatypeConverter.parseDate(xml.getLateStart()));
+         mpx.setLateFinish(xml.getLateFinish());
+         mpx.setLateStart(xml.getLateStart());
          mpx.setLevelAssignments(BooleanHelper.getBoolean(xml.isLevelAssignments()));
          mpx.setLevelingCanSplit(BooleanHelper.getBoolean(xml.isLevelingCanSplit()));
          mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
@@ -1265,8 +1265,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setPercentageComplete(xml.getPercentComplete());
          mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
          mpx.setPhysicalPercentComplete(NumberHelper.getInteger(xml.getPhysicalPercentComplete()));
-         mpx.setPreleveledFinish(DatatypeConverter.parseDate(xml.getPreLeveledFinish()));
-         mpx.setPreleveledStart(DatatypeConverter.parseDate(xml.getPreLeveledStart()));
+         mpx.setPreleveledFinish(xml.getPreLeveledFinish());
+         mpx.setPreleveledStart(xml.getPreLeveledStart());
          mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
          //mpx.setProject();
          mpx.setRecurring(BooleanHelper.getBoolean(xml.isRecurring()));
@@ -1279,11 +1279,11 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setResourceGroup();
          //mpx.setResourceInitials();
          //mpx.setResourceNames();
-         mpx.setResume(DatatypeConverter.parseDate(xml.getResume()));
+         mpx.setResume(xml.getResume());
          mpx.setResumeValid(BooleanHelper.getBoolean(xml.isResumeValid()));
          //mpx.setResumeNoEarlierThan();
          mpx.setRollup(BooleanHelper.getBoolean(xml.isRollup()));
-         mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
+         mpx.setStart(xml.getStart());
          mpx.setStartText(xml.getStartText());
          //mpx.setStart1();
          //mpx.setStart2();
@@ -1291,7 +1291,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setStart4();
          //mpx.setStart5();
          mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
-         mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
+         mpx.setStop(xml.getStop());
          mpx.setSubProject(BooleanHelper.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
          mpx.setSubprojectName(xml.getSubprojectName());
          mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
@@ -1406,8 +1406,8 @@ public final class MSPDIReader extends AbstractProjectReader
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
          Duration duration = DatatypeConverter.parseDuration(m_projectFile, durationFormat, baseline.getDuration());
-         Date finish = DatatypeConverter.parseDate(baseline.getFinish());
-         Date start = DatatypeConverter.parseDate(baseline.getStart());
+         Date finish = baseline.getFinish();
+         Date start = baseline.getStart();
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
          if (number == 0)
@@ -1604,11 +1604,11 @@ public final class MSPDIReader extends AbstractProjectReader
             ResourceAssignment mpx = task.addResourceAssignment(resource);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
-            mpx.setActualFinish(DatatypeConverter.parseDate(assignment.getActualFinish()));
+            mpx.setActualFinish(assignment.getActualFinish());
             mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(assignment.getActualOvertimeCost()));
             mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualOvertimeWork()));
             //assignment.getActualOvertimeWorkProtected()
-            mpx.setActualStart(DatatypeConverter.parseDate(assignment.getActualStart()));
+            mpx.setActualStart(assignment.getActualStart());
             mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
             //assignment.getActualWorkProtected()
             mpx.setACWP(DatatypeConverter.parseCurrency(assignment.getACWP()));
@@ -1619,10 +1619,10 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
             mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
             mpx.setCostRateTableIndex(NumberHelper.getInt(assignment.getCostRateTable()));
-            mpx.setCreateDate(DatatypeConverter.parseDate(assignment.getCreationDate()));
+            mpx.setCreateDate(assignment.getCreationDate());
             mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
             mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
-            mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
+            mpx.setFinish(assignment.getFinish());
             mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
             mpx.setHyperlink(assignment.getHyperlink());
             mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
@@ -1639,9 +1639,9 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
             mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
             mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
-            mpx.setResume(DatatypeConverter.parseDate(assignment.getResume()));
-            mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
-            mpx.setStop(DatatypeConverter.parseDate(assignment.getStop()));
+            mpx.setResume(assignment.getResume());
+            mpx.setStart(assignment.getStart());
+            mpx.setStop(assignment.getStop());
             mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
             mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
@@ -1766,8 +1766,8 @@ public final class MSPDIReader extends AbstractProjectReader
             continue;
          }
 
-         Date startDate = DatatypeConverter.parseDate(item.getStart());
-         Date finishDate = DatatypeConverter.parseDate(item.getFinish());
+         Date startDate = item.getStart();
+         Date finishDate = item.getFinish();
 
          // Exclude ranges which don't have a start and end date.
          // These seem to be generated by Synchro and have a zero duration.
