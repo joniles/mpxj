@@ -581,7 +581,6 @@ public final class DatatypeConverter
          cal = Calendar.getInstance();
          cal.setTime(value);
          cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
       }
 
       return (cal);
@@ -629,7 +628,6 @@ public final class DatatypeConverter
          cal = Calendar.getInstance();
          cal.setTime(value);
          cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
       }
 
       return (cal);
