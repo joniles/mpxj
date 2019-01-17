@@ -85,6 +85,7 @@ final class ResultSetRow extends MapRow
             }
 
             case Types.TIMESTAMP:
+            case SQL_SERVER_TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
@@ -148,4 +149,7 @@ final class ResultSetRow extends MapRow
          m_map.put(name, value);
       }
    }
+
+   // https://stackoverflow.com/questions/45377247/microsoft-sql-jdbc-driver-v6-2-returning-incorrect-sql-type-code-for-datetime-fi
+   private static final int SQL_SERVER_TIMESTAMP = -151;
 }
