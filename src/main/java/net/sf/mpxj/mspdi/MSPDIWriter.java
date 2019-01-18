@@ -785,6 +785,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setEmailAddress(mpx.getEmailAddress());
       xml.setFinish(mpx.getFinish());
       xml.setGroup(mpx.getGroup());
+      xml.setGUID(mpx.getGUID());
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
@@ -1097,6 +1098,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
       xml.setFixedCostAccrual(fixedCostAccrual);
       xml.setFreeSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFreeSlack()));
+      xml.setGUID(mpx.getGUID());
       xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
       xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject() != null));
@@ -1520,6 +1522,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDelay(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getDelay()));
       xml.setFinish(mpx.getFinish());
+      xml.setGUID(mpx.getGUID());
       xml.setHasFixedRateUnits(Boolean.valueOf(mpx.getVariableRateUnits() == null));
       xml.setFixedMaterial(Boolean.valueOf(mpx.getResource() != null && mpx.getResource().getType() == ResourceType.MATERIAL));
       xml.setHyperlink(mpx.getHyperlink());

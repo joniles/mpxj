@@ -903,6 +903,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setEmailAddress(xml.getEmailAddress());
       mpx.setGroup(xml.getGroup());
+      mpx.setGUID(xml.getGUID());
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
@@ -1223,6 +1224,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag9();
          //mpx.setFlag10();
          // This is not correct?
+         mpx.setGUID(xml.getGUID());
          mpx.setHideBar(BooleanHelper.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -1624,6 +1626,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
             mpx.setFinish(assignment.getFinish());
             mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
+            mpx.setGUID(assignment.getGUID());
             mpx.setHyperlink(assignment.getHyperlink());
             mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
             mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());

@@ -33,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
@@ -1371,6 +1372,28 @@ public final class DatatypeConverter
       }
 
       return result;
+   }
+
+   /**
+    * Convert the MSPDI representation of a UUID into a Java UUID instance.
+    *
+    * @param value MSPDI UUID
+    * @return Java UUID instance
+    */
+   public static final UUID parseUUID(String value)
+   {
+      return value == null || value.isEmpty() ? null : UUID.fromString(value);
+   }
+
+   /**
+    * Retrieve a UUID in the form required by MSPDI.
+    *
+    * @param guid UUID instance
+    * @return formatted UUID
+    */
+   public static String printUUID(UUID guid)
+   {
+      return guid == null ? null : guid.toString();
    }
 
    /**

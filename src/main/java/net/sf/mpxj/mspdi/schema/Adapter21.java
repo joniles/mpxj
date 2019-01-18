@@ -8,18 +8,19 @@
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.AccrueType;
 
-@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter21 extends XmlAdapter<String, AccrueType>
 {
 
-   public Boolean unmarshal(String value)
+   public AccrueType unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
    }
 
-   public String marshal(Boolean value)
+   public String marshal(AccrueType value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
    }
 
 }
