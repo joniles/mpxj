@@ -8,18 +8,19 @@
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.TaskType;
 
-@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter20 extends XmlAdapter<String, TaskType>
 {
 
-   public Boolean unmarshal(String value)
+   public TaskType unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
    }
 
-   public String marshal(Boolean value)
+   public String marshal(TaskType value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
    }
 
 }

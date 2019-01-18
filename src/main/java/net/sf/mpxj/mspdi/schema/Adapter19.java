@@ -7,19 +7,20 @@
 
 package net.sf.mpxj.mspdi.schema;
 
+import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter19 extends XmlAdapter<String, UUID>
 {
 
-   public Boolean unmarshal(String value)
+   public UUID unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
    }
 
-   public String marshal(Boolean value)
+   public String marshal(UUID value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
    }
 
 }

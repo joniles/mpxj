@@ -173,8 +173,8 @@
 		</copy>
 
 		<exec executable="xjc" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
-		</exec>				
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
+		</exec>
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-dtd -classpath ${classes.dir} -d ${basedir}/src/main/java -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.dtd" />
 		</exec>
@@ -188,7 +188,7 @@
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="xjc" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
 		</exec>
 
 		<delete>

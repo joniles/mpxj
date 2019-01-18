@@ -9,17 +9,17 @@ package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter18 extends XmlAdapter<String, Integer>
 {
 
-   public Boolean unmarshal(String value)
+   public Integer unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskUID(value));
    }
 
-   public String marshal(Boolean value)
+   public String marshal(Integer value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskUID(value));
    }
 
 }

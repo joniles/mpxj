@@ -149,6 +149,58 @@
          </jxb:property>
       </jxb:bindings>
    </jxb:bindings>
-             
+      
+   <!-- Task.GUID -->      
+   <jxb:bindings node="//xsd:element[@name='Task']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.GUID -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+       
+   <!-- Assignment.GUID -->      
+   <jxb:bindings node="//xsd:element[@name='Assignment']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Project.GUID -->      
+   <jxb:bindings node="//xsd:element[@name='Project']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
   </jxb:bindings>
 </jxb:bindings>
