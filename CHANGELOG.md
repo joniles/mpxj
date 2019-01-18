@@ -1,8 +1,12 @@
 # Changelog
 
-## 7.8.0 (git master)
+## 7.8.1 (git master)
+
+## 7.8.0 (18/01/2019)
+* Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.
 * Updated Java build to use Maven
 * Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)
+* Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005
 * Fixed [Issue 332](https://sourceforge.net/p/mpxj/bugs/332): Asta lag sign incorrect (Based on a contribution by Dave McKay)
 * Fixed [Issue 333](https://sourceforge.net/p/mpxj/bugs/333): Asta constraints lost (Contributed by Dave McKay)
 * Fixed [Issue 335](https://sourceforge.net/p/mpxj/bugs/335): MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)

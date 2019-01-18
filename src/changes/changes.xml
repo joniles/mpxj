@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.8.0">
+		<release date="git master" version="7.8.1">
+		</release>
+		<release date="18/01/2019" version="7.8.0">
+			<action dev="joniles" type="add">Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.</action>
 			<action dev="joniles" type="update">Updated Java build to use Maven</action>
 			<action dev="joniles" type="update">Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)</action>
 			<action dev="joniles" type="update">Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005</action>			
