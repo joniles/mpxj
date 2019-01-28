@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class TimeRangeBlockReader extends BlockReader
     *
     * @param stream input stream
     */
-   public TimeRangeBlockReader(InputStream stream)
+   public TimeRangeBlockReader(StreamReader stream)
    {
       super(stream);
    }

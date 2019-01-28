@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,9 +39,9 @@ abstract class BlockReader
     *
     * @param stream input stream
     */
-   public BlockReader(InputStream stream)
+   public BlockReader(StreamReader stream)
    {
-      m_stream = new StreamReader(stream);
+      m_stream = stream;
    }
 
    /**

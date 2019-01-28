@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.8.1 (git master)
+* Improve support for reading the Synchro Scheduler 2018 SP files.
 
 ## 7.8.0 (18/01/2019)
 * Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.

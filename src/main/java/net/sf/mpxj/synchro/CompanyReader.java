@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class CompanyReader extends TableReader
     *
     * @param stream input stream
     */
-   public CompanyReader(InputStream stream)
+   public CompanyReader(StreamReader stream)
    {
       super(stream);
    }

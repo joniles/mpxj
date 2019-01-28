@@ -25,11 +25,13 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -185,10 +187,17 @@ final class DatatypeConverter
          throw new IllegalArgumentException("Unexpected string format");
       }
 
+      Charset charset = CharsetHelper.UTF8;
+      
       int length = is.read();
       if (length == 0xFF)
       {
          length = getShort(is);
+         if (length == 0xFFFE)
+         {
+            charset = CharsetHelper.UTF16LE;
+            length = (is.read() * 2);
+         }
       }
 
       String result;
@@ -198,12 +207,12 @@ final class DatatypeConverter
       }
       else
       {
-         byte[] stringData = new byte[length];
+         byte[] stringData = new byte[length];         
          is.read(stringData);
-         result = new String(stringData);
+         result = new String(stringData, charset);
       }
       return result;
-   }
+   }   
 
    /**
     * Retrieve a boolean from an input stream.

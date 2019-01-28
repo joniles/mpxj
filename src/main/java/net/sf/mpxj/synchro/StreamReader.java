@@ -41,10 +41,12 @@ class StreamReader
    /**
     * Constructor.
     *
+    * @param majorVersion major version
     * @param stream input stream
     */
-   public StreamReader(InputStream stream)
+   public StreamReader(int majorVersion, InputStream stream)
    {
+      m_majorVersion = majorVersion; 
       m_stream = stream;
    }
 
@@ -90,7 +92,7 @@ class StreamReader
     */
    public List<MapRow> readUnknownTable(int rowSize, int rowMagicNumber) throws IOException
    {
-      TableReader reader = new UnknownTableReader(m_stream, rowSize, rowMagicNumber);
+      TableReader reader = new UnknownTableReader(this, rowSize, rowMagicNumber);
       reader.read();
       return reader.getRows();
    }
@@ -98,7 +100,7 @@ class StreamReader
    /**
     * Reads a nested table. Uses the supplied reader class instance.
     *
-    * @param readerClass reader class inatance
+    * @param readerClass reader class instance
     * @return table rows
     */
    public List<MapRow> readTable(Class<? extends TableReader> readerClass) throws IOException
@@ -107,7 +109,7 @@ class StreamReader
 
       try
       {
-         reader = readerClass.getConstructor(InputStream.class).newInstance(m_stream);
+         reader = readerClass.getConstructor(StreamReader.class).newInstance(this);
       }
       catch (Exception ex)
       {
@@ -238,7 +240,7 @@ class StreamReader
     */
    public List<MapRow> readUnknownBlocks(int size) throws IOException
    {
-      return new UnknownBlockReader(m_stream, size).read();
+      return new UnknownBlockReader(this, size).read();
    }
 
    /**
@@ -253,7 +255,7 @@ class StreamReader
 
       try
       {
-         reader = readerClass.getConstructor(InputStream.class).newInstance(m_stream);
+         reader = readerClass.getConstructor(StreamReader.class).newInstance(this);
       }
       catch (Exception ex)
       {
@@ -263,5 +265,16 @@ class StreamReader
       return reader.read();
    }
 
+   /**
+    * Retrieve the major version number of this file.
+    * 
+    * @return major version number
+    */
+   public int getMajorVersion()
+   {
+      return m_majorVersion;
+   }
+   
+   private final int m_majorVersion;
    private final InputStream m_stream;
 }

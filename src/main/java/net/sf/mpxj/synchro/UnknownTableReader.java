@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class UnknownTableReader extends TableReader
     *
     * @param stream input stream
     */
-   public UnknownTableReader(InputStream stream)
+   public UnknownTableReader(StreamReader stream)
    {
       this(stream, 0, 0);
    }
@@ -49,7 +48,7 @@ class UnknownTableReader extends TableReader
     * @param rowSize row size
     * @param rowMagicNumber row magic number
     */
-   public UnknownTableReader(InputStream stream, int rowSize, int rowMagicNumber)
+   public UnknownTableReader(StreamReader stream, int rowSize, int rowMagicNumber)
    {
       super(stream);
       m_rowSize = rowSize;

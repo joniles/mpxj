@@ -1,8 +1,8 @@
 /*
- * file:       UserFieldReader.java
+ * file:       BytesReadInputStream.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2018
- * date:       2018-10-11
+ * copyright:  (c) Packwood Software 2019
+ * date:       2019-01-28
  */
 
 /*
@@ -24,37 +24,39 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.InputStream;
 
 /**
- * Reads a user defined data table.
+ * Input stream wrapper which counts the number of bytes read.
  */
-class UserFieldReader extends TableReader
+class BytesReadInputStream extends InputStream
 {
    /**
     * Constructor.
-    *
-    * @param stream input stream
+    * 
+    * @param stream wrapped input stream
     */
-   public UserFieldReader(StreamReader stream)
+   public BytesReadInputStream(InputStream stream)
    {
-      super(stream);
+      m_stream = stream;
    }
-
-   @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
+   
+   @Override public int read() throws IOException
    {
-      map.put("UNKNOWN1", stream.readBytes(16));
-      map.put("VALUE", stream.readString());
-      map.put("UNKNOWN2", stream.readBytes(26));
+      ++m_bytesRead;
+      return m_stream.read();
    }
-
-   @Override protected boolean hasUUID()
+     
+   /**
+    * Retrieve the number of bytes read.
+    * 
+    * @return number of bytes read.
+    */
+   public int getBytesRead()
    {
-      return false;
+      return m_bytesRead;
    }
-
-   @Override protected int rowMagicNumber()
-   {
-      return 0x440A7BA3;
-   }
+   
+   private final InputStream m_stream;
+   private int m_bytesRead;
 }

@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class CommentaryReader extends TableReader
     *
     * @param stream input stream
     */
-   public CommentaryReader(InputStream stream)
+   public CommentaryReader(StreamReader stream)
    {
       super(stream);
    }

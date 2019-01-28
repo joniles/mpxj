@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,9 +39,9 @@ abstract class TableReader
     *
     * @param stream input stream
     */
-   public TableReader(InputStream stream)
+   public TableReader(StreamReader stream)
    {
-      m_stream = new StreamReader(stream);
+      m_stream = stream;
    }
 
    /**
@@ -84,7 +83,8 @@ abstract class TableReader
 
          if (hasUUID())
          {
-            map.put("UNKNOWN0", m_stream.readBytes(16));
+            int unknown0Size = m_stream.getMajorVersion() > 5 ? 8 : 16;
+            map.put("UNKNOWN0", m_stream.readBytes(unknown0Size));
             map.put("UUID", m_stream.readUUID());
          }
 

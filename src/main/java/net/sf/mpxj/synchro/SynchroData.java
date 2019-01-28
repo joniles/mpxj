@@ -54,27 +54,28 @@ class SynchroData
     */
    public void process(InputStream is) throws Exception
    {
-      byte[] header = new byte[20];
-      is.read(header);
-      m_offset += 20;
-      SynchroLogger.log("HEADER", header);
-
-      String version = DatatypeConverter.getString(is);
-      m_offset += (2 + version.length()); // Assumes version is always < 255 bytes!
-      SynchroLogger.log("VERSION", version);
-
+      readHeader(is);
+      readVersion(is);
       readTableData(readTableHeaders(is), is);
    }
-
+   
    /**
     * Return an input stream to read the data from the named table.
     *
     * @param name table name
     * @return InputStream instance
+    * @throws IOException 
     */
-   public InputStream getTableData(String name)
+   public StreamReader getTableData(String name) throws IOException
    {
-      return new ByteArrayInputStream(m_tableData.get(name));
+      InputStream stream = new ByteArrayInputStream(m_tableData.get(name));
+      if (m_majorVersion > 5)
+      {        
+         byte[] header = new byte[24];
+         stream.read(header);
+         SynchroLogger.log("TABLE HEADER", header);
+      }
+      return new StreamReader(m_majorVersion, stream);
    }
 
    /**
@@ -226,6 +227,36 @@ class SynchroData
       m_tableData.put(table.getName(), uncompressedTableData);
    }
 
+   /**
+    * Read the file header data.
+    * 
+    * @param is input stream
+    */
+   private void readHeader(InputStream is) throws IOException
+   {
+      byte[] header = new byte[20];
+      is.read(header);
+      m_offset += 20;
+      SynchroLogger.log("HEADER", header);   
+   }
+   
+   /**
+    * Read the version number.
+    * 
+    * @param is input stream
+    */
+   private void readVersion(InputStream is) throws IOException
+   {
+      BytesReadInputStream bytesReadStream = new BytesReadInputStream(is);
+      String version = DatatypeConverter.getString(bytesReadStream);
+      m_offset += bytesReadStream.getBytesRead();
+      SynchroLogger.log("VERSION", version);
+      
+      String[] versionArray = version.split("\\.");
+      m_majorVersion = Integer.parseInt(versionArray[0]);
+   }
+   
+   private int m_majorVersion;
    private int m_offset;
    private Map<String, byte[]> m_tableData = new HashMap<String, byte[]>();
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks", "Calendars", "Companies"));

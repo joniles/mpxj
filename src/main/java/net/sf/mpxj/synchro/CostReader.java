@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class CostReader extends TableReader
     *
     * @param stream input stream
     */
-   public CostReader(InputStream stream)
+   public CostReader(StreamReader stream)
    {
       super(stream);
    }
