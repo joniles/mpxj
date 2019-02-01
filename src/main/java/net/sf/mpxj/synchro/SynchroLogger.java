@@ -61,6 +61,7 @@ final class SynchroLogger
    {
       if (LOG_FILE != null)
       {
+         System.out.println("SynchroLogger Configured");
          LOG = new PrintWriter(new FileWriter(LOG_FILE));
       }
    }
