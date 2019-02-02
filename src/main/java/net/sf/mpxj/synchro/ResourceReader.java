@@ -69,13 +69,15 @@ class ResourceReader extends TableReader
       map.put("UNKNOWN6_FLAG", unknown6Flag);
       if (unknown6Flag.intValue() != 0)
       {
-         map.put("UNKNOWN6", stream.readBytes(76));
+         map.put("UNKNOWN6", stream.readBytes(70));
+         map.put("UNKNOWN7", stream.readString());
+         map.put("UNKNOWN8", stream.readBytes(4));
       }
-      map.put("UNKNOWN7", stream.readBytes(12));
+      map.put("UNKNOWN9", stream.readBytes(12));
       
       if (m_stream.getMajorVersion() > 5)
       {
-         map.put("UNKNOWN8", stream.readBytes(12));
+         map.put("UNKNOWN10", stream.readBytes(12));
       }
       map.put("UNIQUE_ID", stream.readInteger());
    }

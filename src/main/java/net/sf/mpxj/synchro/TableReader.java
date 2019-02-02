@@ -83,9 +83,7 @@ abstract class TableReader
 
          if (hasUUID())
          {
-            int unknown0Size = m_stream.getMajorVersion() > 5 ? 8 : 16;
-            map.put("UNKNOWN0", m_stream.readBytes(unknown0Size));
-            map.put("UUID", m_stream.readUUID());
+            readUUID(m_stream, map);
          }
 
          readRow(m_stream, map);
@@ -117,6 +115,19 @@ abstract class TableReader
       return true;
    }
 
+   /**
+    * Read the optional row header and UUID.
+    * 
+    * @param stream input stream
+    * @param map row map
+    */
+   protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
+   {
+      int unknown0Size = stream.getMajorVersion() > 5 ? 8 : 16;
+      map.put("UNKNOWN0", stream.readBytes(unknown0Size));
+      map.put("UUID", stream.readUUID());   
+   }
+   
    /**
     * Allows additional behaviour once the main table data has been read.
     *

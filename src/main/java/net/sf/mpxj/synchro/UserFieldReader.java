@@ -43,9 +43,17 @@ class UserFieldReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      map.put("UNKNOWN1", stream.readBytes(16));
-      map.put("VALUE", stream.readString());
-      map.put("UNKNOWN2", stream.readBytes(26));
+      if (stream.getMajorVersion() > 5)
+      {
+         map.put("VALUE", stream.readString());
+         map.put("UNKNOWN1", stream.readBytes(26));
+      }
+      else
+      {
+         map.put("UNKNOWN1", stream.readBytes(16));
+         map.put("VALUE", stream.readString());
+         map.put("UNKNOWN2", stream.readBytes(26));         
+      }
    }
 
    @Override protected boolean hasUUID()

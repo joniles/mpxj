@@ -49,6 +49,15 @@ class CommentaryReader extends TableReader
       map.put("UNKNOWN2", stream.readBytes(8));
    }
 
+   @Override protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
+   {
+      if (stream.getMajorVersion() < 6)
+      {
+         map.put("UNKNOWN0", stream.readBytes(16));         
+      }
+      map.put("UUID", stream.readUUID());
+   }
+
    @Override protected int rowMagicNumber()
    {
       return 0x05972BB6;
