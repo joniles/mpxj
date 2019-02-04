@@ -1482,7 +1482,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
-
+            dummy.setPercentageWorkComplete(task.getPercentageComplete());
+            dummy.setActualStart(task.getActualStart());
+            
+            // Without this, MS Project will mark a 100% complete milestone as 99% complete
+            if (percentComplete == 100 && duration.getDuration() == 0)
+            {              
+               dummy.setActualFinish(task.getActualStart());
+            }
+            
             list.add(writeAssignment(dummy));
          }
       }
