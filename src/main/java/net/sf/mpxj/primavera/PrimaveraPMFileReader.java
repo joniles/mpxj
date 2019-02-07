@@ -1016,7 +1016,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       for (UDFAssignmentType udf : udfs)
       {
-         System.out.println("HERE");
          FieldType fieldType = m_fieldTypeMap.get(Integer.valueOf(udf.getTypeObjectId()));
          if (fieldType != null)
          {
