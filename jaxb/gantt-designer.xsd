@@ -6,6 +6,18 @@
    <xs:simpleType name="ganttDesignerPercent">
       <xs:restriction base="xs:double"/>
    </xs:simpleType>
+   <xs:simpleType name="ganttDesignerDay">
+      <xs:restriction base="xs:int"/>
+   </xs:simpleType>
+   <xs:complexType name="ganttDesignerRemark">
+    <xs:sequence>
+       <xs:element maxOccurs="unbounded" name="Task">
+          <xs:complexType mixed="true">
+             <xs:attribute name="Row" type="xs:int"/>
+          </xs:complexType>
+       </xs:element>
+    </xs:sequence>
+   </xs:complexType>
    <!-- XML Schema Generated from XML Document on Tue Feb 05 2019 18:00:49 GMT+0000 (Greenwich Mean Time) -->
    <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
    <xs:element name="Gantt">
@@ -101,61 +113,11 @@
                   </xs:sequence>
                </xs:complexType>
             </xs:element>
-            <xs:element name="Remarks">
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="Task">
-                        <xs:complexType>
-                           <xs:attribute name="Row" type="xs:int"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-            </xs:element>
-            <xs:element name="Remarks1">
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="Task">
-                        <xs:complexType>
-                           <xs:attribute name="Row" type="xs:int"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-            </xs:element>
-            <xs:element name="Remarks2">
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="Task">
-                        <xs:complexType>
-                           <xs:attribute name="Row" type="xs:int"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-            </xs:element>
-            <xs:element name="Remarks3">
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="Task">
-                        <xs:complexType>
-                           <xs:attribute name="Row" type="xs:int"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-            </xs:element>
-            <xs:element name="Remarks4">
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="Task">
-                        <xs:complexType>
-                           <xs:attribute name="Row" type="xs:int"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-            </xs:element>
+            <xs:element name="Remarks" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks1" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks2" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks3" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks4" type="ganttDesignerRemark"/>
             <xs:element name="TextStyles">
                <xs:complexType>
                   <xs:sequence>
@@ -197,8 +159,8 @@
             </xs:element>
             <xs:element name="Calendar">
                <xs:complexType>
-                  <xs:attribute name="WorkDays" type="xs:int"/>
-                  <xs:attribute name="WeekStart" type="xs:int"/>
+                  <xs:attribute name="WorkDays" type="xs:string"/>
+                  <xs:attribute name="WeekStart" type="ganttDesignerDay"/>
                </xs:complexType>
             </xs:element>
             <xs:element name="DateHeader">
@@ -236,7 +198,7 @@
                <xs:complexType>
                   <xs:sequence>
                      <xs:element maxOccurs="unbounded" name="Holiday">
-                        <xs:complexType>
+                        <xs:complexType mixed="true">
                            <xs:attribute name="Date" type="xs:date"/>
                         </xs:complexType>
                      </xs:element>

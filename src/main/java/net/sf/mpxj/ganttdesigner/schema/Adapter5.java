@@ -7,20 +7,20 @@
 
 package net.sf.mpxj.ganttdesigner.schema;
 
-import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import net.sf.mpxj.Day;
 
-public class Adapter1 extends XmlAdapter<String, Date>
+public class Adapter5 extends XmlAdapter<String, Day>
 {
 
-   @Override public Date unmarshal(String value)
+   @Override public Day unmarshal(String value)
    {
-      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp(value));
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay(value));
    }
 
-   @Override public String marshal(Date value)
+   @Override public String marshal(Day value)
    {
-      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printTimestamp(value));
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay(value));
    }
 
 }
