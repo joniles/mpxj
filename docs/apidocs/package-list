@@ -5,6 +5,8 @@ net.sf.mpxj.conceptdraw
 net.sf.mpxj.conceptdraw.schema
 net.sf.mpxj.explorer
 net.sf.mpxj.fasttrack
+net.sf.mpxj.ganttdesigner
+net.sf.mpxj.ganttdesigner.schema
 net.sf.mpxj.ganttproject
 net.sf.mpxj.ganttproject.schema
 net.sf.mpxj.ikvm
