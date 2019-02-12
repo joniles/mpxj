@@ -338,6 +338,7 @@
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 					<notimestamp>true</notimestamp>
+					<excludePackageNames>*.schema.*</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
@@ -439,6 +440,7 @@
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 					<notimestamp>true</notimestamp>
+					<excludePackageNames>*.schema.*</excludePackageNames>
 				</configuration>
 			</plugin>
 
