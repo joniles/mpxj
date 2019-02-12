@@ -58,6 +58,7 @@
 	      <item name="Merlin files" href="/howto-read-merlin.html" /> 
 	      <item name="ConceptDraw PROJECT files" href="/howto-read-conceptdraw.html" />
 	      <item name="Synchro Scheduler files" href="/howto-read-synchro.html" />
+	      <item name="Gantt Designer files" href="/howto-read-ganttdesigner.html" />
       </item>
       <item name="How to write..." href="/howto-write.html" collapse="true">
 	      <item name="MPX files" href="/howto-write-mpx.html" />
