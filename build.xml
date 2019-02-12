@@ -171,7 +171,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
-<!--
+
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
@@ -190,7 +190,6 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
 		</exec>
-		-->
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
 		</exec>
