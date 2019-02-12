@@ -2,6 +2,9 @@
 
 ## 7.8.1 (git master)
 * Improve support for reading the Synchro Scheduler 2018 SP files.
+* Improve handling of non-standard MSPDI files.
+* Improve handling of non-standard GanttProject files.
+* Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.
 
 ## 7.8.0 (18/01/2019)
 * Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.

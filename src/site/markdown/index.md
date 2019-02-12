@@ -93,6 +93,9 @@ writes CDPX, CPDZ and CPDTZ files which MPXJ can read.
 * **SYNCHRO SCHEDULER:** Synchro Scheduler is general purpose planning tool. Synchro Scheduler writes SP files
 which MPXJ can read.
 
+* **GANTT DESIGNER:** Gantt Designer is a simple Gantt chart drawing tool. Gantt Designer writes GNT files
+which MPXJ can read.
+
 * **SDEF:** SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
 Army Corps of Engineers). SDEF is a fixed column format text file, used to import
 a project schedule up into the QCS (Quality Control System) software from USACE.
