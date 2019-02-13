@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Improve handling of non-standard MSPDI files.</action>
 			<action dev="joniles" type="update">Improve handling of non-standard GanttProject files.</action>
 			<action dev="joniles" type="update">Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.</action>
+			<action dev="joniles" type="update">Improve support for reading user defined fields from PMXML files.</action>
 		</release>
 		<release date="18/01/2019" version="7.8.0">
 			<action dev="joniles" type="add">Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.</action>
