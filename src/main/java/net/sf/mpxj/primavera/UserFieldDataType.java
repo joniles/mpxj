@@ -139,6 +139,12 @@ public enum UserFieldDataType
       return result;
    }
 
+   /**
+    * Convert from the PMXML representation of the parent data type.
+    * 
+    * @param name XML name
+    * @return UserFieldDataType instance
+    */
    public static UserFieldDataType getInstanceFromXmlName(String name)
    {
       return XML_NAME_MAP.get(name);
