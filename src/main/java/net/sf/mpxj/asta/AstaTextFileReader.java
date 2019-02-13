@@ -435,7 +435,7 @@ final class AstaTextFileReader extends AbstractProjectReader
       List<Row> result = m_tables.get(name);
       if (result == null)
       {
-         result = new LinkedList<Row>();
+         result = Collections.emptyList();
       }
       return result;
    }
