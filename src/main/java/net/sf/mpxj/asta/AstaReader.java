@@ -323,12 +323,22 @@ final class AstaReader
    {
       for (Row row : rows)
       {
+         boolean rowIsBar = (row.getInteger("BARID") != null);
+         
+         //
+         // Don't export hammock tasks.
+         //
+         if (rowIsBar && row.getChildRows().isEmpty())
+         {
+            continue;
+         }       
+         
          Task task = parent.addTask();
 
          //
          // Do we have a bar, task, or milestone?
          //
-         if (row.getInteger("BARID") != null)
+         if (rowIsBar)
          {
             //
             // If the bar only has one child task, we skip it and add the task directly
