@@ -1,10 +1,15 @@
 # Changelog
 
-## 7.8.1 (git master)
+## 7.8.2 (git master)
+
+## 7.8.1 (13/02/2019)
 * Improve support for reading the Synchro Scheduler 2018 SP files.
+* Add support for reading Gantt Designer GNT files.
 * Improve handling of non-standard MSPDI files.
 * Improve handling of non-standard GanttProject files.
 * Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.
+* Improve support for reading user defined fields from PMXML files.
+* Ignore hammock tasks when reading PP files.
 
 ## 7.8.0 (18/01/2019)
 * Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.
