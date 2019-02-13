@@ -55,6 +55,7 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
+import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
@@ -302,6 +303,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, SYNCHRO_FINGERPRINT))
          {
             return readProjectFile(new SynchroReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, GANTT_DESIGNER_FINGERPRINT))
+         {
+            return readProjectFile(new GanttDesignerReader(), bis);
          }
 
          return null;
@@ -1033,4 +1039,7 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
 
    private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\\\"CDProject\\\".*", Pattern.DOTALL);
+
+   private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
+
 }
