@@ -227,6 +227,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Process UDF definitions.
+    * 
+    * @param apibo top level object
+    */
    private void processProjectUDFs(APIBusinessObjects apibo)
    {
       for (UDFTypeType udf : apibo.getUDFType())
@@ -235,6 +240,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Process an individual UDF.
+    * 
+    * @param udf UDF definition
+    */
    private void processUDF(UDFTypeType udf)
    {
       FieldTypeClass fieldType = FIELD_TYPE_MAP.get(udf.getSubjectArea());
@@ -250,6 +260,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
    
+   /**
+    * Map the Primavera UDF to a custom field.
+    * 
+    * @param fieldType parent object type
+    * @param dataType UDF data type
+    * @param name UDF name
+    * @return FieldType instance
+    */
    private FieldType addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
    {
       FieldType field = null;
@@ -636,7 +654,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
-         task.setText(2, row.getId());
+         task.setText(1, row.getId());
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
@@ -1012,6 +1030,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       return n == null ? null : NumberHelper.getDouble(n.doubleValue() * 100.0);
    }
 
+   /**
+    * Process UDFs for a specific object.
+    * 
+    * @param mpxj field container
+    * @param udfs UDF values
+    */
    private void readUDFTypes(FieldContainer mpxj, List<UDFAssignmentType> udfs)
    {
       for (UDFAssignmentType udf : udfs)
@@ -1024,6 +1048,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Retrieve the value of a UDF.
+    * 
+    * @param udf UDF value holder
+    * @return UDF value
+    */
    private Object getUdfValue(UDFAssignmentType udf)
    {
       if (udf.getCostValue() != null)
