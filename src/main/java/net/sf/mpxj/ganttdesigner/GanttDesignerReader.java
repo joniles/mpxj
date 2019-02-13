@@ -290,7 +290,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
          Integer id = remarkTask.getRow();
          Task task = m_projectFile.getTaskByID(id);
          String notes = task.getNotes();
-         if (notes == null || notes.isEmpty())
+         if (notes.isEmpty())
          {
             notes = remarkTask.getContent();
          }
