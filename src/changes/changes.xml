@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.8.2">
+			<action dev="joniles" type="update">Improve handling of MPP files with missing Props.</action>
 		</release>	
 		<release date="13/02/2019" version="7.8.1">
 			<action dev="joniles" type="add">Improve support for reading the Synchro Scheduler 2018 SP files.</action>
