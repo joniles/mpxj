@@ -5,7 +5,7 @@
         <title>MPXJ for VB</title>
         <version>0.0.0</version>
         <authors>Jon Iles</authors>
-        <licenseUrl>https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/legal/licence.txt</licenseUrl>
+        <license type="expression">LGPL-2.1-or-later</license>
         <projectUrl>http://mpxj.sf.net</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>MPXJ is an open source file handling library for Java and .Net to read and write Microsoft Project MPX and MSPDI XML files, Planner files, Primavera P6 PMXML files XER files and databases, Primavera P3 PRX files and databases, SureTrak STX files and databases, Asta Powerproject files, Asta Easyplan files, Phoenix Project Manager files, FastTrack Schedule FTS files, GanttProject GAN files, TurboProject PEP files, ConceptDraw PROJECT CDPX, CPDZ, CPDTZ files, Synchro SP files, and MPP, MPT, and MPD files for Project 98, 2000, 2002, 2003, 2007, 2010, 2013, 2016 and 2019. This version provides properties, rather than Java style getters, setters.</description>

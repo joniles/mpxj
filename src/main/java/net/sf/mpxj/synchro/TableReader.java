@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,9 +39,9 @@ abstract class TableReader
     *
     * @param stream input stream
     */
-   public TableReader(InputStream stream)
+   public TableReader(StreamReader stream)
    {
-      m_stream = new StreamReader(stream);
+      m_stream = stream;
    }
 
    /**
@@ -84,8 +83,7 @@ abstract class TableReader
 
          if (hasUUID())
          {
-            map.put("UNKNOWN0", m_stream.readBytes(16));
-            map.put("UUID", m_stream.readUUID());
+            readUUID(m_stream, map);
          }
 
          readRow(m_stream, map);
@@ -117,6 +115,19 @@ abstract class TableReader
       return true;
    }
 
+   /**
+    * Read the optional row header and UUID.
+    * 
+    * @param stream input stream
+    * @param map row map
+    */
+   protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
+   {
+      int unknown0Size = stream.getMajorVersion() > 5 ? 8 : 16;
+      map.put("UNKNOWN0", stream.readBytes(unknown0Size));
+      map.put("UUID", stream.readUUID());   
+   }
+   
    /**
     * Allows additional behaviour once the main table data has been read.
     *

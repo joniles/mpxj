@@ -253,6 +253,16 @@ public class MpxjCreate
       task5.setActualStart(df.parse("01/01/2003"));
 
       //
+      // Write a 100% complete milestone
+      //
+      Task task6 = file.addTask();
+      task6.setName("Last Milestone");
+      task6.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
+      task6.setStart(df.parse("01/01/2003"));
+      task6.setPercentageComplete(NumberHelper.getDouble(100.0));
+      task6.setActualStart(df.parse("01/01/2003"));
+
+      //
       // Write the file
       //
       ProjectWriter writer = ProjectWriterUtility.getProjectWriter(filename);

@@ -5,9 +5,23 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.8.0">
+		<release date="git master" version="7.8.2">
+			<action dev="joniles" type="update">Improve handling of MPP files with missing Props.</action>
+		</release>	
+		<release date="13/02/2019" version="7.8.1">
+			<action dev="joniles" type="add">Improve support for reading the Synchro Scheduler 2018 SP files.</action>
+			<action dev="joniles" type="add">Add support for reading Gantt Designer GNT files.</action>
+			<action dev="joniles" type="update">Improve handling of non-standard MSPDI files.</action>
+			<action dev="joniles" type="update">Improve handling of non-standard GanttProject files.</action>
+			<action dev="joniles" type="update">Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.</action>
+			<action dev="joniles" type="update">Improve support for reading user defined fields from PMXML files.</action>
+			<action dev="joniles" type="update">Ignore hammock tasks when reading PP files.</action>
+		</release>
+		<release date="18/01/2019" version="7.8.0">
+			<action dev="joniles" type="add">Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.</action>
 			<action dev="joniles" type="update">Updated Java build to use Maven</action>
 			<action dev="joniles" type="update">Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)</action>
+			<action dev="joniles" type="update">Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005</action>			
 			<action dev="joniles" issue="332" type="fix">Asta lag sign incorrect (Based on a contribution by Dave McKay)</action>
 			<action dev="joniles" issue="333" type="fix">Asta constraints lost (Contributed by Dave McKay)</action>
 			<action dev="joniles" issue="335" type="fix">MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)</action>

@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -38,7 +37,7 @@ class UnknownBlockReader extends BlockReader
     * @param stream input stream
     * @param size block size
     */
-   public UnknownBlockReader(InputStream stream, int size)
+   public UnknownBlockReader(StreamReader stream, int size)
    {
       super(stream);
       m_size = size;

@@ -206,10 +206,13 @@ final class MPP14Reader implements MPPVariantReader
    private void processCustomValueLists() throws IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      Props taskProps = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
+      if (taskDir.hasEntry("Props"))
+      {
+         Props taskProps = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
 
-      CustomFieldValueReader14 reader = new CustomFieldValueReader14(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
-      reader.process();
+         CustomFieldValueReader14 reader = new CustomFieldValueReader14(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
+         reader.process();
+      }
    }
 
    /**
@@ -960,7 +963,6 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), taskFixedData, 92, 93, 94);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
-      Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
       //      System.out.println(taskFixedMeta);
       //      System.out.println(taskFixedData);
       //      System.out.println(taskVarMeta);
@@ -969,11 +971,14 @@ final class MPP14Reader implements MPPVariantReader
       //      System.out.println(taskFixed2Data);
       //      System.out.println(m_outlineCodeVarData.getVarMeta());
       //      System.out.println(m_outlineCodeVarData);
-      //      System.out.println(props);
 
       // Process aliases
-      new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
-
+      if (taskDir.hasEntry("Props"))
+      {
+         Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
+         new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+      }
+      
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
@@ -1596,18 +1601,21 @@ final class MPP14Reader implements MPPVariantReader
       FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 50);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
-      Props14 props = new Props14(m_inputStreamFactory.getInstance(rscDir, "Props"));
+
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
       //System.out.println(rscFixed2Meta);
       //System.out.println(rscFixed2Data);
-      //System.out.println(props);
 
       // Process aliases
-      new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
-
+      if (rscDir.hasEntry("Props"))
+      {
+         Props14 props = new Props14(m_inputStreamFactory.getInstance(rscDir, "Props"));
+         new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      }
+      
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;

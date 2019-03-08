@@ -61,6 +61,7 @@ final class SynchroLogger
    {
       if (LOG_FILE != null)
       {
+         System.out.println("SynchroLogger Configured");
          LOG = new PrintWriter(new FileWriter(LOG_FILE));
       }
    }
@@ -90,6 +91,7 @@ final class SynchroLogger
          LOG.write(label);
          LOG.write(": ");
          LOG.println(ByteArrayHelper.hexdump(data, true));
+         LOG.flush();
       }
    }
 
@@ -106,6 +108,7 @@ final class SynchroLogger
          LOG.write(label);
          LOG.write(": ");
          LOG.println(data);
+         LOG.flush();
       }
    }
 
@@ -122,6 +125,7 @@ final class SynchroLogger
          LOG.write(label);
          LOG.write(": ");
          LOG.println(data.toString());
+         LOG.flush();
       }
    }
 
@@ -135,6 +139,7 @@ final class SynchroLogger
       if (LOG != null)
       {
          LOG.println(ByteArrayHelper.hexdump(data, true, 16, ""));
+         LOG.flush();
       }
    }
 
@@ -158,6 +163,7 @@ final class SynchroLogger
             LOG.println(entry.getKey() + ": " + entry.getValue());
          }
          LOG.println();
+         LOG.flush();
       }
    }
 

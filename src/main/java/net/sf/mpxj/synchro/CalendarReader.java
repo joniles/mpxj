@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +37,7 @@ class CalendarReader extends TableReader
     *
     * @param stream input stream
     */
-   public CalendarReader(InputStream stream)
+   public CalendarReader(StreamReader stream)
    {
       super(stream);
    }

@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ class CommentaryReader extends TableReader
     *
     * @param stream input stream
     */
-   public CommentaryReader(InputStream stream)
+   public CommentaryReader(StreamReader stream)
    {
       super(stream);
    }
@@ -48,6 +47,15 @@ class CommentaryReader extends TableReader
       map.put("UNKNOWN1", stream.readBytes(48));
       map.put("TITLE", stream.readString());
       map.put("UNKNOWN2", stream.readBytes(8));
+   }
+
+   @Override protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
+   {
+      if (stream.getMajorVersion() < 6)
+      {
+         map.put("UNKNOWN0", stream.readBytes(16));         
+      }
+      map.put("UUID", stream.readUUID());
    }
 
    @Override protected int rowMagicNumber()

@@ -55,6 +55,7 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
+import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
@@ -212,7 +213,7 @@ public final class UniversalProjectReader implements ProjectReader
             return handleOleCompoundDocument(bis);
          }
 
-         if (matchesFingerprint(buffer, MSPDI_FINGERPRINT))
+         if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2))
          {
             MSPDIReader reader = new MSPDIReader();
             reader.setCharset(m_charset);
@@ -302,6 +303,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, SYNCHRO_FINGERPRINT))
          {
             return readProjectFile(new SynchroReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, GANTT_DESIGNER_FINGERPRINT))
+         {
+            return readProjectFile(new GanttDesignerReader(), bis);
          }
 
          return null;
@@ -1018,8 +1024,10 @@ public final class UniversalProjectReader implements ProjectReader
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*(<BusinessObjects|APIBusinessObjects).*", Pattern.DOTALL);
 
-   private static final Pattern MSPDI_FINGERPRINT = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
+   private static final Pattern MSPDI_FINGERPRINT_1 = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
 
+   private static final Pattern MSPDI_FINGERPRINT_2 = Pattern.compile(".*<Project.*<SaveVersion>.*", Pattern.DOTALL);
+   
    private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
@@ -1031,4 +1039,7 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
 
    private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\\\"CDProject\\\".*", Pattern.DOTALL);
+
+   private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
+
 }

@@ -139,6 +139,17 @@ public enum UserFieldDataType
       return result;
    }
 
+   /**
+    * Convert from the PMXML representation of the parent data type.
+    * 
+    * @param name XML name
+    * @return UserFieldDataType instance
+    */
+   public static UserFieldDataType getInstanceFromXmlName(String name)
+   {
+      return XML_NAME_MAP.get(name);
+   }
+   
    private final String[] m_defaultFieldNames;
 
    private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<FieldTypeClass, String>();
@@ -149,5 +160,17 @@ public enum UserFieldDataType
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
       SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
+   }
+   
+   private static final Map<String, UserFieldDataType> XML_NAME_MAP = new HashMap<String, UserFieldDataType>();
+   static
+   {
+      XML_NAME_MAP.put("Text", FT_TEXT);
+      XML_NAME_MAP.put("Cost", FT_MONEY);
+      XML_NAME_MAP.put("Finish Date", FT_END_DATE);
+      XML_NAME_MAP.put("Indicator", FT_TEXT);
+      XML_NAME_MAP.put("Integer", FT_INT);
+      XML_NAME_MAP.put("Double", FT_FLOAT_2_DECIMALS);
+      XML_NAME_MAP.put("Start Date", FT_START_DATE);
    }
 }

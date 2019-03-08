@@ -9,6 +9,7 @@
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
     <filter-data value="src/main/java/net/sf/mpxj/conceptdraw/schema"/>
+    <filter-data value="src/main/java/net/sf/mpxj/ganttdesigner/schema"/>
     <filter-data value="src/main/java/net/sf/mpxj/ganttproject/schema"/>
     <filter-data value="src/main/java/net/sf/mpxj/mspdi/schema"/>
     <filter-data value="src/main/java/net/sf/mpxj/phoenix/schema"/>

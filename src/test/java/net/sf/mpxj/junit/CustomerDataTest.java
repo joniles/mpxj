@@ -388,8 +388,10 @@ public class CustomerDataTest
 //         }
 //         else
 //         {
+//            System.out.println();
 //            System.out.println("Baseline: " + baselineFile.getPath());
 //            System.out.println("Test: " + out.getPath());
+//            System.out.println("copy /y \""+out.getPath()+"\" \"" + baselineFile.getPath() + "\"");
 //         }
       }
       else

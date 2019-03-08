@@ -531,7 +531,7 @@ public final class MSPDIReader extends AbstractProjectReader
             if (startTime != null && endTime != null)
             {
                if (startTime.getTime() >= endTime.getTime())
-               {                  
+               {
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
@@ -626,7 +626,7 @@ public final class MSPDIReader extends AbstractProjectReader
                if (startTime != null && endTime != null)
                {
                   if (startTime.getTime() >= endTime.getTime())
-                  {                    
+                  {
                      endTime = DateHelper.addDays(endTime, 1);
                   }
 
@@ -645,62 +645,66 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readRecurringData(ProjectCalendarException bce, Project.Calendars.Calendar.Exceptions.Exception exception)
    {
-      RecurringData rd = new RecurringData();
-      rd.setStartDate(bce.getFromDate());
-      rd.setFinishDate(bce.getToDate());
-      rd.setRecurrenceType(getRecurrenceType(NumberHelper.getInt(exception.getType())));
-      rd.setRelative(getRelative(NumberHelper.getInt(exception.getType())));
-      rd.setOccurrences(NumberHelper.getInteger(exception.getOccurrences()));
-
-      switch (rd.getRecurrenceType())
+      RecurrenceType rt = getRecurrenceType(NumberHelper.getInt(exception.getType()));
+      if (rt != null)
       {
-         case DAILY:
+         RecurringData rd = new RecurringData();
+         rd.setStartDate(bce.getFromDate());
+         rd.setFinishDate(bce.getToDate());
+         rd.setRecurrenceType(rt);
+         rd.setRelative(getRelative(NumberHelper.getInt(exception.getType())));
+         rd.setOccurrences(NumberHelper.getInteger(exception.getOccurrences()));
+
+         switch (rd.getRecurrenceType())
          {
-            rd.setFrequency(getFrequency(exception));
-            break;
+            case DAILY:
+            {
+               rd.setFrequency(getFrequency(exception));
+               break;
+            }
+
+            case WEEKLY:
+            {
+               rd.setWeeklyDaysFromBitmap(NumberHelper.getInteger(exception.getDaysOfWeek()), DAY_MASKS);
+               rd.setFrequency(getFrequency(exception));
+               break;
+            }
+
+            case MONTHLY:
+            {
+               if (rd.getRelative())
+               {
+                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+               }
+               else
+               {
+                  rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
+               }
+               rd.setFrequency(getFrequency(exception));
+               break;
+            }
+
+            case YEARLY:
+            {
+               if (rd.getRelative())
+               {
+                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
+               }
+               else
+               {
+                  rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
+               }
+               rd.setMonthNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
+               break;
+            }
          }
 
-         case WEEKLY:
+         if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getDates().length > 1)
          {
-            rd.setWeeklyDaysFromBitmap(NumberHelper.getInteger(exception.getDaysOfWeek()), DAY_MASKS);
-            rd.setFrequency(getFrequency(exception));
-            break;
+            bce.setRecurring(rd);
          }
-
-         case MONTHLY:
-         {
-            if (rd.getRelative())
-            {
-               rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
-               rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
-            }
-            else
-            {
-               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
-            }
-            rd.setFrequency(getFrequency(exception));
-            break;
-         }
-
-         case YEARLY:
-         {
-            if (rd.getRelative())
-            {
-               rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
-               rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
-            }
-            else
-            {
-               rd.setDayNumber(NumberHelper.getInteger(exception.getMonthDay()));
-            }
-            rd.setMonthNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonth()) + 1));
-            break;
-         }
-      }
-
-      if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getDates().length > 1)
-      {
-         bce.setRecurring(rd);
       }
    }
 
@@ -903,6 +907,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setEmailAddress(xml.getEmailAddress());
       mpx.setGroup(xml.getGroup());
+      mpx.setGUID(xml.getGUID());
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
@@ -1223,6 +1228,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //mpx.setFlag9();
          //mpx.setFlag10();
          // This is not correct?
+         mpx.setGUID(xml.getGUID());
          mpx.setHideBar(BooleanHelper.getBoolean(xml.isHideBar()));
          mpx.setHyperlink(xml.getHyperlink());
          mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -1624,6 +1630,7 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
             mpx.setFinish(assignment.getFinish());
             mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
+            mpx.setGUID(assignment.getGUID());
             mpx.setHyperlink(assignment.getHyperlink());
             mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
             mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());

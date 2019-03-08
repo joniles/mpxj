@@ -5,7 +5,7 @@
         <title>MPXJ Common Dependencies</title>
         <version>0.0.0</version>
         <authors>Jon Iles</authors>
-        <licenseUrl>https://sourceforge.net/p/mpxj/mpxj/ci/master/tree/legal/licence.txt</licenseUrl>
+        <license type="expression">LGPL-2.1-or-later</license>
         <projectUrl>http://mpxj.sf.net</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Dependencies required by MPXJ</description>

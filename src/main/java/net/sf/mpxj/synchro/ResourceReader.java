@@ -24,7 +24,6 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -37,13 +36,15 @@ class ResourceReader extends TableReader
     *
     * @param stream input stream
     */
-   public ResourceReader(InputStream stream)
+   public ResourceReader(StreamReader stream)
    {
       super(stream);
    }
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
+      int unknown3BlockSize = m_stream.getMajorVersion() > 5 ? 56 : 64;
+      
       map.put("NAME", stream.readString());
       map.put("DESCRIPTION", stream.readString());
       Integer supplyReferenceFlag = stream.readInteger();
@@ -60,7 +61,7 @@ class ResourceReader extends TableReader
       map.put("ID", stream.readString());
       map.put("EMAIL", stream.readString());
       // NOTE: this contains nested tables
-      map.put("UNKNOWN3", stream.readUnknownTable(64, 0x701BAFBD));
+      map.put("UNKNOWN3", stream.readUnknownTable(unknown3BlockSize, 0x701BAFBD));
       map.put("UNKNOWN4", stream.readBytes(30));
       map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
       map.put("UNKNOWN5", stream.readBytes(48));
@@ -68,9 +69,16 @@ class ResourceReader extends TableReader
       map.put("UNKNOWN6_FLAG", unknown6Flag);
       if (unknown6Flag.intValue() != 0)
       {
-         map.put("UNKNOWN6", stream.readBytes(76));
+         map.put("UNKNOWN6", stream.readBytes(70));
+         map.put("UNKNOWN7", stream.readString());
+         map.put("UNKNOWN8", stream.readBytes(4));
       }
-      map.put("UNKNOWN7", stream.readBytes(12));
+      map.put("UNKNOWN9", stream.readBytes(12));
+      
+      if (m_stream.getMajorVersion() > 5)
+      {
+         map.put("UNKNOWN10", stream.readBytes(12));
+      }
       map.put("UNIQUE_ID", stream.readInteger());
    }
 

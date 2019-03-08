@@ -381,7 +381,8 @@ public class ProjectTreeController
             @Override public String toString()
             {
                FieldType type = c.getFieldType();
-               return type == null ? "(unknown)" : type.toString();
+               
+               return type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
             }
          };
          parentNode.add(childNode);
