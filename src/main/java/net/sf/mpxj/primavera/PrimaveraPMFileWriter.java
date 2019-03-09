@@ -68,6 +68,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -612,7 +613,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
-      xml.setDurationType("Fixed Units/Time");
+      xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(getActivityID(mpxj));
@@ -1082,6 +1083,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       RELATION_TYPE_MAP.put(RelationType.FINISH_FINISH, "Finish to Finish");
       RELATION_TYPE_MAP.put(RelationType.START_START, "Start to Start");
       RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
+   }
+
+   private final static Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<TaskType, String>();
+   static
+   {
+      DURATION_TYPE_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
+      DURATION_TYPE_MAP.put(TaskType.FIXED_UNITS, "Fixed Units");
+      DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
    }
 
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<ConstraintType, String>();
