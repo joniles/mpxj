@@ -1014,7 +1014,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
       return result;
    }
-
+   
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
@@ -1085,7 +1085,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
    }
 
-   private final static Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<TaskType, String>();
+   private static final Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<TaskType, String>();
    static
    {
       DURATION_TYPE_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
