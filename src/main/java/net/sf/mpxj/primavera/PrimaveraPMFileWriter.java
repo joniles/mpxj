@@ -552,13 +552,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       if (!task.getNull())
       {
-         if (task.getSummary())
+         if (extractAndConvertTaskType(task) != null)
          {
-            writeWBS(task);
+            writeActivity(task);
          }
          else
          {
-            writeActivity(task);
+            writeWBS(task);
          }
       }
    }
@@ -636,11 +636,37 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
-      xml.setType("Resource Dependent");
+      String task_type = extractAndConvertTaskType(mpxj);
+      if (task_type != null)
+      {
+         xml.setType(task_type);
+      }
+      // xml.setType("Resource Dependent"); // Should we set this as default value?
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
 
       writePredecessors(mpxj);
+   }
+
+   /**
+    * Extract task type from the task. If it is in XER format, convert it to xml format.
+    * @param task MPXJ Task instance
+    * @return
+    */
+   private static String extractAndConvertTaskType(Task task)
+   {
+      String text2 = (String) task.getCachedValue(TaskField.TEXT2);
+      if (text2 == null)
+         return null;
+      String pm_task_type = TASK_TYPE_MAP.get(text2);
+      if (pm_task_type != null)
+      {
+         return pm_task_type;
+      }
+      else
+      {
+         return text2;
+      }
    }
 
    /**
@@ -1104,6 +1130,17 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
+   }
+
+   private final static Map<String, String> TASK_TYPE_MAP = new HashMap<String, String>();
+   static
+   {
+      TASK_TYPE_MAP.put("TT_Task", "Task Dependent");
+      TASK_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
+      TASK_TYPE_MAP.put("TT_LOE", "Level of Effort");
+      TASK_TYPE_MAP.put("TT_Mile", "Start Milestone");
+      TASK_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
+      TASK_TYPE_MAP.put("TT_WBS", "WBS Summary");
    }
 
    private ProjectFile m_projectFile;
