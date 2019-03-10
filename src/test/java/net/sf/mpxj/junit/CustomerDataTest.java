@@ -362,7 +362,7 @@ public class CustomerDataTest
     * @param project ProjectFile instance
     * @return true if the baseline test is successful
     */
-   private boolean testBaseline(File file, ProjectFile project) throws Exception
+   @SuppressWarnings("unused") private boolean testBaseline(File file, ProjectFile project) throws Exception
    {
       if (m_baselineDirectory == null)
       {
@@ -381,18 +381,18 @@ public class CustomerDataTest
          File out = File.createTempFile("junit", ".xml");
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
-         FileHelper.deleteQuietly(out);
-//         if (success)
-//         {
-//            FileHelper.deleteQuietly(out);
-//         }
-//         else
-//         {
-//            System.out.println();
-//            System.out.println("Baseline: " + baselineFile.getPath());
-//            System.out.println("Test: " + out.getPath());
-//            System.out.println("copy /y \""+out.getPath()+"\" \"" + baselineFile.getPath() + "\"");
-//         }
+         
+         if (success || !DEBUG_FAILURES)
+         {
+            FileHelper.deleteQuietly(out);
+         }
+         else
+         {
+            System.out.println();
+            System.out.println("Baseline: " + baselineFile.getPath());
+            System.out.println("Test: " + out.getPath());
+            System.out.println("copy /y \""+out.getPath()+"\" \"" + baselineFile.getPath() + "\"");
+         }
       }
       else
       {
@@ -450,6 +450,8 @@ public class CustomerDataTest
    private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<Class<? extends ProjectWriter>>();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
+
+   private static final boolean DEBUG_FAILURES = false;
    
    static
    {

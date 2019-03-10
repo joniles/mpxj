@@ -136,14 +136,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoResourceUniqueID(false);
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
-
+         config.setAutoWBS(false);
+         
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
-         fields.getCustomField(TaskField.TEXT1).setAlias("WBS Code");
-         fields.getCustomField(TaskField.TEXT2).setAlias("Task ID");
-
+         fields.getCustomField(TaskField.TEXT1).setAlias("Code");
+         fields.getCustomField(TaskField.TEXT2).setAlias("Activity Type");
+         fields.getCustomField(TaskField.TEXT3).setAlias("Status");
+         fields.getCustomField(TaskField.NUMBER1).setAlias("Primary Resource Unique ID");
+                  
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -564,14 +567,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          wbsTasks.add(task);
 
          task.setUniqueID(uniqueID);
+         task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
          task.setBaselineCost(row.getSummaryBaselineTotalCost());
-         task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setRemainingCost(row.getSummaryRemainingTotalCost());
          task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
-         task.setText(1, row.getCode());
+         task.setWBS(row.getCode());
       }
 
       //
@@ -590,6 +593,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             m_projectFile.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
+            task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            task.setText(1, task.getWBS());
          }
       }
 
@@ -627,8 +632,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
-         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setName(row.getName());
+         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setActualWork(getDuration(zeroIsNull(row.getActualDuration())));
          task.setRemainingWork(getDuration(row.getRemainingTotalUnits()));
@@ -655,9 +660,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setText(1, row.getId());
-
+         task.setText(2, row.getType());
+         task.setText(3, row.getStatus());
+         task.setNumber(1, row.getPrimaryResourceObjectId());
+      
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
+
+         if (parentTask != null)
+         {
+            task.setWBS(parentTask.getWBS());
+         }
 
          Integer calId = row.getCalendarObjectId();
          ProjectCalendar cal = m_calMap.get(calId);
