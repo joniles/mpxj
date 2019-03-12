@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: this is NOT the official Merlin XSD -->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <!-- XML Schema Generated from XML Document on Tue Feb 26 2019 17:45:06 GMT+0000 (Greenwich Mean Time) -->
+   <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+   <xs:complexType name="merlinActivity">
+      <xs:sequence>
+         <xs:element name="Activity">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="title" type="xs:string"/>
+                  <xs:element name="costAccrual">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="priority">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:int"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenWork">
+                     <xs:complexType>
+                        <xs:attribute name="amount" type="xs:int"/>
+                        <xs:attribute name="unit" type="xs:string"/>
+                        <xs:attribute name="resolvedAmount" type="xs:int"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenStartDateMin">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:dateTime"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element maxOccurs="unbounded" name="Assignment">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="resource">
+                              <xs:complexType>
+                                 <xs:attribute name="idref" type="xs:string"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="costAccrual">
+                              <xs:complexType>
+                                 <xs:attribute name="value" type="xs:string"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="priority">
+                              <xs:complexType>
+                                 <xs:attribute name="value" type="xs:int"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="givenWork">
+                              <xs:complexType>
+                                 <xs:attribute name="amount" type="xs:double"/>
+                                 <xs:attribute name="unit" type="xs:string"/>
+                                 <xs:attribute name="resolvedAmount" type="xs:int"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="resourceUnits">
+                              <xs:complexType>
+                                 <xs:attribute name="amount" type="xs:int"/>
+                                 <xs:attribute name="resolvedAmount" type="xs:int"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="minimizesDuration">
+                              <xs:complexType>
+                                 <xs:attribute name="value" type="xs:string"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="actualStartDate">
+                              <xs:complexType>
+                                 <xs:attribute name="value" type="xs:dateTime"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="actualEndDate">
+                              <xs:complexType>
+                                 <xs:attribute name="value" type="xs:dateTime"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="actualWork">
+                              <xs:complexType>
+                                 <xs:attribute name="amount" type="xs:int"/>
+                                 <xs:attribute name="unit" type="xs:string"/>
+                                 <xs:attribute name="resolvedAmount" type="xs:int"/>
+                              </xs:complexType>
+                           </xs:element>
+                           <xs:element name="remainingWork">
+                              <xs:complexType>
+                                 <xs:attribute name="amount" type="xs:int"/>
+                                 <xs:attribute name="unit" type="xs:string"/>
+                                 <xs:attribute name="resolvedAmount" type="xs:int"/>
+                              </xs:complexType>
+                           </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element maxOccurs="unbounded" name="Activity" type="merlinActivity"/>
+               </xs:sequence>
+               <xs:attribute name="id" type="xs:string"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="merlinResource">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" name="Resource">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="costAccrual">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="isUser">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="availableUnits">
+                     <xs:complexType>
+                        <xs:attribute name="amount" type="xs:int"/>
+                        <xs:attribute name="resolvedAmount" type="xs:int"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ResourceCalendar">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="baseCalendar">
+                              <xs:complexType>
+                                 <xs:attribute name="idref" type="xs:string"/>
+                              </xs:complexType>
+                           </xs:element>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="baseCostType">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForActivities">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForResources">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForAssignments">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForAttachments">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForDataFromOthers">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForFinancialData">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForActualValues">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForUsers">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="givenPermissionForSettings">
+                     <xs:complexType>
+                        <xs:attribute name="value" type="xs:string"/>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+               <xs:attribute name="id" type="xs:string"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   
+                  <xs:complexType name="merlinListValue">
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="ListValue">
+                        <xs:complexType>
+                           <xs:attribute name="id" type="xs:string"/>
+                           <xs:attribute name="title" type="xs:string"/>
+                           <xs:attribute name="localizesTitle" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  </xs:complexType>
+   
+               <xs:complexType name="merlinListValueProperty">
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="ListValue" type="merlinListValue"/>
+                  </xs:sequence>
+                  <xs:attribute name="entity" type="xs:string"/>
+                  <xs:attribute name="name" type="xs:string"/>
+               </xs:complexType>
+   
+   <xs:element name="Project">   
+      <xs:complexType>      
+         <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="meta">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="product">
+                        <xs:complexType>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="version" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="system">
+                        <xs:complexType>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="version" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="currencySymbol">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="currencySymbolPosition">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="hoursPerDay">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="hoursPerWeek">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="daysPerMonth">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="ensuresUniqueWBSCodes">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:boolean"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="autocreatesWBSCodes">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:boolean"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="defaultWork">
+               <xs:complexType>
+                  <xs:attribute name="amount" type="xs:int"/>
+                  <xs:attribute name="unit" type="xs:string"/>
+                  <xs:attribute name="estimated" type="xs:string"/>
+                  <xs:attribute name="resolvedAmount" type="xs:int"/>
+                  <xs:attribute name="resolvedEstimated" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="schedulingDirection">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="firstDayOfWeek">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="dynamicPlanningMode">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="dynamicPlanningGranularityUnit">
+               <xs:complexType>
+                  <xs:attribute name="value" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="resourceLeveling">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="incremental">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="granularity">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="order">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="onlyWithinSlack">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="allowLevelingOfAssignments">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="Resource" type="merlinResource"/>
+            <xs:element maxOccurs="unbounded" name="Activity" type="merlinActivity"/>
+            <xs:element maxOccurs="unbounded" name="Dependency">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="type">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="previousActivity">
+                        <xs:complexType>
+                           <xs:attribute name="idref" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="nextActivity">
+                        <xs:complexType>
+                           <xs:attribute name="idref" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="BaseCalendar">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="CalendarWeekDayRule">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="dayTimeInterval">
+                                 <xs:complexType>
+                                    <xs:attribute name="startTime" type="xs:string"/>
+                                    <xs:attribute name="endTime" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                           <xs:attribute name="weekDay" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="title">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="ListValueProperty" type="merlinListValueProperty"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>
