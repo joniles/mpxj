@@ -1,5 +1,4 @@
 /*
- * file:       PrimaveraPMFileWriter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2012
  * date:       2012-03-16
@@ -125,6 +124,28 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
+    * Set the task field which will be used to populate the Activity Type attribute
+    * in the PMXML file.
+    *
+    * @param field TaskField instance
+    */
+   public void setActivityTypeField(TaskField field)
+   {
+      m_activityTypeField = field;
+   }
+
+   /**
+    * Retrieve the task field which will be used to populate the Activity Type attribute
+    * in the PMXML file.
+    *
+    * @return TaskField instance
+    */
+   public TaskField getActivityTypeField()
+   {
+      return m_activityTypeField;
+   }
+   
+   /**
     * {@inheritDoc}
     */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
@@ -173,6 +194,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
 
+         configureCustomFields();
          writeCurrency();
          writeUserFieldDefinitions();
          writeProjectProperties();
@@ -446,7 +468,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          Calendar calendar = DateHelper.popCalendar();
          for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
-         {            
+         {
             calendar.setTime(mpxjException.getFromDate());
             while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
@@ -636,12 +658,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
-      String task_type = extractAndConvertTaskType(mpxj);
-      if (task_type != null)
-      {
-         xml.setType(task_type);
-      }
-      // xml.setType("Resource Dependent"); // Should we set this as default value?
+      xml.setType(extractAndConvertTaskType(mpxj));
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
 
@@ -649,24 +666,28 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Extract task type from the task. If it is in XER format, convert it to xml format.
-    * @param task MPXJ Task instance
-    * @return
+    * Attempts to locate the activity type value extracted from an existing P6 schedule.
+    * If necessary converts to the form which can be used in the PMXML file.
+    * Returns "Resource Dependent" as the default value.
+    * 
+    * @param task parent task
+    * @return activity type
     */
-   private static String extractAndConvertTaskType(Task task)
+   private String extractAndConvertTaskType(Task task)
    {
-      String text2 = (String) task.getCachedValue(TaskField.TEXT2);
-      if (text2 == null)
-         return null;
-      String pm_task_type = TASK_TYPE_MAP.get(text2);
-      if (pm_task_type != null)
+      String activityType = (String) task.getCachedValue(m_activityTypeField);
+      if (activityType == null)
       {
-         return pm_task_type;
+         activityType = "Resource Dependent";
       }
       else
       {
-         return text2;
+         if (ACTIVITY_TYPE_MAP.containsKey(activityType))
+         {
+            activityType = ACTIVITY_TYPE_MAP.get(activityType);
+         }
       }
+      return activityType;
    }
 
    /**
@@ -1040,7 +1061,31 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
       return result;
    }
-   
+
+   /**
+    * Find the fields in which the Activity ID and Activity Type are stored.
+    */
+   private void configureCustomFields()
+   {
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+
+      // If the caller hasn't already supplied a value for this field
+      if (m_activityIDField == null)
+      {
+         m_activityIDField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Code");
+         if (m_activityIDField == null)
+         {
+            m_activityIDField = TaskField.WBS;
+         }
+      }
+
+      // If the caller hasn't already supplied a value for this field
+      if (m_activityTypeField == null)
+      {
+         m_activityTypeField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Activity Type");
+      }
+   }
+
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
@@ -1132,15 +1177,15 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
    }
 
-   private final static Map<String, String> TASK_TYPE_MAP = new HashMap<String, String>();
+   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<String, String>();
    static
    {
-      TASK_TYPE_MAP.put("TT_Task", "Task Dependent");
-      TASK_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
-      TASK_TYPE_MAP.put("TT_LOE", "Level of Effort");
-      TASK_TYPE_MAP.put("TT_Mile", "Start Milestone");
-      TASK_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
-      TASK_TYPE_MAP.put("TT_WBS", "WBS Summary");
+      ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
+      ACTIVITY_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
+      ACTIVITY_TYPE_MAP.put("TT_LOE", "Level of Effort");
+      ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
+      ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
+      ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
    }
 
    private ProjectFile m_projectFile;
@@ -1149,5 +1194,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private ProjectType m_project;
    private int m_wbsSequence;
    private int m_relationshipObjectID;
-   private TaskField m_activityIDField = TaskField.WBS;
+   private TaskField m_activityIDField;
+   private TaskField m_activityTypeField;
 }
