@@ -353,7 +353,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Generate an MSPDI file from the file under test and compare it to a baseline
+    * Generate new files from the file under test and compare them to a baseline
     * we have previously created. This potentially allows us to capture unintended
     * changes in functionality. If we do not have a baseline for this particular 
     * file, we'll generate one.
@@ -362,18 +362,35 @@ public class CustomerDataTest
     * @param project ProjectFile instance
     * @return true if the baseline test is successful
     */
-   @SuppressWarnings("unused") private boolean testBaseline(File file, ProjectFile project) throws Exception
+   private boolean testBaseline(File file, ProjectFile project) throws Exception
    {
       if (m_baselineDirectory == null)
       {
          return true;
       }
-            
+   
+      boolean mspdi = testBaseline(file, project, new File(m_baselineDirectory, "mspdi"), MSPDIWriter.class);
+      boolean pmxml = testBaseline(file, project, new File(m_baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
+      
+      return mspdi && pmxml;     
+   }
+
+   /**
+    * Generate a baseline for a specific file type.
+    * 
+    * @param file file under test
+    * @param project ProjectFile instance
+    * @param baselineDirectory baseline directory location
+    * @param writerClass file writer class
+    * @return true if the baseline test is successful
+    */
+   @SuppressWarnings("unused") private boolean testBaseline(File file, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
+   {
       boolean success = true;
       int sourceDirNameLength = m_privateDirectory.getPath().length();
-      File baselineFile = new File(m_baselineDirectory, file.getPath().substring(sourceDirNameLength) + ".xml");      
+      File baselineFile = new File(baselineDirectory, file.getPath().substring(sourceDirNameLength) + ".xml");      
 
-      MSPDIWriter writer = new MSPDIWriter();
+      ProjectWriter writer = writerClass.newInstance();
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
       
       if (baselineFile.exists())
@@ -402,7 +419,6 @@ public class CustomerDataTest
       
       return success;
    }
-
    /**
     * Ensure that we can export the file under test through our writers, without error.
     * 
@@ -455,10 +471,15 @@ public class CustomerDataTest
    
    static
    {
-      WRITER_CLASSES.add(JsonWriter.class);      
-      WRITER_CLASSES.add(MSPDIWriter.class);
+      WRITER_CLASSES.add(JsonWriter.class);
+      
+      // Exercised by baseline test
+      //WRITER_CLASSES.add(MSPDIWriter.class);
+      
       WRITER_CLASSES.add(PlannerWriter.class);
-      WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
+      
+      // Exercise by baseline test
+      //WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
       
       // Not reliable enough results to include
       // WRITER_CLASSES.add(SDEFWriter.class);
