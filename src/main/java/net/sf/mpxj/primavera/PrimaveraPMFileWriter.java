@@ -579,13 +579,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       if (!task.getNull())
       {
-         if (extractAndConvertTaskType(task) != null)
+         if (extractAndConvertTaskType(task) == null || task.getSummary())
          {
-            writeActivity(task);
+            writeWBS(task);
          }
          else
          {
-            writeWBS(task);
+            writeActivity(task);
          }
       }
    }
