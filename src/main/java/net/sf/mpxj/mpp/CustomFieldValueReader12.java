@@ -103,16 +103,21 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
 
       // 8 bytes per record
       index += (8 * recordCount);
-
+      
       Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
-
-      // 200 byte blocks
-      while (index + 200 <= data.length)
+      while (index < data.length)
       {
-         FieldType field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, index + 4));
+         int blockLength = MPPUtility.getInt(data, index);         
+         if (blockLength <= 0 || index + blockLength > data.length)
+         {
+            break;
+         }
+         
+         int fieldID = MPPUtility.getInt(data, index + 4);
+         FieldType field = FieldTypeHelper.getInstance(fieldID);
          UUID guid = MPPUtility.getGUID(data, index + 160);
          map.put(guid, field);
-         index += 200;
+         index += blockLength;
       }
       return map;
    }
