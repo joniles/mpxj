@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="7.8.2">
 			<action dev="joniles" type="update">Improve handling of MPP files with missing Props.</action>
+			<action dev="joniles" type="update">Improve handling of custom field lookup tables for MPP12 files.</action>
 			<action dev="joniles" type="update">Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)</action>
 			<action dev="joniles" type="update">Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)</action>
 		</release>	
