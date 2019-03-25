@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -50,7 +52,6 @@ import javax.xml.transform.stream.StreamSource;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -173,6 +174,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
 
+         populateSortedCustomFieldsList();
          writeCurrency();
          writeUserFieldDefinitions();
          writeProjectProperties();
@@ -202,6 +204,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_project = null;
          m_wbsSequence = 0;
          m_relationshipObjectID = 0;
+         m_sortedCustomFieldsList = null;
       }
    }
 
@@ -308,7 +311,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeUserFieldDefinitions()
    {
-      for (CustomField cf : m_projectFile.getCustomFields())
+      for (CustomField cf : m_sortedCustomFieldsList)
       {
          if (cf.getFieldType() != null && cf.getFieldType().getDataType() != null)
          {
@@ -739,9 +742,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
    {
-      CustomFieldContainer customFields = m_projectFile.getCustomFields();
-      List<UDFAssignmentType> out = new ArrayList<UDFAssignmentType>(customFields.size());
-      for (CustomField cf : customFields)
+      List<UDFAssignmentType> out = new ArrayList<UDFAssignmentType>();
+      for (CustomField cf : m_sortedCustomFieldsList)
       {
          FieldType fieldType = cf.getFieldType();
          if (fieldType != null && type == fieldType.getFieldTypeClass())
@@ -1016,6 +1018,36 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
    
    /**
+    * Populate a sorted list of custom fields to ensure that these fields
+    * are written to the file in a consistent order.
+    */
+   private void populateSortedCustomFieldsList ()
+   {
+      m_sortedCustomFieldsList = new ArrayList<CustomField>();
+      for (CustomField field : m_projectFile.getCustomFields())
+      {
+         FieldType fieldType = field.getFieldType();
+         if (fieldType != null)
+         {
+            m_sortedCustomFieldsList.add(field);
+         }
+      }
+
+      // Sort to ensure consistent order in file
+      Collections.sort(m_sortedCustomFieldsList, new Comparator<CustomField>()
+      {
+         @Override public int compare(CustomField customField1, CustomField customField2)
+         {
+            FieldType o1 = customField1.getFieldType();
+            FieldType o2 = customField2.getFieldType();
+            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+            return name1.compareTo(name2);
+         }
+      });
+   }
+   
+   /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
     *
@@ -1113,4 +1145,5 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_wbsSequence;
    private int m_relationshipObjectID;
    private TaskField m_activityIDField = TaskField.WBS;
+   private List<CustomField> m_sortedCustomFieldsList;
 }
