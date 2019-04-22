@@ -169,7 +169,7 @@ public final class MerlinXmlReader extends AbstractProjectReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema", MerlinXmlReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.merlin.schema", MerlinXmlReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

@@ -21,7 +21,7 @@
                   </xs:element>
                   <xs:element name="givenWork">
                      <xs:complexType>
-                        <xs:attribute name="amount" type="xs:int"/>
+                        <xs:attribute name="amount" type="xs:float"/>
                         <xs:attribute name="unit" type="xs:string"/>
                         <xs:attribute name="resolvedAmount" type="xs:int"/>
                      </xs:complexType>
@@ -79,7 +79,7 @@
                            </xs:element>
                            <xs:element name="actualWork">
                               <xs:complexType>
-                                 <xs:attribute name="amount" type="xs:int"/>
+                                 <xs:attribute name="amount" type="xs:float"/>
                                  <xs:attribute name="unit" type="xs:string"/>
                                  <xs:attribute name="resolvedAmount" type="xs:int"/>
                               </xs:complexType>

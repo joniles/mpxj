@@ -59,6 +59,7 @@ import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
+import net.sf.mpxj.merlin.MerlinXmlReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
@@ -308,6 +309,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, GANTT_DESIGNER_FINGERPRINT))
          {
             return readProjectFile(new GanttDesignerReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, MERLIN_XML_FINGERPRINT))
+         {
+            return readProjectFile(new MerlinXmlReader(), bis);
          }
 
          return null;
@@ -1042,4 +1048,5 @@ public final class UniversalProjectReader implements ProjectReader
 
    private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
 
+   private static final Pattern MERLIN_XML_FINGERPRINT = Pattern.compile(".*<Project xmlns=\\\"http://schemas.projectwizards.net/merlin.*", Pattern.DOTALL);
 }
