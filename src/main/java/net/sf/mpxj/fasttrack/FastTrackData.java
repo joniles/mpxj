@@ -196,7 +196,7 @@ class FastTrackData
       List<Integer> blocks = new ArrayList<Integer>();
       for (int index = startIndex; index < endIndex - 11; index++)
       {
-         if (matchPattern(CHILD_BLOCK_PATTERNS, index))
+         if (matchChildBlock(index))
          {
             int childBlockStart = index - 2;
             blocks.add(Integer.valueOf(childBlockStart));
@@ -294,6 +294,47 @@ class FastTrackData
          }
       }
       return match;
+   }
+
+   /**
+    * Locate a child block by byte pattern and validate by
+    * checking the length of the string we are expecting
+    * to follow the pattern.
+    * 
+    * @param bufferIndex start index
+    * @return true if a child block starts at this point
+    */
+   private final boolean matchChildBlock(int bufferIndex)
+   {
+      //
+      // Match the pattern we see at the start of the child block
+      //
+      int index = 0;
+      for (byte b : CHILD_BLOCK_PATTERN)
+      {
+         if (b != m_buffer[bufferIndex + index])
+         {
+            return false;
+         }
+         ++index;
+      }
+
+      //
+      // The first step will produce false positives. To handle this, we should find
+      // the name of the block next, and check to ensure that the length
+      // of the name makes sense.
+      //
+      int nameLength = FastTrackUtility.getInt(m_buffer, bufferIndex + index);
+
+//      System.out.println("Name length: " + nameLength);
+//      
+//      if (nameLength > 0 && nameLength < 100)
+//      {
+//         String name = new String(m_buffer, bufferIndex+index+4, nameLength, CharsetHelper.UTF16LE);
+//         System.out.println("Name: " + name);
+//      }
+      
+      return nameLength > 0 && nameLength < 100;
    }
 
    /**
@@ -513,16 +554,14 @@ class FastTrackData
       }
    };
 
-   private static final byte[][] CHILD_BLOCK_PATTERNS =
+   private static final byte[] CHILD_BLOCK_PATTERN =
    {
-      {
-         0x05,
-         0x00,
-         0x00,
-         0x00,
-         0x01,
-         0x00
-      }
+      0x05,
+      0x00,
+      0x00,
+      0x00,
+      0x01,
+      0x00
    };
 
    private static final byte[][] TABLE_BLOCK_PATTERNS =
