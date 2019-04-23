@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
 import net.sf.mpxj.TimeUnit;
 
 /**
- * Common methods used when redaing an FTS file.
+ * Common methods used when reading an FTS file.
  */
 final class FastTrackUtility
 {
