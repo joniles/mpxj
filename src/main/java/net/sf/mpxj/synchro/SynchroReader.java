@@ -587,7 +587,7 @@ public final class SynchroReader extends AbstractProjectReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          Date plannedStartDate = null;
          Date plannedFinishDate = null;

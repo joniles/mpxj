@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)</action>
 			<action dev="joniles" type="update">Improve handling of certain FTS files.</action>
 			<action dev="joniles" type="update">Improve handling of task notes from MPP8 files.</action>
+			<action dev="joniles" type="add">Added Task.hasChildTasks() method.</action>
 		</release>	
 		<release date="13/02/2019" version="7.8.1">
 			<action dev="joniles" type="add">Improve support for reading the Synchro Scheduler 2018 SP files.</action>

@@ -526,7 +526,7 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date startDate = parentTask.getStart();

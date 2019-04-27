@@ -1251,7 +1251,7 @@ abstract class MPD9AbstractReader
       //
       for (Task task : m_project.getTasks())
       {
-         task.setSummary(task.getChildTasks().size() != 0);
+         task.setSummary(task.hasChildTasks());
       }
 
       //

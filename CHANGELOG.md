@@ -1,6 +1,14 @@
 # Changelog
 
 ## 7.8.2 (git master)
+* Improve handling of MPP files with missing Props.
+* Improve handling of custom field lookup tables for MPP12 files.
+* Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)
+* Improve handling of Activity Type and Activity ID when writing PMXML files (Based on a contribution by Sebastian Stock)
+* Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)
+* Improve handling of certain FTS files.
+* Improve handling of task notes from MPP8 files.
+* Added Task.hasChildTasks() method.
 
 ## 7.8.1 (13/02/2019)
 * Improve support for reading the Synchro Scheduler 2018 SP files.

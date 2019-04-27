@@ -5000,6 +5000,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Used to determine if a task has child tasks.
+    * 
+    * @return true if the task has child tasks
+    */
+   public boolean hasChildTasks()
+   {
+      return !m_children.isEmpty();
+   }
+   
+   /**
     * Internal method used to test for the existence of a relationship
     * with a task.
     *

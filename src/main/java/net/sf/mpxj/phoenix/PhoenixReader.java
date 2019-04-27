@@ -755,7 +755,7 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date plannedStartDate = parentTask.getStart();

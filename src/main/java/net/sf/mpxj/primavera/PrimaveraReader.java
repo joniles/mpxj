@@ -1024,7 +1024,7 @@ final class PrimaveraReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
-      task.setSummary(task.getChildTasks().size() != 0);
+      task.setSummary(task.hasChildTasks());
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {
@@ -1055,7 +1055,7 @@ final class PrimaveraReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date plannedStartDate = parentTask.getStart();
@@ -1179,7 +1179,7 @@ final class PrimaveraReader
     */
    private void updateWork(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          ProjectProperties properties = m_project.getProjectProperties();
 

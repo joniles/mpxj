@@ -764,7 +764,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date actualStartDate = parentTask.getActualStart();
@@ -909,7 +909,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
-      task.setSummary(task.getChildTasks().size() != 0);
+      task.setSummary(task.hasChildTasks());
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {

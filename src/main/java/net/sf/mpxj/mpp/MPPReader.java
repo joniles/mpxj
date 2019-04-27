@@ -172,7 +172,7 @@ public final class MPPReader extends AbstractProjectReader
          //
          for (Task task : projectFile.getTasks())
          {
-            task.setSummary(task.getChildTasks().size() != 0);
+            task.setSummary(task.hasChildTasks());
             List<DateRange> splits = task.getSplits();
             if (splits != null && splits.isEmpty())
             {
