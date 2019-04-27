@@ -575,6 +575,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
                }
                task.setName(name);
                task.setWBS(wbs);
+               task.setSummary(true);
                m_wbsMap.put(wbs, task);
             }
          }

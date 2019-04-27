@@ -572,6 +572,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setBaselineCost(row.getSummaryBaselineTotalCost());
          task.setRemainingCost(row.getSummaryRemainingTotalCost());
          task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
+         task.setSummary(true);
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
@@ -909,7 +910,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
-      task.setSummary(task.hasChildTasks());
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {

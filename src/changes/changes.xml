@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)</action>
 			<action dev="joniles" type="update">Improve handling of certain FTS files.</action>
 			<action dev="joniles" type="update">Improve handling of task notes from MPP8 files.</action>
+			<action dev="joniles" type="update">When a schedule is read from P6, P3, or SureTrak, Task.getSummary will return true only if a task is part of the WBS</action>
 			<action dev="joniles" type="add">Added Task.hasChildTasks() method.</action>
 		</release>	
 		<release date="13/02/2019" version="7.8.1">

@@ -654,6 +654,7 @@ final class PrimaveraReader
       {
          Task task = m_project.addTask();
          task.setProject(projectName); // P6 task always belongs to project
+         task.setSummary(true);
          processFields(m_wbsFields, row, task);
          populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          uniqueIDs.add(task.getUniqueID());
@@ -1024,7 +1025,6 @@ final class PrimaveraReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
-      task.setSummary(task.hasChildTasks());
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {

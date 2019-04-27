@@ -356,6 +356,7 @@ public final class P3DatabaseReader implements ProjectReader
                }
                task.setName(name);
                task.setWBS(wbs);
+               task.setSummary(true);
                m_wbsMap.put(wbs, task);
             }
          }

@@ -1179,7 +1179,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
       xml.setStop(mpx.getStop());
       xml.setSubprojectName(mpx.getSubprojectName());
-      xml.setSummary(Boolean.valueOf(mpx.getSummary()));
+      xml.setSummary(Boolean.valueOf(mpx.hasChildTasks()));
       xml.setTotalSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getTotalSlack()));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
