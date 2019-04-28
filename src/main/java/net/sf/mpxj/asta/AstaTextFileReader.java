@@ -316,7 +316,8 @@ final class AstaTextFileReader extends AbstractProjectReader
       List<Row> bars = getTable("BAR");
       List<Row> expandedTasks = getTable("EXPANDED_TASK");
       List<Row> tasks = getTable("TASK");
-      List<Row> milestones = getTable("MILESTONE");      
+      List<Row> milestones = getTable("MILESTONE");   
+
       m_reader.processTasks(bars, expandedTasks, tasks, milestones);
    }
 
