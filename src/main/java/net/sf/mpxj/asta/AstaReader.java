@@ -640,11 +640,9 @@ final class AstaReader
          Task startTask = m_project.getTaskByUniqueID(startTaskID);
          if (startTask == null)
          {
-            System.out.println("Missed startTaskID=" + startTaskID);
             startTaskID = completedSectionMap.get(startTaskID);            
             if (startTaskID != null)
             {
-               System.out.println("Found startTaskID=" + startTaskID);
                startTask = m_project.getTaskByUniqueID(startTaskID);
             }   
          }
@@ -653,11 +651,9 @@ final class AstaReader
          Task endTask = m_project.getTaskByUniqueID(endTaskID);
          if (endTask == null)
          {
-            System.out.println("Missed endTaskID=" + endTaskID);
             endTaskID = completedSectionMap.get(endTaskID);            
             if (endTaskID != null)
             {
-               System.out.println("Found endTaskID=" + endTaskID);
                endTask = m_project.getTaskByUniqueID(endTaskID);
             }   
          }
