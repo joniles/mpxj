@@ -48,7 +48,8 @@ abstract class AbstractFileFormat
       result.put(Integer.valueOf(12), new TableDefinition("EXCEPTIONN", columnDefinitions(EXCEPTIONN_COLUMNS, exceptionColumnsOrder())));
       result.put(Integer.valueOf(14), new TableDefinition("EXCEPTION_ASSIGNMENT", columnDefinitions(EXCEPTION_ASSIGNMENT_COLUMNS, exceptionAssignmentColumnsOrder())));
       result.put(Integer.valueOf(15), new TableDefinition("TIME_ENTRY", columnDefinitions(TIME_ENTRY_COLUMNS, timeEntryColumnsOrder())));
-      result.put(Integer.valueOf(17), new TableDefinition("WORK_PATTERN", columnDefinitions(WORK_PATTERN_COLUMNS, workPatternColumnsOrder())));
+      result.put(Integer.valueOf(17), new TableDefinition("WORK_PATTERN", columnDefinitions(WORK_PATTERN_COLUMNS, workPatternColumnsOrder())));      
+      result.put(Integer.valueOf(18), new TableDefinition("TASK_COMPLETED_SECTION", columnDefinitions(TASK_COMPLETED_SECTION_COLUMNS, taskCompletedSectionColumnsOrder())));      
       result.put(Integer.valueOf(21), new TableDefinition("TASK", columnDefinitions(TASK_COLUMNS, taskColumnsOrder())));
       result.put(Integer.valueOf(22), new TableDefinition("MILESTONE", columnDefinitions(MILESTONE_COLUMNS, milestoneColumnsOrder())));
       result.put(Integer.valueOf(23), new TableDefinition("EXPANDED_TASK", columnDefinitions(EXPANDED_TASK_COLUMNS, expandedTaskColumnsOrder())));
@@ -182,6 +183,13 @@ abstract class AbstractFileFormat
     */
    protected abstract String[] wbsEntryColumnsOrder();
 
+   /**
+    * Ordered column names for a table.
+    *
+    * @return ordered column names
+    */
+   protected abstract String[] taskCompletedSectionColumnsOrder();
+   
    /**
     * Generate an ordered set of column definitions from an ordered set of column names.
     *
@@ -942,5 +950,28 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
+   };
+   
+   private static final ColumnDefinition[] TASK_COMPLETED_SECTION_COLUMNS = new ColumnDefinition[]
+   {      
+      new ColumnDefinition("TASK_COMPLETED_SECTIONID", Types.INTEGER),
+      new ColumnDefinition("NATURAM_ORDER", Types.INTEGER),
+      new ColumnDefinition("OVERALL_PERCENT_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("ACTUAL_TASK_WORK", Types.DOUBLE),
+      new ColumnDefinition("TASK", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_START", Types.TIMESTAMP),
+      new ColumnDefinition("ACTUAL_END", Types.TIMESTAMP),
+      new ColumnDefinition("SPAUE_INTEGER", Types.INTEGER),
+      new ColumnDefinition("DURATIOTTYPF", Types.INTEGER),
+      new ColumnDefinition("DURATIOTELA_MONTHS", Types.INTEGER),
+      new ColumnDefinition("DURATIOTHOURS", Types.DOUBLE),
+      new ColumnDefinition("STARZ", Types.TIMESTAMP),
+      new ColumnDefinition("ENJ", Types.TIMESTAMP),      
+      new ColumnDefinition("DURATION_TIMJ_UNIT", Types.INTEGER),
+      new ColumnDefinition("UNSCHEDULABLG", Types.INTEGER),
+      new ColumnDefinition("SUBPROJECT_ID", Types.INTEGER),
+      new ColumnDefinition("ALT_ID", Types.INTEGER),
+      new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
    };
 }

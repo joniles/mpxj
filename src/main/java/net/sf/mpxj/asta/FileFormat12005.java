@@ -113,6 +113,11 @@ class FileFormat12005 extends AbstractFileFormat
       return WBS_ENTRY_COLUMNS_ORDER;
    }
 
+   @Override protected String[] taskCompletedSectionColumnsOrder()
+   {
+      return TASK_COMPLETED_SECTION_COLUMNS_ORDER;
+   }
+
    private static final String[] BAR_COLUMNS_ORDER =
    {
       "BARID",
@@ -821,4 +826,27 @@ class FileFormat12005 extends AbstractFileFormat
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY"
    };
+   
+   private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
+   {
+      "TASK_COMPLETED_SECTIONID",
+      "NATURAM_ORDER",
+      "OVERALL_PERCENT_COMPLETE",
+      "ACTUAL_TASK_WORK",
+      "TASK",
+      "ACTUAL_START",
+      "ACTUAL_END",
+      "SPAUE_INTEGER",
+      "DURATIOTTYPF",
+      "DURATIOTELA_MONTHS",
+      "DURATIOTHOURS",
+      "STARZ",
+      "ENJ",
+      "DURATION_TIMJ_UNIT",
+      "UNSCHEDULABLG",
+      "SUBPROJECT_ID",
+      "ALT_ID",
+      "LAST_EDITED_DATE",
+      "LAST_EDITED_BY"
+   };   
 }

@@ -328,10 +328,10 @@ final class AstaTextFileReader extends AbstractProjectReader
     */
    private void processPredecessors() throws SQLException
    {
-
       List<Row> rows = getTable("LINK");
+      List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
       Collections.sort(rows, LINK_COMPARATOR);
-      m_reader.processPredecessors(rows);
+      m_reader.processPredecessors(rows, completedSections);
    }
 
    /**
