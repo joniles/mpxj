@@ -324,15 +324,15 @@ final class AstaReader
       for (Row row : rows)
       {
          boolean rowIsBar = (row.getInteger("BARID") != null);
-         
+
          //
          // Don't export hammock tasks.
          //
          if (rowIsBar && row.getChildRows().isEmpty())
          {
             continue;
-         }       
-         
+         }
+
          Task task = parent.addTask();
 
          //
@@ -624,13 +624,43 @@ final class AstaReader
     * Processes predecessor data.
     *
     * @param rows predecessor data
+    * @param completedSections completed section data
     */
-   public void processPredecessors(List<Row> rows)
+   public void processPredecessors(List<Row> rows, List<Row> completedSections)
    {
+      Map<Integer, Integer> completedSectionMap = new HashMap<Integer, Integer>();
+      for (Row section : completedSections)
+      {
+         completedSectionMap.put(section.getInteger("TASK_COMPLETED_SECTIONID"), section.getInteger("TASK"));
+      }
+
       for (Row row : rows)
       {
-         Task startTask = m_project.getTaskByUniqueID(row.getInteger("START_TASK"));
-         Task endTask = m_project.getTaskByUniqueID(row.getInteger("END_TASK"));
+         Integer startTaskID = row.getInteger("START_TASK");                 
+         Task startTask = m_project.getTaskByUniqueID(startTaskID);
+         if (startTask == null)
+         {
+            System.out.println("Missed startTaskID=" + startTaskID);
+            startTaskID = completedSectionMap.get(startTaskID);            
+            if (startTaskID != null)
+            {
+               System.out.println("Found startTaskID=" + startTaskID);
+               startTask = m_project.getTaskByUniqueID(startTaskID);
+            }   
+         }
+         
+         Integer endTaskID = row.getInteger("END_TASK");
+         Task endTask = m_project.getTaskByUniqueID(endTaskID);
+         if (endTask == null)
+         {
+            System.out.println("Missed endTaskID=" + endTaskID);
+            endTaskID = completedSectionMap.get(endTaskID);            
+            if (endTaskID != null)
+            {
+               System.out.println("Found endTaskID=" + endTaskID);
+               endTask = m_project.getTaskByUniqueID(endTaskID);
+            }   
+         }
 
          if (startTask != null && endTask != null)
          {

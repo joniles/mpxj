@@ -317,7 +317,12 @@ final class AstaTextFileReader extends AbstractProjectReader
       List<Row> expandedTasks = getTable("EXPANDED_TASK");
       List<Row> tasks = getTable("TASK");
       List<Row> milestones = getTable("MILESTONE");
-
+//      List<Row> xxx = getTable("TASK_COMPLETED_SECTION");
+//      for (Row row : xxx)
+//      {
+//         System.out.println(row.getInteger("TASK_COMPLETED_SECTIONID") + " " + row.getInteger("TASK"));
+//      }
+      
       m_reader.processTasks(bars, expandedTasks, tasks, milestones);
    }
 
@@ -328,10 +333,10 @@ final class AstaTextFileReader extends AbstractProjectReader
     */
    private void processPredecessors() throws SQLException
    {
-
       List<Row> rows = getTable("LINK");
+      List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
       Collections.sort(rows, LINK_COMPARATOR);
-      m_reader.processPredecessors(rows);
+      m_reader.processPredecessors(rows, completedSections);
    }
 
    /**

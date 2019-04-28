@@ -243,7 +243,8 @@ public final class AstaDatabaseReader implements ProjectReader
    private void processPredecessors() throws SQLException
    {
       List<Row> rows = getRows("select * from link where projid=? order by linkid", m_projectID);
-      m_reader.processPredecessors(rows);
+      List<Row> completedSections = getRows("select * from task_completed_section where projid=?", m_projectID);
+      m_reader.processPredecessors(rows, completedSections);
    }
 
    /**
@@ -489,7 +490,7 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Set the name of the schema containing the Primavera tables.
+    * Set the name of the schema containing the schedule tables.
     *
     * @param schema schema name.
     */
@@ -503,7 +504,7 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve the name of the schema containing the Primavera tables.
+    * Retrieve the name of the schema containing the schedule tables.
     *
     * @return schema name
     */
