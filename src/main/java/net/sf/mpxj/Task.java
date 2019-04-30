@@ -3139,7 +3139,28 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public TimeUnit getLevelingDelayFormat()
    {
-      return (m_levelingDelayFormat);
+      Object result = m_levelingDelayFormat;
+
+      if(result == null)
+      {
+         result = getCachedValue(TaskField.LEVELING_DELAY_UNITS);
+
+         if (result == null)
+         {
+            final Duration duration = getLevelingDelay();
+            if (duration != null)
+            {
+               result = duration.getUnits();
+            }
+         }
+      }
+
+      if (!(result instanceof TimeUnit))
+      {
+         result = null;
+      }
+
+      return (TimeUnit)result;
    }
 
    /**
@@ -4773,6 +4794,18 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                break;
             }
 
+            case ACTUAL_DURATION_UNITS:
+            {
+               result = getActualDurationsFormat();
+               break;
+            }
+
+            case LEVELING_DELAY_UNITS:
+            {
+               result = getLevelingDelayFormat();
+               break;
+            }
+
             default:
             {
                result = m_array[field.getValue()];
@@ -4798,6 +4831,32 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          }
          m_array[index] = value;
       }
+   }
+
+   /**
+    * Retrieve the actual duration format.
+    *
+    * @return actual duration format
+    */
+   private TimeUnit getActualDurationsFormat()
+   {
+      Object result = getCachedValue(TaskField.ACTUAL_DURATION_UNITS);
+
+      if(result == null)
+      {
+         final Duration duration = getActualDuration();
+         if(duration != null)
+         {
+            result = duration.getUnits();
+         }
+      }
+
+      if (!(result instanceof TimeUnit))
+      {
+         result = null;
+      }
+
+      return (TimeUnit)result;
    }
 
    /**
