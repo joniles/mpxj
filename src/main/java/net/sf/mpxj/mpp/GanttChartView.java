@@ -106,8 +106,8 @@ public abstract class GanttChartView extends GenericView
       throws IOException
    {
       super(parent, fixedData, varData);
-      //System.out.println(varData.getVarMeta());
-      //MPPUtility.fileDump("c:\\temp\\vardata.txt", varData.toString().getBytes());
+//      System.out.println(varData.getVarMeta());
+//      MPPUtility.fileDump("c:\\temp\\"+getName()+"-vardata.txt", varData.toString().getBytes());
 
       m_filters = parent.getFilters();
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
