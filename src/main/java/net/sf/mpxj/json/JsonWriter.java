@@ -34,6 +34,7 @@ import java.util.Map;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -44,6 +45,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
@@ -347,6 +349,18 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case DATE_RANGE_LIST:
+         {
+            writeDateRangeList(fieldName, value);
+            break;
+         }
+
+         case SUBPROJECT:
+         {
+            writeSubproject(fieldName, value);
+            break;
+         }
+
          case BINARY:
          {
             // Don't write binary data
@@ -369,10 +383,13 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeIntegerField(String fieldName, Object value) throws IOException
    {
-      int val = ((Number) value).intValue();
-      if (val != 0)
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         int val = ((Number) value).intValue();
+         if (val != 0)
+         {
+            m_writer.writeNameValuePair(fieldName, val);
+         }
       }
    }
 
@@ -384,10 +401,13 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDoubleField(String fieldName, Object value) throws IOException
    {
-      double val = ((Number) value).doubleValue();
-      if (val != 0)
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         double val = ((Number) value).doubleValue();
+         if (val != 0)
+         {
+            m_writer.writeNameValuePair(fieldName, val);
+         }
       }
    }
 
@@ -399,10 +419,13 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeBooleanField(String fieldName, Object value) throws IOException
    {
-      boolean val = ((Boolean) value).booleanValue();
-      if (val)
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         boolean val = ((Boolean) value).booleanValue();
+         if (val)
+         {
+            m_writer.writeNameValuePair(fieldName, val);
+         }
       }
    }
 
@@ -414,18 +437,21 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDurationField(String fieldName, Object value) throws IOException
    {
-      if (value instanceof String)
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
-      }
-      else
-      {
-         Duration val = (Duration) value;
-         if (val.getDuration() != 0)
+         if (value instanceof String)
          {
-            Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectProperties());
-            long seconds = (long) (minutes.getDuration() * 60.0);
-            m_writer.writeNameValuePair(fieldName, seconds);
+            m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         }
+         else
+         {
+            Duration val = (Duration) value;
+            if (val.getDuration() != 0)
+            {
+               Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectProperties());
+               long seconds = (long) (minutes.getDuration() * 60.0);
+               m_writer.writeNameValuePair(fieldName, seconds);
+            }
          }
       }
    }
@@ -438,14 +464,17 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDateField(String fieldName, Object value) throws IOException
    {
-      if (value instanceof String)
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
-      }
-      else
-      {
-         Date val = (Date) value;
-         m_writer.writeNameValuePair(fieldName, val);
+         if (value instanceof String)
+         {
+            m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         }
+         else
+         {
+            Date val = (Date) value;
+            m_writer.writeNameValuePair(fieldName, val);
+         }
       }
    }
 
@@ -457,10 +486,13 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTimeUnitsField(String fieldName, Object value) throws IOException
    {
-      TimeUnit val = (TimeUnit) value;
-      if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, val.toString());
+         TimeUnit val = (TimeUnit) value;
+         if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
+         {
+            m_writer.writeNameValuePair(fieldName, val.toString());
+         }
       }
    }
 
@@ -472,7 +504,10 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writePriorityField(String fieldName, Object value) throws IOException
    {
-      m_writer.writeNameValuePair(fieldName, ((Priority) value).getValue());
+      if (value != null)
+      {
+         m_writer.writeNameValuePair(fieldName, ((Priority) value).getValue());
+      }
    }
 
    /**
@@ -504,6 +539,57 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write a list of date ranges to the JSON file.
+    * 
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeDateRangeList(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      List<DateRange> list = (List<DateRange>) value;
+      m_writer.writeStartList(fieldName);
+      for (DateRange entry : list)
+      {
+         m_writer.writeStartObject(null);
+         writeDateField("start", entry.getStart());
+         writeDateField("end", entry.getEnd());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write a subproject to the JSON file.
+    * 
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeSubproject(String fieldName, Object value) throws IOException
+   {
+      SubProject sp = (SubProject) value;
+      m_writer.writeStartObject(fieldName);
+
+      writeStringField("dos_file_name", sp.getDosFileName());
+      writeStringField("dos_full_path", sp.getDosFullPath());
+      writeStringField("file_name", sp.getFileName());
+      writeStringField("full_path", sp.getFullPath());
+      writeIntegerField("task_unique_id", sp.getTaskUniqueID());
+      writeIntegerField("unique_id_offset", sp.getUniqueIDOffset());
+
+      m_writer.writeStartList("all_external_task_unique_ids");
+      for (Integer id : sp.getAllExternalTaskUniqueIDs())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("id", id);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+
+      m_writer.writeEndObject();
+   }
+
+   /**
     * Write a string field to the JSON file.
     *
     * @param fieldName field name
@@ -511,10 +597,13 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeStringField(String fieldName, Object value) throws IOException
    {
-      String val = value.toString();
-      if (!val.isEmpty())
+      if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         String val = value.toString();
+         if (!val.isEmpty())
+         {
+            m_writer.writeNameValuePair(fieldName, val);
+         }
       }
    }
 

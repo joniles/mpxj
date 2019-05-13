@@ -3754,9 +3754,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return list of split times
     */
-   public List<DateRange> getSplits()
+   @SuppressWarnings("unchecked") public List<DateRange> getSplits()
    {
-      return (m_splits);
+      return (List<DateRange>)getCachedValue(TaskField.SPLITS);
    }
 
    /**
@@ -3766,7 +3766,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSplits(List<DateRange> splits)
    {
-      m_splits = splits;
+      set(TaskField.SPLITS, splits);
    }
 
    /**
@@ -3776,7 +3776,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getSplitCompleteDuration()
    {
-      return m_splitsComplete;
+      return (Date)getCachedValue(TaskField.SPLITS_COMPLETE);
    }
 
    /**
@@ -3786,7 +3786,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSplitCompleteDuration(Date splitsComplete)
    {
-      m_splitsComplete = splitsComplete;
+      set(TaskField.SPLITS_COMPLETE, splitsComplete);
    }
 
    /**
@@ -3804,7 +3804,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public SubProject getSubProject()
    {
-      return (m_subProject);
+      return (SubProject)getCachedValue(TaskField.SUBPROJECT);
    }
 
    /**
@@ -3814,7 +3814,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSubProject(SubProject subProject)
    {
-      m_subProject = subProject;
+     set(TaskField.SUBPROJECT, subProject);
    }
 
    /**
@@ -5088,9 +5088,5 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
-
-   private List<DateRange> m_splits;
-   private Date m_splitsComplete;
-   private SubProject m_subProject;
    private List<FieldListener> m_listeners;
 }
