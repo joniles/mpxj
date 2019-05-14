@@ -483,7 +483,7 @@ public class CustomerDataTest
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 
-   private static final boolean DEBUG_FAILURES = true;
+   private static final boolean DEBUG_FAILURES = false;
    
    static
    {
