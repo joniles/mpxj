@@ -11,6 +11,7 @@
 * More accurately read predecessors and successors from Asta PP files (Based on a contribution by Dave McKay)
 * When a schedule is read from P6, P3, or SureTrak, Task.getSummary will return true only if a task is part of the WBS
 * Added Task.hasChildTasks() method.
+* Fixed [Issue 330](https://sourceforge.net/p/mpxj/bugs/330): Splits data coming in as null for all tasks
 
 ## 7.8.1 (13/02/2019)
 * Improve support for reading the Synchro Scheduler 2018 SP files.
