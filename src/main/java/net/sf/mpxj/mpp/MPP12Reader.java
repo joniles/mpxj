@@ -1220,14 +1220,6 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
-         // If this is a split task, allocate space for the split durations
-         //
-         if ((metaData[9] & 0x80) == 0)
-         {
-            task.setSplits(new LinkedList<DateRange>());
-         }
-
-         //
          // Process any enterprise columns
          //
          processTaskEnterpriseColumns(uniqueID, task, taskVarData, metaData2);

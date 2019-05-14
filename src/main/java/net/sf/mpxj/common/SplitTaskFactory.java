@@ -120,7 +120,7 @@ public final class SplitTaskFactory
       //
       if (splits.size() > 2)
       {
-         task.getSplits().addAll(splits);
+         task.setSplits(splits);
          task.setSplitCompleteDuration(splitsComplete);
       }
       else

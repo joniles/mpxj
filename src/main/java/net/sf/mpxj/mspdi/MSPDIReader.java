@@ -1597,7 +1597,6 @@ public final class MSPDIReader extends AbstractProjectReader
 
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               task.setSplits(new LinkedList<DateRange>());
                normaliser.normalise(calendar, timephasedComplete);
                normaliser.normalise(calendar, timephasedPlanned);
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);

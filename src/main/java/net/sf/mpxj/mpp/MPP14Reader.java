@@ -1239,14 +1239,6 @@ final class MPP14Reader implements MPPVariantReader
          }
 
          //
-         // If this is a split task, allocate space for the split durations
-         //
-         if ((metaData[9] & 0x80) == 0)
-         {
-            task.setSplits(new LinkedList<DateRange>());
-         }
-
-         //
          // If this is a manually scheduled task, read the manual duration
          //
          if (task.getTaskMode() != TaskMode.MANUALLY_SCHEDULED)

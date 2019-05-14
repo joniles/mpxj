@@ -1283,14 +1283,6 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // If this is a split task, allocate space for the split durations
-         //
-         if ((metaData[9] & 0x80) == 0)
-         {
-            task.setSplits(new LinkedList<DateRange>());
-         }
-
-         //
          // Unfortunately it looks like 'null' tasks sometimes make it through,
          // so let's check for to see if we need to mark this task as a null
          // task after all.
