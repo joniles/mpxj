@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +82,7 @@ public final class SynchroReader extends AbstractProjectReader
 
          m_calendarMap = new HashMap<UUID, ProjectCalendar>();
          m_taskMap = new HashMap<UUID, Task>();
-         m_predecessorMap = new HashMap<Task, List<MapRow>>();
+         m_predecessorMap = new LinkedHashMap<Task, List<MapRow>>();
          m_resourceMap = new HashMap<UUID, Resource>();
 
          m_data = new SynchroData();
