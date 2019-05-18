@@ -44,10 +44,20 @@ class StreamReader
     * @param majorVersion major version
     * @param stream input stream
     */
-   public StreamReader(int majorVersion, InputStream stream)
+   public StreamReader(int majorVersion, final InputStream stream)
    {
-      m_majorVersion = majorVersion; 
+      m_majorVersion = majorVersion;
       m_stream = stream;
+//      m_stream = new InputStream()
+//      {
+//         @Override public int read() throws IOException
+//         {
+//            ++counter;
+//            return stream.read();
+//         }
+//         
+//         private int counter;
+//      };
    }
 
    /**
@@ -274,7 +284,7 @@ class StreamReader
    {
       return m_majorVersion;
    }
-   
+ 
    private final int m_majorVersion;
    private final InputStream m_stream;
 }
