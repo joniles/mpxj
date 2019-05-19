@@ -56,7 +56,7 @@ class StreamReader
 //            return stream.read();
 //         }
 //         
-//         private int counter;
+//         private int counter = 24;
 //      };
    }
 
@@ -141,6 +141,20 @@ class StreamReader
       if (DatatypeConverter.getBoolean(m_stream))
       {
          result = readTable(readerClass);
+      }
+      else
+      {
+         result = Collections.emptyList();
+      }
+      return result;
+   }
+
+   public List<MapRow> readUnknownTableConditional(int rowSize, int rowMagicNumber) throws IOException
+   {
+      List<MapRow> result;
+      if (DatatypeConverter.getBoolean(m_stream))
+      {
+         result = readUnknownTable(rowSize, rowMagicNumber);
       }
       else
       {
