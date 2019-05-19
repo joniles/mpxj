@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.8.2">
+		<release date="git master" version="7.8.3">
+		</release>
+		<release date="19/05/2019" version="7.8.2">
 			<action dev="joniles" type="update">Improve handling of MPP files with missing Props.</action>
 			<action dev="joniles" type="update">Improve handling of custom field lookup tables for MPP12 files.</action>
 			<action dev="joniles" type="update">Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)</action>
