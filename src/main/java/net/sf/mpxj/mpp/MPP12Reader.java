@@ -52,6 +52,7 @@ import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RtfHelper;
@@ -1222,6 +1223,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // If this is a split task, allocate space for the split durations
          //
+         System.out.println(task.getUniqueID() + "\t" + ByteArrayHelper.hexdump(metaData, false));
          if ((metaData[9] & 0x80) == 0)
          {
             task.setSplits(new LinkedList<DateRange>());
