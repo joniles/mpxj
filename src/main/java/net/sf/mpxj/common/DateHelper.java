@@ -420,6 +420,8 @@ public final class DateHelper
          minutes -= (hours * 60);
 
          Calendar cal = popCalendar();
+         cal.set(Calendar.DAY_OF_YEAR, 1);
+         cal.set(Calendar.YEAR, 1);
          cal.set(Calendar.MILLISECOND, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MINUTE, minutes);

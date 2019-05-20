@@ -371,8 +371,9 @@ public class CustomerDataTest
    
       boolean mspdi = testBaseline(file, project, new File(m_baselineDirectory, "mspdi"), MSPDIWriter.class);
       boolean pmxml = testBaseline(file, project, new File(m_baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
+      boolean json = testBaseline(file, project, new File(m_baselineDirectory, "json"), JsonWriter.class);
       
-      return mspdi && pmxml;     
+      return mspdi && pmxml && json;     
    }
 
    /**
@@ -388,14 +389,29 @@ public class CustomerDataTest
    {
       boolean success = true;
       int sourceDirNameLength = m_privateDirectory.getPath().length();
-      File baselineFile = new File(baselineDirectory, file.getPath().substring(sourceDirNameLength) + ".xml");      
-
+      
       ProjectWriter writer = writerClass.newInstance();
+      String suffix;
+      
+      // Not ideal, but...
+      if (writer instanceof JsonWriter)
+      {
+         ((JsonWriter)writer).setPretty(true);
+         suffix = ".json";
+      }
+      else
+      {
+         suffix = ".xml";
+      }
+
+      File baselineFile = new File(baselineDirectory, file.getPath().substring(sourceDirNameLength) + suffix);      
+
+      
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
       
       if (baselineFile.exists())
       {
-         File out = File.createTempFile("junit", ".xml");
+         File out = File.createTempFile("junit", suffix);
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
          
@@ -471,7 +487,8 @@ public class CustomerDataTest
    
    static
    {
-      WRITER_CLASSES.add(JsonWriter.class);
+      // Exercised by baseline test
+      //WRITER_CLASSES.add(JsonWriter.class);
       
       // Exercised by baseline test
       //WRITER_CLASSES.add(MSPDIWriter.class);

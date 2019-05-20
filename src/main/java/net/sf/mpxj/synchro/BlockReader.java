@@ -52,10 +52,10 @@ abstract class BlockReader
    public List<MapRow> read() throws IOException
    {
       List<MapRow> result = new ArrayList<MapRow>();
-      int fileCount = m_stream.readInt();
-      if (fileCount != 0)
+      int blockCount = m_stream.readInt();
+      if (blockCount != 0)
       {
-         for (int index = 0; index < fileCount; index++)
+         for (int index = 0; index < blockCount; index++)
          {
             // We use a LinkedHashMap to preserve insertion order in iteration
             // Useful when debugging the file format.

@@ -26,6 +26,9 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,8 +134,31 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      m_writer.writeStartList("custom_fields");
+      List<CustomField> sortedCustomFieldsList = new ArrayList<CustomField>();
       for (CustomField field : m_projectFile.getCustomFields())
+      {
+         FieldType fieldType = field.getFieldType();
+         if (fieldType != null)
+         {
+            sortedCustomFieldsList.add(field);
+         }
+      }
+
+      // Sort to ensure consistent order in file
+      Collections.sort(sortedCustomFieldsList, new Comparator<CustomField>()
+      {
+         @Override public int compare(CustomField customField1, CustomField customField2)
+         {
+            FieldType o1 = customField1.getFieldType();
+            FieldType o2 = customField2.getFieldType();
+            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+            return name1.compareTo(name2);
+         }
+      });
+      
+      m_writer.writeStartList("custom_fields");
+      for (CustomField field : sortedCustomFieldsList)
       {
          writeCustomField(field);
       }
@@ -524,7 +550,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (Map.Entry<String, Object> entry : map.entrySet())
       {
          Object entryValue = entry.getValue();
-         if (entryValue != null)
+         if (entryValue != null && !(entryValue instanceof byte[]))
          {
             DataType type = TYPE_MAP.get(entryValue.getClass().getName());
             if (type == null)

@@ -44,10 +44,20 @@ class StreamReader
     * @param majorVersion major version
     * @param stream input stream
     */
-   public StreamReader(int majorVersion, InputStream stream)
+   public StreamReader(int majorVersion, final InputStream stream)
    {
-      m_majorVersion = majorVersion; 
+      m_majorVersion = majorVersion;
       m_stream = stream;
+//      m_stream = new InputStream()
+//      {
+//         @Override public int read() throws IOException
+//         {
+//            ++counter;
+//            return stream.read();
+//         }
+//         
+//         private int counter = 24;
+//      };
    }
 
    /**
@@ -131,6 +141,20 @@ class StreamReader
       if (DatatypeConverter.getBoolean(m_stream))
       {
          result = readTable(readerClass);
+      }
+      else
+      {
+         result = Collections.emptyList();
+      }
+      return result;
+   }
+
+   public List<MapRow> readUnknownTableConditional(int rowSize, int rowMagicNumber) throws IOException
+   {
+      List<MapRow> result;
+      if (DatatypeConverter.getBoolean(m_stream))
+      {
+         result = readUnknownTable(rowSize, rowMagicNumber);
       }
       else
       {
@@ -274,7 +298,7 @@ class StreamReader
    {
       return m_majorVersion;
    }
-   
+ 
    private final int m_majorVersion;
    private final InputStream m_stream;
 }

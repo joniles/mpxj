@@ -37,7 +37,6 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -1218,15 +1217,6 @@ final class MPP12Reader implements MPPVariantReader
          if (task.getWBS() != null)
          {
             autoWBS = false;
-         }
-
-         //
-         // If this is a split task, allocate space for the split durations
-         //
-         System.out.println(task.getUniqueID() + "\t" + ByteArrayHelper.hexdump(metaData, false));
-         if ((metaData[9] & 0x80) == 0)
-         {
-            task.setSplits(new LinkedList<DateRange>());
          }
 
          //
