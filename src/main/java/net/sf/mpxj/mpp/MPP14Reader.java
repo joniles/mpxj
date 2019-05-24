@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -1941,7 +1940,9 @@ final class MPP14Reader implements MPPVariantReader
       reader.process(m_file, fixedData, varData, m_fontBases);
    }
 
-   
+   /**
+    * Read data link definitions.
+    */
    private void processDataLinks()throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
@@ -1950,7 +1951,7 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      DataLinkFactory factory = new DataLinkFactory(fixedMeta, fixedData, varData);
+      DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
       factory.process();
    }
    

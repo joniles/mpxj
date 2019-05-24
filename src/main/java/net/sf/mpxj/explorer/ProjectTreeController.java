@@ -35,6 +35,7 @@ import java.util.Set;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.DataLink;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
@@ -185,6 +186,10 @@ public class ProjectTreeController
       MpxjTreeNode tablesFolder = new MpxjTreeNode("Tables");
       projectNode.add(tablesFolder);
       addTables(tablesFolder, m_projectFile);
+
+      MpxjTreeNode dataLinksFolder = new MpxjTreeNode("Data Links");
+      projectNode.add(dataLinksFolder);
+      addDataLinks(dataLinksFolder, m_projectFile);
 
       m_model.setRoot(projectNode);
    }
@@ -499,6 +504,34 @@ public class ProjectTreeController
                Task task = a.getTask();
                String taskName = task == null ? "(unknown task)" : task.getName();
                return resourceName + "->" + taskName;
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add data links to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file data links container
+    */
+   private void addDataLinks(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (DataLink dataLink : file.getDataLinks())
+      {
+         final DataLink d = dataLink;
+         MpxjTreeNode childNode = new MpxjTreeNode(dataLink, TABLE_EXCLUDED_METHODS)
+         {
+            @Override public String toString()
+            {
+               String name = d.getID();
+               int index = name.lastIndexOf('!');
+               if (index == -1 || index == name.length()-1)
+               {
+                  return "(none)";
+               }
+               return name.substring(index+1);
             }
          };
          parentNode.add(childNode);

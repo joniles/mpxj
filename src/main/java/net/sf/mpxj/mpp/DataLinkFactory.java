@@ -7,47 +7,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.DataLink;
+import net.sf.mpxj.DataLinkContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 class DataLinkFactory
 {
-   public DataLinkFactory(FixedMeta fixedMeta, FixedData fixedData, Var2Data varData)
+   public DataLinkFactory(ProjectFile project, FixedData fixedData, Var2Data varData)
    {
-      m_fixedMeta = fixedMeta;
+      m_project = project;
       m_fixedData = fixedData;
       m_varData = varData;
    }
 
    public void process() throws IOException
    {
-      Map<String, DataLink> map = new HashMap<String, DataLink>();
+      //System.out.println(m_fixedData);
 
-      System.out.println(m_fixedMeta);
-      System.out.println(m_fixedData);
+      Map<String, DataLink> map = new HashMap<String, DataLink>();
 
       int itemCount = m_fixedData.getItemCount();
       for (int index = 0; index < itemCount; index++)
       {
          byte[] data = m_fixedData.getByteArrayValue(index);
-         int id = MPPUtility.getInt(data, 0);
-         byte[] propsData = m_varData.getByteArray(Integer.valueOf(id), PROPS);
-         if (propsData != null)
+         if ((data[112] & 0x20) == 0)
          {
-            process(propsData, map);
+            int id = MPPUtility.getInt(data, 0);
+            byte[] propsData = m_varData.getByteArray(Integer.valueOf(id), PROPS);
+            if (propsData != null)
+            {
+               process(propsData, map);
+            }
          }
       }
 
+      DataLinkContainer container = m_project.getDataLinks();
       for (DataLink dataLink : map.values())
       {
-         System.out.println(dataLink);
+         container.add(dataLink);
       }
    }
 
    private void process(byte[] data, Map<String, DataLink> map) throws IOException
    {
       Props props = new Props14(new ByteArrayInputStream(data));
-      System.out.println(props);
+      // System.out.println(props);
 
       String dataLinkID = props.getUnicodeString(PATH);
       DataLink dataLink = map.get(dataLinkID);
@@ -78,7 +83,7 @@ class DataLinkFactory
    private static final Integer UNIQUE_ID = Integer.valueOf(641728548);
    private static final Integer PATH = Integer.valueOf(641728561);
 
-   private final FixedMeta m_fixedMeta;
+   private final ProjectFile m_project;
    private final FixedData m_fixedData;
    private final Var2Data m_varData;
 }
