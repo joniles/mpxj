@@ -138,7 +138,7 @@ class MapRow
          Calendar dateCal = DateHelper.popCalendar(date);
          Object timeObject = getObject(timeName);
          // TODO: we should probably associated a type with each column and validate as we read
-         if (timeObject != null & timeObject instanceof Date)
+         if (timeObject instanceof Date)
          {
             Calendar timeCal = DateHelper.popCalendar((Date)timeObject);
             dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
