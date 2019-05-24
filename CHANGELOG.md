@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.8.3 (git master)
+* Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.
 
 ## 7.8.2 (19/05/2019)
 * Improve handling of MPP files with missing Props.

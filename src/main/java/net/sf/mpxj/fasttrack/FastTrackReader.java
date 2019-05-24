@@ -439,7 +439,7 @@ public final class FastTrackReader implements ProjectReader
          task.setDate(8, row.getDate(ActBarField.DATE_8));
          task.setDate(9, row.getDate(ActBarField.DATE_9));
          task.setDate(10, row.getDate(ActBarField.DATE_10));
-         task.setDuration(row.getDuration(ActBarField.DURATION));
+         task.setBaselineDuration(row.getDuration(ActBarField.DURATION));
          task.setDuration(1, row.getDuration(ActBarField.DURATION_1));
          task.setDuration(2, row.getDuration(ActBarField.DURATION_2));
          task.setDuration(3, row.getDuration(ActBarField.DURATION_3));
@@ -453,7 +453,7 @@ public final class FastTrackReader implements ProjectReader
          task.setEarlyFinish(row.getTimestamp(ActBarField.EARLY_FINISH_DATE, ActBarField.EARLY_FINISH_TIME));
          task.setEarlyStart(row.getTimestamp(ActBarField.EARLY_START_DATE, ActBarField.EARLY_START_TIME));
          task.setEffortDriven(row.getBoolean(ActBarField.EFFORT_DRIVEN));
-         task.setFinish(row.getTimestamp(ActBarField.FINISH_DATE, ActBarField.FINISH_TIME));
+         task.setBaselineFinish(row.getTimestamp(ActBarField.FINISH_DATE, ActBarField.FINISH_TIME));
          task.setFinish(1, row.getTimestamp(ActBarField.FINISH_DATE_1, ActBarField.FINISH_TIME_1));
          task.setFinish(2, row.getTimestamp(ActBarField.FINISH_DATE_2, ActBarField.FINISH_TIME_2));
          task.setFinish(3, row.getTimestamp(ActBarField.FINISH_DATE_3, ActBarField.FINISH_TIME_3));
@@ -464,10 +464,8 @@ public final class FastTrackReader implements ProjectReader
          task.setFinish(8, row.getTimestamp(ActBarField.FINISH_DATE_8, ActBarField.FINISH_TIME_8));
          task.setFinish(9, row.getTimestamp(ActBarField.FINISH_DATE_9, ActBarField.FINISH_TIME_9));
          task.setFinish(10, row.getTimestamp(ActBarField.FINISH_DATE_10, ActBarField.FINISH_TIME_10));
-         // Finish Slack
-         // Fixed Cost
+         task.setFixedCost(row.getCurrency(ActBarField.FIXED_COST));
          // Fixed Duration
-         // Free Float
          task.setIgnoreResourceCalendar(row.getBoolean(ActBarField.IGNORE_RESOURCE_CALENDARS));
          task.setLateFinish(row.getTimestamp(ActBarField.LATE_FINISH_DATE, ActBarField.LATE_FINISH_TIME));
          task.setLateStart(row.getTimestamp(ActBarField.LATE_START_DATE, ActBarField.LATE_START_TIME));
@@ -493,15 +491,13 @@ public final class FastTrackReader implements ProjectReader
          task.setNumber(20, row.getDouble(ActBarField.NUMBER_20));
          task.setPercentageComplete(row.getDouble(ActBarField.PERCENT_COMPLETE));
          // Priority
-         // Resource Cost
+         // Resource Cost         
          task.setResourceNames(row.getString(ActBarField.RESOURCES_ASSIGNED));
-         // Revised Duration
-         // Revised Finish Date
-         // Revised Finish Time
-         // Revised Start Date
-         // Revised Start Time
-         task.setStart(row.getTimestamp(ActBarField.START_DATE, ActBarField.START_TIME));
-         // Start Float
+         task.setDuration(row.getDuration(ActBarField.REVISED_DURATION));
+         task.setFinish(row.getTimestamp(ActBarField.REVISED_FINISH_DATE, ActBarField.REVISED_FINISH_TIME));
+         task.setStart(row.getTimestamp(ActBarField.REVISED_START_DATE, ActBarField.REVISED_START_TIME));
+         task.setBaselineStart(row.getTimestamp(ActBarField.START_DATE, ActBarField.START_TIME));
+
          task.setStart(1, row.getTimestamp(ActBarField.START_DATE_1, ActBarField.START_TIME_1));
          task.setStart(2, row.getTimestamp(ActBarField.START_DATE_2, ActBarField.START_TIME_2));
          task.setStart(3, row.getTimestamp(ActBarField.START_DATE_3, ActBarField.START_TIME_3));
@@ -514,13 +510,27 @@ public final class FastTrackReader implements ProjectReader
          task.setStart(10, row.getTimestamp(ActBarField.START_DATE_10, ActBarField.START_TIME_10));
          // Task Calendar
          // Total Cost
-         // Total Float
          // Total Resource Duration
          task.setWork(row.getWork(ActBarField.WORK));
          // _Activity
          // _BarBits
          // _BarStl
          // _yOffset
+         
+         if (task.getStart() == null)
+         {
+            task.setStart(task.getBaselineStart());
+         }
+
+         if (task.getFinish() == null)
+         {
+            task.setFinish(task.getBaselineFinish());
+         }
+
+         task.setStartSlack(row.getDuration(ActBarField.START_FLOAT));
+         task.setFinishSlack(row.getDuration(ActBarField.FINISH_FLOAT));
+         task.setFreeSlack(row.getDuration(ActBarField.FREE_FLOAT));
+         task.setTotalSlack(row.getDuration(ActBarField.TOTAL_FLOAT));         
       }
 
       m_project.updateStructure();

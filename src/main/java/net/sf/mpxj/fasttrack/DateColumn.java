@@ -79,7 +79,12 @@ class DateColumn extends AbstractColumn
             {
                cal.setTimeInMillis(DATE_EPOCH);
                cal.add(Calendar.DAY_OF_YEAR, value);
-               m_data[index] = cal.getTime();
+               int year = cal.get(Calendar.YEAR);
+               // Sanity test: ignore dates with obviously incorrect years
+               if (year > 1980 && year < 2100)
+               {
+                  m_data[index] = cal.getTime();
+               }               
             }
          }
       }

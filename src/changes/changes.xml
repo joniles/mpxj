@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.8.3">
+			<action dev="joniles" type="update">Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.</action>
 		</release>
 		<release date="19/05/2019" version="7.8.2">
 			<action dev="joniles" type="update">Improve handling of MPP files with missing Props.</action>
