@@ -149,6 +149,13 @@ class StreamReader
       return result;
    }
 
+   /**
+    * Conditionally read an unknown table.
+    * 
+    * @param rowSize Unknown table row size
+    * @param rowMagicNumber Unknown table row magic number
+    * @return table rows or empty list if table not present
+    */
    public List<MapRow> readUnknownTableConditional(int rowSize, int rowMagicNumber) throws IOException
    {
       List<MapRow> result;
