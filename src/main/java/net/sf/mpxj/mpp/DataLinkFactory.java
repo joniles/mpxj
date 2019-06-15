@@ -1,4 +1,25 @@
+/*
+ * file:       DataLinkFactory.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2019
+ * date:       15/06/2019
+ */
 
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 package net.sf.mpxj.mpp;
 
 import java.io.ByteArrayInputStream;
@@ -12,8 +33,18 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
 
+/**
+ * Extracts data links.
+ */
 class DataLinkFactory
 {
+   /**
+    * Constructor.
+    * 
+    * @param project parent project
+    * @param fixedData fix data blocks
+    * @param varData var data blocks
+    */
    public DataLinkFactory(ProjectFile project, FixedData fixedData, Var2Data varData)
    {
       m_project = project;
@@ -21,20 +52,27 @@ class DataLinkFactory
       m_varData = varData;
    }
 
+   /**
+    * Extract data links.
+    */
    public void process() throws IOException
    {
-      //System.out.println(m_fixedData);
+      // System.out.println(m_fixedData);
+      // System.out.println(m_varData.getVarMeta());
+      // System.out.println(m_varData);
 
+      Integer key = m_project.getProjectProperties().getMppFileType().intValue() == 9 ? PROPS9 : PROPS;
+      
       Map<String, DataLink> map = new HashMap<String, DataLink>();
 
       int itemCount = m_fixedData.getItemCount();
       for (int index = 0; index < itemCount; index++)
       {
          byte[] data = m_fixedData.getByteArrayValue(index);
-         if ((data[112] & 0x20) == 0)
+         if (data != null && (data[112] & 0x20) == 0)
          {
             int id = MPPUtility.getInt(data, 0);
-            byte[] propsData = m_varData.getByteArray(Integer.valueOf(id), PROPS);
+            byte[] propsData = m_varData.getByteArray(Integer.valueOf(id), key);
             if (propsData != null)
             {
                process(propsData, map);
@@ -45,14 +83,21 @@ class DataLinkFactory
       DataLinkContainer container = m_project.getDataLinks();
       for (DataLink dataLink : map.values())
       {
+         // System.out.println(dataLink);
          container.add(dataLink);
       }
    }
-
+   
+   /**
+    * Extract a single data link.
+    * 
+    * @param data fixed data block
+    * @param map extracted link data
+    */
    private void process(byte[] data, Map<String, DataLink> map) throws IOException
    {
       Props props = new Props14(new ByteArrayInputStream(data));
-      // System.out.println(props);
+      //System.out.println(props);
 
       String dataLinkID = props.getUnicodeString(PATH);
       DataLink dataLink = map.get(dataLinkID);
@@ -78,6 +123,7 @@ class DataLinkFactory
    }
 
    private static final Integer PROPS = Integer.valueOf(6);
+   private static final Integer PROPS9 = Integer.valueOf(1);
    private static final Integer FIELD_TYPE = Integer.valueOf(641728535);
    private static final Integer VIEW_NAME = Integer.valueOf(641728536);
    private static final Integer UNIQUE_ID = Integer.valueOf(641728548);

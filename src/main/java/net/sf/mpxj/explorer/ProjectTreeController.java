@@ -526,6 +526,11 @@ public class ProjectTreeController
             @Override public String toString()
             {
                String name = d.getID();
+               if (name == null)
+               {
+                  name = "";
+               }
+               
                int index = name.lastIndexOf('!');
                if (index == -1 || index == name.length()-1)
                {
