@@ -1568,6 +1568,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
       xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
 
+      //
+      // MS Project is a bit picky when it reads an MSPDI file. Even if a resource assignment
+      // is marked as being 100% complete, unless there is an actual finish date
+      // specified, MS Project will only show 99% complete. We try to fix this here by ensuring
+      // that an actual finish date is populated when the task is 100% complete.
+      //
+      double percentComplete = NumberHelper.getDouble(mpx.getTask().getPercentageComplete());
+      if (percentComplete == 100 && xml.getActualFinish() == null)
+      {
+         xml.setActualFinish(mpx.getTask().getActualFinish());
+      }
+
       writeAssignmentBaselines(xml, mpx);
 
       writeAssignmentExtendedAttributes(xml, mpx);
