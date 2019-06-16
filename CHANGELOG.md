@@ -4,6 +4,7 @@
 * Add support for reading data links (linked fields) configuration from MPP files.
 * Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).
 * Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.
+* Ensure that activity codes are read for P6 schedules.
 
 ## 7.8.3 (24/05/2019)
 * Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.

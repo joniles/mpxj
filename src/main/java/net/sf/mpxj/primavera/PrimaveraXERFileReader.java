@@ -113,41 +113,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
-
          m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
-         ProjectFile project = m_reader.getProject();
-         project.getProjectProperties().setFileApplication("Primavera");
-         project.getProjectProperties().setFileType("XER");
-         project.getEventManager().addProjectListeners(m_projectListeners);
-
-         processProjectID();
-         processProjectProperties();
-         processActivityCodes();
-         processUserDefinedFields();
-         processCalendars();
-         processResources();
-         processResourceRates();
-         processTasks();
-         processPredecessors();
-         processAssignments();
-
-         m_reader = null;
-         project.updateStructure();
-
+         ProjectFile project = readProject();
          return (project);
       }
 
       finally
       {
-         m_reader = null;
          m_tables = null;
-         m_currentTableName = null;
-         m_currentTable = null;
-         m_currentFieldNames = null;
-         m_defaultCurrencyName = null;
-         m_currencyMap.clear();
          m_numberFormat = null;
-         m_defaultCurrencyData = null;
+         m_reader = null;
       }
    }
 
@@ -189,24 +164,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-
             m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
-            ProjectFile project = m_reader.getProject();
-            project.getEventManager().addProjectListeners(m_projectListeners);
-
-            processProjectProperties();
-            processUserDefinedFields();
-            processCalendars();
-            processResources();
-            processResourceRates();
-            processTasks();
-            processPredecessors();
-            processAssignments();
-
+            ProjectFile project = readProject();
             externalPredecessors.addAll(m_reader.getExternalPredecessors());
-
-            m_reader = null;
-            project.updateStructure();
 
             result.add(project);
          }
@@ -237,8 +197,44 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       finally
       {
-         m_reader = null;
          m_tables = null;
+         m_numberFormat = null;
+         m_reader = null;
+      }
+   }
+
+   /**
+    * Common project read functionality.
+    * 
+    * @return ProjectFile instance
+    */
+   private ProjectFile readProject()
+   {
+      try
+      {
+         ProjectFile project = m_reader.getProject();
+         project.getProjectProperties().setFileApplication("Primavera");
+         project.getProjectProperties().setFileType("XER");
+         project.getEventManager().addProjectListeners(m_projectListeners);
+
+         processProjectID();
+         processProjectProperties();
+         processActivityCodes();
+         processUserDefinedFields();
+         processCalendars();
+         processResources();
+         processResourceRates();
+         processTasks();
+         processPredecessors();
+         processAssignments();
+
+         project.updateStructure();
+
+         return project;
+      }
+
+      finally
+      {
          m_currentTableName = null;
          m_currentTable = null;
          m_currentFieldNames = null;
