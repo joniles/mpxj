@@ -43,7 +43,9 @@ public final class StreamHelper
       long count = skip;
       while (count > 0)
       {
-         count -= stream.skip(count);
+         long skipped = stream.skip(count);
+         if (skipped == 0) throw new IOException("Cannot skip forward within InputStream");
+         count -= skipped;
       }
    }
 
