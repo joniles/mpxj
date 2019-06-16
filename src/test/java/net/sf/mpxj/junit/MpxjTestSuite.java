@@ -35,6 +35,7 @@ import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
 import net.sf.mpxj.junit.calendar.RecurringExceptionsTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.primavera.PrimaveraDatabaseReaderTest;
+import net.sf.mpxj.junit.project.DataLinksTest;
 import net.sf.mpxj.junit.project.DefaultDurationFormatTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesOnlyTest;
 import net.sf.mpxj.junit.project.ProjectPropertiesTest;
@@ -145,6 +146,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    ResourceTextTest.class,
    RecurringExceptionsTest.class,
    RecurringDataTest.class,
+   DataLinksTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

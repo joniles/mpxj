@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.8.4">
+			<action dev="joniles" type="add">Add support for reading data links (linked fields) configuration from MPP files.</action>
 		</release>
 		<release date="24/05/2019" version="7.8.3">
 			<action dev="joniles" type="update">Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.</action>

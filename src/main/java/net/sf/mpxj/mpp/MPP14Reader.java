@@ -94,7 +94,8 @@ final class MPP14Reader implements MPPVariantReader
             processConstraintData();
             processAssignmentData();
             postProcessTasks();
-
+            processDataLinks();
+            
             if (reader.getReadPresentationData())
             {
                processViewPropertyData();
@@ -1939,6 +1940,21 @@ final class MPP14Reader implements MPPVariantReader
       reader.process(m_file, fixedData, varData, m_fontBases);
    }
 
+   /**
+    * Read data link definitions.
+    */
+   private void processDataLinks()throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
+      factory.process();
+   }
+   
    /**
     * Retrieve custom field value.
     *
