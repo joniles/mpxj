@@ -1,6 +1,8 @@
 # Changelog
 
 ## 7.8.4 (git master)
+* Add support for reading data links (linked fields) configuration from MPP files.
+* Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).
 
 ## 7.8.3 (24/05/2019)
 * Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.
