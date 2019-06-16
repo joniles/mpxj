@@ -24,10 +24,10 @@ package net.sf.mpxj;
 
 /**
  * Represents a link between two fields, either in the same project or across projects.
- * Normally each link will specify the source and sink in a single record, although sometimes
- * these can be split across two records (source in one, sink in the other). Also
- * when a link is removed you may end up with a record whcih just specifies a source but
- * no sink.
+ * Normally each link will specify the source and target in a single record, although sometimes
+ * these can be split across two records (source in one, target in the other). Also
+ * when a link is removed you may end up with a record which just specifies a source but
+ * no target.
  */
 public final class DataLink
 {
@@ -92,43 +92,43 @@ public final class DataLink
    }
 
    /**
-    * Retrieve the sink field.
+    * Retrieve the target field.
     * 
-    * @return sink field
+    * @return target field
     */
-   public FieldType getSinkField()
+   public FieldType getTargetField()
    {
-      return m_sinkField;
+      return m_targetField;
    }
 
    /**
-    * Set the sink field.
+    * Set the target field.
     * 
-    * @param sinkField sink field
+    * @param targetField target field
     */
-   public void setSinkField(FieldType sinkField)
+   public void setTargetField(FieldType targetField)
    {
-      m_sinkField = sinkField;
+      m_targetField = targetField;
    }
 
    /**
-    * Retrieve the unique ID of the sink object.
+    * Retrieve the unique ID of the target object.
     * 
-    * @return sink object unique ID
+    * @return target object unique ID
     */
-   public Integer getSinkUniqueID()
+   public Integer getTargetUniqueID()
    {
-      return m_sinkUniqueID;
+      return m_targetUniqueID;
    }
 
    /**
-    * Set the unique ID of the sink object.
+    * Set the unique ID of the target object.
     * 
-    * @param sinkUniqueID sink object unique ID
+    * @param targetUniqueID target object unique ID
     */
-   public void setSinkUniqueID(Integer sinkUniqueID)
+   public void setTargetUniqueID(Integer targetUniqueID)
    {
-      m_sinkUniqueID = sinkUniqueID;
+      m_targetUniqueID = targetUniqueID;
    }
 
    @Override public String toString()
@@ -146,14 +146,14 @@ public final class DataLink
          sb.append(m_sourceUniqueID);
       }
       
-      if (m_sinkField != null)
+      if (m_targetField != null)
       {
-         sb.append(" sinkField=");
-         sb.append(m_sinkField.getFieldTypeClass());
+         sb.append(" targetField=");
+         sb.append(m_targetField.getFieldTypeClass());
          sb.append('.');
-         sb.append(m_sinkField);
-         sb.append(" sinkUniqueID=");
-         sb.append(m_sinkUniqueID);
+         sb.append(m_targetField);
+         sb.append(" targetUniqueID=");
+         sb.append(m_targetUniqueID);
       }
       sb.append(']');
       
@@ -163,6 +163,6 @@ public final class DataLink
    private final String m_id;
    private FieldType m_sourceField;
    private Integer m_sourceUniqueID;
-   private FieldType m_sinkField;
-   private Integer m_sinkUniqueID;
+   private FieldType m_targetField;
+   private Integer m_targetUniqueID;
 }

@@ -59,15 +59,7 @@ public class DataLinksTest
    private void testDataLinks(File file) throws MPXJException
    {
       ProjectFile project = new UniversalProjectReader().read(file);
-      DataLinkContainer dataLinks = project.getDataLinks();
-      
-      if (project.getProjectProperties().getMppFileType().intValue() < 14)
-      {
-         assertEquals(3, dataLinks.size());
-      }
-      else
-      {
-         assertEquals(5, dataLinks.size());
-      }      
+      DataLinkContainer dataLinks = project.getDataLinks();      
+      assertEquals(3, dataLinks.size());
    }
 }

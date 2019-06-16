@@ -112,8 +112,8 @@ class DataLinkFactory
 
       if (props.getUnicodeString(VIEW_NAME) == null)
       {
-         dataLink.setSinkField(fieldType);
-         dataLink.setSinkUniqueID(rowUniqueID);
+         dataLink.setTargetField(fieldType);
+         dataLink.setTargetUniqueID(rowUniqueID);
       }
       else
       {
