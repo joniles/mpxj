@@ -38,7 +38,7 @@ public class CustomField
    {
       m_field = field;
       m_parent = parent;
-      m_table = new CustomFieldLookupTable(m_parent);
+      m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
    }
 

@@ -30,25 +30,4 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
  */
 public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
-   /**
-    * Constructor.
-    *
-    * @param parent parent container
-    */
-   public CustomFieldLookupTable(CustomFieldContainer parent)
-   {
-      m_parent = parent;
-   }
-
-   @Override protected void added(CustomFieldValueItem item)
-   {
-      m_parent.registerValue(item);
-   }
-
-   @Override protected void removed(CustomFieldValueItem item)
-   {
-      m_parent.deregisterValue(item);
-   }
-
-   private CustomFieldContainer m_parent;
 }

@@ -97,6 +97,8 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
             int type = MPPUtility.getShort(b2, typeOffset);
             item.setValue(getTypedValue(type, value));
+            
+            m_container.registerValue(item);
             FieldType field = map.get(parentField);
             if (field != null)
             {
@@ -125,6 +127,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             int fieldID = MPPUtility.getInt(data, index + 0);
             FieldType field = FieldTypeHelper.getInstance(fieldID);
             UUID guid = MPPUtility.getGUID(data, index + 36);
+            System.out.println("fieldID=" + fieldID + " field=" + field + " guid=" + guid);
             map.put(guid, field);
 
             index += 88;
