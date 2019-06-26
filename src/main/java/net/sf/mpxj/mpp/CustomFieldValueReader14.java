@@ -97,6 +97,8 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
             int type = MPPUtility.getShort(b2, typeOffset);
             item.setValue(getTypedValue(type, value));
+            
+            m_container.registerValue(item);
             FieldType field = map.get(parentField);
             if (field != null)
             {

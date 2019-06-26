@@ -216,6 +216,7 @@ public class CustomFieldValueReader9
          {
             item.setValue(valueList.get(index));
          }
+         m_container.registerValue(item);
          table.add(item);
       }
    }
