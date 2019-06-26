@@ -30,4 +30,5 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
  */
 public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
+   // No body
 }
