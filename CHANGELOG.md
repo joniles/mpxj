@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.8.4 (git master)
+## 7.8.5 (git master)
+
+## 7.8.4 (27/06/2019)
 * Add support for reading data links (linked fields) configuration from MPP files.
 * Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).
 * Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.

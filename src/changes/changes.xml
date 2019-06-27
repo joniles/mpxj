@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.8.4">
+		<release date="git master" version="7.8.5">
+		</release>
+		<release date="27/06/2019" version="7.8.4">
 			<action dev="joniles" type="add">Add support for reading data links (linked fields) configuration from MPP files.</action>
 			<action dev="joniles" type="update">Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).</action>
 			<action dev="joniles" type="update">Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.</action>
