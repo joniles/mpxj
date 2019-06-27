@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.</action>
 			<action dev="joniles" type="update">Ensure that activity codes are read for P6 schedules.</action>
 			<action dev="joniles" type="update">Improve support for reading custom field values derived from custom field lookup tables in MPP files.</action>
+			<action dev="joniles" type="update">Improve support for MPP files written with the June 2019 update of Microsoft Project.</action>
 		</release>
 		<release date="24/05/2019" version="7.8.3">
 			<action dev="joniles" type="update">Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.</action>
