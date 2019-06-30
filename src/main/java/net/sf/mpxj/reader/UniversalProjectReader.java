@@ -74,6 +74,7 @@ import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
+import net.sf.mpxj.sdef.SDEFReader;
 import net.sf.mpxj.synchro.SynchroReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -308,6 +309,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, GANTT_DESIGNER_FINGERPRINT))
          {
             return readProjectFile(new GanttDesignerReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, SDEF_FINGERPRINT))
+         {
+            return readProjectFile(new SDEFReader(), bis);
          }
 
          return null;
@@ -999,6 +1005,14 @@ public final class UniversalProjectReader implements ProjectReader
    {
       (byte) 0xB6,
       (byte) 0x17
+   };
+
+   private static final byte[] SDEF_FINGERPRINT =
+   {
+      (byte) 'V',
+      (byte) 'O',
+      (byte) 'L',
+      (byte) 'M'
    };
 
    private static final byte[] UTF8_BOM_FINGERPRINT =
