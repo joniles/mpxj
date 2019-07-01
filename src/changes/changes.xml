@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.8.5">
+			<action dev="joniles" type="add">Add support for reading SDEF files.</action>
 		</release>
 		<release date="27/06/2019" version="7.8.4">
 			<action dev="joniles" type="add">Add support for reading data links (linked fields) configuration from MPP files.</action>

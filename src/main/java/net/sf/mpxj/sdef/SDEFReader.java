@@ -1,3 +1,25 @@
+/*
+ * file:       SDEFReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2019
+ * date:       01/07/2019
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.sdef;
 
@@ -10,13 +32,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.DataType;
-import net.sf.mpxj.EventManager;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
+/**
+ * Read the contents of an SDEF file.
+ */
 public final class SDEFReader extends AbstractProjectReader
 {
    /**
@@ -36,27 +61,32 @@ public final class SDEFReader extends AbstractProjectReader
     */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
-      m_project = new ProjectFile();
-      m_eventManager = m_project.getEventManager();
+      Context context = new Context();
+      ProjectFile project = context.getProject();
 
-      //      ProjectConfig config = m_project.getProjectConfig();
-      //      config.setAutoCalendarUniqueID(false);
-      //      config.setAutoTaskID(false);
-      //      config.setAutoTaskUniqueID(false);
-      //      config.setAutoResourceUniqueID(false);
-      //      config.setAutoWBS(false);
-      //      config.setAutoOutlineNumber(false);
+      CustomFieldContainer fields = project.getCustomFields();
+      fields.getCustomField(TaskField.TEXT1).setAlias("Activity ID");
+      fields.getCustomField(TaskField.TEXT2).setAlias("Hammock Code");
+      fields.getCustomField(TaskField.NUMBER1).setAlias("Workers Per Day");
+      fields.getCustomField(TaskField.TEXT3).setAlias("Responsibility Code");
+      fields.getCustomField(TaskField.TEXT4).setAlias("Work Area Code");
+      fields.getCustomField(TaskField.TEXT5).setAlias("Mod of Claim No");
+      fields.getCustomField(TaskField.TEXT6).setAlias("Bide Item");
+      fields.getCustomField(TaskField.TEXT7).setAlias("Phase of Work");
+      fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work");
+      fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work");
+      fields.getCustomField(TaskField.COST1).setAlias("Stored Material");
+      
+      project.getProjectProperties().setFileApplication("SDEF");
+      project.getProjectProperties().setFileType("SDEF");
 
-      m_project.getProjectProperties().setFileApplication("SDEF");
-      m_project.getProjectProperties().setFileType("SDEF");
-
-      m_eventManager.addProjectListeners(m_projectListeners);
+      context.getEventManager().addProjectListeners(m_projectListeners);
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
       try
       {
-         while (processLine(reader.readLine()))
+         while (processLine(context, reader.readLine()))
          {
             // empty block
          }
@@ -67,10 +97,17 @@ public final class SDEFReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
 
-      return m_project;
+      return project;
    }
 
-   private boolean processLine(String line) throws MPXJException
+   /**
+    * Process a single SDEF  record.
+    * 
+    * @param context current context
+    * @param line current record
+    * @return false if we have reached the end of the file
+    */
+   private boolean processLine(Context context, String line) throws MPXJException
    {
       if (line == null || line.startsWith("END"))
       {
@@ -96,12 +133,12 @@ public final class SDEFReader extends AbstractProjectReader
       }
       
       record.read(line);
-
+      
+      record.process(context);
+      
       return true;
    }
 
-   private ProjectFile m_project;
-   private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<String, Class<? extends SDEFRecord>>();
