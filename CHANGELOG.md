@@ -1,6 +1,9 @@
 # Changelog
 
-## 7.8.5 (git master)
+## 7.9.1 (git master)
+
+## 7.9.0 (01/07/2019)
+* Add support for reading SDEF files.
 
 ## 7.8.4 (27/06/2019)
 * Add support for reading data links (linked fields) configuration from MPP files.

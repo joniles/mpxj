@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.8.5">
+		<release date="git master" version="7.9.1">
+		</release>
+		<release date="01/07/2019" version="7.9.0">
 			<action dev="joniles" type="add">Add support for reading SDEF files.</action>
 		</release>
 		<release date="27/06/2019" version="7.8.4">
