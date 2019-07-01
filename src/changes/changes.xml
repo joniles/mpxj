@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.9.1">
+		<release date="git master" version="7.9.2">
+		</release>
+		<release date="01/07/2019" version="7.9.1">
 			<action dev="joniles" type="update">Set task start, finish and percent complete when reading SDEF files.</action>
 		</release>
 		<release date="01/07/2019" version="7.9.0">

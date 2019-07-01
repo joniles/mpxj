@@ -1,6 +1,9 @@
 # Changelog
 
-## 7.9.1 (git master)
+## 7.9.2 (git master)
+
+## 7.9.1 (01/07/2019)
+* Set task start, finish and percent complete when reading SDEF files.
 
 ## 7.9.0 (01/07/2019)
 * Add support for reading SDEF files.
