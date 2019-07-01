@@ -57,6 +57,7 @@ class ActivityRecord extends AbstractSDEFRecord
       task.setText(8, getString(13));
       task.setText(9, getString(14));      
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
+      task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
       context.getEventManager().fireTaskReadEvent(task);
    }
    

@@ -20,7 +20,10 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.sdef;
+
+import java.util.Date;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
@@ -36,7 +39,7 @@ class ProgressRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
       Double totalCost = getDouble(4);
@@ -47,7 +50,7 @@ class ProgressRecord extends AbstractSDEFRecord
       {
          totalFloat = Duration.getInstance(-totalFloat.getDuration(), TimeUnit.DAYS);
       }
-      
+
       Task task = context.getTask(getString(0));
       task.setActualStart(getDate(1));
       task.setActualFinish(getDate(2));
@@ -60,8 +63,35 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setLateStart(getDate(9));
       task.setLateFinish(getDate(10));
       task.setTotalSlack(totalFloat);
+
+      Date start = task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart();
+      Date finish = task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish();
+      double percentComplete = 0;
+
+      if (task.getActualFinish() == null)
+      {
+         Duration duration = task.getDuration();
+         Duration remainingDuration = task.getRemainingDuration();
+         if (duration != null && remainingDuration != null)
+         {
+            double durationValue = duration.getDuration();
+            double remainingDurationValue = remainingDuration.getDuration();
+            if (durationValue != 0 && remainingDurationValue < durationValue)
+            {
+               percentComplete = ((durationValue - remainingDurationValue) * 100.0)/durationValue;
+            }
+         }
+      }
+      else
+      {
+         percentComplete = 100.0;
+      }
+
+      task.setStart(start);
+      task.setFinish(finish);
+      task.setPercentageComplete(Double.valueOf(percentComplete));
    }
-   
+
    private static final SDEFField[] FIELDS = new SDEFField[]
    {
       new StringField("Activity ID", 10),
