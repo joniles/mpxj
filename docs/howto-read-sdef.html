@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Read Planner files</title>
+    <title>MPXJ &#x2013; How To: Read SDEF files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -71,12 +71,12 @@
     <li><a href="howto-read-pmxml.html" title="PMXML files"><span class="none"></span>PMXML files</a>  </li>
     <li><a href="howto-read-primavera.html" title="P6 databases"><span class="none"></span>P6 databases</a>  </li>
     <li><a href="howto-read-xer.html" title="XER files"><span class="none"></span>XER files</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>Merlin files</a>
-  </li>
+    <li><a href="howto-read-merlin.html" title="Merlin files"><span class="none"></span>Merlin files</a>  </li>
     <li><a href="howto-read-conceptdraw.html" title="ConceptDraw PROJECT files"><span class="none"></span>ConceptDraw PROJECT files</a>  </li>
     <li><a href="howto-read-synchro.html" title="Synchro Scheduler files"><span class="none"></span>Synchro Scheduler files</a>  </li>
     <li><a href="howto-read-ganttdesigner.html" title="Gantt Designer files"><span class="none"></span>Gantt Designer files</a>  </li>
-    <li><a href="howto-read-sdef.html" title="SDEF files"><span class="none"></span>SDEF files</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>SDEF files</a>
+  </li>
       </ul>
   </li>
     <li><a href="howto-write.html" title="How to write..."><span class="icon-chevron-right"></span>How to write...</a>  </li>
@@ -99,11 +99,11 @@
         </div>
         <div id="bodyColumn"  class="span9" >
 <div class="section">
-<h2><a name="How_To:_Read_Planner_files"></a>How To: Read Planner files</h2>
-<p>Merlin Planner is a Mac application. MPXJ provides experimental support for reading some Merlin Planner files. The Merlin file format does not necessarily contain a full set of start and finish dates for each task. Merlin calculates these dates when it displays a schedule. At the moment MPXJ lacks this functionality, so you may not find start and finish dates for each task.</p>
+<h2><a name="How_To:_Read_SDEF_files"></a>How To: Read SDEF files</h2>
+<p>The Standard Data Exchange Format (SDEF) is the US Army Corps of Engineers standard format for exchanging schedule data between systems. The definition of this format can be found <a class="externalLink" href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
 <div class="section">
-<h3><a name="Reading_Merlin_files"></a>Reading Merlin files</h3>
-<p>The simplest way to read a Merlin file is to use the <tt>UniversalProjectReader</tt>:</p>
+<h3><a name="Reading_SDEF_files"></a>Reading SDEF files</h3>
+<p>The simplest way to read an SDEF file is to use the <tt>UniversalProjectReader</tt>:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
@@ -112,10 +112,9 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read(&quot;my-sample-merlin-project&quot;);
+ProjectFile project = reader.read(&quot;my-sample.sdef&quot;);
 </pre></div></div>
-<p>Note that on a Mac Merlin projects are not single files, but rather they are directories containing multiple files (the Mac Finder normally hides this from you). When using MPXJ to read a Merlin project you pass the directory name to the <tt>UniversalProjectReader</tt> class.</p>
-<p>You can work directly with the <tt>MerlinReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>MerlinReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>MerlinReader</tt> class.</p></div></div>
+<p>You can work directly with the <tt>SDEFReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>SDEFReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>SDEFReader</tt> class.</p></div></div>
         </div>
       </div>
     </div>
