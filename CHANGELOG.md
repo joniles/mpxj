@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.2 (git master)
+* Improve support for Synchro SP files containing blank tasks.
 
 ## 7.9.1 (01/07/2019)
 * Set task start, finish and percent complete when reading SDEF files.

@@ -295,7 +295,7 @@ public final class SynchroReader extends AbstractProjectReader
       task.setHyperlink(row.getString("URL"));
       task.setPercentageComplete(row.getDouble("PERCENT_COMPLETE"));
       task.setNotes(getNotes(row.getRows("COMMENTARY")));
-      task.setMilestone(task.getDuration().getDuration() == 0);
+      task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
 
       ProjectCalendar calendar = m_calendarMap.get(row.getUUID("CALENDAR_UUID"));
       if (calendar != m_project.getDefaultCalendar())
@@ -308,7 +308,10 @@ public final class SynchroReader extends AbstractProjectReader
          case 1: // Planned
          {
             task.setStart(row.getDate("PLANNED_START"));
-            task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+            if (task.getStart() != null && task.getDuration() != null)
+            {
+               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+            }
             break;
          }
 

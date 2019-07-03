@@ -269,7 +269,7 @@ final class DatatypeConverter
    public static final Date getDate(InputStream is) throws IOException
    {
       long timeInSeconds = getInt(is);
-      if (timeInSeconds == 0x93406FFF)
+      if (timeInSeconds == NULL_SECONDS)
       {
          return null;
       }
@@ -300,9 +300,14 @@ final class DatatypeConverter
     */
    public static final Duration getDuration(InputStream is) throws IOException
    {
-      double durationInSeconds = getInt(is);
-      durationInSeconds /= (60 * 60);
-      return Duration.getInstance(durationInSeconds, TimeUnit.HOURS);
+      int durationInSeconds = getInt(is);
+      if (durationInSeconds == NULL_SECONDS)
+      {
+         return null;
+      }
+      double durationInHours = durationInSeconds;
+      durationInHours /= (60 * 60);
+      return Duration.getInstance(durationInHours, TimeUnit.HOURS);
    }
 
    /**
@@ -320,4 +325,6 @@ final class DatatypeConverter
       }
       return Double.valueOf(result);
    }
+   
+   private static final int NULL_SECONDS = 0x93406FFF;
 }
