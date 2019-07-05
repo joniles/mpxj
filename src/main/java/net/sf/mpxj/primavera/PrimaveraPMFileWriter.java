@@ -1202,14 +1202,17 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<ConstraintType, String>();
    static
    {
+      //CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Start On"); // TODO
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Finish On");
+      //CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Finish On"); // TODO
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");      
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_START, "Mandatory Start");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");     
    }
 
    private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<String, String>();

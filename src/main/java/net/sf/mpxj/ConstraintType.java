@@ -41,7 +41,9 @@ public enum ConstraintType implements MpxjEnum
    START_NO_EARLIER_THAN(4),
    START_NO_LATER_THAN(5),
    FINISH_NO_EARLIER_THAN(6),
-   FINISH_NO_LATER_THAN(7);
+   FINISH_NO_LATER_THAN(7),
+   MANDATORY_START(8),
+   MANDATORY_FINISH(9);
 
    /**
     * Private constructor.

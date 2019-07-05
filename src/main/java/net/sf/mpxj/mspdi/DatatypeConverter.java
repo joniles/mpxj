@@ -1580,7 +1580,32 @@ public final class DatatypeConverter
     */
    public static final BigInteger printConstraintType(ConstraintType value)
    {
-      return (value == null ? null : BigInteger.valueOf(value.getValue()));
+      if (value == null)
+      {
+         return null;
+      }
+
+      switch (value)
+      {
+         case MANDATORY_START:
+         {
+            value = ConstraintType.MUST_START_ON;
+            break;
+         }
+
+         case MANDATORY_FINISH:
+         {
+            value = ConstraintType.MUST_FINISH_ON;
+            break;
+         }
+
+         default:
+         {
+            break;
+         }
+      }
+
+      return BigInteger.valueOf(value.getValue());
    }
 
    /**
@@ -1800,7 +1825,7 @@ public final class DatatypeConverter
          return df;
       }
    };
-   
+
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = new ThreadLocal<NumberFormat>()
    {
       @Override protected NumberFormat initialValue()
@@ -1813,6 +1838,6 @@ public final class DatatypeConverter
    };
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<ProjectFile>();
-   
+
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
 }

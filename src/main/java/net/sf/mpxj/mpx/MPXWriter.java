@@ -1120,7 +1120,32 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatConstraintType(ConstraintType type)
    {
-      return (type == null ? null : LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()]);
+      if (type == null)
+      {
+         return null;
+      }
+      
+      switch (type)
+      {
+         case MANDATORY_START:
+         {
+            type = ConstraintType.MUST_START_ON;
+            break;
+         }
+         
+         case MANDATORY_FINISH:
+         {
+            type = ConstraintType.MUST_FINISH_ON;
+            break;
+         }
+         
+         default:
+         {
+            break;
+         }
+      }
+
+      return LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()];
    }
 
    /**
