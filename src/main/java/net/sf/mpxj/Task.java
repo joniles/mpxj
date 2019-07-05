@@ -2966,7 +2966,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Retrieve the resume valid flag.
     *
-    * @return resume valie flag
+    * @return resume valid flag
     */
    public boolean getResumeValid()
    {
@@ -3259,7 +3259,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getActualWorkProtected()
    {
-      return (m_actualWorkProtected);
+      return (Duration)getCachedValue(TaskField.ACTUAL_WORK_PROTECTED);
    }
 
    /**
@@ -3269,7 +3269,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setActualWorkProtected(Duration actualWorkProtected)
    {
-      m_actualWorkProtected = actualWorkProtected;
+      set(TaskField.ACTUAL_WORK_PROTECTED, actualWorkProtected);
    }
 
    /**
@@ -3279,7 +3279,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getActualOvertimeWorkProtected()
    {
-      return (m_actualOvertimeWorkProtected);
+      return (Duration)getCachedValue(TaskField.ACTUAL_OVERTIME_WORK_PROTECTED);
    }
 
    /**
@@ -3289,7 +3289,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setActualOvertimeWorkProtected(Duration actualOvertimeWorkProtected)
    {
-      m_actualOvertimeWorkProtected = actualOvertimeWorkProtected;
+      set(TaskField.ACTUAL_OVERTIME_WORK_PROTECTED, actualOvertimeWorkProtected);
    }
 
    /**
@@ -5124,8 +5124,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private String m_wbsLevel;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
-   private Duration m_actualWorkProtected;
-   private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
    private List<FieldListener> m_listeners;
 }
