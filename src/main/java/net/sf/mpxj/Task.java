@@ -3179,7 +3179,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public TimeUnit getLevelingDelayFormat()
    {
-      return (m_levelingDelayFormat);
+      return (TimeUnit)getCachedValue(TaskField.LEVELING_DELAY_UNITS);
    }
 
    /**
@@ -3189,13 +3189,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setLevelingDelayFormat(TimeUnit levelingDelayFormat)
    {
-      m_levelingDelayFormat = levelingDelayFormat;
+      set(TaskField.LEVELING_DELAY_UNITS, levelingDelayFormat);
    }
 
    /**
-    * Retrieves the ignore resource celandar flag.
+    * Retrieves the ignore resource calendar flag.
     *
-    * @return ignore resource celandar flag
+    * @return ignore resource calendar flag
     */
    public boolean getIgnoreResourceCalendar()
    {
@@ -3203,9 +3203,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Sets the ignore resource celandar flag.
+    * Sets the ignore resource calendar flag.
     *
-    * @param ignoreResourceCalendar ignore resource celandar flag
+    * @param ignoreResourceCalendar ignore resource calendar flag
     */
    public void setIgnoreResourceCalendar(boolean ignoreResourceCalendar)
    {
@@ -5124,7 +5124,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private String m_wbsLevel;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
-   private TimeUnit m_levelingDelayFormat;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
