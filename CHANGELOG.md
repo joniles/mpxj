@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.2 (git master)
+* Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)
 * Improve support for Synchro SP files containing blank tasks.
 
 ## 7.9.1 (01/07/2019)

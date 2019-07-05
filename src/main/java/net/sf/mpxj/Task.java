@@ -780,6 +780,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the secondary constraint date.
+    * 
+    * @param date secondary constraint date
+    */
+   public void setSecondaryConstraintDate(Date date)
+   {
+      set(TaskField.SECONDARY_CONSTRAINT_DATE, date);
+   }
+
+   /**
     * Private method for dealing with string parameters from File.
     *
     * @param type string constraint type
@@ -787,6 +797,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setConstraintType(ConstraintType type)
    {
       set(TaskField.CONSTRAINT_TYPE, type);
+   }
+
+   /**
+    * Set the secondary constraint type.
+    * 
+    * @param type secondary constraint type
+    */
+   public void setSecondaryConstraintType(ConstraintType type)
+   {
+      set(TaskField.SECONDARY_CONSTRAINT_TYPE, type);
    }
 
    /**
@@ -1797,6 +1817,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the secondary constraint date.
+    * 
+    * @return secondary constraint date
+    */
+   public Date getSecondaryConstraintDate()
+   {
+      return ((Date) getCachedValue(TaskField.SECONDARY_CONSTRAINT_DATE));
+   }
+
+   /**
     * The Constraint Type field provides choices for the type of constraint you
     * can apply for scheduling a task.
     *
@@ -1807,6 +1837,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return ((ConstraintType) getCachedValue(TaskField.CONSTRAINT_TYPE));
    }
 
+   /**
+    * Retrieve the secondary constraint type.
+    * 
+    * @return secondary constraint type
+    */
+   public ConstraintType getSecondaryConstraintType()
+   {
+      return ((ConstraintType) getCachedValue(TaskField.SECONDARY_CONSTRAINT_TYPE));
+   }
+   
    /**
     * The Contact field contains the name of an individual
     * responsible for a task.

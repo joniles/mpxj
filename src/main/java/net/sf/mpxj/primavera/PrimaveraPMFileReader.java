@@ -646,9 +646,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setActualCost(NumberHelper.DOUBLE_ZERO);
          task.setRemainingCost(NumberHelper.DOUBLE_ZERO);
          task.setBaselineCost(NumberHelper.DOUBLE_ZERO);
-
          task.setConstraintDate(row.getPrimaryConstraintDate());
-         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
+         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));         
+         task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
+         task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
          task.setLateStart(row.getRemainingLateStartDate());
@@ -1202,8 +1203,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       CONSTRAINT_TYPE_MAP.put("Finish On or Before", ConstraintType.FINISH_NO_LATER_THAN);
       CONSTRAINT_TYPE_MAP.put("Finish On or After", ConstraintType.FINISH_NO_EARLIER_THAN);
       CONSTRAINT_TYPE_MAP.put("As Late As Possible", ConstraintType.AS_LATE_AS_POSSIBLE);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MUST_START_ON);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MANDATORY_START);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MANDATORY_FINISH);
    }
 
    private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();

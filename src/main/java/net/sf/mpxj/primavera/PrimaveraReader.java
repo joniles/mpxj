@@ -1668,6 +1668,8 @@ final class PrimaveraReader
       map.put(TaskField.BASELINE_START, "target_start_date");
       map.put(TaskField.BASELINE_FINISH, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
+      map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
+      map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
       map.put(TaskField.PRIORITY, "priority_type");
       map.put(TaskField.CREATED, "create_date");
       map.put(TaskField.TYPE, "duration_type");
@@ -1770,6 +1772,8 @@ final class PrimaveraReader
       CONSTRAINT_TYPE_MAP.put("CS_ALAP", ConstraintType.AS_LATE_AS_POSSIBLE);
       CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MUST_START_ON);
       CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MANDATORY_START);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MANDATORY_FINISH);
    }
 
    private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();
