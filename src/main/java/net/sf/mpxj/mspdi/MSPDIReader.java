@@ -1147,7 +1147,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param xml Task data
     * @return Task instance
     */
-   private Task readTask(Project.Tasks.Task xml)
+   @SuppressWarnings("deprecation") private Task readTask(Project.Tasks.Task xml)
    {
       Task mpx = m_projectFile.addTask();
       mpx.setNull(BooleanHelper.getBoolean(xml.isIsNull()));
@@ -1318,6 +1318,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setType(xml.getType());
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
+         //mpx.setWBSLevel: The right-most level of the task work breakdown structure not written by MS Project, can be derived from the WBS
          mpx.setWBSLevel(xml.getWBSLevel());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
          mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
