@@ -32,7 +32,8 @@ MPP template files, with the suffix MPT are also supported.
 storing project data. Versions of Microsoft Project from 2002 onwards can read and write MSPDI files. 
 MPXJ allows MSPDI files to be created, read, and written. The MSDPI file format has remained
 broadly unchanged since it was introduced, although several versions of Microsoft Project have tweaked
-the file format slightly, and have their own updated documentation.
+the file format slightly, and have their own updated documentation. Documentation is [available 
+online here](https://docs.microsoft.com/en-us/office-project/xml-data-interchange/project-xml-data-interchange-schema-reference). 
 Documentation for the Project 2003 MSPDI file format can be downloaded as part of the
 [Office 2003 XML Reference Schemas]
 (https://www.microsoft.com/en-us/download/details.aspx?id=101) package.
