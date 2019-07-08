@@ -8,7 +8,8 @@
 		<release date="git master" version="7.9.2">
 			<action dev="joniles" type="add">Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)</action>
 			<action dev="joniles" type="update">Improve support for Synchro SP files containing blank tasks.</action>						
-			<action dev="joniles" type="update">Make constraint type mapping consistent when reading and writing PMXML files.</action>
+			<action dev="joniles" type="update">Make constraint type mapping consistent when reading and writing PMXML files.</action>			
+			<action dev="joniles" type="update">Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).</action>
 		</release>
 		<release date="01/07/2019" version="7.9.1">
 			<action dev="joniles" type="update">Set task start, finish and percent complete when reading SDEF files.</action>

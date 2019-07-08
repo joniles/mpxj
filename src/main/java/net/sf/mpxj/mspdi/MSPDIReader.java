@@ -1341,6 +1341,12 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setManualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getManualDuration()));
          }
 
+         // Ensure consistency with data read from an MPP file
+         if (mpx.getActualDuration() != null)
+         {
+            mpx.set(TaskField.ACTUAL_DURATION_UNITS, mpx.getActualDuration().getUnits());
+         }
+         
          //
          // When reading an MSPDI file, the project summary task contains
          // some of the values used to populate the project properties.
