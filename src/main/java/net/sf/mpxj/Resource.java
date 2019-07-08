@@ -1217,7 +1217,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setActualOvertimeWorkProtected(Duration duration)
    {
-      m_actualOvertimeWorkProtected = duration;
+      set(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED, duration);
    }
 
    /**
@@ -1227,7 +1227,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualOvertimeWorkProtected()
    {
-      return (m_actualOvertimeWorkProtected);
+      return (Duration)getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED);
    }
 
    /**
@@ -1237,7 +1237,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setActualWorkProtected(Duration duration)
    {
-      m_actualWorkProtected = duration;
+      set(ResourceField.ACTUAL_WORK_PROTECTED, duration);
    }
 
    /**
@@ -1247,7 +1247,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualWorkProtected()
    {
-      return (m_actualWorkProtected);
+      return (Duration)getCachedValue(ResourceField.ACTUAL_WORK_PROTECTED);
    }
 
    /**
@@ -2599,8 +2599,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private boolean m_eventsEnabled = true;
    private boolean m_null;
    private String m_activeDirectoryGUID;
-   private Duration m_actualOvertimeWorkProtected;
-   private Duration m_actualWorkProtected;
 
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private AvailabilityTable m_availability = new AvailabilityTable();
