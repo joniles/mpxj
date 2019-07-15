@@ -7,9 +7,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jon Iles" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Work with MSPDI files</title>
+    <title>MPXJ &#x2013; How To: Write MSPDI files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -43,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-07-01</li>
+        <li id="publishDate">Last Published: 2019-07-15</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -80,33 +79,78 @@
           </div>
         </div>
         <div id="bodyColumn"  class="span9" >
-
-    
-
 <div class="section">
 <h2><a name="How_To:_Write_MSPDI_files"></a>How To: Write MSPDI files</h2>
-
-
-<p>Since Microsoft Project 2002, Microsoft Project has been able to 
-read and write an XML-based data interchange format called MSPDI.</p>
-
-
+<p>Since Microsoft Project 2002, Microsoft Project has been able to read and write an XML-based data interchange format called MSPDI.</p>
+<div class="section">
+<h3><a name="Writing_MSPDI_files"></a>Writing MSPDI files</h3>
 <p>The sample code below illustrates how to write data to an MSPDI file.</p>
 
-
-<div class="source"><pre class="prettyprint">
-import net.sf.mpxj.ProjectFile;
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
 ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.write(projectFile, outputFileName);
-</pre></div>
+</pre></div></div></div>
+<div class="section">
+<h3><a name="Using_MSPDIWriter"></a>Using MSPDIWriter</h3>
+<div class="section">
+<h4><a name="Save_Version"></a>Save Version</h4>
+<p>The MSPDI file contains a <tt>SaveVersion</tt> attribute which indicates the version of Microsoft Project used to save the file. The value of <tt>SaveVersion</tt> is defined by the <tt>net.sf.mpxj.mspdi.SaveVersion</tt> enum, which provides the following values:</p>
 
-</div>
+<div class="source">
+<div class="source"><pre class="prettyprint">Project2002
+Project2003
+Project2007
+Project2010
+Project2013
+Project2016
+</pre></div></div>
+<p>By default <tt>MSPDIWriter</tt> sets the <tt>SaveVersion</tt> value to <tt>Project2016</tt>. The only functional difference this setting makes when writing MSPDI files is that the format of calendar exceptions changed in Project 2003 and onwards. MPXJ will always write calendar exceptions using the original Project 2002 format, and if the <tt>SaveVersion</tt> is set to <tt>Project2003</tt> or later it will also write the new format data as well.</p>
+<p>Here&#x2019;s an example of the <tt>SaveVersion</tt> attribute being set to ensure that only the older style of calendar exceptions is written to the MSPDI file:</p>
 
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIWriter;
+import net.sf.mpxj.mspdi.SaveVersion;
+...
 
+MSPDIWriter writer = new MSPDIWriter();
+writer.setSaveVersion(SaveVersion.Project2002);
+writer.write(projectFile, outputFileName);
+</pre></div></div></div>
+<div class="section">
+<h4><a name="Timephased_Data"></a>Timephased Data</h4>
+<p>By default <tt>MSPDIWriter</tt> does not write timephased data to an MSPDI file. To enable writing timephased data, you can call the <tt>setWriteTimephasedData</tt> method.</p>
+<p>When this setting is enabled, the default behaviour is for the timephased data is broken down into days when written to the file. If it better suits your use case (or you need a more compact file) you can choose to write an aggregated form of the timephased data by calling the <tt>setSplitTimephasedAsDays</tt> method and passing <tt>false</tt>. The difference between the two formats is that if for example you have a 10 day block with 8 hours work per day, this can either be represented as 10 entries in the file each for a single day with a value of 8 hours, or a single entry for a 10 day range with a value of 80 hours. Although the latter case is more compact, if you are consuming the MSPDI timephased data yourself you will need to differentiate between working an non-working days n order to break the single block down into smaller ranges. The default day-by-day format MPXJ writes does this for you automatically.</p>
+<p>In the first example below we&#x2019;re enabling timephased data, and using the default day-by-dat breakdown:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIWriter;
+
+...
+
+MSPDIWriter writer = new MSPDIWriter();
+writer.setWriteTimephasedData(true);
+writer.write(projectFile, outputFileName);
+</pre></div></div>
+<p>In this second example we&#x2019;re overriding the default behaviour as asking MPXJ to write an aggregated form of the timephased data: </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIWriter;
+
+...
+
+MSPDIWriter writer = new MSPDIWriter();
+writer.setWriteTimephasedData(true);
+writer.setSplitTimephasedAsDays(false);
+writer.write(projectFile, outputFileName);
+</pre></div></div></div></div></div>
         </div>
       </div>
     </div>
