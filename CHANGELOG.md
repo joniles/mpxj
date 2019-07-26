@@ -7,6 +7,7 @@
 * Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).
 * Improve handling of certain types of malformed MPP files.
 * Improve handling of certain types of malformed SDEF files.
+* Map P6 Equipment resource type to cost rather than work (Contributed by forenpm)
 
 ## 7.9.1 (01/07/2019)
 * Set task start, finish and percent complete when reading SDEF files.

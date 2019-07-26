@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).</action>
 			<action dev="joniles" type="update">Improve handling of certain types of malformed MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of certain types of malformed SDEF files.</action>
+			<action dev="joniles" type="update">Map P6 Equipment resource type to cost rather than work (Contributed by forenpm)</action>
 		</release>
 		<release date="01/07/2019" version="7.9.1">
 			<action dev="joniles" type="update">Set task start, finish and percent complete when reading SDEF files.</action>

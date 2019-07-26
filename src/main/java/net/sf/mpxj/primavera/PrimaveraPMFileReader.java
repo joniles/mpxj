@@ -1190,7 +1190,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       RESOURCE_TYPE_MAP.put(null, net.sf.mpxj.ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("Labor", net.sf.mpxj.ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("Material", net.sf.mpxj.ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("Nonlabor", net.sf.mpxj.ResourceType.MATERIAL);
+      RESOURCE_TYPE_MAP.put("Nonlabor", net.sf.mpxj.ResourceType.COST);
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
