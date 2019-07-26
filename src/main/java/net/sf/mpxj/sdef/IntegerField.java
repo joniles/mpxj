@@ -42,14 +42,21 @@ class IntegerField extends StringField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      String value = ((String)super.read(line, offset));
+      String value = ((String) super.read(line, offset));
       if (value == null || value.isEmpty())
       {
          result = null;
       }
       else
       {
-         result = Integer.valueOf(value);
+         try
+         {
+            result = Integer.valueOf(value);
+         }
+         catch (NumberFormatException ex)
+         {
+            result = null;
+         }
       }
       return result;
    }

@@ -42,14 +42,22 @@ class DoubleField extends StringField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      String value = ((String)super.read(line, offset));
+      String value = ((String) super.read(line, offset));
       if (value == null || value.isEmpty())
       {
          result = null;
       }
       else
       {
-         result = Double.valueOf(value);
+         try
+         {
+            result = Double.valueOf(value);
+         }
+
+         catch (NumberFormatException ex)
+         {
+            result = null;
+         }
       }
       return result;
    }
