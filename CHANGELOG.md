@@ -5,6 +5,7 @@
 * Improve support for Synchro SP files containing blank tasks.
 * Make constraint type mapping consistent when reading and writing PMXML files.
 * Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).
+* Improve handling of certain types of malformed MPP files.
 
 ## 7.9.1 (01/07/2019)
 * Set task start, finish and percent complete when reading SDEF files.
