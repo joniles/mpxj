@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.9.2 (git master)
+## 7.9.3 (git master)
+
+## 7.9.2 (19/08/2019)
 * Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)
 * Improve support for Synchro SP files containing blank tasks.
 * Make constraint type mapping consistent when reading and writing PMXML files.
