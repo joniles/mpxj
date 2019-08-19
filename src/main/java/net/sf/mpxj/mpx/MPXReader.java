@@ -906,7 +906,7 @@ public final class MPXReader extends AbstractProjectReader
     */
    private void processDeferredRelationship(DeferredRelationship dr) throws MPXJException
    {
-      String data = dr.getData();
+      String data = dr.getData().trim();
       Task task = dr.getTask();
 
       int length = data.length();
@@ -925,8 +925,11 @@ public final class MPXReader extends AbstractProjectReader
                end = length;
             }
 
-            populateRelation(dr.getField(), task, data.substring(start, end).trim());
-
+            if (start != end)
+            {
+               populateRelation(dr.getField(), task, data.substring(start, end).trim());
+            }
+            
             start = end + 1;
          }
       }
