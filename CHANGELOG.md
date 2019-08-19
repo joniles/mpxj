@@ -8,6 +8,7 @@
 * Improve handling of certain types of malformed MPP files.
 * Improve handling of certain types of malformed SDEF files.
 * Map P6 Equipment resource type to cost rather than work (Contributed by forenpm)
+* Improve handling of certain MPP containing large numbers of blank tasks.
 
 ## 7.9.1 (01/07/2019)
 * Set task start, finish and percent complete when reading SDEF files.

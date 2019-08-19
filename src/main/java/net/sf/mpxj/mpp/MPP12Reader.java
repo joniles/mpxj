@@ -1284,8 +1284,8 @@ final class MPP12Reader implements MPPVariantReader
       // Renumber ID values using a large increment to allow
       // space for later inserts.
       //
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
-      int nextIDIncrement = 1000;
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();     
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {

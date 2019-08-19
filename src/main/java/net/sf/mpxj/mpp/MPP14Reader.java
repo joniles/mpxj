@@ -1313,9 +1313,7 @@ final class MPP14Reader implements MPPVariantReader
       // space for later inserts.
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
-
-      // I've found a pathological case of an MPP file with around 102k blank tasks...
-      int nextIDIncrement = 102000;
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
