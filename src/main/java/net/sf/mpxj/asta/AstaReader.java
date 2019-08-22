@@ -424,7 +424,8 @@ final class AstaReader
       ///ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
       task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
-      task.setEarlyStart(row.getDate("EARLY_START_DATE"));
+      task.setEarlyStart(row.getDate("STARZ"));
+      task.setEarlyFinish(row.getDate("ENJ"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
       //FREE_START_DATE
       //START_CONSTRAINT_DATE
@@ -493,6 +494,8 @@ final class AstaReader
 
       //PROJID
       task.setUniqueID(row.getInteger("BARID"));
+      task.setEarlyStart(row.getDate("STARV"));
+      task.setEarlyFinish(row.getDate("ENF"));
       task.setStart(row.getDate("STARV"));
       task.setFinish(row.getDate("ENF"));
       //NATURAL_ORDER
@@ -636,26 +639,26 @@ final class AstaReader
 
       for (Row row : rows)
       {
-         Integer startTaskID = row.getInteger("START_TASK");                 
+         Integer startTaskID = row.getInteger("START_TASK");
          Task startTask = m_project.getTaskByUniqueID(startTaskID);
          if (startTask == null)
          {
-            startTaskID = completedSectionMap.get(startTaskID);            
+            startTaskID = completedSectionMap.get(startTaskID);
             if (startTaskID != null)
             {
                startTask = m_project.getTaskByUniqueID(startTaskID);
-            }   
+            }
          }
-         
+
          Integer endTaskID = row.getInteger("END_TASK");
          Task endTask = m_project.getTaskByUniqueID(endTaskID);
          if (endTask == null)
          {
-            endTaskID = completedSectionMap.get(endTaskID);            
+            endTaskID = completedSectionMap.get(endTaskID);
             if (endTaskID != null)
             {
                endTask = m_project.getTaskByUniqueID(endTaskID);
-            }   
+            }
          }
 
          if (startTask != null && endTask != null)
@@ -1332,10 +1335,10 @@ final class AstaReader
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
    private static final RelationType[] RELATION_TYPES =
-   {
-      RelationType.FINISH_START,
-      RelationType.START_START,
-      RelationType.FINISH_FINISH,
-      RelationType.START_FINISH
-   };
+           {
+                   RelationType.FINISH_START,
+                   RelationType.START_START,
+                   RelationType.FINISH_FINISH,
+                   RelationType.START_FINISH
+           };
 }
