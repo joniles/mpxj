@@ -147,6 +147,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    RecurringExceptionsTest.class,
    RecurringDataTest.class,
    DataLinksTest.class,
+   LocaleDataTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
