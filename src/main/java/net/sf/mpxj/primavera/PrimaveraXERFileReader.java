@@ -1022,6 +1022,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       FIELD_TYPE_MAP.put("actv_code_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("actv_code_id", XerFieldType.INTEGER);
+      
+      FIELD_TYPE_MAP.put("cstr_date2", XerFieldType.DATE);      
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
