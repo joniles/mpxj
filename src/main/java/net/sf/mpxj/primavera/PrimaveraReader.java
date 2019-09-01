@@ -107,7 +107,6 @@ final class PrimaveraReader
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
-      config.setAutoCalendarUniqueID(true);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
 
@@ -278,9 +277,18 @@ final class PrimaveraReader
          processCalendar(row);
       }
 
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto number. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      ProjectConfig config = m_project.getProjectConfig(); 
+      config.setAutoCalendarUniqueID(true);
+      config.updateCalendarUniqueCounter();
+      
       if (m_defaultCalendarID != null)
-      {
-         ProjectCalendar defaultCalendar = m_calMap.get(m_defaultCalendarID);
+      {         
+         ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
          // Primavera XER files can sometimes not contain a definition of the default
          // project calendar so only try to set if we find a definition.
          if (defaultCalendar != null)
@@ -300,7 +308,7 @@ final class PrimaveraReader
       ProjectCalendar calendar = m_project.addCalendar();
 
       Integer id = row.getInteger("clndr_id");
-      m_calMap.put(id, calendar);
+      calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
 
       try
@@ -508,7 +516,7 @@ final class PrimaveraReader
       ProjectCalendar result = null;
       if (calendarID != null)
       {
-         ProjectCalendar calendar = m_calMap.get(calendarID);
+         ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
          if (calendar != null)
          {
             //
@@ -742,7 +750,7 @@ final class PrimaveraReader
          uniqueIDs.add(uniqueID);
 
          Integer calId = row.getInteger("clndr_id");
-         ProjectCalendar cal = m_calMap.get(calId);
+         ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
          Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
@@ -1731,7 +1739,6 @@ final class PrimaveraReader
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
-   private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
 

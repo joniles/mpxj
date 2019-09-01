@@ -296,9 +296,17 @@ public class ProjectConfig
     */
    public void updateUniqueCounters()
    {
-      //
-      // Update task unique IDs
-      //
+      updateTaskUniqueCounter();
+      updateResourceUniqueCounter();
+      updateCalendarUniqueCounter();
+      updateAssignmentUniqueCounter();
+   }
+
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    */
+   public void updateTaskUniqueCounter()
+   {
       for (Task task : m_parent.getTasks())
       {
          int uniqueID = NumberHelper.getInt(task.getUniqueID());
@@ -307,10 +315,13 @@ public class ProjectConfig
             m_taskUniqueID = uniqueID;
          }
       }
+   }
 
-      //
-      // Update resource unique IDs
-      //
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    */
+   public void updateResourceUniqueCounter()
+   {
       for (Resource resource : m_parent.getResources())
       {
          int uniqueID = NumberHelper.getInt(resource.getUniqueID());
@@ -319,10 +330,13 @@ public class ProjectConfig
             m_resourceUniqueID = uniqueID;
          }
       }
+   }
 
-      //
-      // Update calendar unique IDs
-      //
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    */
+   public void updateCalendarUniqueCounter()
+   {
       for (ProjectCalendar calendar : m_parent.getCalendars())
       {
          int uniqueID = NumberHelper.getInt(calendar.getUniqueID());
@@ -331,10 +345,13 @@ public class ProjectConfig
             m_calendarUniqueID = uniqueID;
          }
       }
+   }
 
-      //
-      // Update assignment unique IDs
-      //
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    */
+   public void updateAssignmentUniqueCounter()
+   {
       for (ResourceAssignment assignment : m_parent.getResourceAssignments())
       {
          int uniqueID = NumberHelper.getInt(assignment.getUniqueID());

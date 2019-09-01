@@ -50,13 +50,13 @@ public class InvalidCalendarTest
       PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
       ProjectFile project = reader.read(file);
 
-      ProjectCalendar calendar = project.getCalendarByUniqueID(Integer.valueOf(1));
+      ProjectCalendar calendar = project.getCalendarByUniqueID(Integer.valueOf(178));
       assertEquals("Corporate - Standard Full Time", calendar.getName());
 
-      calendar = project.getCalendarByUniqueID(Integer.valueOf(2));
+      calendar = project.getCalendarByUniqueID(Integer.valueOf(179));
       assertEquals("Test - Valid", calendar.getName());
 
-      calendar = project.getCalendarByUniqueID(Integer.valueOf(3));
+      calendar = project.getCalendarByUniqueID(Integer.valueOf(180));
       assertEquals("Test - Invalid", calendar.getName());
    }
 }
