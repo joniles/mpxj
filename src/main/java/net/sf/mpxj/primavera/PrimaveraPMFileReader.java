@@ -225,7 +225,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       {
          m_projectFile = null;
          m_clashMap.clear();
-         m_calMap.clear();
          m_activityCodeMap.clear();
       }
    }
@@ -417,7 +416,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       {
          ProjectCalendar calendar = m_projectFile.addCalendar();
          Integer id = row.getObjectId();
-         m_calMap.put(id, calendar);
          calendar.setName(row.getName());
          calendar.setUniqueID(id);
 
@@ -495,7 +493,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
          {
-            ProjectCalendar calendar = m_calMap.get(calendarID);
+            ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
                //
@@ -675,7 +673,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
 
          Integer calId = row.getCalendarObjectId();
-         ProjectCalendar cal = m_calMap.get(calId);
+         ProjectCalendar cal = m_projectFile.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
          task.setStart(row.getStartDate());
@@ -1177,7 +1175,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
-   private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
    private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
