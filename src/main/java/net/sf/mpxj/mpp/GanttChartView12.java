@@ -90,6 +90,14 @@ public final class GanttChartView12 extends GanttChartView
       //
       for (int loop = 0; loop < filterCount; loop++)
       {
+         //
+         // Invalid filter definition?
+         //
+         if (offset + 6 > data.length)
+         {
+            break;            
+         }
+
          int blockSize = MPPUtility.getShort(data, offset);
 
          //

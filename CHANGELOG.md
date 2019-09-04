@@ -4,6 +4,7 @@
 * Ensure XER files containing secondary constraints can be read correctly.
 * Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).
 * Ensure base calendars are read correctly for P6 schedules.
+* Ensure MPP files with unexpected auto filter definition data are handled gracefully.
 
 ## 7.9.2 (19/08/2019)
 * Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)

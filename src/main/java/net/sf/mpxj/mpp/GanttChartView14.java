@@ -88,6 +88,14 @@ public final class GanttChartView14 extends GanttChartView
       // followed by 2 byte block size
       for (int loop = 0; loop < filterCount; loop++)
       {
+         //
+         // Invalid filter definition?
+         //
+         if (offset + 6 > data.length)
+         {
+            break;            
+         }
+         
          FieldType field = getFieldType(data, offset);
          int blockSize = MPPUtility.getShort(data, offset + 4);
 
