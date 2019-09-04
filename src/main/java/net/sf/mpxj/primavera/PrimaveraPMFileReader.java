@@ -412,62 +412,96 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     */
    private void processCalendars(APIBusinessObjects apibo)
    {
+      //
+      // First pass: read calendar definitions
+      //
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();     
       for (CalendarType row : apibo.getCalendar())
       {
-         ProjectCalendar calendar = m_projectFile.addCalendar();
-         Integer id = row.getObjectId();
-         calendar.setName(row.getName());
-         calendar.setUniqueID(id);
-
-         StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
-         if (stdWorkWeek != null)
+         ProjectCalendar calendar = processCalendar(row);
+         Integer baseCalendarID = row.getBaseCalendarObjectId();
+         if (baseCalendarID != null)
          {
-            for (StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
-            {
-               Day day = DAY_MAP.get(hours.getDayOfWeek());
-               List<WorkTimeType> workTime = hours.getWorkTime();
-               if (workTime.isEmpty() || workTime.get(0) == null)
-               {
-                  calendar.setWorkingDay(day, false);
-               }
-               else
-               {
-                  calendar.setWorkingDay(day, true);
-
-                  ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
-                  for (WorkTimeType work : workTime)
-                  {
-                     if (work != null)
-                     {
-                        calendarHours.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
-                     }
-                  }
-               }
-            }
+            baseCalendarMap.put(calendar,  baseCalendarID);
          }
-
-         HolidayOrExceptions hoe = row.getHolidayOrExceptions();
-         if (hoe != null)
+      }
+      
+      //
+      // Second pass: create calendar hierarchy
+      //
+      for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
+      {
+         ProjectCalendar baseCalendar = m_projectFile.getCalendarByUniqueID(entry.getValue());
+         if (baseCalendar != null)
          {
-            for (HolidayOrException ex : hoe.getHolidayOrException())
-            {
-               Date startDate = DateHelper.getDayStartDate(ex.getDate());
-               Date endDate = DateHelper.getDayEndDate(ex.getDate());
-               ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
+            entry.getKey().setParent(baseCalendar);
+         }
+      }      
+   }
 
-               List<WorkTimeType> workTime = ex.getWorkTime();
+   /**
+    * Process data for an individual calendar.
+    *
+    * @param row calendar data
+    * @return ProjectCalendar instance
+    */
+   private ProjectCalendar processCalendar(CalendarType row)
+   {
+      ProjectCalendar calendar = m_projectFile.addCalendar();
+      Integer id = row.getObjectId();
+      calendar.setName(row.getName());
+      calendar.setUniqueID(id);
+
+      StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
+      if (stdWorkWeek != null)
+      {
+         for (StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
+         {
+            Day day = DAY_MAP.get(hours.getDayOfWeek());
+            List<WorkTimeType> workTime = hours.getWorkTime();
+            if (workTime.isEmpty() || workTime.get(0) == null)
+            {
+               calendar.setWorkingDay(day, false);
+            }
+            else
+            {
+               calendar.setWorkingDay(day, true);
+
+               ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
                for (WorkTimeType work : workTime)
                {
                   if (work != null)
                   {
-                     pce.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                     calendarHours.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                   }
                }
             }
          }
       }
-   }
 
+      HolidayOrExceptions hoe = row.getHolidayOrExceptions();
+      if (hoe != null)
+      {
+         for (HolidayOrException ex : hoe.getHolidayOrException())
+         {
+            Date startDate = DateHelper.getDayStartDate(ex.getDate());
+            Date endDate = DateHelper.getDayEndDate(ex.getDate());
+            ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
+
+            List<WorkTimeType> workTime = ex.getWorkTime();
+            for (WorkTimeType work : workTime)
+            {
+               if (work != null)
+               {
+                  pce.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+               }
+            }
+         }
+      } 
+      
+      return calendar;
+   }
+   
    /**
     * Process resources.
     *
@@ -496,29 +530,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
-               //
-               // If the resource is linked to a base calendar, derive
-               // a default calendar from the base calendar.
-               //
-               if (!calendar.isDerived())
-               {
-                  ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
-                  resourceCalendar.setParent(calendar);
-                  resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-                  resource.setResourceCalendar(resourceCalendar);
-               }
-               else
+               if (calendar.isDerived())
                {
                   //
                   // Primavera seems to allow a calendar to be shared between resources
                   // whereas in the MS Project model there is a one-to-one
-                  // relationship. If we find a shared calendar, take a copy of it
+                  // relationship. If we find a calendar is shared between resources,
+                  // take a copy of it so each resource has its own copy.
                   //
                   if (calendar.getResource() == null)
                   {
@@ -530,6 +548,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                      copy.copy(calendar);
                      resource.setResourceCalendar(copy);
                   }
+               }
+               else
+               {
+                  //
+                  // If the resource is linked to a base calendar, derive
+                  // a default calendar from the base calendar.
+                  //
+                  ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
+                  resourceCalendar.setParent(calendar);
+                  resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+                  resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+                  resource.setResourceCalendar(resourceCalendar);
                }
             }
          }

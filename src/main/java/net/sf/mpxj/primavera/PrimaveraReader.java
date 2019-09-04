@@ -272,11 +272,32 @@ final class PrimaveraReader
     */
    public void processCalendars(List<Row> rows)
    {
+      //
+      // First pass: read calendar definitions
+      //
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();     
       for (Row row : rows)
       {
-         processCalendar(row);
+         ProjectCalendar calendar = processCalendar(row);
+         Integer baseCalendarID = row.getInteger("base_clndr_id");
+         if (baseCalendarID != null)
+         {
+            baseCalendarMap.put(calendar,  baseCalendarID);
+         }
       }
 
+      //
+      // Second pass: create calendar hierarchy
+      //
+      for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
+      {
+         ProjectCalendar baseCalendar = m_project.getCalendarByUniqueID(entry.getValue());
+         if (baseCalendar != null)
+         {
+            entry.getKey().setParent(baseCalendar);
+         }
+      }
+      
       //
       // We've used Primavera's unique ID values for the calendars we've read so far.
       // At this point any new calendars we create must be auto number. We also need to
@@ -302,8 +323,9 @@ final class PrimaveraReader
     * Process data for an individual calendar.
     *
     * @param row calendar data
+    * @return ProjectCalendar instance
     */
-   public void processCalendar(Row row)
+   public ProjectCalendar processCalendar(Row row)
    {
       ProjectCalendar calendar = m_project.addCalendar();
 
@@ -325,7 +347,7 @@ final class PrimaveraReader
          // to process something which isn't a double.
          // We'll just return at this point as it's not clear that we can salvage anything
          // sensible from this record.
-         return;
+         return calendar;
       }
 
       // Process data
@@ -359,6 +381,8 @@ final class PrimaveraReader
       }
 
       m_eventManager.fireCalendarReadEvent(calendar);
+      
+      return calendar;
    }
 
    /**
