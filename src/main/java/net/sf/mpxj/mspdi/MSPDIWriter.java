@@ -1113,11 +1113,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setLevelAssignments(Boolean.valueOf(mpx.getLevelAssignments()));
       xml.setLevelingCanSplit(Boolean.valueOf(mpx.getLevelingCanSplit()));
 
-      if (mpx.getLevelingDelay() != null)
+      if (mpx.getLevelingDelay() == null)
+      {
+         if (mpx.getLevelingDelayFormat() != null)
+         {
+            // We don't have a leveling delay, but we do have a format specified, so preserve that.
+            xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat(), false));
+         }
+      }
+      else
       {
          Duration levelingDelay = mpx.getLevelingDelay();
          double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
+         // We're assuming that the caller has configured the leveling delay with the correct units
+         // so we're not using the leveling delay format attribute of the task.
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay, false));
       }
 
