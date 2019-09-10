@@ -7,6 +7,7 @@
 * Ensure base calendars are read correctly for P6 schedules.
 * Ensure MPP files with unexpected auto filter definition data are handled gracefully.
 * Preserve leveling delay format when reading tasks from MSPDI files.
+* Ensure unexpected structure of timephased data is handled gracefully when reading MPP files.
 
 ## 7.9.2 (19/08/2019)
 * Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)

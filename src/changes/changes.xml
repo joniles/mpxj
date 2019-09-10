@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Ensure base calendars are read correctly for P6 schedules.</action>
 			<action dev="joniles" type="update">Ensure MPP files with unexpected auto filter definition data are handled gracefully.</action>
 			<action dev="joniles" type="update">Preserve leveling delay format when reading tasks from MSPDI files.</action>
+			<action dev="joniles" type="update">Ensure unexpected structure of timephased data is handled gracefully when reading MPP files.</action>
 		</release>
 		<release date="19/08/2019" version="7.9.2">
 			<action dev="joniles" type="add">Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)</action>
