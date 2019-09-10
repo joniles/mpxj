@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.4 (git master)
+* Ensure attribute names are valid when exporting JSON.
 
 ## 7.9.3 (10/09/2019)
 * Add support for reading task early finish and late finish attributes from Asta PP files.

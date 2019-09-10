@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.4">
+			<action dev="joniles" type="update">Ensure attribute names are valid when exporting JSON.</action>
 		</release>
 		<release date="10/09/2019" version="7.9.3">
 			<action dev="joniles" type="add">Add support for reading task early finish and late finish attributes from Asta PP files.</action>

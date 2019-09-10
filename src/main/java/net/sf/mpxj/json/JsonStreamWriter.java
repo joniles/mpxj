@@ -333,9 +333,7 @@ public class JsonStreamWriter
     */
    private void writeName(String name) throws IOException
    {
-      m_writer.write('"');
-      m_writer.write(name);
-      m_writer.write('"');
+      m_writer.write(escapeString(name));
       m_writer.write(":");
    }
 
