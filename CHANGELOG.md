@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.3 (git master)
+* Add support for reading task early finish and late finish attributes from Asta PP files.
 * Ensure XER files containing secondary constraints can be read correctly.
 * Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).
 * Ensure base calendars are read correctly for P6 schedules.

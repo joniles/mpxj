@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.3">
+			<action dev="joniles" type="add">Add support for reading task early finish and late finish attributes from Asta PP files.</action>
 			<action dev="joniles" type="update">Ensure XER files containing secondary constraints can be read correctly.</action>			
 			<action dev="joniles" type="update">Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).</action>
 			<action dev="joniles" type="update">Ensure base calendars are read correctly for P6 schedules.</action>
