@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -40,11 +41,14 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Resource;
-import net.sf.mpxj.Task;
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -167,46 +171,22 @@ public class MppCleanUtility
 
       //
       // Process Tasks
-      //
-      Map<String, String> replacements = new HashMap<String, String>();
-      for (Task task : m_project.getTasks())
-      {
-         mapText(task.getName(), replacements);
-      }
-      processReplacements(((DirectoryEntry) m_projectDir.getEntry("TBkndTask")), varDataFileName, replacements, true);
+      //    
+      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
 
       //
       // Process Resources
       //
-      replacements.clear();
-      for (Resource resource : m_project.getResources())
-      {
-         mapText(resource.getName(), replacements);
-         mapText(resource.getInitials(), replacements);
-      }
-      processReplacements((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, replacements, true);
+      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
 
       //
       // Process project properties
       //
-      replacements.clear();
-      ProjectProperties properties = m_project.getProjectProperties();
-      mapText(properties.getProjectTitle(), replacements);
-      processReplacements(m_projectDir, "Props", replacements, true);
+      List<ProjectProperties> projectProperties = Arrays.asList(m_project.getProjectProperties());
 
-      replacements.clear();
-      mapText(properties.getProjectTitle(), replacements);
-      mapText(properties.getSubject(), replacements);
-      mapText(properties.getAuthor(), replacements);
-      mapText(properties.getKeywords(), replacements);
-      mapText(properties.getComments(), replacements);
-      processReplacements(root, "\005SummaryInformation", replacements, false);
-
-      replacements.clear();
-      mapText(properties.getManager(), replacements);
-      mapText(properties.getCompany(), replacements);
-      mapText(properties.getCategory(), replacements);
-      processReplacements(root, "\005DocumentSummaryInformation", replacements, false);
+      processFile(m_projectDir, "Props", projectProperties, true, ProjectField.PROJECT_TITLE);
+      processFile(root, "\005SummaryInformation", projectProperties, false, ProjectField.PROJECT_TITLE, ProjectField.SUBJECT, ProjectField.AUTHOR, ProjectField.KEYWORDS, ProjectField.COMMENTS, ProjectField.LAST_AUTHOR);
+      processFile(root, "\005DocumentSummaryInformation", projectProperties, false, ProjectField.MANAGER, ProjectField.COMPANY, ProjectField.CATEGORY);
 
       //
       // Write the replacement raw file
@@ -219,17 +199,28 @@ public class MppCleanUtility
    }
 
    /**
-    * Extracts a block of data from the MPP file, and iterates through the map
-    * of find/replace pairs to make the data anonymous.
-    *
-    * @param parentDirectory parent directory object
-    * @param fileName target file name
-    * @param replacements find/replace data
-    * @param unicode true for double byte text
-    * @throws IOException
+    * Takes file contents represented as a byte array, finds specific field values within that file
+    * and replaces them with anonymous text.
+    * 
+    * @param data file data
+    * @param items items to extract field values from
+    * @param unicode true if replacing unicode text
+    * @param fields list of fields to extract
     */
-   private void processReplacements(DirectoryEntry parentDirectory, String fileName, Map<String, String> replacements, boolean unicode) throws IOException
+   private void processReplacements(byte[] data, List<? extends FieldContainer> items, boolean unicode, FieldType... fields)
    {
+      //
+      // Build a map of the replacements required
+      //
+      Map<String, String> replacements = new HashMap<String, String>();
+      for (FieldContainer item : items)
+      {
+         for (FieldType field : fields)
+         {
+            mapText((String) item.getCachedValue(field), replacements);
+         }
+      }
+
       //
       // Populate a list of keys and sort into descending order of length
       //
@@ -243,32 +234,47 @@ public class MppCleanUtility
       });
 
       //
-      // Extract the raw file data
-      //
-      DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
-      DocumentInputStream dis = new DocumentInputStream(targetFile);
-      int dataSize = dis.available();
-      byte[] data = new byte[dataSize];
-      dis.read(data);
-      dis.close();
-
-      //
-      // Replace the text
+      // Perform the replacement
       //
       for (String findText : keys)
       {
          String replaceText = replacements.get(findText);
          replaceData(data, findText, replaceText, unicode);
       }
+   }
 
-      //
-      // Remove the document entry
-      //
+   /**
+    * Extract a file from within an MPP file.
+    * 
+    * @param parentDirectory parent directory
+    * @param fileName file name
+    * @return file data
+    */
+   private byte[] extractFile(DirectoryEntry parentDirectory, String fileName) throws IOException
+   {
+      DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
+      DocumentInputStream dis = new DocumentInputStream(targetFile);
+      int dataSize = dis.available();
+      byte[] data = new byte[dataSize];
+      dis.read(data);
+      dis.close();
       targetFile.delete();
+      return data;
+   }
 
-      //
-      // Replace it with a new one
-      //
+   /**
+    * Perform the replacement on a file within an MPP file.
+    * 
+    * @param parentDirectory parent directory
+    * @param fileName target file name
+    * @param items items to extract field values from
+    * @param unicode true if replacing unicode text
+    * @param fields list of fields to extract
+    */
+   private void processFile(DirectoryEntry parentDirectory, String fileName, List<? extends FieldContainer> items, boolean unicode, FieldType... fields) throws IOException
+   {
+      byte[] data = extractFile(parentDirectory, fileName);
+      processReplacements(data, items, unicode, fields);
       parentDirectory.createDocument(fileName, new ByteArrayInputStream(data));
    }
 
