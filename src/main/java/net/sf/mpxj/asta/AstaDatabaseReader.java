@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -304,7 +305,9 @@ public final class AstaDatabaseReader implements ProjectReader
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
-         m_connection = DriverManager.getConnection(url);
+         Properties props = new Properties();
+         props.put("charSet", "Cp1252");
+         m_connection = DriverManager.getConnection(url, props);
          m_projectID = Integer.valueOf(0);
          return (read());
       }
