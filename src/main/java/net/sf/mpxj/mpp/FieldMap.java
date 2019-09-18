@@ -28,7 +28,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,7 +66,9 @@ abstract class FieldMap
    public FieldMap(ProjectProperties properties, CustomFieldContainer customFields)
    {
       m_properties = properties;
-      m_customFields = customFields;
+      m_stringVarDataReader = new StringVarDataFieldReader(customFields);
+      m_doubleVarDataReader = new DoubleVarDataFieldReader(customFields);
+      m_timestampVarDataReader = new TimestampVarDataFieldReader(customFields);
    }
 
    /**
@@ -994,19 +995,19 @@ abstract class FieldMap
 
             case STRING:
             {
-               result = getCustomFieldUnicodeStringValue(varData, id, m_varDataKey);
+               result = m_stringVarDataReader.getValue(varData, id, m_varDataKey);
                break;
             }
 
             case DATE:
             {
-               result = getCustomFieldTimestampValue(varData, id, m_varDataKey);
+               result = m_timestampVarDataReader.getValue(varData, id, m_varDataKey);
                break;
             }
 
             case NUMERIC:
             {
-               result = getCustomFieldDoubleValue(varData, id, m_varDataKey);
+               result = m_doubleVarDataReader.getValue(varData, id, m_varDataKey);
                break;
             }
 
@@ -1117,79 +1118,6 @@ abstract class FieldMap
        * @param varData var data block
        * @param id item ID
        * @param type item type
-       * @return item value
-       */
-      private Object getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
-      {
-         Object result = null;
-
-         //
-         // Note that this simplistic approach could produce false positives
-         //
-         int mask = varData.getShort(id, type);
-         if ((mask & 0xFF00) != VALUE_LIST_MASK)
-         {
-            result = getRawTimestampValue(varData, id, type);
-         }
-         else
-         {
-            int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-            if (item != null)
-            {
-               Object value = item.getValue();
-               if (value instanceof Date)
-               {
-                  result = value;
-               }
-            }
-
-            //
-            // If we can't find a custom field value with this ID, fall back to treating this as a normal value
-            //
-            if (result == null)
-            {
-               result = getRawTimestampValue(varData, id, type);
-            }
-         }
-         return result;
-      }
-
-      /**
-       * Retrieve a timestamp value.
-       *
-       * @param varData var data block
-       * @param id item ID
-       * @param type item type
-       * @return item value
-       */
-      private Object getRawTimestampValue(Var2Data varData, Integer id, Integer type)
-      {
-         Object result = null;
-         byte[] data = varData.getByteArray(id, type);
-         if (data != null)
-         {
-            if (data.length == 512)
-            {
-               result = MPPUtility.getUnicodeString(data, 0);
-            }
-            else
-            {
-               if (data.length >= 4)
-               {
-                  result = MPPUtility.getTimestamp(data, 0);
-               }
-            }
-         }
-         return result;
-      }
-
-      /**
-       * Retrieve custom field value.
-       *
-       * @param varData var data block
-       * @param id item ID
-       * @param type item type
        * @param units duration units
        * @return item value
        */
@@ -1215,78 +1143,6 @@ abstract class FieldMap
             }
          }
 
-         return result;
-      }
-
-      /**
-       * Retrieve custom field value.
-       *
-       * @param varData var data block
-       * @param id item ID
-       * @param type item type
-       * @return item value
-       */
-      private Double getCustomFieldDoubleValue(Var2Data varData, Integer id, Integer type)
-      {
-         double result = 0;
-
-         //
-         // Note that this simplistic approach could produce false positives
-         //
-         int mask = varData.getShort(id, type);
-         if ((mask & 0xFF00) != VALUE_LIST_MASK)
-         {
-            result = varData.getDouble(id, type);
-         }
-         else
-         {
-            int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-            if (item != null)
-            {
-               Object value = item.getValue();
-               if (value instanceof Number)
-               {
-                  result = ((Number) value).doubleValue();
-               }
-            }
-         }
-         return NumberHelper.getDouble(result);
-      }
-
-      /**
-       * Retrieve custom field value.
-       *
-       * @param varData var data block
-       * @param id item ID
-       * @param type item type
-       * @return item value
-       */
-      private String getCustomFieldUnicodeStringValue(Var2Data varData, Integer id, Integer type)
-      {
-         String result = null;
-
-         //
-         // Note that this simplistic approach could produce false positives
-         //
-         int mask = varData.getShort(id, type);
-         if ((mask & 0xFF00) != VALUE_LIST_MASK)
-         {
-            result = varData.getUnicodeString(id, type);
-         }
-         else
-         {
-            int uniqueId = varData.getInt(id, 2, type);
-            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-            if (item != null)
-            {
-               Object value = item.getValue();
-               if (value instanceof String)
-               {
-                  result = (String) value;
-               }
-            }
-         }
          return result;
       }
 
@@ -1439,8 +1295,10 @@ abstract class FieldMap
       private int m_metaBlock;
    }
 
-   private ProjectProperties m_properties;
-   protected CustomFieldContainer m_customFields;
+   private final ProjectProperties m_properties;
+   final VarDataFieldReader m_stringVarDataReader;
+   final VarDataFieldReader m_doubleVarDataReader;
+   final VarDataFieldReader m_timestampVarDataReader;
    private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
@@ -1472,8 +1330,6 @@ abstract class FieldMap
    {
       Props.RELATION_FIELD_MAP
    };
-
-   private static final int VALUE_LIST_MASK = 0x0700;
 
    private static final int MAX_FIXED_DATA_BLOCKS = 2;
 }
