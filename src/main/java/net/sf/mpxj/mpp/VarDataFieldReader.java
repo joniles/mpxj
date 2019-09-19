@@ -57,24 +57,58 @@ abstract class VarDataFieldReader
       // Note that this simplistic approach could produce false positives
       //
       int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) != VALUE_LIST_MASK)
-      {
-         result = readValue(varData, id, type);
+      if ((mask & 0xFF00) == VALUE_LIST_MASK)
+      {         
+         CustomFieldValueItem item;
+         byte[] data = varData.getByteArray(id, type);
+         
+         // 2 byte mask, 4 byte unique ID, 16 byte GUID?, 4 byte unknown?
+         if (data.length == 26)
+         {
+            int uniqueId = MPPUtility.getInt(data, 2);
+            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);            
+            if (item != null)
+            {
+               result = coerceValue(item.getValue());
+            }
+            else
+            {
+               // Haven't found any sample data yet which ends up here 
+            }                       
+         }
+         else
+         {
+            // Do we potentially have the 2 byte flag, plus a 4 byte unique ID?           
+            if (data.length >= 6)
+            {
+               int uniqueId = MPPUtility.getInt(data, 2);
+               item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+               if (item == null)
+               {
+                  // Fall back on the readValue method to make sense of the value.
+                  result = readValue(varData, id, type);
+               }
+               else
+               {
+                  result = coerceValue(item.getValue());
+               }            
+            }
+            else
+            {
+               // None of the types we read have only one or two bytes, so ignore those values. 
+               if (data.length > 2)
+               {
+                  // Fall back on the readValue method to make sense of the value.
+                  result = readValue(varData, id, type);
+               }
+            }
+         }
       }
       else
       {
-         int uniqueId = varData.getInt(id, 2, type);
-         CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-         if (item != null)
-         {
-            result = coerceValue(item.getValue());
-         }
-         
-         if (result == null && fallback())
-         {
-            result = readValue(varData, id, type);
-         }
+         result = readValue(varData, id, type);
       }
+            
       return result;
    }
 
@@ -96,19 +130,7 @@ abstract class VarDataFieldReader
     * @return coerced value
     */
    protected abstract Object coerceValue(Object value);
-   
-   /**
-    * The default behaviour of this class is to return null if we fail to
-    * read a lookup table item. If the sub class overrides this methof to return true,
-    * we'll fall back to trying to read the value directly from the var data block.
-    *  
-    * @return true if we should read the data directly from the var data block
-    */
-   protected boolean fallback()
-   {
-      return false;
-   }
-  
+     
    private final CustomFieldContainer m_customFields;
    private static final int VALUE_LIST_MASK = 0x0700;
 }

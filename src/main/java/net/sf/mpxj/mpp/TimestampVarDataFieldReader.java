@@ -57,11 +57,6 @@ class TimestampVarDataFieldReader extends VarDataFieldReader
       return null;
    }   
    
-   @Override protected boolean fallback()
-   {
-      return true;
-   }
-
    /**
     * Read a timestamp value from the var data block.
     * 
