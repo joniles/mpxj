@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
@@ -79,6 +80,17 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
+    * Retrieve a custom field value by its guid.
+    *
+    * @param guid custom field value guid
+    * @return custom field value
+    */
+   public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
+   {
+      return m_guidMap.get(guid);
+   }
+   
+   /**
     * Add a value to the custom field value index.
     *
     * @param item custom field value
@@ -86,6 +98,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void registerValue(CustomFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
+      if (item.getGuid() != null)
+      {
+         m_guidMap.put(item.getGuid(), item);
+      }
    }
 
    /**
@@ -96,6 +112,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void deregisterValue(CustomFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
+      if (item.getGuid() != null)
+      {
+         m_guidMap.remove(item.getGuid());
+      }
    }
 
    /**
@@ -123,5 +143,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    private Map<FieldType, CustomField> m_configMap = new HashMap<FieldType, CustomField>();
    private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<Integer, CustomFieldValueItem>();
+   private Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<UUID, CustomFieldValueItem>();
    private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<Pair<FieldTypeClass, String>, FieldType>();
 }

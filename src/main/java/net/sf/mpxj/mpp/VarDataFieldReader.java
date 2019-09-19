@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.UUID;
+
 import net.sf.mpxj.CustomFieldContainer;
 
 /**
@@ -53,28 +55,33 @@ abstract class VarDataFieldReader
    {
       Object result = null;
 
-      //
-      // Note that this simplistic approach could produce false positives
-      //
-      int mask = varData.getShort(id, type);
-      if ((mask & 0xFF00) == VALUE_LIST_MASK)
+      int flag = (varData.getShort(id, type) & 0xFF00);
+      if (flag == VALUE_LIST_WITH_ID_MASK || flag == VALUE_LIST_WITHOUT_ID_MASK)
       {         
-         CustomFieldValueItem item;
          byte[] data = varData.getByteArray(id, type);
          
          // 2 byte mask, 4 byte unique ID, 16 byte GUID?, 4 byte unknown?
          if (data.length == 26)
          {
             int uniqueId = MPPUtility.getInt(data, 2);
-            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);            
-            if (item != null)
+            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);            
+            if (item == null)
             {
-               result = coerceValue(item.getValue());
+               // At this point, based on observed data the value of uniqueID is probably 0xFFFF.
+               // Try finding the value by GUID instead.
+               UUID guid = MPPUtility.getGUID(data, 6);
+               item = m_customFields.getCustomFieldValueItemByGuid(guid);
+            }
+            
+            if (item == null)
+            {
+               // Fall back on the readValue method to make sense of the value.
+               result = readValue(varData, id, type);                
             }
             else
             {
-               // Haven't found any sample data yet which ends up here 
-            }                       
+               result = coerceValue(item.getValue());
+            }
          }
          else
          {
@@ -82,10 +89,10 @@ abstract class VarDataFieldReader
             if (data.length >= 6)
             {
                int uniqueId = MPPUtility.getInt(data, 2);
-               item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+               CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
                if (item == null)
                {
-                  // Fall back on the readValue method to make sense of the value.
+                  // Van't find a value by Unique ID, fall back on the readValue method to make sense of the value.
                   result = readValue(varData, id, type);
                }
                else
@@ -132,5 +139,6 @@ abstract class VarDataFieldReader
    protected abstract Object coerceValue(Object value);
      
    private final CustomFieldContainer m_customFields;
-   private static final int VALUE_LIST_MASK = 0x0700;
+   private static final int VALUE_LIST_WITH_ID_MASK = 0x0700;
+   private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0400;
 }
