@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.UUID;
+
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
@@ -30,5 +32,25 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
  */
 public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
-   // No body
+   /**
+    * Retrieve the lookup table GUID.
+    *
+    * @return lookup table GUID
+    */
+   public UUID getGUID()
+   {
+      return m_guid;
+   }
+
+   /**
+    * Set the lookup table GUID.
+    * 
+    * @param guid lookup table GUID.
+    */
+   public void setGUID(UUID guid)
+   {
+      m_guid = guid;
+   }
+   
+   private UUID m_guid;
 }
