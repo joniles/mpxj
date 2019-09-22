@@ -29,6 +29,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -96,8 +97,8 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          {
             item.setGuid(MPPUtility.getGUID(b2, 0));
             UUID lookupTableGuid = MPPUtility.getGUID(b2, fieldOffset);
-            int type = MPPUtility.getShort(b2, typeOffset);
-            item.setValue(getTypedValue(type, value));
+            item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, typeOffset)));
+            item.setValue(getTypedValue(item.getType(), value));            
             
             m_container.registerValue(item);
             FieldType field = map.get(lookupTableGuid);
@@ -108,7 +109,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
                // It's like this to avoid creating empty lookup tables. Need to refactor!
                table.setGUID(lookupTableGuid);
             }
-         }
+         }        
       }
    }
 
