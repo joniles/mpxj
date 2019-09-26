@@ -8,6 +8,7 @@
 		<release date="git master" version="7.9.4">
 			<action dev="joniles" type="update">Ensure attribute names are valid when exporting JSON.</action>
 			<action dev="joniles" type="update">Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).</action>
+			<action dev="joniles" type="update">Fix an issue when copying a calendar which has exceptions defined.</action>
 		</release>
 		<release date="10/09/2019" version="7.9.3">
 			<action dev="joniles" type="add">Add support for reading task early finish and late finish attributes from Asta PP files.</action>
