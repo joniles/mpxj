@@ -30,23 +30,27 @@ import net.sf.mpxj.common.EnumHelper;
  */
 public enum CustomFieldValueDataType implements MpxjEnum
 {
-   DATE(4),
-   DURATION(6), 
-   COST(9),
-   NUMBER(15),
-   FLAG(17),
-   TEXT(21),
-   FINISH_DATE(27);
+   DATE(4, 4, DataType.DATE),
+   DURATION(6, 6, DataType.DURATION), 
+   COST(9, 5, DataType.CURRENCY),
+   NUMBER(15, 7, DataType.NUMERIC),
+   FLAG(17, 17, DataType.BOOLEAN),
+   TEXT(21, 3, DataType.STRING),
+   FINISH_DATE(27, 9, DataType.DATE);
 
    
    /**
     * Private constructor.
     *
-    * @param type int version of the enum
+    * @param value int version of the enum
+    * @param maskValue data type used in mask definition 
+    * @param type data type
     */
-   private CustomFieldValueDataType(int type)
+   private CustomFieldValueDataType(int value, int maskValue, DataType type)
    {
-      m_value = type;
+      m_value = value;
+      m_maskValue = maskValue;
+      m_type = type;
    }
 
    /**
@@ -59,6 +63,10 @@ public enum CustomFieldValueDataType implements MpxjEnum
    {
       if (type >= 0 && type < TYPE_VALUES.length)
       {
+         if (TYPE_VALUES[type] == null)
+         {
+            System.out.println("here");
+         }
          return TYPE_VALUES[type];
       }
       return null;
@@ -75,6 +83,21 @@ public enum CustomFieldValueDataType implements MpxjEnum
    }
 
    /**
+    * Retrieve the MPXJ data type.
+    * 
+    * @return MPXJ data type
+    */
+   public DataType getDataType()
+   {
+      return m_type;
+   }
+   
+   public int getMaskValue()
+   {
+      return m_maskValue;
+   }
+
+   /**
     * Array mapping int types to enums.
     */
    private static final CustomFieldValueDataType[] TYPE_VALUES = EnumHelper.createTypeArray(CustomFieldValueDataType.class, 21);
@@ -82,5 +105,9 @@ public enum CustomFieldValueDataType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
+   
+   private final int m_maskValue;
+   
+   private final DataType m_type;
 }

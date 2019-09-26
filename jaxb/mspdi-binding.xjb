@@ -202,5 +202,44 @@
       </jxb:bindings>
    </jxb:bindings>
 
+   <!-- OutlineCode GUID -->      
+   <jxb:bindings node="//xsd:element[@name='OutlineCode']//xsd:element[@name='Guid']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- OutlineCode FieldGUID -->
+   <jxb:bindings node="//xsd:element[@name='OutlineCode']//xsd:element[@name='FieldGUID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- ExtendedAttribute Ltuid -->
+   <jxb:bindings node="//xsd:element[@name='ExtendedAttribute']//xsd:element[@name='Ltuid']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"                       
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
   </jxb:bindings>
 </jxb:bindings>

@@ -55,6 +55,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.mpp.MPPUtility;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -150,6 +151,17 @@ public final class DatatypeConverter
    }
 
    /**
+    * Write an outline code/custom field timestamp for a lookup table.
+    * 
+    * @param value Daste value
+    * @return timestamp value
+    */
+   public static final String printOutlineCodeValueDate(Date value)
+   {
+      return value == null ? null : String.valueOf(((value.getTime() - MPPUtility.EPOCH) / (1000 *60 * 60 * 24)) * 65536);   
+   }
+   
+   /**
     * Parse an extended attribute date value.
     *
     * @param value string representation
@@ -223,6 +235,51 @@ public final class DatatypeConverter
             }
          }
       }
+
+      return (result);
+   }
+
+   /**
+    * Write an outline code/custom field value for a lookup table.
+    * 
+    * @param value value to write
+    * @param type target type
+    * @return formatted value
+    */
+   public static final String printOutlineCodeValue(Object value, DataType type)
+   {
+      String result;
+
+      if (type == DataType.DATE)
+      {
+         result = printOutlineCodeValueDate((Date) value);
+      }
+      else
+      {
+            if (value instanceof Duration)
+            {
+               result = printDurationInIntegerTenthsOfMinutes((Duration) value).toString();
+            }
+            else
+            {
+               if (type == DataType.CURRENCY)
+               {
+                  result = printExtendedAttributeCurrency((Number) value);
+               }
+               else
+               {
+                  if (value instanceof Number)
+                  {
+                     result = printExtendedAttributeNumber((Number) value);
+                  }
+                  else
+                  {
+                     result = value.toString();
+                  }
+               }
+            }
+         }
+
 
       return (result);
    }

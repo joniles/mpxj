@@ -52,5 +52,81 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
       m_guid = guid;
    }
    
+   public UUID getGuid()
+   {
+      return m_guid;
+   }
+
+   public void setGuid(UUID guid)
+   {
+      m_guid = guid;
+   }
+
+   public boolean getEnterprise()
+   {
+      return m_enterprise;
+   }
+
+   public void setEnterprise(boolean enterprise)
+   {
+      m_enterprise = enterprise;
+   }
+
+   public boolean getShowIndent()
+   {
+      return m_showIndent;
+   }
+
+   public void setShowIndent(boolean showIndent)
+   {
+      m_showIndent = showIndent;
+   }
+
+   public boolean getResourceSubstitutionEnabled()
+   {
+      return m_resourceSubstitutionEnabled;
+   }
+
+   public void setResourceSubstitutionEnabled(boolean resourceSubstitutionEnabled)
+   {
+      m_resourceSubstitutionEnabled = resourceSubstitutionEnabled;
+   }
+
+   public boolean getLeafOnly()
+   {
+      return m_leafOnly;
+   }
+
+   public void setLeafOnly(boolean leafOnly)
+   {
+      m_leafOnly = leafOnly;
+   }
+
+   public boolean getAllLevelsRequired()
+   {
+      return m_allLevelsRequired;
+   }
+
+   public void setAllLevelsRequired(boolean allLevelsRequired)
+   {
+      m_allLevelsRequired = allLevelsRequired;
+   }
+
+   public boolean getOnlyTableValuesAllowed()
+   {
+      return m_onlyTableValuesAllowed;
+   }
+
+   public void setOnlyTableValuesAllowed(boolean onlyTableValuesAllowed)
+   {
+      m_onlyTableValuesAllowed = onlyTableValuesAllowed;
+   }
+
    private UUID m_guid;
+   private boolean m_enterprise;
+   private boolean m_showIndent = true;
+   private boolean m_resourceSubstitutionEnabled;
+   private boolean m_leafOnly;
+   private boolean m_allLevelsRequired;
+   private boolean m_onlyTableValuesAllowed = true;
 }

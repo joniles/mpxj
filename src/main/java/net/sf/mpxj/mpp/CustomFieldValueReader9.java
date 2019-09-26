@@ -210,7 +210,7 @@ public class CustomFieldValueReader9
       List<Object> valueList = convertType(field.getDataType(), values);
       for (int index = 0; index < descriptionList.size(); index++)
       {
-         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(0));
+         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setDescription((String) descriptionList.get(index));
          if (index < valueList.size())
          {
@@ -234,7 +234,7 @@ public class CustomFieldValueReader9
 
       for (Pair<String, String> pair : items)
       {
-         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(0));
+         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setValue(pair.getFirst());
          item.setDescription(pair.getSecond());
          table.add(item);
@@ -322,7 +322,7 @@ public class CustomFieldValueReader9
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
    private final CustomFieldContainer m_container;
-
+   private int m_valueUniqueIDCounter;
    private static final Integer VALUE = Integer.valueOf(1);
    private static final Integer DESCRIPTION = Integer.valueOf(2);
 

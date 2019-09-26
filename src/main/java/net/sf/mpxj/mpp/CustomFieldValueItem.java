@@ -173,6 +173,16 @@ public final class CustomFieldValueItem
       m_type = type;
    }
 
+   public boolean getCollapsed()
+   {
+      return m_collapsed;
+   }
+
+   public void setCollapsed(boolean collapsed)
+   {
+      m_collapsed = collapsed;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -188,4 +198,5 @@ public final class CustomFieldValueItem
    private byte[] m_unknown;
    private Integer m_parentId;
    private CustomFieldValueDataType m_type;
+   private boolean m_collapsed;
 }

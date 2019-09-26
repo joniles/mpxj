@@ -48,6 +48,8 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -83,6 +85,7 @@ import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
@@ -190,11 +193,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
 
-         writeProjectProperties(project);
+         writeProjectProperties(project);         
          writeCalendars(project);
          writeResources(project);
          writeTasks(project);
          writeAssignments(project);
+         writeOutlineCodes(project);
          writeProjectExtendedAttributes(project);
 
          marshaller.marshal(project, stream);
@@ -334,12 +338,101 @@ public final class MSPDIWriter extends AbstractProjectWriter
          list.add(attribute);
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
          attribute.setFieldName(fieldType.getName());
-
+                  
          CustomField customField = customFieldContainer.getCustomField(fieldType);
          attribute.setAlias(customField.getAlias());
+         attribute.setLtuid(customField.getLookupTable().getGUID());
       }
    }
 
+   /**
+    * Write outline code/custom field lookup tables.
+    * 
+    * @param project Root node of the MSPDI file
+    */
+   private void writeOutlineCodes(Project project)
+   {
+      Project.OutlineCodes outlineCodes = m_factory.createProjectOutlineCodes();
+      project.setOutlineCodes(outlineCodes);
+      
+      for (CustomField field : m_projectFile.getCustomFields())
+      {
+         if (!field.getLookupTable().isEmpty())
+         {
+            Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
+            outlineCodes.getOutlineCode().add(outlineCode);
+            writeOutlineCode(outlineCode, field);
+         }
+      }
+   }
+   
+   private void writeOutlineCode(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
+   {
+      //
+      // Header details
+      //
+      CustomFieldLookupTable table = field.getLookupTable();
+      outlineCode.setGuid(table.getGUID());
+      outlineCode.setEnterprise(Boolean.valueOf(table.getEnterprise()));
+      outlineCode.setShowIndent(Boolean.valueOf(table.getShowIndent()));
+      outlineCode.setResourceSubstitutionEnabled(Boolean.valueOf(table.getResourceSubstitutionEnabled()));
+      outlineCode.setLeafOnly(Boolean.valueOf(table.getLeafOnly()));
+      outlineCode.setAllLevelsRequired(Boolean.valueOf(table.getAllLevelsRequired()));
+      outlineCode.setOnlyTableValuesAllowed(Boolean.valueOf(table.getOnlyTableValuesAllowed()));
+     
+      //
+      // Masks
+      //
+      outlineCode.setMasks(m_factory.createProjectOutlineCodesOutlineCodeMasks());      
+      if (field.getMasks().isEmpty())
+      {
+         CustomFieldValueMask item = new CustomFieldValueMask(0, 1, ".", table.get(0).getType());
+         writeMask(outlineCode, item);
+      }
+      else
+      {
+         for (CustomFieldValueMask item : field.getMasks())
+         {
+            writeMask(outlineCode, item);
+         }
+      }
+      
+      //
+      // Values
+      //
+      Project.OutlineCodes.OutlineCode.Values values = m_factory.createProjectOutlineCodesOutlineCodeValues();
+      outlineCode.setValues(values);
+      
+      for (CustomFieldValueItem item : table)
+      {
+         Project.OutlineCodes.OutlineCode.Values.Value value = m_factory.createProjectOutlineCodesOutlineCodeValuesValue();
+         values.getValue().add(value);
+         writeOutlineCodeValue(value, item);
+      }
+   }
+   
+   private void writeOutlineCodeValue(Project.OutlineCodes.OutlineCode.Values.Value value, CustomFieldValueItem item)
+   {
+      value.setDescription(item.getDescription());
+      value.setFieldGUID(item.getGuid());
+      value.setIsCollapsed(Boolean.valueOf(item.getCollapsed()));
+      value.setParentValueID(NumberHelper.getBigInteger(item.getParent()));
+      value.setType(BigInteger.valueOf(item.getType().getValue()));
+      value.setValueID(NumberHelper.getBigInteger(item.getUniqueID()));
+      value.setValue(DatatypeConverter.printOutlineCodeValue(item.getValue(), item.getType().getDataType()));
+   }
+   
+   private void writeMask(Project.OutlineCodes.OutlineCode outlineCode, CustomFieldValueMask item)
+   {
+      Project.OutlineCodes.OutlineCode.Masks.Mask mask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
+      outlineCode.getMasks().getMask().add(mask);
+      
+      mask.setLength(BigInteger.valueOf(item.getLength()));
+      mask.setLevel(BigInteger.valueOf(item.getLevel()));
+      mask.setSeparator(item.getSeparator());
+      mask.setType(BigInteger.valueOf(item.getType().getMaskValue()));
+   }
+   
    /**
     * This method writes calendar data to an MSPDI file.
     *
