@@ -139,8 +139,10 @@ final class MPP12Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      //
-      if (! reader.getIgnorePassword() && (props12.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      byte encryption = props12.getByte(Props.PASSWORD_FLAG);
+      boolean readEncrypted = (encryption & 0x1) != 0;
+      boolean writeEncrypted = (encryption & 0x2) != 0;
+      if (! reader.getIgnorePassword() && readEncrypted)
       {
          // Couldn't figure out how to get the password for MPP12 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
@@ -167,6 +169,8 @@ final class MPP12Reader implements MPPVariantReader
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(12));
       m_file.getProjectProperties().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setReadEncrypted(readEncrypted);
+      m_file.getProjectProperties().setWriteEncrypted(writeEncrypted);
 
    }
 

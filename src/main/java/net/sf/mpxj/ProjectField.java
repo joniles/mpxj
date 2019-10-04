@@ -159,6 +159,8 @@ public enum ProjectField implements FieldType
    FILE_APPLICATION(DataType.STRING),
    FILE_TYPE(DataType.STRING),
    EXPORT_FLAG(DataType.BOOLEAN),
+   READ_ENCRYPTED(DataType.BOOLEAN),
+   WRITE_ENCRYPTED(DataType.BOOLEAN),
 
    FINISH_DATE(DataType.DATE); // Must always be last value
 
