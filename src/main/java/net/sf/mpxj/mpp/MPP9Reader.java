@@ -96,7 +96,7 @@ final class MPP9Reader implements MPPVariantReader
             processAssignmentData();
             postProcessTasks();
             processDataLinks();
-            
+
             if (reader.getReadPresentationData())
             {
                processViewPropertyData();
@@ -146,7 +146,7 @@ final class MPP9Reader implements MPPVariantReader
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
       //
-      if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      if (! reader.getIgnorePassword() && (props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
       {
          // File is password protected for reading, let's read the password
          // and see if the correct read password was given to us.

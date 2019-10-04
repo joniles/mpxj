@@ -1312,6 +1312,7 @@ public class BasicTest
    @Test public void testPasswordProtection() throws Exception
    {
       File in;
+      MPPReader reader;
 
       //
       // Read password (password1)
@@ -1328,6 +1329,11 @@ public class BasicTest
          assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
 
+      // Ignore password mode.
+      in = new File(MpxjTestData.filePath("legacy/readpassword9.mpp"));
+      reader = new MPPReader();
+      reader.setIgnorePassword(true);
+      reader.read(in);
       //
       // Write password (password2)
       //
@@ -1348,6 +1354,10 @@ public class BasicTest
       {
          assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
+      in = new File(MpxjTestData.filePath("legacy/bothpassword9.mpp"));
+      reader = new MPPReader();
+      reader.setIgnorePassword(true);
+      reader.read(in);
    }
 
    /**

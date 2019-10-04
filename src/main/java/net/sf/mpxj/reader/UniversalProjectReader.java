@@ -388,6 +388,7 @@ public final class UniversalProjectReader implements ProjectReader
       if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
          MPPReader reader = new MPPReader();
+         reader.setIgnorePassword(m_ignorePasswords);
          addListeners(reader);
          return reader.read(fs);
       }
@@ -834,9 +835,15 @@ public final class UniversalProjectReader implements ProjectReader
       }
    }
 
+   public void setIgnorePasswords(boolean ignore)
+   {
+       m_ignorePasswords = ignore;
+   }
+
    private int m_skipBytes;
    private Charset m_charset;
    private List<ProjectListener> m_projectListeners;
+   private boolean m_ignorePasswords;
 
    private static final int BUFFER_SIZE = 512;
 
@@ -1041,7 +1048,7 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern MSPDI_FINGERPRINT_1 = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
 
    private static final Pattern MSPDI_FINGERPRINT_2 = Pattern.compile(".*<Project.*<SaveVersion>.*", Pattern.DOTALL);
-   
+
    private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
