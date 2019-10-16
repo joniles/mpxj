@@ -25,6 +25,13 @@ Or install it yourself as:
 ## Changelog
 You'll find details of what has changed in this version [here](http://mpxj.sourceforge.net/changes-report.html).
 
+## Java 11 or newer
+
+Newer version of java doesn't have JAXB library build-in. 
+You need to install it manually [more info here](https://javaee.github.io/jaxb-v2/)
+After installing you need to specify path from where it will be loaded.
+You can do that by setting environment variable `JAXB_LIB_PATH` pointing to directory with `.jar` files. 
+
 ## Supported File Types
 
 This gem uses the file name extension to determine what kind of project data it is reading. The list below shows the supported file extensions:

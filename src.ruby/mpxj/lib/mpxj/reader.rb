@@ -20,8 +20,9 @@ module MPXJ
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
 
       begin
-        classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
-        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
+        classpath = Dir["#{File.dirname(__FILE__)}/*.jar"]
+        classpath += Dir["#{File.dirname(Env['JAXB_LIB_PATH'])}/*.jar"] if Env['JAXB_LIB_PATH'] && Env['JAXB_LIB_PATH'] != ''
+        java_output = `java -cp \"#{classpath.join(path_separator)}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
           report_error(java_output)
         end
