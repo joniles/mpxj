@@ -21,7 +21,7 @@ module MPXJ
 
       begin
         classpath = Dir["#{File.dirname(__FILE__)}/*.jar"]
-        classpath += Dir["#{File.dirname(ENV['JAXB_LIB_PATH'])}/*.jar"] if ENV['JAXB_LIB_PATH'] && ENV['JAXB_LIB_PATH'] != ''
+        classpath += Dir["#{File.expand_path(ENV['JAXB_LIB_PATH'])}/*.jar"] if ENV['JAXB_LIB_PATH'] && ENV['JAXB_LIB_PATH'] != ''
         java_output = `java -cp \"#{classpath.join(path_separator)}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
           report_error(java_output)
