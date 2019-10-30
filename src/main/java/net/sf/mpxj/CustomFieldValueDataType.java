@@ -63,10 +63,6 @@ public enum CustomFieldValueDataType implements MpxjEnum
    {
       if (type >= 0 && type < TYPE_VALUES.length)
       {
-         if (TYPE_VALUES[type] == null)
-         {
-            System.out.println("here");
-         }
          return TYPE_VALUES[type];
       }
       return null;

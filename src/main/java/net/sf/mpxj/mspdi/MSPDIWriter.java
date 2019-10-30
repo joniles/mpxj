@@ -352,13 +352,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeOutlineCodes(Project project)
    {
-      Project.OutlineCodes outlineCodes = m_factory.createProjectOutlineCodes();
-      project.setOutlineCodes(outlineCodes);
-      
+      Project.OutlineCodes outlineCodes = null;
+            
       for (CustomField field : m_projectFile.getCustomFields())
       {
          if (!field.getLookupTable().isEmpty())
          {
+            if (outlineCodes == null)
+            {
+               outlineCodes = m_factory.createProjectOutlineCodes();
+               project.setOutlineCodes(outlineCodes);
+            }
+            
             Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
             outlineCodes.getOutlineCode().add(outlineCode);
             writeOutlineCode(outlineCode, field);

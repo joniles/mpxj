@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -38,6 +39,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
@@ -205,13 +207,17 @@ public class CustomFieldValueReader9
    {
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
+      table.setGUID(UUID.randomUUID());
 
       List<Object> descriptionList = convertType(DataType.STRING, descriptions);
       List<Object> valueList = convertType(field.getDataType(), values);
+      CustomFieldValueDataType itemType = getDataType(field);
       for (int index = 0; index < descriptionList.size(); index++)
       {
          CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setDescription((String) descriptionList.get(index));
+         item.setType(itemType);
+         item.setGuid(UUID.randomUUID());
          if (index < valueList.size())
          {
             item.setValue(valueList.get(index));
@@ -231,12 +237,16 @@ public class CustomFieldValueReader9
    {
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
+      table.setGUID(UUID.randomUUID());
+      CustomFieldValueDataType itemType = getDataType(field);
 
       for (Pair<String, String> pair : items)
       {
          CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setValue(pair.getFirst());
          item.setDescription(pair.getSecond());
+         item.setType(itemType);
+         item.setGuid(UUID.randomUUID());
          table.add(item);
       }
    }
@@ -318,6 +328,27 @@ public class CustomFieldValueReader9
       return result;
    }
 
+   /**
+    * Retrieve the CustomFieldValueDataType instance for a custom field.
+    * 
+    * @param field custom field
+    * @return CustomFieldValueDataType instance
+    */
+   private CustomFieldValueDataType getDataType(FieldType field)
+   {
+      CustomFieldValueDataType result = null;
+      if (field != null)
+      {
+         result = TYPE_MAP.get(field.getDataType());
+      }
+
+      if (result == null)
+      {
+         result = CustomFieldValueDataType.TEXT;
+      }
+      return result;
+   }
+
    private final DirectoryEntry m_projectDir;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
@@ -326,4 +357,14 @@ public class CustomFieldValueReader9
    private static final Integer VALUE = Integer.valueOf(1);
    private static final Integer DESCRIPTION = Integer.valueOf(2);
 
+   private static final Map<DataType, CustomFieldValueDataType> TYPE_MAP = new HashMap<DataType, CustomFieldValueDataType>();
+   static
+   {
+      TYPE_MAP.put(DataType.STRING, CustomFieldValueDataType.TEXT);
+      TYPE_MAP.put(DataType.CURRENCY, CustomFieldValueDataType.COST);
+      TYPE_MAP.put(DataType.NUMERIC, CustomFieldValueDataType.NUMBER);
+      TYPE_MAP.put(DataType.DATE, CustomFieldValueDataType.DATE);
+      TYPE_MAP.put(DataType.DURATION, CustomFieldValueDataType.DURATION);
+      TYPE_MAP.put(DataType.BOOLEAN, CustomFieldValueDataType.FLAG);
+   }
 }

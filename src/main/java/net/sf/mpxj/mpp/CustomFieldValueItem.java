@@ -173,11 +173,21 @@ public final class CustomFieldValueItem
       m_type = type;
    }
 
+   /**
+    * Retrieve the collapsed flag.
+    * 
+    * @return collapsed flag
+    */
    public boolean getCollapsed()
    {
       return m_collapsed;
    }
 
+   /**
+    * Set the collapsed flag.
+    * 
+    * @param collapsed collapsed flag
+    */
    public void setCollapsed(boolean collapsed)
    {
       m_collapsed = collapsed;
