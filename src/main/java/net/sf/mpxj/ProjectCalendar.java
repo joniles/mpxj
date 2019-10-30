@@ -1841,10 +1841,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
-         addCalendarException(ex.getFromDate(), ex.getToDate());
+         ProjectCalendarException copyException = addCalendarException(ex.getFromDate(), ex.getToDate());
          for (DateRange range : ex)
          {
-            ex.addRange(new DateRange(range.getStart(), range.getEnd()));
+            copyException.addRange(new DateRange(range.getStart(), range.getEnd()));
          }
       }
 
