@@ -155,7 +155,7 @@
 
 	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
 		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
-			<arg line="exec rake build release:rubygem_push" />
+			<arg line="exec rake build release" />
 		</exec>
 	</target>
 
