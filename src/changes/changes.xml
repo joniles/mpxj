@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.9.4">
+		<release date="git master" version="7.9.5">
+		</release>
+		<release date="08/11/2019" version="7.9.4">
 			<action dev="joniles" type="add">Add support for reading Sage 100 Contractor schedule grid files.</action>
 			<action dev="joniles" type="update">Ensure attribute names are valid when exporting JSON.</action>
 			<action dev="joniles" type="update">Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).</action>

@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.9.4 (git master)
+## 7.9.5 (git master)
+
+## 7.9.4 (08/11/2019)
 * Add support for reading Sage 100 Contractor schedule grid files.
 * Ensure attribute names are valid when exporting JSON.
 * Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).
