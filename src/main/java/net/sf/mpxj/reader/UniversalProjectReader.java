@@ -74,6 +74,7 @@ import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
+import net.sf.mpxj.sage.SageReader;
 import net.sf.mpxj.sdef.SDEFReader;
 import net.sf.mpxj.synchro.SynchroReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
@@ -314,6 +315,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, SDEF_FINGERPRINT))
          {
             return readProjectFile(new SDEFReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, SCHEDULE_GRID_FINGERPRINT))
+         {
+            return readProjectFile(new SageReader(), bis);
          }
 
          return null;
@@ -1015,6 +1021,28 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 'M'
    };
 
+   private static final byte[] SCHEDULE_GRID_FINGERPRINT =
+   {
+      (byte) '*',
+      (byte) '*',
+      (byte) '*',
+      (byte) '*',
+      (byte) ' ',
+      (byte) 'S',
+      (byte) 'c',
+      (byte) 'h',
+      (byte) 'e',
+      (byte) 'd',
+      (byte) 'u',
+      (byte) 'l',
+      (byte) 'e',
+      (byte) ' ',
+      (byte) 'G',
+      (byte) 'r',
+      (byte) 'i',
+      (byte) 'd'
+   };
+
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -1041,7 +1069,7 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern MSPDI_FINGERPRINT_1 = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
 
    private static final Pattern MSPDI_FINGERPRINT_2 = Pattern.compile(".*<Project.*<SaveVersion>.*", Pattern.DOTALL);
-   
+
    private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);

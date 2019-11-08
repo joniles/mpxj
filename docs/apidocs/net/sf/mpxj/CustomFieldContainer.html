@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -166,28 +166,34 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Iterable.
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/mpp/CustomFieldValueItem.html" title="class in net.sf.mpxj.mpp">CustomFieldValueItem</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#getCustomFieldValueItemByGuid-java.util.UUID-">getCustomFieldValueItemByGuid</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;guid)</code>
+<div class="block">Retrieve a custom field value by its guid.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../net/sf/mpxj/mpp/CustomFieldValueItem.html" title="class in net.sf.mpxj.mpp">CustomFieldValueItem</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#getCustomFieldValueItemByUniqueID-int-">getCustomFieldValueItemByUniqueID</a></span>(int&nbsp;uniqueID)</code>
 <div class="block">Retrieve a custom field value by its unique ID.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#getFieldByAlias-net.sf.mpxj.FieldTypeClass-java.lang.String-">getFieldByAlias</a></span>(<a href="../../../net/sf/mpxj/FieldTypeClass.html" title="enum in net.sf.mpxj">FieldTypeClass</a>&nbsp;typeClass,
                <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;alias)</code>
 <div class="block">Retrieve a field from a particular entity using its alias.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../net/sf/mpxj/CustomField.html" title="class in net.sf.mpxj">CustomField</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#iterator--">iterator</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#registerValue-net.sf.mpxj.mpp.CustomFieldValueItem-">registerValue</a></span>(<a href="../../../net/sf/mpxj/mpp/CustomFieldValueItem.html" title="class in net.sf.mpxj.mpp">CustomFieldValueItem</a>&nbsp;item)</code>
 <div class="block">Add a value to the custom field value index.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/CustomFieldContainer.html#size--">size</a></span>()</code>
 <div class="block">Return the number of custom fields.</div>
@@ -293,6 +299,22 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Iterable.
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>uniqueID</code> - custom field value unique ID</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>custom field value</dd>
+</dl>
+</li>
+</ul>
+<a name="getCustomFieldValueItemByGuid-java.util.UUID-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCustomFieldValueItemByGuid</h4>
+<pre>public&nbsp;<a href="../../../net/sf/mpxj/mpp/CustomFieldValueItem.html" title="class in net.sf.mpxj.mpp">CustomFieldValueItem</a>&nbsp;getCustomFieldValueItemByGuid(<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&nbsp;guid)</pre>
+<div class="block">Retrieve a custom field value by its guid.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>guid</code> - custom field value guid</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>custom field value</dd>
 </dl>
