@@ -175,7 +175,6 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
-<!--		
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-dtd -classpath ${classes.dir} -d ${basedir}/src/main/java -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.dtd" />
 		</exec>
@@ -194,7 +193,7 @@
 		<exec executable="xjc" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
 		</exec>
--->
+
 		<delete>
 			<fileset dir="${basedir}" includes="*.xjb" defaultexcludes="no" />
 		</delete>
