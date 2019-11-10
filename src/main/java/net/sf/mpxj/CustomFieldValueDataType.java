@@ -88,6 +88,11 @@ public enum CustomFieldValueDataType implements MpxjEnum
       return m_type;
    }
    
+   /**
+    * Retrieve the mask value.
+    * 
+    * @return mask value
+    */
    public int getMaskValue()
    {
       return m_maskValue;

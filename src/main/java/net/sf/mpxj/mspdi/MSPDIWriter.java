@@ -49,6 +49,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -371,6 +372,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
    
+   /**
+    * Write a single outline code or custom field.
+    * 
+    * @param outlineCode outline codes root node
+    * @param field custom field
+    */
    private void writeOutlineCode(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
    {
       //
@@ -391,7 +398,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       outlineCode.setMasks(m_factory.createProjectOutlineCodesOutlineCodeMasks());      
       if (field.getMasks().isEmpty())
       {
-         CustomFieldValueMask item = new CustomFieldValueMask(0, 1, ".", table.get(0).getType());
+         CustomFieldValueDataType type = table.get(0).getType();
+         if (type == null)
+         {
+            type = CustomFieldValueDataType.TEXT;
+         }
+         CustomFieldValueMask item = new CustomFieldValueMask(0, 1, ".", type);
          writeMask(outlineCode, item);
       }
       else
@@ -416,17 +428,34 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
    
+   /**
+    * Write an outline code value.
+    * 
+    * @param value parent node
+    * @param item custom field item
+    */
    private void writeOutlineCodeValue(Project.OutlineCodes.OutlineCode.Values.Value value, CustomFieldValueItem item)
    {
+      CustomFieldValueDataType type = item.getType();
+      if (type == null)
+      {
+         type = CustomFieldValueDataType.TEXT;
+      }
       value.setDescription(item.getDescription());
       value.setFieldGUID(item.getGuid());
       value.setIsCollapsed(Boolean.valueOf(item.getCollapsed()));
       value.setParentValueID(NumberHelper.getBigInteger(item.getParent()));
-      value.setType(BigInteger.valueOf(item.getType().getValue()));
+      value.setType(BigInteger.valueOf(type.getValue()));
       value.setValueID(NumberHelper.getBigInteger(item.getUniqueID()));
-      value.setValue(DatatypeConverter.printOutlineCodeValue(item.getValue(), item.getType().getDataType()));
+      value.setValue(DatatypeConverter.printOutlineCodeValue(item.getValue(), type.getDataType()));
    }
    
+   /**
+    * Write an outline code mask element.
+    * 
+    * @param outlineCode parent node
+    * @param item mask element
+    */
    private void writeMask(Project.OutlineCodes.OutlineCode outlineCode, CustomFieldValueMask item)
    {
       Project.OutlineCodes.OutlineCode.Masks.Mask mask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
