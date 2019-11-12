@@ -368,6 +368,20 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * Set whether this reader should ignore passwords on load.
+    * @param ignore
+    */
+   public void setIgnorePassword(boolean ignore)
+   {
+       m_ignorePassword = ignore;
+   }
+
+   boolean getIgnorePassword()
+   {
+       return m_ignorePassword;
+   }
+
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -384,6 +398,8 @@ public final class MPPReader extends AbstractProjectReader
     */
    private boolean m_readPresentationData = true;
    private boolean m_readPropertiesOnly;
+
+   private boolean m_ignorePassword = false;
 
    private String m_readPassword;
    private List<ProjectListener> m_projectListeners;

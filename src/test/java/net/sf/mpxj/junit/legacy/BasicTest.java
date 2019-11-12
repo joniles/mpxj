@@ -1312,6 +1312,8 @@ public class BasicTest
    @Test public void testPasswordProtection() throws Exception
    {
       File in;
+      MPPReader reader;
+      ProjectFile projectFile;
 
       //
       // Read password (password1)
@@ -1328,11 +1330,20 @@ public class BasicTest
          assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
 
+      // Ignore password mode.
+      in = new File(MpxjTestData.filePath("legacy/readpassword9.mpp"));
+      reader = new MPPReader();
+      reader.setIgnorePassword(true);
+      projectFile = reader.read(in);
+      assertTrue(projectFile.getProjectProperties().getReadEncrypted());
+      assertFalse(projectFile.getProjectProperties().getWriteEncrypted());
       //
       // Write password (password2)
       //
       in = new File(MpxjTestData.filePath("legacy/writepassword9.mpp"));
-      new MPPReader().read(in);
+      projectFile = new MPPReader().read(in);
+      assertFalse(projectFile.getProjectProperties().getReadEncrypted());
+      assertTrue(projectFile.getProjectProperties().getWriteEncrypted());
 
       //
       // Read password
@@ -1348,6 +1359,12 @@ public class BasicTest
       {
          assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
+      in = new File(MpxjTestData.filePath("legacy/bothpassword9.mpp"));
+      reader = new MPPReader();
+      reader.setIgnorePassword(true);
+      projectFile = reader.read(in);
+      assertTrue(projectFile.getProjectProperties().getReadEncrypted());
+      assertTrue(projectFile.getProjectProperties().getWriteEncrypted());
    }
 
    /**
@@ -1486,6 +1503,8 @@ public class BasicTest
       assertEquals("Keywords Text", properties.getKeywords());
       assertEquals("Manager Text", properties.getManager());
       assertEquals("Subject Text", properties.getSubject());
+      assertFalse(properties.getReadEncrypted());
+      assertFalse(properties.getWriteEncrypted());
    }
 
    /**

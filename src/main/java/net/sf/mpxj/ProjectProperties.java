@@ -2641,6 +2641,32 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       set(ProjectField.EXPORT_FLAG, value);
    }
 
+   public void setReadEncrypted(boolean value) {
+       set(ProjectField.READ_ENCRYPTED, value);
+   }
+
+   /**
+    * Is this project file read-encrypted?
+    *
+    * @return value boolean flag
+    */
+   public boolean getReadEncrypted() {
+       return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.READ_ENCRYPTED));
+   }
+
+   public void setWriteEncrypted(boolean value) {
+       set(ProjectField.WRITE_ENCRYPTED, value);
+   }
+
+   /**
+    * Is this project file write-encrypted?
+    *
+    * @return value boolean flag
+    */
+   public boolean getWriteEncrypted() {
+       return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.WRITE_ENCRYPTED));
+   }
+
    /**
     * {@inheritDoc}
     */
