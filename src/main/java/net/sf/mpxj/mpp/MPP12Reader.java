@@ -139,10 +139,12 @@ final class MPP12Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      byte encryption = props12.getByte(Props.PASSWORD_FLAG);
-      boolean readEncrypted = (encryption & 0x1) != 0;
-      boolean writeEncrypted = (encryption & 0x2) != 0;
-      if (! reader.getIgnorePassword() && readEncrypted)
+      //
+      byte passwordProtectionFlag = props12.getByte(Props.PASSWORD_FLAG);
+      boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
+      //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+      
+      if (passwordRequiredToRead)      
       {
          // Couldn't figure out how to get the password for MPP12 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
@@ -169,9 +171,6 @@ final class MPP12Reader implements MPPVariantReader
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(12));
       m_file.getProjectProperties().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
-      m_file.getProjectProperties().setReadEncrypted(readEncrypted);
-      m_file.getProjectProperties().setWriteEncrypted(writeEncrypted);
-
    }
 
    /**
@@ -1288,7 +1287,7 @@ final class MPP12Reader implements MPPVariantReader
       // Renumber ID values using a large increment to allow
       // space for later inserts.
       //
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();     
       int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())

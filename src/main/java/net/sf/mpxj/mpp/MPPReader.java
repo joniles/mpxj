@@ -368,17 +368,23 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
-    * Set whether this reader should ignore passwords on load.
-    * @param ignore
+    * Where supported, set to false to ignore password protection.
+    * 
+    * @param respectPasswordProtection true if password protection is respected
     */
-   public void setIgnorePassword(boolean ignore)
+   public void setRespectPasswordProtection(boolean respectPasswordProtection)
    {
-       m_ignorePassword = ignore;
+       m_respectPasswordProtection = respectPasswordProtection;
    }
 
-   boolean getIgnorePassword()
+   /**
+    * Retrieve a flag indicating if password protection is respected.
+    * 
+    * @return true if password protection is respected
+    */
+   boolean getRespectPasswordProtection()
    {
-       return m_ignorePassword;
+       return m_respectPasswordProtection;
    }
 
    /**
@@ -399,7 +405,10 @@ public final class MPPReader extends AbstractProjectReader
    private boolean m_readPresentationData = true;
    private boolean m_readPropertiesOnly;
 
-   private boolean m_ignorePassword = false;
+   /**
+    * Where supported, set to false to ignore password protection.
+    */
+   private boolean m_respectPasswordProtection = true;
 
    private String m_readPassword;
    private List<ProjectListener> m_projectListeners;

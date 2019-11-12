@@ -95,7 +95,7 @@ final class MPP14Reader implements MPPVariantReader
             processAssignmentData();
             postProcessTasks();
             processDataLinks();
-
+            
             if (reader.getReadPresentationData())
             {
                processViewPropertyData();
@@ -144,10 +144,12 @@ final class MPP14Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      byte encryption = props14.getByte(Props.PASSWORD_FLAG);
-      boolean readEncrypted = (encryption & 0x1) != 0;
-      boolean writeEncrypted = (encryption & 0x2) != 0;
-      if (! reader.getIgnorePassword() && readEncrypted)
+      //
+      byte passwordProtectionFlag = props14.getByte(Props.PASSWORD_FLAG);
+      boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
+      //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+      
+      if (passwordRequiredToRead )
       {
          // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
@@ -176,8 +178,6 @@ final class MPP14Reader implements MPPVariantReader
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
       m_file.getProjectProperties().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
-      m_file.getProjectProperties().setReadEncrypted(readEncrypted);
-      m_file.getProjectProperties().setWriteEncrypted(writeEncrypted);
    }
 
    /**
@@ -982,7 +982,7 @@ final class MPP14Reader implements MPPVariantReader
          Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
          new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
       }
-
+      
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
@@ -1609,7 +1609,7 @@ final class MPP14Reader implements MPPVariantReader
          Props14 props = new Props14(m_inputStreamFactory.getInstance(rscDir, "Props"));
          new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
       }
-
+      
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1956,7 +1956,7 @@ final class MPP14Reader implements MPPVariantReader
       DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
       factory.process();
    }
-
+   
    /**
     * Retrieve custom field value.
     *

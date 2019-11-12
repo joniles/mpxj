@@ -145,10 +145,11 @@ final class MPP9Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      byte encryption = props9.getByte(Props.PASSWORD_FLAG);
-      boolean readEncrypted = (encryption & 0x1) != 0;
-      boolean writeEncrypted = (encryption & 0x2) != 0;
-      if (! reader.getIgnorePassword() && readEncrypted)
+      byte passwordProtectionFlag = props9.getByte(Props.PASSWORD_FLAG);
+      boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
+      //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+      
+      if (passwordRequiredToRead && reader.getRespectPasswordProtection())
       {
          // File is password protected for reading, let's read the password
          // and see if the correct read password was given to us.
@@ -182,8 +183,6 @@ final class MPP9Reader implements MPPVariantReader
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
       m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
-      m_file.getProjectProperties().setReadEncrypted(readEncrypted);
-      m_file.getProjectProperties().setWriteEncrypted(writeEncrypted);
    }
 
    /**

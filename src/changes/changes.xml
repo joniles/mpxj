@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.5">
+			<action dev="joniles" type="update">Added flag to manage compliance with password protection. (Contributed by ztravis)</action>
 		</release>
 		<release date="08/11/2019" version="7.9.4">
 			<action dev="joniles" type="add">Add support for reading Sage 100 Contractor schedule grid files.</action>
