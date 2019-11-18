@@ -1,6 +1,8 @@
 # Changelog
 
 ## 7.9.5 (git master)
+* Added flag to manage compliance with password protection. (Contributed by ztravis)
+* Improve support for Synchro 6.1 SP files.
 
 ## 7.9.4 (08/11/2019)
 * Add support for reading Sage 100 Contractor schedule grid files.

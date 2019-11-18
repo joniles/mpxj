@@ -75,7 +75,7 @@ class SynchroData
          stream.read(header);
          SynchroLogger.log("TABLE HEADER", header);
       }
-      return new StreamReader(m_majorVersion, stream);
+      return new StreamReader(m_majorVersion, m_minorVersion, stream);
    }
 
    /**
@@ -254,9 +254,11 @@ class SynchroData
       
       String[] versionArray = version.split("\\.");
       m_majorVersion = Integer.parseInt(versionArray[0]);
+      m_minorVersion = Integer.parseInt(versionArray[1]);
    }
    
    private int m_majorVersion;
+   private int m_minorVersion;
    private int m_offset;
    private Map<String, byte[]> m_tableData = new HashMap<String, byte[]>();
    private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks", "Calendars", "Companies"));

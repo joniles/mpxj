@@ -181,15 +181,22 @@ final class DatatypeConverter
     */
    public static final String getString(InputStream is) throws IOException
    {
+      int length;
       int type = is.read();
-      if (type != 1)
+      if (type == 0xFF)
       {
-         throw new IllegalArgumentException("Unexpected string format");
+         length = 0xFF;
       }
-
-      Charset charset = CharsetHelper.UTF8;
+      else
+      {
+         if (type != 1)
+         {
+            throw new IllegalArgumentException("Unexpected string format");
+         }
+         length = is.read();
+      }  
       
-      int length = is.read();
+      Charset charset = CharsetHelper.UTF8;      
       if (length == 0xFF)
       {
          length = getShort(is);
