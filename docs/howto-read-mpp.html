@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-11-08</li>
+        <li id="publishDate">Last Published: 2019-11-19</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -131,7 +131,7 @@ ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
 <p>You can work directly with the <tt>MPPReader</tt> class by replacing <tt>UniversalProjectReader</tt> with <tt>MPPReader</tt>. This provides access to additional options, as described below.</p>
 <div class="section">
 <h4><a name="Password_Protected_Files"></a>Password Protected Files</h4>
-<p>When a read password has been set for an MPP file, the contents of the file are partially encrypted, and requires the read password to be supplied in order to reverse this encryption. If you attempt to read an MPP file which has been password protected an <tt>MPXJException</tt> will be raised, with the message <tt>File is password protected</tt>.</p>
+<p>When a read password has been set for an MPP file, the contents of the file are partially encrypted. If you attempt to read an MPP file which has been password protected an <tt>MPXJException</tt> will be raised, with the message <tt>File is password protected</tt>.</p>
 <p>MPXJ only supports decryption of password protected MPP9 files. The code below illustrates how you would supply the password:</p>
 
 <div class="source">
@@ -142,6 +142,18 @@ import net.sf.mpxj.mpp.MPPReader;
 
 MPPReader reader = new MPPReader();
 reader.setReadPassword(&quot;my secret password&quot;);
+ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
+</pre></div></div>
+<p>The encryption used by MPP9 files doesn&#x2019;t actually require the password in order to read the contents of the file. If you wish you can set a flag to ignore the MPP9 password protection.</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mpp.MPPReader;
+
+...
+
+MPPReader reader = new MPPReader();
+reader.setRespectPasswordProtection(false);
 ProjectFile project = reader.read(&quot;my-sample.mpp&quot;);
 </pre></div></div></div>
 <div class="section">
