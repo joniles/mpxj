@@ -3,6 +3,7 @@
 ## 7.9.5 (git master)
 * Added flag to manage compliance with password protection. (Contributed by ztravis)
 * Improve support for Synchro 6.1 SP files.
+* Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.
 
 ## 7.9.4 (08/11/2019)
 * Add support for reading Sage 100 Contractor schedule grid files.

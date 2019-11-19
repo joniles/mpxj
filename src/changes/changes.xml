@@ -6,8 +6,9 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.5">
-			<action dev="joniles" type="update">Added flag to manage compliance with password protection. (Contributed by ztravis)</action>
+			<action dev="joniles" type="add">Added flag to manage compliance with password protection. (Contributed by ztravis)</action>
 			<action dev="joniles" type="update">Improve support for Synchro 6.1 SP files.</action>
+			<action dev="joniles" type="update">Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.</action>
 		</release>
 		<release date="08/11/2019" version="7.9.4">
 			<action dev="joniles" type="add">Add support for reading Sage 100 Contractor schedule grid files.</action>
