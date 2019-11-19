@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.9.5 (git master)
+## 7.9.6 (git master)
+
+## 7.9.5 (19/11/2019)
 * Added flag to manage compliance with password protection. (Contributed by ztravis)
 * Improve support for Synchro 6.1 SP files.
 * Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.
