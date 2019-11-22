@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.6">
+			<action dev="joniles" type="update">Improve support for FastTrack files.</action>
 		</release>
 		<release date="19/11/2019" version="7.9.5">
 			<action dev="joniles" type="add">Added flag to manage compliance with password protection. (Contributed by ztravis)</action>

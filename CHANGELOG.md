@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.6 (git master)
+* Improve support for FastTrack files.
 
 ## 7.9.5 (19/11/2019)
 * Added flag to manage compliance with password protection. (Contributed by ztravis)

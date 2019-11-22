@@ -60,6 +60,26 @@ final class FastTrackUtility
    }
 
    /**
+    * Read a string and gracefully handle failure.
+    * 
+    * @param buffer array of data
+    * @param offset offset into array
+    * @param length string length
+    * @return String instance
+    */
+   public static String getString(byte[] buffer, int offset, int length)
+   {
+      try
+      {
+         return new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
+      }
+      catch (StringIndexOutOfBoundsException ex)
+      {
+         throw new UnexpectedStructureException();
+      }
+   }
+   
+   /**
     * Retrieve a four byte integer.
     *
     * @param data array of data

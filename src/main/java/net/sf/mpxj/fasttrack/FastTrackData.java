@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -70,30 +71,92 @@ class FastTrackData
          is.close();
       }
 
-      List<Integer> blocks = new ArrayList<Integer>();
-      for (int index = 64; index < m_buffer.length - 11; index++)
+      configureVersion();
+
+      if (getSupported())
       {
-         if (matchPattern(PARENT_BLOCK_PATTERNS, index))
+         List<Integer> blocks = new ArrayList<Integer>();
+         for (int index = 64; index < m_buffer.length - 11; index++)
          {
-            blocks.add(Integer.valueOf(index));
+            if (matchPattern(PARENT_BLOCK_PATTERNS, index))
+            {
+               blocks.add(Integer.valueOf(index));
+            }
          }
-      }
 
-      int startIndex = 0;
-      for (int endIndex : blocks)
-      {
-         int blockLength = endIndex - startIndex;
+         int startIndex = 0;
+         for (int endIndex : blocks)
+         {
+            int blockLength = endIndex - startIndex;
+            readBlock(blockIndex, startIndex, blockLength);
+            startIndex = endIndex;
+            ++blockIndex;
+         }
+
+         int blockLength = m_buffer.length - startIndex;
          readBlock(blockIndex, startIndex, blockLength);
-         startIndex = endIndex;
-         ++blockIndex;
       }
-
-      int blockLength = m_buffer.length - startIndex;
-      readBlock(blockIndex, startIndex, blockLength);
-
+      
       closeLogFile();
    }
 
+   /**
+    * Extract the version number and set version dependent options.
+    */
+   private void configureVersion()
+   {
+      m_version = FastTrackUtility.getInt(m_buffer, 4);
+      switch(m_version)
+      {
+//         case 138:
+//         {
+//            m_supported = true;
+//            m_charset = CharsetHelper.UTF8;
+//            break;
+//         }
+
+         case 139:
+         {
+            m_supported = true;
+            m_charset = CharsetHelper.UTF16LE;
+            break;
+         }
+         
+         case 144:
+         {
+            m_supported = true;
+            m_charset = CharsetHelper.UTF8;
+            break;            
+         }
+         
+         default:
+         {
+            m_supported = false;
+            break;
+         }
+      }
+   }
+   
+   /**
+    * Returns true if this file version is supported.
+    * 
+    * @return true if file version is supported
+    */
+   public boolean getSupported()
+   {
+      return m_supported;
+   }
+
+   /**
+    * Retrieve the charset to use when reading text from this file version.
+    * 
+    * @return Charset instance
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+   
    /**
     * Retrieve a table of data.
     *
@@ -167,7 +230,7 @@ class FastTrackData
             int offset = index + 7;
             int nameLength = FastTrackUtility.getInt(m_buffer, offset);
             offset += 4;
-            String name = new String(m_buffer, offset, nameLength, CharsetHelper.UTF16LE).toUpperCase();
+            String name = FastTrackUtility.getString(m_buffer, offset, nameLength).toUpperCase();
             FastTrackTableType type = REQUIRED_TABLES.get(name);
             if (type != null)
             {
@@ -306,18 +369,12 @@ class FastTrackData
     */
    private final boolean matchChildBlock(int bufferIndex)
    {
-      //
-      // Match the pattern we see at the start of the child block
-      //
-      int index = 0;
-      for (byte b : CHILD_BLOCK_PATTERN)
+      if (!matchPattern(CHILD_BLOCK_PATTERNS, bufferIndex))
       {
-         if (b != m_buffer[bufferIndex + index])
-         {
-            return false;
-         }
-         ++index;
+         return false;
       }
+      // TODO: use pattern length
+      int index = 6;
 
       //
       // The first step will produce false positives. To handle this, we should find
@@ -326,14 +383,14 @@ class FastTrackData
       //
       int nameLength = FastTrackUtility.getInt(m_buffer, bufferIndex + index);
 
-//      System.out.println("Name length: " + nameLength);
-//      
-//      if (nameLength > 0 && nameLength < 100)
-//      {
-//         String name = new String(m_buffer, bufferIndex+index+4, nameLength, CharsetHelper.UTF16LE);
-//         System.out.println("Name: " + name);
-//      }
-      
+      //      System.out.println("Name length: " + nameLength);
+      //      
+      //      if (nameLength > 0 && nameLength < 100)
+      //      {
+      //         String name = new String(m_buffer, bufferIndex+index+4, nameLength, CharsetHelper.UTF16LE);
+      //         System.out.println("Name: " + name);
+      //      }
+
       return nameLength > 0 && nameLength < 100;
    }
 
@@ -410,6 +467,7 @@ class FastTrackData
    {
       if (m_logFile != null)
       {
+         System.out.println("FastTrackLogger Configured");
          m_log = new PrintWriter(new FileWriter(m_logFile));
       }
    }
@@ -488,6 +546,24 @@ class FastTrackData
       }
    }
 
+   /**
+    * Retrieve the current FastTrackData instance.
+    * 
+    * @return FastTrackData instance
+    */
+   public static FastTrackData getInstance()
+   {
+      return INSTANCE.get();
+   }
+
+   /**
+    * Clear the current FastTrackData instance.
+    */
+   public static void clearInstance()
+   {
+      INSTANCE.remove();
+   }
+
    private byte[] m_buffer;
    private String m_logFile;
    private PrintWriter m_log;
@@ -497,6 +573,17 @@ class FastTrackData
    private final Set<FastTrackField> m_currentFields = new TreeSet<FastTrackField>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
+   private int m_version;
+   private boolean m_supported;
+   private Charset m_charset;
+   
+   private static final ThreadLocal<FastTrackData> INSTANCE = new ThreadLocal<FastTrackData>()
+   {
+      @Override protected FastTrackData initialValue()
+      {
+         return new FastTrackData();
+      }
+   };
 
    private static final byte[][] PARENT_BLOCK_PATTERNS =
    {
@@ -554,14 +641,24 @@ class FastTrackData
       }
    };
 
-   private static final byte[] CHILD_BLOCK_PATTERN =
+   private static final byte[][] CHILD_BLOCK_PATTERNS =
    {
-      0x05,
-      0x00,
-      0x00,
-      0x00,
-      0x01,
-      0x00
+      {
+         0x05,
+         0x00,
+         0x00,
+         0x00,
+         0x01,
+         0x00
+      },
+      {
+         0x05,
+         0x00,
+         0x00,
+         0x00,
+         0x02,
+         0x00
+      }
    };
 
    private static final byte[][] TABLE_BLOCK_PATTERNS =
@@ -573,6 +670,15 @@ class FastTrackData
          0x65,
          0x00,
          0x01,
+         0x00
+      },
+      {
+         0x00,
+         0x00,
+         0x00,
+         0x65,
+         0x00,
+         0x02,
          0x00
       }
    };
