@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.9.6 (git master)
+## 7.9.7 (git master)
+
+## 7.9.6 (22/11/2019)
 * Improve support for FastTrack files.
 
 ## 7.9.5 (19/11/2019)
