@@ -1,6 +1,7 @@
 # Changelog
 
 ## 7.9.7 (git master)
+* Round percent complete values read from Asta files to two decimal places to avoid percent complete values like 99.9999999%.
 
 ## 7.9.6 (22/11/2019)
 * Improve support for FastTrack files.
