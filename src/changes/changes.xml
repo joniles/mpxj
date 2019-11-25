@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.7">
-			<action dev="joniles" type="update">Round percent complete values read from Asta files to two decimal places to avoid percent complete values like 99.9999999%.</action>
+			<action dev="joniles" type="update">Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.</action>
 		</release>
 		<release date="22/11/2019" version="7.9.6">
 			<action dev="joniles" type="update">Improve support for FastTrack files.</action>
