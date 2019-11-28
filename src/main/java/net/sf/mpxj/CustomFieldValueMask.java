@@ -83,6 +83,14 @@ public class CustomFieldValueMask
       return m_type;
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      return String.format("[CustomFieldValueMask length=%d level=%d separator=%s type=%s]", Integer.valueOf(m_length), Integer.valueOf(m_level), m_separator, m_type);
+   }
+
    private final int m_length;
    private final int m_level;
    private final String m_separator;

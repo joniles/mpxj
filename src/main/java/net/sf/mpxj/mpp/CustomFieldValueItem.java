@@ -198,7 +198,7 @@ public final class CustomFieldValueItem
     */
    @Override public String toString()
    {
-      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s]", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value));
+      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s description=%s]", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value), m_description);
    }
 
    private Integer m_uniqueID;

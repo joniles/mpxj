@@ -68,6 +68,15 @@ public enum CustomFieldValueDataType implements MpxjEnum
       return null;
    }
 
+   public static CustomFieldValueDataType getInstanceByMaskValue(int type)
+   {
+      if (type >= 0 && type < MASK_VALUES.length)
+      {
+         return MASK_VALUES[type];
+      }
+      return null;
+   }
+
    /**
     * Accessor method used to retrieve the numeric representation of the enum.
     *
@@ -103,6 +112,15 @@ public enum CustomFieldValueDataType implements MpxjEnum
     */
    private static final CustomFieldValueDataType[] TYPE_VALUES = EnumHelper.createTypeArray(CustomFieldValueDataType.class, 21);
 
+   private static final CustomFieldValueDataType[] MASK_VALUES = new CustomFieldValueDataType[28];
+   static
+   {
+      for (CustomFieldValueDataType value : values())
+      {
+         MASK_VALUES[value.getMaskValue()] = value;
+      }
+   }
+   
    /**
     * Internal representation of the enum int type.
     */

@@ -53,26 +53,6 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
    }
    
    /**
-    * Retrieve the GUID representing this table.
-    * 
-    * @return UUID instance
-    */
-   public UUID getGuid()
-   {
-      return m_guid;
-   }
-
-   /**
-    * Set the GUID representing this table.
-    * 
-    * @param guid UUID instance
-    */
-   public void setGuid(UUID guid)
-   {
-      m_guid = guid;
-   }
-
-   /**
     * 
     * Retrieve the enterprise flag.
     * 
