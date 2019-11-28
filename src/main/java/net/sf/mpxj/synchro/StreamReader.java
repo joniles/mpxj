@@ -42,11 +42,13 @@ class StreamReader
     * Constructor.
     *
     * @param majorVersion major version
+    * @param minorVersion minor version
     * @param stream input stream
     */
-   public StreamReader(int majorVersion, final InputStream stream)
+   public StreamReader(int majorVersion, int minorVersion, final InputStream stream)
    {
       m_majorVersion = majorVersion;
+      m_minorVersion = minorVersion;
       m_stream = stream;
 //      m_stream = new InputStream()
 //      {
@@ -305,7 +307,29 @@ class StreamReader
    {
       return m_majorVersion;
    }
- 
+
+   /**
+    * Retrieve the minor version number of this file.
+    * 
+    * @return minor version number
+    */
+   public int getMinorVersion()
+   {
+      return m_minorVersion;
+   }
+
+   /**
+    * Retrieve the combined version number of this file.
+    * Note that this is simplistic and assumes that we'll never seem a minor version > 99.
+    * 
+    * @return combined version number
+    */
+   public int getCombinedVersion()
+   {
+      return (m_majorVersion * 100) + m_minorVersion;
+   }
+   
    private final int m_majorVersion;
+   private final int m_minorVersion;
    private final InputStream m_stream;
 }

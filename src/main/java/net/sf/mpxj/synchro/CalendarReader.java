@@ -45,7 +45,7 @@ class CalendarReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       map.put("NAME", stream.readString());
-      map.put("UNKNOWN1", stream.readTable(UnknownTableReader.class));
+      map.put("UNKNOWN1", stream.readTable(CalendarDetailReader.class));
       map.put("UNKNOWN2", stream.readBytes(4));
       map.put("SUNDAY_DAY_TYPE", stream.readUUID());
       map.put("MONDAY_DAY_TYPE", stream.readUUID());

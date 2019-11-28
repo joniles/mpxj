@@ -101,6 +101,19 @@ class MapRow implements Row
    /**
     * {@inheritDoc}
     */
+   @Override public Double getPercent(String name)
+   {
+      Object result = getObject(name);
+      if (result != null)
+      {
+         result = Double.valueOf(Math.round(((Number)result).doubleValue() * 100.0) / 100.0);
+      }
+      return ((Double) result);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public Double getCurrency(String name)
    {
       Double value = getDouble(name);

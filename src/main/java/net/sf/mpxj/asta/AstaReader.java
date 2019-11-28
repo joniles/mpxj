@@ -437,7 +437,7 @@ final class AstaReader
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
-      task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
+      task.setPercentageComplete(row.getPercent("OVERALL_PERCENV_COMPLETE"));
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       task.setNotes(getNotes(row));
@@ -730,7 +730,7 @@ final class AstaReader
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
          if (task != null && resource != null)
          {
-            double percentComplete = row.getDouble("PERCENT_COMPLETE").doubleValue();
+            double percentComplete = row.getPercent("PERCENT_COMPLETE").doubleValue();
             Duration work = row.getWork("EFFORW");
             double actualWork = work.getDuration() * percentComplete;
             double remainingWork = work.getDuration() - actualWork;

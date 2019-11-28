@@ -145,7 +145,11 @@ final class MPP14Reader implements MPPVariantReader
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
       //
-      if ((props14.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      byte passwordProtectionFlag = props14.getByte(Props.PASSWORD_FLAG);
+      boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
+      //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+      
+      if (passwordRequiredToRead )
       {
          // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);

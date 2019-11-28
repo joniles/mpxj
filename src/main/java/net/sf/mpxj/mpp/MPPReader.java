@@ -368,6 +368,26 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * Where supported, set to false to ignore password protection.
+    * 
+    * @param respectPasswordProtection true if password protection is respected
+    */
+   public void setRespectPasswordProtection(boolean respectPasswordProtection)
+   {
+       m_respectPasswordProtection = respectPasswordProtection;
+   }
+
+   /**
+    * Retrieve a flag indicating if password protection is respected.
+    * 
+    * @return true if password protection is respected
+    */
+   boolean getRespectPasswordProtection()
+   {
+       return m_respectPasswordProtection;
+   }
+
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -384,6 +404,11 @@ public final class MPPReader extends AbstractProjectReader
     */
    private boolean m_readPresentationData = true;
    private boolean m_readPropertiesOnly;
+
+   /**
+    * Where supported, set to false to ignore password protection.
+    */
+   private boolean m_respectPasswordProtection = true;
 
    private String m_readPassword;
    private List<ProjectListener> m_projectListeners;

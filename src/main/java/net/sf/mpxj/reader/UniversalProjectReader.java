@@ -960,10 +960,6 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 0x00,
       (byte) 0x00,
       (byte) 0x00,
-      (byte) 0x8B,
-      (byte) 0x00,
-      (byte) 0x00,
-      (byte) 0x00
    };
 
    private static final byte[] PROJECTLIBRE_FINGERPRINT =

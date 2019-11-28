@@ -193,6 +193,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          processPredecessors(project);
          processAssignments(project);
 
+         m_projectFile.updateStructure();
+
          //
          // Ensure that the unique ID counters are correct
          //

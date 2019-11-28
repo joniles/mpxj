@@ -656,7 +656,10 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void setDefaultCalendar(ProjectCalendar calendar)
    {
-      m_properties.setDefaultCalendarName(calendar.getName());
+      if (calendar != null)
+      {
+         m_properties.setDefaultCalendarName(calendar.getName());
+      }
    }
 
    /**

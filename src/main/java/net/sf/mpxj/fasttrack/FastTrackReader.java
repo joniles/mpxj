@@ -115,10 +115,14 @@ public final class FastTrackReader implements ProjectReader
    {
       try
       {
-         m_data = new FastTrackData();
+         m_data = FastTrackData.getInstance();
          // Uncomment this to write debug data to a log file
-         // m_data.setLogFile("c:/temp/project1.txt");
+         //m_data.setLogFile("c:/temp/project1.txt");
          m_data.process(file);
+         if (!m_data.getSupported())
+         {
+            return null;
+         }
          return read();
       }
       catch (Exception ex)
@@ -128,6 +132,7 @@ public final class FastTrackReader implements ProjectReader
       finally
       {
          m_data = null;
+         FastTrackData.clearInstance();
       }
    }
 
