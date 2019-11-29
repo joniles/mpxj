@@ -391,7 +391,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
-
+      
       List<ActivityCodeType> typeValues = new ArrayList<ActivityCodeType>();
       typeValues.addAll(apibo.getActivityCode());
       typeValues.addAll(project.getActivityCode());
@@ -403,6 +403,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getCodeValue(), typeValue.getDescription());
             m_activityCodeMap.put(value.getUniqueID(), value);
+         }
+      }
+      
+      for (ActivityCodeType typeValue : typeValues)
+      {
+         ActivityCodeValue child = m_activityCodeMap.get(typeValue.getObjectId());
+         ActivityCodeValue parent = m_activityCodeMap.get(typeValue.getParentObjectId());
+         if (parent != null && child != null)
+         {
+            child.setParent(parent);
          }
       }
    }

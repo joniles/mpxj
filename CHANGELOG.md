@@ -3,6 +3,7 @@
 ## 7.9.8 (git master)
 * Added support for reading and writing outline code/custom field lookup tables for MSPDI files.
 * Populate project status date attribute when reading Asta schedules.
+* Populate parent attribute when reading activity code values from Primavera schedules.
 
 ## 7.9.7 (25/11/2019)
 * Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.

@@ -84,6 +84,26 @@ public class ActivityCodeValue
       return m_description;
    }
 
+   /**
+    * Retrieve the parent ActivityCodeValue.
+    * 
+    * @return parent ActivityCodeValue
+    */
+   public ActivityCodeValue gteParent()
+   {
+      return m_parent;
+   }
+
+   /**
+    * Set the parent ActivityCodeValue.
+    * 
+    * @param parent parent ActivityCodeValue
+    */
+   public void setParent(ActivityCodeValue parent)
+   {
+      m_parent = parent;
+   }
+
    @Override public String toString()
    {
       return m_type.getName() + ": " + m_name;
@@ -93,4 +113,5 @@ public class ActivityCodeValue
    private final Integer m_uniqueID;
    private final String m_name;
    private final String m_description;
+   private ActivityCodeValue m_parent;
 }

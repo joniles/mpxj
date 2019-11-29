@@ -191,7 +191,7 @@ final class PrimaveraReader
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
-
+      
       for (Row row : typeValues)
       {
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
@@ -199,6 +199,16 @@ final class PrimaveraReader
          {
             ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getString("short_name"), row.getString("actv_code_name"));
             m_activityCodeMap.put(value.getUniqueID(), value);
+         }
+      }
+
+      for (Row row : typeValues)
+      {
+         ActivityCodeValue child = m_activityCodeMap.get(row.getInteger("actv_code_id"));
+         ActivityCodeValue parent = m_activityCodeMap.get(row.getInteger("parent_actv_code_id"));
+         if (parent != null && child != null)
+         {
+            child.setParent(parent);
          }
       }
 
@@ -275,14 +285,14 @@ final class PrimaveraReader
       //
       // First pass: read calendar definitions
       //
-      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();     
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();
       for (Row row : rows)
       {
          ProjectCalendar calendar = processCalendar(row);
          Integer baseCalendarID = row.getInteger("base_clndr_id");
          if (baseCalendarID != null)
          {
-            baseCalendarMap.put(calendar,  baseCalendarID);
+            baseCalendarMap.put(calendar, baseCalendarID);
          }
       }
 
@@ -297,18 +307,18 @@ final class PrimaveraReader
             entry.getKey().setParent(baseCalendar);
          }
       }
-      
+
       //
       // We've used Primavera's unique ID values for the calendars we've read so far.
       // At this point any new calendars we create must be auto number. We also need to
       // ensure that the auto numbering starts from an appropriate value.
       //
-      ProjectConfig config = m_project.getProjectConfig(); 
+      ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(true);
       config.updateCalendarUniqueCounter();
-      
+
       if (m_defaultCalendarID != null)
-      {         
+      {
          ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
          // Primavera XER files can sometimes not contain a definition of the default
          // project calendar so only try to set if we find a definition.
@@ -381,7 +391,7 @@ final class PrimaveraReader
       }
 
       m_eventManager.fireCalendarReadEvent(calendar);
-      
+
       return calendar;
    }
 
