@@ -37,7 +37,7 @@ import net.sf.mpxj.Duration;
  * interface to MPXJ.
  */
 interface Row
-{
+{   
    /**
     * Retrieve a string attribute.
     *

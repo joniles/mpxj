@@ -250,7 +250,7 @@ final class AstaTextFileReader extends AbstractProjectReader
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (rows.isEmpty() == false)
       {
-         m_reader.processProjectProperties(rows.get(0));
+         m_reader.processProjectProperties(rows.get(0), null);
       }
    }
 

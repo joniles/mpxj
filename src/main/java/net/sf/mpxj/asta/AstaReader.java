@@ -26,6 +26,7 @@ package net.sf.mpxj.asta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -100,18 +101,37 @@ final class AstaReader
    /**
     * Process project properties.
     *
-    * @param row project properties data.
+    * @param projectSummary project properties data.
+    * @param progressPeriods progress period data.
     */
-   public void processProjectProperties(Row row)
+   public void processProjectProperties(Row projectSummary, List<Row> progressPeriods)
    {
       ProjectProperties ph = m_project.getProjectProperties();
-      ph.setDuration(row.getDuration("DURATIONHOURS"));
-      ph.setStartDate(row.getDate("STARU"));
-      ph.setFinishDate(row.getDate("ENE"));
-      ph.setName(row.getString("SHORT_NAME"));
-      ph.setAuthor(row.getString("PROJECT_BY"));
-      //DURATION_TIME_UNIT
-      ph.setLastSaved(row.getDate("LAST_EDITED_DATE"));
+
+      if (projectSummary != null)
+      {
+         ph.setDuration(projectSummary.getDuration("DURATIONHOURS"));
+         ph.setStartDate(projectSummary.getDate("STARU"));
+         ph.setFinishDate(projectSummary.getDate("ENE"));
+         ph.setName(projectSummary.getString("SHORT_NAME"));
+         ph.setAuthor(projectSummary.getString("PROJECT_BY"));
+         //DURATION_TIME_UNIT
+         ph.setLastSaved(projectSummary.getDate("LAST_EDITED_DATE"));
+      }
+
+      if (progressPeriods != null)
+      {
+         Collections.sort(progressPeriods, new Comparator<Row>()
+         {
+            @Override public int compare(Row o1, Row o2)
+            {
+               return o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID"));
+            }
+         });
+
+         Row lastProgressPeriod = progressPeriods.get(progressPeriods.size() - 1);
+         ph.setStatusDate(lastProgressPeriod.getDate("REPORT_DATE"));
+      }
    }
 
    /**
@@ -638,26 +658,26 @@ final class AstaReader
 
       for (Row row : rows)
       {
-         Integer startTaskID = row.getInteger("START_TASK");                 
+         Integer startTaskID = row.getInteger("START_TASK");
          Task startTask = m_project.getTaskByUniqueID(startTaskID);
          if (startTask == null)
          {
-            startTaskID = completedSectionMap.get(startTaskID);            
+            startTaskID = completedSectionMap.get(startTaskID);
             if (startTaskID != null)
             {
                startTask = m_project.getTaskByUniqueID(startTaskID);
-            }   
+            }
          }
-         
+
          Integer endTaskID = row.getInteger("END_TASK");
          Task endTask = m_project.getTaskByUniqueID(endTaskID);
          if (endTask == null)
          {
-            endTaskID = completedSectionMap.get(endTaskID);            
+            endTaskID = completedSectionMap.get(endTaskID);
             if (endTaskID != null)
             {
                endTask = m_project.getTaskByUniqueID(endTaskID);
-            }   
+            }
          }
 
          if (startTask != null && endTask != null)

@@ -198,7 +198,7 @@ class MapRow implements Row
    {
       return m_map;
    }
-
+   
    /**
     * {@inheritDoc}
     */

@@ -181,11 +181,11 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private void processProjectProperties() throws SQLException
    {
-      List<Row> rows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
-      if (rows.isEmpty() == false)
-      {
-         m_reader.processProjectProperties(rows.get(0));
-      }
+      List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
+      List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);      
+      Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
+      List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;      
+      m_reader.processProjectProperties(projectSummary, progressPeriods);
    }
 
    /**
