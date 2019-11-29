@@ -77,7 +77,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);               
-         item.setGuid(MPPUtility.getGUID(b2, 0));
+         item.setGUID(MPPUtility.getGUID(b2, 0));
          UUID lookupTableGuid = MPPUtility.getGUID(b2, 32);
          item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, 48)));
          item.setValue(getTypedValue(item.getType(), value));
@@ -123,11 +123,8 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          
          int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
          FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
-         if (field != null)
-         {
-            UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
-            map.put(lookupTableGuid, field);
-         }
+         UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
+         map.put(lookupTableGuid, field);
          index += blockLength;
       }
       return map;

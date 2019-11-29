@@ -290,7 +290,7 @@ public final class DateHelper
       TimeZone tz = TimeZone.getDefault();
       Date result = new Date(timestamp - tz.getRawOffset());
 
-      if (tz.inDaylightTime(result) == true)
+      if (tz.inDaylightTime(result))
       {
          int savings;
 
@@ -305,7 +305,36 @@ public final class DateHelper
 
          result = new Date(result.getTime() - savings);
       }
-      return (result);
+      return result;
+   }
+
+   /**
+    * Creates a long value from a timestamp.  This conversion
+    * takes account of the time zone and any daylight savings time.
+    * 
+    * @param date timestamp as a Date instance
+    * @return timestamp expressed as a long integer
+    */
+   public static long getLongFromTimestamp(Date date)
+   {
+      TimeZone tz = TimeZone.getDefault();
+      long result = date.getTime();
+      if (tz.inDaylightTime(date))
+      {
+         int savings;
+
+         if (HAS_DST_SAVINGS == true)
+         {
+            savings = tz.getDSTSavings();
+         }
+         else
+         {
+            savings = DEFAULT_DST_SAVINGS;
+         }
+
+         result += savings;
+      }
+      return result;
    }
 
    /**

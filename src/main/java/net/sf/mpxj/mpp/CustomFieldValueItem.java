@@ -138,7 +138,7 @@ public final class CustomFieldValueItem
     *
     * @return value GUID
     */
-   public UUID getGuid()
+   public UUID getGUID()
    {
       return m_guid;
    }
@@ -148,7 +148,7 @@ public final class CustomFieldValueItem
     *
     * @param guid value GUID
     */
-   public void setGuid(UUID guid)
+   public void setGUID(UUID guid)
    {
       m_guid = guid;
    }
@@ -174,11 +174,31 @@ public final class CustomFieldValueItem
    }
 
    /**
+    * Retrieve the collapsed flag.
+    * 
+    * @return collapsed flag
+    */
+   public boolean getCollapsed()
+   {
+      return m_collapsed;
+   }
+
+   /**
+    * Set the collapsed flag.
+    * 
+    * @param collapsed collapsed flag
+    */
+   public void setCollapsed(boolean collapsed)
+   {
+      m_collapsed = collapsed;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
-      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value));
+      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s description=%s]", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value), m_description);
    }
 
    private Integer m_uniqueID;
@@ -188,4 +208,5 @@ public final class CustomFieldValueItem
    private byte[] m_unknown;
    private Integer m_parentId;
    private CustomFieldValueDataType m_type;
+   private boolean m_collapsed;
 }

@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="7.9.8">
+			<action dev="joniles" type="add">Added support for reading and writing outline code/custom field lookup tables for MSPDI files.</action>
 		</release>
 		<release date="25/11/2019" version="7.9.7">
 			<action dev="joniles" type="update">Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.</action>

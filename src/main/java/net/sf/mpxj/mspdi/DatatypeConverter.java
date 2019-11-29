@@ -54,7 +54,9 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.mpp.MPPUtility;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -147,6 +149,51 @@ public final class DatatypeConverter
    public static final String printExtendedAttributeDate(Date value)
    {
       return (value == null ? null : DATE_FORMAT.get().format(value));
+   }
+
+   /**
+    * Write an outline code/custom field timestamp for a lookup table.
+    * 
+    * @param value Date value
+    * @return timestamp value
+    */
+   public static final String printOutlineCodeValueDate(Date value)
+   {
+      String result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         long rawValue = DateHelper.getLongFromTimestamp(value);
+
+         long dateComponent = ((rawValue - MPPUtility.EPOCH) / DateHelper.MS_PER_DAY) * 65536;
+         long dateValue = ((dateComponent / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
+         long timeComponent = (rawValue - dateValue) / (6 * 1000);
+
+         result = String.valueOf(dateComponent + timeComponent);
+      }
+      return result;
+   }
+
+   /**
+    * Read an outline code/custom field timestamp for a lookup table.
+    * 
+    * @param value timestamp value
+    * @return Date instance
+    */
+   public static final Date parseOutlineCodeValueDate(String value)
+   {
+      Date result = null;
+      if (value != null)
+      {
+         long rawValue = Long.parseLong(value);
+         long dateMS = ((rawValue / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
+         long timeMS = (rawValue % 65536) * (6 * 1000);
+         result = DateHelper.getTimestampFromLong(dateMS + timeMS);
+      }
+      return result;
    }
 
    /**
@@ -284,6 +331,97 @@ public final class DatatypeConverter
             }
          }
       }
+   }
+
+   /**
+    * Write an outline code/custom field value for a lookup table.
+    * 
+    * @param value value to write
+    * @param type target type
+    * @return formatted value
+    */
+   public static final String printOutlineCodeValue(Object value, DataType type)
+   {
+      String result;
+
+      if (type == DataType.DATE)
+      {
+         result = printOutlineCodeValueDate((Date) value);
+      }
+      else
+      {
+         if (value instanceof Duration)
+         {
+            result = printDurationInIntegerTenthsOfMinutes((Duration) value).toString();
+         }
+         else
+         {
+            if (type == DataType.CURRENCY)
+            {
+               result = printExtendedAttributeCurrency((Number) value);
+            }
+            else
+            {
+               if (value instanceof Number)
+               {
+                  result = printExtendedAttributeNumber((Number) value);
+               }
+               else
+               {
+                  result = value.toString();
+               }
+            }
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * Parse an outline code/custom field value.
+    * 
+    * @param value string representation of value
+    * @param type target type
+    * @return correctly typed instance representing the input value
+    */
+   public static final Object parseOutlineCodeValue(String value, DataType type)
+   {
+      Object result;
+
+      switch (type)
+      {
+         case DATE:
+         {
+            result = parseOutlineCodeValueDate(value);
+            break;
+         }
+
+         case DURATION:
+         {
+            result = parseDurationInIntegerTenthsOfMinutes(value);
+            break;
+         }
+
+         case CURRENCY:
+         {
+            result = parseExtendedAttributeCurrency(value);
+            break;
+         }
+
+         case NUMERIC:
+         {
+            result = parseExtendedAttributeNumber(value);
+            break;
+         }
+
+         default:
+         {
+            result = value;
+            break;
+         }
+      }
+
+      return (result);
    }
 
    /**
@@ -1369,6 +1507,24 @@ public final class DatatypeConverter
       if (duration != null && duration.getDuration() != 0)
       {
          result = BigInteger.valueOf((long) printDurationFractionsOfMinutes(duration, 10));
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse duration represented as an integer number of tenths of minutes.
+    * 
+    * @param value duration value
+    * @return Duration instance
+    */
+   public static final Duration parseDurationInIntegerTenthsOfMinutes(String value)
+   {
+      Duration result = null;
+
+      if (value != null)
+      {
+         result = parseDurationInTenthsOfMinutes(new BigInteger(value));
       }
 
       return result;
