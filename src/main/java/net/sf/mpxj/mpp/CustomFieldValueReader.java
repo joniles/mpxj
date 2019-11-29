@@ -29,6 +29,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.ByteArrayHelper;
 
 /**
  * Common implementation detail shared by custom field value readers.
@@ -75,7 +76,7 @@ public abstract class CustomFieldValueReader
       
       if (type == null)
       {
-         result = value;
+         result = valueAsString(value);
       }
       else
       {
@@ -115,7 +116,7 @@ public abstract class CustomFieldValueReader
 
             default:
             {
-               result = value;
+               result = valueAsString(value);
                break;
             }
          }
@@ -124,6 +125,28 @@ public abstract class CustomFieldValueReader
       return result;
    }
 
+   private String valueAsString(byte[] value)
+   {
+      String result;
+      
+      //
+      // We don't know what this is, let's try making a string
+      //
+      try
+      {
+         result = MPPUtility.getUnicodeString(value, 0);                  
+      }
+      
+      catch (Exception ex)
+      {
+         //
+         // Handle failure gracefully and dump the byte array contents
+         //
+         result = ByteArrayHelper.hexdump(value, false);
+      }
+      return result;
+   }
+  
    protected ProjectProperties m_properties;
    protected CustomFieldContainer m_container;
    protected VarMeta m_outlineCodeVarMeta;

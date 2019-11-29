@@ -1618,7 +1618,12 @@ public final class MSPDIReader extends AbstractProjectReader
       if (fieldType != null)
       {
          CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-         field.setAlias(outlineCode.getAlias());
+         String currentAlias = field.getAlias();
+         // Don't overwrite an alias we've read from extended attributes
+         if (currentAlias == null || currentAlias.isEmpty())
+         {
+            field.setAlias(outlineCode.getAlias());   
+         }         
          readOutlineCodeValues(outlineCode, field);
          readOutlineCodeMasks(outlineCode, field);
       }
@@ -1649,7 +1654,7 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             CustomFieldValueItem item = new CustomFieldValueItem(NumberHelper.getInteger(value.getValueID()));
             item.setDescription(value.getDescription());
-            item.setGuid(value.getFieldGUID());
+            item.setGUID(value.getFieldGUID());
             item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
             item.setParent(NumberHelper.getInteger(value.getParentValueID()));
             item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));

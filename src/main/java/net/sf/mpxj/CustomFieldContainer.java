@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import net.sf.mpxj.common.Pair;
@@ -98,9 +99,9 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void registerValue(CustomFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
-      if (item.getGuid() != null)
+      if (item.getGUID() != null)
       {
-         m_guidMap.put(item.getGuid(), item);
+         m_guidMap.put(item.getGUID(), item);
       }
    }
 
@@ -112,9 +113,9 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void deregisterValue(CustomFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
-      if (item.getGuid() != null)
+      if (item.getGUID() != null)
       {
-         m_guidMap.remove(item.getGuid());
+         m_guidMap.remove(item.getGUID());
       }
    }
 

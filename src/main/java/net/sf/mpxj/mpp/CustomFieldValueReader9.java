@@ -207,7 +207,8 @@ public class CustomFieldValueReader9
    {
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
-      table.setGUID(UUID.randomUUID());
+      String fieldTypeName = config.getFieldType().getName();
+      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));     
 
       List<Object> descriptionList = convertType(DataType.STRING, descriptions);
       List<Object> valueList = convertType(field.getDataType(), values);
@@ -217,7 +218,7 @@ public class CustomFieldValueReader9
          CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setDescription((String) descriptionList.get(index));
          item.setType(itemType);
-         item.setGuid(UUID.randomUUID());
+         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName+item.getUniqueID()).getBytes()));
          if (index < valueList.size())
          {
             item.setValue(valueList.get(index));
@@ -237,7 +238,8 @@ public class CustomFieldValueReader9
    {
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
-      table.setGUID(UUID.randomUUID());
+      String fieldTypeName = field == null ? "Unknown" : field.getName();
+      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));           
       CustomFieldValueDataType itemType = getDataType(field);
 
       for (Pair<String, String> pair : items)
@@ -246,7 +248,7 @@ public class CustomFieldValueReader9
          item.setValue(pair.getFirst());
          item.setDescription(pair.getSecond());
          item.setType(itemType);
-         item.setGuid(UUID.randomUUID());
+         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName+item.getUniqueID()).getBytes()));
          table.add(item);
       }
    }

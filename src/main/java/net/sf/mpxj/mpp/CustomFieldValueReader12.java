@@ -77,7 +77,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);               
-         item.setGuid(MPPUtility.getGUID(b2, 0));
+         item.setGUID(MPPUtility.getGUID(b2, 0));
          UUID lookupTableGuid = MPPUtility.getGUID(b2, 32);
          item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, 48)));
          item.setValue(getTypedValue(item.getType(), value));

@@ -138,7 +138,7 @@ public final class CustomFieldValueItem
     *
     * @return value GUID
     */
-   public UUID getGuid()
+   public UUID getGUID()
    {
       return m_guid;
    }
@@ -148,7 +148,7 @@ public final class CustomFieldValueItem
     *
     * @param guid value GUID
     */
-   public void setGuid(UUID guid)
+   public void setGUID(UUID guid)
    {
       m_guid = guid;
    }

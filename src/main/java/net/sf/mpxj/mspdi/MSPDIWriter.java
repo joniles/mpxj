@@ -354,8 +354,29 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeOutlineCodes(Project project)
    {
       Project.OutlineCodes outlineCodes = null;
-            
+      List<CustomField> allCustomFields = new ArrayList<CustomField>();
       for (CustomField field : m_projectFile.getCustomFields())
+      {
+         allCustomFields.add(field);
+      }
+      
+      Collections.sort(allCustomFields, new Comparator<CustomField>()
+      {
+         @Override public int compare(CustomField customField1, CustomField customField2)
+         {
+            FieldType o1 = customField1.getFieldType();
+            FieldType o2 = customField2.getFieldType();
+            String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName(); 
+            String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
+            String fieldName1 = o1 == null ? "Unknown" : o1.getName();
+            String fieldName2 = o2 == null ? "Unknown" : o2.getName();
+            String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
+            String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
+            return name1.compareTo(name2);
+         }
+      });
+      
+      for (CustomField field : allCustomFields)
       {
          if (!field.getLookupTable().isEmpty())
          {
@@ -442,7 +463,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          type = CustomFieldValueDataType.TEXT;
       }
       value.setDescription(item.getDescription());
-      value.setFieldGUID(item.getGuid());
+      value.setFieldGUID(item.getGUID());
       value.setIsCollapsed(Boolean.valueOf(item.getCollapsed()));
       value.setParentValueID(NumberHelper.getBigInteger(item.getParent()));
       value.setType(BigInteger.valueOf(type.getValue()));
