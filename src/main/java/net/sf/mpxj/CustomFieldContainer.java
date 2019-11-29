@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 
 import net.sf.mpxj.common.Pair;
