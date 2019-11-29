@@ -125,6 +125,14 @@ public abstract class CustomFieldValueReader
       return result;
    }
 
+   /**
+    * Try to convert a bute array into a string. In the event of a 
+    * failure, fall back to dumping the byte array contents as
+    * as string of hex bytes.
+    * 
+    * @param value byte array
+    * @return String instance
+    */
    private String valueAsString(byte[] value)
    {
       String result;
