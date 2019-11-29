@@ -123,11 +123,8 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          
          int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
          FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
-         if (field != null)
-         {
-            UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
-            map.put(lookupTableGuid, field);
-         }
+         UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
+         map.put(lookupTableGuid, field);
          index += blockLength;
       }
       return map;
