@@ -89,7 +89,7 @@ public class ActivityCodeValue
     * 
     * @return parent ActivityCodeValue
     */
-   public ActivityCodeValue gteParent()
+   public ActivityCodeValue getParent()
    {
       return m_parent;
    }
