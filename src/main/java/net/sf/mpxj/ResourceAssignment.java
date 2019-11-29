@@ -33,7 +33,6 @@ import java.util.UUID;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.FieldListener;
 
@@ -573,7 +572,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     *
     * @param data timephased data
     */
-   public void setTimephasedWork(DefaultTimephasedWorkContainer data)
+   public void setTimephasedWork(TimephasedWorkContainer data)
    {
       m_timephasedWork = data;
    }
@@ -594,7 +593,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
          totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
 
-         m_timephasedOvertimeWork = new DefaultTimephasedWorkContainer(m_timephasedWork, perDayFactor, totalFactor);
+         m_timephasedOvertimeWork = m_timephasedWork.applyFactor(perDayFactor, totalFactor);
       }
       return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
    }
@@ -2872,7 +2871,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    private boolean m_eventsEnabled = true;
 
-   private DefaultTimephasedWorkContainer m_timephasedWork;
+   private TimephasedWorkContainer m_timephasedWork;
    private List<TimephasedCost> m_timephasedCost;
 
    private TimephasedWorkContainer m_timephasedActualWork;

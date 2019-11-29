@@ -66,7 +66,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     * @param perDayFactor per day scaling factor
     * @param totalFactor total scaling factor
     */
-   public DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
+   private DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
    {
       m_data = new LinkedList<TimephasedWork>();
       m_raw = source.m_raw;
@@ -102,6 +102,12 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       return !m_data.isEmpty();
    }
 
+   @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
+   {
+      return new DefaultTimephasedWorkContainer(this, perDayFactor, totalFactor);
+   }
+
+   
    private LinkedList<TimephasedWork> m_data;
    private boolean m_raw;
    private TimephasedWorkNormaliser m_normaliser;

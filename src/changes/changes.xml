@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="7.9.8">
 			<action dev="joniles" type="add">Added support for reading and writing outline code/custom field lookup tables for MSPDI files.</action>
+			<action dev="joniles" type="add">Added sample code to demonstrate creation of timephased work.</action>
 			<action dev="joniles" type="update">Populate project status date attribute when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Populate parent attribute when reading activity code values from Primavera schedules.</action>
 		</release>
