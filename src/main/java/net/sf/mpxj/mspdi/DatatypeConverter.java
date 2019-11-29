@@ -377,6 +377,13 @@ public final class DatatypeConverter
       return (result);
    }
 
+   /**
+    * Parse an outline code/custom field value.
+    * 
+    * @param value string representation of value
+    * @param type target type
+    * @return correctly typed instance representing the input value
+    */
    public static final Object parseOutlineCodeValue(String value, DataType type)
    {
       Object result;
@@ -1505,6 +1512,12 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Parse duration represented as an integer number of tenths of minutes.
+    * 
+    * @param value duration value
+    * @return Duration instance
+    */
    public static final Duration parseDurationInIntegerTenthsOfMinutes(String value)
    {
       Duration result = null;

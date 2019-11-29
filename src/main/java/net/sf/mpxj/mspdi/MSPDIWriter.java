@@ -194,7 +194,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
 
-         writeProjectProperties(project);         
+         writeProjectProperties(project);
          writeCalendars(project);
          writeResources(project);
          writeTasks(project);
@@ -314,13 +314,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       customFields.addAll(m_extendedAttributesInUse);
-      
+
       List<FieldType> customFieldsList = new ArrayList<FieldType>();
       customFieldsList.addAll(customFields);
-      
 
       // Sort to ensure consistent order in file
-      final CustomFieldContainer customFieldContainer =  m_projectFile.getCustomFields();
+      final CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
       Collections.sort(customFieldsList, new Comparator<FieldType>()
       {
          @Override public int compare(FieldType o1, FieldType o2)
@@ -339,7 +338,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          list.add(attribute);
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
          attribute.setFieldName(fieldType.getName());
-                  
+
          CustomField customField = customFieldContainer.getCustomField(fieldType);
          attribute.setAlias(customField.getAlias());
          attribute.setLtuid(customField.getLookupTable().getGUID());
@@ -359,14 +358,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          allCustomFields.add(field);
       }
-      
+
       Collections.sort(allCustomFields, new Comparator<CustomField>()
       {
          @Override public int compare(CustomField customField1, CustomField customField2)
          {
             FieldType o1 = customField1.getFieldType();
             FieldType o2 = customField2.getFieldType();
-            String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName(); 
+            String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
             String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
             String fieldName1 = o1 == null ? "Unknown" : o1.getName();
             String fieldName2 = o2 == null ? "Unknown" : o2.getName();
@@ -375,7 +374,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             return name1.compareTo(name2);
          }
       });
-      
+
       for (CustomField field : allCustomFields)
       {
          if (!field.getLookupTable().isEmpty())
@@ -385,14 +384,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
                outlineCodes = m_factory.createProjectOutlineCodes();
                project.setOutlineCodes(outlineCodes);
             }
-            
+
             Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
             outlineCodes.getOutlineCode().add(outlineCode);
             writeOutlineCode(outlineCode, field);
          }
       }
    }
-   
+
    /**
     * Write a single outline code or custom field.
     * 
@@ -412,11 +411,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       outlineCode.setLeafOnly(Boolean.valueOf(table.getLeafOnly()));
       outlineCode.setAllLevelsRequired(Boolean.valueOf(table.getAllLevelsRequired()));
       outlineCode.setOnlyTableValuesAllowed(Boolean.valueOf(table.getOnlyTableValuesAllowed()));
-     
+
       //
       // Masks
       //
-      outlineCode.setMasks(m_factory.createProjectOutlineCodesOutlineCodeMasks());      
+      outlineCode.setMasks(m_factory.createProjectOutlineCodesOutlineCodeMasks());
       if (field.getMasks().isEmpty())
       {
          CustomFieldValueDataType type = table.get(0).getType();
@@ -434,13 +433,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
             writeMask(outlineCode, item);
          }
       }
-      
+
       //
       // Values
       //
       Project.OutlineCodes.OutlineCode.Values values = m_factory.createProjectOutlineCodesOutlineCodeValues();
       outlineCode.setValues(values);
-      
+
       for (CustomFieldValueItem item : table)
       {
          Project.OutlineCodes.OutlineCode.Values.Value value = m_factory.createProjectOutlineCodesOutlineCodeValuesValue();
@@ -448,7 +447,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          writeOutlineCodeValue(value, item);
       }
    }
-   
+
    /**
     * Write an outline code value.
     * 
@@ -470,7 +469,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       value.setValueID(NumberHelper.getBigInteger(item.getUniqueID()));
       value.setValue(DatatypeConverter.printOutlineCodeValue(item.getValue(), type.getDataType()));
    }
-   
+
    /**
     * Write an outline code mask element.
     * 
@@ -481,13 +480,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.OutlineCodes.OutlineCode.Masks.Mask mask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
       outlineCode.getMasks().getMask().add(mask);
-      
+
       mask.setLength(BigInteger.valueOf(item.getLength()));
       mask.setLevel(BigInteger.valueOf(item.getLevel()));
       mask.setSeparator(item.getSeparator());
       mask.setType(BigInteger.valueOf(item.getType().getMaskValue()));
    }
-   
+
    /**
     * This method writes calendar data to an MSPDI file.
     *
@@ -1641,13 +1640,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
-            
+
             // Without this, MS Project will mark a 100% complete milestone as 99% complete
             if (percentComplete == 100 && duration.getDuration() == 0)
-            {              
+            {
                dummy.setActualFinish(task.getActualStart());
             }
-            
+
             list.add(writeAssignment(dummy));
          }
       }
