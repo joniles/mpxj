@@ -68,6 +68,12 @@ public enum CustomFieldValueDataType implements MpxjEnum
       return null;
    }
 
+   /**
+    * Retrieve an instance of the enum based on its mask value.
+    *
+    * @param type mask value
+    * @return enum instance
+    */
    public static CustomFieldValueDataType getInstanceByMaskValue(int type)
    {
       if (type >= 0 && type < MASK_VALUES.length)
