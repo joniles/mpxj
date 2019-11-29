@@ -308,6 +308,13 @@ public final class DateHelper
       return result;
    }
 
+   /**
+    * Creates a long value from a timestamp.  This conversion
+    * takes account of the time zone and any daylight savings time.
+    * 
+    * @param date timestamp as a Date instance
+    * @return timestamp expressed as a long integer
+    */
    public static long getLongFromTimestamp(Date date)
    {
       TimeZone tz = TimeZone.getDefault();
