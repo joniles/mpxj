@@ -648,8 +648,9 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     * Customise the data retrieved by this reader by modifying the contents of this map.
     *
     * @return Primavera field name to MPXJ field type map
+    * @deprecated Use getActivityFieldMap
     */
-   public Map<FieldType, String> getTaskFieldMap()
+   @Deprecated public Map<FieldType, String> getTaskFieldMap()
    {
       return m_taskFields;
    }
@@ -659,7 +660,28 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
-   public Map<FieldType, String> getAssignmentFields()
+   public Map<FieldType, String> getActivityFieldMap()
+   {
+      return m_taskFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    *
+    * @return Primavera field name to MPXJ field type map
+    * @deprecated Use getAssignmentFieldMap
+    */
+   @Deprecated public Map<FieldType, String> getAssignmentFields()
+   {
+      return m_assignmentFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    *
+    * @return Primavera field name to MPXJ field type map
+    */
+   public Map<FieldType, String> getAssignmentFieldMap()
    {
       return m_assignmentFields;
    }
