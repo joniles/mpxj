@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.util.CloseIgnoringInputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -389,7 +390,7 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
    {
-      POIFSFileSystem fs = new POIFSFileSystem(POIFSFileSystem.createNonClosingInputStream(stream));
+      POIFSFileSystem fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
       String fileFormat = MPPReader.getFileFormat(fs);
       if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
