@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-11-25</li>
+        <li id="publishDate">Last Published: 2019-12-27</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -246,7 +246,42 @@ reader.setFieldNamesForResourceUdfType(UserFieldDataType.FT_START_DATE, &quot;DA
 reader.setFieldNamesForAssignmentUdfType(UserFieldDataType.FT_END_DATE, &quot;DATE&quot;);
 ProjectFile file = reader.read(&quot;my-sample.xer&quot;);
 </pre></div></div>
-<p>As the sample shows, a method is provided for the three main entity types: tasks, resources and resource assignments. The first argument you pass to these methods is the P6 user defined field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in <tt>&quot;DATE&quot;</tt>. To allow values to overflow from one custom field type to another, you can simply pass additional values (see the <tt>setFieldNamesForTaskUdfType</tt> example above).</p></div></div></div>
+<p>As the sample shows, a method is provided for the three main entity types: tasks, resources and resource assignments. The first argument you pass to these methods is the P6 user defined field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in <tt>&quot;DATE&quot;</tt>. To allow values to overflow from one custom field type to another, you can simply pass additional values (see the <tt>setFieldNamesForTaskUdfType</tt> example above).</p></div>
+<div class="section">
+<h4><a name="Reading_Additional_Attributes"></a>Reading Additional Attributes</h4>
+<p>A data-driven approach is used to extract the attributes used by MPXJ from the XER file. You can if you wish change the way attributes are read from the file, or add support for additional attributes. This assumes that you know the column name of the attributes you want to work with in the XER file. To make changes you will need to retrieve the maps which define which MPXJ attributes are used to store which columns from the XER file:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+Map&lt;FieldType, String&gt; resourceFieldMap = reader.getResourceFieldMap();
+Map&lt;FieldType, String&gt; wbsFieldMap = reader.getWbsFieldMap();
+Map&lt;FieldType, String&gt; activityFieldMap = reader.getActivityFieldMap();
+Map&lt;FieldType, String&gt; assignmentFieldMap = reader.getAssignmentFieldMap();
+</pre></div></div>
+<p>These maps will contain the default mapping between columns and MPXJ attributes. You can modify these existing mappings, or add new ones, for example:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">//
+// Change the field used to store rsrc_id
+//
+activityFieldMap.remove(TaskField.NUMBER1);
+activityFieldMap.put(TaskField.NUMBER2, &quot;rsrc_id&quot;);
+
+//
+// Read an Activity column called an_example_field and store it in TEXT10
+//
+activityFieldMap.put(TaskField.TEXT10, &quot;an_example_field&quot;);
+</pre></div></div>
+<p>When reading new columns from the XER file, if these columns have a type other than String, it is important to register the type of the column to ensure that it is converted correctly. You will also need to ensure that the MPXJ attribute you are writing this new value to can receive the data type you are assigning to it (for example, you must store a date in a date attribute, you can&#x2019;t store a date in an integer attribute).</p>
+<p>For example, if we are reading an integer column called <tt>an_example_id</tt> and store it in the <tt>NUMBER2</tt> attribute, we will need to take the following steps:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+Map&lt;String, XerFieldType&gt; fieldTypeMap = reader.getFieldTypeMap();
+fieldTypeMap.put(&quot;an_example_id&quot;, XerFieldType.INTEGER);
+Map&lt;FieldType, String&gt; activityFieldMap = reader.getActivityFieldMap();
+activityFieldMap.put(TaskField.NUMBER2, &quot;an_example_id&quot;);
+</pre></div></div></div></div></div>
         </div>
       </div>
     </div>
