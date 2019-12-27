@@ -348,22 +348,11 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       pw.println("   name=" + getName());
       pw.println("   date_range=" + getDateRange());
 
-      String[] dayName =
+      for (Day day : Day.values())
       {
-         "Sunday",
-         "Monday",
-         "Tuesday",
-         "Wednesday",
-         "Thursday",
-         "Friday",
-         "Saturday"
-      };
-
-      for (int loop = 0; loop < 7; loop++)
-      {
-         pw.println("   [Day " + dayName[loop]);
-         pw.println("      type=" + getDays()[loop]);
-         pw.println("      hours=" + getHours()[loop]);
+         pw.println("   [Day " + day);
+         pw.println("      type=" + getWorkingDay(day));
+         pw.println("      hours=" + getHours(day));
          pw.println("   ]");
       }
 
