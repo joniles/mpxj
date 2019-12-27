@@ -1,11 +1,14 @@
 # Changelog
 
-## 7.9.8 (git master)
+## 7.9.9 (git master)
+
+## 7.9.8 (27/12/2019)
 * Added support for reading and writing outline code/custom field lookup tables for MSPDI files.
 * Added sample code to demonstrate creation of timephased work.
 * Populate project status date attribute when reading Asta schedules.
 * Populate parent attribute when reading activity code values from Primavera schedules.
 * Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.
+* Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.
 
 ## 7.9.7 (25/11/2019)
 * Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.
