@@ -10,7 +10,8 @@
 			<action dev="joniles" type="add">Added sample code to demonstrate creation of timephased work.</action>
 			<action dev="joniles" type="update">Populate project status date attribute when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Populate parent attribute when reading activity code values from Primavera schedules.</action>
-			<action dev="joniles" type="update">Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.</action>
+			<action dev="joniles" type="update">Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.</action>			
+			<action dev="joniles" type="update">Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.</action>			
 		</release>
 		<release date="25/11/2019" version="7.9.7">
 			<action dev="joniles" type="update">Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.</action>
