@@ -66,7 +66,7 @@ final class Record
 
          m_formats = formats;
 
-         LinkedList<String> list = new LinkedList<String>();
+         LinkedList<String> list = new LinkedList<>();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
          {

@@ -35,16 +35,16 @@ class CalendarRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
-      ProjectCalendar calendar = context.addCalendar(getString(0));          
+      ProjectCalendar calendar = context.addCalendar(getString(0));
       calendar.setName(getString(2));
-      
+
       String flags = getString(1);
       for (Day day : Day.values())
       {
-         calendar.setWorkingDay(day, flags.charAt(day.getValue()-1) == 'Y');
+         calendar.setWorkingDay(day, flags.charAt(day.getValue() - 1) == 'Y');
       }
       context.getEventManager().fireCalendarReadEvent(calendar);
    }

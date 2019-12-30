@@ -76,7 +76,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a duration value.
-    * 
+    *
     * @param value duration value
     * @return Duration instance
     */
@@ -87,7 +87,7 @@ public final class DatatypeConverter
 
    /**
     * Print a duration value.
-    * 
+    *
     * @param value Duration instance
     * @return string representation of a duration
     */
@@ -98,7 +98,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a date.
-    * 
+    *
     * @param value string representation of a date
     * @return Date instance
     */
@@ -135,7 +135,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a percent complete value.
-    * 
+    *
     * @param value sting representation of a percent complete value.
     * @return Double instance
     */
@@ -146,7 +146,7 @@ public final class DatatypeConverter
 
    /**
     * Print a percent complete value.
-    * 
+    *
     * @param value Double instance
     * @return percent complete value
     */
@@ -157,7 +157,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a Day value.
-    * 
+    *
     * @param value string representation of a day
     * @return Day instance
     */
@@ -168,7 +168,7 @@ public final class DatatypeConverter
 
    /**
     * Print a day value.
-    * 
+    *
     * @param value Day instance
     * @return string representation of a day
     */
@@ -176,7 +176,6 @@ public final class DatatypeConverter
    {
       return Integer.toString(value.getValue() - 1);
    }
-
 
    private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>()
    {

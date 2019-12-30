@@ -36,7 +36,7 @@ class HolidayRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
       ProjectCalendar calendar = context.getCalendar(getString(0));

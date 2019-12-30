@@ -53,7 +53,7 @@ public final class TimescaleUtility
     */
    public final ArrayList<DateRange> createTimescale(Date startDate, TimescaleUnits segmentUnit, int segmentCount)
    {
-      ArrayList<DateRange> result = new ArrayList<DateRange>(segmentCount);
+      ArrayList<DateRange> result = new ArrayList<>(segmentCount);
 
       Calendar cal = DateHelper.popCalendar(startDate);
       cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -170,7 +170,7 @@ public final class TimescaleUtility
       }
 
       DateHelper.pushCalendar(cal);
-      
+
       return result;
    }
 

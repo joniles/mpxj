@@ -124,5 +124,5 @@ class FastTrackTable implements Iterable<MapRow>
 
    private final FastTrackData m_data;
    private final FastTrackTableType m_type;
-   private final ArrayList<MapRow> m_rows = new ArrayList<MapRow>();
+   private final ArrayList<MapRow> m_rows = new ArrayList<>();
 }

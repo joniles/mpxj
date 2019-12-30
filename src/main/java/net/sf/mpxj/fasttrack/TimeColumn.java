@@ -68,7 +68,7 @@ class TimeColumn extends AbstractColumn
          }
       }
       DateHelper.pushCalendar(cal);
-      
+
       return offset;
    }
 

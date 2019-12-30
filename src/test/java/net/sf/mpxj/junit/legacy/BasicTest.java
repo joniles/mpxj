@@ -1334,7 +1334,7 @@ public class BasicTest
       reader = new MPPReader();
       reader.setRespectPasswordProtection(false);
       reader.read(in);
-      
+
       //
       // Write password (password2)
       //
@@ -1355,7 +1355,7 @@ public class BasicTest
       {
          assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
-      
+
       in = new File(MpxjTestData.filePath("legacy/bothpassword9.mpp"));
       reader = new MPPReader();
       reader.setRespectPasswordProtection(false);

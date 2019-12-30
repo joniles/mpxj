@@ -59,7 +59,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -75,7 +75,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       try
       {
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<Row> rows = getRows("select projid, short_name from project_summary");
          for (Row row : rows)
@@ -156,7 +156,7 @@ public final class AstaDatabaseReader implements ProjectReader
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
       m_reader.processProjectProperties(projectSummary, progressPeriods);
-    }
+   }
 
    /**
     * Process calendars.
@@ -368,7 +368,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -402,7 +402,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));
@@ -524,6 +524,6 @@ public final class AstaDatabaseReader implements ProjectReader
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
 }

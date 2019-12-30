@@ -42,31 +42,31 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the taskproperty property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the taskproperty property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getTaskproperty().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link Taskproperty }
-    * 
-    * 
+    *
+    *
     */
    public List<Taskproperty> getTaskproperty()
    {
       if (taskproperty == null)
       {
-         taskproperty = new ArrayList<Taskproperty>();
+         taskproperty = new ArrayList<>();
       }
       return this.taskproperty;
    }

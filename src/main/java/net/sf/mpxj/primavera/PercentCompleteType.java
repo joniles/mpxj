@@ -63,7 +63,7 @@ public enum PercentCompleteType
 
    private final String m_value;
 
-   private static final Map<String, PercentCompleteType> VALUE_MAP = new HashMap<String, PercentCompleteType>();
+   private static final Map<String, PercentCompleteType> VALUE_MAP = new HashMap<>();
    static
    {
       for (PercentCompleteType e : PercentCompleteType.values())

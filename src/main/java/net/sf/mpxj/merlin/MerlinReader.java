@@ -97,7 +97,7 @@ public final class MerlinReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -170,7 +170,7 @@ public final class MerlinReader implements ProjectReader
          XPathFactory xPathfactory = XPathFactory.newInstance();
          XPath xpath = xPathfactory.newXPath();
          m_dayTimeIntervals = xpath.compile("/array/dayTimeInterval");
-         m_entityMap = new HashMap<String, Integer>();
+         m_entityMap = new HashMap<>();
          return read();
       }
 
@@ -619,7 +619,7 @@ public final class MerlinReader implements ProjectReader
     */
    private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
-      List<Row> result = new LinkedList<Row>();
+      List<Row> result = new LinkedList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       int bindIndex = 1;
@@ -675,7 +675,7 @@ public final class MerlinReader implements ProjectReader
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private DocumentBuilder m_documentBuilder;
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");

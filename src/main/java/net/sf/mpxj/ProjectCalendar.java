@@ -343,7 +343,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
       DateHelper.pushCalendar(cal);
-      
+
       return (Duration.getInstance(duration, TimeUnit.DAYS));
    }
 
@@ -712,7 +712,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
 
                if (rangeStartDay.getTime() != rangeEndDay.getTime())
-               {                  
+               {
                   canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
                }
 
@@ -1001,7 +1001,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          result += endDateDayOfYear;
       }
       DateHelper.pushCalendar(cal);
-      
+
       return result;
    }
 
@@ -1579,7 +1579,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          // this will show up as the start and end days not matching
          //
          if (startDay.getTime() != finishDay.getTime())
-         {            
+         {
             endTime = DateHelper.addDays(endTime, 1);
          }
 
@@ -1981,12 +1981,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of exceptions to the base calendar.
     */
-   private List<ProjectCalendarException> m_exceptions = new ArrayList<ProjectCalendarException>();
+   private List<ProjectCalendarException> m_exceptions = new ArrayList<>();
 
    /**
     * List of exceptions, including expansion of recurring exceptions.
     */
-   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<ProjectCalendarException>();
+   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<>();
 
    /**
     * Flag indicating if the list of exceptions is sorted.
@@ -2006,13 +2006,13 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of calendars derived from this calendar instance.
     */
-   private ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<ProjectCalendar>();
+   private ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
 
    /**
     * Caches used to speed up date calculations.
     */
-   private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<DateRange, Long>();
-   private Map<Date, Date> m_startTimeCache = new WeakHashMap<Date, Date>();
+   private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
+   private Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private double m_getDateLastRemainingMinutes;
    private Date m_getDateLastResult;
@@ -2020,7 +2020,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Work week definitions.
     */
-   private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<ProjectCalendarWeek>();
+   private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
 
    private Integer m_minutesPerDay;
    private Integer m_minutesPerWeek;

@@ -817,7 +817,7 @@ class FileFormat11004 extends AbstractFileFormat
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY"
    };
-   
+
    private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
    {
       "TASK_COMPLETED_SECTIONID",

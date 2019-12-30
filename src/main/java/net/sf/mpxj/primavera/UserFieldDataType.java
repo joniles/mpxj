@@ -141,7 +141,7 @@ public enum UserFieldDataType
 
    /**
     * Convert from the PMXML representation of the parent data type.
-    * 
+    *
     * @param name XML name
     * @return UserFieldDataType instance
     */
@@ -149,10 +149,10 @@ public enum UserFieldDataType
    {
       return XML_NAME_MAP.get(name);
    }
-   
+
    private final String[] m_defaultFieldNames;
 
-   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<FieldTypeClass, String>();
+   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
    static
    {
       SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
@@ -161,8 +161,8 @@ public enum UserFieldDataType
       SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
-   
-   private static final Map<String, UserFieldDataType> XML_NAME_MAP = new HashMap<String, UserFieldDataType>();
+
+   private static final Map<String, UserFieldDataType> XML_NAME_MAP = new HashMap<>();
    static
    {
       XML_NAME_MAP.put("Text", FT_TEXT);

@@ -43,7 +43,7 @@ class CalendarDetailReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      map.put("UNKNOWN1", stream.readBytes(24));      
+      map.put("UNKNOWN1", stream.readBytes(24));
       map.put("UNKNOWN2", stream.readString());
       map.put("UNKNOWN3", stream.readBytes(8));
    }
@@ -56,5 +56,5 @@ class CalendarDetailReader extends TableReader
    @Override protected int rowMagicNumber()
    {
       return 0x7FEC261D;
-   }   
+   }
 }

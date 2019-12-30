@@ -97,5 +97,5 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
       return (m_ranges.size());
    }
 
-   private LinkedList<DateRange> m_ranges = new LinkedList<DateRange>();
+   private LinkedList<DateRange> m_ranges = new LinkedList<>();
 }

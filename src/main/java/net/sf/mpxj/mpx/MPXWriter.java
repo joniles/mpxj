@@ -856,7 +856,7 @@ public final class MPXWriter extends AbstractProjectWriter
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
          DateHelper.pushCalendar(cal);
-         result = Integer.valueOf(time);         
+         result = Integer.valueOf(time);
       }
       return (result);
    }
@@ -1124,7 +1124,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          return null;
       }
-      
+
       switch (type)
       {
          case MANDATORY_START:
@@ -1132,13 +1132,13 @@ public final class MPXWriter extends AbstractProjectWriter
             type = ConstraintType.MUST_START_ON;
             break;
          }
-         
+
          case MANDATORY_FINISH:
          {
             type = ConstraintType.MUST_FINISH_ON;
             break;
          }
-         
+
          default:
          {
             break;

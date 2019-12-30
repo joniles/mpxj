@@ -359,7 +359,7 @@ public final class PlannerWriter extends AbstractProjectWriter
                day.setId(mpxjCalendarException.getWorking() ? "0" : "1");
                cal.add(Calendar.DAY_OF_YEAR, 1);
             }
-            
+
             DateHelper.pushCalendar(cal);
          }
 
@@ -705,7 +705,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
       DateHelper.pushCalendar(cal);
-      
+
       StringBuilder sb = new StringBuilder(4);
       sb.append(m_twoDigitFormat.format(hours));
       sb.append(m_twoDigitFormat.format(minutes));
@@ -728,7 +728,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
       DateHelper.pushCalendar(cal);
-      
+
       StringBuilder sb = new StringBuilder(8);
       sb.append(m_fourDigitFormat.format(year));
       sb.append(m_twoDigitFormat.format(month));
@@ -925,7 +925,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
 
-   private static Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<RelationType, String>();
+   private static Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {
       RELATIONSHIP_TYPES.put(RelationType.FINISH_FINISH, "FF");

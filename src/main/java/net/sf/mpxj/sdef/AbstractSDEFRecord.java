@@ -46,87 +46,87 @@ abstract class AbstractSDEFRecord implements SDEFRecord
    }
 
    /**
-    * Retrieve the field definitions for this record type. 
-    * 
+    * Retrieve the field definitions for this record type.
+    *
     * @return array of field definitions
     */
    protected abstract SDEFField[] getFieldDefinitions();
-   
+
    /**
     * Retrieve a string field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected String getString(int index)
    {
-      return (String)m_fields[index];
+      return (String) m_fields[index];
    }
 
    /**
     * Retrieve an integer field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected Integer getInteger(int index)
    {
-      return (Integer)m_fields[index];
+      return (Integer) m_fields[index];
    }
 
    /**
     * Retrieve a double field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected Double getDouble(int index)
    {
-      return (Double)m_fields[index];
+      return (Double) m_fields[index];
    }
 
    /**
     * Retrieve a date field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected Date getDate(int index)
    {
-      return (Date)m_fields[index];
+      return (Date) m_fields[index];
    }
-  
+
    /**
     * Retrieve a duration field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected Duration getDuration(int index)
    {
-      return (Duration)m_fields[index];
+      return (Duration) m_fields[index];
    }
 
    /**
     * Retrieve a constraint type field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected ConstraintType getConstraintType(int index)
    {
-      return (ConstraintType)m_fields[index];
+      return (ConstraintType) m_fields[index];
    }
 
    /**
     * Retrieve a relation type field.
-    * 
+    *
     * @param index field index
     * @return field value
     */
    protected RelationType getRelationType(int index)
    {
-      return (RelationType)m_fields[index];
+      return (RelationType) m_fields[index];
    }
 
    private final Object[] m_fields = new Object[getFieldDefinitions().length];

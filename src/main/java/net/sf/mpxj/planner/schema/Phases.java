@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (phase == null)
       {
-         phase = new ArrayList<Phase>();
+         phase = new ArrayList<>();
       }
       return this.phase;
    }

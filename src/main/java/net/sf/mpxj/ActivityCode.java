@@ -91,5 +91,5 @@ public class ActivityCode
 
    private final Integer m_uniqueID;
    private final String m_name;
-   private final List<ActivityCodeValue> m_values = new ArrayList<ActivityCodeValue>();
+   private final List<ActivityCodeValue> m_values = new ArrayList<>();
 }

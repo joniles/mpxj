@@ -62,7 +62,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -182,9 +182,9 @@ public final class AstaDatabaseFileReader implements ProjectReader
    private void processProjectProperties() throws SQLException
    {
       List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
-      List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);      
+      List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
-      List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;      
+      List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
       m_reader.processProjectProperties(projectSummary, progressPeriods);
    }
 
@@ -294,7 +294,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> getRows(String sql) throws SQLException
    {
-      List<Row> result = new LinkedList<Row>();
+      List<Row> result = new LinkedList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       m_rs = m_ps.executeQuery();
@@ -318,7 +318,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
-      List<Row> result = new LinkedList<Row>();
+      List<Row> result = new LinkedList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       m_ps.setInt(1, NumberHelper.getInt(var));
@@ -383,7 +383,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows) throws ParseException
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("ID");
@@ -401,7 +401,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
    {
-      List<Row> list = new ArrayList<Row>();
+      List<Row> list = new ArrayList<>();
       String[] patterns = workPatterns.split(",|:");
       int index = 1;
       while (index < patterns.length)
@@ -410,7 +410,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
          Date startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
          Date endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
 
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("WORK_PATTERN", workPattern);
          map.put("START_DATE", startDate);
          map.put("END_DATE", endDate);
@@ -431,7 +431,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private Map<Integer, List<Row>> createExceptionAssignmentMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("ID");
@@ -449,7 +449,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> createExceptionAssignmentRowList(String exceptionData)
    {
-      List<Row> list = new ArrayList<Row>();
+      List<Row> list = new ArrayList<>();
       String[] exceptions = exceptionData.split(",|:");
       int index = 1;
       while (index < exceptions.length)
@@ -458,7 +458,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
          Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("STARU_DATE", startDate);
          map.put("ENE_DATE", endDate);
 
@@ -478,7 +478,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows) throws ParseException
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("ID");
@@ -496,7 +496,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
    {
-      List<Row> list = new ArrayList<Row>();
+      List<Row> list = new ArrayList<>();
       String[] shifts = shiftData.split(",|:");
       int index = 1;
       while (index < shifts.length)
@@ -511,7 +511,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
             Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
             Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);
             map.put("END_TIME", endTime);
             map.put("EXCEPTIOP", exceptionTypeID);
@@ -530,6 +530,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
 }

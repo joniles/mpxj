@@ -285,14 +285,14 @@ public final class DatatypeConverter
       return DAY_TO_NAME.get(value);
    }
 
-   private static final Map<String, ResourceType> STRING_TO_RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
+   private static final Map<String, ResourceType> STRING_TO_RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
       STRING_TO_RESOURCE_TYPE_MAP.put("Labor", ResourceType.WORK);
       STRING_TO_RESOURCE_TYPE_MAP.put("Non-Labor", ResourceType.MATERIAL);
    }
 
-   private static final Map<ResourceType, String> RESOURCE_TYPE_TO_STRING_MAP = new EnumMap<ResourceType, String>(ResourceType.class);
+   private static final Map<ResourceType, String> RESOURCE_TYPE_TO_STRING_MAP = new EnumMap<>(ResourceType.class);
    static
    {
       RESOURCE_TYPE_TO_STRING_MAP.put(ResourceType.WORK, "Labor");
@@ -300,7 +300,7 @@ public final class DatatypeConverter
       RESOURCE_TYPE_TO_STRING_MAP.put(ResourceType.COST, "Non-Labor");
    }
 
-   private static final Map<String, TimeUnit> STRING_TO_TIME_UNITS_MAP = new HashMap<String, TimeUnit>();
+   private static final Map<String, TimeUnit> STRING_TO_TIME_UNITS_MAP = new HashMap<>();
    static
    {
       STRING_TO_TIME_UNITS_MAP.put("Days", TimeUnit.DAYS);
@@ -308,13 +308,13 @@ public final class DatatypeConverter
       STRING_TO_TIME_UNITS_MAP.put("day", TimeUnit.DAYS);
    }
 
-   private static final Map<TimeUnit, String> TIME_UNITS_TO_STRING_MAP = new EnumMap<TimeUnit, String>(TimeUnit.class);
+   private static final Map<TimeUnit, String> TIME_UNITS_TO_STRING_MAP = new EnumMap<>(TimeUnit.class);
    static
    {
       TIME_UNITS_TO_STRING_MAP.put(TimeUnit.DAYS, "Days");
    }
 
-   private static Map<String, RelationType> NAME_TO_RELATION_TYPE = new HashMap<String, RelationType>();
+   private static Map<String, RelationType> NAME_TO_RELATION_TYPE = new HashMap<>();
    static
    {
       NAME_TO_RELATION_TYPE.put("FinishToFinish", RelationType.FINISH_FINISH);
@@ -323,7 +323,7 @@ public final class DatatypeConverter
       NAME_TO_RELATION_TYPE.put("StartToStart", RelationType.START_START);
    }
 
-   private static Map<RelationType, String> RELATION_TYPE_TO_NAME = new HashMap<RelationType, String>();
+   private static Map<RelationType, String> RELATION_TYPE_TO_NAME = new HashMap<>();
    static
    {
       RELATION_TYPE_TO_NAME.put(RelationType.FINISH_FINISH, "FinishToFinish");
@@ -332,7 +332,7 @@ public final class DatatypeConverter
       RELATION_TYPE_TO_NAME.put(RelationType.START_START, "StartToStart");
    }
 
-   private static Map<String, Day> NAME_TO_DAY = new HashMap<String, Day>();
+   private static Map<String, Day> NAME_TO_DAY = new HashMap<>();
    static
    {
       NAME_TO_DAY.put("Mon", Day.MONDAY);
@@ -344,7 +344,7 @@ public final class DatatypeConverter
       NAME_TO_DAY.put("Sun", Day.SUNDAY);
    }
 
-   private static Map<Day, String> DAY_TO_NAME = new HashMap<Day, String>();
+   private static Map<Day, String> DAY_TO_NAME = new HashMap<>();
    static
    {
       DAY_TO_NAME.put(Day.MONDAY, "Mon");

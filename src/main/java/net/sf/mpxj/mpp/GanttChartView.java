@@ -106,8 +106,8 @@ public abstract class GanttChartView extends GenericView
       throws IOException
    {
       super(parent, fixedData, varData);
-//      System.out.println(varData.getVarMeta());
-//      MPPUtility.fileDump("c:\\temp\\"+getName()+"-vardata.txt", varData.toString().getBytes());
+      //      System.out.println(varData.getVarMeta());
+      //      MPPUtility.fileDump("c:\\temp\\"+getName()+"-vardata.txt", varData.toString().getBytes());
 
       m_filters = parent.getFilters();
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
@@ -1462,8 +1462,8 @@ public abstract class GanttChartView extends GenericView
    protected LineStyle m_progressLinesOtherLineStyle;
    protected Color m_progressLinesOtherProgressPointColor;
    protected int m_progressLinesOtherProgressPointShape;
-   protected List<Filter> m_autoFilters = new LinkedList<Filter>();
-   protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
+   protected List<Filter> m_autoFilters = new LinkedList<>();
+   protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<>();
 
    private FilterContainer m_filters;
 

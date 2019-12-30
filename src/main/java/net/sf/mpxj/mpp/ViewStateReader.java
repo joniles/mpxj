@@ -60,7 +60,7 @@ public abstract class ViewStateReader
       {
          String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(VIEW_NAME));
          byte[] listData = props.getByteArray(VIEW_CONTENTS);
-         List<Integer> uniqueIdList = new LinkedList<Integer>();
+         List<Integer> uniqueIdList = new LinkedList<>();
          if (listData != null)
          {
             for (int index = 0; index < listData.length; index += 4)

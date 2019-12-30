@@ -141,7 +141,7 @@ public class ProjectExplorer
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
-      PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<FileChooserModel>(fileChooserModel, "file", true);
+      PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(fileChooserModel, "file", true);
       openAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
@@ -152,7 +152,7 @@ public class ProjectExplorer
          }
       });
 
-      PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<FileSaverModel>(fileSaverModel, "file", true);
+      PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<>(fileSaverModel, "file", true);
       saveAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)

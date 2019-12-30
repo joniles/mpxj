@@ -62,7 +62,7 @@ public final class MPXJDateFormat extends MPXJBaseFormat
     */
    public void setLocale(Locale locale)
    {
-      List<SimpleDateFormat> formats = new ArrayList<SimpleDateFormat>();
+      List<SimpleDateFormat> formats = new ArrayList<>();
       for (SimpleDateFormat format : m_formats)
       {
          formats.add(new SimpleDateFormat(format.toPattern(), locale));

@@ -112,7 +112,7 @@ public class AbstractWbsFormat
       return sb.toString();
    }
 
-   private final List<String> m_elements = new ArrayList<String>();
-   protected final List<Integer> m_lengths = new ArrayList<Integer>();
-   protected final List<String> m_separators = new ArrayList<String>();
+   private final List<String> m_elements = new ArrayList<>();
+   protected final List<Integer> m_lengths = new ArrayList<>();
+   protected final List<String> m_separators = new ArrayList<>();
 }

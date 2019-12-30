@@ -54,7 +54,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     */
    protected void mergeSameWork(LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)

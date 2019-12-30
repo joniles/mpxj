@@ -36,7 +36,7 @@ class TableA0TAB extends Table
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
       map.put("DELETED", Boolean.valueOf(data[0] == (byte) 0xFF));
       addRow(uniqueID, map);

@@ -102,7 +102,7 @@ public final class PlannerReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -701,7 +701,7 @@ public final class PlannerReader extends AbstractProjectReader
    {
       Allocations allocations = plannerProject.getAllocations();
       List<Allocation> allocationList = allocations.getAllocation();
-      Set<Task> tasksWithAssignments = new HashSet<Task>();
+      Set<Task> tasksWithAssignments = new HashSet<>();
 
       for (Allocation allocation : allocationList)
       {
@@ -811,7 +811,7 @@ public final class PlannerReader extends AbstractProjectReader
          cal.set(Calendar.MILLISECOND, 0);
          Date result = cal.getTime();
          DateHelper.pushCalendar(cal);
-         
+
          return result;
       }
 
@@ -848,7 +848,7 @@ public final class PlannerReader extends AbstractProjectReader
          cal.set(Calendar.MILLISECOND, 0);
          Date result = cal.getTime();
          DateHelper.pushCalendar(cal);
-         
+
          return result;
       }
 
@@ -880,7 +880,7 @@ public final class PlannerReader extends AbstractProjectReader
          cal.set(Calendar.MILLISECOND, 0);
          Date result = cal.getTime();
          DateHelper.pushCalendar(cal);
-         
+
          return result;
       }
 
@@ -980,10 +980,10 @@ public final class PlannerReader extends AbstractProjectReader
    private ProjectCalendar m_defaultCalendar;
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-   private List<DateRange> m_defaultWorkingHours = new LinkedList<DateRange>();
+   private List<DateRange> m_defaultWorkingHours = new LinkedList<>();
    private List<ProjectListener> m_projectListeners;
 
-   private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<String, RelationType>();
+   private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {
       RELATIONSHIP_TYPES.put("FF", RelationType.FINISH_FINISH);

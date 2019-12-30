@@ -617,12 +617,12 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves the data link configuration for this project.
     *
     * @return data links
-    */   
+    */
    public DataLinkContainer getDataLinks()
    {
       return m_dataLinks;
    }
-   
+
    /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
@@ -686,7 +686,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
-   private final List<Task> m_childTasks = new LinkedList<Task>();
+   private final List<Task> m_childTasks = new LinkedList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();

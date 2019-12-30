@@ -129,29 +129,29 @@ public class ProjectCleanUtility
     *
     * @param input input file name
     * @param output output file name
-    */   
+    */
    private void processFile(String input, String output) throws IOException
    {
       FileInputStream is = new FileInputStream(input);
       byte[] data = new byte[is.available()];
       is.read(data);
       is.close();
-      
+
       processReplacements(data, m_project.getTasks(), false, false, TaskField.NAME);
       processReplacements(data, m_project.getResources(), false, false, ResourceField.NAME);
-      
+
       FileOutputStream os = new FileOutputStream(output);
       os.write(data);
       os.flush();
       os.close();
    }
-   
+
    /**
     * Process a project file to make it anonymous.
     *
     * @param input input file name
     * @param output output file name
-    */   
+    */
    private void processMPP(String input, String output) throws IOException
    {
       String varDataFileName;
@@ -208,7 +208,7 @@ public class ProjectCleanUtility
 
       //
       // Process Tasks
-      //    
+      //
       processFile((DirectoryEntry) m_projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
 
       //
@@ -238,7 +238,7 @@ public class ProjectCleanUtility
    /**
     * Takes file contents represented as a byte array, finds specific field values within that file
     * and replaces them with anonymous text.
-    * 
+    *
     * @param data file data
     * @param items items to extract field values from
     * @param unicode true if replacing unicode text
@@ -250,7 +250,7 @@ public class ProjectCleanUtility
       //
       // Build a map of the replacements required
       //
-      Map<String, String> replacements = new HashMap<String, String>();
+      Map<String, String> replacements = new HashMap<>();
       for (FieldContainer item : items)
       {
          for (FieldType field : fields)
@@ -262,7 +262,7 @@ public class ProjectCleanUtility
       //
       // Populate a list of keys and sort into descending order of length
       //
-      List<String> keys = new ArrayList<String>(replacements.keySet());
+      List<String> keys = new ArrayList<>(replacements.keySet());
       Collections.sort(keys, new Comparator<String>()
       {
          @Override public int compare(String o1, String o2)
@@ -283,7 +283,7 @@ public class ProjectCleanUtility
 
    /**
     * Extract a file from within an MPP file.
-    * 
+    *
     * @param parentDirectory parent directory
     * @param fileName file name
     * @return file data
@@ -302,7 +302,7 @@ public class ProjectCleanUtility
 
    /**
     * Perform the replacement on a file within an MPP file.
-    * 
+    *
     * @param parentDirectory parent directory
     * @param fileName target file name
     * @param items items to extract field values from

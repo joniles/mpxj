@@ -1414,7 +1414,7 @@ import net.sf.mpxj.TimeUnit;
       {
          if (filter == null)
          {
-            filter = new ArrayList<Project.Filters.Filter>();
+            filter = new ArrayList<>();
          }
          return this.filter;
       }
@@ -2170,7 +2170,7 @@ import net.sf.mpxj.TimeUnit;
       {
          if (layout == null)
          {
-            layout = new ArrayList<Project.Layouts.Layout>();
+            layout = new ArrayList<>();
          }
          return this.layout;
       }
@@ -4221,7 +4221,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (barGroup == null)
                {
-                  barGroup = new ArrayList<Project.Layouts.Layout.Bars.BarGroup>();
+                  barGroup = new ArrayList<>();
                }
                return this.barGroup;
             }
@@ -4903,7 +4903,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (codeOption == null)
                {
-                  codeOption = new ArrayList<Project.Layouts.Layout.CodeOptions.CodeOption>();
+                  codeOption = new ArrayList<>();
                }
                return this.codeOption;
             }
@@ -5251,7 +5251,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (column == null)
                {
-                  column = new ArrayList<Project.Layouts.Layout.Columns.Column>();
+                  column = new ArrayList<>();
                }
                return this.column;
             }
@@ -7951,7 +7951,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (tier == null)
                {
-                  tier = new ArrayList<Project.Layouts.Layout.Timescale.Tier>();
+                  tier = new ArrayList<>();
                }
                return this.tier;
             }
@@ -9393,7 +9393,7 @@ import net.sf.mpxj.TimeUnit;
       {
          if (storepoint == null)
          {
-            storepoint = new ArrayList<Project.Storepoints.Storepoint>();
+            storepoint = new ArrayList<>();
          }
          return this.storepoint;
       }
@@ -10134,7 +10134,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (activity == null)
                {
-                  activity = new ArrayList<Project.Storepoints.Storepoint.Activities.Activity>();
+                  activity = new ArrayList<>();
                }
                return this.activity;
             }
@@ -10262,7 +10262,7 @@ import net.sf.mpxj.TimeUnit;
                {
                   if (codeAssignment == null)
                   {
-                     codeAssignment = new ArrayList<Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment>();
+                     codeAssignment = new ArrayList<>();
                   }
                   return this.codeAssignment;
                }
@@ -11234,7 +11234,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (code == null)
                {
-                  code = new ArrayList<Project.Storepoints.Storepoint.ActivityCodes.Code>();
+                  code = new ArrayList<>();
                }
                return this.code;
             }
@@ -11307,7 +11307,7 @@ import net.sf.mpxj.TimeUnit;
                {
                   if (value == null)
                   {
-                     value = new ArrayList<Project.Storepoints.Storepoint.ActivityCodes.Code.Value>();
+                     value = new ArrayList<>();
                   }
                   return this.value;
                }
@@ -11545,7 +11545,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (calendar == null)
                {
-                  calendar = new ArrayList<Project.Storepoints.Storepoint.Calendars.Calendar>();
+                  calendar = new ArrayList<>();
                }
                return this.calendar;
             }
@@ -11614,7 +11614,7 @@ import net.sf.mpxj.TimeUnit;
                {
                   if (nonWork == null)
                   {
-                     nonWork = new ArrayList<Project.Storepoints.Storepoint.Calendars.Calendar.NonWork>();
+                     nonWork = new ArrayList<>();
                   }
                   return this.nonWork;
                }
@@ -11791,7 +11791,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (relationship == null)
                {
-                  relationship = new ArrayList<Project.Storepoints.Storepoint.Relationships.Relationship>();
+                  relationship = new ArrayList<>();
                }
                return this.relationship;
             }
@@ -12015,7 +12015,7 @@ import net.sf.mpxj.TimeUnit;
             {
                if (resource == null)
                {
-                  resource = new ArrayList<Project.Storepoints.Storepoint.Resources.Resource>();
+                  resource = new ArrayList<>();
                }
                return this.resource;
             }
@@ -12102,7 +12102,7 @@ import net.sf.mpxj.TimeUnit;
                {
                   if (assignment == null)
                   {
-                     assignment = new ArrayList<Project.Storepoints.Storepoint.Resources.Resource.Assignment>();
+                     assignment = new ArrayList<>();
                   }
                   return this.assignment;
                }

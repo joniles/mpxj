@@ -36,7 +36,7 @@ class ActivityRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
       String activityID = getString(0);
@@ -55,12 +55,12 @@ class ActivityRecord extends AbstractSDEFRecord
       task.setText(6, getString(11));
       task.setText(7, getString(12));
       task.setText(8, getString(13));
-      task.setText(9, getString(14));      
+      task.setText(9, getString(14));
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
       task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
       context.getEventManager().fireTaskReadEvent(task);
    }
-   
+
    private static final SDEFField[] FIELDS = new SDEFField[]
    {
       new StringField("Activity ID", 10),

@@ -329,7 +329,7 @@ public class GraphicalIndicator
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;
    private boolean m_showDataValuesInToolTips;
-   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new LinkedList<GraphicalIndicatorCriteria>();
-   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new LinkedList<GraphicalIndicatorCriteria>();
-   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new LinkedList<GraphicalIndicatorCriteria>();
+   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new LinkedList<>();
+   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new LinkedList<>();
+   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new LinkedList<>();
 }

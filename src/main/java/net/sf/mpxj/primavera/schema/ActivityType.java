@@ -6382,7 +6382,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (code == null)
       {
-         code = new ArrayList<CodeAssignmentType>();
+         code = new ArrayList<>();
       }
       return this.code;
    }
@@ -6413,7 +6413,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (udf == null)
       {
-         udf = new ArrayList<UDFAssignmentType>();
+         udf = new ArrayList<>();
       }
       return this.udf;
    }

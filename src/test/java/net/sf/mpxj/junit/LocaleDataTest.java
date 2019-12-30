@@ -45,16 +45,16 @@ public class LocaleDataTest
       {
          assertNotNull("TaskField." + field.name() + " name is null", field.getName());
       }
-      
+
       for (ResourceField field : ResourceField.values())
       {
          assertNotNull("ResourceField." + field.name() + " name is null", field.getName());
       }
-      
+
       for (AssignmentField field : AssignmentField.values())
       {
          assertNotNull("AssignmentField." + field.name() + " name is null", field.getName());
-      }      
+      }
 
    }
 }

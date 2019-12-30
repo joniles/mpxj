@@ -75,7 +75,7 @@ class FastTrackData
 
       if (getSupported())
       {
-         List<Integer> blocks = new ArrayList<Integer>();
+         List<Integer> blocks = new ArrayList<>();
          for (int index = 64; index < m_buffer.length - 11; index++)
          {
             if (matchPattern(PARENT_BLOCK_PATTERNS, index))
@@ -96,7 +96,7 @@ class FastTrackData
          int blockLength = m_buffer.length - startIndex;
          readBlock(blockIndex, startIndex, blockLength);
       }
-      
+
       closeLogFile();
    }
 
@@ -106,14 +106,14 @@ class FastTrackData
    private void configureVersion()
    {
       m_version = FastTrackUtility.getInt(m_buffer, 4);
-      switch(m_version)
+      switch (m_version)
       {
-//         case 138:
-//         {
-//            m_supported = true;
-//            m_charset = CharsetHelper.UTF8;
-//            break;
-//         }
+         //         case 138:
+         //         {
+         //            m_supported = true;
+         //            m_charset = CharsetHelper.UTF8;
+         //            break;
+         //         }
 
          case 139:
          {
@@ -121,14 +121,14 @@ class FastTrackData
             m_charset = CharsetHelper.UTF16LE;
             break;
          }
-         
+
          case 144:
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF8;
-            break;            
+            break;
          }
-         
+
          default:
          {
             m_supported = false;
@@ -136,10 +136,10 @@ class FastTrackData
          }
       }
    }
-   
+
    /**
     * Returns true if this file version is supported.
-    * 
+    *
     * @return true if file version is supported
     */
    public boolean getSupported()
@@ -149,14 +149,14 @@ class FastTrackData
 
    /**
     * Retrieve the charset to use when reading text from this file version.
-    * 
+    *
     * @return Charset instance
     */
    public Charset getCharset()
    {
       return m_charset;
    }
-   
+
    /**
     * Retrieve a table of data.
     *
@@ -256,7 +256,7 @@ class FastTrackData
    private void readColumnBlock(int startIndex, int blockLength) throws Exception
    {
       int endIndex = startIndex + blockLength;
-      List<Integer> blocks = new ArrayList<Integer>();
+      List<Integer> blocks = new ArrayList<>();
       for (int index = startIndex; index < endIndex - 11; index++)
       {
          if (matchChildBlock(index))
@@ -363,7 +363,7 @@ class FastTrackData
     * Locate a child block by byte pattern and validate by
     * checking the length of the string we are expecting
     * to follow the pattern.
-    * 
+    *
     * @param bufferIndex start index
     * @return true if a child block starts at this point
     */
@@ -384,7 +384,7 @@ class FastTrackData
       int nameLength = FastTrackUtility.getInt(m_buffer, bufferIndex + index);
 
       //      System.out.println("Name length: " + nameLength);
-      //      
+      //
       //      if (nameLength > 0 && nameLength < 100)
       //      {
       //         String name = new String(m_buffer, bufferIndex+index+4, nameLength, CharsetHelper.UTF16LE);
@@ -548,7 +548,7 @@ class FastTrackData
 
    /**
     * Retrieve the current FastTrackData instance.
-    * 
+    *
     * @return FastTrackData instance
     */
    public static FastTrackData getInstance()
@@ -567,16 +567,16 @@ class FastTrackData
    private byte[] m_buffer;
    private String m_logFile;
    private PrintWriter m_log;
-   private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<FastTrackTableType, FastTrackTable>(FastTrackTableType.class);
+   private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
    private FastTrackColumn m_currentColumn;
-   private final Set<FastTrackField> m_currentFields = new TreeSet<FastTrackField>();
+   private final Set<FastTrackField> m_currentFields = new TreeSet<>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
    private int m_version;
    private boolean m_supported;
    private Charset m_charset;
-   
+
    private static final ThreadLocal<FastTrackData> INSTANCE = new ThreadLocal<FastTrackData>()
    {
       @Override protected FastTrackData initialValue()
@@ -708,7 +708,7 @@ class FastTrackData
       COLUMN_MAP[0x69] = StringColumn.class;
    }
 
-   private static final Map<String, FastTrackTableType> REQUIRED_TABLES = new HashMap<String, FastTrackTableType>();
+   private static final Map<String, FastTrackTableType> REQUIRED_TABLES = new HashMap<>();
    static
    {
       REQUIRED_TABLES.put("ACTBARS", FastTrackTableType.ACTBARS);

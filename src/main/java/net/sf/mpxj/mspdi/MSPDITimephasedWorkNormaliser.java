@@ -80,7 +80,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
       for (TimephasedWork assignment : list)
       {
          while (assignment != null)
@@ -199,7 +199,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)

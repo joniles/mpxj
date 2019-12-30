@@ -150,7 +150,7 @@ public class CustomFieldValueReader9
       FixedMeta fm = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       FixedData fd = new FixedData(fm, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
 
-      Map<Integer, FieldType> map = new HashMap<Integer, FieldType>();
+      Map<Integer, FieldType> map = new HashMap<>();
 
       int items = fm.getItemCount();
       for (int loop = 0; loop < items; loop++)
@@ -173,7 +173,7 @@ public class CustomFieldValueReader9
       VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       Var2Data outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
 
-      Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<FieldType, List<Pair<String, String>>>();
+      Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<>();
 
       for (Integer id : outlineCodeVarMeta.getUniqueIdentifierArray())
       {
@@ -184,10 +184,10 @@ public class CustomFieldValueReader9
          List<Pair<String, String>> list = valueMap.get(fieldType);
          if (list == null)
          {
-            list = new ArrayList<Pair<String, String>>();
+            list = new ArrayList<>();
             valueMap.put(fieldType, list);
          }
-         list.add(new Pair<String, String>(value, description));
+         list.add(new Pair<>(value, description));
       }
 
       for (Entry<FieldType, List<Pair<String, String>>> entry : valueMap.entrySet())
@@ -208,7 +208,7 @@ public class CustomFieldValueReader9
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = config.getFieldType().getName();
-      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));     
+      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
 
       List<Object> descriptionList = convertType(DataType.STRING, descriptions);
       List<Object> valueList = convertType(field.getDataType(), values);
@@ -218,7 +218,7 @@ public class CustomFieldValueReader9
          CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setDescription((String) descriptionList.get(index));
          item.setType(itemType);
-         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName+item.getUniqueID()).getBytes()));
+         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName + item.getUniqueID()).getBytes()));
          if (index < valueList.size())
          {
             item.setValue(valueList.get(index));
@@ -239,7 +239,7 @@ public class CustomFieldValueReader9
       CustomField config = m_container.getCustomField(field);
       CustomFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = field == null ? "Unknown" : field.getName();
-      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));           
+      table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
       CustomFieldValueDataType itemType = getDataType(field);
 
       for (Pair<String, String> pair : items)
@@ -248,7 +248,7 @@ public class CustomFieldValueReader9
          item.setValue(pair.getFirst());
          item.setDescription(pair.getSecond());
          item.setType(itemType);
-         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName+item.getUniqueID()).getBytes()));
+         item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName + item.getUniqueID()).getBytes()));
          table.add(item);
       }
    }
@@ -262,7 +262,7 @@ public class CustomFieldValueReader9
     */
    private List<Object> convertType(DataType type, byte[] data)
    {
-      List<Object> result = new ArrayList<Object>();
+      List<Object> result = new ArrayList<>();
       int index = 0;
 
       while (index < data.length)
@@ -332,7 +332,7 @@ public class CustomFieldValueReader9
 
    /**
     * Retrieve the CustomFieldValueDataType instance for a custom field.
-    * 
+    *
     * @param field custom field
     * @return CustomFieldValueDataType instance
     */
@@ -359,7 +359,7 @@ public class CustomFieldValueReader9
    private static final Integer VALUE = Integer.valueOf(1);
    private static final Integer DESCRIPTION = Integer.valueOf(2);
 
-   private static final Map<DataType, CustomFieldValueDataType> TYPE_MAP = new HashMap<DataType, CustomFieldValueDataType>();
+   private static final Map<DataType, CustomFieldValueDataType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put(DataType.STRING, CustomFieldValueDataType.TEXT);

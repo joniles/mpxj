@@ -266,5 +266,5 @@ final class ResourceModel
    /**
     * Map to store Resource field Numbers.
     */
-   private HashMap<String, Integer> m_resourceNumbers = new HashMap<String, Integer>();
+   private HashMap<String, Integer> m_resourceNumbers = new HashMap<>();
 }

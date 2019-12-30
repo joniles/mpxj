@@ -43,7 +43,7 @@ public class CustomField
       m_parent = parent;
       m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
-      m_masks = new ArrayList<CustomFieldValueMask>();
+      m_masks = new ArrayList<>();
    }
 
    /**
@@ -99,7 +99,7 @@ public class CustomField
 
    /**
     * Retrieve the mask definitions for this field.
-    * 
+    *
     * @return list of mask definitions
     */
    public List<CustomFieldValueMask> getMasks()

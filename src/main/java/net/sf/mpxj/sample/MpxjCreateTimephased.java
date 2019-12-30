@@ -71,7 +71,7 @@ public class MpxjCreateTimephased
    /**
     * Create a schedule demonstrating how timephased work can
     * be applied to a resource assignment.
-    * 
+    *
     * @param filename output file
     */
    private static void create(String filename) throws Exception
@@ -117,27 +117,27 @@ public class MpxjCreateTimephased
       task1.setStart(df.parse("01/01/2003 03:00"));
       task1.setFinish(df.parse("03/01/2003 10:00"));
       ResourceAssignment assignment3 = task1.addResourceAssignment(resource1);
-        
+
       //
       // Our task is 3 days long - 24h of work.
       // We split this as 20h, 2h and 2h
       //
       final TimephasedWork day1 = new TimephasedWork();
-      day1.setAmountPerDay(Duration.getInstance(20,  TimeUnit.HOURS));
+      day1.setAmountPerDay(Duration.getInstance(20, TimeUnit.HOURS));
       day1.setStart(df.parse("01/01/2003 03:00"));
       day1.setFinish(df.parse("01/01/2003 23:00"));
       day1.setModified(true);
       day1.setTotalAmount(Duration.getInstance(20, TimeUnit.HOURS));
 
       final TimephasedWork day2 = new TimephasedWork();
-      day2.setAmountPerDay(Duration.getInstance(2,  TimeUnit.HOURS));
+      day2.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
       day2.setStart(df.parse("02/01/2003 08:00"));
       day2.setFinish(df.parse("02/01/2003 10:00"));
       day2.setModified(true);
       day2.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
       final TimephasedWork day3 = new TimephasedWork();
-      day3.setAmountPerDay(Duration.getInstance(2,  TimeUnit.HOURS));
+      day3.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
       day3.setStart(df.parse("03/01/2003 08:00"));
       day3.setFinish(df.parse("03/01/2003 10:00"));
       day3.setModified(true);
@@ -147,33 +147,32 @@ public class MpxjCreateTimephased
       // Add the timephased data to the assignment
       //
       assignment3.setTimephasedWork(new TimephasedWorkContainer()
-      {         
+      {
          @Override public boolean hasData()
          {
             return true;
          }
-         
+
          @Override public List<TimephasedWork> getData()
          {
             return Arrays.asList(day1, day2, day3);
          }
-         
+
          @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
          {
             // You'd need to implement this to handle timephased overtime work
             return null;
          }
       });
-      
+
       //
       // Write the file
       //
       MSPDIWriter writer = new MSPDIWriter();
-      
+
       // By default timephased data is not written so we need to enable it here
       writer.setWriteTimephasedData(true);
-      
-      
+
       //
       // If you look at the resulting project in the Resource Usage view in MS Project
       // you should see the work split as 20j, 8h and 8h over the three days of the task.

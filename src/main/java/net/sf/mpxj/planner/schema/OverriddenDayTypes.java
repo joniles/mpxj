@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (overriddenDayType == null)
       {
-         overriddenDayType = new ArrayList<OverriddenDayType>();
+         overriddenDayType = new ArrayList<>();
       }
       return this.overriddenDayType;
    }

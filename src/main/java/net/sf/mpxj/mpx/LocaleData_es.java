@@ -94,7 +94,7 @@ public final class LocaleData_es extends ListResourceBundle
             // Elapsed Percent - Porcentaje Transcurridos
    };
 
-   private static final Map<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
+   private static final Map<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<>();
 
    static
    {

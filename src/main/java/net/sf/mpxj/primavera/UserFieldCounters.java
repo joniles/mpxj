@@ -96,6 +96,6 @@ class UserFieldCounters
       m_counters.clear();
    }
 
-   private final Map<String, Integer> m_counters = new HashMap<String, Integer>();
+   private final Map<String, Integer> m_counters = new HashMap<>();
    private final String[][] m_names = new String[UserFieldDataType.values().length][];
 }

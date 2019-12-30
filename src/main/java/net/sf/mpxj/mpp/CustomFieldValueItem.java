@@ -155,7 +155,7 @@ public final class CustomFieldValueItem
 
    /**
     * Retrieve the value type.
-    * 
+    *
     * @return value type
     */
    public CustomFieldValueDataType getType()
@@ -165,7 +165,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the value type.
-    * 
+    *
     * @param type value type
     */
    public void setType(CustomFieldValueDataType type)
@@ -175,7 +175,7 @@ public final class CustomFieldValueItem
 
    /**
     * Retrieve the collapsed flag.
-    * 
+    *
     * @return collapsed flag
     */
    public boolean getCollapsed()
@@ -185,7 +185,7 @@ public final class CustomFieldValueItem
 
    /**
     * Set the collapsed flag.
-    * 
+    *
     * @param collapsed collapsed flag
     */
    public void setCollapsed(boolean collapsed)

@@ -461,7 +461,7 @@ final class Var2Data extends MPPComponent
    /**
     * Map containing data items indexed by offset.
     */
-   private TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
+   private TreeMap<Integer, byte[]> m_map = new TreeMap<>();
 
    /**
     * Reference to the meta data associated with this block.

@@ -193,7 +193,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (calendar == null)
       {
-         calendar = new ArrayList<Calendar>();
+         calendar = new ArrayList<>();
       }
       return this.calendar;
    }

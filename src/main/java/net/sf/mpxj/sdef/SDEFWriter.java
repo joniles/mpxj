@@ -235,7 +235,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          stepDay.add(Calendar.DAY_OF_MONTH, 1);
       }
       m_writer.println(m_buffer.toString());
-      
+
       DateHelper.pushCalendar(stepDay);
       DateHelper.pushCalendar(lastDay);
    }

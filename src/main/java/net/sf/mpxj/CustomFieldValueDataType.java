@@ -31,19 +31,18 @@ import net.sf.mpxj.common.EnumHelper;
 public enum CustomFieldValueDataType implements MpxjEnum
 {
    DATE(4, 4, DataType.DATE),
-   DURATION(6, 6, DataType.DURATION), 
+   DURATION(6, 6, DataType.DURATION),
    COST(9, 5, DataType.CURRENCY),
    NUMBER(15, 7, DataType.NUMERIC),
    FLAG(17, 17, DataType.BOOLEAN),
    TEXT(21, 3, DataType.STRING),
    FINISH_DATE(27, 9, DataType.DATE);
 
-   
    /**
     * Private constructor.
     *
     * @param value int version of the enum
-    * @param maskValue data type used in mask definition 
+    * @param maskValue data type used in mask definition
     * @param type data type
     */
    private CustomFieldValueDataType(int value, int maskValue, DataType type)
@@ -95,17 +94,17 @@ public enum CustomFieldValueDataType implements MpxjEnum
 
    /**
     * Retrieve the MPXJ data type.
-    * 
+    *
     * @return MPXJ data type
     */
    public DataType getDataType()
    {
       return m_type;
    }
-   
+
    /**
     * Retrieve the mask value.
-    * 
+    *
     * @return mask value
     */
    public int getMaskValue()
@@ -126,13 +125,13 @@ public enum CustomFieldValueDataType implements MpxjEnum
          MASK_VALUES[value.getMaskValue()] = value;
       }
    }
-   
+
    /**
     * Internal representation of the enum int type.
     */
    private final int m_value;
-   
+
    private final int m_maskValue;
-   
+
    private final DataType m_type;
 }

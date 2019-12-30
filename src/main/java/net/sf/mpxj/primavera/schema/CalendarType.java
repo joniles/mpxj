@@ -799,7 +799,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
       {
          if (holidayOrException == null)
          {
-            holidayOrException = new ArrayList<CalendarType.HolidayOrExceptions.HolidayOrException>();
+            holidayOrException = new ArrayList<>();
          }
          return this.holidayOrException;
       }
@@ -886,7 +886,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
          {
             if (workTime == null)
             {
-               workTime = new ArrayList<WorkTimeType>();
+               workTime = new ArrayList<>();
             }
             return this.workTime;
          }
@@ -971,7 +971,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
       {
          if (standardWorkHours == null)
          {
-            standardWorkHours = new ArrayList<CalendarType.StandardWorkWeek.StandardWorkHours>();
+            standardWorkHours = new ArrayList<>();
          }
          return this.standardWorkHours;
       }
@@ -1070,7 +1070,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
          {
             if (workTime == null)
             {
-               workTime = new ArrayList<WorkTimeType>();
+               workTime = new ArrayList<>();
             }
             return this.workTime;
          }

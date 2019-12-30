@@ -2102,7 +2102,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
       {
          if (resourceRequest == null)
          {
-            resourceRequest = new ArrayList<ResourceRequestType>();
+            resourceRequest = new ArrayList<>();
          }
          return this.resourceRequest;
       }

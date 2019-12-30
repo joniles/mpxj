@@ -166,7 +166,7 @@ public final class DatatypeConverter
          return df;
       }
    };
-   
+
    private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
    {
       @Override protected DateFormat initialValue()

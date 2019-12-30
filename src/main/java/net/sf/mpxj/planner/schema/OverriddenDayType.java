@@ -81,7 +81,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (interval == null)
       {
-         interval = new ArrayList<Interval>();
+         interval = new ArrayList<>();
       }
       return this.interval;
    }

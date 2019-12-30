@@ -62,10 +62,10 @@ class TaskReader extends TableReader
       map.put("UNKNOWN_DATE3", stream.readDate());
       map.put("UNKNOWN_DATE3_EXTRA", stream.readBytes(4));
       map.put("ACTUAL_FINISH", stream.readDate());
-      map.put("UNKNOWN_DATE4_EXTRA", stream.readBytes(4));                
-      map.put("UNKNOWN5", stream.readUnknownTableConditional(85, 0x72B5E632));      
+      map.put("UNKNOWN_DATE4_EXTRA", stream.readBytes(4));
+      map.put("UNKNOWN5", stream.readUnknownTableConditional(85, 0x72B5E632));
       map.put("UNKNOWN6", stream.readBytes(2));
-      map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));               
+      map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
       map.put("FILES", stream.readUnknownBlocks(20));
       map.put("UNKNOWN7", stream.readBytes(4));
       map.put("CONSTRAINT_TYPE", stream.readInteger());

@@ -673,7 +673,7 @@ abstract class FieldMap
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
 
-      ArrayList<FieldItem> items = new ArrayList<FieldItem>(m_map.values());
+      ArrayList<FieldItem> items = new ArrayList<>(m_map.values());
       Collections.sort(items);
 
       pw.println("[FieldMap");
@@ -1299,7 +1299,7 @@ abstract class FieldMap
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;
-   private Map<FieldType, FieldItem> m_map = new HashMap<FieldType, FieldItem>();
+   private Map<FieldType, FieldItem> m_map = new HashMap<>();
    private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
 

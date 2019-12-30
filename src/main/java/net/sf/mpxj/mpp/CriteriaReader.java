@@ -174,7 +174,7 @@ public abstract class CriteriaReader
          entryOffset = getCriteriaStartOffset();
       }
 
-      List<GenericCriteria> list = new LinkedList<GenericCriteria>();
+      List<GenericCriteria> list = new LinkedList<>();
       processBlock(list, m_criteriaBlockMap.get(Integer.valueOf(entryOffset)));
       GenericCriteria criteria;
       if (list.isEmpty())
@@ -431,5 +431,5 @@ public abstract class CriteriaReader
    private int m_dataOffset;
    private List<GenericCriteriaPrompt> m_prompts;
    private List<FieldType> m_fields;
-   protected Map<Integer, byte[]> m_criteriaBlockMap = new TreeMap<Integer, byte[]>();
+   protected Map<Integer, byte[]> m_criteriaBlockMap = new TreeMap<>();
 }

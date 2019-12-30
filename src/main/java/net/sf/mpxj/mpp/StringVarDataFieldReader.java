@@ -28,29 +28,29 @@ import net.sf.mpxj.CustomFieldContainer;
 /**
  * Read a string field from the var data.
  */
-class StringVarDataFieldReader extends VarDataFieldReader 
+class StringVarDataFieldReader extends VarDataFieldReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param customFields custom fields container
     */
    public StringVarDataFieldReader(CustomFieldContainer customFields)
    {
       super(customFields);
    }
-   
+
    @Override protected Object readValue(Var2Data varData, Integer id, Integer type)
    {
       return varData.getUnicodeString(id, type);
    }
-   
+
    @Override protected Object coerceValue(Object value)
-   {    
+   {
       if (value instanceof String)
       {
          return value;
       }
       return null;
-   }   
+   }
 }

@@ -376,7 +376,7 @@ public class MppGanttTest
       "[ColumnFontStyle rowUniqueID=-1 fieldType=Text2 italic=false bold=false underline=false font=[FontBase name=Arial size=8] color=java.awt.Color[r=255,g=0,b=0] backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]"
    };
 
-   private static Set<String> TABLE_FONT_STYLES_SET = new HashSet<String>();
+   private static Set<String> TABLE_FONT_STYLES_SET = new HashSet<>();
    static
    {
       for (String style : TABLE_FONT_STYLES)

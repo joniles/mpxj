@@ -95,7 +95,7 @@ final class MPP14Reader implements MPPVariantReader
             processAssignmentData();
             postProcessTasks();
             processDataLinks();
-            
+
             if (reader.getReadPresentationData())
             {
                processViewPropertyData();
@@ -148,14 +148,14 @@ final class MPP14Reader implements MPPVariantReader
       byte passwordProtectionFlag = props14.getByte(Props.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
-      
-      if (passwordRequiredToRead )
+
+      if (passwordRequiredToRead)
       {
          // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
       }
 
-      m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+      m_resourceMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   114");
       m_viewDir = (DirectoryEntry) root.getEntry("   214");
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
@@ -170,11 +170,11 @@ final class MPP14Reader implements MPPVariantReader
       //FieldMap fm = new FieldMap14(m_file);
       //fm.dumpKnownFieldMaps(m_projectProps);
 
-      m_fontBases = new HashMap<Integer, FontBase>();
-      m_taskSubProjects = new HashMap<Integer, SubProject>();
-      m_parentTasks = new HashMap<Integer, Integer>();
-      m_taskOrder = new TreeMap<Long, Integer>();
-      m_nullTaskOrder = new TreeMap<Integer, Integer>();
+      m_fontBases = new HashMap<>();
+      m_taskSubProjects = new HashMap<>();
+      m_parentTasks = new HashMap<>();
+      m_taskOrder = new TreeMap<>();
+      m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
       m_file.getProjectProperties().setAutoFilter(props14.getBoolean(Props.AUTO_FILTER));
@@ -815,7 +815,7 @@ final class MPP14Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, Var2Data taskVarData)
    {
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
       Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
@@ -904,7 +904,7 @@ final class MPP14Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<>();
       int itemCount = rscFixedMeta.getAdjustedItemCount();
       int maxFixedDataSize = fieldMap.getMaxFixedDataSize(0);
       int uniqueIdOffset = fieldMap.getFixedDataOffset(ResourceField.UNIQUE_ID);
@@ -982,7 +982,7 @@ final class MPP14Reader implements MPPVariantReader
          Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
          new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
       }
-      
+
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
@@ -994,7 +994,7 @@ final class MPP14Reader implements MPPVariantReader
       byte[] metaData2;
       Task task;
       boolean autoWBS = true;
-      LinkedList<Task> externalTasks = new LinkedList<Task>();
+      LinkedList<Task> externalTasks = new LinkedList<>();
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 
@@ -1316,7 +1316,7 @@ final class MPP14Reader implements MPPVariantReader
       // Renumber ID values using a large increment to allow
       // space for later inserts.
       //
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
@@ -1329,7 +1329,7 @@ final class MPP14Reader implements MPPVariantReader
       // Insert any null tasks into the correct location
       //
       int insertionCount = 0;
-      Map<Integer, Integer> offsetMap = new HashMap<Integer, Integer>();
+      Map<Integer, Integer> offsetMap = new HashMap<>();
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
          int idValue = entry.getKey().intValue();
@@ -1609,7 +1609,7 @@ final class MPP14Reader implements MPPVariantReader
          Props14 props = new Props14(m_inputStreamFactory.getInstance(rscDir, "Props"));
          new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
       }
-      
+
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1945,7 +1945,7 @@ final class MPP14Reader implements MPPVariantReader
    /**
     * Read data link definitions.
     */
-   private void processDataLinks()throws IOException
+   private void processDataLinks() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
@@ -1956,7 +1956,7 @@ final class MPP14Reader implements MPPVariantReader
       DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
       factory.process();
    }
-   
+
    /**
     * Retrieve custom field value.
     *

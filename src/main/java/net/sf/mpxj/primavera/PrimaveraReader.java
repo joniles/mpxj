@@ -183,7 +183,7 @@ final class PrimaveraReader
    public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
    {
       ActivityCodeContainer container = m_project.getActivityCodes();
-      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+      Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (Row row : types)
       {
@@ -191,7 +191,7 @@ final class PrimaveraReader
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
-      
+
       for (Row row : typeValues)
       {
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
@@ -218,7 +218,7 @@ final class PrimaveraReader
          List<Integer> list = m_activityCodeAssignments.get(taskID);
          if (list == null)
          {
-            list = new ArrayList<Integer>();
+            list = new ArrayList<>();
             m_activityCodeAssignments.put(taskID, list);
          }
          list.add(row.getInteger("actv_code_id"));
@@ -234,7 +234,7 @@ final class PrimaveraReader
    public void processUserDefinedFields(List<Row> fields, List<Row> values)
    {
       // Process fields
-      Map<Integer, String> tableNameMap = new HashMap<Integer, String>();
+      Map<Integer, String> tableNameMap = new HashMap<>();
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
@@ -260,7 +260,7 @@ final class PrimaveraReader
          Map<Integer, List<Row>> tableData = m_udfValues.get(tableName);
          if (tableData == null)
          {
-            tableData = new HashMap<Integer, List<Row>>();
+            tableData = new HashMap<>();
             m_udfValues.put(tableName, tableData);
          }
 
@@ -268,7 +268,7 @@ final class PrimaveraReader
          List<Row> list = tableData.get(id);
          if (list == null)
          {
-            list = new ArrayList<Row>();
+            list = new ArrayList<>();
             tableData.put(id, list);
          }
          list.add(row);
@@ -285,7 +285,7 @@ final class PrimaveraReader
       //
       // First pass: read calendar definitions
       //
-      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
       for (Row row : rows)
       {
          ProjectCalendar calendar = processCalendar(row);
@@ -672,8 +672,8 @@ final class PrimaveraReader
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
-      Set<Integer> uniqueIDs = new HashSet<Integer>();
-      Set<Task> wbsTasks = new HashSet<Task>();
+      Set<Integer> uniqueIDs = new HashSet<>();
+      Set<Task> wbsTasks = new HashSet<>();
 
       //
       // We set the project name when we read the project properties, but that's just
@@ -1639,7 +1639,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultResourceFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(ResourceField.UNIQUE_ID, "rsrc_id");
       map.put(ResourceField.GUID, "guid");
@@ -1662,7 +1662,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultWbsFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(TaskField.UNIQUE_ID, "wbs_id");
       map.put(TaskField.GUID, "guid");
@@ -1686,7 +1686,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultTaskFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
@@ -1732,7 +1732,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultAssignmentFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
@@ -1758,7 +1758,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultAliases()
    {
-      Map<FieldType, String> map = new HashMap<FieldType, String>();
+      Map<FieldType, String> map = new HashMap<>();
 
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
@@ -1772,7 +1772,7 @@ final class PrimaveraReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
+   private Map<Integer, Integer> m_clashMap = new HashMap<>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
 
@@ -1783,16 +1783,16 @@ final class PrimaveraReader
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
-   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
+   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
 
-   private Map<Integer, String> m_udfFields = new HashMap<Integer, String>();
-   private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<String, Map<Integer, List<Row>>>();
+   private Map<Integer, String> m_udfFields = new HashMap<>();
+   private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
-   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<Integer, List<Integer>>();
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
+   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
 
-   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
+   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
       RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
@@ -1801,7 +1801,7 @@ final class PrimaveraReader
       RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
    }
 
-   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
+   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
       CONSTRAINT_TYPE_MAP.put("CS_MSO", ConstraintType.MUST_START_ON);
@@ -1817,7 +1817,7 @@ final class PrimaveraReader
       CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MANDATORY_FINISH);
    }
 
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();
+   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
    static
    {
       PRIORITY_MAP.put("PT_Top", Priority.getInstance(Priority.HIGHEST));
@@ -1827,7 +1827,7 @@ final class PrimaveraReader
       PRIORITY_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
    }
 
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
       RELATION_TYPE_MAP.put("PR_FS", RelationType.FINISH_START);
@@ -1836,7 +1836,7 @@ final class PrimaveraReader
       RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
    }
 
-   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<String, TaskType>();
+   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<>();
    static
    {
       TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
@@ -1845,7 +1845,7 @@ final class PrimaveraReader
       TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
    }
 
-   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
+   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
    {
       MILESTONE_MAP.put("TT_Task", Boolean.FALSE);
@@ -1856,7 +1856,7 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
    }
 
-   private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<String, TimeUnit>();
+   private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
    static
    {
       TIME_UNIT_MAP.put("QT_Minute", TimeUnit.MINUTES);
@@ -1867,7 +1867,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
 
-   private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<String, CurrencySymbolPosition>();
+   private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
       CURRENCY_SYMBOL_POSITION_MAP.put("#1.1", CurrencySymbolPosition.BEFORE);
@@ -1876,7 +1876,7 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<String, Boolean>();
+   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<>();
    static
    {
       // this is a judgement call on how the static type indicator values would be best translated to a flag
@@ -1887,7 +1887,7 @@ final class PrimaveraReader
       STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
    }
 
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<String, FieldTypeClass>();
+   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
       FIELD_TYPE_MAP.put("PROJWBS", FieldTypeClass.TASK);

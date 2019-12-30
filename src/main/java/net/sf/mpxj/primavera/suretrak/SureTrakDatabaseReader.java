@@ -125,7 +125,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    public static final List<String> listProjectNames(File directory)
    {
-      List<String> result = new ArrayList<String>();
+      List<String> result = new ArrayList<>();
 
       File[] files = directory.listFiles(new FilenameFilter()
       {
@@ -154,7 +154,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -228,11 +228,11 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_eventManager.addProjectListeners(m_projectListeners);
 
          m_tables = new DatabaseReader().process(directory, m_projectName);
-         m_definitions = new HashMap<Integer, List<MapRow>>();
-         m_calendarMap = new HashMap<Integer, ProjectCalendar>();
-         m_resourceMap = new HashMap<String, Resource>();
-         m_wbsMap = new HashMap<String, Task>();
-         m_activityMap = new HashMap<String, Task>();
+         m_definitions = new HashMap<>();
+         m_calendarMap = new HashMap<>();
+         m_resourceMap = new HashMap<>();
+         m_wbsMap = new HashMap<>();
+         m_activityMap = new HashMap<>();
 
          readProjectHeader();
          readDefinitions();
@@ -285,7 +285,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
          List<MapRow> list = m_definitions.get(id);
          if (list == null)
          {
-            list = new ArrayList<MapRow>();
+            list = new ArrayList<>();
             m_definitions.put(id, list);
          }
          list.add(row);
@@ -421,7 +421,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
          calendarHours.addRange(new DateRange(startDate, endDate));
          startHour = endHour;
       }
-      
+
       DateHelper.pushCalendar(cal);
    }
 
@@ -483,7 +483,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readResources()
    {
-      m_resourceMap = new HashMap<String, Resource>();
+      m_resourceMap = new HashMap<>();
       for (MapRow row : m_tables.get("RLB"))
       {
          Resource resource = m_projectFile.addResource();
@@ -514,7 +514,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readWbs()
    {
-      Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
+      Map<Integer, List<MapRow>> levelMap = new HashMap<>();
       List<MapRow> table = m_definitions.get(WBS_ENTRIES_ID);
       if (table != null)
       {
@@ -525,7 +525,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
             List<MapRow> items = levelMap.get(level);
             if (items == null)
             {
-               items = new ArrayList<MapRow>();
+               items = new ArrayList<>();
                levelMap.put(level, items);
             }
             items.add(row);
@@ -587,7 +587,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
     */
    private void readActivities()
    {
-      List<MapRow> items = new ArrayList<MapRow>();
+      List<MapRow> items = new ArrayList<>();
       for (MapRow row : m_tables.get("ACT"))
       {
          items.add(row);
@@ -801,8 +801,8 @@ public final class SureTrakDatabaseReader implements ProjectReader
    private static final Integer WBS_FORMAT_ID = Integer.valueOf(0x79);
    private static final Integer WBS_ENTRIES_ID = Integer.valueOf(0x7A);
 
-   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
    static
    {

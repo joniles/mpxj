@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (allocation == null)
       {
-         allocation = new ArrayList<Allocation>();
+         allocation = new ArrayList<>();
       }
       return this.allocation;
    }

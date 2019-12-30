@@ -106,7 +106,7 @@ class MapRow implements Row
       Object result = getObject(name);
       if (result != null)
       {
-         result = Double.valueOf(Math.round(((Number)result).doubleValue() * 100.0) / 100.0);
+         result = Double.valueOf(Math.round(((Number) result).doubleValue() * 100.0) / 100.0);
       }
       return ((Double) result);
    }
@@ -198,7 +198,7 @@ class MapRow implements Row
    {
       return m_map;
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -227,5 +227,5 @@ class MapRow implements Row
       }
    }
    protected Map<String, Object> m_map;
-   private List<Row> m_childRows = new ArrayList<Row>();
+   private List<Row> m_childRows = new ArrayList<>();
 }

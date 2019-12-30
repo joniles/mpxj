@@ -32,7 +32,7 @@ class UnitCostRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
       // No body

@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.sdef;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ class RelationTypeField extends StringField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     */
    public RelationTypeField(String name)
@@ -45,7 +46,7 @@ class RelationTypeField extends StringField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      String value = ((String)super.read(line, offset));
+      String value = ((String) super.read(line, offset));
       if (value == null || value.isEmpty())
       {
          result = null;
@@ -56,8 +57,8 @@ class RelationTypeField extends StringField
       }
       return result;
    }
-   
-   private static final Map<String, RelationType> TYPE_MAP = new HashMap<String, RelationType>();
+
+   private static final Map<String, RelationType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put("S", RelationType.START_START);

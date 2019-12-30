@@ -400,7 +400,7 @@ public final class DatatypeConverter
       throw new UnsupportedOperationException();
    }
 
-   private static final Map<String, CurrencySymbolPosition> MAP_TO_CURRENCY_SYMBOL_POSITION = new HashMap<String, CurrencySymbolPosition>();
+   private static final Map<String, CurrencySymbolPosition> MAP_TO_CURRENCY_SYMBOL_POSITION = new HashMap<>();
    static
    {
       MAP_TO_CURRENCY_SYMBOL_POSITION.put("0", CurrencySymbolPosition.BEFORE);
@@ -409,7 +409,7 @@ public final class DatatypeConverter
       MAP_TO_CURRENCY_SYMBOL_POSITION.put("3", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final Map<CurrencySymbolPosition, String> MAP_FROM_CURRENCY_SYMBOL_POSITION = new HashMap<CurrencySymbolPosition, String>();
+   private static final Map<CurrencySymbolPosition, String> MAP_FROM_CURRENCY_SYMBOL_POSITION = new HashMap<>();
    static
    {
       MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.BEFORE, "0");
@@ -418,7 +418,7 @@ public final class DatatypeConverter
       MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.AFTER_WITH_SPACE, "3");
    }
 
-   private static final Map<String, TimeUnit> MAP_TO_TIME_UNIT = new HashMap<String, TimeUnit>();
+   private static final Map<String, TimeUnit> MAP_TO_TIME_UNIT = new HashMap<>();
    static
    {
       MAP_TO_TIME_UNIT.put("0", TimeUnit.MINUTES);
@@ -428,7 +428,7 @@ public final class DatatypeConverter
       MAP_TO_TIME_UNIT.put("4", TimeUnit.MONTHS);
    }
 
-   private static final Map<String, ResourceType> MAP_TO_RESOURCE_TYPE = new HashMap<String, ResourceType>();
+   private static final Map<String, ResourceType> MAP_TO_RESOURCE_TYPE = new HashMap<>();
    static
    {
       MAP_TO_RESOURCE_TYPE.put("0", ResourceType.MATERIAL);
@@ -438,7 +438,7 @@ public final class DatatypeConverter
       MAP_TO_RESOURCE_TYPE.put("cost", ResourceType.COST);
    }
 
-   private static final Map<String, Priority> MAP_TO_PRIORITY = new HashMap<String, Priority>();
+   private static final Map<String, Priority> MAP_TO_PRIORITY = new HashMap<>();
    static
    {
       MAP_TO_PRIORITY.put("veryLow", Priority.getInstance(Priority.LOWEST));
@@ -448,7 +448,7 @@ public final class DatatypeConverter
       MAP_TO_PRIORITY.put("veryHigh", Priority.getInstance(Priority.HIGHEST));
    }
 
-   private static final Map<String, TaskType> MAP_TO_TASK_TYPE = new HashMap<String, TaskType>();
+   private static final Map<String, TaskType> MAP_TO_TASK_TYPE = new HashMap<>();
    static
    {
       MAP_TO_TASK_TYPE.put("fixedDuration", TaskType.FIXED_DURATION);
@@ -456,7 +456,7 @@ public final class DatatypeConverter
       MAP_TO_TASK_TYPE.put("fixedWork", TaskType.FIXED_WORK);
    }
 
-   private static final Map<String, RelationType> MAP_TO_RELATION_TYPE = new HashMap<String, RelationType>();
+   private static final Map<String, RelationType> MAP_TO_RELATION_TYPE = new HashMap<>();
    static
    {
       MAP_TO_RELATION_TYPE.put("0", RelationType.START_START);
@@ -474,7 +474,7 @@ public final class DatatypeConverter
          df.setLenient(false);
          return df;
       }
-   };            
+   };
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
    {
@@ -484,8 +484,8 @@ public final class DatatypeConverter
          df.setLenient(false);
          return df;
       }
-   };            
-   
+   };
+
    private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = new ThreadLocal<DateFormat>()
    {
       @Override protected DateFormat initialValue()
@@ -494,5 +494,5 @@ public final class DatatypeConverter
          df.setLenient(false);
          return df;
       }
-   };            
+   };
 }

@@ -194,9 +194,9 @@ final class DatatypeConverter
             throw new IllegalArgumentException("Unexpected string format");
          }
          length = is.read();
-      }  
-      
-      Charset charset = CharsetHelper.UTF8;      
+      }
+
+      Charset charset = CharsetHelper.UTF8;
       if (length == 0xFF)
       {
          length = getShort(is);
@@ -214,12 +214,12 @@ final class DatatypeConverter
       }
       else
       {
-         byte[] stringData = new byte[length];         
+         byte[] stringData = new byte[length];
          is.read(stringData);
          result = new String(stringData, charset);
       }
       return result;
-   }   
+   }
 
    /**
     * Retrieve a boolean from an input stream.
@@ -332,6 +332,6 @@ final class DatatypeConverter
       }
       return Double.valueOf(result);
    }
-   
+
    private static final int NULL_SECONDS = 0x93406FFF;
 }

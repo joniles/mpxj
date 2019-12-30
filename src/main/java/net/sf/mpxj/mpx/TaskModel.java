@@ -298,5 +298,5 @@ final class TaskModel
    /**
     * Map used to store task field numbers.
     */
-   private HashMap<String, Integer> m_taskNumbers = new HashMap<String, Integer>();
+   private HashMap<String, Integer> m_taskNumbers = new HashMap<>();
 }

@@ -36,7 +36,7 @@ class TableA3TAB extends Table
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
       map.put("EARLY_START", PEPUtility.getStartDate(data, 2));
       map.put("EARLY_FINISH", PEPUtility.getFinishDate(data, 4));

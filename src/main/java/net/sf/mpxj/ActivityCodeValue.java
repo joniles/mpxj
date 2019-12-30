@@ -86,7 +86,7 @@ public class ActivityCodeValue
 
    /**
     * Retrieve the parent ActivityCodeValue.
-    * 
+    *
     * @return parent ActivityCodeValue
     */
    public ActivityCodeValue getParent()
@@ -96,7 +96,7 @@ public class ActivityCodeValue
 
    /**
     * Set the parent ActivityCodeValue.
-    * 
+    *
     * @param parent parent ActivityCodeValue
     */
    public void setParent(ActivityCodeValue parent)

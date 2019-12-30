@@ -70,7 +70,7 @@ public class ProjectFilePanel extends JPanel
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       splitPane.setRightComponent(tabbedPane);
 
-      m_openTabs = new HashMap<MpxjTreeNode, ObjectPropertiesPanel>();
+      m_openTabs = new HashMap<>();
 
       m_treeView.addTreeSelectionListener(new TreeSelectionListener()
       {

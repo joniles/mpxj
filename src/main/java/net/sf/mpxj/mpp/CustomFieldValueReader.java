@@ -73,7 +73,7 @@ public abstract class CustomFieldValueReader
    protected Object getTypedValue(CustomFieldValueDataType type, byte[] value)
    {
       Object result;
-      
+
       if (type == null)
       {
          result = valueAsString(value);
@@ -121,30 +121,30 @@ public abstract class CustomFieldValueReader
             }
          }
       }
-      
+
       return result;
    }
 
    /**
-    * Try to convert a bute array into a string. In the event of a 
+    * Try to convert a bute array into a string. In the event of a
     * failure, fall back to dumping the byte array contents as
     * as string of hex bytes.
-    * 
+    *
     * @param value byte array
     * @return String instance
     */
    private String valueAsString(byte[] value)
    {
       String result;
-      
+
       //
       // We don't know what this is, let's try making a string
       //
       try
       {
-         result = MPPUtility.getUnicodeString(value, 0);                  
+         result = MPPUtility.getUnicodeString(value, 0);
       }
-      
+
       catch (Exception ex)
       {
          //
@@ -154,7 +154,7 @@ public abstract class CustomFieldValueReader
       }
       return result;
    }
-  
+
    protected ProjectProperties m_properties;
    protected CustomFieldContainer m_container;
    protected VarMeta m_outlineCodeVarMeta;

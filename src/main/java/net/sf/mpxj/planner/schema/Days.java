@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (day == null)
       {
-         day = new ArrayList<Day>();
+         day = new ArrayList<>();
       }
       return this.day;
    }

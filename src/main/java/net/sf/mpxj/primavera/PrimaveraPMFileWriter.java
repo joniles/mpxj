@@ -147,7 +147,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       return m_activityTypeField;
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -675,7 +675,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Attempts to locate the activity type value extracted from an existing P6 schedule.
     * If necessary converts to the form which can be used in the PMXML file.
     * Returns "Resource Dependent" as the default value.
-    * 
+    *
     * @param task parent task
     * @return activity type
     */
@@ -792,7 +792,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
    {
-      List<UDFAssignmentType> out = new ArrayList<UDFAssignmentType>();
+      List<UDFAssignmentType> out = new ArrayList<>();
       for (CustomField cf : m_sortedCustomFieldsList)
       {
          FieldType fieldType = cf.getFieldType();
@@ -1095,9 +1095,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Populate a sorted list of custom fields to ensure that these fields
     * are written to the file in a consistent order.
     */
-   private void populateSortedCustomFieldsList ()
+   private void populateSortedCustomFieldsList()
    {
-      m_sortedCustomFieldsList = new ArrayList<CustomField>();
+      m_sortedCustomFieldsList = new ArrayList<>();
       for (CustomField field : m_projectFile.getCustomFields())
       {
          FieldType fieldType = field.getFieldType();
@@ -1120,7 +1120,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          }
       });
    }
-   
+
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
@@ -1182,7 +1182,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       "Saturday"
    };
 
-   private static final Map<RelationType, String> RELATION_TYPE_MAP = new HashMap<RelationType, String>();
+   private static final Map<RelationType, String> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
       RELATION_TYPE_MAP.put(RelationType.FINISH_START, "Finish to Start");
@@ -1191,7 +1191,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
    }
 
-   private static final Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<TaskType, String>();
+   private static final Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<>();
    static
    {
       DURATION_TYPE_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
@@ -1199,7 +1199,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
    }
 
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<ConstraintType, String>();
+   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Start On");
@@ -1208,12 +1208,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Finish On");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");      
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_START, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");     
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
    }
 
-   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<String, String>();
+   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
    static
    {
       ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
