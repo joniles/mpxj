@@ -93,9 +93,9 @@ public final class GanttChartView14 extends GanttChartView
          //
          if (offset + 6 > data.length)
          {
-            break;            
+            break;
          }
-         
+
          FieldType field = getFieldType(data, offset);
          int blockSize = MPPUtility.getShort(data, offset + 4);
 

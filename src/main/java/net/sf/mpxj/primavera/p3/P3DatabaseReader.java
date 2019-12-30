@@ -117,7 +117,7 @@ public final class P3DatabaseReader implements ProjectReader
     */
    public static final List<String> listProjectNames(File directory)
    {
-      List<String> result = new ArrayList<String>();
+      List<String> result = new ArrayList<>();
 
       File[] files = directory.listFiles(new FilenameFilter()
       {
@@ -146,7 +146,7 @@ public final class P3DatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -215,9 +215,9 @@ public final class P3DatabaseReader implements ProjectReader
          m_eventManager.addProjectListeners(m_projectListeners);
 
          m_tables = new DatabaseReader().process(directory, m_projectName);
-         m_resourceMap = new HashMap<String, Resource>();
-         m_wbsMap = new HashMap<String, Task>();
-         m_activityMap = new HashMap<String, Task>();
+         m_resourceMap = new HashMap<>();
+         m_wbsMap = new HashMap<>();
+         m_activityMap = new HashMap<>();
 
          readProjectHeader();
          readCalendars();
@@ -297,14 +297,14 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readWBS()
    {
-      Map<Integer, List<MapRow>> levelMap = new HashMap<Integer, List<MapRow>>();
+      Map<Integer, List<MapRow>> levelMap = new HashMap<>();
       for (MapRow row : m_tables.get("STR"))
       {
          Integer level = row.getInteger("LEVEL_NUMBER");
          List<MapRow> items = levelMap.get(level);
          if (items == null)
          {
-            items = new ArrayList<MapRow>();
+            items = new ArrayList<>();
             levelMap.put(level, items);
          }
          items.add(row);
@@ -368,7 +368,7 @@ public final class P3DatabaseReader implements ProjectReader
     */
    private void readActivities()
    {
-      Map<String, ChildTaskContainer> parentMap = new HashMap<String, ChildTaskContainer>();
+      Map<String, ChildTaskContainer> parentMap = new HashMap<>();
       for (MapRow row : m_tables.get("WBS"))
       {
          String activityID = row.getString("ACTIVITY_ID");
@@ -382,7 +382,7 @@ public final class P3DatabaseReader implements ProjectReader
          }
       }
 
-      List<MapRow> items = new ArrayList<MapRow>();
+      List<MapRow> items = new ArrayList<>();
       for (MapRow row : m_tables.get("ACT"))
       {
          items.add(row);
@@ -635,9 +635,9 @@ public final class P3DatabaseReader implements ProjectReader
    private Map<String, Task> m_wbsMap;
    private Map<String, Task> m_activityMap;
 
-   private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
    static
    {

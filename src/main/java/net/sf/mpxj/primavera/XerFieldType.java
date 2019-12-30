@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-
 /**
  * Represents the data type of columns in an XER file.
  */

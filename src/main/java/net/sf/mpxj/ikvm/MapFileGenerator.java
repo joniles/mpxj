@@ -93,7 +93,7 @@ public class MapFileGenerator
     */
    public void generateMapFile(File jarFile, String mapFileName, boolean mapClassMethods) throws XMLStreamException, IOException, ClassNotFoundException, IntrospectionException
    {
-      m_responseList = new LinkedList<String>();
+      m_responseList = new LinkedList<>();
       writeMapFile(mapFileName, jarFile, mapClassMethods);
    }
 
@@ -181,7 +181,7 @@ public class MapFileGenerator
       writer.writeStartElement("class");
       writer.writeAttribute("name", className);
 
-      Set<Method> methodSet = new HashSet<Method>();
+      Set<Method> methodSet = new HashSet<>();
       Class<?> aClass = loader.loadClass(className);
 
       processProperties(writer, methodSet, aClass);
@@ -508,7 +508,7 @@ public class MapFileGenerator
 
    private List<String> m_responseList;
 
-   private static final Map<Class<?>, String> TYPE_MAP = new HashMap<Class<?>, String>();
+   private static final Map<Class<?>, String> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put(boolean.class, "Z");

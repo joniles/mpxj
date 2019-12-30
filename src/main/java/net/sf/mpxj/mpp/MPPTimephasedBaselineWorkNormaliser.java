@@ -45,7 +45,7 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
     */
    @Override protected void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)

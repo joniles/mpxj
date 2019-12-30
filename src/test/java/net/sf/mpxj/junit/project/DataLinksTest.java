@@ -59,7 +59,7 @@ public class DataLinksTest
    private void testDataLinks(File file) throws MPXJException
    {
       ProjectFile project = new UniversalProjectReader().read(file);
-      DataLinkContainer dataLinks = project.getDataLinks();      
+      DataLinkContainer dataLinks = project.getDataLinks();
       assertEquals(3, dataLinks.size());
    }
 }

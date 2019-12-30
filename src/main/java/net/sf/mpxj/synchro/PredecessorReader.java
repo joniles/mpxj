@@ -47,13 +47,13 @@ class PredecessorReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       boolean lagIsNegative;
-      
+
       map.put("PREDECESSOR_UUID", stream.readUUID());
       map.put("RELATION_TYPE", getRelationType(stream.readInt()));
       map.put("UNKNOWN1", stream.readBytes(4));
       map.put("LAG", stream.readDuration());
       map.put("UNKNOWN2", stream.readBytes(4));
-      
+
       if (stream.getCombinedVersion() < 601)
       {
          // Prior to version 6.1.0.0
@@ -69,12 +69,12 @@ class PredecessorReader extends TableReader
          lagIsNegative = stream.readInt() == 2;
          map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
       }
-      
+
       if (lagIsNegative)
       {
-         Duration lag = (Duration)map.get("LAG");
+         Duration lag = (Duration) map.get("LAG");
          map.put("LAG", Duration.getInstance(-lag.getDuration(), lag.getUnits()));
-      }      
+      }
    }
 
    @Override protected int rowMagicNumber()

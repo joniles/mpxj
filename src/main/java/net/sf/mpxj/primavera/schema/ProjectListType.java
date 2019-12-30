@@ -93,7 +93,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (project == null)
       {
-         project = new ArrayList<ProjectListType.Project>();
+         project = new ArrayList<>();
       }
       return this.project;
    }
@@ -223,7 +223,7 @@ import javax.xml.bind.annotation.XmlType;
       {
          if (baselineProject == null)
          {
-            baselineProject = new ArrayList<ProjectListType.Project.BaselineProject>();
+            baselineProject = new ArrayList<>();
          }
          return this.baselineProject;
       }

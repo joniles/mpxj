@@ -65,7 +65,7 @@ public final class SynchroReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -80,10 +80,10 @@ public final class SynchroReader extends AbstractProjectReader
          //SynchroLogger.setLogFile("c:/temp/project1.txt");
          SynchroLogger.openLogFile();
 
-         m_calendarMap = new HashMap<UUID, ProjectCalendar>();
-         m_taskMap = new HashMap<UUID, Task>();
-         m_predecessorMap = new LinkedHashMap<Task, List<MapRow>>();
-         m_resourceMap = new HashMap<UUID, Resource>();
+         m_calendarMap = new HashMap<>();
+         m_taskMap = new HashMap<>();
+         m_predecessorMap = new LinkedHashMap<>();
+         m_resourceMap = new HashMap<>();
 
          m_data = new SynchroData();
          m_data.process(inputStream);
@@ -204,10 +204,10 @@ public final class SynchroReader extends AbstractProjectReader
     */
    private Map<UUID, List<DateRange>> processDayTypes(List<MapRow> types)
    {
-      Map<UUID, List<DateRange>> map = new HashMap<UUID, List<DateRange>>();
+      Map<UUID, List<DateRange>> map = new HashMap<>();
       for (MapRow row : types)
       {
-         List<DateRange> ranges = new ArrayList<DateRange>();
+         List<DateRange> ranges = new ArrayList<>();
          for (MapRow range : row.getRows("TIME_RANGES"))
          {
             ranges.add(new DateRange(range.getDate("START"), range.getDate("END")));

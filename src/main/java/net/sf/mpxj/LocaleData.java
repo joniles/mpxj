@@ -652,8 +652,8 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.UNAVAILABLE.getValue()] = "<Unavailable>";
       TASK_COLUMNS_ARRAY[TaskField.SPLITS.getValue()] = "Splits";
       TASK_COLUMNS_ARRAY[TaskField.SPLITS_COMPLETE.getValue()] = "Splits Complete";
-      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT.getValue()] = "Subproject";      
-      
+      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT.getValue()] = "Subproject";
+
       TASK_COLUMNS_ARRAY[TaskField.DURATION_UNITS.getValue()] = "Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE_DURATION_UNITS.getValue()] = "Baseline Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.ACTUAL_DURATION_UNITS.getValue()] = "Actual Duration Units";
@@ -1588,7 +1588,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.PARENT_ID.getValue()] = "Parent ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR.getValue()] = "Calendar";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR_UNIQUE_ID.getValue()] = "Calendar Unique ID";
-      
+
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";
@@ -1761,7 +1761,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_DATA.getValue()] = "Hyperlink Data";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESUME.getValue()] = "Resume";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.STOP.getValue()] = "Stop";
-      
+
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_SUBADDRESS.getValue()] = "Hyperlink Subaddress";

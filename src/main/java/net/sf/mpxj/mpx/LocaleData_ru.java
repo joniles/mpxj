@@ -91,7 +91,7 @@ public final class LocaleData_ru extends ListResourceBundle
          "\u043A\u0430\u0436\u0434\u044B\u0439 %"
       }
    };
-   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<>();
 
    static
    {

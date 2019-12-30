@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.sdef;
 
 /**
@@ -29,14 +30,14 @@ interface SDEFField
 {
    /**
     * Retrieve the field width.
-    * 
+    *
     * @return field width
     */
    int getLength();
-   
+
    /**
     * Read the value for this field.
-    * 
+    *
     * @param line record
     * @param offset offset into record
     * @return field value

@@ -98,8 +98,8 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             item.setGUID(MPPUtility.getGUID(b2, 0));
             UUID lookupTableGuid = MPPUtility.getGUID(b2, fieldOffset);
             item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, typeOffset)));
-            item.setValue(getTypedValue(item.getType(), value));            
-            
+            item.setValue(getTypedValue(item.getType(), value));
+
             m_container.registerValue(item);
             FieldType field = map.get(lookupTableGuid);
             if (field != null)
@@ -109,7 +109,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
                // It's like this to avoid creating empty lookup tables. Need to refactor!
                table.setGUID(lookupTableGuid);
             }
-         }        
+         }
       }
    }
 
@@ -120,7 +120,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
-      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
+      Map<UUID, FieldType> map = new HashMap<>();
       byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
       if (data != null)
       {

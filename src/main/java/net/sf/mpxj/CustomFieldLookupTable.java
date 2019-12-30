@@ -44,18 +44,18 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the lookup table GUID.
-    * 
+    *
     * @param guid lookup table GUID.
     */
    public void setGUID(UUID guid)
    {
       m_guid = guid;
    }
-   
+
    /**
-    * 
+    *
     * Retrieve the enterprise flag.
-    * 
+    *
     * @return enterprise flag
     */
    public boolean getEnterprise()
@@ -65,7 +65,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the enterprise flag.
-    * 
+    *
     * @param enterprise enterprise flag
     */
    public void setEnterprise(boolean enterprise)
@@ -75,7 +75,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Retrieve the show indent flag.
-    * 
+    *
     * @return show indent flag
     */
    public boolean getShowIndent()
@@ -85,7 +85,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the show indent flag.
-    * 
+    *
     * @param showIndent show indent flag
     */
    public void setShowIndent(boolean showIndent)
@@ -95,7 +95,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Retrieve the resource substitution enabled flag.
-    * 
+    *
     * @return resource substitution enabled flag
     */
    public boolean getResourceSubstitutionEnabled()
@@ -105,7 +105,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the resource substitution enabled flag.
-    * 
+    *
     * @param resourceSubstitutionEnabled resource substitution enabled flag
     */
    public void setResourceSubstitutionEnabled(boolean resourceSubstitutionEnabled)
@@ -115,7 +115,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Retrieve the leaf only flag.
-    * 
+    *
     * @return leaf only flag
     */
    public boolean getLeafOnly()
@@ -125,7 +125,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the leaf only flag.
-    * 
+    *
     * @param leafOnly leaf only flag
     */
    public void setLeafOnly(boolean leafOnly)
@@ -135,7 +135,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Retrieve the all levels required flag.
-    * 
+    *
     * @return all levels required flag
     */
    public boolean getAllLevelsRequired()
@@ -145,7 +145,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the all levels required flag.
-    * 
+    *
     * @param allLevelsRequired all levels required flag
     */
    public void setAllLevelsRequired(boolean allLevelsRequired)
@@ -155,7 +155,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Retrieve the only table values allowed flag.
-    * 
+    *
     * @return only table values allowed flag
     */
    public boolean getOnlyTableValuesAllowed()
@@ -165,7 +165,7 @@ public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueIt
 
    /**
     * Set the only table values allowed flag.
-    * 
+    *
     * @param onlyTableValuesAllowed only table values allowed flag
     */
    public void setOnlyTableValuesAllowed(boolean onlyTableValuesAllowed)

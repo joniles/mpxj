@@ -38,7 +38,7 @@ class Context
 {
    /**
     * Retrieve the current project.
-    * 
+    *
     * @return current project
     */
    public ProjectFile getProject()
@@ -48,17 +48,17 @@ class Context
 
    /**
     * Retrieve the event manager for the current project.
-    * 
+    *
     * @return current project's event manager
     */
    public EventManager getEventManager()
    {
       return m_project.getEventManager();
    }
-   
+
    /**
     * Add a calendar to the project.
-    * 
+    *
     * @param code calendar unique identifier
     * @return new calendar
     */
@@ -68,10 +68,10 @@ class Context
       m_calendars.put(code, calendar);
       return calendar;
    }
-   
+
    /**
     * Retrieve a calendar based on its unique identifier.
-    * 
+    *
     * @param code calendar unique identifier
     * @return calendar instance
     */
@@ -82,7 +82,7 @@ class Context
 
    /**
     * Add a new task.
-    * 
+    *
     * @param activityID task unique identifier
     * @return new task
     */
@@ -95,7 +95,7 @@ class Context
 
    /**
     * Retrieve a task based on its unique identifier.
-    * 
+    *
     * @param activityID task unique identifier
     * @return task instance
     */
@@ -105,6 +105,6 @@ class Context
    }
 
    private final ProjectFile m_project = new ProjectFile();
-   private final Map<String, ProjectCalendar> m_calendars = new HashMap<String, ProjectCalendar>();
-   private final Map<String, Task> m_tasks = new HashMap<String, Task>();
+   private final Map<String, ProjectCalendar> m_calendars = new HashMap<>();
+   private final Map<String, Task> m_tasks = new HashMap<>();
 }

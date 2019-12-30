@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="7.9.9">
+		<release date="git master" version="8.0.0">
+			<action dev="joniles" type="update">MPXJ now requires Java 8 or later.</action>
+			<action dev="joniles" type="update">Updated to use POI 4.1.1.</action>
 		</release>
 		<release date="27/12/2019" version="7.9.8">
 			<action dev="joniles" type="add">Added support for reading and writing outline code/custom field lookup tables for MSPDI files.</action>

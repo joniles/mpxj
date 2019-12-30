@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj;
 
 /**
@@ -33,7 +34,7 @@ public final class DataLink
 {
    /**
     * Constructor.
-    * 
+    *
     * @param id identifier for this link
     */
    public DataLink(String id)
@@ -43,7 +44,7 @@ public final class DataLink
 
    /**
     * Retrieve the link identifier.
-    * 
+    *
     * @return link identifier
     */
    public String getID()
@@ -53,7 +54,7 @@ public final class DataLink
 
    /**
     * Retrieve the source field.
-    * 
+    *
     * @return source field
     */
    public FieldType getSourceField()
@@ -63,7 +64,7 @@ public final class DataLink
 
    /**
     * Set the source field.
-    * 
+    *
     * @param sourceField source field
     */
    public void setSourceField(FieldType sourceField)
@@ -73,7 +74,7 @@ public final class DataLink
 
    /**
     * Unique ID of the source object.
-    * 
+    *
     * @return unique ID
     */
    public Integer getSourceUniqueID()
@@ -83,7 +84,7 @@ public final class DataLink
 
    /**
     * Set the unique ID of the source object.
-    * 
+    *
     * @param sourceUniqueID source object unique ID
     */
    public void setSourceUniqueID(Integer sourceUniqueID)
@@ -93,7 +94,7 @@ public final class DataLink
 
    /**
     * Retrieve the target field.
-    * 
+    *
     * @return target field
     */
    public FieldType getTargetField()
@@ -103,7 +104,7 @@ public final class DataLink
 
    /**
     * Set the target field.
-    * 
+    *
     * @param targetField target field
     */
    public void setTargetField(FieldType targetField)
@@ -113,7 +114,7 @@ public final class DataLink
 
    /**
     * Retrieve the unique ID of the target object.
-    * 
+    *
     * @return target object unique ID
     */
    public Integer getTargetUniqueID()
@@ -123,7 +124,7 @@ public final class DataLink
 
    /**
     * Set the unique ID of the target object.
-    * 
+    *
     * @param targetUniqueID target object unique ID
     */
    public void setTargetUniqueID(Integer targetUniqueID)
@@ -145,7 +146,7 @@ public final class DataLink
          sb.append(" sourceUniqueID=");
          sb.append(m_sourceUniqueID);
       }
-      
+
       if (m_targetField != null)
       {
          sb.append(" targetField=");
@@ -156,10 +157,10 @@ public final class DataLink
          sb.append(m_targetUniqueID);
       }
       sb.append(']');
-      
+
       return sb.toString();
    }
-   
+
    private final String m_id;
    private FieldType m_sourceField;
    private Integer m_sourceUniqueID;

@@ -124,5 +124,5 @@ public final class Group
    private Integer m_id;
    private String m_name;
    private boolean m_showSummaryTasks;
-   private List<GroupClause> m_clauses = new LinkedList<GroupClause>();
+   private List<GroupClause> m_clauses = new LinkedList<>();
 }

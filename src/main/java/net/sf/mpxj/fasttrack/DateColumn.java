@@ -84,12 +84,12 @@ class DateColumn extends AbstractColumn
                if (year > 1980 && year < 2100)
                {
                   m_data[index] = cal.getTime();
-               }               
+               }
             }
          }
       }
       DateHelper.pushCalendar(cal);
-      
+
       return offset;
    }
 

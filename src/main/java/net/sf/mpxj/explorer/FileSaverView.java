@@ -53,7 +53,7 @@ public class FileSaverView
       m_parent = parent;
       m_model = model;
 
-      PropertyAdapter<FileSaverModel> adapter = new PropertyAdapter<FileSaverModel>(m_model, "showDialog", true);
+      PropertyAdapter<FileSaverModel> adapter = new PropertyAdapter<>(m_model, "showDialog", true);
       adapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
@@ -62,7 +62,7 @@ public class FileSaverView
          }
       });
 
-      PropertyAdapter<FileSaverModel> extensionsAdaptor = new PropertyAdapter<FileSaverModel>(m_model, "extensions", true);
+      PropertyAdapter<FileSaverModel> extensionsAdaptor = new PropertyAdapter<>(m_model, "extensions", true);
       extensionsAdaptor.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)

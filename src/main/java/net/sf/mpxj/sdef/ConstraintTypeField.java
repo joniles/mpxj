@@ -35,7 +35,7 @@ class ConstraintTypeField extends StringField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     */
    public ConstraintTypeField(String name)
@@ -46,7 +46,7 @@ class ConstraintTypeField extends StringField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      String value = ((String)super.read(line, offset));
+      String value = ((String) super.read(line, offset));
       if (value == null || value.isEmpty())
       {
          result = null;
@@ -57,8 +57,8 @@ class ConstraintTypeField extends StringField
       }
       return result;
    }
-   
-   private static final Map<String, ConstraintType> TYPE_MAP = new HashMap<String, ConstraintType>();
+
+   private static final Map<String, ConstraintType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put("ES", ConstraintType.START_NO_EARLIER_THAN);

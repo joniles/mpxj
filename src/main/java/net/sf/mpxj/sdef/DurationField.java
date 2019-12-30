@@ -33,7 +33,7 @@ class DurationField extends IntegerField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     * @param length field length
     */
@@ -45,7 +45,7 @@ class DurationField extends IntegerField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      Integer value = ((Integer)super.read(line, offset));
+      Integer value = ((Integer) super.read(line, offset));
       if (value == null)
       {
          result = null;

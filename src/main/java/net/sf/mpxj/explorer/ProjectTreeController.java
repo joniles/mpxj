@@ -64,7 +64,7 @@ import net.sf.mpxj.writer.ProjectWriter;
  */
 public class ProjectTreeController
 {
-   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>>();
+   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<>();
    static
    {
       WRITER_MAP.put("MPX", MPXWriter.class);
@@ -386,7 +386,7 @@ public class ProjectTreeController
             @Override public String toString()
             {
                FieldType type = c.getFieldType();
-               
+
                return type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
             }
          };
@@ -530,13 +530,13 @@ public class ProjectTreeController
                {
                   name = "";
                }
-               
+
                int index = name.lastIndexOf('!');
-               if (index == -1 || index == name.length()-1)
+               if (index == -1 || index == name.length() - 1)
                {
                   return "(none)";
                }
-               return name.substring(index+1);
+               return name.substring(index + 1);
             }
          };
          parentNode.add(childNode);
@@ -577,7 +577,7 @@ public class ProjectTreeController
     */
    private static Set<String> excludedMethods(String... methodNames)
    {
-      Set<String> set = new HashSet<String>(MpxjTreeNode.DEFAULT_EXCLUDED_METHODS);
+      Set<String> set = new HashSet<>(MpxjTreeNode.DEFAULT_EXCLUDED_METHODS);
       set.addAll(Arrays.asList(methodNames));
       return set;
    }

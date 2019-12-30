@@ -78,7 +78,7 @@ class ProgressRecord extends AbstractSDEFRecord
             double remainingDurationValue = remainingDuration.getDuration();
             if (durationValue != 0 && remainingDurationValue < durationValue)
             {
-               percentComplete = ((durationValue - remainingDurationValue) * 100.0)/durationValue;
+               percentComplete = ((durationValue - remainingDurationValue) * 100.0) / durationValue;
             }
          }
       }

@@ -81,7 +81,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (group == null)
       {
-         group = new ArrayList<Group>();
+         group = new ArrayList<>();
       }
       return this.group;
    }

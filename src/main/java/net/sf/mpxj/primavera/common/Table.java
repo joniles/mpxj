@@ -92,6 +92,6 @@ public class Table implements Iterable<MapRow>
       }
    }
 
-   private final Map<Object, MapRow> m_rows = new TreeMap<Object, MapRow>();
+   private final Map<Object, MapRow> m_rows = new TreeMap<>();
    private int m_rowNumber = 1;
 }

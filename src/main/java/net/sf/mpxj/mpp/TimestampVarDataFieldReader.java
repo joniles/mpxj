@@ -30,36 +30,36 @@ import net.sf.mpxj.CustomFieldContainer;
 /**
  * Read a timestamp field from the var data.
  */
-class TimestampVarDataFieldReader extends VarDataFieldReader 
+class TimestampVarDataFieldReader extends VarDataFieldReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param customFields custom fields container
     */
    public TimestampVarDataFieldReader(CustomFieldContainer customFields)
    {
       super(customFields);
    }
-   
+
    @Override protected Object readValue(Var2Data varData, Integer id, Integer type)
    {
       return getRawTimestampValue(varData, id, type);
    }
-   
+
    @Override protected Object coerceValue(Object value)
    {
       if (value instanceof Date)
       {
          return value;
       }
-      
+
       return null;
-   }   
-   
+   }
+
    /**
     * Read a timestamp value from the var data block.
-    * 
+    *
     * @param varData var data block
     * @param id value id
     * @param type value type

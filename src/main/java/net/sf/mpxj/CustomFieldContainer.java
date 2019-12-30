@@ -89,7 +89,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    {
       return m_guidMap.get(guid);
    }
-   
+
    /**
     * Add a value to the custom field value index.
     *
@@ -126,7 +126,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    void registerAlias(FieldType type, String alias)
    {
-      m_aliasMap.put(new Pair<FieldTypeClass, String>(type.getFieldTypeClass(), alias), type);
+      m_aliasMap.put(new Pair<>(type.getFieldTypeClass(), alias), type);
    }
 
    /**
@@ -138,11 +138,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
    {
-      return m_aliasMap.get(new Pair<FieldTypeClass, String>(typeClass, alias));
+      return m_aliasMap.get(new Pair<>(typeClass, alias));
    }
 
-   private Map<FieldType, CustomField> m_configMap = new HashMap<FieldType, CustomField>();
-   private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<Integer, CustomFieldValueItem>();
-   private Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<UUID, CustomFieldValueItem>();
-   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<Pair<FieldTypeClass, String>, FieldType>();
+   private Map<FieldType, CustomField> m_configMap = new HashMap<>();
+   private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
+   private Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
+   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
 }

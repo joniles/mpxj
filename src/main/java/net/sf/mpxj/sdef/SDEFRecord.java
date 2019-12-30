@@ -30,14 +30,14 @@ interface SDEFRecord
 {
    /**
     * Extract fields from the record.
-    * 
+    *
     * @param line record data
     */
    void read(String line);
-   
+
    /**
     * Process the extracted fields.
-    * 
+    *
     * @param context current context
     */
    void process(Context context);

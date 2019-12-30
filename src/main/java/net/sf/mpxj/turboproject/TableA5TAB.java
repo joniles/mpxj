@@ -40,7 +40,7 @@ class TableA5TAB extends Table
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
 
       int originalDuration = PEPUtility.getShort(data, 22);

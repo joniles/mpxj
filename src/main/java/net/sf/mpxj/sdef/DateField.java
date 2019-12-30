@@ -34,7 +34,7 @@ class DateField extends StringField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     */
    public DateField(String name)
@@ -45,7 +45,7 @@ class DateField extends StringField
    @Override public Object read(String line, int offset)
    {
       Object result;
-      String value = ((String)super.read(line, offset));
+      String value = ((String) super.read(line, offset));
       if (value == null || value.isEmpty())
       {
          result = null;
@@ -56,7 +56,7 @@ class DateField extends StringField
          {
             result = DATE_FORMAT.get().parse(value);
          }
-         
+
          catch (ParseException e)
          {
             result = null;
@@ -64,13 +64,13 @@ class DateField extends StringField
       }
       return result;
    }
-   
+
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
    {
       @Override protected DateFormat initialValue()
       {
          return new SimpleDateFormat("ddMMMyy");
       }
-   };            
+   };
 
 }

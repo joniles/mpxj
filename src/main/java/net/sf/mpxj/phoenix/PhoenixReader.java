@@ -96,7 +96,7 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -109,11 +109,11 @@ public final class PhoenixReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
-         m_activityMap = new HashMap<String, Task>();
-         m_activityCodeValues = new HashMap<UUID, String>();
-         m_activityCodeSequence = new HashMap<UUID, Integer>();
-         m_activityCodeCache = new HashMap<Activity, Map<UUID, UUID>>();
-         m_codeSequence = new ArrayList<UUID>();
+         m_activityMap = new HashMap<>();
+         m_activityCodeValues = new HashMap<>();
+         m_activityCodeSequence = new HashMap<>();
+         m_activityCodeCache = new HashMap<>();
+         m_codeSequence = new ArrayList<>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -692,7 +692,7 @@ public final class PhoenixReader extends AbstractProjectReader
       Map<UUID, UUID> map = m_activityCodeCache.get(activity);
       if (map == null)
       {
-         map = new HashMap<UUID, UUID>();
+         map = new HashMap<>();
          m_activityCodeCache.put(activity, map);
          for (CodeAssignment ca : activity.getCodeAssignment())
          {

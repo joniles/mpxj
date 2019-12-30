@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.ganttdesigner.schema
-    * 
+    *
     */
    public ObjectFactory()
    {
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt }
-    * 
+    *
     */
    public Gantt createGantt()
    {
@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.FootersFonts }
-    * 
+    *
     */
    public Gantt.FootersFonts createGanttFootersFonts()
    {
@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.HeadersFonts }
-    * 
+    *
     */
    public Gantt.HeadersFonts createGanttHeadersFonts()
    {
@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Holidays }
-    * 
+    *
     */
    public Gantt.Holidays createGanttHolidays()
    {
@@ -72,7 +72,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.DateHeader }
-    * 
+    *
     */
    public Gantt.DateHeader createGanttDateHeader()
    {
@@ -81,7 +81,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Columns }
-    * 
+    *
     */
    public Gantt.Columns createGanttColumns()
    {
@@ -90,7 +90,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.TextStyles }
-    * 
+    *
     */
    public Gantt.TextStyles createGanttTextStyles()
    {
@@ -99,7 +99,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GanttDesignerRemark }
-    * 
+    *
     */
    public GanttDesignerRemark createGanttDesignerRemark()
    {
@@ -108,7 +108,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Tasks }
-    * 
+    *
     */
    public Gantt.Tasks createGanttTasks()
    {
@@ -117,7 +117,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Globalization }
-    * 
+    *
     */
    public Gantt.Globalization createGanttGlobalization()
    {
@@ -126,7 +126,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Display }
-    * 
+    *
     */
    public Gantt.Display createGanttDisplay()
    {
@@ -135,7 +135,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.File }
-    * 
+    *
     */
    public Gantt.File createGanttFile()
    {
@@ -144,7 +144,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.FirstDay }
-    * 
+    *
     */
    public Gantt.FirstDay createGanttFirstDay()
    {
@@ -153,7 +153,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.LastDay }
-    * 
+    *
     */
    public Gantt.LastDay createGanttLastDay()
    {
@@ -162,7 +162,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Padding }
-    * 
+    *
     */
    public Gantt.Padding createGanttPadding()
    {
@@ -171,7 +171,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.BarStyles }
-    * 
+    *
     */
    public Gantt.BarStyles createGanttBarStyles()
    {
@@ -180,7 +180,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Calendar }
-    * 
+    *
     */
    public Gantt.Calendar createGanttCalendar()
    {
@@ -189,7 +189,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Headers }
-    * 
+    *
     */
    public Gantt.Headers createGanttHeaders()
    {
@@ -198,7 +198,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Footers }
-    * 
+    *
     */
    public Gantt.Footers createGanttFooters()
    {
@@ -207,7 +207,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Print }
-    * 
+    *
     */
    public Gantt.Print createGanttPrint()
    {
@@ -216,7 +216,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.PrintToImageFile }
-    * 
+    *
     */
    public Gantt.PrintToImageFile createGanttPrintToImageFile()
    {
@@ -225,7 +225,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Copy }
-    * 
+    *
     */
    public Gantt.Copy createGanttCopy()
    {
@@ -234,7 +234,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.ChartColor }
-    * 
+    *
     */
    public Gantt.ChartColor createGanttChartColor()
    {
@@ -243,7 +243,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.FootersFonts.Font }
-    * 
+    *
     */
    public Gantt.FootersFonts.Font createGanttFootersFontsFont()
    {
@@ -252,7 +252,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.HeadersFonts.Font }
-    * 
+    *
     */
    public Gantt.HeadersFonts.Font createGanttHeadersFontsFont()
    {
@@ -261,7 +261,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Holidays.Holiday }
-    * 
+    *
     */
    public Gantt.Holidays.Holiday createGanttHolidaysHoliday()
    {
@@ -270,7 +270,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.DateHeader.Tier }
-    * 
+    *
     */
    public Gantt.DateHeader.Tier createGanttDateHeaderTier()
    {
@@ -279,7 +279,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.DateHeader.Reference }
-    * 
+    *
     */
    public Gantt.DateHeader.Reference createGanttDateHeaderReference()
    {
@@ -288,7 +288,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Columns.Header }
-    * 
+    *
     */
    public Gantt.Columns.Header createGanttColumnsHeader()
    {
@@ -297,7 +297,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.TextStyles.Font }
-    * 
+    *
     */
    public Gantt.TextStyles.Font createGanttTextStylesFont()
    {
@@ -306,7 +306,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link GanttDesignerRemark.Task }
-    * 
+    *
     */
    public GanttDesignerRemark.Task createGanttDesignerRemarkTask()
    {
@@ -315,7 +315,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Tasks.Task }
-    * 
+    *
     */
    public Gantt.Tasks.Task createGanttTasksTask()
    {
@@ -324,7 +324,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Globalization.Culture }
-    * 
+    *
     */
    public Gantt.Globalization.Culture createGanttGlobalizationCulture()
    {
@@ -333,7 +333,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Globalization.UICulture }
-    * 
+    *
     */
    public Gantt.Globalization.UICulture createGanttGlobalizationUICulture()
    {
@@ -342,7 +342,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Gantt.Globalization.Currency }
-    * 
+    *
     */
    public Gantt.Globalization.Currency createGanttGlobalizationCurrency()
    {

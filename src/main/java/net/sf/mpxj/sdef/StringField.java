@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.sdef;
 
 /**
@@ -29,7 +30,7 @@ class StringField implements SDEFField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     * @param length field length
     */
@@ -41,7 +42,7 @@ class StringField implements SDEFField
 
    /**
     * Retrieve the field name.
-    * 
+    *
     * @return field name
     */
    public String getName()
@@ -57,7 +58,7 @@ class StringField implements SDEFField
    @Override public Object read(String line, int offset)
    {
       String result;
-      if (offset+m_length > line.length())
+      if (offset + m_length > line.length())
       {
          result = null;
       }

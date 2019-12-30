@@ -79,7 +79,7 @@ abstract class TableReader
 
          // We use a LinkedHashMap to preserve insertion order in iteration
          // Useful when debugging the file format.
-         Map<String, Object> map = new LinkedHashMap<String, Object>();
+         Map<String, Object> map = new LinkedHashMap<>();
 
          if (hasUUID())
          {
@@ -117,7 +117,7 @@ abstract class TableReader
 
    /**
     * Read the optional row header and UUID.
-    * 
+    *
     * @param stream input stream
     * @param map row map
     */
@@ -125,9 +125,9 @@ abstract class TableReader
    {
       int unknown0Size = stream.getMajorVersion() > 5 ? 8 : 16;
       map.put("UNKNOWN0", stream.readBytes(unknown0Size));
-      map.put("UUID", stream.readUUID());   
+      map.put("UUID", stream.readUUID());
    }
-   
+
    /**
     * Allows additional behaviour once the main table data has been read.
     *
@@ -154,5 +154,5 @@ abstract class TableReader
    protected abstract void readRow(StreamReader stream, Map<String, Object> map) throws IOException;
 
    protected final StreamReader m_stream;
-   private final List<MapRow> m_rows = new ArrayList<MapRow>();
+   private final List<MapRow> m_rows = new ArrayList<>();
 }

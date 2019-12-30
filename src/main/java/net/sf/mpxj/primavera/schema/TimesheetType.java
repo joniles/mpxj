@@ -487,7 +487,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (resourceHour == null)
       {
-         resourceHour = new ArrayList<ResourceHourType>();
+         resourceHour = new ArrayList<>();
       }
       return this.resourceHour;
    }

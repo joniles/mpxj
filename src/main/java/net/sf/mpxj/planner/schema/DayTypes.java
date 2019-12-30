@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (dayType == null)
       {
-         dayType = new ArrayList<DayType>();
+         dayType = new ArrayList<>();
       }
       return this.dayType;
    }

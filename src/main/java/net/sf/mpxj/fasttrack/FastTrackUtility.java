@@ -61,7 +61,7 @@ final class FastTrackUtility
 
    /**
     * Read a string and gracefully handle failure.
-    * 
+    *
     * @param buffer array of data
     * @param offset offset into array
     * @param length string length
@@ -78,7 +78,7 @@ final class FastTrackUtility
          throw new UnexpectedStructureException();
       }
    }
-   
+
    /**
     * Retrieve a four byte integer.
     *

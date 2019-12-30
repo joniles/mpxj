@@ -1227,7 +1227,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualOvertimeWorkProtected()
    {
-      return (Duration)getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED);
+      return (Duration) getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED);
    }
 
    /**
@@ -1247,7 +1247,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualWorkProtected()
    {
-      return (Duration)getCachedValue(ResourceField.ACTUAL_WORK_PROTECTED);
+      return (Duration) getCachedValue(ResourceField.ACTUAL_WORK_PROTECTED);
    }
 
    /**
@@ -2496,7 +2496,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<FieldListener>();
+         m_listeners = new LinkedList<>();
       }
       m_listeners.add(listener);
    }
@@ -2594,7 +2594,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * List of all assignments for this resource.
     */
-   private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
+   private List<ResourceAssignment> m_assignments = new LinkedList<>();
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;

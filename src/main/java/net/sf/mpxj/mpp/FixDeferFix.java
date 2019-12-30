@@ -176,8 +176,8 @@ final class FixDeferFix extends MPPComponent
       int nextBlockOffset;
       byte[] buffer;
       int bufferOffset;
-      TreeSet<Integer> skipped = new TreeSet<Integer>();
-      TreeSet<Integer> read = new TreeSet<Integer>();
+      TreeSet<Integer> skipped = new TreeSet<>();
+      TreeSet<Integer> read = new TreeSet<>();
       int startOffset;
 
       while (fileOffset < available || skipped.size() != 0)

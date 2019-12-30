@@ -35,7 +35,7 @@ class PrecedenceRecord extends AbstractSDEFRecord
    {
       return FIELDS;
    }
-   
+
    @Override public void process(Context context)
    {
       Task currentTask = context.getTask(getString(0));

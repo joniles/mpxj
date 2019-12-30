@@ -111,5 +111,5 @@ public abstract class ListWithCallbacks<T> extends AbstractList<T>
       return removed;
    }
 
-   private final List<T> m_list = new ArrayList<T>();
+   private final List<T> m_list = new ArrayList<>();
 }

@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.mpp;
 
 import java.io.ByteArrayInputStream;
@@ -40,7 +41,7 @@ class DataLinkFactory
 {
    /**
     * Constructor.
-    * 
+    *
     * @param project parent project
     * @param fixedData fix data blocks
     * @param varData var data blocks
@@ -62,8 +63,8 @@ class DataLinkFactory
       // System.out.println(m_varData);
 
       Integer key = m_project.getProjectProperties().getMppFileType().intValue() == 9 ? PROPS9 : PROPS;
-      
-      Map<String, DataLink> map = new HashMap<String, DataLink>();
+
+      Map<String, DataLink> map = new HashMap<>();
 
       int itemCount = m_fixedData.getItemCount();
       for (int index = 0; index < itemCount; index++)
@@ -87,10 +88,10 @@ class DataLinkFactory
          container.add(dataLink);
       }
    }
-   
+
    /**
     * Extract a single data link.
-    * 
+    *
     * @param data fixed data block
     * @param map extracted link data
     */

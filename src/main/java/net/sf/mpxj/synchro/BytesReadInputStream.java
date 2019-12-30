@@ -33,30 +33,30 @@ class BytesReadInputStream extends InputStream
 {
    /**
     * Constructor.
-    * 
+    *
     * @param stream wrapped input stream
     */
    public BytesReadInputStream(InputStream stream)
    {
       m_stream = stream;
    }
-   
+
    @Override public int read() throws IOException
    {
       ++m_bytesRead;
       return m_stream.read();
    }
-     
+
    /**
     * Retrieve the number of bytes read.
-    * 
+    *
     * @return number of bytes read.
     */
    public int getBytesRead()
    {
       return m_bytesRead;
    }
-   
+
    private final InputStream m_stream;
    private int m_bytesRead;
 }

@@ -37,7 +37,7 @@ import net.sf.mpxj.Duration;
  * interface to MPXJ.
  */
 interface Row
-{   
+{
    /**
     * Retrieve a string attribute.
     *
@@ -69,7 +69,7 @@ interface Row
     * @return attribute value
     */
    public Double getPercent(String name);
-   
+
    /**
     * Retrieve a currency attribute.
     *

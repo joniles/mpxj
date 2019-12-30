@@ -78,7 +78,7 @@ public final class MPXReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -137,7 +137,7 @@ public final class MPXReader extends AbstractProjectReader
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
          m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
-         m_deferredRelationships = new LinkedList<DeferredRelationship>();
+         m_deferredRelationships = new LinkedList<>();
 
          bis.reset();
 
@@ -658,7 +658,7 @@ public final class MPXReader extends AbstractProjectReader
          }
          end = cal.getTime();
          DateHelper.pushCalendar(cal);
-         
+
          hours.addRange(new DateRange(start, end));
       }
    }
@@ -929,7 +929,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                populateRelation(dr.getField(), task, data.substring(start, end).trim());
             }
-            
+
             start = end + 1;
          }
       }

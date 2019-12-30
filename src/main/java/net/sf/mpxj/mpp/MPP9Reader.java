@@ -148,7 +148,7 @@ final class MPP9Reader implements MPPVariantReader
       byte passwordProtectionFlag = props9.getByte(Props.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
-      
+
       if (passwordRequiredToRead && reader.getRespectPasswordProtection())
       {
          // File is password protected for reading, let's read the password
@@ -169,7 +169,7 @@ final class MPP9Reader implements MPPVariantReader
          // Passwords matched so let's allow the reading to continue.
       }
 
-      m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+      m_resourceMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   19");
       m_viewDir = (DirectoryEntry) root.getEntry("   29");
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
@@ -178,8 +178,8 @@ final class MPP9Reader implements MPPVariantReader
       m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
-      m_fontBases = new HashMap<Integer, FontBase>();
-      m_taskSubProjects = new HashMap<Integer, SubProject>();
+      m_fontBases = new HashMap<>();
+      m_taskSubProjects = new HashMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
       m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
@@ -770,7 +770,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          return null;
       }
-      List<String> descriptions = new LinkedList<String>();
+      List<String> descriptions = new LinkedList<>();
       int offset = 0;
       while (offset < data.length)
       {
@@ -798,7 +798,7 @@ final class MPP9Reader implements MPPVariantReader
          return null;
       }
 
-      List<Object> list = new LinkedList<Object>();
+      List<Object> list = new LinkedList<>();
       int offset = 0;
 
       switch (field.getDataType())
@@ -900,7 +900,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, Var2Data taskVarData)
    {
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
       Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
@@ -988,7 +988,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<>();
       int itemCount = rscFixedMeta.getAdjustedItemCount();
 
       for (int loop = 0; loop < itemCount; loop++)
@@ -1057,7 +1057,7 @@ final class MPP9Reader implements MPPVariantReader
       byte[] metaData;
       Task task;
       boolean autoWBS = true;
-      LinkedList<Task> externalTasks = new LinkedList<Task>();
+      LinkedList<Task> externalTasks = new LinkedList<>();
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 
@@ -2041,7 +2041,7 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read data link definitions.
     */
-   private void processDataLinks()throws IOException
+   private void processDataLinks() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
       FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
@@ -2156,7 +2156,7 @@ final class MPP9Reader implements MPPVariantReader
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 8;
 
-   private static final Map<Integer, FieldType> RESOURCE_FIELD_ALIASES = new HashMap<Integer, FieldType>();
+   private static final Map<Integer, FieldType> RESOURCE_FIELD_ALIASES = new HashMap<>();
    static
    {
       RESOURCE_FIELD_ALIASES.put(Integer.valueOf(52), ResourceField.TEXT1);
@@ -2291,7 +2291,7 @@ final class MPP9Reader implements MPPVariantReader
       RESOURCE_FIELD_ALIASES.put(Integer.valueOf(216), ResourceField.COST10);
    }
 
-   private static final Map<Integer, FieldType> TASK_FIELD_ALIASES = new HashMap<Integer, FieldType>();
+   private static final Map<Integer, FieldType> TASK_FIELD_ALIASES = new HashMap<>();
    static
    {
       TASK_FIELD_ALIASES.put(Integer.valueOf(118), TaskField.TEXT1);

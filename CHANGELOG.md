@@ -1,6 +1,8 @@
 # Changelog
 
-## 7.9.9 (git master)
+## 8.0.0 (git master)
+* MPXJ now requires Java 8 or later.
+* Updated to use POI 4.1.1.
 
 ## 7.9.8 (27/12/2019)
 * Added support for reading and writing outline code/custom field lookup tables for MSPDI files.

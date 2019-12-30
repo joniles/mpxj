@@ -200,7 +200,7 @@ public class HexDumpView extends JPanel
       //
       // Bindings
       //
-      BeanAdapter<HexDumpModel> modelAdapter = new BeanAdapter<HexDumpModel>(model, true);
+      BeanAdapter<HexDumpModel> modelAdapter = new BeanAdapter<>(model, true);
       Bindings.bind(columns, modelAdapter.getValueModel("columns"));
       Bindings.bind(offset, modelAdapter.getValueModel("offset"));
       Bindings.bind(sizeValueLabel, "value", modelAdapter.getValueModel("sizeValueLabel"));

@@ -38,7 +38,7 @@ class TableWBSTAB extends Table
    {
       if ((data[0] != (byte) 0xFF))
       {
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
          map.put("CHILD_ID", Integer.valueOf(PEPUtility.getShort(data, 7)));
          map.put("NEXT_ID", Integer.valueOf(PEPUtility.getShort(data, 5)));

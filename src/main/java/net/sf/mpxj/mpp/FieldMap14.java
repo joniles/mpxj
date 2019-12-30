@@ -1570,7 +1570,7 @@ class FieldMap14 extends FieldMap
       },
    };
 
-   private static final Map<FieldType, Integer> VAR_DATA_MAP = new HashMap<FieldType, Integer>();
+   private static final Map<FieldType, Integer> VAR_DATA_MAP = new HashMap<>();
    static
    {
       for (Object[] item : VAR_DATA_MAP_CONTENT)

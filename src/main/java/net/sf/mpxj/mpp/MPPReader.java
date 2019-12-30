@@ -58,7 +58,7 @@ public final class MPPReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -231,7 +231,7 @@ public final class MPPReader extends AbstractProjectReader
       List<Relation> predecessors = task.getPredecessors();
       if (!predecessors.isEmpty())
       {
-         ArrayList<Relation> invalid = new ArrayList<Relation>();
+         ArrayList<Relation> invalid = new ArrayList<>();
          for (Relation relation : predecessors)
          {
             Task sourceTask = relation.getSourceTask();
@@ -369,22 +369,22 @@ public final class MPPReader extends AbstractProjectReader
 
    /**
     * Where supported, set to false to ignore password protection.
-    * 
+    *
     * @param respectPasswordProtection true if password protection is respected
     */
    public void setRespectPasswordProtection(boolean respectPasswordProtection)
    {
-       m_respectPasswordProtection = respectPasswordProtection;
+      m_respectPasswordProtection = respectPasswordProtection;
    }
 
    /**
     * Retrieve a flag indicating if password protection is respected.
-    * 
+    *
     * @return true if password protection is respected
     */
    boolean getRespectPasswordProtection()
    {
-       return m_respectPasswordProtection;
+      return m_respectPasswordProtection;
    }
 
    /**
@@ -416,7 +416,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * Populate a map of file types and file processing classes.
     */
-   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<String, Class<? extends MPPVariantReader>>();
+   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<>();
    static
    {
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);

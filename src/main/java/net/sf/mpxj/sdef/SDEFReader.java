@@ -51,7 +51,7 @@ public final class SDEFReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -76,7 +76,7 @@ public final class SDEFReader extends AbstractProjectReader
       fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work");
       fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work");
       fields.getCustomField(TaskField.COST1).setAlias("Stored Material");
-      
+
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");
 
@@ -102,7 +102,7 @@ public final class SDEFReader extends AbstractProjectReader
 
    /**
     * Process a single SDEF  record.
-    * 
+    *
     * @param context current context
     * @param line current record
     * @return false if we have reached the end of the file
@@ -126,22 +126,22 @@ public final class SDEFReader extends AbstractProjectReader
       {
          record = klass.newInstance();
       }
-      
+
       catch (Exception e)
       {
          throw new MPXJException(MPXJException.READ_ERROR, e);
       }
-      
+
       record.read(line);
-      
+
       record.process(context);
-      
+
       return true;
    }
 
    private List<ProjectListener> m_projectListeners;
 
-   private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<String, Class<? extends SDEFRecord>>();
+   private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static
    {
       RECORD_MAP.put("VOLM", VolumeRecord.class);

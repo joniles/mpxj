@@ -83,7 +83,7 @@ final class VarMeta9 extends AbstractVarMeta
          map = m_table.get(uniqueID);
          if (map == null)
          {
-            map = new TreeMap<Integer, Integer>();
+            map = new TreeMap<>();
             m_table.put(uniqueID, map);
          }
          map.put(type, offset);

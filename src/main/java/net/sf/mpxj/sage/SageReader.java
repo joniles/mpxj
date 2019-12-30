@@ -21,7 +21,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package net.sf.mpxj.sage;
 
 import java.io.BufferedReader;
@@ -61,7 +60,7 @@ public final class SageReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -77,10 +76,10 @@ public final class SageReader extends AbstractProjectReader
          m_projectFile.getProjectProperties().setFileApplication("Sage");
          m_projectFile.getProjectProperties().setFileType("SCHEDULE_GRID");
          m_eventManager = m_projectFile.getEventManager();
-         m_taskMap = new HashMap<String, Task>();
+         m_taskMap = new HashMap<>();
 
          BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-         List<String> lines = new ArrayList<String>();
+         List<String> lines = new ArrayList<>();
          String line;
 
          while ((line = reader.readLine()) != null)
@@ -108,7 +107,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Locate the tasks section and process.
-    * 
+    *
     * @param lines file content
     */
    private void processTasks(List<String> lines)
@@ -133,7 +132,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Locate the predecessors section and process.
-    * 
+    *
     * @param lines file content
     */
    private void processPredecessors(List<String> lines)
@@ -158,7 +157,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Locate the start of a specific section.
-    * 
+    *
     * @param lines file content
     * @param section section text
     * @return section index
@@ -181,7 +180,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Process an individual task.
-    * 
+    *
     * @param line task record
     */
    private void processTask(String line)
@@ -214,25 +213,25 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Process an individual predecessor.
-    * 
+    *
     * @param line predecessor record
     */
    private void processPredecessor(String line)
    {
       String[] columns = line.split("\t");
-      
+
       Task task = m_taskMap.get(parseID(columns, 0));
       if (task == null)
       {
          return;
       }
-      
+
       Task predecessor = m_taskMap.get(parseID(columns, 1));
       if (predecessor == null)
       {
          return;
       }
-      
+
       RelationType type = parseRelationType(columns, 2);
       Duration lag = parseDuration(columns, 3);
       // columns[4] - job
@@ -245,7 +244,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Parse an ID from a text field.
-    * 
+    *
     * @param columns record
     * @param index field index
     * @return ID value
@@ -259,10 +258,10 @@ public final class SageReader extends AbstractProjectReader
       }
       return id;
    }
-   
+
    /**
     * Parse a text value from a record.
-    * 
+    *
     * @param columns record
     * @param index field index
     * @return text value
@@ -279,7 +278,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Parse a date value from a record.
-    * 
+    *
     * @param columns record
     * @param index field index
     * @return date value
@@ -309,7 +308,7 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Parse a duration value from a record.
-    * 
+    *
     * @param columns record
     * @param index field index
     * @return duration value
@@ -328,14 +327,14 @@ public final class SageReader extends AbstractProjectReader
 
    /**
     * Parse a relationship type value from a record.
-    * 
+    *
     * @param columns record
     * @param index field index
     * @return relationship type value
     */
    private RelationType parseRelationType(String[] columns, int index)
    {
-      RelationType result = null;      
+      RelationType result = null;
       String text = getText(columns, index);
       if (text != null)
       {
@@ -347,10 +346,10 @@ public final class SageReader extends AbstractProjectReader
       }
       return result;
    }
-   
+
    /**
     * Set a task constraint if a constraint dat has been supplied.
-    * 
+    *
     * @param task Task instance
     * @param type constraint type
     * @param columns record
@@ -378,10 +377,10 @@ public final class SageReader extends AbstractProjectReader
          return new SimpleDateFormat("MM/dd/yyyy");
       }
    };
-   
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
-   {      
+   {
       RELATION_TYPE_MAP.put("1", RelationType.FINISH_START);
       RELATION_TYPE_MAP.put("2", RelationType.START_START);
       RELATION_TYPE_MAP.put("3", RelationType.START_FINISH);

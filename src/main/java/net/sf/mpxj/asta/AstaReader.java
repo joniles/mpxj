@@ -244,7 +244,7 @@ final class AstaReader
       //
       // Create a list of leaf nodes by merging the task and milestone lists
       //
-      List<Row> leaves = new ArrayList<Row>();
+      List<Row> leaves = new ArrayList<>();
       leaves.addAll(tasks);
       leaves.addAll(milestones);
 
@@ -257,7 +257,7 @@ final class AstaReader
       //
       // Map bar IDs to bars
       //
-      Map<Integer, Row> barIdToBarMap = new HashMap<Integer, Row>();
+      Map<Integer, Row> barIdToBarMap = new HashMap<>();
       for (Row bar : bars)
       {
          barIdToBarMap.put(bar.getInteger("BARID"), bar);
@@ -267,7 +267,7 @@ final class AstaReader
       // Merge expanded task attributes with parent bars
       // and create an expanded task ID to bar map.
       //
-      Map<Integer, Row> expandedTaskIdToBarMap = new HashMap<Integer, Row>();
+      Map<Integer, Row> expandedTaskIdToBarMap = new HashMap<>();
       for (Row expandedTask : expandedTasks)
       {
          Row bar = barIdToBarMap.get(expandedTask.getInteger("BAR"));
@@ -279,7 +279,7 @@ final class AstaReader
       //
       // Build the hierarchy
       //
-      List<Row> parentBars = new ArrayList<Row>();
+      List<Row> parentBars = new ArrayList<>();
       for (Row bar : bars)
       {
          Integer expandedTaskID = bar.getInteger("EXPANDED_TASK");
@@ -650,7 +650,7 @@ final class AstaReader
     */
    public void processPredecessors(List<Row> rows, List<Row> completedSections)
    {
-      Map<Integer, Integer> completedSectionMap = new HashMap<Integer, Integer>();
+      Map<Integer, Integer> completedSectionMap = new HashMap<>();
       for (Row section : completedSections)
       {
          completedSectionMap.put(section.getInteger("TASK_COMPLETED_SECTIONID"), section.getInteger("TASK"));
@@ -947,7 +947,7 @@ final class AstaReader
       //
       // Count the number of times each calendar is used
       //
-      Map<ProjectCalendar, Integer> map = new HashMap<ProjectCalendar, Integer>();
+      Map<ProjectCalendar, Integer> map = new HashMap<>();
       for (Task task : m_project.getTasks())
       {
          ProjectCalendar calendar = task.getCalendar();
@@ -1082,7 +1082,7 @@ final class AstaReader
     */
    public Map<Integer, DayType> createExceptionTypeMap(List<Row> rows)
    {
-      Map<Integer, DayType> map = new HashMap<Integer, DayType>();
+      Map<Integer, DayType> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer id = row.getInteger("EXCEPTIONNID");
@@ -1122,7 +1122,7 @@ final class AstaReader
     */
    public Map<Integer, Row> createWorkPatternMap(List<Row> rows)
    {
-      Map<Integer, Row> map = new HashMap<Integer, Row>();
+      Map<Integer, Row> map = new HashMap<>();
       for (Row row : rows)
       {
          map.put(row.getInteger("WORK_PATTERNID"), row);
@@ -1139,14 +1139,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
          List<Row> list = map.get(calendarID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(calendarID, list);
          }
          list.add(row);
@@ -1162,14 +1162,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createExceptionAssignmentMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
          List<Row> list = map.get(calendarID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(calendarID, list);
          }
          list.add(row);
@@ -1185,14 +1185,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("TIME_ENTRYID");
          List<Row> list = map.get(workPatternID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(workPatternID, list);
          }
          list.add(row);

@@ -256,7 +256,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (properties == null)
       {
-         properties = new ArrayList<Properties>();
+         properties = new ArrayList<>();
       }
       return this.properties;
    }

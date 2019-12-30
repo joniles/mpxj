@@ -116,7 +116,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -137,7 +137,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
-         
+
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
@@ -146,7 +146,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          fields.getCustomField(TaskField.TEXT2).setAlias("Activity Type");
          fields.getCustomField(TaskField.TEXT3).setAlias("Status");
          fields.getCustomField(TaskField.NUMBER1).setAlias("Primary Resource Unique ID");
-                  
+
          m_eventManager.addProjectListeners(m_projectListeners);
 
          SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -233,7 +233,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Process UDF definitions.
-    * 
+    *
     * @param apibo top level object
     */
    private void processProjectUDFs(APIBusinessObjects apibo)
@@ -246,7 +246,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Process an individual UDF.
-    * 
+    *
     * @param udf UDF definition
     */
    private void processUDF(UDFTypeType udf)
@@ -263,10 +263,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          }
       }
    }
-   
+
    /**
     * Map the Primavera UDF to a custom field.
-    * 
+    *
     * @param fieldType parent object type
     * @param dataType UDF data type
     * @param name UDF name
@@ -275,7 +275,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private FieldType addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
    {
       FieldType field = null;
-      
+
       try
       {
          switch (fieldType)
@@ -292,26 +292,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
                break;
             }
-            
+
             case RESOURCE:
             {
                field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
-            
+
             case ASSIGNMENT:
             {
                field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
-            
+
             default:
             {
                break;
             }
-         }         
+         }
       }
 
       catch (Exception ex)
@@ -324,11 +324,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          // ignore it when we read in the values.
          //
       }
-      
+
       return field;
    }
 
-   
    /**
     * Process project properties.
     *
@@ -379,9 +378,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
-      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+      Map<Integer, ActivityCode> map = new HashMap<>();
 
-      List<ActivityCodeTypeType> types = new ArrayList<ActivityCodeTypeType>();
+      List<ActivityCodeTypeType> types = new ArrayList<>();
       types.addAll(apibo.getActivityCodeType());
       types.addAll(project.getActivityCodeType());
 
@@ -391,8 +390,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
-      
-      List<ActivityCodeType> typeValues = new ArrayList<ActivityCodeType>();
+
+      List<ActivityCodeType> typeValues = new ArrayList<>();
       typeValues.addAll(apibo.getActivityCode());
       typeValues.addAll(project.getActivityCode());
 
@@ -405,7 +404,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
-      
+
       for (ActivityCodeType typeValue : typeValues)
       {
          ActivityCodeValue child = m_activityCodeMap.get(typeValue.getObjectId());
@@ -427,17 +426,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       //
       // First pass: read calendar definitions
       //
-      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<ProjectCalendar, Integer>();     
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
       for (CalendarType row : apibo.getCalendar())
       {
          ProjectCalendar calendar = processCalendar(row);
          Integer baseCalendarID = row.getBaseCalendarObjectId();
          if (baseCalendarID != null)
          {
-            baseCalendarMap.put(calendar,  baseCalendarID);
+            baseCalendarMap.put(calendar, baseCalendarID);
          }
       }
-      
+
       //
       // Second pass: create calendar hierarchy
       //
@@ -448,7 +447,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             entry.getKey().setParent(baseCalendar);
          }
-      }      
+      }
    }
 
    /**
@@ -509,11 +508,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
                }
             }
          }
-      } 
-      
+      }
+
       return calendar;
    }
-   
+
    /**
     * Process resources.
     *
@@ -596,8 +595,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       List<WBSType> wbs = project.getWBS();
       List<ActivityType> tasks = project.getActivity();
-      Set<Integer> uniqueIDs = new HashSet<Integer>();
-      Set<Task> wbsTasks = new HashSet<Task>();
+      Set<Integer> uniqueIDs = new HashSet<>();
+      Set<Task> wbsTasks = new HashSet<>();
 
       //
       // Read WBS entries and create tasks
@@ -692,7 +691,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setRemainingCost(NumberHelper.DOUBLE_ZERO);
          task.setBaselineCost(NumberHelper.DOUBLE_ZERO);
          task.setConstraintDate(row.getPrimaryConstraintDate());
-         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));         
+         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
          task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
@@ -710,7 +709,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          task.setText(2, row.getType());
          task.setText(3, row.getStatus());
          task.setNumber(1, row.getPrimaryResourceObjectId());
-      
+
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
 
@@ -1091,7 +1090,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Process UDFs for a specific object.
-    * 
+    *
     * @param mpxj field container
     * @param udfs UDF values
     */
@@ -1109,7 +1108,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Retrieve the value of a UDF.
-    * 
+    *
     * @param udf UDF value holder
     * @return UDF value
     */
@@ -1119,40 +1118,40 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       {
          return udf.getCostValue();
       }
-      
+
       if (udf.getDoubleValue() != null)
       {
          return udf.getDoubleValue();
       }
-      
+
       if (udf.getFinishDateValue() != null)
       {
          return udf.getFinishDateValue();
       }
-      
+
       if (udf.getIndicatorValue() != null)
       {
          return udf.getIndicatorValue();
       }
-      
+
       if (udf.getIntegerValue() != null)
       {
          return udf.getIntegerValue();
       }
-      
+
       if (udf.getStartDateValue() != null)
       {
          return udf.getStartDateValue();
       }
-      
+
       if (udf.getTextValue() != null)
       {
          return udf.getTextValue();
       }
-      
+
       return null;
    }
-   
+
    /**
     * Read details of any activity codes assigned to this task.
     * @param task parent task
@@ -1221,14 +1220,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
-   private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
+   private Map<Integer, Integer> m_clashMap = new HashMap<>();
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
-   private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<Integer, FieldType>();
-   
-   private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, net.sf.mpxj.ResourceType>();
+   private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
+
+   private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
       RESOURCE_TYPE_MAP.put(null, net.sf.mpxj.ResourceType.WORK);
@@ -1237,7 +1236,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       RESOURCE_TYPE_MAP.put("Nonlabor", net.sf.mpxj.ResourceType.COST);
    }
 
-   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
+   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
       CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.MUST_START_ON);
@@ -1251,7 +1250,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MANDATORY_FINISH);
    }
 
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();
+   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
    static
    {
       PRIORITY_MAP.put("Top", Priority.getInstance(Priority.HIGHEST));
@@ -1261,7 +1260,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       PRIORITY_MAP.put("Lowest", Priority.getInstance(Priority.LOWEST));
    }
 
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
       RELATION_TYPE_MAP.put("Finish to Start", RelationType.FINISH_START);
@@ -1270,7 +1269,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       RELATION_TYPE_MAP.put("Start to Finish", RelationType.START_FINISH);
    }
 
-   private static final Map<String, Day> DAY_MAP = new HashMap<String, Day>();
+   private static final Map<String, Day> DAY_MAP = new HashMap<>();
    static
    {
       // Current PMXML schema
@@ -1292,7 +1291,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       DAY_MAP.put("7", Day.SATURDAY);
    }
 
-   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
+   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
    {
       MILESTONE_MAP.put("Task Dependent", Boolean.FALSE);
@@ -1303,7 +1302,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       MILESTONE_MAP.put("WBS Summary", Boolean.FALSE);
    }
 
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<String, FieldTypeClass>();
+   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
       FIELD_TYPE_MAP.put("Activity", FieldTypeClass.TASK);
@@ -1312,13 +1311,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
    }
 
-   private static final Set<TaskField> RESERVED_TASK_FIELDS = new HashSet<TaskField>();
+   private static final Set<TaskField> RESERVED_TASK_FIELDS = new HashSet<>();
    static
    {
       RESERVED_TASK_FIELDS.add(TaskField.TEXT1);
       RESERVED_TASK_FIELDS.add(TaskField.TEXT2);
 
    }
-   
+
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
 }

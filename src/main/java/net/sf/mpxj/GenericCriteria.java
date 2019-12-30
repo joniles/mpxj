@@ -400,5 +400,5 @@ public class GenericCriteria
    private Object[] m_definedRightValues = new Object[2];
    private Object[] m_workingRightValues = new Object[2];
    private boolean m_symbolicValues;
-   private List<GenericCriteria> m_criteriaList = new LinkedList<GenericCriteria>();
+   private List<GenericCriteria> m_criteriaList = new LinkedList<>();
 }

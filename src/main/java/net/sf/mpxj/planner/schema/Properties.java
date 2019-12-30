@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (property == null)
       {
-         property = new ArrayList<Property>();
+         property = new ArrayList<>();
       }
       return this.property;
    }

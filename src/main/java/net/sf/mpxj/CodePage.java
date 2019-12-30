@@ -93,7 +93,7 @@ public enum CodePage
    private String m_value;
    private Charset m_charset;
 
-   private static final Map<String, CodePage> NAME_MAP = new HashMap<String, CodePage>();
+   private static final Map<String, CodePage> NAME_MAP = new HashMap<>();
    static
    {
       for (CodePage e : EnumSet.allOf(CodePage.class))

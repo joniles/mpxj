@@ -68,7 +68,7 @@ public final class TurboProjectReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -82,7 +82,7 @@ public final class TurboProjectReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-         m_tables = new HashMap<String, Table>();
+         m_tables = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceID(false);
@@ -140,8 +140,8 @@ public final class TurboProjectReader extends AbstractProjectReader
       StreamHelper.skip(is, 64);
       int index = 64;
 
-      ArrayList<Integer> offsetList = new ArrayList<Integer>();
-      List<String> nameList = new ArrayList<String>();
+      ArrayList<Integer> offsetList = new ArrayList<>();
+      List<String> nameList = new ArrayList<>();
 
       while (true)
       {
@@ -517,7 +517,7 @@ public final class TurboProjectReader extends AbstractProjectReader
 
    private static final Table EMPTY_TABLE = new Table();
 
-   private static final Map<String, Class<? extends Table>> TABLE_CLASSES = new HashMap<String, Class<? extends Table>>();
+   private static final Map<String, Class<? extends Table>> TABLE_CLASSES = new HashMap<>();
    static
    {
       TABLE_CLASSES.put("RTAB", TableRTAB.class);
@@ -533,13 +533,13 @@ public final class TurboProjectReader extends AbstractProjectReader
       TABLE_CLASSES.put("WBSTAB", TableWBSTAB.class);
    }
 
-   private static final Map<FieldType, String> ALIASES = new HashMap<FieldType, String>();
-   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> A0TAB_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> A1TAB_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> A2TAB_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<String, FieldType>();
-   private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<String, FieldType>();
+   private static final Map<FieldType, String> ALIASES = new HashMap<>();
+   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> A0TAB_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> A1TAB_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> A2TAB_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<>();
 
    static
    {

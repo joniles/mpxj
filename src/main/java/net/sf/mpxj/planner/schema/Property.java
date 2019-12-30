@@ -218,7 +218,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (listItem == null)
       {
-         listItem = new ArrayList<ListItem>();
+         listItem = new ArrayList<>();
       }
       return this.listItem;
    }

@@ -504,7 +504,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (task == null)
       {
-         task = new ArrayList<Task>();
+         task = new ArrayList<>();
       }
       return this.task;
    }

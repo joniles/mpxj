@@ -51,14 +51,14 @@ class UnknownBlockReader extends BlockReader
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
-      
+
       List<MapRow> blocks = super.read();
-      
+
       m_stream.readInt();
-      
+
       return blocks;
    }
-   
+
    @Override protected void readBlock(Map<String, Object> map) throws IOException
    {
       map.put("UNKNOWN", m_stream.readBytes(m_size));

@@ -123,7 +123,7 @@ public class MppViewTest
 
       // not sure what order MPP12 will store the views in,
       // so make a Set to check against when done reading in the views
-      HashSet<String> setViewNames = new HashSet<String>();
+      HashSet<String> setViewNames = new HashSet<>();
 
       for (int viewNum = 0; viewNum < views.size(); viewNum++)
       {
@@ -145,7 +145,7 @@ public class MppViewTest
 
                // verify all columns
                List<Column> cols = table.getColumns();
-               HashSet<String> setColumnNames = new HashSet<String>();
+               HashSet<String> setColumnNames = new HashSet<>();
                for (int n = 0; n < cols.size(); n++)
                {
                   Column col = cols.get(n);

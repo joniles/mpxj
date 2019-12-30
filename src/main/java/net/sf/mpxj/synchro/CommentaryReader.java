@@ -53,7 +53,7 @@ class CommentaryReader extends TableReader
    {
       if (stream.getMajorVersion() < 6)
       {
-         map.put("UNKNOWN0", stream.readBytes(16));         
+         map.put("UNKNOWN0", stream.readBytes(16));
       }
       map.put("UUID", stream.readUUID());
    }

@@ -146,5 +146,5 @@ public class PhoenixInputStream extends InputStream
    }
 
    private final InputStream m_stream;
-   private final Map<String, String> m_properties = new HashMap<String, String>();
+   private final Map<String, String> m_properties = new HashMap<>();
 }

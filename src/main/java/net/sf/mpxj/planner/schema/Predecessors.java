@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (predecessor == null)
       {
-         predecessor = new ArrayList<Predecessor>();
+         predecessor = new ArrayList<>();
       }
       return this.predecessor;
    }

@@ -391,7 +391,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (resourceRequestCriterion == null)
       {
-         resourceRequestCriterion = new ArrayList<ResourceRequestType.ResourceRequestCriterion>();
+         resourceRequestCriterion = new ArrayList<>();
       }
       return this.resourceRequestCriterion;
    }

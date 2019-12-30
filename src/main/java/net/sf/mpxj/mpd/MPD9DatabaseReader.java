@@ -61,7 +61,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -77,7 +77,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       try
       {
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<ResultSetRow> rows = getRows("SELECT PROJ_ID, PROJ_NAME FROM MSP_PROJECTS");
          for (ResultSetRow row : rows)
@@ -479,7 +479,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+         List<ResultSetRow> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -513,7 +513,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+         List<ResultSetRow> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));
@@ -549,7 +549,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+         List<ResultSetRow> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var1));
@@ -672,7 +672,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         Set<String> tables = new HashSet<String>();
+         Set<String> tables = new HashSet<>();
          DatabaseMetaData dmd = m_connection.getMetaData();
          rs = dmd.getTables(null, null, null, null);
          while (rs.next())
@@ -713,7 +713,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private boolean m_hasResourceBaselines;
    private boolean m_hasTaskBaselines;

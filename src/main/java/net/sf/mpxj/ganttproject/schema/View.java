@@ -47,42 +47,42 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the field property.
-    * 
+    *
     * <p>
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a <CODE>set</CODE> method for the field property.
-    * 
+    *
     * <p>
     * For example, to add a new item, do as follows:
     * <pre>
     *    getField().add(newItem);
     * </pre>
-    * 
-    * 
+    *
+    *
     * <p>
     * Objects of the following type(s) are allowed in the list
     * {@link Field }
-    * 
-    * 
+    *
+    *
     */
    public List<Field> getField()
    {
       if (field == null)
       {
-         field = new ArrayList<Field>();
+         field = new ArrayList<>();
       }
       return this.field;
    }
 
    /**
     * Gets the value of the zoomingState property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getZoomingState()
    {
@@ -91,11 +91,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the zoomingState property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setZoomingState(String value)
    {
@@ -104,11 +104,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getId()
    {
@@ -117,11 +117,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setId(String value)
    {

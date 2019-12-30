@@ -134,7 +134,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = new ArrayList<CustomField>();
+      List<CustomField> sortedCustomFieldsList = new ArrayList<>();
       for (CustomField field : m_projectFile.getCustomFields())
       {
          FieldType fieldType = field.getFieldType();
@@ -156,7 +156,7 @@ public final class JsonWriter extends AbstractProjectWriter
             return name1.compareTo(name2);
          }
       });
-      
+
       m_writer.writeStartList("custom_fields");
       for (CustomField field : sortedCustomFieldsList)
       {
@@ -566,7 +566,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a list of date ranges to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -587,7 +587,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a subproject to the JSON file.
-    * 
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -665,7 +665,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
-   private static Map<String, DataType> TYPE_MAP = new HashMap<String, DataType>();
+   private static Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);

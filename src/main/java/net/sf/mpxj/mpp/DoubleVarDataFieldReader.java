@@ -29,30 +29,30 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Read a double field from the var data.
  */
-class DoubleVarDataFieldReader extends VarDataFieldReader 
+class DoubleVarDataFieldReader extends VarDataFieldReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param customFields custom fields container
     */
    public DoubleVarDataFieldReader(CustomFieldContainer customFields)
    {
       super(customFields);
    }
-   
+
    @Override protected Object readValue(Var2Data varData, Integer id, Integer type)
    {
       return NumberHelper.getDouble(varData.getDouble(id, type));
    }
-   
+
    @Override protected Object coerceValue(Object value)
-   {    
+   {
       if (value instanceof Number)
       {
          return NumberHelper.getDouble(((Number) value).doubleValue());
       }
 
       return null;
-   }   
+   }
 }

@@ -42,7 +42,7 @@ final class PropsBlock extends Props
       int itemCount = MPPUtility.getInt(data, 4);
 
       int offset = 8;
-      Map<Integer, Integer> offsetMap = new TreeMap<Integer, Integer>();
+      Map<Integer, Integer> offsetMap = new TreeMap<>();
       for (int loop = 0; loop < itemCount; loop++)
       {
          int itemKey = MPPUtility.getInt(data, offset);

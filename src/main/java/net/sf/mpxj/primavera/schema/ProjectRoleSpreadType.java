@@ -358,7 +358,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (period == null)
       {
-         period = new ArrayList<ProjectRoleSpreadType.Period>();
+         period = new ArrayList<>();
       }
       return this.period;
    }

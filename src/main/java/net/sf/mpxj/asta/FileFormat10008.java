@@ -117,7 +117,7 @@ class FileFormat10008 extends AbstractFileFormat
    {
       return TASK_COMPLETED_SECTION_COLUMNS_ORDER;
    }
-   
+
    private static final String[] BAR_COLUMNS_ORDER =
    {
       "BARID",
@@ -803,7 +803,7 @@ class FileFormat10008 extends AbstractFileFormat
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY"
    };
-   
+
    private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
    {
       "TASK_COMPLETED_SECTIONID",

@@ -30,7 +30,7 @@ class IntegerField extends StringField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     * @param length field length
     */

@@ -51,7 +51,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       }
       else
       {
-         m_data = new LinkedList<TimephasedWork>(data);
+         m_data = new LinkedList<>(data);
       }
       m_raw = raw;
       m_calendar = calendar;
@@ -68,7 +68,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     */
    private DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
    {
-      m_data = new LinkedList<TimephasedWork>();
+      m_data = new LinkedList<>();
       m_raw = source.m_raw;
       m_calendar = source.m_calendar;
       m_normaliser = source.m_normaliser;
@@ -107,7 +107,6 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       return new DefaultTimephasedWorkContainer(this, perDayFactor, totalFactor);
    }
 
-   
    private LinkedList<TimephasedWork> m_data;
    private boolean m_raw;
    private TimephasedWorkNormaliser m_normaliser;

@@ -80,7 +80,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (calendar == null)
       {
-         calendar = new ArrayList<Calendar>();
+         calendar = new ArrayList<>();
       }
       return this.calendar;
    }

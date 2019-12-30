@@ -50,16 +50,16 @@ class StreamReader
       m_majorVersion = majorVersion;
       m_minorVersion = minorVersion;
       m_stream = stream;
-//      m_stream = new InputStream()
-//      {
-//         @Override public int read() throws IOException
-//         {
-//            ++counter;
-//            return stream.read();
-//         }
-//         
-//         private int counter = 24;
-//      };
+      //      m_stream = new InputStream()
+      //      {
+      //         @Override public int read() throws IOException
+      //         {
+      //            ++counter;
+      //            return stream.read();
+      //         }
+      //
+      //         private int counter = 24;
+      //      };
    }
 
    /**
@@ -153,7 +153,7 @@ class StreamReader
 
    /**
     * Conditionally read an unknown table.
-    * 
+    *
     * @param rowSize Unknown table row size
     * @param rowMagicNumber Unknown table row magic number
     * @return table rows or empty list if table not present
@@ -300,7 +300,7 @@ class StreamReader
 
    /**
     * Retrieve the major version number of this file.
-    * 
+    *
     * @return major version number
     */
    public int getMajorVersion()
@@ -310,7 +310,7 @@ class StreamReader
 
    /**
     * Retrieve the minor version number of this file.
-    * 
+    *
     * @return minor version number
     */
    public int getMinorVersion()
@@ -321,14 +321,14 @@ class StreamReader
    /**
     * Retrieve the combined version number of this file.
     * Note that this is simplistic and assumes that we'll never seem a minor version > 99.
-    * 
+    *
     * @return combined version number
     */
    public int getCombinedVersion()
    {
       return (m_majorVersion * 100) + m_minorVersion;
    }
-   
+
    private final int m_majorVersion;
    private final int m_minorVersion;
    private final InputStream m_stream;

@@ -94,7 +94,7 @@ public final class UniversalProjectReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -618,7 +618,7 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleFileInDirectory(File directory) throws Exception
    {
-      List<File> directories = new ArrayList<File>();
+      List<File> directories = new ArrayList<>();
       File[] files = directory.listFiles();
 
       if (files != null)
@@ -794,7 +794,7 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private Set<String> populateTableNames(String url) throws SQLException
    {
-      Set<String> tableNames = new HashSet<String>();
+      Set<String> tableNames = new HashSet<>();
       Connection connection = null;
       ResultSet rs = null;
 

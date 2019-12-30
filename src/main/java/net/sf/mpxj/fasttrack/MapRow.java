@@ -140,7 +140,7 @@ class MapRow
          // TODO: we should probably associated a type with each column and validate as we read
          if (timeObject instanceof Date)
          {
-            Calendar timeCal = DateHelper.popCalendar((Date)timeObject);
+            Calendar timeCal = DateHelper.popCalendar((Date) timeObject);
             dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
             dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
             dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));

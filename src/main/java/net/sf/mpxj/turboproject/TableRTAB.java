@@ -39,7 +39,7 @@ class TableRTAB extends Table
    {
       if ((data[0] != (byte) 0xFF))
       {
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("ID", Integer.valueOf(m_id++));
          map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
          map.put("NAME", PEPUtility.getString(data, 1, 20));

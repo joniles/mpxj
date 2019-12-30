@@ -165,7 +165,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -229,7 +229,7 @@ public final class MSPDIReader extends AbstractProjectReader
          filter.parse(new InputSource(new InputStreamReader(stream, getCharset())));
          Project project = (Project) unmarshallerHandler.getResult();
 
-         HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar>();
+         HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
          readProjectProperties(project);
          readProjectExtendedAttributes(project);
@@ -395,7 +395,7 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<Pair<ProjectCalendar, BigInteger>>();
+         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<>();
          for (Project.Calendars.Calendar cal : calendars.getCalendar())
          {
             readCalendar(cal, map, baseCalendars);
@@ -458,7 +458,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
       {
-         baseCalendars.add(new Pair<ProjectCalendar, BigInteger>(bc, baseCalendarID));
+         baseCalendars.add(new Pair<>(bc, baseCalendarID));
       }
 
       readExceptions(calendar, bc);
@@ -1056,7 +1056,7 @@ public final class MSPDIReader extends AbstractProjectReader
       }
       else
       {
-         Set<CostRateTable> tables = new HashSet<CostRateTable>();
+         Set<CostRateTable> tables = new HashSet<>();
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
          {
@@ -1582,7 +1582,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * This method extracts outline code/custom field data from an MSPDI file.
-    * 
+    *
     * @param project Root node of the MSPDI file
     */
    private void readOutlineCodes(Project project)
@@ -1599,7 +1599,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * This method extracts the definition of a single outline code/custom lookup table from an MSPDI file.
-    * 
+    *
     * @param outlineCode outline code data from the MSPDI file
     */
    private void readOutlineCode(Project.OutlineCodes.OutlineCode outlineCode)
@@ -1622,8 +1622,8 @@ public final class MSPDIReader extends AbstractProjectReader
          // Don't overwrite an alias we've read from extended attributes
          if (currentAlias == null || currentAlias.isEmpty())
          {
-            field.setAlias(outlineCode.getAlias());   
-         }         
+            field.setAlias(outlineCode.getAlias());
+         }
          readOutlineCodeValues(outlineCode, field);
          readOutlineCodeMasks(outlineCode, field);
       }
@@ -1631,7 +1631,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * This method extracts the lookup table values for an outline code/custom field from an MSPDI file.
-    * 
+    *
     * @param outlineCode outline code data from the MSPDI file
     * @param field target field
     */
@@ -1666,7 +1666,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
    /**
     * This method extracts the lookup table masks for an outline code/custom field from an MSPDI file.
-    * 
+    *
     * @param outlineCode outline code data from the MSPDI file
     * @param field target field
     */
@@ -1892,7 +1892,7 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private LinkedList<TimephasedWork> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
 
       for (TimephasedDataType item : assignment.getTimephasedData())
       {
@@ -1996,7 +1996,7 @@ public final class MSPDIReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
-   private Map<UUID, FieldType> m_lookupTableMap = new HashMap<UUID, FieldType>();
+   private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {

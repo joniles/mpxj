@@ -68,7 +68,7 @@ class NamespaceFilter extends XMLFilterImpl
    private boolean m_firstElement = true;
    private boolean m_replacing;
 
-   private static final Map<String, String> ELEMENT_MAP = new HashMap<String, String>();
+   private static final Map<String, String> ELEMENT_MAP = new HashMap<>();
    static
    {
       ELEMENT_MAP.put("BusinessObjects", "APIBusinessObjects");

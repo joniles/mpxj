@@ -171,7 +171,7 @@ public class CustomerDataTest
 
    /**
     * Create a File instance from a path stored as a property.
-    * 
+    *
     * @param propertyName property name
     * @return File instance
     */
@@ -206,7 +206,7 @@ public class CustomerDataTest
    {
       if (m_privateDirectory != null)
       {
-         List<File> files = new ArrayList<File>();
+         List<File> files = new ArrayList<>();
          listFiles(files, m_privateDirectory);
 
          int interval = files.size() / max;
@@ -315,7 +315,7 @@ public class CustomerDataTest
 
    /**
     * Ensure that we can read the file.
-    * 
+    *
     * @param name file name
     * @param file File instance
     * @return ProjectFile instance
@@ -361,9 +361,9 @@ public class CustomerDataTest
 
    /**
     * Ensure that both child and parent tasks agree on the relationship.
-    * 
+    *
     * @param parent schedule file to test
-    * @return true if the hierarchy test is successful 
+    * @return true if the hierarchy test is successful
     */
    private boolean testHierarchy(ChildTaskContainer parent)
    {
@@ -373,10 +373,10 @@ public class CustomerDataTest
          {
             if (task.getParentTask() != parent)
             {
-               return false;  
-            }               
+               return false;
+            }
          }
-         
+
          if (!testHierarchy(task))
          {
             return false;
@@ -388,9 +388,9 @@ public class CustomerDataTest
    /**
     * Generate new files from the file under test and compare them to a baseline
     * we have previously created. This potentially allows us to capture unintended
-    * changes in functionality. If we do not have a baseline for this particular 
+    * changes in functionality. If we do not have a baseline for this particular
     * file, we'll generate one.
-    *  
+    *
     * @param file file under test
     * @param project ProjectFile instance
     * @return true if the baseline test is successful
@@ -411,7 +411,7 @@ public class CustomerDataTest
 
    /**
     * Generate a baseline for a specific file type.
-    * 
+    *
     * @param file file under test
     * @param project ProjectFile instance
     * @param baselineDirectory baseline directory location
@@ -470,7 +470,7 @@ public class CustomerDataTest
 
    /**
     * Ensure that we can export the file under test through our writers, without error.
-    * 
+    *
     * @param project ProjectFile instance
     */
    private void testWriters(ProjectFile project) throws Exception
@@ -512,7 +512,7 @@ public class CustomerDataTest
    private MPXReader m_mpxReader;
    private PrimaveraXERFileReader m_xerReader;
 
-   private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<Class<? extends ProjectWriter>>();
+   private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 

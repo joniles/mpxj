@@ -108,5 +108,5 @@ class Table implements Iterable<MapRow>
       m_rows.put(Integer.valueOf(uniqueID), new MapRow(map));
    }
 
-   private final Map<Integer, MapRow> m_rows = new TreeMap<Integer, MapRow>();
+   private final Map<Integer, MapRow> m_rows = new TreeMap<>();
 }

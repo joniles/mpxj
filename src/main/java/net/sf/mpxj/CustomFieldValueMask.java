@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj;
 
 /**
@@ -29,7 +30,7 @@ public class CustomFieldValueMask
 {
    /**
     * Constructor.
-    * 
+    *
     * @param length value length
     * @param level level
     * @param separator separator
@@ -42,40 +43,40 @@ public class CustomFieldValueMask
       m_separator = separator;
       m_type = type;
    }
-   
+
    /**
     * Retrieve the value length.
-    * 
+    *
     * @return value length
     */
    public int getLength()
    {
       return m_length;
-   } 
-   
+   }
+
    /**
     * Retrieve the level.
-    * 
+    *
     * @return level
     */
    public int getLevel()
    {
       return m_level;
    }
-   
+
    /**
     * Retrieve the separator.
-    * 
+    *
     * @return separator
     */
    public String getSeparator()
    {
       return m_separator;
    }
-   
+
    /**
     * Retrieve the value type.
-    * 
+    *
     * @return value type
     */
    public CustomFieldValueDataType getType()

@@ -1252,7 +1252,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (udf == null)
       {
-         udf = new ArrayList<UDFAssignmentType>();
+         udf = new ArrayList<>();
       }
       return this.udf;
    }

@@ -251,5 +251,5 @@ final class ExtendedData
    }
 
    private FixDeferFix m_data;
-   private HashMap<Integer, byte[]> m_map = new HashMap<Integer, byte[]>();
+   private HashMap<Integer, byte[]> m_map = new HashMap<>();
 }

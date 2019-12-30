@@ -40,6 +40,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -66,7 +67,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -109,7 +110,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
@@ -153,14 +154,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
          List<Row> rows = getRows("project", null, null);
-         List<ProjectFile> result = new ArrayList<ProjectFile>(rows.size());
-         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
+         List<ProjectFile> result = new ArrayList<>(rows.size());
+         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<>();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
@@ -205,7 +206,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
    /**
     * Common project read functionality.
-    * 
+    *
     * @return ProjectFile instance
     */
    private ProjectFile readProject()
@@ -280,7 +281,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          InputStreamReader reader = new InputStreamReader(bis, getCharset());
          Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
-         List<String> record = new ArrayList<String>();
+         List<String> record = new ArrayList<>();
 
          while (tk.getType() != Tokenizer.TT_EOF)
          {
@@ -370,10 +371,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          processFile(is);
 
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<Row> rows = getRows("project", null, null);
          for (Row row : rows)
@@ -437,7 +438,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       if (rows.isEmpty() == false)
       {
          Row row = rows.get(0);
-         Map<String, Object> customProperties = new HashMap<String, Object>();
+         Map<String, Object> customProperties = new TreeMap<>();
          customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
          customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
          customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
@@ -567,7 +568,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             }
             else
             {
-               m_currentTable = new LinkedList<Row>();
+               m_currentTable = new LinkedList<>();
                m_tables.put(m_currentTableName, m_currentTable);
             }
             break;
@@ -594,7 +595,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          {
             if (!m_skipTable)
             {
-               Map<String, Object> map = new HashMap<String, Object>();
+               Map<String, Object> map = new HashMap<>();
                for (int loop = 1; loop < record.size(); loop++)
                {
                   String fieldName = m_currentFieldNames[loop];
@@ -712,7 +713,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       return m_fieldTypes;
    }
-   
+
    /**
     * Override the default field name mapping for Task user defined types.
     *
@@ -844,7 +845,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          }
          else
          {
-            result = new LinkedList<Row>();
+            result = new LinkedList<>();
             for (Row row : table)
             {
                if (NumberHelper.equals(id, row.getInteger(columnName)))
@@ -885,14 +886,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * Rather than using FIELD_TYPE_MAP directly, we copy it. This allows the
     * caller to add or modify type mappings for an individual instance of
     * the reader class.
-    *  
+    *
     * @return field type map instance
     */
    private Map<String, XerFieldType> getDefaultFieldTypes()
    {
-      return new HashMap<String, XerFieldType>(FIELD_TYPE_MAP);
+      return new HashMap<>(FIELD_TYPE_MAP);
    }
-   
+
    private String m_encoding;
    private Charset m_charset;
    private PrimaveraReader m_reader;
@@ -903,7 +904,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
-   private Map<String, DecimalFormat> m_currencyMap = new HashMap<String, DecimalFormat>();
+   private Map<String, DecimalFormat> m_currencyMap = new HashMap<>();
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
@@ -915,7 +916,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases(); 
+   private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
    private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
 
@@ -934,7 +935,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Maps record type text to record types.
     */
-   private static final Map<String, XerRecordType> RECORD_TYPE_MAP = new HashMap<String, XerRecordType>();
+   private static final Map<String, XerRecordType> RECORD_TYPE_MAP = new HashMap<>();
    static
    {
       RECORD_TYPE_MAP.put("RMHDR", XerRecordType.HEADER);
@@ -948,7 +949,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Maps field names to data types.
     */
-   private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<String, XerFieldType>();
+   private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
       FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
@@ -1042,10 +1043,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);      
+      FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);
    }
 
-   private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
+   private static final Set<String> REQUIRED_TABLES = new HashSet<>();
    static
    {
       REQUIRED_TABLES.add("project");
