@@ -1196,7 +1196,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx Task data
     * @return new task instance
     */
-   @SuppressWarnings("deprecation") private Project.Tasks.Task writeTask(Task mpx)
+   private Project.Tasks.Task writeTask(Task mpx)
    {
       Project.Tasks.Task xml = m_factory.createProjectTasksTask();
 
@@ -1341,8 +1341,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
       xml.setWBS(mpx.getWBS());
-      // xml.setWBSLevel: The right-most level of the task work breakdown structure not written by MS Project, can be derived from the WBS
-      xml.setWBSLevel(mpx.getWBSLevel());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkVariance(DatatypeConverter.printDurationInDecimalThousandthsOfMinutes(mpx.getWorkVariance()));
 

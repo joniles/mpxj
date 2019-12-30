@@ -771,32 +771,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * Customise the data retrieved by this reader by modifying the contents of this map.
     *
     * @return Primavera field name to MPXJ field type map
-    * @deprecated Use getActivityFieldMap
-    */
-   @Deprecated public Map<FieldType, String> getTaskFieldMap()
-   {
-      return m_taskFields;
-   }
-
-   /**
-    * Customise the data retrieved by this reader by modifying the contents of this map.
-    *
-    * @return Primavera field name to MPXJ field type map
     */
    public Map<FieldType, String> getActivityFieldMap()
    {
       return m_taskFields;
-   }
-
-   /**
-    * Customise the data retrieved by this reader by modifying the contents of this map.
-    *
-    * @return Primavera field name to MPXJ field type map
-    * @deprecated Use getAssignmentFieldMap
-    */
-   @Deprecated public Map<FieldType, String> getAssignmentFields()
-   {
-      return m_assignmentFields;
    }
 
    /**

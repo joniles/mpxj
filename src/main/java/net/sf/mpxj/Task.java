@@ -2944,28 +2944,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the WBS level.
-    *
-    * @return WBS level
-    * @deprecated The right-most level of the task work breakdown structure not written by MS Project, can be derived from the WBS
-    */
-   @Deprecated public String getWBSLevel()
-   {
-      return (m_wbsLevel);
-   }
-
-   /**
-    * Set the WBS level.
-    *
-    * @param wbsLevel WBS level
-    * @deprecated The right-most level of the task work breakdown structure not written by MS Project, can be derived from the WBS
-    */
-   @Deprecated public void setWBSLevel(String wbsLevel)
-   {
-      m_wbsLevel = wbsLevel;
-   }
-
-   /**
     * Retrieve the resume valid flag.
     *
     * @return resume valid flag
@@ -5123,7 +5101,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private String m_wbsLevel;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
    private boolean m_expanded = true;

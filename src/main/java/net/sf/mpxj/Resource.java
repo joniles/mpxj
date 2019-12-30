@@ -1120,17 +1120,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Sets the generic flag.
     *
-    * @param isGeneric generic flag
-    * @deprecated use setGeneric
-    */
-   @Deprecated public void setIsGeneric(boolean isGeneric)
-   {
-      set(ResourceField.GENERIC, isGeneric);
-   }
-
-   /**
-    * Sets the generic flag.
-    *
     * @param value generic flag
     */
    public void setGeneric(boolean value)
@@ -1146,28 +1135,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public boolean getGeneric()
    {
       return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.GENERIC));
-   }
-
-   /**
-    * Sets the inactive flag.
-    *
-    * @param isInactive inactive flag
-    * @deprecated use getActive
-    */
-   @Deprecated public void setIsInactive(boolean isInactive)
-   {
-      setActive(!isInactive);
-   }
-
-   /**
-    * Retrieves the inactive flag.
-    *
-    * @return inactive flag
-    * @deprecated use setActive
-    */
-   @Deprecated public boolean getInactive()
-   {
-      return !getActive();
    }
 
    /**
@@ -1288,17 +1255,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public Date getCreationDate()
    {
       return ((Date) getCachedValue(ResourceField.CREATED));
-   }
-
-   /**
-    * Sets a flag indicating that a resource is an enterprise resource.
-    *
-    * @param enterprise boolean flag
-    * @deprecated use setEnterprise
-    */
-   @Deprecated public void setIsEnterprise(boolean enterprise)
-   {
-      set(ResourceField.ENTERPRISE, enterprise);
    }
 
    /**

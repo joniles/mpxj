@@ -77,20 +77,6 @@ public final class SureTrakDatabaseReader implements ProjectReader
     *
     * @param directory directory containing a SureTrak database
     * @return ProjectFile instance
-    *
-    * @deprecated Use setProjectNameAndRead
-    */
-   @Deprecated public static final ProjectFile setPrefixAndRead(File directory) throws MPXJException
-   {
-      return setProjectNameAndRead(directory);
-   }
-
-   /**
-    * Convenience method which locates the first SureTrak database in a directory
-    * and opens it.
-    *
-    * @param directory directory containing a SureTrak database
-    * @return ProjectFile instance
     */
    public static final ProjectFile setProjectNameAndRead(File directory) throws MPXJException
    {
@@ -167,19 +153,6 @@ public final class SureTrakDatabaseReader implements ProjectReader
    @Override public ProjectFile read(InputStream inputStream)
    {
       throw new UnsupportedOperationException();
-   }
-
-   /**
-    * Set the prefix used to identify which database is read from the directory.
-    * There may potentially be more than one database in a directory.
-    *
-    * @param prefix file name prefix
-    *
-    * @deprecated Use setProjectName
-    */
-   @Deprecated public void setPrefix(String prefix)
-   {
-      m_projectName = prefix;
    }
 
    /**

@@ -63,37 +63,7 @@ public final class ProjectFile implements ChildTaskContainer
    {
       m_tasks.remove(task);
    }
-
-   /**
-    * This method can be called to ensure that the IDs of all
-    * tasks in this project are sequential, and start from an
-    * appropriate point. If tasks are added to and removed from
-    * the list of tasks, then the project is loaded into Microsoft
-    * project, if the ID values have gaps in the sequence, there will
-    * be blank task rows shown.
-    *
-    * @deprecated Use getTasks().renumberIDs()
-    */
-   @Deprecated public void renumberTaskIDs()
-   {
-      m_tasks.renumberIDs();
-   }
-
-   /**
-    * This method can be called to ensure that the IDs of all
-    * resources in this project are sequential, and start from an
-    * appropriate point. If resources are added to and removed from
-    * the list of resources, then the project is loaded into Microsoft
-    * project, if the ID values have gaps in the sequence, there will
-    * be blank resource rows shown.
-    *
-    * @deprecated Use getResources().renumberIDs()
-    */
-   @Deprecated public void renumberResourceIDs()
-   {
-      m_resources.renumberIDs();
-   }
-
+   
    /**
     * This method is called to ensure that all unique ID values
     * held by MPXJ are within the range supported by MS Project.
@@ -109,21 +79,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Microsoft Project bases the order of tasks displayed on their ID
-    * value. This method takes the hierarchical structure of tasks
-    * represented in MPXJ and renumbers the ID values to ensure that
-    * this structure is displayed as expected in Microsoft Project. This
-    * is typically used to deal with the case where a hierarchical task
-    * structure has been created programmatically in MPXJ.
-    *
-    * @deprecated Use getTasks().synchronizeTaskIDToHierarchy()
-    */
-   @Deprecated public void synchronizeTaskIDToHierarchy()
-   {
-      m_tasks.synchronizeTaskIDToHierarchy();
-   }
-
-   /**
     * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this project file.
     *
@@ -132,18 +87,6 @@ public final class ProjectFile implements ChildTaskContainer
    @Override public List<Task> getChildTasks()
    {
       return m_childTasks;
-   }
-
-   /**
-    * This method is used to retrieve a list of all of the tasks
-    * that are defined in this project file.
-    *
-    * @return list of all tasks
-    * @deprecated Use getTasks()
-    */
-   @Deprecated public TaskContainer getAllTasks()
-   {
-      return m_tasks;
    }
 
    /**
@@ -245,17 +188,6 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves a list of all resources in this project.
     *
     * @return list of all resources
-    * @deprecated Use getResources()
-    */
-   @Deprecated public ResourceContainer getAllResources()
-   {
-      return m_resources;
-   }
-
-   /**
-    * Retrieves a list of all resources in this project.
-    *
-    * @return list of all resources
     */
    public ResourceContainer getResources()
    {
@@ -266,34 +198,10 @@ public final class ProjectFile implements ChildTaskContainer
     * Retrieves a list of all resource assignments in this project.
     *
     * @return list of all resources
-    * @deprecated Use getResourceAssignments
-    */
-   @Deprecated public ResourceAssignmentContainer getAllResourceAssignments()
-   {
-      return m_assignments;
-   }
-
-   /**
-    * Retrieves a list of all resource assignments in this project.
-    *
-    * @return list of all resources
     */
    public ResourceAssignmentContainer getResourceAssignments()
    {
       return m_assignments;
-   }
-
-   /**
-    * This method has been provided to allow the subclasses to
-    * instantiate ResourecAssignment instances.
-    *
-    * @param task parent task
-    * @return new resource assignment instance
-    * @deprecated Use Task.addResourceAssignment(resource) instead
-    */
-   @Deprecated public ResourceAssignment newResourceAssignment(Task task)
-   {
-      return (new ResourceAssignment(this, task));
    }
 
    /**
@@ -319,47 +227,6 @@ public final class ProjectFile implements ChildTaskContainer
    public ProjectCalendar getCalendarByUniqueID(Integer calendarID)
    {
       return m_calendars.getByUniqueID(calendarID);
-   }
-
-   /**
-    * This method is used to calculate the duration of work between two fixed
-    * dates according to the work schedule defined in the named calendar. The
-    * calendar used is the "Standard" calendar. If this calendar does not exist,
-    * and exception will be thrown.
-    *
-    * @param startDate start of the period
-    * @param endDate end of the period
-    * @return new Duration object
-    * @throws MPXJException normally when no Standard calendar is available
-    * @deprecated use calendar.getDuration(startDate, endDate)
-    */
-   @Deprecated public Duration getDuration(Date startDate, Date endDate) throws MPXJException
-   {
-      return (getDuration("Standard", startDate, endDate));
-   }
-
-   /**
-    * This method is used to calculate the duration of work between two fixed
-    * dates according to the work schedule defined in the named calendar.
-    * The name of the calendar to be used is passed as an argument.
-    *
-    * @param calendarName name of the calendar to use
-    * @param startDate start of the period
-    * @param endDate end of the period
-    * @return new Duration object
-    * @throws MPXJException normally when no Standard calendar is available
-    * @deprecated use calendar.getDuration(startDate, endDate)
-    */
-   @Deprecated public Duration getDuration(String calendarName, Date startDate, Date endDate) throws MPXJException
-   {
-      ProjectCalendar calendar = getCalendarByName(calendarName);
-
-      if (calendar == null)
-      {
-         throw new MPXJException(MPXJException.CALENDAR_ERROR + ": " + calendarName);
-      }
-
-      return (calendar.getDuration(startDate, endDate));
    }
 
    /**
