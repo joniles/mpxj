@@ -6,7 +6,7 @@
 		<tstamp />
 
 		<property name="current.version" value="7.9.8" />
-		<property name="ikvm.dir" value="${basedir}/../ikvm-8.0.5449.1" />
+		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
@@ -31,19 +31,24 @@
 		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
 		<!--
-		MPXJ is targeted at Java 1.6, so to ensure that the builds we distribute
+		MPXJ is targeted at Java 1.8, so to ensure that the builds we distribute
 		match this, we use this setting.
 		-->
-		<property name="target-jvm-version" value="1.6" />
+		<property name="target-jvm-version" value="1.8" />
 
-		<property name="poi.jar" value="poi-3.17" />
+		<property name="poi.jar" value="poi-4.1.1" />
 		<path id="poi.path">
 			<pathelement location="${lib.dir}/${poi.jar}.jar" />
 		</path>
 
-		<property name="commons-collections.jar" value="commons-collections4-4.1" />
+		<property name="commons-collections.jar" value="commons-collections4-4.4" />
 		<path id="commons-collections.path">
 			<pathelement location="${lib.dir}/${commons-collections.jar}.jar" />
+		</path>
+
+		<property name="commons-math.jar" value="commons-math3-3.6.1" />
+		<path id="commons-math.path">
+			<pathelement location="${lib.dir}/${commons-math.jar}.jar" />
 		</path>
 
 		<property name="rtfparserkit.jar" value="rtfparserkit-1.13.0" />
@@ -62,12 +67,14 @@
 
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="commons-collections.classpath" refid="commons-collections.path" />
+		<property name="commons-math.classpath" refid="commons-math.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
 		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />	
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.dll" value="${lib.net.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-math.dll" value="${lib.net.dir}\${commons-math.jar}.dll" />
 		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
 		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />	
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
@@ -249,11 +256,11 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${commons-collections.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -271,7 +278,6 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
-				<pathelement location="${commons-collections.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
@@ -286,18 +292,25 @@
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
 				<pathelement location="${poi.classpath}" />
-				<pathelement location="${commons-collections.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 			</classpath>
 		</java>
 
+		<jar destfile="${ikvm.working.dir}\${poi.jar}.stripped.jar">
+		    <zipfileset src="${basedir}\lib\${poi.jar}.jar" excludes="**/GenericRecord.class"/>
+		</jar>
+		
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-collections.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} ${basedir}\lib\${poi.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-math.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.exe}" dir="${basedir}">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${ikvm.working.dir}\${poi.jar}.stripped.jar" />
 		</exec>
 		
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
@@ -475,6 +488,7 @@
 		<delete file="${junit.dll}" />
 		<delete file="${poi.dll}" />
 		<delete file="${commons-collections.dll}" />
+		<delete file="${commons-math.dll}" />
 		<delete file="${rtfparserkit.dll}" />
 		<delete file="${sqlite-jdbc.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
@@ -499,6 +513,7 @@
 		<path id="emmarun.path">
 			<path refid="poi.path" />
 			<path refid="comons-collections.path" />
+			<path refid="comons-math.path" />
 			<path refid="rtfparserkit.path" />
 			<path refid="sqlite-jdbc.path" />
 			<path refid="junit.path" />

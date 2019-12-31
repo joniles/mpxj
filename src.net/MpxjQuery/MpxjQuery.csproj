@@ -150,11 +150,11 @@
     <Reference Include="MpxjUtilities">
       <HintPath>..\..\lib.net\MpxjUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.17">
-      <HintPath>..\..\lib.net\poi-3.17.dll</HintPath>
+    <Reference Include="poi-4.1.1">
+      <HintPath>..\..\lib.net\poi-4.1.1.dll</HintPath>
     </Reference>
-    <Reference Include="commons-collections4-4.1">
-      <HintPath>..\..\lib.net\commons-collections4-4.1.dll</HintPath>
+    <Reference Include="commons-collections4-4.4">
+      <HintPath>..\..\lib.net\commons-collections4-4.4.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.13.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

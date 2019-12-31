@@ -13,7 +13,7 @@ namespace MpxjSample
     /// Your first step will be to convert your JDBC driver to a .Net assembly using IKVM. For this example code we're
     /// using Microsoft's SQL Server JDBC Driver:
     /// 
-    /// c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
+    /// c:\java\ikvm-8.1.5717.0\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
     /// 
     /// You can then add a reference to this assembly to your project, and the code below should work.
     /// 
