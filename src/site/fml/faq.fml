@@ -71,6 +71,16 @@
             </p>
 			</answer>
 		</faq>
+		
+		<faq id="java8">
+			<question>
+				I use a version of Java older than Java 8, can I use MPXJ?
+			</question>
+			<answer>
+				The last version of MPXJ which supports versions of Java prior to Java 8
+				is version 7.9.8.
+			</answer>
+		</faq>
 
 		<faq id="retroweaver">
 			<question>
@@ -78,25 +88,10 @@
 				Java, is there anything I can do which will allow me to use it?
 			</question>
 			<answer>
-				Yes there is - try using <a href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
+				Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0, 
+				try using <a href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
 			</answer>
-		</faq>
-		
-		<faq id="jaxb">
-			<question>
-				I use a Java 1.5 JVM, but MPXJ is built with a later version of 
-				Java, and assumes that JAXB is available as part of the JRE.
-				Can I still use Java 1.5?
-			</question>
-			<answer>
-				Yes, MPXJ doesn't use any Java 1.6 specific features. If you set
-				the target JRE version to 1.5 in the ant build file, you will be
-				able to rebuild MPXJ for Java 1.5. You will also need to provide
-				the JAXB libraries if they are not present in the JRE. The required
-				libraries can be found as part of the MPXJ 3.2.0 distribution. 
-			</answer>
-		</faq>
-		
+		</faq>		
 	</part>
 
 	<part id="known-issues">
