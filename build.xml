@@ -297,6 +297,11 @@
 			</classpath>
 		</java>
 
+		<!--
+		  IKVM has an issue compiling the GenericRecord class from Poi. Fortunately it's
+		  not a class we need to read MPP files, so we can simply remove it from the Poi
+		  JAR we're compiling.
+		-->
 		<jar destfile="${ikvm.working.dir}\${poi.jar}.stripped.jar">
 		    <zipfileset src="${basedir}\lib\${poi.jar}.jar" excludes="**/GenericRecord.class"/>
 		</jar>
