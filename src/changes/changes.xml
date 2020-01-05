@@ -5,6 +5,11 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
+		<release date="git master" version="8.0.2">
+		</release>
+		<release date="05/01/2020" version="8.0.1">
+			<action dev="joniles" type="update">Add missing nuget dependency</action>
+		</release>
 		<release date="02/01/2020" version="8.0.0">
 			<action dev="joniles" type="update">MPXJ now requires Java 8 or later.</action>
 			<action dev="joniles" type="update">Removed deprecated methods.</action>

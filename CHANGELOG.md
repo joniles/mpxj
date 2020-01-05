@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.0.2 (git master)
+
+## 8.0.1 (05/01/2020)
+* Add missing nuget dependency
+
 ## 8.0.0 (02/01/2020)
 * MPXJ now requires Java 8 or later.
 * Removed deprecated methods.

@@ -5,7 +5,7 @@
 	<target name="init" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="8.0.0" />
+		<property name="current.version" value="8.0.1" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
