@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.2 (git master)
+* Improve handling of zero duration tasks read from Phoenix files.
 
 ## 8.0.1 (05/01/2020)
 * Add missing nuget dependency

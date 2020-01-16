@@ -507,6 +507,28 @@ public final class PhoenixReader extends AbstractProjectReader
          }
       }
 
+      if (task.getDuration().getDuration() == 0)
+      {
+         // Phoenix normally represents the finish date as the start of the
+         // day following the end of the activity. For example a 2 day activity
+         // starting on day 1 would be shown in the PPX file as having a finish
+         // date of day 3. We subtract one day to make the dates consistent with
+         // all other schedule formats MPXJ handles. Occasionally for zero
+         // duration tasks (which aren't tagged as milestones) the finish date
+         // will be the same as the start date, so applying our "subtract 1" fix
+         // gives us a finish date before the start date. The code below
+         // deals with this situation. 
+         if (DateHelper.compare(task.getStart(), task.getFinish()) > 0)         
+         {
+            task.setFinish(task.getStart());
+         }
+         
+         if (task.getActualStart() != null && task.getActualFinish() != null && DateHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
+         {
+            task.setActualFinish(task.getActualStart());
+         }
+      }
+      
       if (task.getActualStart() == null)
       {
          task.setPercentageComplete(Integer.valueOf(0));
