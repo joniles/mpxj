@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.0.2 (git master)
+## 8.0.3 (git master)
+
+## 8.0.2 (16/02/2020)
 * Improve handling of zero duration tasks read from Phoenix files.
 
 ## 8.0.1 (05/01/2020)

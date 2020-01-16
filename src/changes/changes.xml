@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.0.2">
+		<release date="git master" version="8.0.3">
+		</release>
+		<release date="16/02/2020" version="8.0.2">
 			<action dev="joniles" type="update">Improve handling of zero duration tasks read from Phoenix files.</action>
 		</release>
 		<release date="05/01/2020" version="8.0.1">
