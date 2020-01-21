@@ -1108,15 +1108,11 @@ public final class DatatypeConverter
       {
          TimeUnit durationType = duration.getUnits();
 
-         if (durationType == TimeUnit.HOURS || durationType == TimeUnit.ELAPSED_HOURS)
-         {
-            result = new XsdDuration(duration).toString();
-         }
-         else
+         if (durationType != TimeUnit.HOURS && durationType != TimeUnit.ELAPSED_HOURS)
          {
             duration = duration.convertUnits(TimeUnit.HOURS, writer.getProjectFile().getProjectProperties());
-            result = new XsdDuration(duration).toString();
          }
+         result = new XsdDuration(duration).print(writer.getMicrosoftProjectCompatibleOutput());
       }
 
       return (result);

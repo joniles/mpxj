@@ -62,6 +62,13 @@ final class XsdDuration
                }
             }
 
+            //
+            // A minus sign at the start of the XSD duration is the correct way
+            // to represent a negative duration according to the spec. MSPDI
+            // disagrees and simply uses a negative number for the relevant 
+            // component of the duration. This code ensures we can parse a
+            // spec-compliant value.
+            //
             int index;
             boolean negative;
             if (duration.charAt(0) == '-')
@@ -209,7 +216,13 @@ final class XsdDuration
       while (index < length)
       {
          c = duration.charAt(index);
-         if (Character.isDigit(c) == true || c == '.')
+         
+         //
+         // We shouldn't see a minus sign here according to the spec,
+         // but this is how MSPDI represents negative duration
+         // values, so we ensure that we can handle this format.
+         //
+         if (Character.isDigit(c) || c == '.' || c == '-')
          {
             number.append(c);
          }
@@ -338,11 +351,12 @@ final class XsdDuration
    }
 
    /**
-    * This method generates the string representation of an xsd:duration value.
-    *
-    * @return xsd:duration value
+    * Prints the duration.
+    * 
+    * @param microsoftProjectCompatible false for spec compliant, true for readable by Microsoft Project
+    * @return XSD duration value
     */
-   @Override public String toString()
+   public String print(boolean microsoftProjectCompatible)
    {
       StringBuilder buffer = new StringBuilder("P");
       boolean negative = false;
@@ -420,10 +434,37 @@ final class XsdDuration
 
       if (negative == true)
       {
-         buffer.insert(0, '-');
+         if (microsoftProjectCompatible)
+         {
+            int index = 0;
+            while (index < buffer.length())
+            {
+               char c = buffer.charAt(index);
+               if (Character.isDigit(c) && c != '0')
+               {
+                  buffer.insert(index, '-');
+                  break;
+               }
+               ++index;
+            }
+         }
+         else
+         {
+            buffer.insert(0, '-');
+         }
       }
 
-      return (buffer.toString());
+      return buffer.toString();
+   }
+
+   /**
+    * This method generates the string representation of an xsd:duration value.
+    *
+    * @return xsd:duration value
+    */
+   @Override public String toString()
+   {
+      return print(true);
    }
 
    private boolean m_hasTime;

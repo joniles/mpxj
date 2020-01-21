@@ -4,6 +4,7 @@
 * Improve handling of zero value durations, costs and units from certain MPP files.
 * Improve percent complete calculation for certain XER file and P6 Database schedules.
 * Improve percent complete calculation for certain P3 schedules.
+* Ensure that negative durations can be written to and read from MSPDI files in the format understood by MS Project.
 
 ## 8.0.2 (16/02/2020)
 * Improve handling of zero duration tasks read from Phoenix files.

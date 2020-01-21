@@ -18,6 +18,32 @@ writer.write(projectFile, outputFileName);
 
 ### Using MSPDIWriter
 
+#### Microsoft Project Compatible Output
+Microsoft Project has a non-standard way of representing negative duration values
+(it should have a minus sign as a prefix at the start of the XSD duration expression rather than embedded in it).
+
+Originally MPXJ read and wrote correctly formatted XSD duration values, but unfortunately this meant
+that  Project would not read these values correctly, and MPXJ would not be able to consume
+these values correctly from an MSPDI file written by Project. MPXJ has been updated so that it
+reads and writes the form of these duration values understood by Project, but this does mean that
+if you were previously expecting to be able to parse valid XSD duration values from output generated
+by MPXJ, that will no longer be the case.
+
+To provide backward compatibility the `MicrosoftProjectCompatibleOutput` flag has been introduced.
+This defaults to `true` so MSPDI files containing negative durations written by MPXJ can be read by Project.
+If you need to produce correctly formatted XSD durations for consumption by applications other than
+Project you can set this flag to `false`:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIWriter;
+...
+
+MSPDIWriter writer = new MSPDIWriter();
+writer.setMicrosoftProjectCompatibleOutput(false);
+writer.write(projectFile, outputFileName);
+```     
+
 #### Save Version
 The MSPDI file contains a `SaveVersion` attribute which indicates the version of Microsoft Project used to
 save the file. The value of `SaveVersion` is defined by the `net.sf.mpxj.mspdi.SaveVersion` enum, 

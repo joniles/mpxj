@@ -106,6 +106,27 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class MSPDIWriter extends AbstractProjectWriter
 {
    /**
+    * Sets a flag to determine if the output is readable by MS Project, or
+    * is "spec compliant".
+    * 
+    * @param flag true if output is readable by MS Project
+    */
+   public void setMicrosoftProjectCompatibleOutput(boolean flag)
+   {
+      m_compatibleOutput = flag;
+   }
+
+   /**
+    * Retrieves a flag which determines if the output is readable by MS Project.
+    * 
+    * @return  true if output is readable by MS Project
+    */
+   public boolean getMicrosoftProjectCompatibleOutput()
+   {
+      return m_compatibleOutput;
+   }
+
+   /**
     * Sets a flag to control whether timephased assignment data is split
     * into days. The default is true.
     *
@@ -2217,6 +2238,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private EventManager m_eventManager;
 
    private Set<FieldType> m_extendedAttributesInUse;
+
+   private boolean m_compatibleOutput = true;
 
    private boolean m_splitTimephasedAsDays = true;
 
