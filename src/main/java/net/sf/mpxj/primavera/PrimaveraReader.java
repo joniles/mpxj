@@ -1196,6 +1196,17 @@ final class PrimaveraReader
          if (baselineDuration != null && baselineDuration.getDuration() != 0 && remainingDuration != null)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            if (durationPercentComplete < 0)
+            {
+               durationPercentComplete = 0;
+            }
+            else
+            {
+               if (durationPercentComplete > 100)
+               {
+                  durationPercentComplete = 100;
+               }
+            }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
       }

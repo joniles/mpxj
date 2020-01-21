@@ -7,6 +7,8 @@
 	<body>
 		<release date="git master" version="8.0.3">
 			<action dev="joniles" type="update">Improve handling of zero value durations, costs and units from certain MPP files.</action>
+			<action dev="joniles" type="update">Improve percent complete calculation for certain XER file and P6 Database schedules.</action>
+			<action dev="joniles" type="update">Improve percent complete calculation for certain P3 schedules.</action>
 		</release>
 		<release date="16/02/2020" version="8.0.2">
 			<action dev="joniles" type="update">Improve handling of zero duration tasks read from Phoenix files.</action>
