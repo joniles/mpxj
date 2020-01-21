@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.3 (git master)
+* Improve handling of zero value durations, costs and units from certain MPP files.
 
 ## 8.0.2 (16/02/2020)
 * Improve handling of zero duration tasks read from Phoenix files.

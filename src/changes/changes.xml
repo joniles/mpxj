@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.0.3">
+			<action dev="joniles" type="update">Improve handling of zero value durations, costs and units from certain MPP files.</action>
 		</release>
 		<release date="16/02/2020" version="8.0.2">
 			<action dev="joniles" type="update">Improve handling of zero duration tasks read from Phoenix files.</action>

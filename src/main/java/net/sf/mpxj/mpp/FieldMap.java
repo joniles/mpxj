@@ -867,7 +867,10 @@ abstract class FieldMap
                   case CURRENCY:
                   case UNITS:
                   {
-                     result = NumberHelper.getDouble(MPPUtility.getDouble(data, m_fixedDataOffset) / 100);
+                     // Ignore the amount if result will be less than 0.1 cent or 0.1%
+                     double amount = MPPUtility.getDouble(data, m_fixedDataOffset);
+                     amount = Math.abs(amount) < 0.1 ? 0 : amount;
+                     result = NumberHelper.getDouble(amount / 100);
                      break;
                   }
 
@@ -879,7 +882,10 @@ abstract class FieldMap
 
                   case WORK:
                   {
-                     result = Duration.getInstance(MPPUtility.getDouble(data, m_fixedDataOffset) / 60000, TimeUnit.HOURS);
+                     // Ignore the duration if result will be less than 1 minute
+                     double duration = MPPUtility.getDouble(data, m_fixedDataOffset);
+                     duration = Math.abs(duration) < 1000 ? 0 : duration;
+                     result = Duration.getInstance(duration / 60000, TimeUnit.HOURS);
                      break;
                   }
 
@@ -989,7 +995,10 @@ abstract class FieldMap
 
             case CURRENCY:
             {
-               result = NumberHelper.getDouble(varData.getDouble(id, m_varDataKey) / 100);
+               // Ignore the amount if result will be less than 0.1 cent
+               double amount = varData.getDouble(id, m_varDataKey);
+               amount = Math.abs(amount) < 0.1 ? 0 : amount;
+               result = NumberHelper.getDouble(amount / 100);
                break;
             }
 
@@ -1019,7 +1028,10 @@ abstract class FieldMap
 
             case WORK:
             {
-               result = Duration.getInstance(varData.getDouble(id, m_varDataKey) / 60000, TimeUnit.HOURS);
+               // Ignore the duration if result will be less than 1 minute
+               double duration = varData.getDouble(id, m_varDataKey);
+               duration = Math.abs(duration) < 1000 ? 0 : duration;
+               result = Duration.getInstance(duration / 60000, TimeUnit.HOURS);
                break;
             }
 

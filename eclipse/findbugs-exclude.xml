@@ -162,4 +162,9 @@
 		<Method name="mkdirsQuietly" />
 	</Match>	 
 		 
+	<Match>
+		<Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+		<Class name="~.*\.CustomerDataTest" />	
+		<Method name="debugFailure" />
+	</Match>		 		
 </FindBugsFilter>

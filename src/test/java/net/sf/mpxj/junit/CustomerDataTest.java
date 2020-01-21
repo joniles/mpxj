@@ -28,6 +28,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -310,6 +313,13 @@ public class CustomerDataTest
          }
       }
 
+      if (DIFF_BASELINE_DIR != null)
+      {
+         System.out.println();
+         System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
+         System.out.println("Test: " + DIFF_TEST_DIR.getPath());
+      }
+      
       assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
@@ -453,10 +463,7 @@ public class CustomerDataTest
          }
          else
          {
-            System.out.println();
-            System.out.println("Baseline: " + baselineFile.getPath());
-            System.out.println("Test: " + out.getPath());
-            System.out.println("copy /y \"" + out.getPath() + "\" \"" + baselineFile.getPath() + "\"");
+            debugFailure(baselineFile, out);
          }
       }
       else
@@ -468,6 +475,33 @@ public class CustomerDataTest
       return success;
    }
 
+   /**
+    * Write a diagnostic message and populate directories to make
+    * it easier to diff multiple files.
+    * 
+    * @param baseline baseline file
+    * @param test test file
+    */
+   private void debugFailure(File baseline, File test) throws IOException
+   {
+      System.out.println();
+      System.out.println("Baseline: " + baseline.getPath());
+      System.out.println("Test: " + test.getPath());
+      System.out.println("copy /y \"" + test.getPath() + "\" \"" + baseline.getPath() + "\"");
+
+      if (DIFF_BASELINE_DIR == null)
+      {
+         File diffDir = FileHelper.createTempDir();
+         DIFF_BASELINE_DIR = new File(diffDir, "baseline");
+         DIFF_TEST_DIR = new File(diffDir, "test");
+         FileHelper.mkdirs(DIFF_BASELINE_DIR);
+         FileHelper.mkdirs(DIFF_TEST_DIR);
+      }
+            
+      Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(test.toPath(), new File(DIFF_TEST_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+   }
+   
    /**
     * Ensure that we can export the file under test through our writers, without error.
     *
@@ -511,7 +545,9 @@ public class CustomerDataTest
    private UniversalProjectReader m_universalReader;
    private MPXReader m_mpxReader;
    private PrimaveraXERFileReader m_xerReader;
-
+   private static File DIFF_BASELINE_DIR;
+   private static File DIFF_TEST_DIR;
+   
    private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
