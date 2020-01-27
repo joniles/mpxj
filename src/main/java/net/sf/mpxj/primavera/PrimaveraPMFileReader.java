@@ -23,8 +23,13 @@
 
 package net.sf.mpxj.primavera;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -34,6 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -165,7 +172,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          filter.setParent(xmlReader);
          UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
          filter.setContentHandler(unmarshallerHandler);
-         filter.parse(new InputSource(stream));
+         filter.parse(configureInputSource(stream));
          APIBusinessObjects apibo = (APIBusinessObjects) unmarshallerHandler.getResult();
 
          List<ProjectType> projects = apibo.getProject();
@@ -230,7 +237,44 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_activityCodeMap.clear();
       }
    }
+   
+   /**
+    * Normally we'd just create an InputSource instance directly from
+    * the input stream. Unfortunately P6 doesn't seem to filter out
+    * characters which are invalid for XML or not encoded correctly
+    * when it writes PMXML files. This method tries to identify the
+    * encoding claimed in the XML header and use this to inject
+    * a CharsetDecoder which can ignore these invalid characters.
+    * 
+    * @param stream InputStream instance
+    * @return InputSource instance
+    */
+   private InputSource configureInputSource(InputStream stream) throws IOException
+   {
+      int bufferSize = 512;
+      BufferedInputStream bis = new BufferedInputStream(stream);
+      bis.mark(bufferSize);
+      byte[] buffer = new byte[bufferSize];
+      bis.read(buffer);
+      bis.reset();
 
+      InputSource result;
+      Matcher matcher = ENCODING_PATTERN.matcher(new String(buffer));
+      if (matcher.find())
+      {
+         CharsetDecoder decoder = Charset.forName(matcher.group(1)).newDecoder();
+         decoder.onMalformedInput(CodingErrorAction.REPLACE);
+         decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+         result = new InputSource(new InputStreamReader(bis, decoder));
+      }
+      else
+      {
+         result = new InputSource(bis);
+      }
+      
+      return result;
+   }
+   
    /**
     * Process UDF definitions.
     *
@@ -1320,4 +1364,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
+   
+   private static final Pattern ENCODING_PATTERN = Pattern.compile(".*<\\?xml.*encoding=\"([^\"]+)\".*\\?>.*", Pattern.DOTALL);
 }
