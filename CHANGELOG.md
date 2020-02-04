@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.4 (git master)
+* Update sqlite-jdbc dependency to 3.30.1
 
 ## 8.0.3 (27/01/2020)
 * Improve handling of zero value durations, costs and units from certain MPP files.

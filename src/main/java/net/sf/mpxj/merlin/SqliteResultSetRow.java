@@ -25,7 +25,6 @@ package net.sf.mpxj.merlin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Date;
 import java.util.HashMap;
@@ -89,15 +88,15 @@ final class SqliteResultSetRow extends MapRow
             }
 
             case Types.TIMESTAMP:
-            {
-               Timestamp ts = rs.getTimestamp(name);
-               if (ts != null)
+            {               
+               long ts = rs.getLong(name);
+               if (ts == 0)
                {
-                  value = new Date(ts.getTime());
+                  value = null;
                }
                else
                {
-                  value = null;
+                  value = new Date(TIMESTAMP_EPOCH + (ts * 1000));
                }
                break;
             }
@@ -157,4 +156,9 @@ final class SqliteResultSetRow extends MapRow
          m_map.put(name, value);
       }
    }
+   
+   /**
+    * 01/01/2001 00:00.
+    */
+   private static final long TIMESTAMP_EPOCH = 978307200000L;   
 }
