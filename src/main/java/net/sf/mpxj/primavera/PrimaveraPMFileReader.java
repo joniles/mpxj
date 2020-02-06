@@ -26,10 +26,6 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -243,8 +239,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * the input stream. Unfortunately P6 doesn't seem to filter out
     * characters which are invalid for XML or not encoded correctly
     * when it writes PMXML files. This method tries to identify the
-    * encoding claimed in the XML header and use this to inject
-    * a CharsetDecoder which can ignore these invalid characters.
+    * encoding claimed in the XML header and use this to a
+    * PrimaveraInputStreamReader which can ignore these invalid characters.
     * 
     * @param stream InputStream instance
     * @return InputSource instance
@@ -262,10 +258,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       Matcher matcher = ENCODING_PATTERN.matcher(new String(buffer));
       if (matcher.find())
       {
-         CharsetDecoder decoder = Charset.forName(matcher.group(1)).newDecoder();
-         decoder.onMalformedInput(CodingErrorAction.REPLACE);
-         decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
-         result = new InputSource(new InputStreamReader(bis, decoder));
+         result = new InputSource(new PrimaveraInputStreamReader(bis, matcher.group(1)));
       }
       else
       {
