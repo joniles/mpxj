@@ -139,6 +139,25 @@ reader.setMatchPrimaveraWBS(false);
 ProjectFile file = reader.read("my-sample.xer");
 ```
 
+#### WBS is Full Path
+Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
+separated hierarchy of all of the parent WBS attributes.
+In this example, `root.wbs1.wbs2` is the WBS attribute for `wbs2` which has
+the parents `root` and `wbs1`. To disabled this behaviour, and simply record
+the code for the current WBS entry (in the example above `wbs2`) call the
+`setWbsIsFullPath` method, passing in `false`, as illustrated below.  
+
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+reader.setWbsIsFullPath(false);
+```
+
 #### User Defined Fields
 MPXJ attempts to map user defined fields from P6 to the custom fields.
 When MPXJ reads user defined fields from the XER file, it will assign

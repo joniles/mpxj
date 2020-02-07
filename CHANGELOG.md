@@ -1,6 +1,10 @@
 # Changelog
 
 ## 8.0.5 (git master)
+* Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.
+* Ensure summary task start and finish dates are populated when reading PMXML files.
+* Use baseline start and finish dates as planned start and finish dates when writing PMXML files.
+* Late start and late finish dates are now written to PMXML files.
 
 ## 8.0.4 (06-02-2020)
 * Update sqlite-jdbc dependency to 3.30.1

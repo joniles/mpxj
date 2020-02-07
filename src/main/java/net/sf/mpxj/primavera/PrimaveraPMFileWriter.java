@@ -652,12 +652,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPlannedDuration(getDuration(mpxj.getDuration()));
-      xml.setPlannedFinishDate(mpxj.getFinish());
-      xml.setPlannedStartDate(mpxj.getStart());
+      xml.setPlannedFinishDate(mpxj.getBaselineFinish());
+      xml.setPlannedStartDate(mpxj.getBaselineStart());
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
-      xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
+      xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));      
+      xml.setRemainingLateStartDate(mpxj.getLateStart());
+      xml.setRemainingLateFinishDate(mpxj.getLateFinish());
+      xml.setRemainingEarlyStartDate(mpxj.getEarlyStart());
       xml.setRemainingEarlyFinishDate(mpxj.getEarlyFinish());
-      xml.setRemainingEarlyStartDate(mpxj.getResume());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);

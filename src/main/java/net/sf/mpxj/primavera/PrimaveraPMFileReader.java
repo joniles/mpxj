@@ -125,6 +125,28 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    /**
+    * Returns true if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @return true if WBS attribute is a hierarchy
+    */
+   public boolean getWbsIsFullPath()
+   {
+      return m_wbsIsFullPath;
+   }
+
+   /**
+    * Sets a flag indicating if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @param wbsIsFullPath true if WBS attribute is a hierarchy
+    */
+   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   {
+      m_wbsIsFullPath = wbsIsFullPath;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
@@ -675,7 +697,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             m_projectFile.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-            task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            
+            if (m_wbsIsFullPath)
+            {
+               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            }
+            
             task.setText(1, task.getWBS());
          }
       }
@@ -850,6 +877,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
+         Date plannedStartDate = parentTask.getStart();
+         Date plannedFinishDate = parentTask.getFinish();
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -868,6 +897,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -885,6 +916,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
          }
 
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -940,6 +973,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            if (durationPercentComplete < 0)
+            {
+               durationPercentComplete = 0;
+            }
+            else
+            {
+               if (durationPercentComplete > 100)
+               {
+                  durationPercentComplete = 100;
+               }
+            }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
       }
@@ -1263,7 +1307,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
-
+   private boolean m_wbsIsFullPath = true;
+   
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {

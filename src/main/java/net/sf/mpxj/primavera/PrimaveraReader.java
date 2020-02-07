@@ -98,8 +98,9 @@ final class PrimaveraReader
     * @param assignmentFields assignment field mapping
     * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
+    * @param wbsIsFullPath determine the WBS attribute structure 
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -125,6 +126,7 @@ final class PrimaveraReader
       m_assignmentUdfCounters.reset();
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
+      m_wbsIsFullPath = wbsIsFullPath;
    }
 
    /**
@@ -721,7 +723,12 @@ final class PrimaveraReader
          {
             m_project.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-            task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            
+            if (m_wbsIsFullPath)
+            {
+               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            }
+            
             if (activityIDField != null)
             {
                task.set(activityIDField, task.getWBS());
@@ -1106,12 +1113,12 @@ final class PrimaveraReader
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
          Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          Date lateStartDate = parentTask.getLateStart();
          Date lateFinishDate = parentTask.getLateFinish();
          Date baselineStartDate = parentTask.getBaselineStart();
          Date baselineFinishDate = parentTask.getBaselineFinish();
+         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
@@ -1193,7 +1200,7 @@ final class PrimaveraReader
          }
          parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && baselineDuration.getDuration() != 0 && remainingDuration != null)
+         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
             if (durationPercentComplete < 0)
@@ -1796,7 +1803,8 @@ final class PrimaveraReader
    private Map<FieldType, String> m_assignmentFields;
    private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
-
+   private final boolean m_wbsIsFullPath;
+   
    private Map<Integer, String> m_udfFields = new HashMap<>();
    private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 

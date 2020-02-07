@@ -114,7 +114,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = readProject();
          return (project);
       }
@@ -165,7 +165,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
             ProjectFile project = readProject();
             externalPredecessors.addAll(m_reader.getExternalPredecessors());
 
@@ -861,6 +861,28 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
+    * Returns true if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @return true if WBS attribute is a hierarchy
+    */
+   public boolean getWbsIsFullPath()
+   {
+      return m_wbsIsFullPath;
+   }
+
+   /**
+    * Sets a flag indicating if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @param wbsIsFullPath true if WBS attribute is a hierarchy
+    */
+   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   {
+      m_wbsIsFullPath = wbsIsFullPath;
+   }
+
+   /**
     * Rather than using FIELD_TYPE_MAP directly, we copy it. This allows the
     * caller to add or modify type mappings for an individual instance of
     * the reader class.
@@ -897,7 +919,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
    private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
-
+   private boolean m_wbsIsFullPath = true;
+   
    /**
     * Represents expected record types.
     */

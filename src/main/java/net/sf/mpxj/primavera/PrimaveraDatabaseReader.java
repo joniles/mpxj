@@ -107,7 +107,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
          project.getEventManager().addProjectListeners(m_projectListeners);
 
@@ -699,6 +699,28 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
+   /**
+    * Returns true if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @return true if WBS attribute is a hierarchy
+    */
+   public boolean getWbsIsFullPath()
+   {
+      return m_wbsIsFullPath;
+   }
+
+   /**
+    * Sets a flag indicating if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    * 
+    * @param wbsIsFullPath true if WBS attribute is a hierarchy
+    */
+   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   {
+      m_wbsIsFullPath = wbsIsFullPath;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -713,7 +735,8 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
-
+   private boolean m_wbsIsFullPath = true;
+   
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
