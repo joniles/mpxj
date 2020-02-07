@@ -65,7 +65,7 @@ final class XsdDuration
             //
             // A minus sign at the start of the XSD duration is the correct way
             // to represent a negative duration according to the spec. MSPDI
-            // disagrees and simply uses a negative number for the relevant 
+            // disagrees and simply uses a negative number for the relevant
             // component of the duration. This code ensures we can parse a
             // spec-compliant value.
             //
@@ -216,7 +216,7 @@ final class XsdDuration
       while (index < length)
       {
          c = duration.charAt(index);
-         
+
          //
          // We shouldn't see a minus sign here according to the spec,
          // but this is how MSPDI represents negative duration
@@ -352,7 +352,7 @@ final class XsdDuration
 
    /**
     * Prints the duration.
-    * 
+    *
     * @param microsoftProjectCompatible false for spec compliant, true for readable by Microsoft Project
     * @return XSD duration value
     */

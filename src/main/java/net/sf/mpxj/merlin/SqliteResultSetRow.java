@@ -88,7 +88,7 @@ final class SqliteResultSetRow extends MapRow
             }
 
             case Types.TIMESTAMP:
-            {               
+            {
                long ts = rs.getLong(name);
                if (ts == 0)
                {
@@ -156,9 +156,9 @@ final class SqliteResultSetRow extends MapRow
          m_map.put(name, value);
       }
    }
-   
+
    /**
     * 01/01/2001 00:00.
     */
-   private static final long TIMESTAMP_EPOCH = 978307200000L;   
+   private static final long TIMESTAMP_EPOCH = 978307200000L;
 }

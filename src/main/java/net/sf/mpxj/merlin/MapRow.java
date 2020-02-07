@@ -156,7 +156,7 @@ class MapRow implements Row
     */
    @Override public Date getTimestamp(String name)
    {
-      return (Date)getObject(name);
+      return (Date) getObject(name);
    }
 
    @Override public Date getDate(String name)

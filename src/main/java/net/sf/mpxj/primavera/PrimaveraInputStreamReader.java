@@ -34,13 +34,13 @@ import java.nio.charset.CodingErrorAction;
  * This class creates an InputStream reader with a CharsetDecoder
  * which can be used to silently ignore incorrectly encoded characters,
  * and replace characters which are invalid for XML 1.0 with the
- * Unicode replacement character. 
+ * Unicode replacement character.
  */
 class PrimaveraInputStreamReader extends InputStreamReader
 {
    /**
     * Constructor.
-    * 
+    *
     * @param is input stream
     * @param charset character set name
     */
@@ -77,7 +77,7 @@ class PrimaveraInputStreamReader extends InputStreamReader
 
    /**
     * Returns true if this is a valid XML 1.0 character.
-    * 
+    *
     * @param c character value
     * @return true if this is a valid XML 1.0 character
     */
@@ -87,9 +87,9 @@ class PrimaveraInputStreamReader extends InputStreamReader
    }
 
    /**
-    * Create a charset decoder which silently ignores 
+    * Create a charset decoder which silently ignores
     * incorrectly encoded characters.
-    * 
+    *
     * @param charset charset name
     * @return CharsetDecoder instance
     */

@@ -399,7 +399,7 @@ public final class P3DatabaseReader implements ProjectReader
                task.setPercentageComplete(Integer.valueOf(100));
             }
          }
-         
+
          int flag = row.getInteger("ACTUAL_START_OR_CONSTRAINT_FLAG").intValue();
          if (flag != 0)
          {

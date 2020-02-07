@@ -108,7 +108,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Sets a flag to determine if the output is readable by MS Project, or
     * is "spec compliant".
-    * 
+    *
     * @param flag true if output is readable by MS Project
     */
    public void setMicrosoftProjectCompatibleOutput(boolean flag)
@@ -118,7 +118,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Retrieves a flag which determines if the output is readable by MS Project.
-    * 
+    *
     * @return  true if output is readable by MS Project
     */
    public boolean getMicrosoftProjectCompatibleOutput()

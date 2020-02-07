@@ -702,7 +702,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Returns true if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
-    * 
+    *
     * @return true if WBS attribute is a hierarchy
     */
    public boolean getWbsIsFullPath()
@@ -713,7 +713,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * Sets a flag indicating if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
-    * 
+    *
     * @param wbsIsFullPath true if WBS attribute is a hierarchy
     */
    public void setWbsIsFullPath(boolean wbsIsFullPath)
@@ -736,7 +736,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
-   
+
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();

@@ -98,7 +98,7 @@ final class PrimaveraReader
     * @param assignmentFields assignment field mapping
     * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
-    * @param wbsIsFullPath determine the WBS attribute structure 
+    * @param wbsIsFullPath determine the WBS attribute structure
     */
    public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
@@ -723,12 +723,12 @@ final class PrimaveraReader
          {
             m_project.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-            
+
             if (m_wbsIsFullPath)
             {
                task.setWBS(parentTask.getWBS() + "." + task.getWBS());
             }
-            
+
             if (activityIDField != null)
             {
                task.set(activityIDField, task.getWBS());
@@ -1804,7 +1804,7 @@ final class PrimaveraReader
    private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
-   
+
    private Map<Integer, String> m_udfFields = new HashMap<>();
    private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 

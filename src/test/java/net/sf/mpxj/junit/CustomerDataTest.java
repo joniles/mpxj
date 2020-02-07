@@ -319,7 +319,7 @@ public class CustomerDataTest
          System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
          System.out.println("Test: " + DIFF_TEST_DIR.getPath());
       }
-      
+
       assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
@@ -478,7 +478,7 @@ public class CustomerDataTest
    /**
     * Write a diagnostic message and populate directories to make
     * it easier to diff multiple files.
-    * 
+    *
     * @param baseline baseline file
     * @param test test file
     */
@@ -497,11 +497,11 @@ public class CustomerDataTest
          FileHelper.mkdirs(DIFF_BASELINE_DIR);
          FileHelper.mkdirs(DIFF_TEST_DIR);
       }
-            
+
       Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
       Files.copy(test.toPath(), new File(DIFF_TEST_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
    }
-   
+
    /**
     * Ensure that we can export the file under test through our writers, without error.
     *
@@ -547,7 +547,7 @@ public class CustomerDataTest
    private PrimaveraXERFileReader m_xerReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
-   
+
    private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);

@@ -127,7 +127,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    /**
     * Returns true if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
-    * 
+    *
     * @return true if WBS attribute is a hierarchy
     */
    public boolean getWbsIsFullPath()
@@ -138,7 +138,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    /**
     * Sets a flag indicating if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
-    * 
+    *
     * @param wbsIsFullPath true if WBS attribute is a hierarchy
     */
    public void setWbsIsFullPath(boolean wbsIsFullPath)
@@ -255,7 +255,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          m_activityCodeMap.clear();
       }
    }
-   
+
    /**
     * Normally we'd just create an InputSource instance directly from
     * the input stream. Unfortunately P6 doesn't seem to filter out
@@ -263,7 +263,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * when it writes PMXML files. This method tries to identify the
     * encoding claimed in the XML header and use this to a
     * PrimaveraInputStreamReader which can ignore these invalid characters.
-    * 
+    *
     * @param stream InputStream instance
     * @return InputSource instance
     */
@@ -286,10 +286,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       {
          result = new InputSource(bis);
       }
-      
+
       return result;
    }
-   
+
    /**
     * Process UDF definitions.
     *
@@ -697,12 +697,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          {
             m_projectFile.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-            
+
             if (m_wbsIsFullPath)
             {
                task.setWBS(parentTask.getWBS() + "." + task.getWBS());
             }
-            
+
             task.setText(1, task.getWBS());
          }
       }
@@ -1308,7 +1308,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
    private boolean m_wbsIsFullPath = true;
-   
+
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
@@ -1402,6 +1402,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
-   
+
    private static final Pattern ENCODING_PATTERN = Pattern.compile(".*<\\?xml.*encoding=\"([^\"]+)\".*\\?>.*", Pattern.DOTALL);
 }
