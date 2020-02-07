@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2020-02-06</li>
+        <li id="publishDate">Last Published: 2020-02-07</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -231,6 +231,19 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
 PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
 reader.setMatchPrimaveraWBS(false);
+</pre></div></div></div>
+<div class="section">
+<h4><a name="WBS_is_Full_Path"></a>WBS is Full Path</h4>
+<p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot separated hierarchy of all of the parent WBS attributes. In this example, <tt>root.wbs1.wbs2</tt> is the WBS attribute for <tt>wbs2</tt> which has the parents <tt>root</tt> and <tt>wbs1</tt>. To disabled this behaviour, and simply record the code for the current WBS entry (in the example above <tt>wbs2</tt>) call the <tt>setWbsIsFullPath</tt> method, passing in <tt>false</tt>, as illustrated below. </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+
+...
+
+PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+reader.setWbsIsFullPath(false);
 </pre></div></div></div>
 <div class="section">
 <h4><a name="User_Defined_Fields"></a>User Defined Fields</h4>
