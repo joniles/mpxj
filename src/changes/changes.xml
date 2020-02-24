@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.0.6">
+			<action dev="joniles" type="update">Updated to use POI 4.1.2.</action>
 		</release>
 		<release date="07/02/2020" version="8.0.5">
 			<action dev="joniles" type="update">Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.</action>			

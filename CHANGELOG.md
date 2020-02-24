@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.6 (git master)
+* Updated to use POI 4.1.2.
 
 ## 8.0.5 (07/02/2020)
 * Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.
