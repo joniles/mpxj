@@ -53,22 +53,32 @@ public final class DatatypeConverter
          }
          else
          {
-            // XER representation: CrkTPqCalki5irI4SJSsRA
-            byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
-            long msb = 0;
-            long lsb = 0;
-
-            for (int i = 0; i < 8; i++)
+            if (value.length() == 22)
             {
-               msb = (msb << 8) | (data[i] & 0xff);
+               // Standard XER representation: CrkTPqCalki5irI4SJSsRA
+               byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
+               long msb = 0;
+               long lsb = 0;
+   
+               for (int i = 0; i < 8; i++)
+               {
+                  msb = (msb << 8) | (data[i] & 0xff);
+               }
+   
+               for (int i = 8; i < 16; i++)
+               {
+                  lsb = (lsb << 8) | (data[i] & 0xff);
+               }
+   
+               result = new UUID(msb, lsb);
             }
-
-            for (int i = 8; i < 16; i++)
+            else
             {
-               lsb = (lsb << 8) | (data[i] & 0xff);
+               // Non-standard representation
+               // In the example XER file I came across this was an integer, but we won't
+               // make any assumptions, just generate a UUID from the string's bytes.
+               result = UUID.nameUUIDFromBytes(value.getBytes());
             }
-
-            result = new UUID(msb, lsb);
          }
       }
       return result;

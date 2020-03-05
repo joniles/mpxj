@@ -598,6 +598,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
                Map<String, Object> map = new HashMap<>();
                for (int loop = 1; loop < record.size(); loop++)
                {
+                  // We have more fields than field names, stop processing
+                  if (loop == m_currentFieldNames.length)
+                  {
+                     break;
+                  }
+                  
                   String fieldName = m_currentFieldNames[loop];
                   String fieldValue = record.get(loop);
                   XerFieldType fieldType = m_fieldTypes.get(fieldName);
