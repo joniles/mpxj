@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.0.6 (git master)
+## 8.0.7 (git master)
+
+## 8.0.6 (05/03/2020)
 * Updated to use POI 4.1.2.
 * Improve handling of some XER file variants.
 
