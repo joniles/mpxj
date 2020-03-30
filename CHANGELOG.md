@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.7 (git master)
+* Updated to rtfparserkit 1.14.0.
 
 ## 8.0.6 (05/03/2020)
 * Updated to use POI 4.1.2.
