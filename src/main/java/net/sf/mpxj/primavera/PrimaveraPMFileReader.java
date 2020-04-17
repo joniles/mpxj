@@ -561,7 +561,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             List<WorkTimeType> workTime = ex.getWorkTime();
             for (WorkTimeType work : workTime)
             {
-               if (work != null)
+               if (work != null && work.getStart() != null && work.getFinish() != null)
                {
                   pce.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                }

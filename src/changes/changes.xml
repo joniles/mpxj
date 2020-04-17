@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="8.0.7">
 			<action dev="joniles" type="update">Updated to rtfparserkit 1.15.0.</action>
+			<action dev="joniles" type="update">Improve handling of PMXML files with empty calendar exception time ranges.</action>
 		</release>
 		<release date="05/03/2020" version="8.0.6">
 			<action dev="joniles" type="update">Updated to use POI 4.1.2.</action>

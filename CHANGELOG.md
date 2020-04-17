@@ -2,6 +2,7 @@
 
 ## 8.0.7 (git master)
 * Updated to rtfparserkit 1.15.0.
+* Improve handling of PMXML files with empty calendar exception time ranges.
 
 ## 8.0.6 (05/03/2020)
 * Updated to use POI 4.1.2.
