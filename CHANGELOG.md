@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.0.7 (git master)
+## 8.0.8 (git master)
+
+## 8.0.7 (17/04/2020)
 * Updated to rtfparserkit 1.15.0.
 * Improve handling of PMXML files with empty calendar exception time ranges.
 

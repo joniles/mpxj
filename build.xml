@@ -5,7 +5,7 @@
 	<target name="init" description="Initialize properties">
 		<tstamp />
 
-		<property name="current.version" value="8.0.6" />
+		<property name="current.version" value="8.0.7" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby21"/>
@@ -51,7 +51,7 @@
 			<pathelement location="${lib.dir}/${commons-math.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.13.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.15.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>
