@@ -137,8 +137,9 @@ public class ProjectCleanUtility
       is.read(data);
       is.close();
 
-      processReplacements(data, m_project.getTasks(), false, false, TaskField.NAME);
-      processReplacements(data, m_project.getResources(), false, false, ResourceField.NAME);
+      processReplacements(data, Arrays.asList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
+      processReplacements(data, m_project.getTasks(), false, false, TASK_FIELDS);
+      processReplacements(data, m_project.getResources(), false, false, RESOURCE_FIELDS);
 
       FileOutputStream os = new FileOutputStream(output);
       os.write(data);
@@ -221,9 +222,9 @@ public class ProjectCleanUtility
       //
       List<ProjectProperties> projectProperties = Arrays.asList(m_project.getProjectProperties());
 
-      processFile(m_projectDir, "Props", projectProperties, true, ProjectField.PROJECT_TITLE);
-      processFile(root, "\005SummaryInformation", projectProperties, false, ProjectField.PROJECT_TITLE, ProjectField.SUBJECT, ProjectField.AUTHOR, ProjectField.KEYWORDS, ProjectField.COMMENTS, ProjectField.LAST_AUTHOR);
-      processFile(root, "\005DocumentSummaryInformation", projectProperties, false, ProjectField.MANAGER, ProjectField.COMPANY, ProjectField.CATEGORY);
+      processFile(m_projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
+      processFile(root, "\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
+      processFile(root, "\005DocumentSummaryInformation", projectProperties, false, PROJECT_FIELDS);
 
       //
       // Write the replacement raw file
@@ -326,7 +327,7 @@ public class ProjectCleanUtility
    private void mapText(String oldText, Map<String, String> replacements)
    {
       char c2 = 0;
-      if (oldText != null && oldText.length() != 0 && !replacements.containsKey(oldText))
+      if (oldText != null && oldText.length() > 1 && !replacements.containsKey(oldText))
       {
          StringBuilder newText = new StringBuilder(oldText.length());
          for (int loop = 0; loop < oldText.length(); loop++)
@@ -480,4 +481,28 @@ public class ProjectCleanUtility
 
    private ProjectFile m_project;
    private DirectoryEntry m_projectDir;
+
+   private static final ProjectField[] PROJECT_FIELDS =
+   {
+      ProjectField.AUTHOR,
+      ProjectField.SUBJECT,
+      ProjectField.COMPANY,
+      ProjectField.PROJECT_TITLE,
+      ProjectField.KEYWORDS,
+      ProjectField.COMMENTS,
+      ProjectField.LAST_AUTHOR,
+      ProjectField.MANAGER,
+      ProjectField.CATEGORY
+   };
+
+   private static final TaskField[] TASK_FIELDS =
+   {
+      TaskField.NAME
+   };
+
+   private static final ResourceField[] RESOURCE_FIELDS =
+   {
+      ResourceField.NAME,
+      ResourceField.INITIALS
+   };
 }
