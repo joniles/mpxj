@@ -46,6 +46,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
@@ -276,15 +277,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       bis.read(buffer);
       bis.reset();
 
+      // Handle trailing nul character following HTML content expressed as &#0; 
+      InputStream ris = new ReplacingInputStream(bis, "&lt;/HTML&gt;&#0;", "&lt;/HTML&gt;");
+      
       InputSource result;
       Matcher matcher = ENCODING_PATTERN.matcher(new String(buffer));
       if (matcher.find())
       {
-         result = new InputSource(new PrimaveraInputStreamReader(bis, matcher.group(1)));
+         result = new InputSource(new PrimaveraInputStreamReader(ris, matcher.group(1)));
       }
       else
       {
-         result = new InputSource(bis);
+         result = new InputSource(ris);
       }
 
       return result;

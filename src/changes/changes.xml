@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.0.8">
+			<action dev="joniles" type="update">Improve handling of numeric character references invalid for XML 1.0 in PMXML files.</action>
 		</release>
 		<release date="17/04/2020" version="8.0.7">
 			<action dev="joniles" type="update">Updated to rtfparserkit 1.15.0.</action>

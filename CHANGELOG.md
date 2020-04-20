@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.0.8 (git master)
+* Improve handling of numeric character references invalid for XML 1.0 in PMXML files.
 
 ## 8.0.7 (17/04/2020)
 * Updated to rtfparserkit 1.15.0.
