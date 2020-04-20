@@ -1340,7 +1340,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
-      ProjectCalendar calendar = new ProjectCalendar(getParentFile());
+      ProjectCalendar calendar = getParentFile().addCalendar();
       setResourceCalendar(calendar);
       return calendar;
    }

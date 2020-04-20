@@ -35,7 +35,6 @@ import java.util.Locale;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FileVersion;
@@ -724,14 +723,14 @@ public final class MPXReader extends AbstractProjectReader
       {
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
-
-      calendar.setWorkingDay(Day.SUNDAY, DayType.getInstance(record.getInteger(1)));
-      calendar.setWorkingDay(Day.MONDAY, DayType.getInstance(record.getInteger(2)));
-      calendar.setWorkingDay(Day.TUESDAY, DayType.getInstance(record.getInteger(3)));
-      calendar.setWorkingDay(Day.WEDNESDAY, DayType.getInstance(record.getInteger(4)));
-      calendar.setWorkingDay(Day.THURSDAY, DayType.getInstance(record.getInteger(5)));
-      calendar.setWorkingDay(Day.FRIDAY, DayType.getInstance(record.getInteger(6)));
-      calendar.setWorkingDay(Day.SATURDAY, DayType.getInstance(record.getInteger(7)));
+      
+      calendar.setWorkingDay(Day.SUNDAY, record.getDayType(1));
+      calendar.setWorkingDay(Day.MONDAY, record.getDayType(2));
+      calendar.setWorkingDay(Day.TUESDAY, record.getDayType(3));
+      calendar.setWorkingDay(Day.WEDNESDAY, record.getDayType(4));
+      calendar.setWorkingDay(Day.THURSDAY, record.getDayType(5));
+      calendar.setWorkingDay(Day.FRIDAY, record.getDayType(6));
+      calendar.setWorkingDay(Day.SATURDAY, record.getDayType(7));
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
@@ -1069,12 +1068,25 @@ public final class MPXReader extends AbstractProjectReader
          TaskField taskField = MPXTaskField.getMpxjField(mpxFieldID);
          if (taskField == null)
          {
-            System.out.println("Null Task Field " + mpxFieldID);
+            // Ignore any fields we don't understand
+            //System.out.println("Null Task Field " + mpxFieldID);
             continue;
          }
 
          switch (taskField)
          {
+            case NOTES:
+            {
+               // Although the notes attribute may be present on the task record MS Project ignores it, so we will too 
+               break;
+            }
+            
+            case SUCCESSORS:
+            {
+               // Normally MPX files only use predecessors - ignore the successors attribute 
+               break;
+            }
+            
             case PREDECESSORS:
             case UNIQUE_ID_PREDECESSORS:
             {
@@ -1319,6 +1331,14 @@ public final class MPXReader extends AbstractProjectReader
       if (task.getFinish() == null && task.getEarlyFinish() != null)
       {
          task.setFinish(task.getEarlyFinish());
+      }
+      
+      //
+      // If a task has a non-zero duration, it's not a milestone, even if the milestone flag is set
+      //
+      if (task.getMilestone() && task.getDuration() != null && task.getDuration().getDuration() != 0)
+      {
+         task.setMilestone(false);
       }
    }
 
