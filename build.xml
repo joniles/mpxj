@@ -4,7 +4,8 @@
 
 	<target name="init" description="Initialize properties">
 		<tstamp />
-
+		
+		<property environment="env"/>
 		<property name="current.version" value="8.0.8" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
@@ -631,6 +632,8 @@
 			<arg value="1200"/>
 			<arg value="-Verbosity"/>
 			<arg value="Detailed"/>									
+			<arg value="-ApiKey"/>
+			<arg value="${env.NUGET_API_KEY}"/>
 			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
 		</exec>		
 	</target>
