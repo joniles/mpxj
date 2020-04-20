@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.0.8">
+		<release date="git master" version="8.0.9">
+		</release>
+		<release date="20/04/2020" version="8.0.8">
 			<action dev="joniles" type="update">Improve handling of numeric character references invalid for XML 1.0 in PMXML files.</action>
 			<action dev="joniles" type="update">Improve handling of resource calendars read from Planner files.</action>
 			<action dev="joniles" type="update">Improve handling of resource calendars read from MPX files.</action>

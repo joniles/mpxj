@@ -1,7 +1,13 @@
 # Changelog
 
-## 8.0.8 (git master)
+## 8.0.9 (git master)
+
+## 8.0.8 (20/04/2020)
 * Improve handling of numeric character references invalid for XML 1.0 in PMXML files.
+* Improve handling of resource calendars read from Planner files.
+* Improve handling of resource calendars read from MPX files.
+* Ignore the milestone flag when reading MPX files if the task has a non-zero duration.
+* Ensure JSON files can be written when Unique ID predecessor/successor attributes have been read from an MPX file.
 
 ## 8.0.7 (17/04/2020)
 * Updated to rtfparserkit 1.15.0.
