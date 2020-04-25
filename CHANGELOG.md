@@ -2,6 +2,7 @@
 
 ## 8.0.9 (git master)
 * Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.
+* Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.
 
 ## 8.0.8 (20/04/2020)
 * Improve handling of numeric character references invalid for XML 1.0 in PMXML files.
