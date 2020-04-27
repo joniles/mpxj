@@ -37,7 +37,6 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -90,6 +89,7 @@ final class MPP12Reader implements MPPVariantReader
             processConstraintData();
             processAssignmentData();
             postProcessTasks();
+            processDataLinks();
 
             if (reader.getReadPresentationData())
             {
@@ -140,13 +140,17 @@ final class MPP12Reader implements MPPVariantReader
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
       //
-      if ((props12.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      byte passwordProtectionFlag = props12.getByte(Props.PASSWORD_FLAG);
+      boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
+      //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+
+      if (passwordRequiredToRead)
       {
          // Couldn't figure out how to get the password for MPP12 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
       }
 
-      m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+      m_resourceMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   112");
       m_viewDir = (DirectoryEntry) root.getEntry("   212");
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
@@ -160,14 +164,13 @@ final class MPP12Reader implements MPPVariantReader
 
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
-      m_fontBases = new HashMap<Integer, FontBase>();
-      m_taskSubProjects = new HashMap<Integer, SubProject>();
-      m_taskOrder = new TreeMap<Long, Integer>();
-      m_nullTaskOrder = new TreeMap<Integer, Integer>();
+      m_fontBases = new HashMap<>();
+      m_taskSubProjects = new HashMap<>();
+      m_taskOrder = new TreeMap<>();
+      m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(12));
       m_file.getProjectProperties().setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
-
    }
 
    /**
@@ -800,7 +803,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, Var2Data taskVarData)
    {
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
       Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
@@ -889,7 +892,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private TreeMap<Integer, Integer> createResourceMap(FieldMap fieldMap, FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<>();
       int itemCount = rscFixedMeta.getAdjustedItemCount();
 
       for (int loop = 0; loop < itemCount; loop++)
@@ -974,7 +977,7 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData2;
       Task task;
       boolean autoWBS = true;
-      LinkedList<Task> externalTasks = new LinkedList<Task>();
+      LinkedList<Task> externalTasks = new LinkedList<>();
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 
@@ -1220,14 +1223,6 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
-         // If this is a split task, allocate space for the split durations
-         //
-         if ((metaData[9] & 0x80) == 0)
-         {
-            task.setSplits(new LinkedList<DateRange>());
-         }
-
-         //
          // Process any enterprise columns
          //
          processTaskEnterpriseColumns(uniqueID, task, taskVarData, metaData2);
@@ -1292,8 +1287,8 @@ final class MPP12Reader implements MPPVariantReader
       // Renumber ID values using a large increment to allow
       // space for later inserts.
       //
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
-      int nextIDIncrement = 1000;
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
@@ -2019,7 +2014,21 @@ final class MPP12Reader implements MPPVariantReader
 
       GroupReader reader = new GroupReader12();
       reader.process(m_file, fixedData, varData, m_fontBases);
+   }
 
+   /**
+    * Read data link definitions.
+    */
+   private void processDataLinks() throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
+      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
+      factory.process();
    }
 
    /**

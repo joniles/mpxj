@@ -81,7 +81,7 @@ public final class GanttChartView9 extends GanttChartView
       int filterCount = MPPUtility.getShort(data, 8);
       int offset = 16;
       CriteriaReader criteria = new FilterCriteriaReader9();
-      List<FieldType> fields = new LinkedList<FieldType>();
+      List<FieldType> fields = new LinkedList<>();
 
       //
       // Filter data: 24 byte header, plus 80 byte criteria blocks,

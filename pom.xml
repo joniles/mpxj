@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>7.8.0</version>
+	<!-- MPXJ --><version>8.0.8</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -27,25 +27,45 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.17</version>
+			<version>4.1.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.8.10.1</version>
+			<version>3.30.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-binding</artifactId>
-			<version>2.10.0</version>
+			<version>2.13.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.joniles</groupId>
 			<artifactId>rtfparserkit</artifactId>
-			<version>1.13.0</version>
+			<version>1.15.0</version>
+		</dependency>
+
+		<!-- Make JAXB an explicit dependency to avoid issues across different Java versions -->
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>2.2.8</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.sun.xml.bind</groupId>
+		    <artifactId>jaxb-impl</artifactId>
+		    <version>2.2.8-b01</version>
+		</dependency>
+
+		<!-- JAXB dependency -->
+		<dependency>
+		    <groupId>com.sun.activation</groupId>
+		    <artifactId>javax.activation</artifactId>
+		    <version>1.2.0</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -177,7 +197,10 @@
 		</contributor>
 		<contributor>
 			<name>Andrei Missine</name>
-		</contributor>
+		</contributor>				
+		<contributor>
+			<name>ninthwaveltd</name>
+		</contributor>		
 		<contributor>
 			<name>Jari Niskala</name>
 		</contributor>
@@ -187,6 +210,15 @@
 		<contributor>
 			<name>Paul Pogonyshev</name>
 		</contributor>
+		<contributor>
+			<name>Daniel Schmidt</name>
+		</contributor>
+		<contributor>
+			<name>Sruthi-Ganesh</name>
+		</contributor>
+		<contributor>
+			<name>Sebastian Stock</name>
+		</contributor>		
 		<contributor>
 			<name>James Styles</name>
 		</contributor>
@@ -202,6 +234,9 @@
 		<contributor>
 			<name>Elio Zoggia</name>
 		</contributor>
+		<contributor>
+			<name>ztravis</name>
+		</contributor>		
 	</contributors>
 
 	<licenses>
@@ -228,8 +263,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 

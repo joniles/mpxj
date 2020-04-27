@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -96,6 +97,8 @@ public class ResourceAssignmentFactory
       {
          metaDataBitFlags = ASSIGNMENT_META_DATA_BIT_FLAGS;
       }
+
+      Set<Task> processedSplits = new HashSet<>();
 
       for (int loop = 0; loop < count; loop++)
       {
@@ -233,8 +236,9 @@ public class ResourceAssignmentFactory
             assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
             assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
 
-            if (task.getSplits() != null && task.getSplits().isEmpty())
+            if (!task.getMilestone() && !processedSplits.contains(task))
             {
+               processedSplits.add(task);
                splitFactory.processSplitData(task, timephasedActualWork, timephasedWork);
             }
 

@@ -154,11 +154,11 @@ public final class RTFEmbeddedObject
       int offset = text.indexOf(OBJDATA);
       if (offset != -1)
       {
-         objects = new LinkedList<List<RTFEmbeddedObject>>();
+         objects = new LinkedList<>();
 
          while (offset != -1)
          {
-            objectData = new LinkedList<RTFEmbeddedObject>();
+            objectData = new LinkedList<>();
             objects.add(objectData);
             offset = readObjectData(offset, text, objectData);
             offset = text.indexOf(OBJDATA, offset);
@@ -242,7 +242,7 @@ public final class RTFEmbeddedObject
     */
    private static int readObjectData(int offset, String text, List<RTFEmbeddedObject> objects)
    {
-      LinkedList<byte[]> blocks = new LinkedList<byte[]>();
+      LinkedList<byte[]> blocks = new LinkedList<>();
 
       offset += (OBJDATA.length());
       offset = skipEndOfLine(text, offset);

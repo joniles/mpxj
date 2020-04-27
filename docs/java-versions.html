@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-02-12</li>
+        <li id="publishDate">Last Published: 2020-04-20</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -86,13 +86,7 @@
         <div id="bodyColumn"  class="span9" >
 <div class="section">
 <h2><a name="Java_versions"></a>Java versions</h2>
-<p>MPXJ is targeted to run against Java 1.6, and should therefore work with all versions after that.</p>
-<p>Up to version 10 Java shipped with the Java EE libraries MPXJ depends on to read XML files (JAXB), however in Java 10 these are deprecated, although they are present in the Java install, they are not enabled by default. Some notes on the issue can be found <a class="externalLink" href="https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/46455026">here</a>. One approach is to enable the JAXB libraries by adding the following to the Java command line when launching your application: </p>
-
-<div class="source">
-<div class="source"><pre class="prettyprint">--add-modules java.xml.bind
-</pre></div></div>
-<p>In Java 11 the JAXB libraries are not shipped with Java at all, so you will need to supply you own copies of the libraries. The JAXB libraries can be found <a class="externalLink" href="https://javaee.github.io/jaxb-v2/">here</a>. </p></div>
+<p>MPXJ is targeted to run against Java 1.8, and should therefore work with all versions after that.</p></div>
         </div>
       </div>
     </div>
@@ -100,7 +94,7 @@
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>Copyright &copy;2000&#x2013;2019
+            <p>Copyright &copy;2000&#x2013;2020
 <a href="http://mpxj.org">Packwood Software</a>.
 All rights reserved.</p>
         </div>

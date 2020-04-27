@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
@@ -79,6 +80,17 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
+    * Retrieve a custom field value by its guid.
+    *
+    * @param guid custom field value guid
+    * @return custom field value
+    */
+   public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
+   {
+      return m_guidMap.get(guid);
+   }
+
+   /**
     * Add a value to the custom field value index.
     *
     * @param item custom field value
@@ -86,6 +98,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void registerValue(CustomFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
+      if (item.getGUID() != null)
+      {
+         m_guidMap.put(item.getGUID(), item);
+      }
    }
 
    /**
@@ -96,6 +112,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public void deregisterValue(CustomFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
+      if (item.getGUID() != null)
+      {
+         m_guidMap.remove(item.getGUID());
+      }
    }
 
    /**
@@ -106,7 +126,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    void registerAlias(FieldType type, String alias)
    {
-      m_aliasMap.put(new Pair<FieldTypeClass, String>(type.getFieldTypeClass(), alias), type);
+      m_aliasMap.put(new Pair<>(type.getFieldTypeClass(), alias), type);
    }
 
    /**
@@ -118,45 +138,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
    {
-      return m_aliasMap.get(new Pair<FieldTypeClass, String>(typeClass, alias));
+      return m_aliasMap.get(new Pair<>(typeClass, alias));
    }
 
-   /**
-    * Because there seemingly is no deterministic method of mapping UDF ObjectIds from Primavera PM to FieldTypes,
-    * the aliasValueMap will store UDF values to be used by something that knows what alias maps to which FieldType.
-    * @author lsong
-    * @param alias custom field alias
-    * @param uid field container unique id
-    * @param value field value
-    */
-   public void registerAliasValue(String alias, Integer uid, Object value)
-   {
-      if (!m_aliasValueMap.containsKey(alias))
-      {
-         m_aliasValueMap.put(alias, new HashMap<Integer, Object>());
-      }
-      m_aliasValueMap.get(alias).put(uid, value);
-   }
-
-   /**
-    * Importers with access to the ProjectFile containing this can determine how to
-    * use the values in the UDFAssignmentTypes in UDF containers.
-    * @author lsong
-    * @param alias custom field alias
-    * @param uid field container unique id
-    * @return field value
-    */
-   public Object getAliasValue(String alias, Integer uid)
-   {
-      if (m_aliasValueMap.containsKey(alias))
-      {
-         return m_aliasValueMap.get(alias).get(uid);
-      }
-      return null;
-   }
-
-   private Map<FieldType, CustomField> m_configMap = new HashMap<FieldType, CustomField>();
-   private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<Integer, CustomFieldValueItem>();
-   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<Pair<FieldTypeClass, String>, FieldType>();
-   private Map<String, Map<Integer, Object>> m_aliasValueMap = new HashMap<String, Map<Integer, Object>>();
+   private Map<FieldType, CustomField> m_configMap = new HashMap<>();
+   private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
+   private Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
+   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
 }

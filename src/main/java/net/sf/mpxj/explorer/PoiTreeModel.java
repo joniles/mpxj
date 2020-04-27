@@ -135,7 +135,7 @@ public class PoiTreeModel implements TreeModel
     */
    private List<Entry> getChildNodes(DirectoryEntry parent)
    {
-      List<Entry> result = new ArrayList<Entry>();
+      List<Entry> result = new ArrayList<>();
       Iterator<Entry> entries = parent.getEntries();
       while (entries.hasNext())
       {

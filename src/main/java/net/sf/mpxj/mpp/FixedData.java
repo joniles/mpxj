@@ -197,7 +197,7 @@ final class FixedData extends MPPComponent
          metaData = meta.getByteArrayValue(loop);
          itemOffset = MPPUtility.getInt(metaData, 4);
 
-         if (itemOffset > buffer.length)
+         if (itemOffset < 0 || itemOffset > buffer.length)
          {
             continue;
          }

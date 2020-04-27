@@ -36,7 +36,7 @@ class TableA1TAB extends Table
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
       map.put("NAME", PEPUtility.getString(data, 1, 15));
       map.put("ORDER", Integer.valueOf(PEPUtility.getShort(data, 16)));

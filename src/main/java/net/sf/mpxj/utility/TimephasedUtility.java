@@ -58,7 +58,7 @@ public final class TimephasedUtility
     */
    public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<DateRange> dateList)
    {
-      ArrayList<Duration> result = new ArrayList<Duration>(dateList.size());
+      ArrayList<Duration> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
 
       //
@@ -123,7 +123,7 @@ public final class TimephasedUtility
     */
    public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
    {
-      ArrayList<Double> result = new ArrayList<Double>(dateList.size());
+      ArrayList<Double> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
 
       //
@@ -359,7 +359,7 @@ public final class TimephasedUtility
          }
 
          DateHelper.pushCalendar(cal);
-         
+
          //
          // If we still haven't reached the end of our range
          // check to see if the next TRA can be used.
@@ -468,7 +468,7 @@ public final class TimephasedUtility
             calendarDate = cal.getTime();
          }
          DateHelper.pushCalendar(cal);
-         
+
          //
          // If we still haven't reached the end of our range
          // check to see if the next TRA can be used.

@@ -363,7 +363,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (memberResource == null)
       {
-         memberResource = new ArrayList<PortfolioTeamMemberType>();
+         memberResource = new ArrayList<>();
       }
       return this.memberResource;
    }

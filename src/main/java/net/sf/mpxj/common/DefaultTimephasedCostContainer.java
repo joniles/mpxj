@@ -51,7 +51,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
       }
       else
       {
-         m_data = new LinkedList<TimephasedCost>(data);
+         m_data = new LinkedList<>(data);
       }
       m_raw = raw;
       m_calendar = calendar;

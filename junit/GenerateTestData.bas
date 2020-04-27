@@ -22,6 +22,7 @@ Sub GenerateAll()
     GenerateResourceCustomNumbers
     GenerateResourceCustomText
     GenerateResourceTypes
+    GenerateDataLinks
 End Sub
 
 Sub GenerateXmlVersions()
@@ -891,6 +892,37 @@ Sub GenerateResourceCustomText()
 
     FileClose pjDoNotSave
 
+End Sub
+
+Sub GenerateDataLinks
+    Set Task1 = ActiveProject.Tasks.Add("Task 1")
+    SetTaskField Field:="Task Mode", Value:="No", TaskID:=Task1.ID
+    SetTaskField Field:="Start", Value:="01/01/2014 09:00", TaskID:=Task1.ID
+    SetTaskField Field:="Duration", Value:="5", TaskID:=Task1.ID
+    
+    Set Task2 = ActiveProject.Tasks.Add("Task 2")
+    SetTaskField Field:="Task Mode", Value:="No", TaskID:=Task2.ID
+    SetTaskField Field:="Start", Value:="01/01/2014 09:00", TaskID:=Task2.ID
+    SetTaskField Field:="Duration", Value:="5", TaskID:=Task2.ID
+    
+    Set Task3 = ActiveProject.Tasks.Add("Task 3")
+    SetTaskField Field:="Task Mode", Value:="No", TaskID:=Task3.ID
+    SetTaskField Field:="Start", Value:="01/01/2014 09:00", TaskID:=Task3.ID
+    SetTaskField Field:="Duration", Value:="5", TaskID:=Task3.ID
+
+    SelectTaskField RowRelative:=False, Row:=1, Column:="Finish"
+    EditCopy
+    SelectTaskField RowRelative:=False, Row:=2, Column:="Start"
+    EditPasteSpecial Link:=True, Type:=2, DisplayAsIcon:=False
+
+    SelectTaskField RowRelative:=False, Row:=2, Column:="Finish"
+    EditCopy
+    SelectTaskField RowRelative:=False, Row:=3, Column:="Start"
+    EditPasteSpecial Link:=True, Type:=2, DisplayAsIcon:=False
+    
+    SaveFiles "data-links"
+
+    FileClose pjDoNotSave
 End Sub
 
 ' If you have a file which contains manually created test data

@@ -290,7 +290,7 @@ public final class DateHelper
       TimeZone tz = TimeZone.getDefault();
       Date result = new Date(timestamp - tz.getRawOffset());
 
-      if (tz.inDaylightTime(result) == true)
+      if (tz.inDaylightTime(result))
       {
          int savings;
 
@@ -305,7 +305,36 @@ public final class DateHelper
 
          result = new Date(result.getTime() - savings);
       }
-      return (result);
+      return result;
+   }
+
+   /**
+    * Creates a long value from a timestamp.  This conversion
+    * takes account of the time zone and any daylight savings time.
+    *
+    * @param date timestamp as a Date instance
+    * @return timestamp expressed as a long integer
+    */
+   public static long getLongFromTimestamp(Date date)
+   {
+      TimeZone tz = TimeZone.getDefault();
+      long result = date.getTime();
+      if (tz.inDaylightTime(date))
+      {
+         int savings;
+
+         if (HAS_DST_SAVINGS == true)
+         {
+            savings = tz.getDSTSavings();
+         }
+         else
+         {
+            savings = DEFAULT_DST_SAVINGS;
+         }
+
+         result += savings;
+      }
+      return result;
    }
 
    /**
@@ -420,6 +449,8 @@ public final class DateHelper
          minutes -= (hours * 60);
 
          Calendar cal = popCalendar();
+         cal.set(Calendar.DAY_OF_YEAR, 1);
+         cal.set(Calendar.YEAR, 1);
          cal.set(Calendar.MILLISECOND, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MINUTE, minutes);
@@ -430,10 +461,10 @@ public final class DateHelper
 
       return result;
    }
-   
+
    /**
     * Add a number of days to the supplied date.
-    * 
+    *
     * @param date start date
     * @param days number of days to add
     * @return  new date
@@ -444,12 +475,12 @@ public final class DateHelper
       cal.add(Calendar.DAY_OF_YEAR, days);
       Date result = cal.getTime();
       pushCalendar(cal);
-      return result;   
+      return result;
    }
 
    /**
     * Acquire a calendar instance.
-    * 
+    *
     * @return Calendar instance
     */
    public static Calendar popCalendar()
@@ -469,7 +500,7 @@ public final class DateHelper
 
    /**
     * Acquire a Calendar instance and set the initial date.
-    * 
+    *
     * @param date initial date
     * @return Calendar instance
     */
@@ -482,7 +513,7 @@ public final class DateHelper
 
    /**
     * Acquire a Calendar instance and set the initial date.
-    * 
+    *
     * @param timeInMillis initial date
     * @return Calendar instance
     */
@@ -495,14 +526,14 @@ public final class DateHelper
 
    /**
     * Return a Calendar instance.
-    * 
+    *
     * @param cal Calendar instance to return
     */
    public static void pushCalendar(Calendar cal)
    {
       CALENDARS.get().push(cal);
    }
-   
+
    /**
     * First date supported by Microsoft Project: January 01 00:00:00 1984.
     */
@@ -544,9 +575,9 @@ public final class DateHelper
    {
       @Override protected Deque<Calendar> initialValue()
       {
-         return new ArrayDeque<Calendar>();
+         return new ArrayDeque<>();
       }
-   };            
+   };
 
    static
    {

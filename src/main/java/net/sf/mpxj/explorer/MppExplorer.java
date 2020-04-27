@@ -120,7 +120,7 @@ public class MppExplorer
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
-      PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<FileChooserModel>(fileChooserModel, "file", true);
+      PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<>(fileChooserModel, "file", true);
       adapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)

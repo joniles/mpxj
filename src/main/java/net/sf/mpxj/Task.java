@@ -780,6 +780,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the secondary constraint date.
+    *
+    * @param date secondary constraint date
+    */
+   public void setSecondaryConstraintDate(Date date)
+   {
+      set(TaskField.SECONDARY_CONSTRAINT_DATE, date);
+   }
+
+   /**
     * Private method for dealing with string parameters from File.
     *
     * @param type string constraint type
@@ -787,6 +797,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setConstraintType(ConstraintType type)
    {
       set(TaskField.CONSTRAINT_TYPE, type);
+   }
+
+   /**
+    * Set the secondary constraint type.
+    *
+    * @param type secondary constraint type
+    */
+   public void setSecondaryConstraintType(ConstraintType type)
+   {
+      set(TaskField.SECONDARY_CONSTRAINT_TYPE, type);
    }
 
    /**
@@ -1797,6 +1817,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the secondary constraint date.
+    *
+    * @return secondary constraint date
+    */
+   public Date getSecondaryConstraintDate()
+   {
+      return ((Date) getCachedValue(TaskField.SECONDARY_CONSTRAINT_DATE));
+   }
+
+   /**
     * The Constraint Type field provides choices for the type of constraint you
     * can apply for scheduling a task.
     *
@@ -1805,6 +1835,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public ConstraintType getConstraintType()
    {
       return ((ConstraintType) getCachedValue(TaskField.CONSTRAINT_TYPE));
+   }
+
+   /**
+    * Retrieve the secondary constraint type.
+    *
+    * @return secondary constraint type
+    */
+   public ConstraintType getSecondaryConstraintType()
+   {
+      return ((ConstraintType) getCachedValue(TaskField.SECONDARY_CONSTRAINT_TYPE));
    }
 
    /**
@@ -2904,29 +2944,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the WBS level.
-    *
-    * @return WBS level
-    */
-   public String getWBSLevel()
-   {
-      return (m_wbsLevel);
-   }
-
-   /**
-    * Set the WBS level.
-    *
-    * @param wbsLevel WBS level
-    */
-   public void setWBSLevel(String wbsLevel)
-   {
-      m_wbsLevel = wbsLevel;
-   }
-
-   /**
     * Retrieve the resume valid flag.
     *
-    * @return resume valie flag
+    * @return resume valid flag
     */
    public boolean getResumeValid()
    {
@@ -3139,7 +3159,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public TimeUnit getLevelingDelayFormat()
    {
-      return (m_levelingDelayFormat);
+      return (TimeUnit) getCachedValue(TaskField.LEVELING_DELAY_UNITS);
    }
 
    /**
@@ -3149,13 +3169,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setLevelingDelayFormat(TimeUnit levelingDelayFormat)
    {
-      m_levelingDelayFormat = levelingDelayFormat;
+      set(TaskField.LEVELING_DELAY_UNITS, levelingDelayFormat);
    }
 
    /**
-    * Retrieves the ignore resource celandar flag.
+    * Retrieves the ignore resource calendar flag.
     *
-    * @return ignore resource celandar flag
+    * @return ignore resource calendar flag
     */
    public boolean getIgnoreResourceCalendar()
    {
@@ -3163,9 +3183,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Sets the ignore resource celandar flag.
+    * Sets the ignore resource calendar flag.
     *
-    * @param ignoreResourceCalendar ignore resource celandar flag
+    * @param ignoreResourceCalendar ignore resource calendar flag
     */
    public void setIgnoreResourceCalendar(boolean ignoreResourceCalendar)
    {
@@ -3219,7 +3239,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getActualWorkProtected()
    {
-      return (m_actualWorkProtected);
+      return (Duration) getCachedValue(TaskField.ACTUAL_WORK_PROTECTED);
    }
 
    /**
@@ -3229,7 +3249,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setActualWorkProtected(Duration actualWorkProtected)
    {
-      m_actualWorkProtected = actualWorkProtected;
+      set(TaskField.ACTUAL_WORK_PROTECTED, actualWorkProtected);
    }
 
    /**
@@ -3239,7 +3259,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getActualOvertimeWorkProtected()
    {
-      return (m_actualOvertimeWorkProtected);
+      return (Duration) getCachedValue(TaskField.ACTUAL_OVERTIME_WORK_PROTECTED);
    }
 
    /**
@@ -3249,7 +3269,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setActualOvertimeWorkProtected(Duration actualOvertimeWorkProtected)
    {
-      m_actualOvertimeWorkProtected = actualOvertimeWorkProtected;
+      set(TaskField.ACTUAL_OVERTIME_WORK_PROTECTED, actualOvertimeWorkProtected);
    }
 
    /**
@@ -3754,9 +3774,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return list of split times
     */
-   public List<DateRange> getSplits()
+   @SuppressWarnings("unchecked") public List<DateRange> getSplits()
    {
-      return (m_splits);
+      return (List<DateRange>) getCachedValue(TaskField.SPLITS);
    }
 
    /**
@@ -3766,7 +3786,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSplits(List<DateRange> splits)
    {
-      m_splits = splits;
+      set(TaskField.SPLITS, splits);
    }
 
    /**
@@ -3776,7 +3796,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getSplitCompleteDuration()
    {
-      return m_splitsComplete;
+      return (Date) getCachedValue(TaskField.SPLITS_COMPLETE);
    }
 
    /**
@@ -3786,7 +3806,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSplitCompleteDuration(Date splitsComplete)
    {
-      m_splitsComplete = splitsComplete;
+      set(TaskField.SPLITS_COMPLETE, splitsComplete);
    }
 
    /**
@@ -3804,7 +3824,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public SubProject getSubProject()
    {
-      return (m_subProject);
+      return (SubProject) getCachedValue(TaskField.SUBPROJECT);
    }
 
    /**
@@ -3814,7 +3834,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setSubProject(SubProject subProject)
    {
-      m_subProject = subProject;
+      set(TaskField.SUBPROJECT, subProject);
    }
 
    /**
@@ -4940,7 +4960,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<FieldListener>();
+         m_listeners = new LinkedList<>();
       }
       m_listeners.add(listener);
    }
@@ -5000,6 +5020,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Used to determine if a task has child tasks.
+    *
+    * @return true if the task has child tasks
+    */
+   public boolean hasChildTasks()
+   {
+      return !m_children.isEmpty();
+   }
+
+   /**
     * Internal method used to test for the existence of a relationship
     * with a task.
     *
@@ -5052,17 +5082,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List<Task> m_children = new LinkedList<Task>();
+   private List<Task> m_children = new LinkedList<>();
 
    /**
     * List of resource assignments for this task.
     */
-   private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
+   private List<ResourceAssignment> m_assignments = new LinkedList<>();
 
    /**
     * List of activity codes for this task.
     */
-   private List<ActivityCodeValue> m_activityCodes = new LinkedList<ActivityCodeValue>();
+   private List<ActivityCodeValue> m_activityCodes = new LinkedList<>();
 
    /**
     * Recurring task details associated with this task.
@@ -5071,16 +5101,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;
-   private String m_wbsLevel;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
-   private TimeUnit m_levelingDelayFormat;
-   private Duration m_actualWorkProtected;
-   private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
-
-   private List<DateRange> m_splits;
-   private Date m_splitsComplete;
-   private SubProject m_subProject;
    private List<FieldListener> m_listeners;
 }

@@ -71,7 +71,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -85,7 +85,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-         m_taskMap = new HashMap<String, Task>();
+         m_taskMap = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoWBS(false);
@@ -280,7 +280,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
 
    /**
     * Read an individual remark type from a Gantt Designer file.
-    * 
+    *
     * @param remark remark type
     */
    private void processRemarks(GanttDesignerRemark remark)
@@ -290,7 +290,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
          Integer id = remarkTask.getRow();
          Task task = m_projectFile.getTaskByID(id);
          String notes = task.getNotes();
-         if (notes == null || notes.isEmpty())
+         if (notes.isEmpty())
          {
             notes = remarkTask.getContent();
          }
@@ -304,7 +304,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
 
    /**
     * Extract the parent WBS from a WBS.
-    * 
+    *
     * @param wbs current WBS
     * @return parent WBS
     */
@@ -325,7 +325,7 @@ public final class GanttDesignerReader extends AbstractProjectReader
 
    /**
     * Retrieve the parent task based on its WBS.
-    * 
+    *
     * @param wbs parent WBS
     * @return parent task
     */

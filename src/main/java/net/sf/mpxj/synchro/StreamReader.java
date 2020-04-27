@@ -42,12 +42,24 @@ class StreamReader
     * Constructor.
     *
     * @param majorVersion major version
+    * @param minorVersion minor version
     * @param stream input stream
     */
-   public StreamReader(int majorVersion, InputStream stream)
+   public StreamReader(int majorVersion, int minorVersion, final InputStream stream)
    {
-      m_majorVersion = majorVersion; 
+      m_majorVersion = majorVersion;
+      m_minorVersion = minorVersion;
       m_stream = stream;
+      //      m_stream = new InputStream()
+      //      {
+      //         @Override public int read() throws IOException
+      //         {
+      //            ++counter;
+      //            return stream.read();
+      //         }
+      //
+      //         private int counter = 24;
+      //      };
    }
 
    /**
@@ -131,6 +143,27 @@ class StreamReader
       if (DatatypeConverter.getBoolean(m_stream))
       {
          result = readTable(readerClass);
+      }
+      else
+      {
+         result = Collections.emptyList();
+      }
+      return result;
+   }
+
+   /**
+    * Conditionally read an unknown table.
+    *
+    * @param rowSize Unknown table row size
+    * @param rowMagicNumber Unknown table row magic number
+    * @return table rows or empty list if table not present
+    */
+   public List<MapRow> readUnknownTableConditional(int rowSize, int rowMagicNumber) throws IOException
+   {
+      List<MapRow> result;
+      if (DatatypeConverter.getBoolean(m_stream))
+      {
+         result = readUnknownTable(rowSize, rowMagicNumber);
       }
       else
       {
@@ -267,14 +300,36 @@ class StreamReader
 
    /**
     * Retrieve the major version number of this file.
-    * 
+    *
     * @return major version number
     */
    public int getMajorVersion()
    {
       return m_majorVersion;
    }
-   
+
+   /**
+    * Retrieve the minor version number of this file.
+    *
+    * @return minor version number
+    */
+   public int getMinorVersion()
+   {
+      return m_minorVersion;
+   }
+
+   /**
+    * Retrieve the combined version number of this file.
+    * Note that this is simplistic and assumes that we'll never seem a minor version > 99.
+    *
+    * @return combined version number
+    */
+   public int getCombinedVersion()
+   {
+      return (m_majorVersion * 100) + m_minorVersion;
+   }
+
    private final int m_majorVersion;
+   private final int m_minorVersion;
    private final InputStream m_stream;
 }

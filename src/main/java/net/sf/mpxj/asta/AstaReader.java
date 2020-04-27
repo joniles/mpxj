@@ -26,6 +26,7 @@ package net.sf.mpxj.asta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -100,18 +101,37 @@ final class AstaReader
    /**
     * Process project properties.
     *
-    * @param row project properties data.
+    * @param projectSummary project properties data.
+    * @param progressPeriods progress period data.
     */
-   public void processProjectProperties(Row row)
+   public void processProjectProperties(Row projectSummary, List<Row> progressPeriods)
    {
       ProjectProperties ph = m_project.getProjectProperties();
-      ph.setDuration(row.getDuration("DURATIONHOURS"));
-      ph.setStartDate(row.getDate("STARU"));
-      ph.setFinishDate(row.getDate("ENE"));
-      ph.setName(row.getString("SHORT_NAME"));
-      ph.setAuthor(row.getString("PROJECT_BY"));
-      //DURATION_TIME_UNIT
-      ph.setLastSaved(row.getDate("LAST_EDITED_DATE"));
+
+      if (projectSummary != null)
+      {
+         ph.setDuration(projectSummary.getDuration("DURATIONHOURS"));
+         ph.setStartDate(projectSummary.getDate("STARU"));
+         ph.setFinishDate(projectSummary.getDate("ENE"));
+         ph.setName(projectSummary.getString("SHORT_NAME"));
+         ph.setAuthor(projectSummary.getString("PROJECT_BY"));
+         //DURATION_TIME_UNIT
+         ph.setLastSaved(projectSummary.getDate("LAST_EDITED_DATE"));
+      }
+
+      if (progressPeriods != null)
+      {
+         Collections.sort(progressPeriods, new Comparator<Row>()
+         {
+            @Override public int compare(Row o1, Row o2)
+            {
+               return o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID"));
+            }
+         });
+
+         Row lastProgressPeriod = progressPeriods.get(progressPeriods.size() - 1);
+         ph.setStatusDate(lastProgressPeriod.getDate("REPORT_DATE"));
+      }
    }
 
    /**
@@ -224,7 +244,7 @@ final class AstaReader
       //
       // Create a list of leaf nodes by merging the task and milestone lists
       //
-      List<Row> leaves = new ArrayList<Row>();
+      List<Row> leaves = new ArrayList<>();
       leaves.addAll(tasks);
       leaves.addAll(milestones);
 
@@ -237,7 +257,7 @@ final class AstaReader
       //
       // Map bar IDs to bars
       //
-      Map<Integer, Row> barIdToBarMap = new HashMap<Integer, Row>();
+      Map<Integer, Row> barIdToBarMap = new HashMap<>();
       for (Row bar : bars)
       {
          barIdToBarMap.put(bar.getInteger("BARID"), bar);
@@ -247,7 +267,7 @@ final class AstaReader
       // Merge expanded task attributes with parent bars
       // and create an expanded task ID to bar map.
       //
-      Map<Integer, Row> expandedTaskIdToBarMap = new HashMap<Integer, Row>();
+      Map<Integer, Row> expandedTaskIdToBarMap = new HashMap<>();
       for (Row expandedTask : expandedTasks)
       {
          Row bar = barIdToBarMap.get(expandedTask.getInteger("BAR"));
@@ -259,7 +279,7 @@ final class AstaReader
       //
       // Build the hierarchy
       //
-      List<Row> parentBars = new ArrayList<Row>();
+      List<Row> parentBars = new ArrayList<>();
       for (Row bar : bars)
       {
          Integer expandedTaskID = bar.getInteger("EXPANDED_TASK");
@@ -323,12 +343,22 @@ final class AstaReader
    {
       for (Row row : rows)
       {
+         boolean rowIsBar = (row.getInteger("BARID") != null);
+
+         //
+         // Don't export hammock tasks.
+         //
+         if (rowIsBar && row.getChildRows().isEmpty())
+         {
+            continue;
+         }
+
          Task task = parent.addTask();
 
          //
          // Do we have a bar, task, or milestone?
          //
-         if (row.getInteger("BARID") != null)
+         if (rowIsBar)
          {
             //
             // If the bar only has one child task, we skip it and add the task directly
@@ -416,6 +446,8 @@ final class AstaReader
       task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("LATE_END_DATE_RS"));
       //FREE_START_DATE
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
@@ -425,7 +457,7 @@ final class AstaReader
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
-      task.setPercentageComplete(row.getDouble("OVERALL_PERCENV_COMPLETE"));
+      task.setPercentageComplete(row.getPercent("OVERALL_PERCENV_COMPLETE"));
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       task.setNotes(getNotes(row));
@@ -614,13 +646,39 @@ final class AstaReader
     * Processes predecessor data.
     *
     * @param rows predecessor data
+    * @param completedSections completed section data
     */
-   public void processPredecessors(List<Row> rows)
+   public void processPredecessors(List<Row> rows, List<Row> completedSections)
    {
+      Map<Integer, Integer> completedSectionMap = new HashMap<>();
+      for (Row section : completedSections)
+      {
+         completedSectionMap.put(section.getInteger("TASK_COMPLETED_SECTIONID"), section.getInteger("TASK"));
+      }
+
       for (Row row : rows)
       {
-         Task startTask = m_project.getTaskByUniqueID(row.getInteger("START_TASK"));
-         Task endTask = m_project.getTaskByUniqueID(row.getInteger("END_TASK"));
+         Integer startTaskID = row.getInteger("START_TASK");
+         Task startTask = m_project.getTaskByUniqueID(startTaskID);
+         if (startTask == null)
+         {
+            startTaskID = completedSectionMap.get(startTaskID);
+            if (startTaskID != null)
+            {
+               startTask = m_project.getTaskByUniqueID(startTaskID);
+            }
+         }
+
+         Integer endTaskID = row.getInteger("END_TASK");
+         Task endTask = m_project.getTaskByUniqueID(endTaskID);
+         if (endTask == null)
+         {
+            endTaskID = completedSectionMap.get(endTaskID);
+            if (endTaskID != null)
+            {
+               endTask = m_project.getTaskByUniqueID(endTaskID);
+            }
+         }
 
          if (startTask != null && endTask != null)
          {
@@ -692,7 +750,7 @@ final class AstaReader
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
          if (task != null && resource != null)
          {
-            double percentComplete = row.getDouble("PERCENT_COMPLETE").doubleValue();
+            double percentComplete = row.getPercent("PERCENT_COMPLETE").doubleValue();
             Duration work = row.getWork("EFFORW");
             double actualWork = work.getDuration() * percentComplete;
             double remainingWork = work.getDuration() - actualWork;
@@ -889,7 +947,7 @@ final class AstaReader
       //
       // Count the number of times each calendar is used
       //
-      Map<ProjectCalendar, Integer> map = new HashMap<ProjectCalendar, Integer>();
+      Map<ProjectCalendar, Integer> map = new HashMap<>();
       for (Task task : m_project.getTasks())
       {
          ProjectCalendar calendar = task.getCalendar();
@@ -1024,7 +1082,7 @@ final class AstaReader
     */
    public Map<Integer, DayType> createExceptionTypeMap(List<Row> rows)
    {
-      Map<Integer, DayType> map = new HashMap<Integer, DayType>();
+      Map<Integer, DayType> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer id = row.getInteger("EXCEPTIONNID");
@@ -1064,7 +1122,7 @@ final class AstaReader
     */
    public Map<Integer, Row> createWorkPatternMap(List<Row> rows)
    {
-      Map<Integer, Row> map = new HashMap<Integer, Row>();
+      Map<Integer, Row> map = new HashMap<>();
       for (Row row : rows)
       {
          map.put(row.getInteger("WORK_PATTERNID"), row);
@@ -1081,14 +1139,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
          List<Row> list = map.get(calendarID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(calendarID, list);
          }
          list.add(row);
@@ -1104,14 +1162,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createExceptionAssignmentMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
          List<Row> list = map.get(calendarID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(calendarID, list);
          }
          list.add(row);
@@ -1127,14 +1185,14 @@ final class AstaReader
     */
    public Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
    {
-      Map<Integer, List<Row>> map = new HashMap<Integer, List<Row>>();
+      Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("TIME_ENTRYID");
          List<Row> list = map.get(workPatternID);
          if (list == null)
          {
-            list = new LinkedList<Row>();
+            list = new LinkedList<>();
             map.put(workPatternID, list);
          }
          list.add(row);

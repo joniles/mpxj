@@ -61,7 +61,7 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      LinkedList<DateRange> splits = new LinkedList<DateRange>();
+      LinkedList<DateRange> splits = new LinkedList<>();
       TimephasedWork lastAssignment = null;
       DateRange lastRange = null;
       for (TimephasedWork assignment : timephasedComplete)
@@ -120,7 +120,7 @@ public final class SplitTaskFactory
       //
       if (splits.size() > 2)
       {
-         task.getSplits().addAll(splits);
+         task.setSplits(splits);
          task.setSplitCompleteDuration(splitsComplete);
       }
       else

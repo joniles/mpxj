@@ -328,7 +328,7 @@ public class RecurringData
       }
 
       Calendar calendar = DateHelper.popCalendar(m_startDate);
-      List<Date> dates = new ArrayList<Date>();
+      List<Date> dates = new ArrayList<>();
 
       switch (m_recurrenceType)
       {
@@ -358,7 +358,7 @@ public class RecurringData
       }
 
       DateHelper.pushCalendar(calendar);
-      
+
       return dates.toArray(new Date[dates.size()]);
    }
 

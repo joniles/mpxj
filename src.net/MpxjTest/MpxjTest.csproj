@@ -154,15 +154,15 @@
     <Reference Include="mpxj-test">
       <HintPath>..\..\lib.net\mpxj-test.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.17">
-      <HintPath>..\..\lib.net\poi-3.17.dll</HintPath>
+    <Reference Include="poi-4.1.2">
+      <HintPath>..\..\lib.net\poi-4.1.2.dll</HintPath>
     </Reference>
-    <Reference Include="commons-collections4-4.1">
-      <HintPath>..\..\lib.net\commons-collections4-4.1.dll</HintPath>
+    <Reference Include="commons-collections4-4.4">
+      <HintPath>..\..\lib.net\commons-collections4-4.4.dll</HintPath>
     </Reference>
-    <Reference Include="rtfparserkit-1.13.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
+    <Reference Include="rtfparserkit-1.15.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\rtfparserkit-1.13.0.dll</HintPath>
+      <HintPath>..\..\lib.net\rtfparserkit-1.15.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -183,6 +183,14 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\lib.net\ikvm-native-win32-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib.net\ikvm-native-win32-x86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

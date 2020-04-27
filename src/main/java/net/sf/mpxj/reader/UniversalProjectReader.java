@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.util.CloseIgnoringInputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -75,6 +76,8 @@ import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
+import net.sf.mpxj.sage.SageReader;
+import net.sf.mpxj.sdef.SDEFReader;
 import net.sf.mpxj.synchro.SynchroReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
@@ -92,7 +95,7 @@ public final class UniversalProjectReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -316,6 +319,16 @@ public final class UniversalProjectReader implements ProjectReader
             return readProjectFile(new MerlinXmlReader(), bis);
          }
 
+         if (matchesFingerprint(buffer, SDEF_FINGERPRINT))
+         {
+            return readProjectFile(new SDEFReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, SCHEDULE_GRID_FINGERPRINT))
+         {
+            return readProjectFile(new SageReader(), bis);
+         }
+
          return null;
       }
 
@@ -383,7 +396,18 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
    {
-      POIFSFileSystem fs = new POIFSFileSystem(POIFSFileSystem.createNonClosingInputStream(stream));
+      POIFSFileSystem fs;
+      
+      try
+      {
+         fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
+      }
+      
+      catch (Exception ex)
+      {
+         return null;
+      }
+      
       String fileFormat = MPPReader.getFileFormat(fs);
       if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
@@ -611,7 +635,7 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private ProjectFile handleFileInDirectory(File directory) throws Exception
    {
-      List<File> directories = new ArrayList<File>();
+      List<File> directories = new ArrayList<>();
       File[] files = directory.listFiles();
 
       if (files != null)
@@ -787,7 +811,7 @@ public final class UniversalProjectReader implements ProjectReader
     */
    private Set<String> populateTableNames(String url) throws SQLException
    {
-      Set<String> tableNames = new HashSet<String>();
+      Set<String> tableNames = new HashSet<>();
       Connection connection = null;
       ResultSet rs = null;
 
@@ -954,10 +978,6 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 0x00,
       (byte) 0x00,
       (byte) 0x00,
-      (byte) 0x8B,
-      (byte) 0x00,
-      (byte) 0x00,
-      (byte) 0x00
    };
 
    private static final byte[] PROJECTLIBRE_FINGERPRINT =
@@ -1007,6 +1027,36 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 0x17
    };
 
+   private static final byte[] SDEF_FINGERPRINT =
+   {
+      (byte) 'V',
+      (byte) 'O',
+      (byte) 'L',
+      (byte) 'M'
+   };
+
+   private static final byte[] SCHEDULE_GRID_FINGERPRINT =
+   {
+      (byte) '*',
+      (byte) '*',
+      (byte) '*',
+      (byte) '*',
+      (byte) ' ',
+      (byte) 'S',
+      (byte) 'c',
+      (byte) 'h',
+      (byte) 'e',
+      (byte) 'd',
+      (byte) 'u',
+      (byte) 'l',
+      (byte) 'e',
+      (byte) ' ',
+      (byte) 'G',
+      (byte) 'r',
+      (byte) 'i',
+      (byte) 'd'
+   };
+
    private static final byte[] UTF8_BOM_FINGERPRINT =
    {
       (byte) 0xEF,
@@ -1033,7 +1083,7 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern MSPDI_FINGERPRINT_1 = Pattern.compile(".*xmlns=\"http://schemas\\.microsoft\\.com/project.*", Pattern.DOTALL);
 
    private static final Pattern MSPDI_FINGERPRINT_2 = Pattern.compile(".*<Project.*<SaveVersion>.*", Pattern.DOTALL);
-   
+
    private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);

@@ -86,7 +86,7 @@ public final class ProjectWriterUtility
       return (WRITER_MAP.keySet());
    }
 
-   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>>();
+   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<>();
    static
    {
       WRITER_MAP.put("MPX", MPXWriter.class);

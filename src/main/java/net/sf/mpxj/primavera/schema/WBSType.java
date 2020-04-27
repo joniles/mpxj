@@ -5129,7 +5129,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (udf == null)
       {
-         udf = new ArrayList<UDFAssignmentType>();
+         udf = new ArrayList<>();
       }
       return this.udf;
    }
@@ -5186,7 +5186,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (wbsResourceSpread == null)
       {
-         wbsResourceSpread = new ArrayList<ProjectResourceSpreadType>();
+         wbsResourceSpread = new ArrayList<>();
       }
       return this.wbsResourceSpread;
    }
@@ -5217,7 +5217,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (wbsRoleSpread == null)
       {
-         wbsRoleSpread = new ArrayList<ProjectRoleSpreadType>();
+         wbsRoleSpread = new ArrayList<>();
       }
       return this.wbsRoleSpread;
    }

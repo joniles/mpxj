@@ -300,6 +300,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -349,6 +350,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <Notes>Test Task Notes
 </Notes>
@@ -400,6 +402,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <Notes>Second task note with some formatting!
 </Notes>
@@ -444,6 +447,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <Notes>Third task note.
 </Notes>
@@ -489,6 +493,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>1</HideBar>
             <Rollup>1</Rollup>
@@ -533,6 +538,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
@@ -577,6 +583,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
@@ -626,6 +633,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
@@ -669,6 +677,7 @@
             <Deadline>2003-03-14T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -712,6 +721,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -762,6 +772,7 @@
             <Deadline>2003-03-13T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -805,6 +816,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -855,6 +867,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -898,6 +911,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -948,6 +962,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -991,6 +1006,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1041,6 +1057,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1084,6 +1101,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1135,6 +1153,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1179,6 +1198,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1235,6 +1255,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
@@ -1284,6 +1305,7 @@
             <Deadline>2003-03-17T17:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
@@ -1333,6 +1355,7 @@
             <Deadline>2003-03-18T08:00:00</Deadline>
             <LevelAssignments>1</LevelAssignments>
             <LevelingCanSplit>1</LevelingCanSplit>
+            <LevelingDelayFormat>5</LevelingDelayFormat>
             <IgnoreResourceCalendar>0</IgnoreResourceCalendar>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>

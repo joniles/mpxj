@@ -139,6 +139,25 @@ reader.setMatchPrimaveraWBS(false);
 ProjectFile file = reader.read("my-sample.xer");
 ```
 
+#### WBS is Full Path
+Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
+separated hierarchy of all of the parent WBS attributes.
+In this example, `root.wbs1.wbs2` is the WBS attribute for `wbs2` which has
+the parents `root` and `wbs1`. To disabled this behaviour, and simply record
+the code for the current WBS entry (in the example above `wbs2`) call the
+`setWbsIsFullPath` method, passing in `false`, as illustrated below.  
+
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+reader.setWbsIsFullPath(false);
+```
+
 #### User Defined Fields
 MPXJ attempts to map user defined fields from P6 to the custom fields.
 When MPXJ reads user defined fields from the XER file, it will assign
@@ -185,3 +204,51 @@ and resource assignments. The first argument you pass to these methods is the P6
 field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ,
 you would pass in `"DATE"`. To allow values to overflow from one custom field type
 to another, you can simply pass additional values (see the `setFieldNamesForTaskUdfType` example above).
+
+#### Reading Additional Attributes
+A data-driven approach is used to extract the attributes used by MPXJ from the XER file.
+You can if you wish change the way attributes are read from the file, or add support
+for additional attributes. This assumes that you know the column name of the attributes
+you want to work with in the XER file. To make changes you will need to retrieve the maps
+which define which MPXJ attributes are used to store which columns from the XER file:
+
+```java
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
+Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
+Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+```
+
+These maps will contain the default mapping between columns and MPXJ attributes. You can modify
+these existing mappings, or add new ones, for example:
+
+```java
+//
+// Change the field used to store rsrc_id
+//
+activityFieldMap.remove(TaskField.NUMBER1);
+activityFieldMap.put(TaskField.NUMBER2, "rsrc_id");
+
+//
+// Read an Activity column called an_example_field and store it in TEXT10
+//
+activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+```
+
+When reading new columns from the XER file, if these columns have a type other than String,
+it is important to register the type of the column to ensure that it is converted correctly.
+You will also need to ensure that the MPXJ attribute you are writing this new value to
+can receive the data type you are assigning to it (for example, you must store a date in a
+date attribute, you can't store a date in an integer attribute).
+ 
+For example, if we are reading an integer column called `an_example_id` and store it in
+the `NUMBER2` attribute, we will need to take the following steps:
+
+```java
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+Map<String, XerFieldType> fieldTypeMap = reader.getFieldTypeMap();
+fieldTypeMap.put("an_example_id", XerFieldType.INTEGER);
+Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+activityFieldMap.put(TaskField.NUMBER2, "an_example_id");
+```

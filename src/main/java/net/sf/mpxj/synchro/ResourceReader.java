@@ -44,7 +44,7 @@ class ResourceReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       int unknown3BlockSize = m_stream.getMajorVersion() > 5 ? 56 : 64;
-      
+
       map.put("NAME", stream.readString());
       map.put("DESCRIPTION", stream.readString());
       Integer supplyReferenceFlag = stream.readInteger();
@@ -74,7 +74,7 @@ class ResourceReader extends TableReader
          map.put("UNKNOWN8", stream.readBytes(4));
       }
       map.put("UNKNOWN9", stream.readBytes(12));
-      
+
       if (m_stream.getMajorVersion() > 5)
       {
          map.put("UNKNOWN10", stream.readBytes(12));

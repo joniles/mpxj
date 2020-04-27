@@ -282,7 +282,7 @@ class Record
 
    private String m_field;
    private String m_value;
-   private List<Record> m_records = new ArrayList<Record>();
+   private List<Record> m_records = new ArrayList<>();
 
    private static final String SEPARATOR = new String(new byte[]
    {

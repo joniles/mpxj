@@ -26,8 +26,10 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.ByteArrayHelper;
 
 /**
  * Common implementation detail shared by custom field value readers.
@@ -68,53 +70,91 @@ public abstract class CustomFieldValueReader
     * @param value raw value data
     * @return Java object
     */
-   protected Object getTypedValue(int type, byte[] value)
+   protected Object getTypedValue(CustomFieldValueDataType type, byte[] value)
    {
       Object result;
 
-      switch (type)
+      if (type == null)
       {
-         case 4: // Date
+         result = valueAsString(value);
+      }
+      else
+      {
+         switch (type)
          {
-            result = MPPUtility.getTimestamp(value, 0);
-            break;
-         }
+            case DATE:
+            case FINISH_DATE:
+            {
+               result = MPPUtility.getTimestamp(value, 0);
+               break;
+            }
 
-         case 6: // Duration
-         {
-            TimeUnit units = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(value, 4), m_properties.getDefaultDurationUnits());
-            result = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(value, 0), units);
-            break;
-         }
+            case DURATION:
+            {
+               TimeUnit units = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(value, 4), m_properties.getDefaultDurationUnits());
+               result = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(value, 0), units);
+               break;
+            }
 
-         case 9: // Cost
-         {
-            result = Double.valueOf(MPPUtility.getDouble(value, 0) / 100);
-            break;
-         }
+            case COST:
+            {
+               result = Double.valueOf(MPPUtility.getDouble(value, 0) / 100);
+               break;
+            }
 
-         case 15: // Number
-         {
-            result = Double.valueOf(MPPUtility.getDouble(value, 0));
-            break;
-         }
+            case NUMBER:
+            {
+               result = Double.valueOf(MPPUtility.getDouble(value, 0));
+               break;
+            }
 
-         case 36058:
-         case 21: // Text
-         {
-            result = MPPUtility.getUnicodeString(value, 0);
-            break;
-         }
+            case TEXT:
+            {
+               result = MPPUtility.getUnicodeString(value, 0);
+               break;
+            }
 
-         default:
-         {
-            result = value;
-            break;
+            default:
+            {
+               result = valueAsString(value);
+               break;
+            }
          }
       }
 
       return result;
    }
+
+   /**
+    * Try to convert a bute array into a string. In the event of a
+    * failure, fall back to dumping the byte array contents as
+    * as string of hex bytes.
+    *
+    * @param value byte array
+    * @return String instance
+    */
+   private String valueAsString(byte[] value)
+   {
+      String result;
+
+      //
+      // We don't know what this is, let's try making a string
+      //
+      try
+      {
+         result = MPPUtility.getUnicodeString(value, 0);
+      }
+
+      catch (Exception ex)
+      {
+         //
+         // Handle failure gracefully and dump the byte array contents
+         //
+         result = ByteArrayHelper.hexdump(value, false);
+      }
+      return result;
+   }
+
    protected ProjectProperties m_properties;
    protected CustomFieldContainer m_container;
    protected VarMeta m_outlineCodeVarMeta;

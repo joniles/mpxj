@@ -40,6 +40,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -66,7 +67,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -109,45 +110,20 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
-
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
-         ProjectFile project = m_reader.getProject();
-         project.getProjectProperties().setFileApplication("Primavera");
-         project.getProjectProperties().setFileType("XER");
-         project.getEventManager().addProjectListeners(m_projectListeners);
-
-         processProjectID();
-         processProjectProperties();
-         processActivityCodes();
-         processUserDefinedFields();
-         processCalendars();
-         processResources();
-         processResourceRates();
-         processTasks();
-         processPredecessors();
-         processAssignments();
-
-         m_reader = null;
-         project.updateStructure();
-
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
+         ProjectFile project = readProject();
          return (project);
       }
 
       finally
       {
-         m_reader = null;
          m_tables = null;
-         m_currentTableName = null;
-         m_currentTable = null;
-         m_currentFieldNames = null;
-         m_defaultCurrencyName = null;
-         m_currencyMap.clear();
          m_numberFormat = null;
-         m_defaultCurrencyData = null;
+         m_reader = null;
       }
    }
 
@@ -178,35 +154,20 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
 
          processFile(is);
 
          List<Row> rows = getRows("project", null, null);
-         List<ProjectFile> result = new ArrayList<ProjectFile>(rows.size());
-         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
+         List<ProjectFile> result = new ArrayList<>(rows.size());
+         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<>();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-
-            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
-            ProjectFile project = m_reader.getProject();
-            project.getEventManager().addProjectListeners(m_projectListeners);
-
-            processProjectProperties();
-            processUserDefinedFields();
-            processCalendars();
-            processResources();
-            processResourceRates();
-            processTasks();
-            processPredecessors();
-            processAssignments();
-
+            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            ProjectFile project = readProject();
             externalPredecessors.addAll(m_reader.getExternalPredecessors());
-
-            m_reader = null;
-            project.updateStructure();
 
             result.add(project);
          }
@@ -237,8 +198,44 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       finally
       {
-         m_reader = null;
          m_tables = null;
+         m_numberFormat = null;
+         m_reader = null;
+      }
+   }
+
+   /**
+    * Common project read functionality.
+    *
+    * @return ProjectFile instance
+    */
+   private ProjectFile readProject()
+   {
+      try
+      {
+         ProjectFile project = m_reader.getProject();
+         project.getProjectProperties().setFileApplication("Primavera");
+         project.getProjectProperties().setFileType("XER");
+         project.getEventManager().addProjectListeners(m_projectListeners);
+
+         processProjectID();
+         processProjectProperties();
+         processActivityCodes();
+         processUserDefinedFields();
+         processCalendars();
+         processResources();
+         processResourceRates();
+         processTasks();
+         processPredecessors();
+         processAssignments();
+
+         project.updateStructure();
+
+         return project;
+      }
+
+      finally
+      {
          m_currentTableName = null;
          m_currentTable = null;
          m_currentFieldNames = null;
@@ -284,7 +281,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          InputStreamReader reader = new InputStreamReader(bis, getCharset());
          Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
-         List<String> record = new ArrayList<String>();
+         List<String> record = new ArrayList<>();
 
          while (tk.getType() != Tokenizer.TT_EOF)
          {
@@ -374,10 +371,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       try
       {
-         m_tables = new HashMap<String, List<Row>>();
+         m_tables = new HashMap<>();
          processFile(is);
 
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<Row> rows = getRows("project", null, null);
          for (Row row : rows)
@@ -441,7 +438,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       if (rows.isEmpty() == false)
       {
          Row row = rows.get(0);
-         Map<String, Object> customProperties = new HashMap<String, Object>();
+         Map<String, Object> customProperties = new TreeMap<>();
          customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
          customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
          customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
@@ -571,7 +568,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             }
             else
             {
-               m_currentTable = new LinkedList<Row>();
+               m_currentTable = new LinkedList<>();
                m_tables.put(m_currentTableName, m_currentTable);
             }
             break;
@@ -598,12 +595,18 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          {
             if (!m_skipTable)
             {
-               Map<String, Object> map = new HashMap<String, Object>();
+               Map<String, Object> map = new HashMap<>();
                for (int loop = 1; loop < record.size(); loop++)
                {
+                  // We have more fields than field names, stop processing
+                  if (loop == m_currentFieldNames.length)
+                  {
+                     break;
+                  }
+                  
                   String fieldName = m_currentFieldNames[loop];
                   String fieldValue = record.get(loop);
-                  XerFieldType fieldType = FIELD_TYPE_MAP.get(fieldName);
+                  XerFieldType fieldType = m_fieldTypes.get(fieldName);
                   if (fieldType == null)
                   {
                      fieldType = XerFieldType.STRING;
@@ -708,6 +711,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    *
+    * @return Map of XER column names to types
+    */
+   public Map<String, XerFieldType> getFieldTypeMap()
+   {
+      return m_fieldTypes;
+   }
+
+   /**
     * Override the default field name mapping for Task user defined types.
     *
     * @param type target user defined data type
@@ -765,7 +778,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
-   public Map<FieldType, String> getTaskFieldMap()
+   public Map<FieldType, String> getActivityFieldMap()
    {
       return m_taskFields;
    }
@@ -775,7 +788,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
-   public Map<FieldType, String> getAssignmentFields()
+   public Map<FieldType, String> getAssignmentFieldMap()
    {
       return m_assignmentFields;
    }
@@ -816,7 +829,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          }
          else
          {
-            result = new LinkedList<Row>();
+            result = new LinkedList<>();
             for (Row row : table)
             {
                if (NumberHelper.equals(id, row.getInteger(columnName)))
@@ -853,6 +866,40 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
+   /**
+    * Returns true if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    *
+    * @return true if WBS attribute is a hierarchy
+    */
+   public boolean getWbsIsFullPath()
+   {
+      return m_wbsIsFullPath;
+   }
+
+   /**
+    * Sets a flag indicating if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    *
+    * @param wbsIsFullPath true if WBS attribute is a hierarchy
+    */
+   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   {
+      m_wbsIsFullPath = wbsIsFullPath;
+   }
+
+   /**
+    * Rather than using FIELD_TYPE_MAP directly, we copy it. This allows the
+    * caller to add or modify type mappings for an individual instance of
+    * the reader class.
+    *
+    * @return field type map instance
+    */
+   private Map<String, XerFieldType> getDefaultFieldTypes()
+   {
+      return new HashMap<>(FIELD_TYPE_MAP);
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private PrimaveraReader m_reader;
@@ -863,7 +910,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
-   private Map<String, DecimalFormat> m_currencyMap = new HashMap<String, DecimalFormat>();
+   private Map<String, DecimalFormat> m_currencyMap = new HashMap<>();
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
@@ -876,7 +923,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
    private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
+   private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
+   private boolean m_wbsIsFullPath = true;
 
    /**
     * Represents expected record types.
@@ -891,22 +940,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
-    * Represents column data types.
-    */
-   private enum XerFieldType
-   {
-      STRING,
-      INTEGER,
-      DOUBLE,
-      DATE,
-      DURATION,
-      CURRENCY
-   }
-
-   /**
     * Maps record type text to record types.
     */
-   private static final Map<String, XerRecordType> RECORD_TYPE_MAP = new HashMap<String, XerRecordType>();
+   private static final Map<String, XerRecordType> RECORD_TYPE_MAP = new HashMap<>();
    static
    {
       RECORD_TYPE_MAP.put("RMHDR", XerRecordType.HEADER);
@@ -920,115 +956,104 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    /**
     * Maps field names to data types.
     */
-   private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<String, XerFieldType>();
+   private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
-      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_reg_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("act_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("act_work_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("actv_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("actv_code_type_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("anticip_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("anticip_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("base_clndr_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("clndr_data", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("cstr_date2", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("day_hr_cnt", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("decimal_digit_cnt", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("default_flag", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("early_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("early_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("expect_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("fk_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("free_float_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("fy_start_month_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("rsrc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("indep_remain_total_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("indep_remain_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("anticip_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("anticip_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("task_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("phys_complete_pct", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("late_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("late_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("expect_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("early_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("early_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("lag_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_reg_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DOUBLE);
-
-      FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("default_flag", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("base_clndr_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("last_chng_date", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("day_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("clndr_data", XerFieldType.STRING);
-
-      FIELD_TYPE_MAP.put("seq_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("taskrsrc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
-
-      FIELD_TYPE_MAP.put("free_float_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("total_float_hr_cnt", XerFieldType.DURATION);
-
-      FIELD_TYPE_MAP.put("decimal_digit_cnt", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
-
-      FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("target_cost", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
-
       FIELD_TYPE_MAP.put("last_recalc_date", XerFieldType.DATE);
-
-      FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
-
-      // User Defined Fields types (UDF)
-      FIELD_TYPE_MAP.put("udf_type", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("late_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("late_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("loginal_data_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("parent_actv_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("phys_complete_pct", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("rsrc_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("seq_num", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("super_flag", XerFieldType.STRING);
-      // User Defined Fields values
-      FIELD_TYPE_MAP.put("fk_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("target_cost", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_work_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("task_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("taskrsrc_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("total_float_hr_cnt", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("udf_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("udf_number", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("udf_text", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
-
-      FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
-
-      FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
-
-      FIELD_TYPE_MAP.put("actv_code_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("actv_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);
    }
 
-   private static final Set<String> REQUIRED_TABLES = new HashSet<String>();
+   private static final Set<String> REQUIRED_TABLES = new HashSet<>();
    static
    {
       REQUIRED_TABLES.add("project");

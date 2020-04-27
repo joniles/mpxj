@@ -73,7 +73,7 @@ public final class FastTrackReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -115,10 +115,14 @@ public final class FastTrackReader implements ProjectReader
    {
       try
       {
-         m_data = new FastTrackData();
+         m_data = FastTrackData.getInstance();
          // Uncomment this to write debug data to a log file
-         // m_data.setLogFile("c:/temp/project1.txt");
+         //m_data.setLogFile("c:/temp/project1.txt");
          m_data.process(file);
+         if (!m_data.getSupported())
+         {
+            return null;
+         }
          return read();
       }
       catch (Exception ex)
@@ -128,6 +132,7 @@ public final class FastTrackReader implements ProjectReader
       finally
       {
          m_data = null;
+         FastTrackData.clearInstance();
       }
    }
 
@@ -345,7 +350,7 @@ public final class FastTrackReader implements ProjectReader
       }
 
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
-      Set<Task> tasksWithBars = new HashSet<Task>();
+      Set<Task> tasksWithBars = new HashSet<>();
 
       for (MapRow row : table)
       {
@@ -396,16 +401,16 @@ public final class FastTrackReader implements ProjectReader
          task.setBaselineFinish(8, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_8, ActBarField.BASELINE_FINISH_TIME_8));
          task.setBaselineFinish(9, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_9, ActBarField.BASELINE_FINISH_TIME_9));
          task.setBaselineFinish(10, row.getTimestamp(ActBarField.BASELINE_FINISH_DATE_10, ActBarField.BASELINE_FINISH_TIME_10));
-         task.setBaselineFinish(1, row.getTimestamp(ActBarField.BASELINE_START_DATE_1, ActBarField.BASELINE_START_TIME_1));
-         task.setBaselineFinish(2, row.getTimestamp(ActBarField.BASELINE_START_DATE_2, ActBarField.BASELINE_START_TIME_2));
-         task.setBaselineFinish(3, row.getTimestamp(ActBarField.BASELINE_START_DATE_3, ActBarField.BASELINE_START_TIME_3));
-         task.setBaselineFinish(4, row.getTimestamp(ActBarField.BASELINE_START_DATE_4, ActBarField.BASELINE_START_TIME_4));
-         task.setBaselineFinish(5, row.getTimestamp(ActBarField.BASELINE_START_DATE_5, ActBarField.BASELINE_START_TIME_5));
-         task.setBaselineFinish(6, row.getTimestamp(ActBarField.BASELINE_START_DATE_6, ActBarField.BASELINE_START_TIME_6));
-         task.setBaselineFinish(7, row.getTimestamp(ActBarField.BASELINE_START_DATE_7, ActBarField.BASELINE_START_TIME_7));
-         task.setBaselineFinish(8, row.getTimestamp(ActBarField.BASELINE_START_DATE_8, ActBarField.BASELINE_START_TIME_8));
-         task.setBaselineFinish(9, row.getTimestamp(ActBarField.BASELINE_START_DATE_9, ActBarField.BASELINE_START_TIME_9));
-         task.setBaselineFinish(10, row.getTimestamp(ActBarField.BASELINE_START_DATE_10, ActBarField.BASELINE_START_TIME_10));
+         task.setBaselineStart(1, row.getTimestamp(ActBarField.BASELINE_START_DATE_1, ActBarField.BASELINE_START_TIME_1));
+         task.setBaselineStart(2, row.getTimestamp(ActBarField.BASELINE_START_DATE_2, ActBarField.BASELINE_START_TIME_2));
+         task.setBaselineStart(3, row.getTimestamp(ActBarField.BASELINE_START_DATE_3, ActBarField.BASELINE_START_TIME_3));
+         task.setBaselineStart(4, row.getTimestamp(ActBarField.BASELINE_START_DATE_4, ActBarField.BASELINE_START_TIME_4));
+         task.setBaselineStart(5, row.getTimestamp(ActBarField.BASELINE_START_DATE_5, ActBarField.BASELINE_START_TIME_5));
+         task.setBaselineStart(6, row.getTimestamp(ActBarField.BASELINE_START_DATE_6, ActBarField.BASELINE_START_TIME_6));
+         task.setBaselineStart(7, row.getTimestamp(ActBarField.BASELINE_START_DATE_7, ActBarField.BASELINE_START_TIME_7));
+         task.setBaselineStart(8, row.getTimestamp(ActBarField.BASELINE_START_DATE_8, ActBarField.BASELINE_START_TIME_8));
+         task.setBaselineStart(9, row.getTimestamp(ActBarField.BASELINE_START_DATE_9, ActBarField.BASELINE_START_TIME_9));
+         task.setBaselineStart(10, row.getTimestamp(ActBarField.BASELINE_START_DATE_10, ActBarField.BASELINE_START_TIME_10));
          task.setBaselineWork(1, row.getWork(ActBarField.BASELINE_WORK_1));
          task.setBaselineWork(2, row.getWork(ActBarField.BASELINE_WORK_2));
          task.setBaselineWork(3, row.getWork(ActBarField.BASELINE_WORK_3));
@@ -439,7 +444,7 @@ public final class FastTrackReader implements ProjectReader
          task.setDate(8, row.getDate(ActBarField.DATE_8));
          task.setDate(9, row.getDate(ActBarField.DATE_9));
          task.setDate(10, row.getDate(ActBarField.DATE_10));
-         task.setDuration(row.getDuration(ActBarField.DURATION));
+         task.setBaselineDuration(row.getDuration(ActBarField.DURATION));
          task.setDuration(1, row.getDuration(ActBarField.DURATION_1));
          task.setDuration(2, row.getDuration(ActBarField.DURATION_2));
          task.setDuration(3, row.getDuration(ActBarField.DURATION_3));
@@ -453,7 +458,7 @@ public final class FastTrackReader implements ProjectReader
          task.setEarlyFinish(row.getTimestamp(ActBarField.EARLY_FINISH_DATE, ActBarField.EARLY_FINISH_TIME));
          task.setEarlyStart(row.getTimestamp(ActBarField.EARLY_START_DATE, ActBarField.EARLY_START_TIME));
          task.setEffortDriven(row.getBoolean(ActBarField.EFFORT_DRIVEN));
-         task.setFinish(row.getTimestamp(ActBarField.FINISH_DATE, ActBarField.FINISH_TIME));
+         task.setBaselineFinish(row.getTimestamp(ActBarField.FINISH_DATE, ActBarField.FINISH_TIME));
          task.setFinish(1, row.getTimestamp(ActBarField.FINISH_DATE_1, ActBarField.FINISH_TIME_1));
          task.setFinish(2, row.getTimestamp(ActBarField.FINISH_DATE_2, ActBarField.FINISH_TIME_2));
          task.setFinish(3, row.getTimestamp(ActBarField.FINISH_DATE_3, ActBarField.FINISH_TIME_3));
@@ -464,10 +469,8 @@ public final class FastTrackReader implements ProjectReader
          task.setFinish(8, row.getTimestamp(ActBarField.FINISH_DATE_8, ActBarField.FINISH_TIME_8));
          task.setFinish(9, row.getTimestamp(ActBarField.FINISH_DATE_9, ActBarField.FINISH_TIME_9));
          task.setFinish(10, row.getTimestamp(ActBarField.FINISH_DATE_10, ActBarField.FINISH_TIME_10));
-         // Finish Slack
-         // Fixed Cost
+         task.setFixedCost(row.getCurrency(ActBarField.FIXED_COST));
          // Fixed Duration
-         // Free Float
          task.setIgnoreResourceCalendar(row.getBoolean(ActBarField.IGNORE_RESOURCE_CALENDARS));
          task.setLateFinish(row.getTimestamp(ActBarField.LATE_FINISH_DATE, ActBarField.LATE_FINISH_TIME));
          task.setLateStart(row.getTimestamp(ActBarField.LATE_START_DATE, ActBarField.LATE_START_TIME));
@@ -495,13 +498,11 @@ public final class FastTrackReader implements ProjectReader
          // Priority
          // Resource Cost
          task.setResourceNames(row.getString(ActBarField.RESOURCES_ASSIGNED));
-         // Revised Duration
-         // Revised Finish Date
-         // Revised Finish Time
-         // Revised Start Date
-         // Revised Start Time
-         task.setStart(row.getTimestamp(ActBarField.START_DATE, ActBarField.START_TIME));
-         // Start Float
+         task.setDuration(row.getDuration(ActBarField.REVISED_DURATION));
+         task.setFinish(row.getTimestamp(ActBarField.REVISED_FINISH_DATE, ActBarField.REVISED_FINISH_TIME));
+         task.setStart(row.getTimestamp(ActBarField.REVISED_START_DATE, ActBarField.REVISED_START_TIME));
+         task.setBaselineStart(row.getTimestamp(ActBarField.START_DATE, ActBarField.START_TIME));
+
          task.setStart(1, row.getTimestamp(ActBarField.START_DATE_1, ActBarField.START_TIME_1));
          task.setStart(2, row.getTimestamp(ActBarField.START_DATE_2, ActBarField.START_TIME_2));
          task.setStart(3, row.getTimestamp(ActBarField.START_DATE_3, ActBarField.START_TIME_3));
@@ -514,13 +515,27 @@ public final class FastTrackReader implements ProjectReader
          task.setStart(10, row.getTimestamp(ActBarField.START_DATE_10, ActBarField.START_TIME_10));
          // Task Calendar
          // Total Cost
-         // Total Float
          // Total Resource Duration
          task.setWork(row.getWork(ActBarField.WORK));
          // _Activity
          // _BarBits
          // _BarStl
          // _yOffset
+
+         if (task.getStart() == null)
+         {
+            task.setStart(task.getBaselineStart());
+         }
+
+         if (task.getFinish() == null)
+         {
+            task.setFinish(task.getBaselineFinish());
+         }
+
+         task.setStartSlack(row.getDuration(ActBarField.START_FLOAT));
+         task.setFinishSlack(row.getDuration(ActBarField.FINISH_FLOAT));
+         task.setFreeSlack(row.getDuration(ActBarField.FREE_FLOAT));
+         task.setTotalSlack(row.getDuration(ActBarField.TOTAL_FLOAT));
       }
 
       m_project.updateStructure();
@@ -531,7 +546,7 @@ public final class FastTrackReader implements ProjectReader
     */
    private void processDependencies()
    {
-      Set<Task> tasksWithBars = new HashSet<Task>();
+      Set<Task> tasksWithBars = new HashSet<>();
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
       for (MapRow row : table)
       {
@@ -583,9 +598,9 @@ public final class FastTrackReader implements ProjectReader
     */
    private void processAssignments()
    {
-      Set<Task> tasksWithBars = new HashSet<Task>();
+      Set<Task> tasksWithBars = new HashSet<>();
       FastTrackTable table = m_data.getTable(FastTrackTableType.ACTBARS);
-      Map<String, Resource> resources = new HashMap<String, Resource>();
+      Map<String, Resource> resources = new HashMap<>();
       for (Resource resource : m_project.getResources())
       {
          resources.put(resource.getName(), resource);
@@ -658,7 +673,7 @@ public final class FastTrackReader implements ProjectReader
    private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
    private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:(?:\\[(-?\\d+)\\%\\])|(?:\\[.+\\]))?");
 
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
       RELATION_TYPE_MAP.put("FS", RelationType.FINISH_START);

@@ -82,7 +82,7 @@ public abstract class FilterReader
          }
 
          //System.out.println(ByteArrayHelper.hexdump(filterVarData, true, 16, ""));
-         List<GenericCriteriaPrompt> prompts = new LinkedList<GenericCriteriaPrompt>();
+         List<GenericCriteriaPrompt> prompts = new LinkedList<>();
 
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
          filter.setCriteria(criteriaReader.process(properties, filterVarData, 0, -1, prompts, null, criteriaType));

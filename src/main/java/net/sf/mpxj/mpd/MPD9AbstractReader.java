@@ -253,7 +253,7 @@ abstract class MPD9AbstractReader
          {
             Integer resourceID = row.getInteger("RES_UID");
             cal = m_project.addCalendar();
-            m_baseCalendarReferences.add(new Pair<ProjectCalendar, Integer>(cal, row.getInteger("CAL_BASE_UID")));
+            m_baseCalendarReferences.add(new Pair<>(cal, row.getInteger("CAL_BASE_UID")));
             m_resourceMap.put(resourceID, cal);
          }
 
@@ -1251,7 +1251,7 @@ abstract class MPD9AbstractReader
       //
       for (Task task : m_project.getTasks())
       {
-         task.setSummary(task.getChildTasks().size() != 0);
+         task.setSummary(task.hasChildTasks());
       }
 
       //
@@ -1338,10 +1338,10 @@ abstract class MPD9AbstractReader
    private boolean m_preserveNoteFormatting;
    private boolean m_autoWBS = true;
 
-   private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<Integer, ProjectCalendar>();
-   private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new LinkedList<Pair<ProjectCalendar, Integer>>();
-   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<Integer, ProjectCalendar>();
-   private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<Integer, ResourceAssignment>();
+   private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
+   private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new LinkedList<>();
+   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
+   private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
 }
 
 /*

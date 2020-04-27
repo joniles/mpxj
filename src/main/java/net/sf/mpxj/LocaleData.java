@@ -85,6 +85,8 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.WBS.getValue()] = "WBS";
       TASK_COLUMNS_ARRAY[TaskField.CONSTRAINT_TYPE.getValue()] = "Constraint Type";
       TASK_COLUMNS_ARRAY[TaskField.CONSTRAINT_DATE.getValue()] = "Constraint Date";
+      TASK_COLUMNS_ARRAY[TaskField.SECONDARY_CONSTRAINT_TYPE.getValue()] = "Secondary Constraint Type";
+      TASK_COLUMNS_ARRAY[TaskField.SECONDARY_CONSTRAINT_DATE.getValue()] = "Secondary Constraint Date";
       TASK_COLUMNS_ARRAY[TaskField.CRITICAL.getValue()] = "Critical";
       TASK_COLUMNS_ARRAY[TaskField.LEVELING_DELAY.getValue()] = "Leveling Delay";
       TASK_COLUMNS_ARRAY[TaskField.FREE_SLACK.getValue()] = "Free Slack";
@@ -648,6 +650,9 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.TCPI.getValue()] = "TCPI";
       TASK_COLUMNS_ARRAY[TaskField.WARNING.getValue()] = "Warning";
       TASK_COLUMNS_ARRAY[TaskField.UNAVAILABLE.getValue()] = "<Unavailable>";
+      TASK_COLUMNS_ARRAY[TaskField.SPLITS.getValue()] = "Splits";
+      TASK_COLUMNS_ARRAY[TaskField.SPLITS_COMPLETE.getValue()] = "Splits Complete";
+      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT.getValue()] = "Subproject";
 
       TASK_COLUMNS_ARRAY[TaskField.DURATION_UNITS.getValue()] = "Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE_DURATION_UNITS.getValue()] = "Baseline Duration Units";
@@ -1580,6 +1585,9 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_MULTI_VALUE29.getValue()] = "Enterprise Multi Value29";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ACTUAL_WORK_PROTECTED.getValue()] = "Actual Work Protected";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED.getValue()] = "Actual Overtime Work Protected";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PARENT_ID.getValue()] = "Parent ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR.getValue()] = "Calendar";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR_UNIQUE_ID.getValue()] = "Calendar Unique ID";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
@@ -1751,6 +1759,9 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERALLOCATED.getValue()] = "Overallocated";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_SUMMARY_NAME.getValue()] = "Task Summary Name";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_DATA.getValue()] = "Hyperlink Data";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESUME.getValue()] = "Resume";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.STOP.getValue()] = "Stop";
+
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_SUBADDRESS.getValue()] = "Hyperlink Subaddress";

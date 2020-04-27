@@ -88,7 +88,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -102,8 +102,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-         m_calendarMap = new HashMap<Integer, ProjectCalendar>();
-         m_taskIdMap = new HashMap<Integer, Task>();
+         m_calendarMap = new HashMap<>();
+         m_taskIdMap = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -325,7 +325,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //
       // Sort the projects into the correct order
       //
-      List<Project> projects = new ArrayList<Project>(cdp.getProjects().getProject());
+      List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
       final AlphanumComparator comparator = new AlphanumComparator();
 
       Collections.sort(projects, new Comparator<Project>()
@@ -376,7 +376,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       //
       // Sort the tasks into the correct order
       //
-      List<Document.Projects.Project.Task> tasks = new ArrayList<Document.Projects.Project.Task>(project.getTask());
+      List<Document.Projects.Project.Task> tasks = new ArrayList<>(project.getTask());
       final AlphanumComparator comparator = new AlphanumComparator();
 
       Collections.sort(tasks, new Comparator<Document.Projects.Project.Task>()
@@ -387,7 +387,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          }
       });
 
-      Map<String, Task> map = new HashMap<String, Task>();
+      Map<String, Task> map = new HashMap<>();
       map.put("", mpxjTask);
 
       for (Document.Projects.Project.Task task : tasks)

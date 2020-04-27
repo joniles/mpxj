@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -93,14 +95,19 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
          if (b2 != null)
          {
-            item.setGuid(MPPUtility.getGUID(b2, 0));
-            UUID parentField = MPPUtility.getGUID(b2, fieldOffset);
-            int type = MPPUtility.getShort(b2, typeOffset);
-            item.setValue(getTypedValue(type, value));
-            FieldType field = map.get(parentField);
+            item.setGUID(MPPUtility.getGUID(b2, 0));
+            UUID lookupTableGuid = MPPUtility.getGUID(b2, fieldOffset);
+            item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, typeOffset)));
+            item.setValue(getTypedValue(item.getType(), value));
+
+            m_container.registerValue(item);
+            FieldType field = map.get(lookupTableGuid);
             if (field != null)
             {
-               m_container.getCustomField(field).getLookupTable().add(item);
+               CustomFieldLookupTable table = m_container.getCustomField(field).getLookupTable();
+               table.add(item);
+               // It's like this to avoid creating empty lookup tables. Need to refactor!
+               table.setGUID(lookupTableGuid);
             }
          }
       }
@@ -109,11 +116,11 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
    /**
     * Generate a map of UUID values to field types.
     *
-    * @return uUID field value map
+    * @return UUID field value map
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
-      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
+      Map<UUID, FieldType> map = new HashMap<>();
       byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
       if (data != null)
       {
@@ -122,11 +129,11 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 
          while (index + 52 <= data.length)
          {
-            int fieldID = MPPUtility.getInt(data, index + 0);
-            FieldType field = FieldTypeHelper.getInstance(fieldID);
-            UUID guid = MPPUtility.getGUID(data, index + 36);
-            map.put(guid, field);
-
+            int extendedAttributeFieldID = MPPUtility.getInt(data, index + 0);
+            FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
+            // UUID extendedAttributeGuid = MPPUtility.getGUID(data, index + 20);
+            UUID lookupTableGuid = MPPUtility.getGUID(data, index + 36);
+            map.put(lookupTableGuid, field);
             index += 88;
          }
       }

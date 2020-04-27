@@ -363,7 +363,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (memberRole == null)
       {
-         memberRole = new ArrayList<PortfolioTeamMemberType>();
+         memberRole = new ArrayList<>();
       }
       return this.memberRole;
    }

@@ -69,7 +69,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<TimephasedCost>();
+      LinkedList<TimephasedCost> result = new LinkedList<>();
       boolean remainderInserted = false;
 
       for (TimephasedCost assignment : list)
@@ -111,7 +111,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
             assignment = split[1];
          }
       }
-      
+
       list.clear();
       list.addAll(result);
    }
@@ -195,7 +195,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    private void mergeSameDay(LinkedList<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<TimephasedCost>();
+      LinkedList<TimephasedCost> result = new LinkedList<>();
 
       TimephasedCost previousAssignment = null;
       for (TimephasedCost assignment : list)
@@ -244,7 +244,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    protected void mergeSameCost(LinkedList<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<TimephasedCost>();
+      LinkedList<TimephasedCost> result = new LinkedList<>();
 
       TimephasedCost previousAssignment = null;
       for (TimephasedCost assignment : list)

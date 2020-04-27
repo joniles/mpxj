@@ -63,6 +63,14 @@ interface Row
    public Double getDouble(String name);
 
    /**
+    * Retrieve a Percentage attribute, rounded to two decimal places.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public Double getPercent(String name);
+
+   /**
     * Retrieve a currency attribute.
     *
     * @param name attribute name

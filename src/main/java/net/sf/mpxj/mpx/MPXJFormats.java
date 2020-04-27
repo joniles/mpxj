@@ -278,7 +278,7 @@ public final class MPXJFormats
     */
    private String[] getDateTimePatterns(ProjectProperties properties, String[] timePatterns)
    {
-      List<String> patterns = new ArrayList<String>();
+      List<String> patterns = new ArrayList<>();
       char datesep = properties.getDateSeparator();
       DateOrder dateOrder = properties.getDateOrder();
 
@@ -679,7 +679,7 @@ public final class MPXJFormats
     */
    private List<String> generateDateTimePatterns(String datePattern, String[] timePatterns)
    {
-      List<String> patterns = new ArrayList<String>();
+      List<String> patterns = new ArrayList<>();
       for (String timePattern : timePatterns)
       {
          patterns.add(datePattern + " " + timePattern);

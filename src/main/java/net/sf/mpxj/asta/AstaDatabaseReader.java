@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -58,7 +59,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -74,7 +75,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       try
       {
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<Row> rows = getRows("select projid, short_name from project_summary");
          for (Row row : rows)
@@ -150,11 +151,11 @@ public final class AstaDatabaseReader implements ProjectReader
     */
    private void processProjectProperties() throws SQLException
    {
-      List<Row> rows = getRows("select * from project_summary where projid=?", m_projectID);
-      if (rows.isEmpty() == false)
-      {
-         m_reader.processProjectProperties(rows.get(0));
-      }
+      List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
+      List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
+      Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
+      List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
+      m_reader.processProjectProperties(projectSummary, progressPeriods);
    }
 
    /**
@@ -243,7 +244,8 @@ public final class AstaDatabaseReader implements ProjectReader
    private void processPredecessors() throws SQLException
    {
       List<Row> rows = getRows("select * from link where projid=? order by linkid", m_projectID);
-      m_reader.processPredecessors(rows);
+      List<Row> completedSections = getRows("select * from task_completed_section where projid=?", m_projectID);
+      m_reader.processPredecessors(rows, completedSections);
    }
 
    /**
@@ -303,7 +305,9 @@ public final class AstaDatabaseReader implements ProjectReader
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
-         m_connection = DriverManager.getConnection(url);
+         Properties props = new Properties();
+         props.put("charSet", "Cp1252");
+         m_connection = DriverManager.getConnection(url, props);
          m_projectID = Integer.valueOf(0);
          return (read());
       }
@@ -364,7 +368,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -398,7 +402,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));
@@ -489,7 +493,7 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Set the name of the schema containing the Primavera tables.
+    * Set the name of the schema containing the schedule tables.
     *
     * @param schema schema name.
     */
@@ -503,7 +507,7 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * Retrieve the name of the schema containing the Primavera tables.
+    * Retrieve the name of the schema containing the schedule tables.
     *
     * @return schema name
     */
@@ -520,6 +524,6 @@ public final class AstaDatabaseReader implements ProjectReader
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
 }

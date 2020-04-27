@@ -32,6 +32,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
@@ -62,10 +66,6 @@ import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RtfHelper;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
  * This class is used to represent a Microsoft Project MPP8 file. This
@@ -129,7 +129,7 @@ final class MPP8Reader implements MPPVariantReader
       m_file = file;
       m_eventManager = file.getEventManager();
 
-      m_calendarMap = new HashMap<Integer, ProjectCalendar>();
+      m_calendarMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
 
@@ -226,7 +226,7 @@ final class MPP8Reader implements MPPVariantReader
       int baseCalendarID;
       int periodIndex;
       Day day;
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<>();
 
       for (int loop = 0; loop < calendars; loop++)
       {
@@ -260,7 +260,7 @@ final class MPP8Reader implements MPPVariantReader
             if (baseCalendarID > 0)
             {
                cal = m_file.addDefaultDerivedCalendar();
-               baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
+               baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
             }
             else
             {
@@ -275,7 +275,7 @@ final class MPP8Reader implements MPPVariantReader
             if (baseCalendarID > 0)
             {
                cal = m_file.addCalendar();
-               baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
+               baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
             }
             else
             {
@@ -409,7 +409,6 @@ final class MPP8Reader implements MPPVariantReader
       int deleted;
       Task task;
       boolean autoWBS = true;
-      String notes;
       byte[] flags = new byte[3];
       RecurringTaskReader recurringTaskReader = null;
       ProjectProperties properties = m_file.getProjectProperties();
@@ -705,16 +704,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Retrieve the task notes.
          //
-         notes = taskExtData.getString(TASK_NOTES);
-         if (notes != null)
-         {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-
-            task.setNotes(notes);
-         }
+         setTaskNotes(task, data, taskExtData, taskVarData);
 
          //
          // If we have a WBS value from the MPP file, don't autogenerate
@@ -737,6 +727,47 @@ final class MPP8Reader implements MPPVariantReader
       // Enable auto WBS if necessary
       //
       m_file.getProjectConfig().setAutoWBS(autoWBS);
+   }
+
+   /**
+    * There appear to be two ways of representing task notes in an MPP8 file.
+    * This method tries to determine which has been used.
+    *
+    * @param task task
+    * @param data task data
+    * @param taskExtData extended task data
+    * @param taskVarData task var data
+    */
+   private void setTaskNotes(Task task, byte[] data, ExtendedData taskExtData, FixDeferFix taskVarData)
+   {
+      String notes = taskExtData.getString(TASK_NOTES);
+      if (notes == null && data.length == 366)
+      {
+         byte[] offsetData = taskVarData.getByteArray(getOffset(data, 362));
+         if (offsetData != null && offsetData.length >= 12)
+         {
+            notes = taskVarData.getString(getOffset(offsetData, 8));
+
+            // We do pick up some random stuff with this approach, and
+            // we don't know enough about the file format to know when to ignore it
+            // so we'll use a heuristic here to ignore anything that
+            // doesn't look like RTF.
+            if (notes != null && notes.indexOf('{') == -1)
+            {
+               notes = null;
+            }
+         }
+      }
+
+      if (notes != null)
+      {
+         if (m_reader.getPreserveNoteFormatting() == false)
+         {
+            notes = RtfHelper.strip(notes);
+         }
+
+         task.setNotes(notes);
+      }
    }
 
    /**

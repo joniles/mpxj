@@ -60,7 +60,7 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
-      LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> list = new LinkedList<>();
 
       if (calendar != null && data != null && data.length > 2 && MPPUtility.getShort(data, 0) > 0)
       {
@@ -163,14 +163,14 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      LinkedList<TimephasedWork> list = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> list = new LinkedList<>();
 
       if (calendar != null && data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
          {
-            if (!timephasedComplete.isEmpty() && units != 0)
+            if (!timephasedComplete.isEmpty() && units != 0 && data.length >= 24)
             {
                TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
 
@@ -369,7 +369,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<TimephasedWork>();
+                  list = new LinkedList<>();
                }
                list.add(work);
                //System.out.println(work);
@@ -431,7 +431,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<TimephasedCost>();
+                  list = new LinkedList<>();
                }
                list.add(cost);
                //System.out.println(cost);

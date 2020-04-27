@@ -122,7 +122,7 @@ class TableReader
             int btrieveValue = getShort(buffer, index);
             if (btrieveValue != 0)
             {
-               Map<String, Object> row = new HashMap<String, Object>();
+               Map<String, Object> row = new HashMap<>();
                row.put("ROW_VERSION", Integer.valueOf(btrieveValue));
                for (ColumnDefinition column : m_definition.getColumns())
                {

@@ -44,4 +44,13 @@ public interface TimephasedWorkContainer
     */
    public boolean hasData();
 
+   /**
+    * Create a new TimephasedWorkContainer duplicating the content of
+    * this one and applying a scaling factor.
+    *
+    * @param perDayFactor per day factor
+    * @param totalFactor total factor
+    * @return new TimephasedWorkContainer instance
+    */
+   public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor);
 }

@@ -81,7 +81,7 @@ public final class GanttChartView12 extends GanttChartView
       int filterCount = MPPUtility.getShort(data, 8);
       int offset = 16;
       CriteriaReader criteria = new FilterCriteriaReader12();
-      List<FieldType> fields = new LinkedList<FieldType>();
+      List<FieldType> fields = new LinkedList<>();
 
       //
       // Filter data: 24 byte header, plus 80 byte criteria blocks,
@@ -90,6 +90,14 @@ public final class GanttChartView12 extends GanttChartView
       //
       for (int loop = 0; loop < filterCount; loop++)
       {
+         //
+         // Invalid filter definition?
+         //
+         if (offset + 6 > data.length)
+         {
+            break;
+         }
+
          int blockSize = MPPUtility.getShort(data, offset);
 
          //

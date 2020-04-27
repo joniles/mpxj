@@ -34,7 +34,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -56,6 +58,10 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -99,6 +105,7 @@ import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
@@ -158,7 +165,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -222,7 +229,7 @@ public final class MSPDIReader extends AbstractProjectReader
          filter.parse(new InputSource(new InputStreamReader(stream, getCharset())));
          Project project = (Project) unmarshallerHandler.getResult();
 
-         HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar>();
+         HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
          readProjectProperties(project);
          readProjectExtendedAttributes(project);
@@ -230,6 +237,7 @@ public final class MSPDIReader extends AbstractProjectReader
          readResources(project, calendarMap);
          readTasks(project);
          readAssignments(project);
+         readOutlineCodes(project);
 
          //
          // Ensure that the unique ID counters are correct
@@ -271,6 +279,7 @@ public final class MSPDIReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
+         m_lookupTableMap.clear();
       }
    }
 
@@ -386,7 +395,7 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<Pair<ProjectCalendar, BigInteger>>();
+         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<>();
          for (Project.Calendars.Calendar cal : calendars.getCalendar())
          {
             readCalendar(cal, map, baseCalendars);
@@ -449,7 +458,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
       {
-         baseCalendars.add(new Pair<ProjectCalendar, BigInteger>(bc, baseCalendarID));
+         baseCalendars.add(new Pair<>(bc, baseCalendarID));
       }
 
       readExceptions(calendar, bc);
@@ -844,10 +853,11 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readFieldAlias(Project.ExtendedAttributes.ExtendedAttribute attribute)
    {
+      FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
+      m_lookupTableMap.put(attribute.getLtuid(), field);
       String alias = attribute.getAlias();
       if (alias != null && alias.length() != 0)
       {
-         FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
          m_projectFile.getCustomFields().getCustomField(field).setAlias(attribute.getAlias());
       }
    }
@@ -1046,7 +1056,7 @@ public final class MSPDIReader extends AbstractProjectReader
       }
       else
       {
-         Set<CostRateTable> tables = new HashSet<CostRateTable>();
+         Set<CostRateTable> tables = new HashSet<>();
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
          {
@@ -1318,7 +1328,6 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setType(xml.getType());
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
-         mpx.setWBSLevel(xml.getWBSLevel());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
          mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
 
@@ -1338,6 +1347,12 @@ public final class MSPDIReader extends AbstractProjectReader
          if (mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
          {
             mpx.setManualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getManualDuration()));
+         }
+
+         // Ensure consistency with data read from an MPP file
+         if (mpx.getActualDuration() != null)
+         {
+            mpx.set(TaskField.ACTUAL_DURATION_UNITS, mpx.getActualDuration().getUnits());
          }
 
          //
@@ -1564,6 +1579,118 @@ public final class MSPDIReader extends AbstractProjectReader
    }
 
    /**
+    * This method extracts outline code/custom field data from an MSPDI file.
+    *
+    * @param project Root node of the MSPDI file
+    */
+   private void readOutlineCodes(Project project)
+   {
+      Project.OutlineCodes outlineCodes = project.getOutlineCodes();
+      if (outlineCodes != null)
+      {
+         for (Project.OutlineCodes.OutlineCode outlineCode : outlineCodes.getOutlineCode())
+         {
+            readOutlineCode(outlineCode);
+         }
+      }
+   }
+
+   /**
+    * This method extracts the definition of a single outline code/custom lookup table from an MSPDI file.
+    *
+    * @param outlineCode outline code data from the MSPDI file
+    */
+   private void readOutlineCode(Project.OutlineCodes.OutlineCode outlineCode)
+   {
+      FieldType fieldType;
+      String fieldID = outlineCode.getFieldID();
+      if (fieldID == null)
+      {
+         fieldType = m_lookupTableMap.get(outlineCode.getGuid());
+      }
+      else
+      {
+         fieldType = FieldTypeHelper.getInstance(NumberHelper.getInt(outlineCode.getFieldID()));
+      }
+
+      if (fieldType != null)
+      {
+         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+         String currentAlias = field.getAlias();
+         // Don't overwrite an alias we've read from extended attributes
+         if (currentAlias == null || currentAlias.isEmpty())
+         {
+            field.setAlias(outlineCode.getAlias());
+         }
+         readOutlineCodeValues(outlineCode, field);
+         readOutlineCodeMasks(outlineCode, field);
+      }
+   }
+
+   /**
+    * This method extracts the lookup table values for an outline code/custom field from an MSPDI file.
+    *
+    * @param outlineCode outline code data from the MSPDI file
+    * @param field target field
+    */
+   private void readOutlineCodeValues(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
+   {
+      Project.OutlineCodes.OutlineCode.Values values = outlineCode.getValues();
+      if (values != null)
+      {
+         CustomFieldLookupTable table = field.getLookupTable();
+
+         table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
+         table.setAllLevelsRequired(BooleanHelper.getBoolean(outlineCode.isAllLevelsRequired()));
+         table.setGUID(outlineCode.getGuid());
+         table.setLeafOnly(BooleanHelper.getBoolean(outlineCode.isLeafOnly()));
+         table.setOnlyTableValuesAllowed(BooleanHelper.getBoolean(outlineCode.isOnlyTableValuesAllowed()));
+         table.setResourceSubstitutionEnabled(BooleanHelper.getBoolean(outlineCode.isResourceSubstitutionEnabled()));
+         table.setShowIndent(BooleanHelper.getBoolean(outlineCode.isShowIndent()));
+
+         for (Project.OutlineCodes.OutlineCode.Values.Value value : values.getValue())
+         {
+            CustomFieldValueItem item = new CustomFieldValueItem(NumberHelper.getInteger(value.getValueID()));
+            item.setDescription(value.getDescription());
+            item.setGUID(value.getFieldGUID());
+            item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
+            item.setParent(NumberHelper.getInteger(value.getParentValueID()));
+            item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
+            item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
+            table.add(item);
+         }
+      }
+   }
+
+   /**
+    * This method extracts the lookup table masks for an outline code/custom field from an MSPDI file.
+    *
+    * @param outlineCode outline code data from the MSPDI file
+    * @param field target field
+    */
+   private void readOutlineCodeMasks(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
+   {
+      Project.OutlineCodes.OutlineCode.Masks masks = outlineCode.getMasks();
+      if (masks != null)
+      {
+         List<CustomFieldValueMask> maskList = field.getMasks();
+         for (Project.OutlineCodes.OutlineCode.Masks.Mask mask : masks.getMask())
+         {
+            int length = NumberHelper.getInt(mask.getLength());
+            int level = NumberHelper.getInt(mask.getLevel());
+            String separator = mask.getSeparator();
+            CustomFieldValueDataType type = CustomFieldValueDataType.getInstanceByMaskValue(NumberHelper.getInt(mask.getType()));
+            if (type == null)
+            {
+               type = CustomFieldValueDataType.TEXT;
+            }
+            CustomFieldValueMask item = new CustomFieldValueMask(length, level, separator, type);
+            maskList.add(item);
+         }
+      }
+   }
+
+   /**
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
@@ -1597,7 +1724,6 @@ public final class MSPDIReader extends AbstractProjectReader
 
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               task.setSplits(new LinkedList<DateRange>());
                normaliser.normalise(calendar, timephasedComplete);
                normaliser.normalise(calendar, timephasedPlanned);
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
@@ -1764,7 +1890,7 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private LinkedList<TimephasedWork> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
 
       for (TimephasedDataType item : assignment.getTimephasedData())
       {
@@ -1868,6 +1994,7 @@ public final class MSPDIReader extends AbstractProjectReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
+   private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {

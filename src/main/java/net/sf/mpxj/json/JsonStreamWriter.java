@@ -333,9 +333,7 @@ public class JsonStreamWriter
     */
    private void writeName(String name) throws IOException
    {
-      m_writer.write('"');
-      m_writer.write(name);
-      m_writer.write('"');
+      m_writer.write(escapeString(name));
       m_writer.write(":");
    }
 
@@ -367,7 +365,7 @@ public class JsonStreamWriter
 
    private final StringBuilder m_buffer = new StringBuilder();
    private final OutputStreamWriter m_writer;
-   private final Deque<Boolean> m_firstNameValuePair = new LinkedList<Boolean>();
+   private final Deque<Boolean> m_firstNameValuePair = new LinkedList<>();
    private boolean m_pretty;
    private String m_indent = "";
    private DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");

@@ -89,7 +89,7 @@ public final class LocaleData_de extends ListResourceBundle
          "f%"
       }
    };
-   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<>();
 
    static
    {

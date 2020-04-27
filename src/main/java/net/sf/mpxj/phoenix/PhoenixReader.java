@@ -96,7 +96,7 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -109,11 +109,11 @@ public final class PhoenixReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile();
-         m_activityMap = new HashMap<String, Task>();
-         m_activityCodeValues = new HashMap<UUID, String>();
-         m_activityCodeSequence = new HashMap<UUID, Integer>();
-         m_activityCodeCache = new HashMap<Activity, Map<UUID, UUID>>();
-         m_codeSequence = new ArrayList<UUID>();
+         m_activityMap = new HashMap<>();
+         m_activityCodeValues = new HashMap<>();
+         m_activityCodeSequence = new HashMap<>();
+         m_activityCodeCache = new HashMap<>();
+         m_codeSequence = new ArrayList<>();
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -507,6 +507,28 @@ public final class PhoenixReader extends AbstractProjectReader
          }
       }
 
+      if (task.getDuration().getDuration() == 0)
+      {
+         // Phoenix normally represents the finish date as the start of the
+         // day following the end of the activity. For example a 2 day activity
+         // starting on day 1 would be shown in the PPX file as having a finish
+         // date of day 3. We subtract one day to make the dates consistent with
+         // all other schedule formats MPXJ handles. Occasionally for zero
+         // duration tasks (which aren't tagged as milestones) the finish date
+         // will be the same as the start date, so applying our "subtract 1" fix
+         // gives us a finish date before the start date. The code below
+         // deals with this situation.
+         if (DateHelper.compare(task.getStart(), task.getFinish()) > 0)
+         {
+            task.setFinish(task.getStart());
+         }
+
+         if (task.getActualStart() != null && task.getActualFinish() != null && DateHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
+         {
+            task.setActualFinish(task.getActualStart());
+         }
+      }
+
       if (task.getActualStart() == null)
       {
          task.setPercentageComplete(Integer.valueOf(0));
@@ -692,7 +714,7 @@ public final class PhoenixReader extends AbstractProjectReader
       Map<UUID, UUID> map = m_activityCodeCache.get(activity);
       if (map == null)
       {
-         map = new HashMap<UUID, UUID>();
+         map = new HashMap<>();
          m_activityCodeCache.put(activity, map);
          for (CodeAssignment ca : activity.getCodeAssignment())
          {
@@ -755,7 +777,7 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date plannedStartDate = parentTask.getStart();

@@ -38,7 +38,7 @@ class TableCALXTAB extends Table
    {
       if (data[0] != (byte) 0xFF)
       {
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
 
          map.put("DATE", PEPUtility.getStartDate(data, 1));

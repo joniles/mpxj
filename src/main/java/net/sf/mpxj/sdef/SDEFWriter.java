@@ -235,7 +235,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          stepDay.add(Calendar.DAY_OF_MONTH, 1);
       }
       m_writer.println(m_buffer.toString());
-      
+
       DateHelper.pushCalendar(stepDay);
       DateHelper.pushCalendar(lastDay);
    }
@@ -269,7 +269,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          String conType = "ES "; // assume early start
          Date conDate = record.getEarlyStart();
          int test = record.getConstraintType().getValue(); // test for other types
-         if (test == 1 || test == 3 || test == 6 || test == 7)
+         if (test == 1 || test == 3 || test == 6 || test == 7 || test == 9)
          {
             conType = "LF "; // see ConstraintType enum for definitions
             conDate = record.getLateFinish();

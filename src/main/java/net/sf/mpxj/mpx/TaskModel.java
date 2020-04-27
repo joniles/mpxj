@@ -180,8 +180,17 @@ final class TaskModel
          Object value = task.getCachedValue(field);
          switch (field)
          {
-            case PREDECESSORS:
+            // We never write these fields to the task record.
+            // We only write a predecessor entry rather than the successors entry
+            // We write notes as a separate record
+            case NOTES:
             case SUCCESSORS:
+            {
+               result = false;
+               break;
+            }
+            
+            case PREDECESSORS:
             {
                result = value != null && !((List<Relation>) value).isEmpty();
                break;
@@ -298,5 +307,5 @@ final class TaskModel
    /**
     * Map used to store task field numbers.
     */
-   private HashMap<String, Integer> m_taskNumbers = new HashMap<String, Integer>();
+   private HashMap<String, Integer> m_taskNumbers = new HashMap<>();
 }

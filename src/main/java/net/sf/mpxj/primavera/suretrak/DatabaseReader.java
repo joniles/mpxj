@@ -53,7 +53,7 @@ class DatabaseReader
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
       String filePrefix = prefix.toUpperCase();
-      Map<String, Table> tables = new HashMap<String, Table>();
+      Map<String, Table> tables = new HashMap<>();
       File[] files = directory.listFiles();
       if (files != null)
       {
@@ -190,7 +190,7 @@ class DatabaseReader
       new ShortColumn("ORDER", 98),
    };
 
-   private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
+   private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<>();
    static
    {
       TABLE_DEFINITIONS.put("ACT", new TableDefinition(0, 298, ACT_COLUMNS));

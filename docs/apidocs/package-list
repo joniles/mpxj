@@ -22,6 +22,7 @@ net.sf.mpxj.primavera.p3
 net.sf.mpxj.primavera.suretrak
 net.sf.mpxj.projectlibre
 net.sf.mpxj.reader
+net.sf.mpxj.sage
 net.sf.mpxj.sample
 net.sf.mpxj.sdef
 net.sf.mpxj.synchro

@@ -58,24 +58,24 @@ class SynchroData
       readVersion(is);
       readTableData(readTableHeaders(is), is);
    }
-   
+
    /**
     * Return an input stream to read the data from the named table.
     *
     * @param name table name
     * @return InputStream instance
-    * @throws IOException 
+    * @throws IOException
     */
    public StreamReader getTableData(String name) throws IOException
    {
       InputStream stream = new ByteArrayInputStream(m_tableData.get(name));
       if (m_majorVersion > 5)
-      {        
+      {
          byte[] header = new byte[24];
          stream.read(header);
          SynchroLogger.log("TABLE HEADER", header);
       }
-      return new StreamReader(m_majorVersion, stream);
+      return new StreamReader(m_majorVersion, m_minorVersion, stream);
    }
 
    /**
@@ -88,7 +88,7 @@ class SynchroData
    private List<SynchroTable> readTableHeaders(InputStream is) throws IOException
    {
       // Read the headers
-      List<SynchroTable> tables = new ArrayList<SynchroTable>();
+      List<SynchroTable> tables = new ArrayList<>();
       byte[] header = new byte[48];
       while (true)
       {
@@ -229,7 +229,7 @@ class SynchroData
 
    /**
     * Read the file header data.
-    * 
+    *
     * @param is input stream
     */
    private void readHeader(InputStream is) throws IOException
@@ -237,12 +237,12 @@ class SynchroData
       byte[] header = new byte[20];
       is.read(header);
       m_offset += 20;
-      SynchroLogger.log("HEADER", header);   
+      SynchroLogger.log("HEADER", header);
    }
-   
+
    /**
     * Read the version number.
-    * 
+    *
     * @param is input stream
     */
    private void readVersion(InputStream is) throws IOException
@@ -251,13 +251,15 @@ class SynchroData
       String version = DatatypeConverter.getString(bytesReadStream);
       m_offset += bytesReadStream.getBytesRead();
       SynchroLogger.log("VERSION", version);
-      
+
       String[] versionArray = version.split("\\.");
       m_majorVersion = Integer.parseInt(versionArray[0]);
+      m_minorVersion = Integer.parseInt(versionArray[1]);
    }
-   
+
    private int m_majorVersion;
+   private int m_minorVersion;
    private int m_offset;
-   private Map<String, byte[]> m_tableData = new HashMap<String, byte[]>();
-   private static final Set<String> REQUIRED_TABLES = new HashSet<String>(Arrays.asList("Tasks", "Calendars", "Companies"));
+   private Map<String, byte[]> m_tableData = new HashMap<>();
+   private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies"));
 }

@@ -132,7 +132,8 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[122] = TaskField.LINKED_FIELDS;
       MPX_MPXJ_ARRAY[83] = TaskField.MARKED;
       MPX_MPXJ_ARRAY[81] = TaskField.MILESTONE;
-      MPX_MPXJ_ARRAY[1] = TaskField.NAME;
+      MPX_MPXJ_ARRAY[1] = TaskField.NAME;      
+      MPX_MPXJ_ARRAY[14] = TaskField.NOTES;      
       MPX_MPXJ_ARRAY[140] = TaskField.NUMBER1;
       MPX_MPXJ_ARRAY[141] = TaskField.NUMBER2;
       MPX_MPXJ_ARRAY[142] = TaskField.NUMBER3;
@@ -164,6 +165,7 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[128] = TaskField.START5;
       MPX_MPXJ_ARRAY[150] = TaskField.STOP;
       MPX_MPXJ_ARRAY[96] = TaskField.SUBPROJECT_FILE;
+      MPX_MPXJ_ARRAY[71] = TaskField.SUCCESSORS;
       MPX_MPXJ_ARRAY[120] = TaskField.SUMMARY;
       MPX_MPXJ_ARRAY[87] = TaskField.SV;
       MPX_MPXJ_ARRAY[4] = TaskField.TEXT1;
@@ -198,6 +200,5 @@ final class MPXTaskField
             MPXJ_MPX_ARRAY[field.getValue()] = loop;
          }
       }
-      MPXJ_MPX_ARRAY[TaskField.SUCCESSORS.getValue()] = 71;
    }
 }

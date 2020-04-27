@@ -52,7 +52,7 @@ class UserFieldReader extends TableReader
       {
          map.put("UNKNOWN1", stream.readBytes(16));
          map.put("VALUE", stream.readString());
-         map.put("UNKNOWN2", stream.readBytes(26));         
+         map.put("UNKNOWN2", stream.readBytes(26));
       }
    }
 

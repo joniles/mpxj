@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.UUID;
+
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
@@ -31,24 +33,151 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
 public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
    /**
-    * Constructor.
+    * Retrieve the lookup table GUID.
     *
-    * @param parent parent container
+    * @return lookup table GUID
     */
-   public CustomFieldLookupTable(CustomFieldContainer parent)
+   public UUID getGUID()
    {
-      m_parent = parent;
+      return m_guid;
    }
 
-   @Override protected void added(CustomFieldValueItem item)
+   /**
+    * Set the lookup table GUID.
+    *
+    * @param guid lookup table GUID.
+    */
+   public void setGUID(UUID guid)
    {
-      m_parent.registerValue(item);
+      m_guid = guid;
    }
 
-   @Override protected void removed(CustomFieldValueItem item)
+   /**
+    *
+    * Retrieve the enterprise flag.
+    *
+    * @return enterprise flag
+    */
+   public boolean getEnterprise()
    {
-      m_parent.deregisterValue(item);
+      return m_enterprise;
    }
 
-   private CustomFieldContainer m_parent;
+   /**
+    * Set the enterprise flag.
+    *
+    * @param enterprise enterprise flag
+    */
+   public void setEnterprise(boolean enterprise)
+   {
+      m_enterprise = enterprise;
+   }
+
+   /**
+    * Retrieve the show indent flag.
+    *
+    * @return show indent flag
+    */
+   public boolean getShowIndent()
+   {
+      return m_showIndent;
+   }
+
+   /**
+    * Set the show indent flag.
+    *
+    * @param showIndent show indent flag
+    */
+   public void setShowIndent(boolean showIndent)
+   {
+      m_showIndent = showIndent;
+   }
+
+   /**
+    * Retrieve the resource substitution enabled flag.
+    *
+    * @return resource substitution enabled flag
+    */
+   public boolean getResourceSubstitutionEnabled()
+   {
+      return m_resourceSubstitutionEnabled;
+   }
+
+   /**
+    * Set the resource substitution enabled flag.
+    *
+    * @param resourceSubstitutionEnabled resource substitution enabled flag
+    */
+   public void setResourceSubstitutionEnabled(boolean resourceSubstitutionEnabled)
+   {
+      m_resourceSubstitutionEnabled = resourceSubstitutionEnabled;
+   }
+
+   /**
+    * Retrieve the leaf only flag.
+    *
+    * @return leaf only flag
+    */
+   public boolean getLeafOnly()
+   {
+      return m_leafOnly;
+   }
+
+   /**
+    * Set the leaf only flag.
+    *
+    * @param leafOnly leaf only flag
+    */
+   public void setLeafOnly(boolean leafOnly)
+   {
+      m_leafOnly = leafOnly;
+   }
+
+   /**
+    * Retrieve the all levels required flag.
+    *
+    * @return all levels required flag
+    */
+   public boolean getAllLevelsRequired()
+   {
+      return m_allLevelsRequired;
+   }
+
+   /**
+    * Set the all levels required flag.
+    *
+    * @param allLevelsRequired all levels required flag
+    */
+   public void setAllLevelsRequired(boolean allLevelsRequired)
+   {
+      m_allLevelsRequired = allLevelsRequired;
+   }
+
+   /**
+    * Retrieve the only table values allowed flag.
+    *
+    * @return only table values allowed flag
+    */
+   public boolean getOnlyTableValuesAllowed()
+   {
+      return m_onlyTableValuesAllowed;
+   }
+
+   /**
+    * Set the only table values allowed flag.
+    *
+    * @param onlyTableValuesAllowed only table values allowed flag
+    */
+   public void setOnlyTableValuesAllowed(boolean onlyTableValuesAllowed)
+   {
+      m_onlyTableValuesAllowed = onlyTableValuesAllowed;
+   }
+
+   private UUID m_guid;
+   private boolean m_enterprise;
+   private boolean m_showIndent = true;
+   private boolean m_resourceSubstitutionEnabled;
+   private boolean m_leafOnly;
+   private boolean m_allLevelsRequired;
+   private boolean m_onlyTableValuesAllowed = true;
 }

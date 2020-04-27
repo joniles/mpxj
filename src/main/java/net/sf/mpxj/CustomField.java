@@ -23,6 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Configuration detail for a custom field.
  */
@@ -38,8 +41,9 @@ public class CustomField
    {
       m_field = field;
       m_parent = parent;
-      m_table = new CustomFieldLookupTable(m_parent);
+      m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
+      m_masks = new ArrayList<>();
    }
 
    /**
@@ -93,9 +97,20 @@ public class CustomField
       m_parent.registerAlias(m_field, alias);
    }
 
+   /**
+    * Retrieve the mask definitions for this field.
+    *
+    * @return list of mask definitions
+    */
+   public List<CustomFieldValueMask> getMasks()
+   {
+      return m_masks;
+   }
+
    private final FieldType m_field;
    private final CustomFieldContainer m_parent;
    private final CustomFieldLookupTable m_table;
    private final GraphicalIndicator m_indicator;
+   private final List<CustomFieldValueMask> m_masks;
    private String m_alias;
 }

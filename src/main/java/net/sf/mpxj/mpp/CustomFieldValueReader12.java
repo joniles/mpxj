@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -75,14 +77,20 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         item.setGuid(MPPUtility.getGUID(b2, 0));
-         UUID parentField = MPPUtility.getGUID(b2, 32);
-         int type = MPPUtility.getShort(b2, 48);
-         item.setValue(getTypedValue(type, value));
+         item.setGUID(MPPUtility.getGUID(b2, 0));
+         UUID lookupTableGuid = MPPUtility.getGUID(b2, 32);
+         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, 48)));
+         item.setValue(getTypedValue(item.getType(), value));
 
-         FieldType field = map.get(parentField);
-
-         m_container.getCustomField(field).getLookupTable().add(item);
+         m_container.registerValue(item);
+         FieldType field = map.get(lookupTableGuid);
+         if (field != null)
+         {
+            CustomFieldLookupTable table = m_container.getCustomField(field).getLookupTable();
+            table.add(item);
+            // It's like this to avoid creating empty lookup tables. Need to refactor!
+            table.setGUID(lookupTableGuid);
+         }
       }
    }
 
@@ -104,15 +112,20 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
       // 8 bytes per record
       index += (8 * recordCount);
 
-      Map<UUID, FieldType> map = new HashMap<UUID, FieldType>();
-
-      // 200 byte blocks
-      while (index + 200 <= data.length)
+      Map<UUID, FieldType> map = new HashMap<>();
+      while (index < data.length)
       {
-         FieldType field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, index + 4));
-         UUID guid = MPPUtility.getGUID(data, index + 160);
-         map.put(guid, field);
-         index += 200;
+         int blockLength = MPPUtility.getInt(data, index);
+         if (blockLength <= 0 || index + blockLength > data.length)
+         {
+            break;
+         }
+
+         int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
+         FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
+         UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
+         map.put(lookupTableGuid, field);
+         index += blockLength;
       }
       return map;
    }

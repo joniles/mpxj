@@ -29,8 +29,7 @@ with `MPPReader`. This provides access to additional options, as described below
 
 #### Password Protected Files
 When a read password has been set for an MPP file, the contents of the file are partially
-encrypted, and requires the read password to be supplied in order to reverse this encryption.
-If you attempt to read an MPP file which has been password protected an `MPXJException` 
+encrypted. If you attempt to read an MPP file which has been password protected an `MPXJException` 
 will be raised, with the message `File is password protected`.
 
 MPXJ only supports decryption of password protected MPP9 files. The code below illustrates
@@ -44,6 +43,21 @@ import net.sf.mpxj.mpp.MPPReader;
 
 MPPReader reader = new MPPReader();
 reader.setReadPassword("my secret password");
+ProjectFile project = reader.read("my-sample.mpp");
+```
+
+The encryption used by MPP9 files doesn't actually require the password in order to
+read the contents of the file. If you wish you can set a flag to ignore 
+the MPP9 password protection.
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mpp.MPPReader;
+
+...
+
+MPPReader reader = new MPPReader();
+reader.setRespectPasswordProtection(false);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 

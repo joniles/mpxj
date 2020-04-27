@@ -58,7 +58,7 @@ public final class MPPReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -172,7 +172,7 @@ public final class MPPReader extends AbstractProjectReader
          //
          for (Task task : projectFile.getTasks())
          {
-            task.setSummary(task.getChildTasks().size() != 0);
+            task.setSummary(task.hasChildTasks());
             List<DateRange> splits = task.getSplits();
             if (splits != null && splits.isEmpty())
             {
@@ -231,7 +231,7 @@ public final class MPPReader extends AbstractProjectReader
       List<Relation> predecessors = task.getPredecessors();
       if (!predecessors.isEmpty())
       {
-         ArrayList<Relation> invalid = new ArrayList<Relation>();
+         ArrayList<Relation> invalid = new ArrayList<>();
          for (Relation relation : predecessors)
          {
             Task sourceTask = relation.getSourceTask();
@@ -368,6 +368,26 @@ public final class MPPReader extends AbstractProjectReader
    }
 
    /**
+    * Where supported, set to false to ignore password protection.
+    *
+    * @param respectPasswordProtection true if password protection is respected
+    */
+   public void setRespectPasswordProtection(boolean respectPasswordProtection)
+   {
+      m_respectPasswordProtection = respectPasswordProtection;
+   }
+
+   /**
+    * Retrieve a flag indicating if password protection is respected.
+    *
+    * @return true if password protection is respected
+    */
+   boolean getRespectPasswordProtection()
+   {
+      return m_respectPasswordProtection;
+   }
+
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -385,13 +405,18 @@ public final class MPPReader extends AbstractProjectReader
    private boolean m_readPresentationData = true;
    private boolean m_readPropertiesOnly;
 
+   /**
+    * Where supported, set to false to ignore password protection.
+    */
+   private boolean m_respectPasswordProtection = true;
+
    private String m_readPassword;
    private List<ProjectListener> m_projectListeners;
 
    /**
     * Populate a map of file types and file processing classes.
     */
-   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<String, Class<? extends MPPVariantReader>>();
+   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<>();
    static
    {
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);

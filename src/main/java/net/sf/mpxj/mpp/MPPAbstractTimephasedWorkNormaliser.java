@@ -71,9 +71,9 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<TimephasedWork>();
+      LinkedList<TimephasedWork> result = new LinkedList<>();
       boolean remainderInserted = false;
-      
+
       for (TimephasedWork assignment : list)
       {
          if (remainderInserted)
@@ -102,10 +102,10 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                   assignment.setTotalAmount(assignmentWork);
                   result.add(assignment);
                   Duration remainingWork = Duration.getInstance(totalWork.getDuration() - assignmentWork.getDuration(), TimeUnit.MINUTES);
-                  
+
                   Date remainderStart = DateHelper.addDays(finishDay, 1);
                   Date remainderFinish = DateHelper.addDays(remainderStart, 1);
-                  
+
                   TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
                   remainder.setFinish(remainderFinish);
@@ -135,7 +135,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             assignment = split[1];
          }
       }
-     
+
       list.clear();
       list.addAll(result);
    }

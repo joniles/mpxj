@@ -48,7 +48,7 @@ class RowHeader
     */
    private void parse(String header)
    {
-      ArrayList<String> list = new ArrayList<String>(4);
+      ArrayList<String> list = new ArrayList<>(4);
       StringBuilder sb = new StringBuilder();
       int index = 1;
       while (index < header.length())

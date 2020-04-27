@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-02-12</li>
+        <li id="publishDate">Last Published: 2020-04-20</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -76,6 +76,8 @@
     <li><a href="howto-read-conceptdraw.html" title="ConceptDraw PROJECT files"><span class="none"></span>ConceptDraw PROJECT files</a>  </li>
     <li><a href="howto-read-synchro.html" title="Synchro Scheduler files"><span class="none"></span>Synchro Scheduler files</a>  </li>
     <li><a href="howto-read-ganttdesigner.html" title="Gantt Designer files"><span class="none"></span>Gantt Designer files</a>  </li>
+    <li><a href="howto-read-sdef.html" title="SDEF files"><span class="none"></span>SDEF files</a>  </li>
+    <li><a href="howto-read-schedule-grid.html" title="Schedule Grid files"><span class="none"></span>Schedule Grid files</a>  </li>
       </ul>
   </li>
     <li><a href="howto-write.html" title="How to write..."><span class="icon-chevron-right"></span>How to write...</a>  </li>
@@ -112,8 +114,23 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read(&quot;my-sample.xml&quot;);
-</pre></div></div>
-<p>You can work directly with the <tt>PrimaveraPMFileReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>PrimaveraPMFileReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>PrimaveraPMFileReader</tt> class.</p></div></div>
+</pre></div></div></div>
+<div class="section">
+<h3><a name="Using_PrimaveraPMFileReader"></a>Using PrimaveraPMFileReader</h3>
+<p>You can work directly with the <tt>PrimaveraPMFileReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>PrimaveraPMFileReader</tt>. This provides access to additional options, as described below.</p>
+<div class="section">
+<h4><a name="WBS_is_Full_Path"></a>WBS is Full Path</h4>
+<p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot separated hierarchy of all of the parent WBS attributes. In this example, <tt>root.wbs1.wbs2</tt> is the WBS attribute for <tt>wbs2</tt> which has the parents <tt>root</tt> and <tt>wbs1</tt>. To disabled this behaviour, and simply record the code for the current WBS entry (in the example above <tt>wbs2</tt>) call the <tt>setWbsIsFullPath</tt> method, passing in <tt>false</tt>, as illustrated below. </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setWbsIsFullPath(false);
+</pre></div></div></div></div></div>
         </div>
       </div>
     </div>
@@ -121,7 +138,7 @@ ProjectFile project = reader.read(&quot;my-sample.xml&quot;);
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>Copyright &copy;2000&#x2013;2019
+            <p>Copyright &copy;2000&#x2013;2020
 <a href="http://mpxj.org">Packwood Software</a>.
 All rights reserved.</p>
         </div>

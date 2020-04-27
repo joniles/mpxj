@@ -46,20 +46,20 @@ abstract class BlockReader
 
    /**
     * Read a list of fixed sized blocks from the input stream.
-
+   
     * @return List of MapRow instances representing the fixed size blocks
     */
    public List<MapRow> read() throws IOException
    {
-      List<MapRow> result = new ArrayList<MapRow>();
-      int fileCount = m_stream.readInt();
-      if (fileCount != 0)
+      List<MapRow> result = new ArrayList<>();
+      int blockCount = m_stream.readInt();
+      if (blockCount != 0)
       {
-         for (int index = 0; index < fileCount; index++)
+         for (int index = 0; index < blockCount; index++)
          {
             // We use a LinkedHashMap to preserve insertion order in iteration
             // Useful when debugging the file format.
-            Map<String, Object> map = new LinkedHashMap<String, Object>();
+            Map<String, Object> map = new LinkedHashMap<>();
             readBlock(map);
             result.add(new MapRow(map));
          }

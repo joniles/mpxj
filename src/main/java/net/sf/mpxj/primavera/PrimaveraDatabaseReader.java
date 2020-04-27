@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.sql.DataSource;
 
@@ -61,7 +62,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -77,7 +78,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         Map<Integer, String> result = new HashMap<Integer, String>();
+         Map<Integer, String> result = new HashMap<>();
 
          List<Row> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project where delete_date is null");
          for (Row row : rows)
@@ -106,7 +107,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
          project.getEventManager().addProjectListeners(m_projectListeners);
 
@@ -161,7 +162,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    public List<ProjectFile> readAll() throws MPXJException
    {
       Map<Integer, String> projects = listProjects();
-      List<ProjectFile> result = new ArrayList<ProjectFile>(projects.keySet().size());
+      List<ProjectFile> result = new ArrayList<>(projects.keySet().size());
       for (Integer id : projects.keySet())
       {
          setProjectID(id.intValue());
@@ -275,7 +276,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
             {
                if ("sched_calendar_on_relationship_lag".equals(keyValues[i]))
                {
-                  Map<String, Object> customProperties = new HashMap<String, Object>();
+                  Map<String, Object> customProperties = new TreeMap<>();
                   customProperties.put("LagCalendar", keyValues[i + 1]);
                   m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
                   break;
@@ -436,7 +437,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -470,7 +471,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<Row>();
+         List<Row> result = new LinkedList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));
@@ -649,7 +650,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
-   public Map<FieldType, String> getTaskFieldMap()
+   public Map<FieldType, String> getActivityFieldMap()
    {
       return m_taskFields;
    }
@@ -659,7 +660,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
-   public Map<FieldType, String> getAssignmentFields()
+   public Map<FieldType, String> getAssignmentFieldMap()
    {
       return m_assignmentFields;
    }
@@ -698,6 +699,28 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       m_matchPrimaveraWBS = matchPrimaveraWBS;
    }
 
+   /**
+    * Returns true if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    *
+    * @return true if WBS attribute is a hierarchy
+    */
+   public boolean getWbsIsFullPath()
+   {
+      return m_wbsIsFullPath;
+   }
+
+   /**
+    * Sets a flag indicating if the WBS attribute of a summary task
+    * contains a dot separated list representing the WBS hierarchy.
+    *
+    * @param wbsIsFullPath true if WBS attribute is a hierarchy
+    */
+   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   {
+      m_wbsIsFullPath = wbsIsFullPath;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -706,12 +729,13 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
+   private boolean m_wbsIsFullPath = true;
 
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();

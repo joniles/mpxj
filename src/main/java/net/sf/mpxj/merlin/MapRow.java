@@ -156,18 +156,7 @@ class MapRow implements Row
     */
    @Override public Date getTimestamp(String name)
    {
-      Date result;
-      // They are stored as seconds since Jan 1st, 2001 00:00
-      Integer value = getInteger(name);
-      if (value == null)
-      {
-         result = null;
-      }
-      else
-      {
-         result = new Date(TIMESTAMP_EPOCH + (value.longValue() * 1000));
-      }
-      return result;
+      return (Date) getObject(name);
    }
 
    @Override public Date getDate(String name)
@@ -427,11 +416,6 @@ class MapRow implements Row
    }
 
    protected Map<String, Object> m_map;
-
-   /**
-    * 01/01/2001 00:00.
-    */
-   private static final long TIMESTAMP_EPOCH = 978307200000L;
 
    /**
     * 07/01/2001 00:00.

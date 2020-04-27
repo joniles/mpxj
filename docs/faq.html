@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2019-02-12</li>
+        <li id="publishDate">Last Published: 2020-04-20</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -90,14 +90,12 @@
 				When I double click on an MPX file to open it in Microsoft Project,
 				I end up with two copies of the file open. What's happening?
 			</a></li>
+<li><a href="#java8">
+				I use a version of Java older than Java 8, can I use MPXJ?
+			</a></li>
 <li><a href="#retroweaver">
 				I use a Java 1.4 JVM, but MPXJ is built with a later version of 
 				Java, is there anything I can do which will allow me to use it?
-			</a></li>
-<li><a href="#jaxb">
-				I use a Java 1.5 JVM, but MPXJ is built with a later version of 
-				Java, and assumes that JAXB is available as part of the JRE.
-				Can I still use Java 1.5?
 			</a></li></ol>
 <p><b>Known Issues with MPXJ</b></p>
 <ol style="list-style-type: decimal">
@@ -194,25 +192,21 @@
            </p>
 			
 <p align="right"><a href="#top">[top]</a></p><hr /></dd>
+<dt><a name="java8">
+				I use a version of Java older than Java 8, can I use MPXJ?
+			</a></dt>
+<dd>
+				The last version of MPXJ which supports versions of Java prior to Java 8
+				is version 7.9.8.
+			
+<p align="right"><a href="#top">[top]</a></p><hr /></dd>
 <dt><a name="retroweaver">
 				I use a Java 1.4 JVM, but MPXJ is built with a later version of 
 				Java, is there anything I can do which will allow me to use it?
 			</a></dt>
 <dd>
-				Yes there is - try using <a class="externalLink" href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
-			
-<p align="right"><a href="#top">[top]</a></p><hr /></dd>
-<dt><a name="jaxb">
-				I use a Java 1.5 JVM, but MPXJ is built with a later version of 
-				Java, and assumes that JAXB is available as part of the JRE.
-				Can I still use Java 1.5?
-			</a></dt>
-<dd>
-				Yes, MPXJ doesn't use any Java 1.6 specific features. If you set
-				the target JRE version to 1.5 in the ant build file, you will be
-				able to rebuild MPXJ for Java 1.5. You will also need to provide
-				the JAXB libraries if they are not present in the JRE. The required
-				libraries can be found as part of the MPXJ 3.2.0 distribution. 
+				Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0, 
+				try using <a class="externalLink" href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
 			
 <p align="right"><a href="#top">[top]</a></p></dd></dl></div>
 <div class="section">
@@ -378,7 +372,7 @@
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>Copyright &copy;2000&#x2013;2019
+            <p>Copyright &copy;2000&#x2013;2020
 <a href="http://mpxj.org">Packwood Software</a>.
 All rights reserved.</p>
         </div>

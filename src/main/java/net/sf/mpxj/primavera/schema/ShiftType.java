@@ -264,7 +264,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (shiftPeriod == null)
       {
-         shiftPeriod = new ArrayList<ShiftPeriodType>();
+         shiftPeriod = new ArrayList<>();
       }
       return this.shiftPeriod;
    }

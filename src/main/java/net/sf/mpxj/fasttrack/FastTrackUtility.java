@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
 import net.sf.mpxj.TimeUnit;
 
 /**
- * Common methods used when redaing an FTS file.
+ * Common methods used when reading an FTS file.
  */
 final class FastTrackUtility
 {
@@ -49,11 +49,31 @@ final class FastTrackUtility
     * Ensure that an array index is in range.
     *
     * @param buffer array of data
-    * @param offset index into arry
+    * @param offset index into array
     */
    public static final void validateOffset(byte[] buffer, int offset)
    {
       if (offset >= buffer.length)
+      {
+         throw new UnexpectedStructureException();
+      }
+   }
+
+   /**
+    * Read a string and gracefully handle failure.
+    *
+    * @param buffer array of data
+    * @param offset offset into array
+    * @param length string length
+    * @return String instance
+    */
+   public static String getString(byte[] buffer, int offset, int length)
+   {
+      try
+      {
+         return new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
+      }
+      catch (StringIndexOutOfBoundsException ex)
       {
          throw new UnexpectedStructureException();
       }

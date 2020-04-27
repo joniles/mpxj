@@ -121,7 +121,7 @@ class TableReader
       int deletedFlag = getShort(buffer, 0);
       if (deletedFlag != 0)
       {
-         Map<String, Object> row = new HashMap<String, Object>();
+         Map<String, Object> row = new HashMap<>();
          for (ColumnDefinition column : m_definition.getColumns())
          {
             Object value = column.read(0, buffer);

@@ -52,5 +52,5 @@ public class GroupContainer extends ListWithCallbacks<Group>
       return (m_groupsByName.get(name));
    }
 
-   private final Map<String, Group> m_groupsByName = new HashMap<String, Group>();
+   private final Map<String, Group> m_groupsByName = new HashMap<>();
 }

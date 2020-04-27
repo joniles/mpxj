@@ -42,7 +42,7 @@ class TableCONTAB extends Table
    {
       if (data[0] != (byte) 0xFF)
       {
-         Map<String, Object> map = new HashMap<String, Object>();
+         Map<String, Object> map = new HashMap<>();
          map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
          map.put("TASK_ID_1", Integer.valueOf(PEPUtility.getShort(data, 1)));
          map.put("TASK_ID_2", Integer.valueOf(PEPUtility.getShort(data, 3)));

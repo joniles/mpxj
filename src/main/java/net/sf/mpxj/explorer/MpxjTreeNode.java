@@ -77,6 +77,6 @@ public class MpxjTreeNode extends DefaultMutableTreeNode
 
    private Set<String> m_excludedMethods;
 
-   public static final Set<String> DEFAULT_EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getClass", "getParentFile", "getInstance"));
+   public static final Set<String> DEFAULT_EXCLUDED_METHODS = new HashSet<>(Arrays.asList("getClass", "getParentFile", "getInstance"));
 
 }

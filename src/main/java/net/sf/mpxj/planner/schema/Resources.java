@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
    {
       if (resource == null)
       {
-         resource = new ArrayList<Resource>();
+         resource = new ArrayList<>();
       }
       return this.resource;
    }

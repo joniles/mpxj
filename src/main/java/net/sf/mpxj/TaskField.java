@@ -66,6 +66,8 @@ public enum TaskField implements FieldType
    WBS(DataType.STRING),
    CONSTRAINT_TYPE(DataType.CONSTRAINT),
    CONSTRAINT_DATE(DataType.DATE),
+   SECONDARY_CONSTRAINT_TYPE(DataType.CONSTRAINT),
+   SECONDARY_CONSTRAINT_DATE(DataType.DATE),
    CRITICAL(DataType.BOOLEAN),
    LEVELING_DELAY(DataType.DURATION, TaskField.LEVELING_DELAY_UNITS),
    FREE_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
@@ -141,8 +143,8 @@ public enum TaskField implements FieldType
    SUMMARY(DataType.BOOLEAN),
    CREATED(DataType.DATE),
    NOTES(DataType.ASCII_STRING),
-   UNIQUE_ID_PREDECESSORS(DataType.RELATION_LIST),
-   UNIQUE_ID_SUCCESSORS(DataType.RELATION_LIST),
+   UNIQUE_ID_PREDECESSORS(DataType.STRING),
+   UNIQUE_ID_SUCCESSORS(DataType.STRING),
    OBJECTS(DataType.NUMERIC),
    LINKED_FIELDS(DataType.BOOLEAN),
    RESUME(DataType.DATE),
@@ -660,6 +662,9 @@ public enum TaskField implements FieldType
    TCPI(DataType.STRING), // Check data type
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
+   SPLITS(DataType.DATE_RANGE_LIST),
+   SPLITS_COMPLETE(DataType.DATE),
+   SUBPROJECT(DataType.SUBPROJECT),
 
    START_TEXT(DataType.STRING),
    FINISH_TEXT(DataType.STRING),

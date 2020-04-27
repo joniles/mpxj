@@ -106,7 +106,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<ProjectListener>();
+         m_projectListeners = new LinkedList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -120,9 +120,9 @@ public final class GanttProjectReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-         m_resourcePropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
-         m_taskPropertyDefinitions = new HashMap<String, Pair<FieldType, String>>();
-         m_roleDefinitions = new HashMap<String, String>();
+         m_resourcePropertyDefinitions = new HashMap<>();
+         m_taskPropertyDefinitions = new HashMap<>();
+         m_roleDefinitions = new HashMap<>();
          m_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -389,7 +389,7 @@ public final class GanttProjectReader extends AbstractProjectReader
             {
                defaultValue = null;
             }
-            m_resourcePropertyDefinitions.put(definition.getId(), new Pair<FieldType, String>(fieldType, defaultValue));
+            m_resourcePropertyDefinitions.put(definition.getId(), new Pair<>(fieldType, defaultValue));
          }
       }
    }
@@ -438,7 +438,7 @@ public final class GanttProjectReader extends AbstractProjectReader
             {
                defaultValue = null;
             }
-            m_taskPropertyDefinitions.put(definition.getId(), new Pair<FieldType, String>(fieldType, defaultValue));
+            m_taskPropertyDefinitions.put(definition.getId(), new Pair<>(fieldType, defaultValue));
          }
       }
    }
@@ -500,7 +500,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       //
       // Populate custom field default values
       //
-      Map<FieldType, Object> customFields = new HashMap<FieldType, Object>();
+      Map<FieldType, Object> customFields = new HashMap<>();
       for (Pair<FieldType, String> definition : m_resourcePropertyDefinitions.values())
       {
          customFields.put(definition.getFirst(), definition.getSecond());
@@ -599,7 +599,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       //
       // Populate custom field default values
       //
-      Map<FieldType, Object> customFields = new HashMap<FieldType, Object>();
+      Map<FieldType, Object> customFields = new HashMap<>();
       for (Pair<FieldType, String> definition : m_taskPropertyDefinitions.values())
       {
          customFields.put(definition.getFirst(), definition.getSecond());
@@ -886,7 +886,7 @@ public final class GanttProjectReader extends AbstractProjectReader
    private Map<String, Pair<FieldType, String>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
 
-   private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
+   private static final Map<String, CustomProperty> RESOURCE_PROPERTY_TYPES = new HashMap<>();
    static
    {
       CustomProperty numeric = new CustomProperty(ResourceFieldLists.CUSTOM_NUMBER);
@@ -897,7 +897,7 @@ public final class GanttProjectReader extends AbstractProjectReader
       RESOURCE_PROPERTY_TYPES.put("boolean", new CustomProperty(ResourceFieldLists.CUSTOM_FLAG));
    }
 
-   private static final Map<String, CustomProperty> TASK_PROPERTY_TYPES = new HashMap<String, CustomProperty>();
+   private static final Map<String, CustomProperty> TASK_PROPERTY_TYPES = new HashMap<>();
    static
    {
       CustomProperty numeric = new CustomProperty(TaskFieldLists.CUSTOM_NUMBER);

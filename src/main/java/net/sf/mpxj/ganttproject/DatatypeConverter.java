@@ -80,5 +80,5 @@ public final class DatatypeConverter
          df.setLenient(false);
          return df;
       }
-   };            
+   };
 }

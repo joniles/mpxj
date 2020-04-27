@@ -98,8 +98,9 @@ final class PrimaveraReader
     * @param assignmentFields assignment field mapping
     * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
+    * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -107,7 +108,6 @@ final class PrimaveraReader
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
-      config.setAutoCalendarUniqueID(true);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
 
@@ -126,6 +126,7 @@ final class PrimaveraReader
       m_assignmentUdfCounters.reset();
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
+      m_wbsIsFullPath = wbsIsFullPath;
    }
 
    /**
@@ -184,7 +185,7 @@ final class PrimaveraReader
    public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
    {
       ActivityCodeContainer container = m_project.getActivityCodes();
-      Map<Integer, ActivityCode> map = new HashMap<Integer, ActivityCode>();
+      Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (Row row : types)
       {
@@ -203,13 +204,23 @@ final class PrimaveraReader
          }
       }
 
+      for (Row row : typeValues)
+      {
+         ActivityCodeValue child = m_activityCodeMap.get(row.getInteger("actv_code_id"));
+         ActivityCodeValue parent = m_activityCodeMap.get(row.getInteger("parent_actv_code_id"));
+         if (parent != null && child != null)
+         {
+            child.setParent(parent);
+         }
+      }
+
       for (Row row : assignments)
       {
          Integer taskID = row.getInteger("task_id");
          List<Integer> list = m_activityCodeAssignments.get(taskID);
          if (list == null)
          {
-            list = new ArrayList<Integer>();
+            list = new ArrayList<>();
             m_activityCodeAssignments.put(taskID, list);
          }
          list.add(row.getInteger("actv_code_id"));
@@ -225,7 +236,7 @@ final class PrimaveraReader
    public void processUserDefinedFields(List<Row> fields, List<Row> values)
    {
       // Process fields
-      Map<Integer, String> tableNameMap = new HashMap<Integer, String>();
+      Map<Integer, String> tableNameMap = new HashMap<>();
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
@@ -251,7 +262,7 @@ final class PrimaveraReader
          Map<Integer, List<Row>> tableData = m_udfValues.get(tableName);
          if (tableData == null)
          {
-            tableData = new HashMap<Integer, List<Row>>();
+            tableData = new HashMap<>();
             m_udfValues.put(tableName, tableData);
          }
 
@@ -259,7 +270,7 @@ final class PrimaveraReader
          List<Row> list = tableData.get(id);
          if (list == null)
          {
-            list = new ArrayList<Row>();
+            list = new ArrayList<>();
             tableData.put(id, list);
          }
          list.add(row);
@@ -273,14 +284,44 @@ final class PrimaveraReader
     */
    public void processCalendars(List<Row> rows)
    {
+      //
+      // First pass: read calendar definitions
+      //
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
       for (Row row : rows)
       {
-         processCalendar(row);
+         ProjectCalendar calendar = processCalendar(row);
+         Integer baseCalendarID = row.getInteger("base_clndr_id");
+         if (baseCalendarID != null)
+         {
+            baseCalendarMap.put(calendar, baseCalendarID);
+         }
       }
+
+      //
+      // Second pass: create calendar hierarchy
+      //
+      for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
+      {
+         ProjectCalendar baseCalendar = m_project.getCalendarByUniqueID(entry.getValue());
+         if (baseCalendar != null)
+         {
+            entry.getKey().setParent(baseCalendar);
+         }
+      }
+
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto number. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      ProjectConfig config = m_project.getProjectConfig();
+      config.setAutoCalendarUniqueID(true);
+      config.updateCalendarUniqueCounter();
 
       if (m_defaultCalendarID != null)
       {
-         ProjectCalendar defaultCalendar = m_calMap.get(m_defaultCalendarID);
+         ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
          // Primavera XER files can sometimes not contain a definition of the default
          // project calendar so only try to set if we find a definition.
          if (defaultCalendar != null)
@@ -294,13 +335,14 @@ final class PrimaveraReader
     * Process data for an individual calendar.
     *
     * @param row calendar data
+    * @return ProjectCalendar instance
     */
-   public void processCalendar(Row row)
+   public ProjectCalendar processCalendar(Row row)
    {
       ProjectCalendar calendar = m_project.addCalendar();
 
       Integer id = row.getInteger("clndr_id");
-      m_calMap.put(id, calendar);
+      calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
 
       try
@@ -317,7 +359,7 @@ final class PrimaveraReader
          // to process something which isn't a double.
          // We'll just return at this point as it's not clear that we can salvage anything
          // sensible from this record.
-         return;
+         return calendar;
       }
 
       // Process data
@@ -351,6 +393,8 @@ final class PrimaveraReader
       }
 
       m_eventManager.fireCalendarReadEvent(calendar);
+
+      return calendar;
    }
 
    /**
@@ -508,7 +552,7 @@ final class PrimaveraReader
       ProjectCalendar result = null;
       if (calendarID != null)
       {
-         ProjectCalendar calendar = m_calMap.get(calendarID);
+         ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
          if (calendar != null)
          {
             //
@@ -630,8 +674,8 @@ final class PrimaveraReader
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
-      Set<Integer> uniqueIDs = new HashSet<Integer>();
-      Set<Task> wbsTasks = new HashSet<Task>();
+      Set<Integer> uniqueIDs = new HashSet<>();
+      Set<Task> wbsTasks = new HashSet<>();
 
       //
       // We set the project name when we read the project properties, but that's just
@@ -654,6 +698,7 @@ final class PrimaveraReader
       {
          Task task = m_project.addTask();
          task.setProject(projectName); // P6 task always belongs to project
+         task.setSummary(true);
          processFields(m_wbsFields, row, task);
          populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          uniqueIDs.add(task.getUniqueID());
@@ -678,7 +723,12 @@ final class PrimaveraReader
          {
             m_project.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-            task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+
+            if (m_wbsIsFullPath)
+            {
+               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+            }
+
             if (activityIDField != null)
             {
                task.set(activityIDField, task.getWBS());
@@ -741,7 +791,7 @@ final class PrimaveraReader
          uniqueIDs.add(uniqueID);
 
          Integer calId = row.getInteger("clndr_id");
-         ProjectCalendar cal = m_calMap.get(calId);
+         ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
          Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
@@ -1024,7 +1074,6 @@ final class PrimaveraReader
    {
       task.setID(Integer.valueOf(id++));
       task.setOutlineLevel(outlineLevel);
-      task.setSummary(task.getChildTasks().size() != 0);
       outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
       for (Task childTask : task.getChildTasks())
       {
@@ -1055,7 +1104,7 @@ final class PrimaveraReader
     */
    private void updateDates(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          int finished = 0;
          Date plannedStartDate = parentTask.getStart();
@@ -1064,12 +1113,12 @@ final class PrimaveraReader
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
          Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          Date lateStartDate = parentTask.getLateStart();
          Date lateFinishDate = parentTask.getLateFinish();
          Date baselineStartDate = parentTask.getBaselineStart();
          Date baselineFinishDate = parentTask.getBaselineFinish();
+         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
@@ -1151,9 +1200,20 @@ final class PrimaveraReader
          }
          parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && baselineDuration.getDuration() != 0 && remainingDuration != null)
+         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
          {
             double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            if (durationPercentComplete < 0)
+            {
+               durationPercentComplete = 0;
+            }
+            else
+            {
+               if (durationPercentComplete > 100)
+               {
+                  durationPercentComplete = 100;
+               }
+            }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
       }
@@ -1179,7 +1239,7 @@ final class PrimaveraReader
     */
    private void updateWork(Task parentTask)
    {
-      if (parentTask.getSummary())
+      if (parentTask.hasChildTasks())
       {
          ProjectProperties properties = m_project.getProjectProperties();
 
@@ -1597,7 +1657,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultResourceFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(ResourceField.UNIQUE_ID, "rsrc_id");
       map.put(ResourceField.GUID, "guid");
@@ -1620,7 +1680,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultWbsFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(TaskField.UNIQUE_ID, "wbs_id");
       map.put(TaskField.GUID, "guid");
@@ -1644,7 +1704,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultTaskFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
@@ -1668,6 +1728,8 @@ final class PrimaveraReader
       map.put(TaskField.BASELINE_START, "target_start_date");
       map.put(TaskField.BASELINE_FINISH, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
+      map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
+      map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
       map.put(TaskField.PRIORITY, "priority_type");
       map.put(TaskField.CREATED, "create_date");
       map.put(TaskField.TYPE, "duration_type");
@@ -1688,7 +1750,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultAssignmentFieldMap()
    {
-      Map<FieldType, String> map = new LinkedHashMap<FieldType, String>();
+      Map<FieldType, String> map = new LinkedHashMap<>();
 
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
@@ -1714,7 +1776,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultAliases()
    {
-      Map<FieldType, String> map = new HashMap<FieldType, String>();
+      Map<FieldType, String> map = new HashMap<>();
 
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
@@ -1728,8 +1790,7 @@ final class PrimaveraReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
-   private Map<Integer, ProjectCalendar> m_calMap = new HashMap<Integer, ProjectCalendar>();
+   private Map<Integer, Integer> m_clashMap = new HashMap<>();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
 
@@ -1740,25 +1801,26 @@ final class PrimaveraReader
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
-   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<ExternalPredecessorRelation>();
+   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
+   private final boolean m_wbsIsFullPath;
 
-   private Map<Integer, String> m_udfFields = new HashMap<Integer, String>();
-   private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<String, Map<Integer, List<Row>>>();
+   private Map<Integer, String> m_udfFields = new HashMap<>();
+   private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<Integer, ActivityCodeValue>();
-   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<Integer, List<Integer>>();
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
+   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
 
-   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
+   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
       RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
       RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.WORK);
+      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
    }
 
-   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
+   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
       CONSTRAINT_TYPE_MAP.put("CS_MSO", ConstraintType.MUST_START_ON);
@@ -1770,9 +1832,11 @@ final class PrimaveraReader
       CONSTRAINT_TYPE_MAP.put("CS_ALAP", ConstraintType.AS_LATE_AS_POSSIBLE);
       CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MUST_START_ON);
       CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MANDATORY_START);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MANDATORY_FINISH);
    }
 
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();
+   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
    static
    {
       PRIORITY_MAP.put("PT_Top", Priority.getInstance(Priority.HIGHEST));
@@ -1782,7 +1846,7 @@ final class PrimaveraReader
       PRIORITY_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
    }
 
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
       RELATION_TYPE_MAP.put("PR_FS", RelationType.FINISH_START);
@@ -1791,7 +1855,7 @@ final class PrimaveraReader
       RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
    }
 
-   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<String, TaskType>();
+   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<>();
    static
    {
       TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
@@ -1800,7 +1864,7 @@ final class PrimaveraReader
       TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
    }
 
-   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<String, Boolean>();
+   private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
    {
       MILESTONE_MAP.put("TT_Task", Boolean.FALSE);
@@ -1811,7 +1875,7 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
    }
 
-   private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<String, TimeUnit>();
+   private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
    static
    {
       TIME_UNIT_MAP.put("QT_Minute", TimeUnit.MINUTES);
@@ -1822,7 +1886,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
 
-   private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<String, CurrencySymbolPosition>();
+   private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
       CURRENCY_SYMBOL_POSITION_MAP.put("#1.1", CurrencySymbolPosition.BEFORE);
@@ -1831,7 +1895,7 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<String, Boolean>();
+   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<>();
    static
    {
       // this is a judgement call on how the static type indicator values would be best translated to a flag
@@ -1842,7 +1906,7 @@ final class PrimaveraReader
       STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
    }
 
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<String, FieldTypeClass>();
+   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
       FIELD_TYPE_MAP.put("PROJWBS", FieldTypeClass.TASK);

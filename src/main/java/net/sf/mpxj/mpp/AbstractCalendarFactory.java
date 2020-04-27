@@ -94,9 +94,9 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //      System.out.println(calFixed2Meta);
       //      System.out.println(calFixed2Data);
 
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<>();
       int items = calFixedData.getItemCount();
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<>();
       byte[] defaultCalendarData = projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
       ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
       processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
@@ -152,7 +152,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                         cal = m_file.addDefaultDerivedCalendar();
                      }
 
-                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
+                     baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
                      Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }
@@ -205,7 +205,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       Date start;
       long duration;
       Day day;
-      List<DateRange> dateRanges = new ArrayList<DateRange>(5);
+      List<DateRange> dateRanges = new ArrayList<>(5);
 
       for (index = 0; index < 7; index++)
       {

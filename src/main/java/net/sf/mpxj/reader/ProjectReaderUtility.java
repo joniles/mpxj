@@ -102,7 +102,7 @@ public final class ProjectReaderUtility
       return (READER_MAP.keySet());
    }
 
-   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>>();
+   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<>();
    static
    {
       READER_MAP.put("MPP", MPPReader.class);

@@ -28,6 +28,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +38,9 @@ import java.util.Locale;
 
 import org.junit.Test;
 
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
@@ -169,7 +174,7 @@ public class CustomerDataTest
 
    /**
     * Create a File instance from a path stored as a property.
-    * 
+    *
     * @param propertyName property name
     * @return File instance
     */
@@ -204,7 +209,7 @@ public class CustomerDataTest
    {
       if (m_privateDirectory != null)
       {
-         List<File> files = new ArrayList<File>();
+         List<File> files = new ArrayList<>();
          listFiles(files, m_privateDirectory);
 
          int interval = files.size() / max;
@@ -269,7 +274,7 @@ public class CustomerDataTest
          {
             continue;
          }
-         
+
          ProjectFile mpxj = null;
          //System.out.println(name);
 
@@ -280,19 +285,24 @@ public class CustomerDataTest
             {
                System.err.println("Failed to read " + name);
                ++failures;
+               continue;
             }
-            else
+
+            if (!testHierarchy(mpxj))
             {
-               if (!testBaseline(file, mpxj))
-               {
-                  System.err.println("Failed to validate baseline " + name);
-                  ++failures;                  
-               }
-               else
-               {
-                  testWriters(mpxj);
-               }
+               System.err.println("Failed to validate hierarchy " + name);
+               ++failures;
+               continue;
             }
+
+            if (!testBaseline(file, mpxj))
+            {
+               System.err.println("Failed to validate baseline " + name);
+               ++failures;
+               continue;
+            }
+
+            testWriters(mpxj);
          }
 
          catch (Exception ex)
@@ -303,12 +313,19 @@ public class CustomerDataTest
          }
       }
 
+      if (DIFF_BASELINE_DIR != null)
+      {
+         System.out.println();
+         System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
+         System.out.println("Test: " + DIFF_TEST_DIR.getPath());
+      }
+
       assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
    /**
     * Ensure that we can read the file.
-    * 
+    *
     * @param name file name
     * @param file File instance
     * @return ProjectFile instance
@@ -353,11 +370,37 @@ public class CustomerDataTest
    }
 
    /**
-    * Generate an MSPDI file from the file under test and compare it to a baseline
+    * Ensure that both child and parent tasks agree on the relationship.
+    *
+    * @param parent schedule file to test
+    * @return true if the hierarchy test is successful
+    */
+   private boolean testHierarchy(ChildTaskContainer parent)
+   {
+      for (Task task : parent.getChildTasks())
+      {
+         if (parent instanceof Task)
+         {
+            if (task.getParentTask() != parent)
+            {
+               return false;
+            }
+         }
+
+         if (!testHierarchy(task))
+         {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   /**
+    * Generate new files from the file under test and compare them to a baseline
     * we have previously created. This potentially allows us to capture unintended
-    * changes in functionality. If we do not have a baseline for this particular 
+    * changes in functionality. If we do not have a baseline for this particular
     * file, we'll generate one.
-    *  
+    *
     * @param file file under test
     * @param project ProjectFile instance
     * @return true if the baseline test is successful
@@ -368,44 +411,100 @@ public class CustomerDataTest
       {
          return true;
       }
-            
+
+      boolean mspdi = testBaseline(file, project, new File(m_baselineDirectory, "mspdi"), MSPDIWriter.class);
+      boolean pmxml = testBaseline(file, project, new File(m_baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
+      boolean json = testBaseline(file, project, new File(m_baselineDirectory, "json"), JsonWriter.class);
+
+      return mspdi && pmxml && json;
+   }
+
+   /**
+    * Generate a baseline for a specific file type.
+    *
+    * @param file file under test
+    * @param project ProjectFile instance
+    * @param baselineDirectory baseline directory location
+    * @param writerClass file writer class
+    * @return true if the baseline test is successful
+    */
+   @SuppressWarnings("unused") private boolean testBaseline(File file, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
+   {
       boolean success = true;
       int sourceDirNameLength = m_privateDirectory.getPath().length();
-      File baselineFile = new File(m_baselineDirectory, file.getPath().substring(sourceDirNameLength) + ".xml");      
 
-      MSPDIWriter writer = new MSPDIWriter();
+      ProjectWriter writer = writerClass.newInstance();
+      String suffix;
+
+      // Not ideal, but...
+      if (writer instanceof JsonWriter)
+      {
+         ((JsonWriter) writer).setPretty(true);
+         suffix = ".json";
+      }
+      else
+      {
+         suffix = ".xml";
+      }
+
+      File baselineFile = new File(baselineDirectory, file.getPath().substring(sourceDirNameLength) + suffix);
+
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
-      
+
       if (baselineFile.exists())
       {
-         File out = File.createTempFile("junit", ".xml");
+         File out = File.createTempFile("junit", suffix);
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
-         FileHelper.deleteQuietly(out);
-//         if (success)
-//         {
-//            FileHelper.deleteQuietly(out);
-//         }
-//         else
-//         {
-//            System.out.println();
-//            System.out.println("Baseline: " + baselineFile.getPath());
-//            System.out.println("Test: " + out.getPath());
-//            System.out.println("copy /y \""+out.getPath()+"\" \"" + baselineFile.getPath() + "\"");
-//         }
+
+         if (success || !DEBUG_FAILURES)
+         {
+            FileHelper.deleteQuietly(out);
+         }
+         else
+         {
+            debugFailure(baselineFile, out);
+         }
       }
       else
       {
          FileHelper.mkdirsQuietly(baselineFile.getParentFile());
          writer.write(project, baselineFile);
       }
-      
+
       return success;
    }
 
    /**
+    * Write a diagnostic message and populate directories to make
+    * it easier to diff multiple files.
+    *
+    * @param baseline baseline file
+    * @param test test file
+    */
+   private void debugFailure(File baseline, File test) throws IOException
+   {
+      System.out.println();
+      System.out.println("Baseline: " + baseline.getPath());
+      System.out.println("Test: " + test.getPath());
+      System.out.println("copy /y \"" + test.getPath() + "\" \"" + baseline.getPath() + "\"");
+
+      if (DIFF_BASELINE_DIR == null)
+      {
+         File diffDir = FileHelper.createTempDir();
+         DIFF_BASELINE_DIR = new File(diffDir, "baseline");
+         DIFF_TEST_DIR = new File(diffDir, "test");
+         FileHelper.mkdirs(DIFF_BASELINE_DIR);
+         FileHelper.mkdirs(DIFF_TEST_DIR);
+      }
+
+      Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(test.toPath(), new File(DIFF_TEST_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+   }
+
+   /**
     * Ensure that we can export the file under test through our writers, without error.
-    * 
+    *
     * @param project ProjectFile instance
     */
    private void testWriters(ProjectFile project) throws Exception
@@ -446,21 +545,31 @@ public class CustomerDataTest
    private UniversalProjectReader m_universalReader;
    private MPXReader m_mpxReader;
    private PrimaveraXERFileReader m_xerReader;
+   private static File DIFF_BASELINE_DIR;
+   private static File DIFF_TEST_DIR;
 
-   private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<Class<? extends ProjectWriter>>();
+   private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
-   
+
+   private static final boolean DEBUG_FAILURES = false;
+
    static
    {
-      WRITER_CLASSES.add(JsonWriter.class);      
-      WRITER_CLASSES.add(MSPDIWriter.class);
+      // Exercised by baseline test
+      //WRITER_CLASSES.add(JsonWriter.class);
+
+      // Exercised by baseline test
+      //WRITER_CLASSES.add(MSPDIWriter.class);
+
       WRITER_CLASSES.add(PlannerWriter.class);
-      WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
-      
+
+      // Exercise by baseline test
+      //WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
+
       // Not reliable enough results to include
       // WRITER_CLASSES.add(SDEFWriter.class);
-      
+
       // Write MPX last as applying locale settings will change some project values
       WRITER_CLASSES.add(MPXWriter.class);
    }

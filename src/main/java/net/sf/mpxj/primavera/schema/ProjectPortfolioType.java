@@ -458,7 +458,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (memberProject == null)
       {
-         memberProject = new ArrayList<PortfolioTeamMemberType>();
+         memberProject = new ArrayList<>();
       }
       return this.memberProject;
    }

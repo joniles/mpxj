@@ -413,7 +413,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       if (projectRoleSpread == null)
       {
-         projectRoleSpread = new ArrayList<ProjectRoleSpreadType>();
+         projectRoleSpread = new ArrayList<>();
       }
       return this.projectRoleSpread;
    }

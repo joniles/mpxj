@@ -35,6 +35,7 @@ import java.util.Set;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.DataLink;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
@@ -63,7 +64,7 @@ import net.sf.mpxj.writer.ProjectWriter;
  */
 public class ProjectTreeController
 {
-   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>>();
+   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<>();
    static
    {
       WRITER_MAP.put("MPX", MPXWriter.class);
@@ -185,6 +186,10 @@ public class ProjectTreeController
       MpxjTreeNode tablesFolder = new MpxjTreeNode("Tables");
       projectNode.add(tablesFolder);
       addTables(tablesFolder, m_projectFile);
+
+      MpxjTreeNode dataLinksFolder = new MpxjTreeNode("Data Links");
+      projectNode.add(dataLinksFolder);
+      addDataLinks(dataLinksFolder, m_projectFile);
 
       m_model.setRoot(projectNode);
    }
@@ -381,7 +386,7 @@ public class ProjectTreeController
             @Override public String toString()
             {
                FieldType type = c.getFieldType();
-               
+
                return type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
             }
          };
@@ -506,6 +511,39 @@ public class ProjectTreeController
    }
 
    /**
+    * Add data links to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file data links container
+    */
+   private void addDataLinks(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (DataLink dataLink : file.getDataLinks())
+      {
+         final DataLink d = dataLink;
+         MpxjTreeNode childNode = new MpxjTreeNode(dataLink, TABLE_EXCLUDED_METHODS)
+         {
+            @Override public String toString()
+            {
+               String name = d.getID();
+               if (name == null)
+               {
+                  name = "";
+               }
+
+               int index = name.lastIndexOf('!');
+               if (index == -1 || index == name.length() - 1)
+               {
+                  return "(none)";
+               }
+               return name.substring(index + 1);
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
     * Save the current file as the given type.
     *
     * @param file target file
@@ -539,7 +577,7 @@ public class ProjectTreeController
     */
    private static Set<String> excludedMethods(String... methodNames)
    {
-      Set<String> set = new HashSet<String>(MpxjTreeNode.DEFAULT_EXCLUDED_METHODS);
+      Set<String> set = new HashSet<>(MpxjTreeNode.DEFAULT_EXCLUDED_METHODS);
       set.addAll(Arrays.asList(methodNames));
       return set;
    }

@@ -240,7 +240,10 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       for (ProjectCalendar cal : m_projectFile.getCalendars())
       {
-         writeCalendar(cal);
+         if (cal.getResource() == null)
+         {
+            writeCalendar(cal);
+         }
       }
 
       //
@@ -856,7 +859,7 @@ public final class MPXWriter extends AbstractProjectWriter
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
          DateHelper.pushCalendar(cal);
-         result = Integer.valueOf(time);         
+         result = Integer.valueOf(time);
       }
       return (result);
    }
@@ -1120,7 +1123,32 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatConstraintType(ConstraintType type)
    {
-      return (type == null ? null : LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()]);
+      if (type == null)
+      {
+         return null;
+      }
+
+      switch (type)
+      {
+         case MANDATORY_START:
+         {
+            type = ConstraintType.MUST_START_ON;
+            break;
+         }
+
+         case MANDATORY_FINISH:
+         {
+            type = ConstraintType.MUST_FINISH_ON;
+            break;
+         }
+
+         default:
+         {
+            break;
+         }
+      }
+
+      return LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()];
    }
 
    /**

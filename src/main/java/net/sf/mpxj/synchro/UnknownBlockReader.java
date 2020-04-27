@@ -24,6 +24,7 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +42,21 @@ class UnknownBlockReader extends BlockReader
    {
       super(stream);
       m_size = size;
+   }
+
+   @Override public List<MapRow> read() throws IOException
+   {
+      int header = m_stream.readInt();
+      if (header != 0x06A1BCD0)
+      {
+         throw new IllegalArgumentException("Unexpected file format");
+      }
+
+      List<MapRow> blocks = super.read();
+
+      m_stream.readInt();
+
+      return blocks;
    }
 
    @Override protected void readBlock(Map<String, Object> map) throws IOException

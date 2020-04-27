@@ -36,7 +36,7 @@ class TableA2TAB extends Table
     */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       map.put("UNIQUE_ID", Integer.valueOf(uniqueID));
       map.put("DESCRIPTION", PEPUtility.getString(data, 50, 51));
       map.put("FIRST_CHILD_TASK_ID", Integer.valueOf(PEPUtility.getShort(data, 116)));

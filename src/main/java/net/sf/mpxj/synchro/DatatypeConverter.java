@@ -181,15 +181,22 @@ final class DatatypeConverter
     */
    public static final String getString(InputStream is) throws IOException
    {
+      int length;
       int type = is.read();
-      if (type != 1)
+      if (type == 0xFF)
       {
-         throw new IllegalArgumentException("Unexpected string format");
+         length = 0xFF;
+      }
+      else
+      {
+         if (type != 1)
+         {
+            throw new IllegalArgumentException("Unexpected string format");
+         }
+         length = is.read();
       }
 
       Charset charset = CharsetHelper.UTF8;
-      
-      int length = is.read();
       if (length == 0xFF)
       {
          length = getShort(is);
@@ -207,12 +214,12 @@ final class DatatypeConverter
       }
       else
       {
-         byte[] stringData = new byte[length];         
+         byte[] stringData = new byte[length];
          is.read(stringData);
          result = new String(stringData, charset);
       }
       return result;
-   }   
+   }
 
    /**
     * Retrieve a boolean from an input stream.
@@ -269,7 +276,7 @@ final class DatatypeConverter
    public static final Date getDate(InputStream is) throws IOException
    {
       long timeInSeconds = getInt(is);
-      if (timeInSeconds == 0x93406FFF)
+      if (timeInSeconds == NULL_SECONDS)
       {
          return null;
       }
@@ -300,9 +307,14 @@ final class DatatypeConverter
     */
    public static final Duration getDuration(InputStream is) throws IOException
    {
-      double durationInSeconds = getInt(is);
-      durationInSeconds /= (60 * 60);
-      return Duration.getInstance(durationInSeconds, TimeUnit.HOURS);
+      int durationInSeconds = getInt(is);
+      if (durationInSeconds == NULL_SECONDS)
+      {
+         return null;
+      }
+      double durationInHours = durationInSeconds;
+      durationInHours /= (60 * 60);
+      return Duration.getInstance(durationInHours, TimeUnit.HOURS);
    }
 
    /**
@@ -320,4 +332,6 @@ final class DatatypeConverter
       }
       return Double.valueOf(result);
    }
+
+   private static final int NULL_SECONDS = 0x93406FFF;
 }

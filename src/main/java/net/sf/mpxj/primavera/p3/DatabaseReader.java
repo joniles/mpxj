@@ -55,7 +55,7 @@ class DatabaseReader
    public Map<String, Table> process(File directory, String prefix) throws IOException
    {
       String filePrefix = prefix.toUpperCase();
-      Map<String, Table> tables = new HashMap<String, Table>();
+      Map<String, Table> tables = new HashMap<>();
       File[] files = directory.listFiles();
       if (files != null)
       {
@@ -527,7 +527,7 @@ class DatabaseReader
     */
    static final long EPOCH = 441676800000L;
 
-   private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<String, TableDefinition>();
+   private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<>();
    static
    {
       TABLE_DEFINITIONS.put("AC2", new TableDefinition(512, 34, AC2_COLUMNS));

@@ -95,7 +95,7 @@ public class ProjectExplorer
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("cdpx", "cdpz", "fts", "gan", "gnt", "mdb", "mpp", "mpx", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "sp", "stx", "xer", "xml", "zip");
+      fileChooserModel.setExtensions("cdpx", "cdpz", "exe", "fts", "gan", "gnt", "mdb", "mpd", "mpp", "mpx", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "schedule_grid", "sdef", "sp", "stx", "xer", "xml", "zip");
 
       final FileSaverModel fileSaverModel = new FileSaverModel();
       final FileSaverController fileSaverController = new FileSaverController(fileSaverModel);
@@ -141,7 +141,7 @@ public class ProjectExplorer
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
-      PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<FileChooserModel>(fileChooserModel, "file", true);
+      PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(fileChooserModel, "file", true);
       openAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
@@ -152,7 +152,7 @@ public class ProjectExplorer
          }
       });
 
-      PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<FileSaverModel>(fileSaverModel, "file", true);
+      PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<>(fileSaverModel, "file", true);
       saveAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
