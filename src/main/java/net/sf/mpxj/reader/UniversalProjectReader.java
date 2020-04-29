@@ -391,17 +391,17 @@ public final class UniversalProjectReader implements ProjectReader
    private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
-      
+
       try
       {
          fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
       }
-      
+
       catch (Exception ex)
       {
          return null;
       }
-      
+
       String fileFormat = MPPReader.getFileFormat(fs);
       if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {

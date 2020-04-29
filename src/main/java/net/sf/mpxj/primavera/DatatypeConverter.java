@@ -59,17 +59,17 @@ public final class DatatypeConverter
                byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
                long msb = 0;
                long lsb = 0;
-   
+
                for (int i = 0; i < 8; i++)
                {
                   msb = (msb << 8) | (data[i] & 0xff);
                }
-   
+
                for (int i = 8; i < 16; i++)
                {
                   lsb = (lsb << 8) | (data[i] & 0xff);
                }
-   
+
                result = new UUID(msb, lsb);
             }
             else

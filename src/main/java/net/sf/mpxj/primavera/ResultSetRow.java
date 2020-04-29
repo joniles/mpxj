@@ -154,16 +154,16 @@ final class ResultSetRow extends MapRow
     * When reading some text fields (typically note fields which are held as HTML)
     * the field value will include a trailing ASCII NUL. This causes issues downstream
     * as it will generate XML 1.0 which parses will reject.
-    *  
+    *
     * @param value string value
-    * @return string value with trailing ASCII NUL stripped 
+    * @return string value with trailing ASCII NUL stripped
     */
    private String stripTrailingNul(String value)
    {
       String result;
-      if (value != null && !value.isEmpty() && value.charAt(value.length()-1) == 0)
+      if (value != null && !value.isEmpty() && value.charAt(value.length() - 1) == 0)
       {
-         result = value.substring(0,  value.length()-1);
+         result = value.substring(0, value.length() - 1);
       }
       else
       {
@@ -171,7 +171,7 @@ final class ResultSetRow extends MapRow
       }
       return result;
    }
-   
+
    // https://stackoverflow.com/questions/45377247/microsoft-sql-jdbc-driver-v6-2-returning-incorrect-sql-type-code-for-datetime-fi
    private static final int SQL_SERVER_TIMESTAMP = -151;
 }

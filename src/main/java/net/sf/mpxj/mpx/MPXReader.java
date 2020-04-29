@@ -723,7 +723,7 @@ public final class MPXReader extends AbstractProjectReader
       {
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
-      
+
       calendar.setWorkingDay(Day.SUNDAY, record.getDayType(1));
       calendar.setWorkingDay(Day.MONDAY, record.getDayType(2));
       calendar.setWorkingDay(Day.TUESDAY, record.getDayType(3));
@@ -1077,16 +1077,16 @@ public final class MPXReader extends AbstractProjectReader
          {
             case NOTES:
             {
-               // Although the notes attribute may be present on the task record MS Project ignores it, so we will too 
+               // Although the notes attribute may be present on the task record MS Project ignores it, so we will too
                break;
             }
-            
+
             case SUCCESSORS:
             {
-               // Normally MPX files only use predecessors - ignore the successors attribute 
+               // Normally MPX files only use predecessors - ignore the successors attribute
                break;
             }
-            
+
             case PREDECESSORS:
             case UNIQUE_ID_PREDECESSORS:
             {
@@ -1332,7 +1332,7 @@ public final class MPXReader extends AbstractProjectReader
       {
          task.setFinish(task.getEarlyFinish());
       }
-      
+
       //
       // If a task has a non-zero duration, it's not a milestone, even if the milestone flag is set
       //

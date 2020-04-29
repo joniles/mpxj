@@ -277,9 +277,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       bis.read(buffer);
       bis.reset();
 
-      // Handle trailing nul character following HTML content expressed as &#0; 
+      // Handle trailing nul character following HTML content expressed as &#0;
       InputStream ris = new ReplacingInputStream(bis, "&lt;/HTML&gt;&#0;", "&lt;/HTML&gt;");
-      
+
       InputSource result;
       Matcher matcher = ENCODING_PATTERN.matcher(new String(buffer));
       if (matcher.find())

@@ -189,7 +189,7 @@ final class TaskModel
                result = false;
                break;
             }
-            
+
             case PREDECESSORS:
             {
                result = value != null && !((List<Relation>) value).isEmpty();

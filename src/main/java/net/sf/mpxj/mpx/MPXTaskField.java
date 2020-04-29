@@ -132,8 +132,8 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[122] = TaskField.LINKED_FIELDS;
       MPX_MPXJ_ARRAY[83] = TaskField.MARKED;
       MPX_MPXJ_ARRAY[81] = TaskField.MILESTONE;
-      MPX_MPXJ_ARRAY[1] = TaskField.NAME;      
-      MPX_MPXJ_ARRAY[14] = TaskField.NOTES;      
+      MPX_MPXJ_ARRAY[1] = TaskField.NAME;
+      MPX_MPXJ_ARRAY[14] = TaskField.NOTES;
       MPX_MPXJ_ARRAY[140] = TaskField.NUMBER1;
       MPX_MPXJ_ARRAY[141] = TaskField.NUMBER2;
       MPX_MPXJ_ARRAY[142] = TaskField.NUMBER3;
