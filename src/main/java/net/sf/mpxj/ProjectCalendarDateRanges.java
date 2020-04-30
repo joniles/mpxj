@@ -23,8 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * An abstract class representing a collection of date ranges
@@ -63,7 +64,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
          result = DateRange.EMPTY_RANGE;
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -84,7 +85,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     */
    @Override public Iterator<DateRange> iterator()
    {
-      return (m_ranges.iterator());
+      return m_ranges.iterator();
    }
 
    /**
@@ -94,8 +95,8 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     */
    public int getRangeCount()
    {
-      return (m_ranges.size());
+      return m_ranges.size();
    }
 
-   private LinkedList<DateRange> m_ranges = new LinkedList<>();
+   private List<DateRange> m_ranges = new ArrayList<>();
 }
