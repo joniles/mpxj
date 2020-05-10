@@ -74,6 +74,7 @@ import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 import net.sf.mpxj.primavera.p3.P3PRXFileReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 import net.sf.mpxj.primavera.suretrak.SureTrakSTXFileReader;
+import net.sf.mpxj.projectcommander.ProjectCommanderReader;
 import net.sf.mpxj.projectlibre.ProjectLibreReader;
 import net.sf.mpxj.sage.SageReader;
 import net.sf.mpxj.sdef.SDEFReader;
@@ -321,6 +322,11 @@ public final class UniversalProjectReader implements ProjectReader
          if (matchesFingerprint(buffer, SCHEDULE_GRID_FINGERPRINT))
          {
             return readProjectFile(new SageReader(), bis);
+         }
+
+         if (matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_1) || matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_2))
+         {
+            return readProjectFile(new ProjectCommanderReader(), bis);
          }
 
          return null;
@@ -1070,6 +1076,22 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 0xFE
    };
 
+   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_1 =
+   {
+      (byte) 0x00,
+      (byte) 0x80,
+      (byte) 0x01,
+      (byte) 0x00
+   };
+
+   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_2 =
+   {
+      (byte) 0x02,
+      (byte) 0x80,
+      (byte) 0x01,
+      (byte) 0x00
+   };
+
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*(<BusinessObjects|APIBusinessObjects).*", Pattern.DOTALL);
@@ -1091,5 +1113,4 @@ public final class UniversalProjectReader implements ProjectReader
    private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\\\"CDProject\\\".*", Pattern.DOTALL);
 
    private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
-
 }

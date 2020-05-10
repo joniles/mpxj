@@ -1,33 +1,24 @@
 
 package net.sf.mpxj.projectcommander;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
-public class ProjectCommanderData
+class ProjectCommanderData
 {
-   public static void main(String[] argv) throws Exception
-   {
-      ProjectCommanderData data = new ProjectCommanderData();
-      data.setLogFile("c:/temp/project-commander.log");
-      data.process(new File("c:/temp/project1.pc"));
-   }
-
-   public void process(File file) throws Exception
+   public void process(InputStream is) throws IOException
    {
       openLogFile();
 
       int blockIndex = 0;
-      int length = (int) file.length();
+      int length = is.available();
       m_buffer = new byte[length];
-      FileInputStream is = new FileInputStream(file);
       try
       {
          int bytesRead = is.read(m_buffer);
@@ -41,10 +32,32 @@ public class ProjectCommanderData
          is.close();
       }
 
+      BlockPattern[] blockPatterns;
+      
+      switch (m_buffer[0])
+      {
+         case 0x00:
+         {
+            blockPatterns = BLOCK_PATTERNS_0;
+            break;
+         }
+         
+         case 0x02:
+         {
+            blockPatterns = BLOCK_PATTERNS_2;
+            break;
+         }
+         
+         default:
+         {
+            throw new RuntimeException("Unexpected first byte: " + m_buffer[0]);
+         }
+      }
+      
       List<BlockReference> blocks = new ArrayList<>();
       for (int index = 0; index < m_buffer.length - 11; index++)
       {
-         BlockPattern block = matchPattern(BLOCK_PATTERNS, index);
+         BlockPattern block = matchPattern(blockPatterns, index);
          if (block != null)
          {
             blocks.add(new BlockReference(block, index));
@@ -69,18 +82,29 @@ public class ProjectCommanderData
       closeLogFile();
    }
 
-   private void readBlock(BlockReference block, int blockIndex, int startIndex, int blockLength) throws Exception
+   private void readBlock(BlockReference block, int blockIndex, int startIndex, int blockLength)
    {
-      String name;
-      if (block == null)
+      if (blockLength != 0)
       {
-         name = "First Block";
+         String name;
+         if (block == null)
+         {
+            name = "First Block";
+         }
+         else
+         {
+            if (block.getPattern().getName() == null)
+            {
+               name = DatatypeConverter.getString(m_buffer, startIndex + 4);
+            }
+            else
+            {
+               name = block.getPattern().getName();
+            }
+         }
+         System.out.println(name);
+         logBlock(name, blockIndex, startIndex, blockLength);
       }
-      else
-      {
-         name = block.getPattern().getName();
-      }
-      logBlock(name, blockIndex, startIndex, blockLength);
    }
 
    private final BlockPattern matchPattern(BlockPattern[] blocks, int bufferIndex)
@@ -158,82 +182,52 @@ public class ProjectCommanderData
    private String m_logFile;
    private PrintWriter m_log;
 
-   private static final BlockPattern[] BLOCK_PATTERNS =
+   private static final BlockPattern[] BLOCK_PATTERNS_0 =
    {
-      // Named Class
-//      new BlockPattern("Named Class", (byte) 0xFF, (byte) 0xFF, (byte) 0x00, (byte) 0x00),
-
-      // Named Class
-      new BlockPattern("Named Class", (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
-
-      // Named Class
-      new BlockPattern("Named Class", (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
-
-      // CSymbol 0x8001 2 strings + 16 bytes
+      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
+      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
-
-      // Unknown1 6 bytes?
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
-
-      // CDayFlag  0x8007 4 bytes
       new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
-
-      // CCalendar  0x8005
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
-
-      // CResource 0x801E
       new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
-
-      // CResourceTask 0x8021
       new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
-
-      // CBaselineData 0x8023
-      new BlockPattern("CBaselineData", (byte) 0x23, (byte) 0x80),
-
-      // CBar 0x8025
-      new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
-
-      // CLayout
-      // CFilterObject
-      // CResourceDescription
-      // CTotalResourceWork
-      // CResourceAllocationColour
-      // CResourceHistogram
-      // CShadeCalendar
-      // CSecondTimescaleCalendar
-      // CName
-
-      // CID 0x801D
-      new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),
-
-      // CReportGroup
-
-      // CReportData 0x814F
-      new BlockPattern("CReportData", (byte) 0x4F, (byte) 0x81),
-
-      // Unknown2 0x8120
-      new BlockPattern("Unknown2", (byte) 0x20, (byte) 0x81),
-
-      // Unknown3 0x8122
-      new BlockPattern("Unknown3", (byte) 0x22, (byte) 0x81),
-
-      // Unknown4 0x8003
+      new BlockPattern("CBaselineData", (byte) 0x04, (byte) 0x84),
+      new BlockPattern("CBar", (byte) 0x24, (byte) 0x80),
+      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),
+      new BlockPattern("CReportData", (byte) 0x53, (byte) 0x80),
+      new BlockPattern("Unknown2", (byte) 0x29, (byte) 0x80),
+      new BlockPattern("Unknown3", (byte) 0x2B, (byte) 0x80),
       new BlockPattern("Unknown4", (byte) 0x03, (byte) 0x80),
-      
-      // CLink 0x858A
-      new BlockPattern("CLink", (byte) 0x8A, (byte) 0x85),
-      
-      // CTask? 0x8574
-      new BlockPattern("CTask?", (byte) 0x74, (byte) 0x85),
-      
-      // CUsageTask? 0x8574
-      new BlockPattern("CUsageTask?", (byte) 0x7F, (byte) 0x85),
-
-      // Unknown5 0x857B
-      new BlockPattern("Unknown5", (byte) 0x7B, (byte) 0x85),
-      
-      // CFormatCellInfo 0x89B4
+      new BlockPattern("CLink", (byte) 0x0F, (byte) 0x84),
+      new BlockPattern("CTask?", (byte) 0xFB, (byte) 0x83),
+      new BlockPattern("CUsageTask?", (byte) 0x0B, (byte) 0x84),
+      new BlockPattern("Unknown5", (byte) 0x02, (byte) 0x84),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89)
+   };
 
-   };  
+   private static final BlockPattern[] BLOCK_PATTERNS_2 =
+   {
+      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
+      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
+      new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
+      new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
+      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
+      new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
+      new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
+      new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
+      new BlockPattern("CBaselineData", (byte) 0x23, (byte) 0x80),
+      new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
+      new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),
+      new BlockPattern("CReportData", (byte) 0x4F, (byte) 0x81),
+      new BlockPattern("Unknown2", (byte) 0x20, (byte) 0x81),
+      new BlockPattern("Unknown3", (byte) 0x22, (byte) 0x81),
+      new BlockPattern("Unknown4", (byte) 0x03, (byte) 0x80),
+      new BlockPattern("CLink", (byte) 0x8A, (byte) 0x85),
+      new BlockPattern("CTask?", (byte) 0x74, (byte) 0x85),
+      new BlockPattern("CUsageTask?", (byte) 0x7F, (byte) 0x85),
+      new BlockPattern("Unknown5", (byte) 0x7B, (byte) 0x85),
+      new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89),
+      new BlockPattern("Unknown6", (byte) 0x28, (byte) 0x81)
+   };
 }
