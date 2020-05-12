@@ -14,7 +14,7 @@ class DatatypeConverter
       return result;
    }
    
-   public static final String getString(byte[] data, int offset)
+   public static final String getTwoByteLengthString(byte[] data, int offset)
    {
       int length = getShort(data, offset);
       String result;

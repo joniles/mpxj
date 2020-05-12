@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
@@ -15,10 +18,33 @@ class ProjectCommanderData
    public void process(InputStream is) throws IOException
    {
       openLogFile();
+      populateBuffer(is);
+      populateBlocks();
+      closeLogFile();
+      
+      for (Block block : m_blocks)
+      {
+         dumpBlock("", block);
+      }
+      
+      m_buffer = null;
+   }
 
-      int blockIndex = 0;
+   private void dumpBlock(String prefix, Block block)
+   {
+      System.out.println(prefix + block.getName());
+      prefix += " ";
+      for (Block childBlock : block.getChildBlocks())
+      {
+         dumpBlock(prefix, childBlock);
+      }
+   }
+   
+   private void populateBuffer(InputStream is) throws IOException
+   {
       int length = is.available();
       m_buffer = new byte[length];
+     
       try
       {
          int bytesRead = is.read(m_buffer);
@@ -31,9 +57,12 @@ class ProjectCommanderData
       {
          is.close();
       }
-
-      BlockPattern[] blockPatterns;
+   }
       
+   private BlockPattern[] selectBlockPatterns()
+   {
+      BlockPattern[] blockPatterns;
+
       switch (m_buffer[0])
       {
          case 0x00:
@@ -41,32 +70,46 @@ class ProjectCommanderData
             blockPatterns = BLOCK_PATTERNS_0;
             break;
          }
-         
+
          case 0x02:
          {
             blockPatterns = BLOCK_PATTERNS_2;
             break;
          }
-         
+
          default:
          {
             throw new RuntimeException("Unexpected first byte: " + m_buffer[0]);
          }
       }
-      
-      List<BlockReference> blocks = new ArrayList<>();
+      return blockPatterns;
+   }
+  
+   private List<BlockReference> populateBlockReferences()
+   {
+      BlockPattern[] blockPatterns = selectBlockPatterns();
+
+      List<BlockReference> blockReferences = new ArrayList<>();
       for (int index = 0; index < m_buffer.length - 11; index++)
       {
          BlockPattern block = matchPattern(blockPatterns, index);
          if (block != null)
          {
-            blocks.add(new BlockReference(block, index));
+            blockReferences.add(new BlockReference(block, index));
          }
       }
 
+      return blockReferences;
+   }
+   
+   private void populateBlocks()
+   {
+      List<BlockReference> blockReferences = populateBlockReferences();
+
+      int blockIndex = 0;
       int startIndex = 0;
       BlockReference startBlock = null;
-      for (BlockReference block : blocks)
+      for (BlockReference block : blockReferences)
       {
          int endIndex = block.getIndex();
          int blockLength = endIndex - startIndex;
@@ -77,33 +120,57 @@ class ProjectCommanderData
       }
 
       int blockLength = m_buffer.length - startIndex;
-      readBlock(startBlock, blockIndex, startIndex, blockLength);
-
-      closeLogFile();
+      readBlock(startBlock, blockIndex, startIndex, blockLength);   
    }
-
-   private void readBlock(BlockReference block, int blockIndex, int startIndex, int blockLength)
+   
+   private void readBlock(BlockReference blockReference, int blockIndex, int startIndex, int blockLength)
    {
       if (blockLength != 0)
       {
+         int offset;
          String name;
-         if (block == null)
+         if (blockReference == null)
          {
             name = "First Block";
+            offset = 0;
          }
          else
          {
-            if (block.getPattern().getName() == null)
+            if (blockReference.getPattern().getName() == null)
             {
-               name = DatatypeConverter.getString(m_buffer, startIndex + 4);
+               name = DatatypeConverter.getTwoByteLengthString(m_buffer, startIndex + 4);              
+               offset = 6 + (name == null ? 0 : name.length());
             }
             else
             {
-               name = block.getPattern().getName();
+               name = blockReference.getPattern().getName();
+               offset = 2;
             }
          }
-         System.out.println(name);
-         logBlock(name, blockIndex, startIndex, blockLength);
+
+         byte[] data = new byte[blockLength - offset];
+         System.arraycopy(m_buffer, startIndex + offset, data, 0, data.length);
+         Block block = new Block(name, data);
+         if (PARENT_CLASSES.contains(name))
+         {
+            m_blocks.add(block);
+            m_lastParentBlock = block;
+         }
+         else
+         {
+            if (m_lastParentBlock == null)
+            {
+               m_blocks.add(block);
+            }
+            else
+            {
+               m_lastParentBlock.getChildBlocks().add(block);
+            }
+         }
+
+         // TODO hierarchy dump
+         // TODO post-processing to fix calendar
+         logBlock(name, blockIndex, startIndex, blockLength);         
       }
    }
 
@@ -181,6 +248,8 @@ class ProjectCommanderData
    private byte[] m_buffer;
    private String m_logFile;
    private PrintWriter m_log;
+   private List<Block> m_blocks = new ArrayList<>();
+   private Block m_lastParentBlock;
 
    private static final BlockPattern[] BLOCK_PATTERNS_0 =
    {
@@ -196,13 +265,13 @@ class ProjectCommanderData
       new BlockPattern("CBar", (byte) 0x24, (byte) 0x80),
       new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),
       new BlockPattern("CReportData", (byte) 0x53, (byte) 0x80),
-      new BlockPattern("Unknown2", (byte) 0x29, (byte) 0x80),
-      new BlockPattern("Unknown3", (byte) 0x2B, (byte) 0x80),
-      new BlockPattern("Unknown4", (byte) 0x03, (byte) 0x80),
+      new BlockPattern("View", (byte) 0x29, (byte) 0x80),
+      new BlockPattern("CFilterObject", (byte) 0x2B, (byte) 0x80),
+      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
       new BlockPattern("CLink", (byte) 0x0F, (byte) 0x84),
-      new BlockPattern("CTask?", (byte) 0xFB, (byte) 0x83),
-      new BlockPattern("CUsageTask?", (byte) 0x0B, (byte) 0x84),
-      new BlockPattern("Unknown5", (byte) 0x02, (byte) 0x84),
+      new BlockPattern("CTask", (byte) 0xFB, (byte) 0x83),
+      new BlockPattern("CUsageTask", (byte) 0x0B, (byte) 0x84),
+      //new BlockPattern("Unknown5", (byte) 0x02, (byte) 0x84),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89)
    };
 
@@ -220,14 +289,16 @@ class ProjectCommanderData
       new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
       new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),
       new BlockPattern("CReportData", (byte) 0x4F, (byte) 0x81),
-      new BlockPattern("Unknown2", (byte) 0x20, (byte) 0x81),
-      new BlockPattern("Unknown3", (byte) 0x22, (byte) 0x81),
-      new BlockPattern("Unknown4", (byte) 0x03, (byte) 0x80),
+      new BlockPattern("View", (byte) 0x20, (byte) 0x81),
+      new BlockPattern("CFilterObject", (byte) 0x22, (byte) 0x81),
+      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
       new BlockPattern("CLink", (byte) 0x8A, (byte) 0x85),
-      new BlockPattern("CTask?", (byte) 0x74, (byte) 0x85),
-      new BlockPattern("CUsageTask?", (byte) 0x7F, (byte) 0x85),
-      new BlockPattern("Unknown5", (byte) 0x7B, (byte) 0x85),
+      new BlockPattern("CTask", (byte) 0x74, (byte) 0x85),
+      new BlockPattern("CUsageTask", (byte) 0x7F, (byte) 0x85),
+      //new BlockPattern("Unknown5", (byte) 0x7B, (byte) 0x85),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89),
       new BlockPattern("Unknown6", (byte) 0x28, (byte) 0x81)
    };
+
+   private static final Set<String> PARENT_CLASSES = new HashSet<>(Arrays.asList("CTask", "CResource"));
 }
