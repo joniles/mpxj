@@ -5,10 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.common.ByteArrayHelper;
@@ -151,29 +155,43 @@ class ProjectCommanderData
          byte[] data = new byte[blockLength - offset];
          System.arraycopy(m_buffer, startIndex + offset, data, 0, data.length);
          Block block = new Block(name, data);
-         if (PARENT_CLASSES.contains(name))
-         {
-            m_blocks.add(block);
-            m_lastParentBlock = block;
-         }
-         else
-         {
-            if (m_lastParentBlock == null)
-            {
-               m_blocks.add(block);
-            }
-            else
-            {
-               m_lastParentBlock.getChildBlocks().add(block);
-            }
-         }
-
-         // TODO hierarchy dump
-         // TODO post-processing to fix calendar
+         addBlockToHierarchy(block);
          logBlock(name, blockIndex, startIndex, blockLength);         
       }
    }
 
+   private void addBlockToHierarchy(Block block)
+   {
+      if (m_parentStack.isEmpty())
+      {
+         m_blocks.add(block);
+         addParentBlockToHierarchy(block);
+      }
+      else
+      {
+         Block parentBlock = m_parentStack.getFirst();
+         Set<String> set = EXPECTED_CHILD_CLASSES.get(parentBlock.getName());
+         if (set != null && set.contains(block.getName()))
+         {
+            parentBlock.getChildBlocks().add(block);
+            addParentBlockToHierarchy(block);
+         }
+         else
+         {
+            m_parentStack.pop();
+            addBlockToHierarchy(block);
+         }
+      }
+   }
+   
+   private void addParentBlockToHierarchy(Block block)
+   {
+      if (EXPECTED_CHILD_CLASSES.containsKey(block.getName()))
+      {
+         m_parentStack.push(block);
+      }
+   }
+   
    private final BlockPattern matchPattern(BlockPattern[] blocks, int bufferIndex)
    {
       BlockPattern match = null;
@@ -249,7 +267,7 @@ class ProjectCommanderData
    private String m_logFile;
    private PrintWriter m_log;
    private List<Block> m_blocks = new ArrayList<>();
-   private Block m_lastParentBlock;
+   private Deque<Block> m_parentStack = new ArrayDeque<>();
 
    private static final BlockPattern[] BLOCK_PATTERNS_0 =
    {
@@ -300,5 +318,12 @@ class ProjectCommanderData
       new BlockPattern("Unknown6", (byte) 0x28, (byte) 0x81)
    };
 
-   private static final Set<String> PARENT_CLASSES = new HashSet<>(Arrays.asList("CTask", "CResource"));
+   private static final Map<String, Set<String>> EXPECTED_CHILD_CLASSES= new HashMap<>();
+   static 
+   {
+      EXPECTED_CHILD_CLASSES.put("CCalendar", new HashSet<>(Arrays.asList("CDayFlag")));
+      EXPECTED_CHILD_CLASSES.put("CResource", new HashSet<>(Arrays.asList("CSymbol", "CResourceTask", "CBaselineData", "CBar", "CCalendar")));
+      EXPECTED_CHILD_CLASSES.put("CTask", new HashSet<>(Arrays.asList("CPlanObject", "CCalendar", "CBaselineIndex", "CBaselineData", "CBar", "CUsageTask", "CLink")));
+      EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));           
+   }  
 }
