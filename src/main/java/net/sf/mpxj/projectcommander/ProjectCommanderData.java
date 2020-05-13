@@ -34,6 +34,11 @@ class ProjectCommanderData
       m_buffer = null;
    }
 
+   public List<Block> getBlocks()
+   {
+      return m_blocks;
+   }
+   
    private void dumpBlock(String prefix, Block block)
    {
       System.out.println(prefix + block.getName());

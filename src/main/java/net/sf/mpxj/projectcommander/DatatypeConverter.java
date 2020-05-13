@@ -2,6 +2,12 @@ package net.sf.mpxj.projectcommander;
 
 class DatatypeConverter
 {
+   public static final int getByte(byte[] data, int offset)
+   {
+      int result = (data[offset] & 0xFF);
+      return result;
+   }
+
    public static final int getShort(byte[] data, int offset)
    {
       int result = 0;
@@ -25,6 +31,21 @@ class DatatypeConverter
       else
       {
          result = new String(data, offset+2, length);
+      }
+      return result;
+   }
+   
+   public static final String getString(byte[] data, int offset)
+   {
+      int length = getByte(data, offset);
+      String result;
+      if (length == 0)
+      {
+         result = null;
+      }
+      else
+      {
+         result = new String(data, offset+1, length);
       }
       return result;
    }
