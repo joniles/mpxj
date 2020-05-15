@@ -64,5 +64,6 @@
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
     <module name="JavadocStyle"/>
+    <module name="MissingJavadocMethod"/>
   </module>
 </module>
