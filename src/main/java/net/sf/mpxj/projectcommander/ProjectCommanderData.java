@@ -23,13 +23,10 @@ class ProjectCommanderData
    {
       openLogFile();
       populateBuffer(is);
+      identifyBlockHeaders();
       populateBlocks();
       closeLogFile();
-      
-      for (Block block : m_blocks)
-      {
-         dumpBlock("", block);
-      }
+      dumpBlocks();
       
       m_buffer = null;
    }
@@ -37,6 +34,14 @@ class ProjectCommanderData
    public List<Block> getBlocks()
    {
       return m_blocks;
+   }
+   
+   private void dumpBlocks()
+   {
+      for (Block block : m_blocks)
+      {
+         dumpBlock("", block);
+      }      
    }
    
    private void dumpBlock(String prefix, Block block)
@@ -68,21 +73,21 @@ class ProjectCommanderData
       }
    }
       
-   private BlockPattern[] selectBlockPatterns()
+   private List<BlockPattern> selectBlockPatterns()
    {
-      BlockPattern[] blockPatterns;
+      List<BlockPattern> blockPatterns = new ArrayList<>();
 
       switch (m_buffer[0])
       {
          case 0x00:
          {
-            blockPatterns = BLOCK_PATTERNS_0;
+            blockPatterns.addAll(Arrays.asList(BLOCK_PATTERNS_0));
             break;
          }
 
          case 0x02:
          {
-            blockPatterns = BLOCK_PATTERNS_2;
+            blockPatterns.addAll(Arrays.asList(BLOCK_PATTERNS_2));
             break;
          }
 
@@ -96,7 +101,7 @@ class ProjectCommanderData
   
    private List<BlockReference> populateBlockReferences()
    {
-      BlockPattern[] blockPatterns = selectBlockPatterns();
+      List<BlockPattern> blockPatterns = selectBlockPatterns();
 
       List<BlockReference> blockReferences = new ArrayList<>();
       for (int index = 0; index < m_buffer.length - 11; index++)
@@ -197,30 +202,64 @@ class ProjectCommanderData
       }
    }
    
-   private final BlockPattern matchPattern(BlockPattern[] blocks, int bufferIndex)
+   private final BlockPattern matchPattern(List<BlockPattern> blocks, int bufferIndex)
    {
       BlockPattern match = null;
       for (BlockPattern block : blocks)
       {
-         int index = 0;
-         match = block;
-         for (byte b : block.getPattern())
+         if (matchPattern(block.getPattern(), bufferIndex))
          {
-            if (b != m_buffer[bufferIndex + index])
-            {
-               match = null;
-               break;
-            }
-            ++index;
-         }
-         if (match != null)
-         {
+            match = block;
             break;
          }
       }
       return match;
    }
 
+   public void identifyBlockHeaders()
+   {
+      int index = findFirstMatch(REPORT_DATA_FINGERPRINT);
+      if (index == -1)
+      {
+         System.out.println("No CReportData fingerprint");
+      }
+      else
+      {
+         BlockPattern x = new BlockPattern("CReportData", m_buffer, index-2);
+         System.out.println(x);
+      }
+   }
+   
+   private int findFirstMatch(byte[] pattern)
+   {
+      int result = -1;
+      for(int bufferIndex=0; bufferIndex < m_buffer.length - pattern.length; bufferIndex++)
+      {
+         if (matchPattern(pattern, bufferIndex)) 
+         {
+            result = bufferIndex;
+            break;
+         }
+      }
+      return result;
+   }
+   
+   private final boolean matchPattern(byte[] pattern, int bufferIndex)
+   {
+      boolean result = true;
+      int index = 0;
+      for (byte b : pattern)
+      {
+         if (b != m_buffer[bufferIndex + index])
+         {
+            result = false;
+            break;
+         }
+         ++index;
+      }
+      return result;
+   }
+   
    /**
     * Provide the file path for rudimentary logging to support development.
     *
@@ -280,13 +319,15 @@ class ProjectCommanderData
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
-      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
+      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),      
       new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
+      
       new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
       new BlockPattern("CBaselineData", (byte) 0x04, (byte) 0x84),
       new BlockPattern("CBar", (byte) 0x24, (byte) 0x80),
-      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),
+      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),          
+      new BlockPattern("CReportGroup", (byte) 0x51, (byte) 0x80),
       new BlockPattern("CReportData", (byte) 0x53, (byte) 0x80),
       new BlockPattern("View", (byte) 0x29, (byte) 0x80),
       new BlockPattern("CFilterObject", (byte) 0x2B, (byte) 0x80),
@@ -294,7 +335,6 @@ class ProjectCommanderData
       new BlockPattern("CLink", (byte) 0x0F, (byte) 0x84),
       new BlockPattern("CTask", (byte) 0xFB, (byte) 0x83),
       new BlockPattern("CUsageTask", (byte) 0x0B, (byte) 0x84),
-      //new BlockPattern("Unknown5", (byte) 0x02, (byte) 0x84),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89)
    };
 
@@ -304,13 +344,15 @@ class ProjectCommanderData
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
-      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
+      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),      
       new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
+      
       new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
       new BlockPattern("CBaselineData", (byte) 0x23, (byte) 0x80),
       new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
       new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),
+      new BlockPattern("CReportGroup", (byte) 0x4D, (byte) 0x81),
       new BlockPattern("CReportData", (byte) 0x4F, (byte) 0x81),
       new BlockPattern("View", (byte) 0x20, (byte) 0x81),
       new BlockPattern("CFilterObject", (byte) 0x22, (byte) 0x81),
@@ -318,11 +360,13 @@ class ProjectCommanderData
       new BlockPattern("CLink", (byte) 0x8A, (byte) 0x85),
       new BlockPattern("CTask", (byte) 0x74, (byte) 0x85),
       new BlockPattern("CUsageTask", (byte) 0x7F, (byte) 0x85),
-      //new BlockPattern("Unknown5", (byte) 0x7B, (byte) 0x85),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89),
       new BlockPattern("Unknown6", (byte) 0x28, (byte) 0x81)
    };
 
+   
+   private static final byte[] REPORT_DATA_FINGERPRINT = { 0x05, 0x42, 0x61, 0x73, 0x69, 0x63, 0x05, 0x42, 0x61, 0x73, 0x69 };
+   
    private static final Map<String, Set<String>> EXPECTED_CHILD_CLASSES= new HashMap<>();
    static 
    {
