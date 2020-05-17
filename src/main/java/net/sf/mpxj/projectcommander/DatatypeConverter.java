@@ -25,6 +25,12 @@ class DatatypeConverter
       return result;
    }
 
+   public static final void setShort(byte[] data, int offset, int value)
+   {
+      data[offset] = (byte)(value & 0x00FF);
+      data[offset+1] = (byte)((value & 0xFF00) >> 8);
+   }
+
    public static final int getInt(byte[] data, int offset)
    {
       int result = 0;

@@ -23,11 +23,10 @@ class ProjectCommanderData
    {
       openLogFile();
       populateBuffer(is);
-      identifyBlockHeaders();
       populateBlocks();
       closeLogFile();
       dumpBlocks();
-      
+
       m_buffer = null;
    }
 
@@ -35,15 +34,15 @@ class ProjectCommanderData
    {
       return m_blocks;
    }
-   
+
    private void dumpBlocks()
    {
       for (Block block : m_blocks)
       {
          dumpBlock("", block);
-      }      
+      }
    }
-   
+
    private void dumpBlock(String prefix, Block block)
    {
       System.out.println(prefix + block.getName());
@@ -53,12 +52,12 @@ class ProjectCommanderData
          dumpBlock(prefix, childBlock);
       }
    }
-   
+
    private void populateBuffer(InputStream is) throws IOException
    {
       int length = is.available();
       m_buffer = new byte[length];
-     
+
       try
       {
          int bytesRead = is.read(m_buffer);
@@ -72,22 +71,21 @@ class ProjectCommanderData
          is.close();
       }
    }
-      
+
    private List<BlockPattern> selectBlockPatterns()
    {
-      List<BlockPattern> blockPatterns = new ArrayList<>();
-
+      BlockPattern[] defaultBlockPatterns;
       switch (m_buffer[0])
       {
          case 0x00:
          {
-            blockPatterns.addAll(Arrays.asList(BLOCK_PATTERNS_0));
+            defaultBlockPatterns = BLOCK_PATTERNS_0;
             break;
          }
 
          case 0x02:
          {
-            blockPatterns.addAll(Arrays.asList(BLOCK_PATTERNS_2));
+            defaultBlockPatterns = BLOCK_PATTERNS_2;
             break;
          }
 
@@ -96,26 +94,159 @@ class ProjectCommanderData
             throw new RuntimeException("Unexpected first byte: " + m_buffer[0]);
          }
       }
+
+      Map<String, BlockPattern> map = new HashMap<>();
+
+      // Insert defaults
+      Arrays.stream(defaultBlockPatterns).forEach(pattern -> map.put(pattern.getName(), pattern));
+
+      // Override with identified
+      identifyBlockPatterns().stream().forEach(pattern -> map.put(pattern.getName(), pattern));
+
+      determineResourceBlockBoundary(map);
+      determineTaskBlockBoundary(map);
+
+      List<BlockPattern> blockPatterns = new ArrayList<>(Arrays.asList(NAMED_BLOCK_PATTERNS));
+      blockPatterns.addAll(map.values());
+
+      System.out.println();
+      System.out.println("Patterns:");
+      blockPatterns.forEach(pattern -> System.out.println(pattern));
+      System.out.println();
+
       return blockPatterns;
    }
-  
+
+   private void determineResourceBlockBoundary(Map<String, BlockPattern> map)
+   {
+      BlockPattern test = map.get("CResourceTask");
+      if (test == null)
+      {
+         System.out.println("Unable to calculate CResource, no CResourceTask found");
+      }
+      else
+      {
+         int value = DatatypeConverter.getShort(test.getPattern(), 0);
+         value = value - 3;
+         byte[] patternBytes = new byte[2];
+         DatatypeConverter.setShort(patternBytes, 0, value);
+         BlockPattern blockPattern = new BlockPattern("CResource", (set) -> !set.contains("CReportGroup"), patternBytes);
+         map.put(blockPattern.getName(), blockPattern);
+      }
+   }
+
+   private void determineTaskBlockBoundary(Map<String, BlockPattern> map)
+   {
+      int index = findFirstMatch(TASK_FINGERPRINT, 0);
+      if (index == -1)
+      {
+         System.out.println("Unable to determine CTask boundary: no first task match");
+      }
+      else
+      {
+         index = findFirstMatch(TASK_FINGERPRINT, index + 1);
+         if (index == -1)
+         {
+            System.out.println("Unable to determine CTask boundary: no second task match");
+         }
+         else
+         {
+            int secondTaskMatchIndex = index;
+            while (index >= 0 && m_buffer[index] != 0)
+            {
+               --index;
+            }
+
+            if (index == -1)
+            {
+               System.out.println("Unable to determine CTask boundary: past data start");
+            }
+            else
+            {
+               BlockPattern blockPattern = new BlockPattern("CTask", m_buffer, index + 1);
+               map.put(blockPattern.getName(), blockPattern);
+               determineUsageTaskBlockBoundary(secondTaskMatchIndex, map);
+            }
+         }
+      }
+   }
+
+   private void determineUsageTaskBlockBoundary(int index, Map<String, BlockPattern> map)
+   {
+      index = findFirstMatch(USAGE_FINGERPRINT, index + 1);
+      if (index == -1)
+      {
+         System.out.println("Unable to determine CUsageTask boundary: no fingerprint match");
+      }
+      else
+      {
+         index -= 2;
+         BlockPattern blockPattern = new BlockPattern("CUsageTask", null, m_buffer, index);
+         map.put(blockPattern.getName(), blockPattern);
+
+         determineBarBlockBoundary(index, map);
+         determineBaselineDataBlockBoundary(index, map);
+      }
+   }
+
+   // search forward from CUsageTask fo F7 83 [0A 00 00 80]
+   private void determineBaselineDataBlockBoundary(int index, Map<String, BlockPattern> map)
+   {
+      index = findFirstMatch(BASELINE_DATA_FINGERPRINT, index + 1);
+      if (index == -1)
+      {
+         System.out.println("Unable to determine CBaselineData boundary: no fingerprint match");
+      }
+      else
+      {
+         index -= 2;
+         BlockPattern blockPattern = new BlockPattern("CBaselineData", null, m_buffer, index);
+         map.put(blockPattern.getName(), blockPattern);
+      }
+   }
+   
+   private void determineBarBlockBoundary(int index, Map<String, BlockPattern> map)
+   {
+      int searchLimit = index - 100;
+      while (index > searchLimit)
+      {
+         if (matchPattern(BAR_FINGERPRINT, index))
+         {
+            BlockPattern blockPattern = new BlockPattern("CBar", null, m_buffer, index - 2);
+            map.put(blockPattern.getName(), blockPattern);
+            break;
+         }
+         --index;
+      }
+
+      if (index == searchLimit)
+      {
+         System.out.println("Unable to determine CBar boundary: no fingerprint match");
+      }
+   }
+
    private List<BlockReference> populateBlockReferences()
    {
-      List<BlockPattern> blockPatterns = selectBlockPatterns();
-
       List<BlockReference> blockReferences = new ArrayList<>();
+      List<BlockPattern> blockPatterns = selectBlockPatterns();
+      Set<String> matchedPatternNames = new HashSet<>();
+
       for (int index = 0; index < m_buffer.length - 11; index++)
       {
          BlockPattern block = matchPattern(blockPatterns, index);
-         if (block != null)
+         if (block != null && block.getValid(matchedPatternNames))
          {
             blockReferences.add(new BlockReference(block, index));
+            if (block.getName() != null)
+            {
+               matchedPatternNames.add(block.getName());
+            }
          }
       }
 
       return blockReferences;
    }
-   
+
    private void populateBlocks()
    {
       List<BlockReference> blockReferences = populateBlockReferences();
@@ -134,9 +265,9 @@ class ProjectCommanderData
       }
 
       int blockLength = m_buffer.length - startIndex;
-      readBlock(startBlock, blockIndex, startIndex, blockLength);   
+      readBlock(startBlock, blockIndex, startIndex, blockLength);
    }
-   
+
    private void readBlock(BlockReference blockReference, int blockIndex, int startIndex, int blockLength)
    {
       if (blockLength != 0)
@@ -152,7 +283,7 @@ class ProjectCommanderData
          {
             if (blockReference.getPattern().getName() == null)
             {
-               name = DatatypeConverter.getTwoByteLengthString(m_buffer, startIndex + 4);              
+               name = DatatypeConverter.getTwoByteLengthString(m_buffer, startIndex + 4);
                offset = 6 + (name == null ? 0 : name.length());
             }
             else
@@ -166,7 +297,7 @@ class ProjectCommanderData
          System.arraycopy(m_buffer, startIndex + offset, data, 0, data.length);
          Block block = new Block(name, data);
          addBlockToHierarchy(block);
-         logBlock(name, blockIndex, startIndex, blockLength);         
+         logBlock(name, blockIndex, startIndex, blockLength);
       }
    }
 
@@ -193,7 +324,7 @@ class ProjectCommanderData
          }
       }
    }
-   
+
    private void addParentBlockToHierarchy(Block block)
    {
       if (EXPECTED_CHILD_CLASSES.containsKey(block.getName()))
@@ -201,7 +332,7 @@ class ProjectCommanderData
          m_parentStack.push(block);
       }
    }
-   
+
    private final BlockPattern matchPattern(List<BlockPattern> blocks, int bufferIndex)
    {
       BlockPattern match = null;
@@ -216,26 +347,57 @@ class ProjectCommanderData
       return match;
    }
 
-   public void identifyBlockHeaders()
+   public List<BlockPattern> identifyBlockPatterns()
    {
-      int index = findFirstMatch(REPORT_DATA_FINGERPRINT);
+      List<BlockPattern> patterns = new ArrayList<>();
+      identifyPattern(patterns, "CReportData", null, REPORT_DATA_FINGERPRINT);
+      identifyPattern(patterns, "CReportGroup", null, REPORT_GROUP_FINGERPRINT);
+      identifyPattern(patterns, "CResourceTask", (set) -> !set.contains("CReportGroup"), USAGE_FINGERPRINT);
+      return patterns;
+   }
+
+   private void identifyPattern(List<BlockPattern> patterns, String name, BlockPatternValidator validator, byte[] fingerprint)
+   {
+      // Find the named block so we can skip it
+      byte[] namePattern = new byte[name.length() + 2];
+      namePattern[0] = (byte) name.length();
+      System.arraycopy(name.getBytes(), 0, namePattern, 2, name.length());
+      int index = findFirstMatch(namePattern, 0);
+
       if (index == -1)
       {
-         System.out.println("No CReportData fingerprint");
+         System.out.println("No " + name + " named block");
       }
       else
       {
-         BlockPattern x = new BlockPattern("CReportData", m_buffer, index-2);
-         System.out.println(x);
+         index += (name.length() + 2 + 1);
+         index = findFirstMatch(fingerprint, index);
+         if (index == -1)
+         {
+            System.out.println("No " + name + " fingerprint");
+         }
+         else
+         {
+            if ((m_buffer[index - 1] & 0x80) == 0)
+            {
+               System.out.println("Matched " + name + " fingerprint but found " + ByteArrayHelper.hexdump(m_buffer, index - 2, 2, false));
+            }
+            else
+            {
+               BlockPattern x = new BlockPattern(name, validator, m_buffer, index - 2);
+               System.out.println(x);
+               patterns.add(x);
+            }
+         }
       }
    }
-   
-   private int findFirstMatch(byte[] pattern)
+
+   private int findFirstMatch(byte[] pattern, int offset)
    {
       int result = -1;
-      for(int bufferIndex=0; bufferIndex < m_buffer.length - pattern.length; bufferIndex++)
+      for (int bufferIndex = offset; bufferIndex < m_buffer.length - pattern.length; bufferIndex++)
       {
-         if (matchPattern(pattern, bufferIndex)) 
+         if (matchPattern(pattern, bufferIndex))
          {
             result = bufferIndex;
             break;
@@ -243,7 +405,7 @@ class ProjectCommanderData
       }
       return result;
    }
-   
+
    private final boolean matchPattern(byte[] pattern, int bufferIndex)
    {
       boolean result = true;
@@ -259,7 +421,7 @@ class ProjectCommanderData
       }
       return result;
    }
-   
+
    /**
     * Provide the file path for rudimentary logging to support development.
     *
@@ -313,66 +475,144 @@ class ProjectCommanderData
    private List<Block> m_blocks = new ArrayList<>();
    private Deque<Block> m_parentStack = new ArrayDeque<>();
 
-   private static final BlockPattern[] BLOCK_PATTERNS_0 =
+   private static final BlockPattern[] NAMED_BLOCK_PATTERNS =
    {
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
+   };
+
+   private static final BlockPattern[] BLOCK_PATTERNS_0 =
+   {
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
-      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),      
-      new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
-      
-      new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
-      new BlockPattern("CBaselineData", (byte) 0x04, (byte) 0x84),
-      new BlockPattern("CBar", (byte) 0x24, (byte) 0x80),
-      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),          
-      new BlockPattern("CReportGroup", (byte) 0x51, (byte) 0x80),
-      new BlockPattern("CReportData", (byte) 0x53, (byte) 0x80),
+      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
+
+      //new BlockPattern("CBaselineData", (byte) 0x04, (byte) 0x84),
+      //      new BlockPattern("CBar", (byte) 0x24, (byte) 0x80),
+      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),
       new BlockPattern("View", (byte) 0x29, (byte) 0x80),
       new BlockPattern("CFilterObject", (byte) 0x2B, (byte) 0x80),
       new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
       new BlockPattern("CLink", (byte) 0x0F, (byte) 0x84),
-      new BlockPattern("CTask", (byte) 0xFB, (byte) 0x83),
-      new BlockPattern("CUsageTask", (byte) 0x0B, (byte) 0x84),
+      //      new BlockPattern("CTask", (byte) 0xFB, (byte) 0x83),
+      //      new BlockPattern("CUsageTask", (byte) 0x0B, (byte) 0x84),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89)
    };
 
    private static final BlockPattern[] BLOCK_PATTERNS_2 =
    {
-      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
-      new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
-      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),      
-      new BlockPattern("CResource", (byte) 0x1E, (byte) 0x80),
-      
-      new BlockPattern("CResourceTask", (byte) 0x21, (byte) 0x80),
-      new BlockPattern("CBaselineData", (byte) 0x23, (byte) 0x80),
-      new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
+      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
+
+      //new BlockPattern("CBaselineData", (byte) 0x23, (byte) 0x80),
+      //      new BlockPattern("CBar", (byte) 0x25, (byte) 0x80),
       new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),
-      new BlockPattern("CReportGroup", (byte) 0x4D, (byte) 0x81),
-      new BlockPattern("CReportData", (byte) 0x4F, (byte) 0x81),
       new BlockPattern("View", (byte) 0x20, (byte) 0x81),
       new BlockPattern("CFilterObject", (byte) 0x22, (byte) 0x81),
       new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
       new BlockPattern("CLink", (byte) 0x8A, (byte) 0x85),
-      new BlockPattern("CTask", (byte) 0x74, (byte) 0x85),
-      new BlockPattern("CUsageTask", (byte) 0x7F, (byte) 0x85),
+      //      new BlockPattern("CTask", (byte) 0x74, (byte) 0x85),
+      //      new BlockPattern("CUsageTask", (byte) 0x7F, (byte) 0x85),
       new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89),
       new BlockPattern("Unknown6", (byte) 0x28, (byte) 0x81)
    };
 
-   
-   private static final byte[] REPORT_DATA_FINGERPRINT = { 0x05, 0x42, 0x61, 0x73, 0x69, 0x63, 0x05, 0x42, 0x61, 0x73, 0x69 };
-   
-   private static final Map<String, Set<String>> EXPECTED_CHILD_CLASSES= new HashMap<>();
-   static 
+   // Basic Basic
+   private static final byte[] REPORT_DATA_FINGERPRINT =
+   {
+      0x05,
+      0x42,
+      0x61,
+      0x73,
+      0x69,
+      0x63,
+      0x05,
+      0x42,
+      0x61,
+      0x73,
+      0x69
+   };
+
+   // Earned Value Analysis
+   private static final byte[] REPORT_GROUP_FINGERPRINT =
+   {
+      0x15,
+      0x45,
+      0x61,
+      0x72,
+      0x6E,
+      0x65,
+      0x64,
+      0x20,
+      0x56,
+      0x61,
+      0x6C,
+      0x75,
+      0x65,
+      0x20,
+      0x41,
+      0x6E,
+      0x61,
+      0x6C,
+      0x79,
+      0x73,
+      0x69,
+      0x73,
+      0x01,
+      0x00
+   };
+
+   private static final byte[] USAGE_FINGERPRINT =
+   {
+      0x00,
+      0x40,
+      0x00,
+      0x01,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00
+   };
+
+   private static final byte[] BASELINE_DATA_FINGERPRINT =
+   {
+      0x0A,
+      0x00,
+      0x00,
+      (byte) 0x80
+   };
+
+   private static final byte[] BAR_FINGERPRINT =
+   {
+      0x00,
+      0x0A,
+      0x00,
+      0x00
+   };
+
+   private static final byte[] TASK_FINGERPRINT =
+   {
+      0x40,
+      0x00,
+      0x01,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00
+   };
+
+   private static final Map<String, Set<String>> EXPECTED_CHILD_CLASSES = new HashMap<>();
+   static
    {
       EXPECTED_CHILD_CLASSES.put("CCalendar", new HashSet<>(Arrays.asList("CDayFlag")));
       EXPECTED_CHILD_CLASSES.put("CResource", new HashSet<>(Arrays.asList("CSymbol", "CResourceTask", "CBaselineData", "CBar", "CCalendar")));
       EXPECTED_CHILD_CLASSES.put("CTask", new HashSet<>(Arrays.asList("CPlanObject", "CCalendar", "CBaselineIndex", "CBaselineData", "CBar", "CUsageTask", "CLink")));
-      EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));           
-   }  
+      EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));
+   }
 }
