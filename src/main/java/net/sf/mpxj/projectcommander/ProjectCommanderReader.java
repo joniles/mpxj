@@ -3,20 +3,25 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -87,16 +92,74 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
    }
 
-   private void readCalendar(Block block)
+   private ProjectCalendar readCalendar(Block block)
    {
+      ProjectCalendar calendar;
+
       byte[] data = block.getData();
       String name = DatatypeConverter.getString(data, 0, null);
-      if (name != null)
+
+      if (name == null)
       {
-         ProjectCalendar calendar = m_projectFile.addCalendar();
+         calendar = null;
+      }
+      else
+      {
+         int offset = 1 + name.length();
+
+         calendar = m_projectFile.addCalendar();
          calendar.setName(name);
+
+         // This is guesswork - need some samples with more variation         
+         int workingDays = DatatypeConverter.getByte(data, offset);
+         calendar.setWorkingDay(Day.SATURDAY, (workingDays & 0x40) != 0);
+         calendar.setWorkingDay(Day.SUNDAY, (workingDays & 0x20) != 0);
+         calendar.setWorkingDay(Day.MONDAY, (workingDays & 0x10) != 0);
+         calendar.setWorkingDay(Day.TUESDAY, (workingDays & 0x08) != 0);
+         calendar.setWorkingDay(Day.WEDNESDAY, (workingDays & 0x04) != 0);
+         calendar.setWorkingDay(Day.THURSDAY, (workingDays & 0x02) != 0);
+         calendar.setWorkingDay(Day.FRIDAY, (workingDays & 0x01) != 0);
+
+         offset += 28;
+         for (Day day : DAYS)
+         {
+            if (calendar.isWorkingDay(day))
+            {
+               readCalendarHours(data, offset, calendar.addCalendarHours(day));
+            }
+            offset += 16;
+         }
+
+         System.out.println("Calendar: " + calendar.getName());
+         block.getChildBlocks().stream().filter(x -> "CDayFlag".equals(x.getName())).forEach(x -> readCalendarException(x.getData()));
          m_eventManager.fireCalendarReadEvent(calendar);
       }
+
+      return calendar;
+   }
+
+   private void readCalendarHours(byte[] data, int offset, ProjectCalendarHours hours)
+   {
+      addRange(hours, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
+      addRange(hours, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
+   }
+
+   private void addRange(ProjectCalendarHours hours, int startMinutes, int endMinutes)
+   {
+      if (startMinutes != endMinutes)
+      {
+         Date start = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(startMinutes));
+         Date end = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(endMinutes));
+         hours.addRange(new DateRange(start, end));
+      }
+   }
+
+   private void readCalendarException(byte[] data)
+   {
+      int flag = DatatypeConverter.getShort(data, 0);
+      long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
+      long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
+      System.out.println("*** " + flag + "\t" + DateHelper.getTimestampFromLong(timestampInMilliseconds) + "\t" +ByteArrayHelper.hexdump(data, false));
    }
 
    private void readTask(Block block, Map<Integer, Integer> childTaskCounts)
@@ -108,10 +171,9 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       {
          return;
       }
-     
+
       Block cUsageTask = getChildBlock(block, "CUsageTask");
 
-      
       byte[] cBaselineData = getByteArray(block, "CBaselineData");
       byte[] cBarData = getByteArray(block, "CBar");
       byte[] cUsageTaskData = getByteArray(block, "CUsageTask");
@@ -148,8 +210,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
       // This is the task unique ID as used by CLink
       //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBarData, 23, 0));
-      
-// Other apparently unique identifiers      
+
+      // Other apparently unique identifiers      
       //      System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBaselineData, 69, 0));
       //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskData, 408, 0));
       //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskBaselineData, 69, 0));
@@ -212,7 +274,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
             }
             else
             {
-               System.out.println("skip " +id);
+               System.out.println("skip " + id);
             }
          }
       }
@@ -224,6 +286,17 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       byte[] data = block.getData();
       Resource resource = m_projectFile.addResource();
       resource.setName(DatatypeConverter.getString(data, 0));
+
+      Block calendarBlock = getChildBlock(block, "CCalendar");
+      if (calendarBlock != null)
+      {
+         ProjectCalendar calendar = readCalendar(calendarBlock);
+         if (calendar != null)
+         {
+            calendar.setResource(resource);
+         }
+      }
+
       m_eventManager.fireResourceReadEvent(resource);
    }
 
@@ -233,4 +306,15 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    private ProjectCommanderData m_data;
 
    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+
+   private static final Day[] DAYS =
+   {
+      Day.SATURDAY,
+      Day.SUNDAY,
+      Day.MONDAY,
+      Day.TUESDAY,
+      Day.WEDNESDAY,
+      Day.THURSDAY,
+      Day.FRIDAY
+   };
 }

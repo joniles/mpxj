@@ -77,31 +77,10 @@ class ProjectCommanderData
 
    private List<BlockPattern> selectBlockPatterns()
    {
-      BlockPattern[] defaultBlockPatterns;
-      switch (m_buffer[0])
-      {
-         case 0x00:
-         {
-            defaultBlockPatterns = BLOCK_PATTERNS_0;
-            break;
-         }
-
-         case 0x02:
-         {
-            defaultBlockPatterns = BLOCK_PATTERNS_2;
-            break;
-         }
-
-         default:
-         {
-            throw new RuntimeException("Unexpected first byte: " + m_buffer[0]);
-         }
-      }
-
       Map<String, BlockPattern> map = new HashMap<>();
 
       // Insert defaults
-      Arrays.stream(defaultBlockPatterns).forEach(pattern -> map.put(pattern.getName(), pattern));
+      Arrays.stream(BLOCK_PATTERNS).forEach(pattern -> map.put(pattern.getName(), pattern));
 
       // Override with identified
       identifyBlockPatterns().stream().forEach(pattern -> map.put(pattern.getName(), pattern));
@@ -531,28 +510,13 @@ class ProjectCommanderData
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
    };
 
-   private static final BlockPattern[] BLOCK_PATTERNS_0 =
+   private static final BlockPattern[] BLOCK_PATTERNS =
    {
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
       new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
-      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
-      
-      new BlockPattern("CID", (byte) 0x1A, (byte) 0x80),     
-      new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89)
-   };
-
-   private static final BlockPattern[] BLOCK_PATTERNS_2 =
-   {
-      new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
-      new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
-      new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
-      new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
-      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
-      
-      new BlockPattern("CID", (byte) 0x1D, (byte) 0x80),      
-      new BlockPattern("CFormatCellInfo", (byte) 0xB4, (byte) 0x89),
+      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),          
    };
 
    // Basic Basic
@@ -662,4 +626,7 @@ class ProjectCommanderData
       EXPECTED_CHILD_CLASSES.put("CTask", new HashSet<>(Arrays.asList("CPlanObject", "CCalendar", "CBaselineIndex", "CBaselineData", "CBar", "CUsageTask", "CLink")));
       EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));
    }
+   
+   
+   // CImage - ignore anything but named blocks???? Assume all images are grouped together?     
 }
