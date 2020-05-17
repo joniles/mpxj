@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
@@ -295,7 +294,7 @@ class ProjectCommanderData
       for (BlockReference block : blockReferences)
       {
          int endIndex = block.getIndex();
-         int blockLength = endIndex - startIndex;
+         int blockLength = endIndex - startIndex;         
          readBlock(startBlock, blockIndex, startIndex, blockLength);
          startIndex = endIndex;
          startBlock = block;
@@ -331,11 +330,18 @@ class ProjectCommanderData
             }
          }
 
-         byte[] data = new byte[blockLength - offset];
-         System.arraycopy(m_buffer, startIndex + offset, data, 0, data.length);
-         Block block = new Block(name, data);
-         addBlockToHierarchy(block);
-         logBlock(name, blockIndex, startIndex, blockLength);
+         if (offset > blockLength)
+         {
+            System.out.println("Skipping block " + name + " (blockLength="+ blockLength + " offset=" +offset + ")");
+         }
+         else
+         {
+            byte[] data = new byte[blockLength - offset];
+            System.arraycopy(m_buffer, startIndex + offset, data, 0, data.length);
+            Block block = new Block(name, data);
+            addBlockToHierarchy(block);
+            logBlock(name, blockIndex, startIndex, blockLength);
+         }
       }
    }
 

@@ -13,12 +13,17 @@ class BlockReference
    {
       return m_pattern;
    }
-   
+
    public int getIndex()
    {
       return m_index;
    }
-   
+
+   @Override public String toString()
+   {
+      return "[BlockReference name="+m_pattern.getName() + " index=" +m_index;
+   }
+
    private final BlockPattern m_pattern;
    private final int m_index;
 }
