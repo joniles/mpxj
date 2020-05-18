@@ -1,9 +1,12 @@
 
 package net.sf.mpxj.projectcommander;
 
+import java.util.Date;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 
 class DatatypeConverter
 {
@@ -27,8 +30,8 @@ class DatatypeConverter
 
    public static final void setShort(byte[] data, int offset, int value)
    {
-      data[offset] = (byte)(value & 0x00FF);
-      data[offset+1] = (byte)((value & 0xFF00) >> 8);
+      data[offset] = (byte) (value & 0x00FF);
+      data[offset + 1] = (byte) ((value & 0xFF00) >> 8);
    }
 
    public static final int getInt(byte[] data, int offset)
@@ -77,7 +80,7 @@ class DatatypeConverter
    {
       int length = getByte(data, offset);
       String result;
-      if (length == 0 || length+offset+1 > data.length)
+      if (length == 0 || length + offset + 1 > data.length)
       {
          result = null;
       }
@@ -94,6 +97,13 @@ class DatatypeConverter
       return Duration.getInstance(durationInMinutes / 60, TimeUnit.HOURS);
    }
 
+   public static final Date getTimestamp(byte[] data, int offset)
+   {
+      long timestampInSeconds = DatatypeConverter.getInt(data, offset, 0);
+      long timestampInMilliseconds = timestampInSeconds * 1000;
+      return DateHelper.getTimestampFromLong(timestampInMilliseconds);
+   }
+
    public static final RelationType getRelationType(byte[] data, int offset)
    {
       RelationType result;
@@ -105,7 +115,7 @@ class DatatypeConverter
             result = RelationType.START_FINISH;
             break;
          }
-         
+
          case 6:
          {
             result = RelationType.START_START;

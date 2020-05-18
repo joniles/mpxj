@@ -3,7 +3,10 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
@@ -119,47 +123,74 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          calendar.setWorkingDay(Day.WEDNESDAY, (workingDays & 0x04) != 0);
          calendar.setWorkingDay(Day.THURSDAY, (workingDays & 0x02) != 0);
          calendar.setWorkingDay(Day.FRIDAY, (workingDays & 0x01) != 0);
-
          offset += 28;
+
+         Map<Day, List<DateRange>> ranges = new HashMap<>();
+         ranges.put(Day.SATURDAY, readCalendarHours(data, offset + 0));
+         ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
+         ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
+         ranges.put(Day.TUESDAY, readCalendarHours(data, offset + 48));
+         ranges.put(Day.WEDNESDAY, readCalendarHours(data, offset + 64));
+         ranges.put(Day.THURSDAY, readCalendarHours(data, offset + 80));
+         ranges.put(Day.FRIDAY, readCalendarHours(data, offset + 96));
+
          for (Day day : DAYS)
          {
             if (calendar.isWorkingDay(day))
             {
-               readCalendarHours(data, offset, calendar.addCalendarHours(day));
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               ranges.get(day).stream().forEach(range -> hours.addRange(range));
             }
-            offset += 16;
          }
 
          System.out.println("Calendar: " + calendar.getName());
-         block.getChildBlocks().stream().filter(x -> "CDayFlag".equals(x.getName())).forEach(x -> readCalendarException(x.getData()));
+         block.getChildBlocks().stream().filter(x -> "CDayFlag".equals(x.getName())).forEach(x -> readCalendarException(calendar, ranges, x.getData()));
+
          m_eventManager.fireCalendarReadEvent(calendar);
       }
 
       return calendar;
    }
 
-   private void readCalendarHours(byte[] data, int offset, ProjectCalendarHours hours)
+   private List<DateRange> readCalendarHours(byte[] data, int offset)
    {
-      addRange(hours, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
-      addRange(hours, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
+      List<DateRange> ranges = new ArrayList<>();
+      addRange(ranges, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
+      addRange(ranges, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
+      return ranges;
    }
 
-   private void addRange(ProjectCalendarHours hours, int startMinutes, int endMinutes)
+   private void addRange(List<DateRange> ranges, int startMinutes, int endMinutes)
    {
       if (startMinutes != endMinutes)
       {
          Date start = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(startMinutes));
          Date end = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(endMinutes));
-         hours.addRange(new DateRange(start, end));
+         ranges.add(new DateRange(start, end));
       }
    }
 
-   private void readCalendarException(byte[] data)
+   private void readCalendarException(ProjectCalendar calendar, Map<Day, List<DateRange>> ranges, byte[] data)
    {
-      int flag = DatatypeConverter.getShort(data, 0);
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
-      long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
-      System.out.println("*** " + flag + "\t" + DateHelper.getTimestampFromLong(timestampInMilliseconds) + "\t" +ByteArrayHelper.hexdump(data, false));
+
+      // Heuristic to filter out odd exception dates 
+      if (timestampInDays > 0xFF)
+      {
+         long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
+         Date exceptionDate = DateHelper.getTimestampFromLong(timestampInMilliseconds);
+
+         Calendar cal = DateHelper.popCalendar();
+         cal.setTime(exceptionDate);
+         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         DateHelper.pushCalendar(cal);
+
+         ProjectCalendarException ex = calendar.addCalendarException(exceptionDate, exceptionDate);
+         if (!calendar.isWorkingDay(day))
+         {
+            ranges.get(day).stream().forEach(range -> ex.addRange(range));
+         }
+      }
    }
 
    private void readTask(Block block, Map<Integer, Integer> childTaskCounts)
@@ -198,28 +229,31 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
 
-      // NOTE: summary tasks don't appear to have their own Unique ID values
-      // Sumary task don't have CBar, CBaselineData, CUsageTask
-      // The task Unique ID appears to be present in CBar and CBaselineData
-      // Duration at CUsageTask 366????
+      // This is not a summary task
+      if (cBarData != null && cBaselineData != null)
+      {
+         // NOTE: summary tasks don't appear to have their own Unique ID values
+         // Summary task don't have CBar, CBaselineData, CUsageTask
+         // The task Unique ID appears to be present in CBar and CBaselineData
+         // Duration at CUsageTask 366????
 
-      // Start Date      
-      //      long timestampInSeconds = DatatypeConverter.getInt(cBarData, 5, 0);
-      //      long timestampInMilliseconds = timestampInSeconds * 1000; 
-      //      System.out.println(task.getID() + "\t" + DateHelper.getTimestampFromLong(timestampInMilliseconds));
+         // TODO: set to day start time
+         task.setStart(DatatypeConverter.getTimestamp(cBarData, 5));
 
-      // This is the task unique ID as used by CLink
-      //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBarData, 23, 0));
+         // This is the task unique ID as used by CLink
+         //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBarData, 23, 0));
+         task.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(cBarData, 23, 0)));
 
-      // Other apparently unique identifiers      
-      //      System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBaselineData, 69, 0));
-      //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskData, 408, 0));
-      //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskBaselineData, 69, 0));
+         // Other apparently unique identifiers      
+         // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBaselineData, 69, 0));
+         // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskData, 408, 0));
+         // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskBaselineData, 69, 0));
 
-      // Duration
-      // System.out.println(task.getID() + "\t" + DatatypeConverter.getDuration(cBaselineData, 366));
+         // TODO convert to days by default?
+         task.setDuration(DatatypeConverter.getDuration(cBaselineData, 366));
 
-      block.getChildBlocks().stream().filter(x -> "CLink".equals(x.getName())).forEach(x -> dumpLink(task, x));
+         block.getChildBlocks().stream().filter(x -> "CLink".equals(x.getName())).forEach(x -> dumpLink(task, x));
+      }
    }
 
    private byte[] getByteArray(Block block, String name)
