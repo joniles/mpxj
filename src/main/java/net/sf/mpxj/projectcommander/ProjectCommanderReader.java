@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.sf.mpxj.DateRange;
@@ -20,10 +21,12 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -54,14 +57,20 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          m_projectFile = new ProjectFile();
          m_projectFile.getProjectProperties().setFileApplication("Project Commander");
          m_projectFile.getProjectProperties().setFileType("PC");
-         m_eventManager = m_projectFile.getEventManager();
+         
+         ProjectConfig config = m_projectFile.getProjectConfig();
+         config.setAutoTaskUniqueID(false);
 
+         m_eventManager = m_projectFile.getEventManager();
+         m_taskMap = new TreeMap<>();
+         
          m_data = new ProjectCommanderData();
          m_data.setLogFile("c:/temp/project-commander.log");
          m_data.process(is);
 
          readCalendars();
          readTasks();
+         readRelationships();
          readResources();
 
          return m_projectFile;
@@ -75,6 +84,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       finally
       {
          m_eventManager = null;
+         m_taskMap = null;
          m_data = null;
       }
    }
@@ -96,6 +106,14 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
    }
 
+   private void readRelationships()
+   {      
+      for(Entry<Task, Block> entry : m_taskMap.entrySet())
+      {
+         entry.getValue().getChildBlocks().stream().filter(x -> "CLink".equals(x.getName())).forEach(x -> readRelationships(entry.getKey(), x));
+      }
+   }
+   
    private ProjectCalendar readCalendar(Block block)
    {
       ProjectCalendar calendar;
@@ -204,15 +222,22 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
 
       Block cUsageTask = getChildBlock(block, "CUsageTask");
-
       byte[] cBaselineData = getByteArray(block, "CBaselineData");
       byte[] cBarData = getByteArray(block, "CBar");
       byte[] cUsageTaskData = getByteArray(block, "CUsageTask");
       byte[] cUsageTaskBaselineData = getByteArray(cUsageTask, "CBaselineData");
 
+//    System.out.println(task.getID() + "\t" + ByteArrayHelper.hexdump(cTaskData, false));
+//    System.out.println(task.getID() + "\t" + ByteArrayHelper.hexdump(cBaselineData, false));
+//    System.out.println(task.getID() + "\t" + ByteArrayHelper.hexdump(cBarData, false));
+//    System.out.println(task.getID() + "\t" + ByteArrayHelper.hexdump(cUsageTaskData, false));
+//    System.out.println(task.getID() + "\t" + ByteArrayHelper.hexdump(cUsageTaskBaselineData, false));
+
+
       Task task = m_projectFile.addTask();
+      m_taskMap.put(task, block);
       task.setName(name);
-      m_eventManager.fireTaskReadEvent(task);
+      
 
       offset += ((task.getName() == null ? 0 : task.getName().length()) + 1);
 
@@ -229,33 +254,38 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
 
-      // This is not a summary task
+      // Summary task don't have a Unique ID, CBar, CBaselineData or CUsageTask
       if (cBarData != null && cBaselineData != null)
-      {
-         // NOTE: summary tasks don't appear to have their own Unique ID values
-         // Summary task don't have CBar, CBaselineData, CUsageTask
-         // The task Unique ID appears to be present in CBar and CBaselineData
-         // Duration at CUsageTask 366????
+      {                 
+         // This is the unique ID as used by CLink
+         int uniqueID = DatatypeConverter.getShort(cBarData, 23, 0);
+         task.setUniqueID(Integer.valueOf(uniqueID));
 
-         // TODO: set to day start time
-         task.setStart(DatatypeConverter.getTimestamp(cBarData, 5));
-
-         // This is the task unique ID as used by CLink
-         //System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBarData, 23, 0));
-         task.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(cBarData, 23, 0)));
-
-         // Other apparently unique identifiers      
+         // Unique ID values from other blocks                        
          // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cBaselineData, 69, 0));
          // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskData, 408, 0));
          // System.out.println(task.getID() + "\t" + DatatypeConverter.getShort(cUsageTaskBaselineData, 69, 0));
+        
+         Duration duration = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
+         task.setDuration(duration.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties()));
 
-         // TODO convert to days by default?
-         task.setDuration(DatatypeConverter.getDuration(cBaselineData, 366));
-
-         block.getChildBlocks().stream().filter(x -> "CLink".equals(x.getName())).forEach(x -> dumpLink(task, x));
+         ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
+         Date startDate = DatatypeConverter.getTimestamp(cBarData, 5); 
+         task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+         task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         
+         //block.getChildBlocks().stream().filter(x -> "CLink".equals(x.getName())).forEach(x -> readRelationships(task, x));
       }
+      
+      // TODO: looks like we can have multiple bars per task, and links can be created to distinct bars on the same line.
+      // also looks like the MPX export breaks these out into separate tasks, which we should follow
+      // does that mean there is a duration in cBarData?
+      
+      System.out.println(task);
+      
+      m_eventManager.fireTaskReadEvent(task);
    }
-
+   
    private byte[] getByteArray(Block block, String name)
    {
       Block childBlock = getChildBlock(block, name);
@@ -276,18 +306,29 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return result;
    }
 
-   private void dumpLink(Task task, Block block)
+   private void readRelationships(Task task, Block block)
    {
       // 14 bytes or less, predecessor
       // more than 14 bytes successor
 
       byte[] data = block.getData();
-      if (data.length > 14)
+      //if (data.length > 14)
       {
-         int taskID = DatatypeConverter.getShort(data, 0);
+         int successorTaskUniqueID = DatatypeConverter.getShort(data, 0);
+         Task successor = m_projectFile.getTaskByUniqueID(Integer.valueOf(successorTaskUniqueID));
          Duration lag = DatatypeConverter.getDuration(data, 6);
          RelationType type = DatatypeConverter.getRelationType(data, 2);
-         System.out.println(task.getID() + "\t" + taskID + "\t" + type + "\t" + lag + "\t" + ByteArrayHelper.hexdump(data, 0, data.length, false));
+//         System.out.println(task.getID() + "\t" + task.getUniqueID() + "\t" + successorTaskUniqueID + "\t" + type + "\t" + lag + "\t" + ByteArrayHelper.hexdump(data, 0, data.length, false));
+         
+         if (successor == null)
+         {
+            System.out.println("Missing target task " + successorTaskUniqueID);
+         }
+         else
+         {
+            System.out.println(task.getID()+":"+task.getName() + "\t" + successor.getID()+":"+successor.getName()+"\t"+type + "\t" +lag);
+            successor.addPredecessor(task, type, lag);
+         }
       }
    }
 
@@ -338,7 +379,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
    private ProjectCommanderData m_data;
-
+   private Map<Task, Block> m_taskMap;
+   
    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
    private static final Day[] DAYS =
