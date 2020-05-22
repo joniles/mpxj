@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,8 @@ class ProjectCommanderData
       openLogFile();
       populateBuffer(is);
       populateBlocks();
-      closeLogFile();
+      updateHierarchy();
+      closeLogFile();      
       dumpBlocks();
 
       m_buffer = null;
@@ -38,21 +40,44 @@ class ProjectCommanderData
       return m_blocks;
    }
 
+   private void updateHierarchy()
+   {
+      m_blocks.stream().filter(x -> "CTask".equals(x.getName())).forEach(x -> updateHierarchy(x));
+   }
+   
+   private void updateHierarchy(Block block)
+   {
+      reparentBlocks(block, "CBar", "CLink");
+      reparentBlocks(block, "CBaselineData", "CBar");
+   }
+   
+   private void reparentBlocks(Block block, String parentName, String childName)
+   {
+      Block lastParent = null;
+      Iterator<Block> iter = block.getChildBlocks().iterator();
+      while (iter.hasNext())
+      {
+         Block child = iter.next();
+         if (parentName.equals(child.getName()))
+         {
+            lastParent = child;
+         }
+         else
+         {
+            if (childName.equals(child.getName()) && lastParent != null)
+            {
+               iter.remove();
+               lastParent.getChildBlocks().add(child);
+            }
+         }
+      }
+   }
+   
    private void dumpBlocks()
    {
       for (Block block : m_blocks)
       {
-         dumpBlock("", block);
-      }
-   }
-
-   private void dumpBlock(String prefix, Block block)
-   {
-      System.out.println(prefix + block.getName());
-      prefix += " ";
-      for (Block childBlock : block.getChildBlocks())
-      {
-         dumpBlock(prefix, childBlock);
+         block.dumpBlock("");
       }
    }
 
@@ -192,7 +217,7 @@ class ProjectCommanderData
    {
       Map<Integer, Long> valueCounts = IntStream.range(0, m_buffer.length - LINK_FINGERPRINT.length).filter(index -> matchPattern(LINK_FINGERPRINT, index)).mapToObj(index -> Integer.valueOf(DatatypeConverter.getShort(m_buffer, index - 4))).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-      Map.Entry<Integer, Long> entry = valueCounts.entrySet().stream().max(Map.Entry.comparingByValue()).orElseGet(null);
+      Map.Entry<Integer, Long> entry = valueCounts.entrySet().stream().max(Map.Entry.comparingByValue()).orElse(null);
       if (entry != null)
       {
          byte[] patternBytes = new byte[2];
@@ -370,7 +395,7 @@ class ProjectCommanderData
       return match;
    }
 
-   public List<BlockPattern> identifyBlockPatterns()
+   private List<BlockPattern> identifyBlockPatterns()
    {
       List<BlockPattern> patterns = new ArrayList<>();
       identifyPattern(patterns, "CReportData", null, REPORT_DATA_FINGERPRINT);
