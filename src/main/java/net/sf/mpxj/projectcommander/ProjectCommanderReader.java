@@ -178,7 +178,6 @@ public final class ProjectCommanderReader extends AbstractProjectReader
             }
          }
 
-         System.out.println("Calendar: " + calendar.getName());
          block.getChildBlocks().stream().filter(x -> "CDayFlag".equals(x.getName())).forEach(x -> readCalendarException(calendar, ranges, x.getData()));
 
          m_eventManager.fireCalendarReadEvent(calendar);
@@ -400,7 +399,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
       Duration lag = DatatypeConverter.getDuration(data, 6);
       RelationType type = DatatypeConverter.getRelationType(data, 2);
-      System.out.println(task.getID() + ":" + task.getName() + "\t" + successor.getID() + ":" + successor.getName() + "\t" + type + "\t" + lag + " (data length=" + data.length + ")");
+      
       successor.addPredecessor(task, type, lag);
    }
 
@@ -419,11 +418,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          for (int id = startID; id < startID + offset; id++)
          {
             Task childTask = m_projectFile.getTaskByID(Integer.valueOf(id));
-            if (childTask == null)
-            {
-               System.out.println("skip " + id);
-            }
-            else
+            if (childTask != null)
             {
                childTask.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(childTask.getOutlineLevel()) + 1));
                offset += NumberHelper.getInt(m_extraBarCounts.get(childTask));

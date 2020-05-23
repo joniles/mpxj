@@ -29,8 +29,7 @@ class ProjectCommanderData
       populateBuffer(is);
       populateBlocks();
       updateHierarchy();
-      closeLogFile();      
-      dumpBlocks();
+      closeLogFile();
 
       m_buffer = null;
    }
@@ -44,13 +43,13 @@ class ProjectCommanderData
    {
       m_blocks.stream().filter(x -> "CTask".equals(x.getName())).forEach(x -> updateHierarchy(x));
    }
-   
+
    private void updateHierarchy(Block block)
    {
       reparentBlocks(block, "CBar", "CLink");
       reparentBlocks(block, "CBaselineData", "CBar");
    }
-   
+
    private void reparentBlocks(Block block, String parentName, String childName)
    {
       Block lastParent = null;
@@ -70,14 +69,6 @@ class ProjectCommanderData
                lastParent.getChildBlocks().add(child);
             }
          }
-      }
-   }
-   
-   private void dumpBlocks()
-   {
-      for (Block block : m_blocks)
-      {
-         block.dumpBlock("");
       }
    }
 
@@ -114,14 +105,11 @@ class ProjectCommanderData
       determineTaskBlockBoundary(map);
       determineLinkBlockBoundary(map);
       determineFilterObjectBlockBoundary(map);
-      
+
       List<BlockPattern> blockPatterns = new ArrayList<>(Arrays.asList(NAMED_BLOCK_PATTERNS));
       blockPatterns.addAll(map.values());
 
-      System.out.println();
-      System.out.println("Patterns:");
-      blockPatterns.forEach(pattern -> System.out.println(pattern));
-      System.out.println();
+      logPatterns(blockPatterns);
 
       return blockPatterns;
    }
@@ -131,7 +119,7 @@ class ProjectCommanderData
       BlockPattern test = map.get("CResourceTask");
       if (test == null)
       {
-         System.out.println("Unable to calculate CResource, no CResourceTask found");
+         logMessage("Unable to calculate CResource, no CResourceTask found");
       }
       else
       {
@@ -149,14 +137,14 @@ class ProjectCommanderData
       int index = findFirstMatch(TASK_FINGERPRINT, 0);
       if (index == -1)
       {
-         System.out.println("Unable to determine CTask boundary: no first task match");
+         logMessage("Unable to determine CTask boundary: no first task match");
       }
       else
       {
          index = findFirstMatch(TASK_FINGERPRINT, index + 1);
          if (index == -1)
          {
-            System.out.println("Unable to determine CTask boundary: no second task match");
+            logMessage("Unable to determine CTask boundary: no second task match");
          }
          else
          {
@@ -168,7 +156,7 @@ class ProjectCommanderData
 
             if (index == -1)
             {
-               System.out.println("Unable to determine CTask boundary: past data start");
+               logMessage("Unable to determine CTask boundary: past data start");
             }
             else
             {
@@ -185,7 +173,7 @@ class ProjectCommanderData
       index = findFirstMatch(USAGE_FINGERPRINT, index + 1);
       if (index == -1)
       {
-         System.out.println("Unable to determine CUsageTask boundary: no fingerprint match");
+         logMessage("Unable to determine CUsageTask boundary: no fingerprint match");
       }
       else
       {
@@ -203,7 +191,7 @@ class ProjectCommanderData
       index = findFirstMatch(BASELINE_DATA_FINGERPRINT, index + 1);
       if (index == -1)
       {
-         System.out.println("Unable to determine CBaselineData boundary: no fingerprint match");
+         logMessage("Unable to determine CBaselineData boundary: no fingerprint match");
       }
       else
       {
@@ -227,7 +215,7 @@ class ProjectCommanderData
       }
       else
       {
-         System.out.println("Unable to determine CLink boundary: no fingerprint match");
+         logMessage("Unable to determine CLink boundary: no fingerprint match");
       }
    }
 
@@ -247,7 +235,7 @@ class ProjectCommanderData
 
       if (index == searchLimit)
       {
-         System.out.println("Unable to determine CBar boundary: no fingerprint match");
+         logMessage("Unable to determine CBar boundary: no fingerprint match");
       }
    }
 
@@ -256,7 +244,7 @@ class ProjectCommanderData
       int index = findFirstMatch(VIEW_FINGERPRINT, 0);
       if (index == -1)
       {
-         System.out.println("Unable to determine CFilterObject boundary: no fingerprint match");                  
+         logMessage("Unable to determine CFilterObject boundary: no fingerprint match");
       }
       else
       {
@@ -265,19 +253,22 @@ class ProjectCommanderData
          map.put(blockPattern.getName(), blockPattern);
       }
    }
-   
+
    private List<BlockReference> populateBlockReferences()
    {
       List<BlockReference> blockReferences = new ArrayList<>();
       List<BlockPattern> blockPatterns = selectBlockPatterns();
       Set<String> matchedPatternNames = new HashSet<>();
       boolean skipImage = false;
-      
+
       for (int index = 0; index < m_buffer.length - 11; index++)
       {
          BlockPattern block = matchPattern(blockPatterns, index);
          if (block != null && block.getValid(matchedPatternNames))
-         {            
+         {
+            // If we hit a CImage we'll skip everything else until we hit a named block.
+            // Too many false positive hits in image data, and we don't know the 
+            // format well enough to predict the end of the block.
             String name = block.getName() == null ? DatatypeConverter.getTwoByteLengthString(m_buffer, index + 4) : null;
             if (skipImage)
             {
@@ -287,12 +278,8 @@ class ProjectCommanderData
             {
                skipImage = "CImage".equals(name);
             }
-            
-            if (skipImage)
-            {
-               System.out.println("Skipping " + block.getName());
-            }
-            else
+
+            if (!skipImage)
             {
                blockReferences.add(new BlockReference(block, index));
                matchedPatternNames.add(block.getName());
@@ -313,7 +300,7 @@ class ProjectCommanderData
       for (BlockReference block : blockReferences)
       {
          int endIndex = block.getIndex();
-         int blockLength = endIndex - startIndex;         
+         int blockLength = endIndex - startIndex;
          readBlock(startBlock, blockIndex, startIndex, blockLength);
          startIndex = endIndex;
          startBlock = block;
@@ -351,7 +338,7 @@ class ProjectCommanderData
 
          if (offset > blockLength)
          {
-            System.out.println("Skipping block " + name + " (blockLength="+ blockLength + " offset=" +offset + ")");
+            logMessage("Skipping block " + name + " (blockLength=" + blockLength + " offset=" + offset + ")");
          }
          else
          {
@@ -430,7 +417,7 @@ class ProjectCommanderData
 
       if (index == -1)
       {
-         System.out.println("No " + name + " named block");
+         logMessage("No " + name + " named block");
       }
       else
       {
@@ -444,23 +431,21 @@ class ProjectCommanderData
       index = findFirstMatch(fingerprint, index);
       if (index == -1)
       {
-         System.out.println("No " + name + " fingerprint");
+         logMessage("No " + name + " fingerprint");
       }
       else
       {
          if ((m_buffer[index - 1] & 0x80) == 0)
          {
-            System.out.println("Matched " + name + " fingerprint but found " + ByteArrayHelper.hexdump(m_buffer, index - 2, 2, false));
+            logMessage("Matched " + name + " fingerprint but found " + ByteArrayHelper.hexdump(m_buffer, index - 2, 2, false));
          }
          else
          {
-            BlockPattern x = new BlockPattern(name, validator, m_buffer, index - 2);
-            System.out.println(x);
-            patterns.add(x);
+            patterns.add(new BlockPattern(name, validator, m_buffer, index - 2));
          }
-      }           
+      }
    }
-   
+
    private int findFirstMatch(byte[] pattern, int offset)
    {
       int result = -1;
@@ -538,6 +523,25 @@ class ProjectCommanderData
       }
    }
 
+   private void logPatterns(List<BlockPattern> blockPatterns)
+   {
+      if (m_log != null)
+      {
+         m_log.println();
+         m_log.println("Patterns:");
+         blockPatterns.forEach(pattern -> m_log.println(pattern));
+         m_log.println();
+      }
+   }
+
+   private void logMessage(String message)
+   {
+      if (m_log != null)
+      {
+         m_log.println(message);
+      }
+   }
+
    private byte[] m_buffer;
    private String m_logFile;
    private PrintWriter m_log;
@@ -556,7 +560,7 @@ class ProjectCommanderData
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
       new BlockPattern("CDayFlag", (byte) 0x07, (byte) 0x80),
-      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),          
+      new BlockPattern("CShape", (byte) 0x03, (byte) 0x80),
    };
 
    // Basic Basic
@@ -604,10 +608,23 @@ class ProjectCommanderData
       0x00
    };
 
-   
-   private static final byte[] VIEW_FINGERPRINT = { 0x0C, 0x42, 0x6F, 0x72, 0x64, 0x65, 0x72, 0x4C, 0x61, 0x79, 0x6F, 0x75, 0x74 };
-   
-   
+   private static final byte[] VIEW_FINGERPRINT =
+   {
+      0x0C,
+      0x42,
+      0x6F,
+      0x72,
+      0x64,
+      0x65,
+      0x72,
+      0x4C,
+      0x61,
+      0x79,
+      0x6F,
+      0x75,
+      0x74
+   };
+
    private static final byte[] USAGE_FINGERPRINT =
    {
       0x00,
@@ -666,7 +683,4 @@ class ProjectCommanderData
       EXPECTED_CHILD_CLASSES.put("CTask", new HashSet<>(Arrays.asList("CPlanObject", "CCalendar", "CBaselineIndex", "CBaselineData", "CBar", "CUsageTask", "CLink")));
       EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));
    }
-   
-   
-   // CImage - ignore anything but named blocks???? Assume all images are grouped together?     
 }
