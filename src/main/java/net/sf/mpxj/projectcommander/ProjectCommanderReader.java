@@ -1,4 +1,3 @@
-// TODO: handle tasks and resources without unique id values
 
 package net.sf.mpxj.projectcommander;
 
@@ -28,6 +27,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
@@ -111,9 +111,9 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    private void readResources()
    {
       m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
-      
+
       int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
-      int uniqueID = (((maxUniqueID+1000) / 1000) + 1) * 1000;
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
       for (Resource resource : m_projectFile.getResources())
       {
          if (resource.getUniqueID() == null)
@@ -270,7 +270,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    {
       Block cUsageTask = getChildBlock(block, "CUsageTask");
       byte[] cUsageTaskBaselineData = getByteArray(cUsageTask, "CBaselineData");
-      Resource resource = readChildTskResource(cUsageTask);
+      Resource resource = readChildTaskResource(cUsageTask);
       List<Task> tasks = getChildBlocks(baseline, "CBar").map(bar -> readChildTask(name, bar, cUsageTaskBaselineData, resource)).collect(Collectors.toList());
       if (tasks.size() > 1)
       {
@@ -278,7 +278,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
-   private Resource readChildTskResource(Block cUsageTask)
+   private Resource readChildTaskResource(Block cUsageTask)
    {
       Resource result;
       if (cUsageTask == null)
@@ -304,35 +304,50 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       int uniqueID = DatatypeConverter.getShort(cBarData, 23, 0);
       task.setUniqueID(Integer.valueOf(uniqueID));
 
-      if (cUsageTaskBaselineData.length != 0)
+      if (cBarData[0] == 0x02)
       {
-         Duration duration = null;
-
-         // If we're not the first bar, is our duration different to the first bar?
-         // This is very much a heuristic!
-         int potentialBarDuration = DatatypeConverter.getInt(cBarData, 97, 0);
-         if (potentialBarDuration != 0 && (potentialBarDuration & 0xFF000000) == 0)
-         {
-            duration = DatatypeConverter.getDuration(cBarData, 97);
-         }
-         else
-         {
-            duration = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
-         }
-
-         task.setDuration(duration.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties()));
-
          ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
-         Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
+         task.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
+         task.setMilestone(true);
+         Date startDate = DatatypeConverter.getTimestamp(cBarData, 7);
          task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
-
-         if (resource != null)
+      }
+      else
+      {
+         if (cUsageTaskBaselineData.length != 0)
          {
-            task.addResourceAssignment(resource);
+            Duration durationInHours = null;
+
+            // If we're not the first bar, is our duration different to the first bar?
+            // This is very much a heuristic!
+            int potentialBarDuration = DatatypeConverter.getInt(cBarData, 97, 0);
+            if (potentialBarDuration != 0 && (potentialBarDuration & 0xFF000000) == 0)
+            {
+               durationInHours = DatatypeConverter.getDuration(cBarData, 97);
+            }
+            else
+            {
+               durationInHours = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
+            }
+
+            task.setDuration(durationInHours.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties()));
+            task.setWork(durationInHours);
+
+            ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
+            Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
+            task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+            task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+
+            if (resource != null)
+            {
+               ResourceAssignment assignment = task.addResourceAssignment(resource);
+               assignment.setWork(durationInHours);
+               assignment.setRemainingWork(durationInHours);
+            }
          }
       }
-
+      
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
@@ -392,8 +407,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    private void updateStructure()
    {
       int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
-      int uniqueID = (((maxUniqueID+1000) / 1000) + 1) * 1000;
-      
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
+
       for (Map.Entry<Integer, Integer> entry : m_childTaskCounts.entrySet())
       {
          Task task = m_projectFile.getTaskByID(entry.getKey());
@@ -415,7 +430,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
             }
          }
       }
-      m_projectFile.getTasks().updateStructure();      
+      m_projectFile.getTasks().updateStructure();
    }
 
    private void readResource(Block block)
