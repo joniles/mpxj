@@ -29,7 +29,6 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
@@ -62,7 +61,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskUniqueID(false);
-
+         config.setAutoResourceUniqueID(false);
+         
          m_eventManager = m_projectFile.getEventManager();
          m_taskMap = new TreeMap<>();
          m_childTaskCounts = new TreeMap<>();
@@ -73,9 +73,10 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          m_data.process(is);
 
          readCalendars();
+         readResources();
          readTasks();
          readRelationships();
-         readResources();
+         
 
          return m_projectFile;
       }
@@ -256,16 +257,32 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    private void readChildTasks(Block block, String name, Block baseline)
    {
-      Block cUsageTask = getChildBlock(block, "CUsageTask");
+      Block cUsageTask = getChildBlock(block, "CUsageTask");           
       byte[] cUsageTaskBaselineData = getByteArray(cUsageTask, "CBaselineData");
-      List<Task> tasks = getChildBlocks(baseline, "CBar").map(bar -> readChildTask(name, bar, cUsageTaskBaselineData)).collect(Collectors.toList());
+      Resource resource = readChildTskResource(cUsageTask);
+      List<Task> tasks = getChildBlocks(baseline, "CBar").map(bar -> readChildTask(name, bar, cUsageTaskBaselineData, resource)).collect(Collectors.toList());
       if (tasks.size() > 1)
       {
          m_extraBarCounts.put(tasks.get(0), Integer.valueOf(tasks.size() - 1));
-      }
+      }      
    }
 
-   private Task readChildTask(String name, Block bar, byte[] cUsageTaskBaselineData)
+   private Resource readChildTskResource(Block cUsageTask)
+   {
+      Resource result;
+      if (cUsageTask == null)
+      {
+         result = null;
+      }
+      else
+      {
+         Integer resourceUniqueID = Integer.valueOf(DatatypeConverter.getShort(cUsageTask.getData(), 9));
+         result = m_projectFile.getResourceByUniqueID(resourceUniqueID);
+      }
+      return result;
+   }
+   
+   private Task readChildTask(String name, Block bar, byte[] cUsageTaskBaselineData, Resource resource)
    {
       Task task = m_projectFile.addTask();
       m_taskMap.put(task, bar);
@@ -298,6 +315,11 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
          task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         
+         if (resource != null)
+         {
+            task.addResourceAssignment(resource);
+         }
       }
 
       m_eventManager.fireTaskReadEvent(task);
@@ -389,6 +411,9 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       Resource resource = m_projectFile.addResource();
       resource.setName(DatatypeConverter.getString(data, 0));
 
+      Block resourceTask = getChildBlock(block, "CResourceTask");
+      resource.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(resourceTask.getData(), 9)));
+      
       Block calendarBlock = getChildBlock(block, "CCalendar");
       if (calendarBlock != null)
       {
