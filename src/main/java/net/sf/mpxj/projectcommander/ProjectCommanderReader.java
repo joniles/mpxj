@@ -1,3 +1,4 @@
+// TODO: handle tasks and resources without unique id values
 
 package net.sf.mpxj.projectcommander;
 
@@ -62,7 +63,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskUniqueID(false);
          config.setAutoResourceUniqueID(false);
-         
+
          m_eventManager = m_projectFile.getEventManager();
          m_taskMap = new TreeMap<>();
          m_childTaskCounts = new TreeMap<>();
@@ -76,7 +77,6 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          readResources();
          readTasks();
          readRelationships();
-         
 
          return m_projectFile;
       }
@@ -104,12 +104,23 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    private void readTasks()
    {
       m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(block -> readTask(block));
-      createHierarchy();
+      updateStructure();
+      updateDates();
    }
 
    private void readResources()
    {
       m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
+      
+      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int uniqueID = (((maxUniqueID+1000) / 1000) + 1) * 1000;
+      for (Resource resource : m_projectFile.getResources())
+      {
+         if (resource.getUniqueID() == null)
+         {
+            resource.setUniqueID(Integer.valueOf(uniqueID++));
+         }
+      }
    }
 
    private void readRelationships()
@@ -127,7 +138,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       byte[] data = block.getData();
       String name = DatatypeConverter.getString(data, 0, null);
 
-      if (name == null)
+      if (name == null || name.trim().isEmpty())
       {
          calendar = null;
       }
@@ -257,14 +268,14 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    private void readChildTasks(Block block, String name, Block baseline)
    {
-      Block cUsageTask = getChildBlock(block, "CUsageTask");           
+      Block cUsageTask = getChildBlock(block, "CUsageTask");
       byte[] cUsageTaskBaselineData = getByteArray(cUsageTask, "CBaselineData");
       Resource resource = readChildTskResource(cUsageTask);
       List<Task> tasks = getChildBlocks(baseline, "CBar").map(bar -> readChildTask(name, bar, cUsageTaskBaselineData, resource)).collect(Collectors.toList());
       if (tasks.size() > 1)
       {
          m_extraBarCounts.put(tasks.get(0), Integer.valueOf(tasks.size() - 1));
-      }      
+      }
    }
 
    private Resource readChildTskResource(Block cUsageTask)
@@ -281,7 +292,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
       return result;
    }
-   
+
    private Task readChildTask(String name, Block bar, byte[] cUsageTaskBaselineData, Resource resource)
    {
       Task task = m_projectFile.addTask();
@@ -294,9 +305,9 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       task.setUniqueID(Integer.valueOf(uniqueID));
 
       if (cUsageTaskBaselineData.length != 0)
-      {        
+      {
          Duration duration = null;
-         
+
          // If we're not the first bar, is our duration different to the first bar?
          // This is very much a heuristic!
          int potentialBarDuration = DatatypeConverter.getInt(cBarData, 97, 0);
@@ -308,14 +319,14 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          {
             duration = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
          }
-         
+
          task.setDuration(duration.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties()));
 
          ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
          Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
          task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
-         
+
          if (resource != null)
          {
             task.addResourceAssignment(resource);
@@ -366,25 +377,27 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       byte[] data = block.getData();
       int successorTaskUniqueID = DatatypeConverter.getShort(data, 0);
       Task successor = m_projectFile.getTaskByUniqueID(Integer.valueOf(successorTaskUniqueID));
+
+      if (successor == null || task.isSucessor(successor) || task.isPredecessor(successor) || data.length == 14)
+      {
+         return;
+      }
+
       Duration lag = DatatypeConverter.getDuration(data, 6);
       RelationType type = DatatypeConverter.getRelationType(data, 2);
-
-      if (successor == null)
-      {
-         System.out.println("Missing target task " + successorTaskUniqueID);
-      }
-      else
-      {
-         System.out.println(task.getID() + ":" + task.getName() + "\t" + successor.getID() + ":" + successor.getName() + "\t" + type + "\t" + lag);
-         successor.addPredecessor(task, type, lag);
-      }
+      System.out.println(task.getID() + ":" + task.getName() + "\t" + successor.getID() + ":" + successor.getName() + "\t" + type + "\t" + lag + " (data length=" + data.length + ")");
+      successor.addPredecessor(task, type, lag);
    }
 
-   private void createHierarchy()
+   private void updateStructure()
    {
+      int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int uniqueID = (((maxUniqueID+1000) / 1000) + 1) * 1000;
+      
       for (Map.Entry<Integer, Integer> entry : m_childTaskCounts.entrySet())
       {
          Task task = m_projectFile.getTaskByID(entry.getKey());
+         task.setUniqueID(Integer.valueOf(uniqueID++));
          int startID = task.getID().intValue() + 1;
          int offset = entry.getValue().intValue();
 
@@ -402,7 +415,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
             }
          }
       }
-      m_projectFile.getTasks().updateStructure();
+      m_projectFile.getTasks().updateStructure();      
    }
 
    private void readResource(Block block)
@@ -412,8 +425,11 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       resource.setName(DatatypeConverter.getString(data, 0));
 
       Block resourceTask = getChildBlock(block, "CResourceTask");
-      resource.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(resourceTask.getData(), 9)));
-      
+      if (resourceTask != null)
+      {
+         resource.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(resourceTask.getData(), 9)));
+      }
+
       Block calendarBlock = getChildBlock(block, "CCalendar");
       if (calendarBlock != null)
       {
@@ -425,6 +441,34 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
 
       m_eventManager.fireResourceReadEvent(resource);
+   }
+
+   private void updateDates()
+   {
+      for (Task task : m_projectFile.getChildTasks())
+      {
+         updateDates(task);
+      }
+   }
+
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         Date plannedStartDate = parentTask.getStart();
+         Date plannedFinishDate = parentTask.getFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+         }
+
+         parentTask.setStart(plannedStartDate);
+         parentTask.setFinish(plannedFinishDate);
+      }
    }
 
    private ProjectFile m_projectFile;

@@ -271,15 +271,30 @@ class ProjectCommanderData
       List<BlockReference> blockReferences = new ArrayList<>();
       List<BlockPattern> blockPatterns = selectBlockPatterns();
       Set<String> matchedPatternNames = new HashSet<>();
-
+      boolean skipImage = false;
+      
       for (int index = 0; index < m_buffer.length - 11; index++)
       {
          BlockPattern block = matchPattern(blockPatterns, index);
          if (block != null && block.getValid(matchedPatternNames))
-         {
-            blockReferences.add(new BlockReference(block, index));
-            if (block.getName() != null)
+         {            
+            String name = block.getName() == null ? DatatypeConverter.getTwoByteLengthString(m_buffer, index + 4) : null;
+            if (skipImage)
             {
+               skipImage = name == null;
+            }
+            else
+            {
+               skipImage = "CImage".equals(name);
+            }
+            
+            if (skipImage)
+            {
+               System.out.println("Skipping " + block.getName());
+            }
+            else
+            {
+               blockReferences.add(new BlockReference(block, index));
                matchedPatternNames.add(block.getName());
             }
          }
