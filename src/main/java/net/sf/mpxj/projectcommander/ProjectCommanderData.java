@@ -386,6 +386,13 @@ final class ProjectCommanderData
             {
                blockReferences.add(new BlockReference(block, index));
                matchedPatternNames.add(block.getName());
+               
+               // Nothing useful to us after we hit this block
+               // stop reading here to avoid false positives
+               if ("CFormatCellInfo".equals(name))
+               {
+                  break;
+               }
             }
          }
       }
