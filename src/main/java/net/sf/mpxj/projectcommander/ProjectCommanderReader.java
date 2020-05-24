@@ -1,4 +1,25 @@
+/*
+ * file:       ProjectCommanderReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2020
+ * date:       24/05/2020
+ */
 
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
@@ -35,6 +56,9 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
+/**
+ * Reads schedule data from a Project Commander file.
+ */
 public final class ProjectCommanderReader extends AbstractProjectReader
 {
    /**
@@ -96,11 +120,17 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read calendars from the file.
+    */
    private void readCalendars()
    {
       m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(block -> readCalendar(block));
    }
 
+   /**
+    * Read tasks from the file.
+    */
    private void readTasks()
    {
       m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(block -> readTask(block));
@@ -108,21 +138,18 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       updateDates();
    }
 
+   /**
+    * Read resources from the file.
+    */
    private void readResources()
    {
       m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
-
-      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
-      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
-      for (Resource resource : m_projectFile.getResources())
-      {
-         if (resource.getUniqueID() == null)
-         {
-            resource.setUniqueID(Integer.valueOf(uniqueID++));
-         }
-      }
+      updateResourceUniqueIDValues();
    }
 
+   /**
+    * Read task relationships from the file.
+    */
    private void readRelationships()
    {
       for (Entry<Task, Block> entry : m_taskMap.entrySet())
@@ -131,6 +158,12 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read an individual calendar from the file.
+    * 
+    * @param block CCalendar block
+    * @return ProjectCalendar instance
+    */
    private ProjectCalendar readCalendar(Block block)
    {
       ProjectCalendar calendar;
@@ -186,6 +219,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return calendar;
    }
 
+   /**
+    * Read working hours for a day from a byte array.
+    * 
+    * @param data calendar data
+    * @param offset offset into calendar data
+    * @return list of DateRange instances representing working hours
+    */
    private List<DateRange> readCalendarHours(byte[] data, int offset)
    {
       List<DateRange> ranges = new ArrayList<>();
@@ -194,6 +234,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return ranges;
    }
 
+   /**
+    * Read a valid start and end time from a byte aray.
+    * 
+    * @param ranges target DateRange list
+    * @param startMinutes start time in minutes
+    * @param endMinutes end time in minutes
+    */
    private void addRange(List<DateRange> ranges, int startMinutes, int endMinutes)
    {
       if (startMinutes != endMinutes)
@@ -204,6 +251,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a calendar exception.
+    * 
+    * @param calendar parent calendar
+    * @param ranges default day of week working times 
+    * @param data byte array
+    */
    private void readCalendarException(ProjectCalendar calendar, Map<Day, List<DateRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
@@ -227,6 +281,11 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a task from a CTask block.
+    * 
+    * @param block CTask block byte array
+    */
    private void readTask(Block block)
    {
       byte[] cTaskData = block.getData();
@@ -249,6 +308,12 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a summary task.
+    * 
+    * @param block task data
+    * @param name task name
+    */
    private void readSummaryTask(Block block, String name)
    {
       byte[] cTaskData = block.getData();
@@ -265,6 +330,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       m_eventManager.fireTaskReadEvent(task);
    }
 
+   /**
+    * Read one or more child tasks.
+    * 
+    * @param block task data
+    * @param name task name
+    * @param baseline task baseline data
+    */
    private void readChildTasks(Block block, String name, Block baseline)
    {
       Block cUsageTask = getChildBlock(block, "CUsageTask");
@@ -277,6 +349,12 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read resource assignments.
+    * 
+    * @param cUsageTask task data
+    * @return assigned resource
+    */
    private Resource readChildTaskResource(Block cUsageTask)
    {
       Resource result;
@@ -292,6 +370,15 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Read an individual child task.
+    * 
+    * @param name task name
+    * @param bar bar block
+    * @param cUsageTaskBaselineData baseline data
+    * @param resource assigned resource
+    * @return Task instance
+    */
    private Task readChildTask(String name, Block bar, byte[] cUsageTaskBaselineData, Resource resource)
    {
       Task task = m_projectFile.addTask();
@@ -352,12 +439,27 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return task;
    }
 
+   /**
+    * Retrieve a byte array representing the content of a child block.
+    * Returns an empty array if the child block is not present.
+    * 
+    * @param block parent block
+    * @param name child block name
+    * @return child block byte array
+    */
    private byte[] getByteArray(Block block, String name)
    {
       Block childBlock = getChildBlock(block, name);
       return childBlock == null ? EMPTY_BYTE_ARRAY : childBlock.getData();
    }
 
+   /**
+    * Retrieve a named child block.
+    * 
+    * @param block parent block
+    * @param name child block name
+    * @return child block, or null if not present
+    */
    private Block getChildBlock(Block block, String name)
    {
       Block result;
@@ -372,6 +474,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Retrieve a list of named child blocks.
+    * 
+    * @param block parent block
+    * @param name child block name
+    * @return list of child blocks
+    */
    private Stream<Block> getChildBlocks(Block block, String name)
    {
       Stream<Block> result;
@@ -386,6 +495,12 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       return result;
    }
 
+   /**
+    * Read any relationships for a single task.
+    * 
+    * @param task parent task
+    * @param block relationship data
+    */
    private void readRelationships(Task task, Block block)
    {
       byte[] data = block.getData();
@@ -403,6 +518,10 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       successor.addPredecessor(task, type, lag);
    }
 
+   /**
+    * Updates the hierarchical structure to ensure that child tasks
+    * are nested under the correct parent tasks. 
+    */
    private void updateStructure()
    {
       int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
@@ -428,6 +547,11 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       m_projectFile.getTasks().updateStructure();
    }
 
+   /**
+    * Read data for an individual resource.
+    * 
+    * @param block CResource block
+    */
    private void readResource(Block block)
    {
       byte[] data = block.getData();
@@ -453,6 +577,9 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       m_eventManager.fireResourceReadEvent(resource);
    }
 
+   /**
+    * Propagate start and end dates to summary tasks.
+    */
    private void updateDates()
    {
       for (Task task : m_projectFile.getChildTasks())
@@ -461,6 +588,11 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Propagate start and end dates to summary tasks.
+    * 
+    * @param parentTask parent task
+    */
    private void updateDates(Task parentTask)
    {
       if (parentTask.hasChildTasks())
@@ -481,6 +613,22 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Provide unique ID values for resources which don't have one.
+    */
+   private void updateResourceUniqueIDValues()
+   {
+      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
+      for (Resource resource : m_projectFile.getResources())
+      {
+         if (resource.getUniqueID() == null)
+         {
+            resource.setUniqueID(Integer.valueOf(uniqueID++));
+         }
+      }
+   }
+   
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;
