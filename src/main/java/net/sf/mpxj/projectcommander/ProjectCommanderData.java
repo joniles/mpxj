@@ -1,3 +1,25 @@
+/*
+ * file:       ProjectCommanderData.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2020
+ * date:       24/05/2020
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.projectcommander;
 
@@ -21,8 +43,16 @@ import java.util.stream.IntStream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
+/**
+ * Reads a Project Commander file an returns a hierarchical list of blocks.
+ */
 final class ProjectCommanderData
 {
+   /**
+    * Read a Project Commander file form an input stream.
+    * 
+    * @param is input stream
+    */
    public void process(InputStream is) throws IOException
    {
       openLogFile();
@@ -34,22 +64,42 @@ final class ProjectCommanderData
       m_buffer = null;
    }
 
+   /**
+    * Retrieve the blocks read from the Project Commander file.
+    * 
+    * @return list of blocks
+    */
    public List<Block> getBlocks()
    {
       return m_blocks;
    }
 
+   /**
+    * Reorganise child blocks into the expected hierarchy.
+    */
    private void updateHierarchy()
    {
       m_blocks.stream().filter(x -> "CTask".equals(x.getName())).forEach(x -> updateHierarchy(x));
    }
 
+   /**
+    * Reorganise child blocks into the expected hierarchy.
+    * 
+    * @param block root block 
+    */
    private void updateHierarchy(Block block)
    {
       reparentBlocks(block, "CBar", "CLink");
       reparentBlocks(block, "CBaselineData", "CBar");
    }
 
+   /**
+    * Move child blocks under the correct parent blocks. 
+    * 
+    * @param block root block
+    * @param parentName parent block name
+    * @param childName child block name
+    */
    private void reparentBlocks(Block block, String parentName, String childName)
    {
       Block lastParent = null;
@@ -72,6 +122,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Read the file contents into a byte array buffer.
+    * 
+    * @param is input stream
+    */
    private void populateBuffer(InputStream is) throws IOException
    {
       int length = is.available();
@@ -91,6 +146,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Generate the set of patterns representing block starts.
+    * 
+    * @return list of block patterns
+    */
    private List<BlockPattern> selectBlockPatterns()
    {
       Map<String, BlockPattern> map = new HashMap<>();
@@ -114,6 +174,11 @@ final class ProjectCommanderData
       return blockPatterns;
    }
 
+   /**
+    * Heuristic method to determine the CResource block boundary.
+    * 
+    * @param map block pattern map
+    */
    private void determineResourceBlockBoundary(Map<String, BlockPattern> map)
    {
       BlockPattern test = map.get("CResourceTask");
@@ -132,6 +197,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CTask block boundary.
+    * 
+    * @param map block pattern map
+    */
    private void determineTaskBlockBoundary(Map<String, BlockPattern> map)
    {
       int index = findFirstMatch(TASK_FINGERPRINT, 0);
@@ -168,6 +238,12 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CUsageTask block boundary.
+    * 
+    * @param index search start index
+    * @param map block pattern map
+    */
    private void determineUsageTaskBlockBoundary(int index, Map<String, BlockPattern> map)
    {
       index = findFirstMatch(USAGE_FINGERPRINT, index + 1);
@@ -186,6 +262,12 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CBaselineData block boundary.
+    * 
+    * @param index search start index
+    * @param map block pattern map
+    */
    private void determineBaselineDataBlockBoundary(int index, Map<String, BlockPattern> map)
    {
       index = findFirstMatch(BASELINE_DATA_FINGERPRINT, index + 1);
@@ -201,6 +283,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CLink block boundary.
+    * 
+    * @param map block pattern map
+    */
    private void determineLinkBlockBoundary(Map<String, BlockPattern> map)
    {
       Map<Integer, Long> valueCounts = IntStream.range(0, m_buffer.length - LINK_FINGERPRINT.length).filter(index -> matchPattern(LINK_FINGERPRINT, index)).mapToObj(index -> Integer.valueOf(DatatypeConverter.getShort(m_buffer, index - 4))).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -219,6 +306,12 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CBar block boundary.
+    * 
+    * @param index search start index
+    * @param map block pattern map
+    */
    private void determineBarBlockBoundary(int index, Map<String, BlockPattern> map)
    {
       int searchLimit = index - 100;
@@ -239,6 +332,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Heuristic method to determine the CFilterObject block boundary.
+    * 
+    * @param map block pattern map
+    */
    private void determineFilterObjectBlockBoundary(Map<String, BlockPattern> map)
    {
       int index = findFirstMatch(VIEW_FINGERPRINT, 0);
@@ -254,6 +352,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Generate a list of block starts by matching patterns.
+    * 
+    * @return list of block starts
+    */
    private List<BlockReference> populateBlockReferences()
    {
       List<BlockReference> blockReferences = new ArrayList<>();
@@ -290,6 +393,9 @@ final class ProjectCommanderData
       return blockReferences;
    }
 
+   /**
+    * Convert a list of block starts into populated blocks.
+    */
    private void populateBlocks()
    {
       List<BlockReference> blockReferences = populateBlockReferences();
@@ -311,6 +417,14 @@ final class ProjectCommanderData
       readBlock(startBlock, blockIndex, startIndex, blockLength);
    }
 
+   /**
+    * Read an individual block.
+    * 
+    * @param blockReference block start
+    * @param blockIndex block index number
+    * @param startIndex block start index
+    * @param blockLength block length
+    */
    private void readBlock(BlockReference blockReference, int blockIndex, int startIndex, int blockLength)
    {
       if (blockLength != 0)
@@ -351,6 +465,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Add a block to the hierarchy.
+    * 
+    * @param block block to add
+    */
    private void addBlockToHierarchy(Block block)
    {
       if (m_parentStack.isEmpty())
@@ -375,6 +494,11 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Add a parent block to the hierarchy.
+    * 
+    * @param block block
+    */
    private void addParentBlockToHierarchy(Block block)
    {
       if (EXPECTED_CHILD_CLASSES.containsKey(block.getName()))
@@ -383,6 +507,13 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Determine if the data at the current index in the file matches a block start pattern.
+    * 
+    * @param blocks list of block start patterns
+    * @param bufferIndex current index in file
+    * @return matching block pattern or null
+    */
    private final BlockPattern matchPattern(List<BlockPattern> blocks, int bufferIndex)
    {
       BlockPattern match = null;
@@ -397,6 +528,11 @@ final class ProjectCommanderData
       return match;
    }
 
+   /**
+    * Heuristics to generate block start patterns for CReportData, CReportGroup, CResourceTask and View.
+    * 
+    * @return list of block start patterns
+    */
    private List<BlockPattern> identifyBlockPatterns()
    {
       List<BlockPattern> patterns = new ArrayList<>();
@@ -407,6 +543,14 @@ final class ProjectCommanderData
       return patterns;
    }
 
+   /**
+    * Identify a block start pattern using a fingerprint, skipping the named block.
+    * 
+    * @param patterns list of patterns
+    * @param name block name
+    * @param validator optional validator method to include with the pattern
+    * @param fingerprint fingerprint used to match block
+    */
    private void identifyPattern(List<BlockPattern> patterns, String name, BlockPatternValidator validator, byte[] fingerprint)
    {
       // Find the named block so we can skip it
@@ -426,6 +570,15 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Identify a block start pattern using a fingerprint.
+    * 
+    * @param patterns list of patterns
+    * @param name block name
+    * @param index start index for search
+    * @param validator optional validator method to include with the pattern
+    * @param fingerprint fingerprint used to match block
+    */
    private void identifyPattern(List<BlockPattern> patterns, String name, int index, BlockPatternValidator validator, byte[] fingerprint)
    {
       index = findFirstMatch(fingerprint, index);
@@ -446,6 +599,13 @@ final class ProjectCommanderData
       }
    }
 
+   /**
+    * Find first match for a byte pattern from an offset in the file.
+    * 
+    * @param pattern byte pattern
+    * @param offset file offset
+    * @return offset of match or -1 if no match
+    */
    private int findFirstMatch(byte[] pattern, int offset)
    {
       int result = -1;
@@ -460,6 +620,13 @@ final class ProjectCommanderData
       return result;
    }
 
+   /**
+    * Determine if a location in the byte array matches a byte pattern.
+    * 
+    * @param pattern byte pattern
+    * @param bufferIndex index to check in byte buffer
+    * @return true if pattern matches at this location
+    */
    private final boolean matchPattern(byte[] pattern, int bufferIndex)
    {
       boolean result = true;
@@ -477,7 +644,7 @@ final class ProjectCommanderData
    }
 
    /**
-    * Provide the file path for rudimentary logging to support development.
+    * Provide the file path for rudimentary diagnostic logging.
     *
     * @param logFile full path to log file
     */
