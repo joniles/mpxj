@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
-class ProjectCommanderData
+final class ProjectCommanderData
 {
    public void process(InputStream is) throws IOException
    {

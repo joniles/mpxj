@@ -30,7 +30,7 @@ import net.sf.mpxj.common.ByteArrayHelper;
 /**
  * Represents a two byte pattern used to identify the start of a block.
  */
-class BlockPattern
+final class BlockPattern
 {
    /**
     * Constructor.

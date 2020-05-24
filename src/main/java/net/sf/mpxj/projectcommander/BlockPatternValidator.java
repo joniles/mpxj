@@ -30,7 +30,7 @@ import java.util.Set;
  * match for the start of a block is valid in the location it appears
  * at in the file. 
  */
-public interface BlockPatternValidator
+interface BlockPatternValidator
 {
    /**
     * Returns true if the start of the block is likely to be valid given

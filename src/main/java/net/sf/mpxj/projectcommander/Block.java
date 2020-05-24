@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Named data block, optionally with child blocks.
  */
-class Block
+final class Block
 {
    /**
     * Constructor.
