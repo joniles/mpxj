@@ -524,7 +524,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
     */
    private void updateStructure()
    {
-      int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
       int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
 
       for (Map.Entry<Integer, Integer> entry : m_childTaskCounts.entrySet())
