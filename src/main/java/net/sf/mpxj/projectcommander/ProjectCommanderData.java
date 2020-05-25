@@ -158,16 +158,18 @@ final class ProjectCommanderData
       // Insert defaults
       Arrays.stream(BLOCK_PATTERNS).forEach(pattern -> map.put(pattern.getName(), pattern));
 
-      // Override with identified
-      identifyBlockPatterns().stream().forEach(pattern -> map.put(pattern.getName(), pattern));
-
+      map.put("CReportData", identifyPattern("CReportData", null, REPORT_DATA_FINGERPRINT));
+      map.put("CReportGroup", identifyPattern("CReportGroup", null, REPORT_GROUP_FINGERPRINT));
+      map.put("CResourceTask", identifyPattern("CResourceTask", (set) -> !set.contains("CReportGroup"), USAGE_FINGERPRINT));
+      map.put("View", identifyPattern("View", 0, null, VIEW_FINGERPRINT));
+      
       determineResourceBlockBoundary(map);
       determineTaskBlockBoundary(map);
       determineLinkBlockBoundary(map);
       determineFilterObjectBlockBoundary(map);
 
       List<BlockPattern> blockPatterns = new ArrayList<>(Arrays.asList(NAMED_BLOCK_PATTERNS));
-      blockPatterns.addAll(map.values());
+      map.values().stream().filter(x -> x != null).forEach(x -> blockPatterns.add(x));
 
       logPatterns(blockPatterns);
 
@@ -536,30 +538,17 @@ final class ProjectCommanderData
    }
 
    /**
-    * Heuristics to generate block start patterns for CReportData, CReportGroup, CResourceTask and View.
-    * 
-    * @return list of block start patterns
-    */
-   private List<BlockPattern> identifyBlockPatterns()
-   {
-      List<BlockPattern> patterns = new ArrayList<>();
-      identifyPattern(patterns, "CReportData", null, REPORT_DATA_FINGERPRINT);
-      identifyPattern(patterns, "CReportGroup", null, REPORT_GROUP_FINGERPRINT);
-      identifyPattern(patterns, "CResourceTask", (set) -> !set.contains("CReportGroup"), USAGE_FINGERPRINT);
-      identifyPattern(patterns, "View", 0, null, VIEW_FINGERPRINT);
-      return patterns;
-   }
-
-   /**
     * Identify a block start pattern using a fingerprint, skipping the named block.
     * 
-    * @param patterns list of patterns
     * @param name block name
     * @param validator optional validator method to include with the pattern
     * @param fingerprint fingerprint used to match block
+    * @return BlockPattern instance or null if not identifier
     */
-   private void identifyPattern(List<BlockPattern> patterns, String name, BlockPatternValidator validator, byte[] fingerprint)
+   private BlockPattern identifyPattern(String name, BlockPatternValidator validator, byte[] fingerprint)
    {
+      BlockPattern result = null;
+      
       // Find the named block so we can skip it
       byte[] namePattern = new byte[name.length() + 2];
       namePattern[0] = (byte) name.length();
@@ -573,21 +562,25 @@ final class ProjectCommanderData
       else
       {
          index += (name.length() + 2 + 1);
-         identifyPattern(patterns, name, index, validator, fingerprint);
+         result = identifyPattern(name, index, validator, fingerprint);
       }
+      
+      return result;
    }
 
    /**
     * Identify a block start pattern using a fingerprint.
     * 
-    * @param patterns list of patterns
     * @param name block name
     * @param index start index for search
     * @param validator optional validator method to include with the pattern
     * @param fingerprint fingerprint used to match block
+    * @return BlockPattern instance or null if not identifier
     */
-   private void identifyPattern(List<BlockPattern> patterns, String name, int index, BlockPatternValidator validator, byte[] fingerprint)
+   private BlockPattern identifyPattern(String name, int index, BlockPatternValidator validator, byte[] fingerprint)
    {
+      BlockPattern result = null;
+      
       index = findFirstMatch(fingerprint, index);
       if (index == -1)
       {
@@ -601,9 +594,10 @@ final class ProjectCommanderData
          }
          else
          {
-            patterns.add(new BlockPattern(name, validator, m_buffer, index - 2));
+            result = new BlockPattern(name, validator, m_buffer, index - 2);
          }
       }
+      return result;
    }
 
    /**
