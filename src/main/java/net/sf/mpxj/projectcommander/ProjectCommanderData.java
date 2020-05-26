@@ -158,9 +158,11 @@ final class ProjectCommanderData
       // Insert defaults
       Arrays.stream(BLOCK_PATTERNS).forEach(pattern -> map.put(pattern.getName(), pattern));
 
+      m_usageFingerprint = extractFingerprint("CResourceTask", 9);
+      
       map.put("CReportData", identifyPattern("CReportData", null, REPORT_DATA_FINGERPRINT));
       map.put("CReportGroup", identifyPattern("CReportGroup", null, REPORT_GROUP_FINGERPRINT));
-      map.put("CResourceTask", identifyPattern("CResourceTask", (set) -> !set.contains("CReportGroup"), USAGE_FINGERPRINT));
+      map.put("CResourceTask", identifyPattern("CResourceTask", (set) -> !set.contains("CReportGroup"), m_usageFingerprint));
       map.put("View", identifyPattern("View", 0, null, VIEW_FINGERPRINT));
       
       determineResourceBlockBoundary(map);
@@ -248,7 +250,7 @@ final class ProjectCommanderData
     */
    private void determineUsageTaskBlockBoundary(int index, Map<String, BlockPattern> map)
    {
-      index = findFirstMatch(USAGE_FINGERPRINT, index + 1);
+      index = findFirstMatch(m_usageFingerprint, index + 1);
       if (index == -1)
       {
          logMessage("Unable to determine CUsageTask boundary: no fingerprint match");
@@ -537,6 +539,28 @@ final class ProjectCommanderData
       return match;
    }
 
+   private byte[] extractFingerprint(String name, int fingerprintLength)
+   {
+      byte[] fingerprint = null;      
+      byte[] namePattern = new byte[name.length() + 2];
+      namePattern[0] = (byte) name.length();
+      System.arraycopy(name.getBytes(), 0, namePattern, 2, name.length());
+      int index = findFirstMatch(namePattern, 0);
+
+      if (index == -1)
+      {
+         logMessage("Unable to extract finger print for " + name + ": no named block");
+      }
+      else
+      {
+         fingerprint = new byte[fingerprintLength];         
+         index += (name.length() + 2);
+         System.arraycopy(m_buffer, index, fingerprint, 0, fingerprintLength);
+      }  
+      
+      return fingerprint;
+   }
+   
    /**
     * Identify a block start pattern using a fingerprint, skipping the named block.
     * 
@@ -711,6 +735,7 @@ final class ProjectCommanderData
    }
 
    private byte[] m_buffer;
+   private byte[] m_usageFingerprint;
    private String m_logFile;
    private PrintWriter m_log;
    private List<Block> m_blocks = new ArrayList<>();
@@ -793,18 +818,18 @@ final class ProjectCommanderData
       0x74
    };
 
-   private static final byte[] USAGE_FINGERPRINT =
-   {
-      0x00,
-      0x40,
-      0x00,
-      0x01,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00
-   };
+//   private static final byte[] USAGE_FINGERPRINT =
+//   {
+//      0x00,
+//      0x40,
+//      0x00,
+//      0x01,
+//      0x00,
+//      0x00,
+//      0x00,
+//      0x00,
+//      0x00
+//   };
 
    private static final byte[] BASELINE_DATA_FINGERPRINT =
    {
