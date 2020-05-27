@@ -34,7 +34,7 @@ final class BlockPattern
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name block name
     * @param validator optional validator
     * @param pattern byte pattern
@@ -43,12 +43,12 @@ final class BlockPattern
    {
       m_name = name;
       m_validator = validator;
-      m_pattern = pattern;      
+      m_pattern = pattern;
    }
 
    /**
     * Constructor.
-    * 
+    *
     * @param name block name
     * @param pattern byte pattern
     */
@@ -56,22 +56,22 @@ final class BlockPattern
    {
       this(name, null, pattern);
    }
-   
+
    /**
     * Constructor.
-    * 
+    *
     * @param name block name
     * @param data buffer containing byte pattern
     * @param offset offset in buffer to byte pattern
     */
    public BlockPattern(String name, byte[] data, int offset)
    {
-      this(name, data[offset], data[offset+1]);
+      this(name, data[offset], data[offset + 1]);
    }
 
    /**
     * Constructor.
-    * 
+    *
     * @param name block name
     * @param validator optional validator
     * @param data buffer containing byte pattern
@@ -79,46 +79,46 @@ final class BlockPattern
     */
    public BlockPattern(String name, BlockPatternValidator validator, byte[] data, int offset)
    {
-      this(name, validator, data[offset], data[offset+1]);
+      this(name, validator, data[offset], data[offset + 1]);
    }
 
    /**
     * Retrieve the block name.
-    * 
+    *
     * @return block name
     */
    public String getName()
    {
       return m_name;
    }
-   
+
    /**
     * Retrieve the block pattern.
-    * 
+    *
     * @return block pattern
     */
    public byte[] getPattern()
    {
       return m_pattern;
    }
-   
+
    /**
     * Invoke the optional validator.
-    * 
+    *
     * @param matchedPatternNames set of block names read so far
-    * 
+    *
     * @return true if the block pattern is valid in this location
     */
    public boolean getValid(Set<String> matchedPatternNames)
    {
       return m_validator == null ? true : m_validator.valid(matchedPatternNames);
    }
-   
+
    @Override public String toString()
    {
       return m_name + ": " + ByteArrayHelper.hexdump(m_pattern, false);
    }
-   
+
    private final String m_name;
    private final byte[] m_pattern;
    private final BlockPatternValidator m_validator;

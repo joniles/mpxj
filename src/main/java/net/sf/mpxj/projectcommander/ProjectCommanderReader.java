@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
@@ -160,7 +161,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read an individual calendar from the file.
-    * 
+    *
     * @param block CCalendar block
     * @return ProjectCalendar instance
     */
@@ -182,7 +183,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          calendar = m_projectFile.addCalendar();
          calendar.setName(name);
 
-         // This is guesswork - need some samples with more variation         
+         // This is guesswork - need some samples with more variation
          int workingDays = DatatypeConverter.getByte(data, offset);
          calendar.setWorkingDay(Day.SATURDAY, (workingDays & 0x40) != 0);
          calendar.setWorkingDay(Day.SUNDAY, (workingDays & 0x20) != 0);
@@ -221,7 +222,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read working hours for a day from a byte array.
-    * 
+    *
     * @param data calendar data
     * @param offset offset into calendar data
     * @return list of DateRange instances representing working hours
@@ -236,7 +237,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read a valid start and end time from a byte aray.
-    * 
+    *
     * @param ranges target DateRange list
     * @param startMinutes start time in minutes
     * @param endMinutes end time in minutes
@@ -253,16 +254,16 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read a calendar exception.
-    * 
+    *
     * @param calendar parent calendar
-    * @param ranges default day of week working times 
+    * @param ranges default day of week working times
     * @param data byte array
     */
    private void readCalendarException(ProjectCalendar calendar, Map<Day, List<DateRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
 
-      // Heuristic to filter out odd exception dates 
+      // Heuristic to filter out odd exception dates
       if (timestampInDays > 0xFF)
       {
          long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
@@ -283,7 +284,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read a task from a CTask block.
-    * 
+    *
     * @param block CTask block byte array
     */
    private void readTask(Block block)
@@ -310,7 +311,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read a summary task.
-    * 
+    *
     * @param block task data
     * @param name task name
     */
@@ -320,21 +321,21 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       int offset = name.length() + 1;
 
       Task task = m_projectFile.addTask();
-      task.setName(name);      
-      
+      task.setName(name);
+
       int childTaskCount = DatatypeConverter.getShort(cTaskData, offset + 405, 0);
       if (childTaskCount != 0)
       {
          m_childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
-      
+
       task.setCritical(false);
       m_eventManager.fireTaskReadEvent(task);
    }
 
    /**
     * Read one or more child tasks.
-    * 
+    *
     * @param block task data
     * @param name task name
     * @param baseline task baseline data
@@ -353,7 +354,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read resource assignments.
-    * 
+    *
     * @param cUsageTask task data
     * @return assigned resource
     */
@@ -374,7 +375,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read an individual child task.
-    * 
+    *
     * @param name task name
     * @param bar bar block
     * @param cUsageTaskBaselineData baseline data
@@ -385,8 +386,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    {
       Task task = m_projectFile.addTask();
       m_taskMap.put(task, bar);
-      task.setName(name);      
-      
+      task.setName(name);
+
       byte[] cBarData = bar.getData();
 
       int uniqueID = DatatypeConverter.getShort(cBarData, 23, 0);
@@ -443,7 +444,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
             }
          }
       }
-      
+
       task.setCritical(false);
       m_eventManager.fireTaskReadEvent(task);
 
@@ -453,7 +454,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    /**
     * Retrieve a byte array representing the content of a child block.
     * Returns an empty array if the child block is not present.
-    * 
+    *
     * @param block parent block
     * @param name child block name
     * @return child block byte array
@@ -466,7 +467,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Retrieve a named child block.
-    * 
+    *
     * @param block parent block
     * @param name child block name
     * @return child block, or null if not present
@@ -487,7 +488,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Retrieve a list of named child blocks.
-    * 
+    *
     * @param block parent block
     * @param name child block name
     * @return list of child blocks
@@ -508,7 +509,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read any relationships for a single task.
-    * 
+    *
     * @param task parent task
     * @param block relationship data
     */
@@ -525,13 +526,13 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
       Duration lag = DatatypeConverter.getDuration(data, 6);
       RelationType type = DatatypeConverter.getRelationType(data, 2);
-      
+
       successor.addPredecessor(task, type, lag);
    }
 
    /**
     * Updates the hierarchical structure to ensure that child tasks
-    * are nested under the correct parent tasks. 
+    * are nested under the correct parent tasks.
     */
    private void updateStructure()
    {
@@ -560,7 +561,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Read data for an individual resource.
-    * 
+    *
     * @param block CResource block
     */
    private void readResource(Block block)
@@ -601,7 +602,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    /**
     * Propagate start and end dates to summary tasks.
-    * 
+    *
     * @param parentTask parent task
     */
    private void updateDates(Task parentTask)
@@ -639,7 +640,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          }
       }
    }
-   
+
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private List<ProjectListener> m_projectListeners;

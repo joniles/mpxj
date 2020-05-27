@@ -33,7 +33,7 @@ final class Block
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name
     * @param data
     */
@@ -42,30 +42,30 @@ final class Block
       m_name = name;
       m_data = data;
    }
-   
+
    /**
     * Retrieve the block name.
-    * 
+    *
     * @return block name
     */
    public String getName()
    {
       return m_name;
    }
-   
+
    /**
     * Retrieve the block data.
-    * 
+    *
     * @return block data
     */
    public byte[] getData()
    {
       return m_data;
    }
-   
+
    /**
     * Retrieve any child blocks.
-    * 
+    *
     * @return list of child blocks
     */
    public List<Block> getChildBlocks()
@@ -75,7 +75,7 @@ final class Block
 
    /**
     * Dump block hierarchy to aid debugging.
-    * 
+    *
     * @param prefix indentation prefix
     */
    public void dumpBlock(String prefix)

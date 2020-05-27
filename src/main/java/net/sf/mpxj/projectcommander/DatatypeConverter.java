@@ -37,7 +37,7 @@ class DatatypeConverter
 {
    /**
     * Retrieve a single byte.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return byte value
@@ -50,7 +50,7 @@ class DatatypeConverter
 
    /**
     * Retrieve a two byte integer.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return integer value
@@ -70,7 +70,7 @@ class DatatypeConverter
    /**
     * Populates a byte array at the given offset with an integer
     * expressed as a two byte short.
-    * 
+    *
     * @param data target byte array
     * @param offset offset into byte array
     * @param value value to write
@@ -83,7 +83,7 @@ class DatatypeConverter
 
    /**
     * Retrieve a four byte integer.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return integer value
@@ -102,9 +102,9 @@ class DatatypeConverter
 
    /**
     * Retrieve a two byte integer, with a default if the offset is out of range.
-    * 
+    *
     * @param data byte array
-    * @param offset offset into byte array 
+    * @param offset offset into byte array
     * @param defaultValue default value
     * @return integer value
     */
@@ -115,9 +115,9 @@ class DatatypeConverter
 
    /**
     * Retrieve a four byte integer, with a default if the offset is out of range.
-    * 
+    *
     * @param data byte array
-    * @param offset offset into byte array 
+    * @param offset offset into byte array
     * @param defaultValue default value
     * @return integer value
     */
@@ -128,7 +128,7 @@ class DatatypeConverter
 
    /**
     * Read a string from a byte array, with a two byte length prefix.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return string value
@@ -150,7 +150,7 @@ class DatatypeConverter
 
    /**
     * Read a string from a byte array, with a single byte length prefix.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return string value
@@ -172,7 +172,7 @@ class DatatypeConverter
 
    /**
     * Read a string from a byte array, with a single byte length prefix and a default when the offset is out of bounds.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @param defaultValue default value
@@ -185,7 +185,7 @@ class DatatypeConverter
 
    /**
     * Retrieve a duration in hours from the byte array.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return duration value
@@ -198,7 +198,7 @@ class DatatypeConverter
 
    /**
     * Retrieve a timestamp from the byte array.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return timestamp value
@@ -212,7 +212,7 @@ class DatatypeConverter
 
    /**
     * Retrieve a RelationType from the byte array.
-    * 
+    *
     * @param data byte array
     * @param offset offset into byte array
     * @return RelationType instance

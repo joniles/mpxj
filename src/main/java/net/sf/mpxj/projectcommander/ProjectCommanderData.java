@@ -50,7 +50,7 @@ final class ProjectCommanderData
 {
    /**
     * Read a Project Commander file form an input stream.
-    * 
+    *
     * @param is input stream
     */
    public void process(InputStream is) throws IOException
@@ -66,7 +66,7 @@ final class ProjectCommanderData
 
    /**
     * Retrieve the blocks read from the Project Commander file.
-    * 
+    *
     * @return list of blocks
     */
    public List<Block> getBlocks()
@@ -84,8 +84,8 @@ final class ProjectCommanderData
 
    /**
     * Reorganise child blocks into the expected hierarchy.
-    * 
-    * @param block root block 
+    *
+    * @param block root block
     */
    private void updateHierarchy(Block block)
    {
@@ -94,8 +94,8 @@ final class ProjectCommanderData
    }
 
    /**
-    * Move child blocks under the correct parent blocks. 
-    * 
+    * Move child blocks under the correct parent blocks.
+    *
     * @param block root block
     * @param parentName parent block name
     * @param childName child block name
@@ -124,7 +124,7 @@ final class ProjectCommanderData
 
    /**
     * Read the file contents into a byte array buffer.
-    * 
+    *
     * @param is input stream
     */
    private void populateBuffer(InputStream is) throws IOException
@@ -148,7 +148,7 @@ final class ProjectCommanderData
 
    /**
     * Generate the set of patterns representing block starts.
-    * 
+    *
     * @return list of block patterns
     */
    private List<BlockPattern> selectBlockPatterns()
@@ -179,7 +179,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CReportData block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineReportDataBlockBoundary(Map<String, BlockPattern> map)
@@ -189,7 +189,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CReportGroup block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineReportGroupBlockBoundary(Map<String, BlockPattern> map)
@@ -199,7 +199,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CResourceTask block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineResourceTaskBlockBoundary(Map<String, BlockPattern> map)
@@ -209,7 +209,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the View block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineViewBlockBoundary(Map<String, BlockPattern> map)
@@ -219,7 +219,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CResource block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineResourceBlockBoundary(Map<String, BlockPattern> map)
@@ -242,7 +242,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CTask block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineTaskBlockBoundary(Map<String, BlockPattern> map)
@@ -250,9 +250,9 @@ final class ProjectCommanderData
       // This is pretty crude, but it allows us to select between the two
       // different task fingerprints we've come across.
       long fingerprint1 = IntStream.range(0, m_buffer.length - TASK_FINGERPRINT_1.length).filter(index -> matchPattern(TASK_FINGERPRINT_1, index)).count();
-      long fingerprint2 = IntStream.range(0, m_buffer.length - TASK_FINGERPRINT_2.length).filter(index -> matchPattern(TASK_FINGERPRINT_2, index)).count();         
+      long fingerprint2 = IntStream.range(0, m_buffer.length - TASK_FINGERPRINT_2.length).filter(index -> matchPattern(TASK_FINGERPRINT_2, index)).count();
       byte[] fingerprint = fingerprint1 > fingerprint2 ? TASK_FINGERPRINT_1 : TASK_FINGERPRINT_2;
-      
+
       int index = findFirstMatch(fingerprint, 0);
       if (index == -1)
       {
@@ -289,7 +289,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CUsageTask block boundary.
-    * 
+    *
     * @param startIndex search start index
     * @param map block pattern map
     */
@@ -303,8 +303,8 @@ final class ProjectCommanderData
             logMessage("Unable to determine CUsageTask boundary: no fingerprint match");
             break;
          }
-                  
-         if ((m_buffer[index-1] & 0x80) == 0)
+
+         if ((m_buffer[index - 1] & 0x80) == 0)
          {
             startIndex = index;
             continue;
@@ -322,7 +322,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CBaselineData block boundary.
-    * 
+    *
     * @param index search start index
     * @param map block pattern map
     */
@@ -343,7 +343,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CLink block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineLinkBlockBoundary(Map<String, BlockPattern> map)
@@ -366,7 +366,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CBar block boundary.
-    * 
+    *
     * @param index search start index
     * @param map block pattern map
     */
@@ -392,7 +392,7 @@ final class ProjectCommanderData
 
    /**
     * Heuristic method to determine the CFilterObject block boundary.
-    * 
+    *
     * @param map block pattern map
     */
    private void determineFilterObjectBlockBoundary(Map<String, BlockPattern> map)
@@ -412,7 +412,7 @@ final class ProjectCommanderData
 
    /**
     * Generate a list of block starts by matching patterns.
-    * 
+    *
     * @return list of block starts
     */
    private List<BlockReference> populateBlockReferences()
@@ -428,7 +428,7 @@ final class ProjectCommanderData
          if (block != null && block.getValid(matchedPatternNames))
          {
             // If we hit a CImage we'll skip everything else until we hit a named block.
-            // Too many false positive hits in image data, and we don't know the 
+            // Too many false positive hits in image data, and we don't know the
             // format well enough to predict the end of the block.
             String name = block.getName() == null ? DatatypeConverter.getTwoByteLengthString(m_buffer, index + 4) : null;
             if (skipImage)
@@ -484,7 +484,7 @@ final class ProjectCommanderData
 
    /**
     * Read an individual block.
-    * 
+    *
     * @param blockReference block start
     * @param blockIndex block index number
     * @param startIndex block start index
@@ -532,7 +532,7 @@ final class ProjectCommanderData
 
    /**
     * Add a block to the hierarchy.
-    * 
+    *
     * @param block block to add
     */
    private void addBlockToHierarchy(Block block)
@@ -561,7 +561,7 @@ final class ProjectCommanderData
 
    /**
     * Add a parent block to the hierarchy.
-    * 
+    *
     * @param block block
     */
    private void addParentBlockToHierarchy(Block block)
@@ -574,7 +574,7 @@ final class ProjectCommanderData
 
    /**
     * Determine if the data at the current index in the file matches a block start pattern.
-    * 
+    *
     * @param blocks list of block start patterns
     * @param bufferIndex current index in file
     * @return matching block pattern or null
@@ -619,13 +619,13 @@ final class ProjectCommanderData
       }
 
       logMessage("Fingerprint for " + name + ": " + ByteArrayHelper.hexdump(fingerprint, false));
-      
+
       return fingerprint;
    }
 
    /**
     * Identify a block start pattern using a fingerprint, skipping the named block.
-    * 
+    *
     * @param name block name
     * @param validator optional validator method to include with the pattern
     * @param fingerprint fingerprint used to match block
@@ -656,7 +656,7 @@ final class ProjectCommanderData
 
    /**
     * Identify a block start pattern using a fingerprint.
-    * 
+    *
     * @param name block name
     * @param index start index for search
     * @param validator optional validator method to include with the pattern
@@ -688,7 +688,7 @@ final class ProjectCommanderData
 
    /**
     * Find first match for a byte pattern from an offset in the file.
-    * 
+    *
     * @param pattern byte pattern
     * @param offset file offset
     * @return offset of match or -1 if no match
@@ -709,7 +709,7 @@ final class ProjectCommanderData
 
    /**
     * Determine if a location in the byte array matches a byte pattern.
-    * 
+    *
     * @param pattern byte pattern
     * @param bufferIndex index to check in byte buffer
     * @return true if pattern matches at this location

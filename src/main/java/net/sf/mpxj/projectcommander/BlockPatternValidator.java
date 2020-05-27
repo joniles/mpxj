@@ -28,14 +28,14 @@ import java.util.Set;
 /**
  * Represents a validator which can be used to determine if a potential
  * match for the start of a block is valid in the location it appears
- * at in the file. 
+ * at in the file.
  */
 interface BlockPatternValidator
 {
    /**
     * Returns true if the start of the block is likely to be valid given
     * the location it appears in the file.
-    * 
+    *
     * @param matchedPatternNames set of block names read so far
     * @return try if the block strat is valid
     */

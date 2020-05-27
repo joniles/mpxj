@@ -31,7 +31,7 @@ final class BlockReference
 {
    /**
     * Constructor.
-    * 
+    *
     * @param pattern pattern sued to match block start
     * @param index offset into the file which the block match was found
     */
@@ -43,7 +43,7 @@ final class BlockReference
 
    /**
     * Retrieve the pattern used to match this block.
-    * 
+    *
     * @return block pattern
     */
    public BlockPattern getPattern()
@@ -53,7 +53,7 @@ final class BlockReference
 
    /**
     * Retrieve the offset into the file where this block match was found.
-    * 
+    *
     * @return offset into file
     */
    public int getIndex()
@@ -63,7 +63,7 @@ final class BlockReference
 
    @Override public String toString()
    {
-      return "[BlockReference name="+m_pattern.getName() + " index=" +m_index;
+      return "[BlockReference name=" + m_pattern.getName() + " index=" + m_index;
    }
 
    private final BlockPattern m_pattern;
