@@ -247,13 +247,11 @@ final class ProjectCommanderData
     */
    private void determineTaskBlockBoundary(Map<String, BlockPattern> map)
    {
-      // Ideally we'd just find the first task and extract the first few bytes as the
-      // fingerprint, but it looks like it won't match subsequent tasks... however the variable
-      // part is the first byte, so we'll grab that and apply it to the "fixed" part of the fingerprint.
-      byte[] fingerprintFirstByte = extractFingerprint("CTask", true, 1);
-      byte[] fingerprint = new byte[TASK_FINGERPRINT.length];
-      System.arraycopy(TASK_FINGERPRINT, 0, fingerprint, 0, fingerprint.length);
-      fingerprint[0] = fingerprintFirstByte[0];
+      // This is pretty crude, but it allows us to select between the two
+      // different task fingerprints we've come across.
+      long fingerprint1 = IntStream.range(0, m_buffer.length - TASK_FINGERPRINT_1.length).filter(index -> matchPattern(TASK_FINGERPRINT_1, index)).count();
+      long fingerprint2 = IntStream.range(0, m_buffer.length - TASK_FINGERPRINT_2.length).filter(index -> matchPattern(TASK_FINGERPRINT_2, index)).count();         
+      byte[] fingerprint = fingerprint1 > fingerprint2 ? TASK_FINGERPRINT_1 : TASK_FINGERPRINT_2;
       
       int index = findFirstMatch(fingerprint, 0);
       if (index == -1)
@@ -898,9 +896,22 @@ final class ProjectCommanderData
       0x00
    };
 
-   private static final byte[] TASK_FINGERPRINT =
+   private static final byte[] TASK_FINGERPRINT_1 =
    {
       0x40,
+      0x00,
+      0x01,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00
+   };
+
+   private static final byte[] TASK_FINGERPRINT_2 =
+   {
+      0x42,
       0x00,
       0x01,
       0x00,
