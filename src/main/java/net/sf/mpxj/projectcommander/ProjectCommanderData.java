@@ -158,13 +158,12 @@ final class ProjectCommanderData
       // Insert defaults
       Arrays.stream(BLOCK_PATTERNS).forEach(pattern -> map.put(pattern.getName(), pattern));
 
-      m_usageFingerprint = extractFingerprint("CResourceTask", 9);
-      
-      map.put("CReportData", identifyPattern("CReportData", null, REPORT_DATA_FINGERPRINT));
-      map.put("CReportGroup", identifyPattern("CReportGroup", null, REPORT_GROUP_FINGERPRINT));
-      map.put("CResourceTask", identifyPattern("CResourceTask", (set) -> !set.contains("CReportGroup"), m_usageFingerprint));
-      map.put("View", identifyPattern("View", 0, null, VIEW_FINGERPRINT));
-      
+      m_usageFingerprint = extractFingerprint("CResourceTask", false, 9);
+
+      determineReportDataBlockBoundary(map);
+      determineReportGroupBlockBoundary(map);
+      determineResourceTaskBlockBoundary(map);
+      determineViewBlockBoundary(map);
       determineResourceBlockBoundary(map);
       determineTaskBlockBoundary(map);
       determineLinkBlockBoundary(map);
@@ -176,6 +175,46 @@ final class ProjectCommanderData
       logPatterns(blockPatterns);
 
       return blockPatterns;
+   }
+
+   /**
+    * Heuristic method to determine the CReportData block boundary.
+    * 
+    * @param map block pattern map
+    */
+   private void determineReportDataBlockBoundary(Map<String, BlockPattern> map)
+   {
+      map.put("CReportData", identifyPattern("CReportData", null, REPORT_DATA_FINGERPRINT));
+   }
+
+   /**
+    * Heuristic method to determine the CReportGroup block boundary.
+    * 
+    * @param map block pattern map
+    */
+   private void determineReportGroupBlockBoundary(Map<String, BlockPattern> map)
+   {
+      map.put("CReportGroup", identifyPattern("CReportGroup", null, REPORT_GROUP_FINGERPRINT));
+   }
+
+   /**
+    * Heuristic method to determine the CResourceTask block boundary.
+    * 
+    * @param map block pattern map
+    */
+   private void determineResourceTaskBlockBoundary(Map<String, BlockPattern> map)
+   {
+      map.put("CResourceTask", identifyPattern("CResourceTask", (set) -> !set.contains("CReportGroup"), m_usageFingerprint));
+   }
+
+   /**
+    * Heuristic method to determine the View block boundary.
+    * 
+    * @param map block pattern map
+    */
+   private void determineViewBlockBoundary(Map<String, BlockPattern> map)
+   {
+      map.put("View", identifyPattern("View", 0, null, VIEW_FINGERPRINT));
    }
 
    /**
@@ -208,14 +247,22 @@ final class ProjectCommanderData
     */
    private void determineTaskBlockBoundary(Map<String, BlockPattern> map)
    {
-      int index = findFirstMatch(TASK_FINGERPRINT, 0);
+      // Ideally we'd just find the first task and extract the first few bytes as the
+      // fingerprint, but it looks like it won't match subsequent tasks... however the variable
+      // part is the first byte, so we'll grab that and apply it to the "fixed" part of the fingerprint.
+      byte[] fingerprintFirstByte = extractFingerprint("CTask", true, 1);
+      byte[] fingerprint = new byte[TASK_FINGERPRINT.length];
+      System.arraycopy(TASK_FINGERPRINT, 0, fingerprint, 0, fingerprint.length);
+      fingerprint[0] = fingerprintFirstByte[0];
+      
+      int index = findFirstMatch(fingerprint, 0);
       if (index == -1)
       {
          logMessage("Unable to determine CTask boundary: no first task match");
       }
       else
       {
-         index = findFirstMatch(TASK_FINGERPRINT, index + 1);
+         index = findFirstMatch(fingerprint, index + 1);
          if (index == -1)
          {
             logMessage("Unable to determine CTask boundary: no second task match");
@@ -245,24 +292,33 @@ final class ProjectCommanderData
    /**
     * Heuristic method to determine the CUsageTask block boundary.
     * 
-    * @param index search start index
+    * @param startIndex search start index
     * @param map block pattern map
     */
-   private void determineUsageTaskBlockBoundary(int index, Map<String, BlockPattern> map)
+   private void determineUsageTaskBlockBoundary(int startIndex, Map<String, BlockPattern> map)
    {
-      index = findFirstMatch(m_usageFingerprint, index + 1);
-      if (index == -1)
+      while (true)
       {
-         logMessage("Unable to determine CUsageTask boundary: no fingerprint match");
-      }
-      else
-      {
+         int index = findFirstMatch(m_usageFingerprint, startIndex + 1);
+         if (index == -1)
+         {
+            logMessage("Unable to determine CUsageTask boundary: no fingerprint match");
+            break;
+         }
+                  
+         if ((m_buffer[index-1] & 0x80) == 0)
+         {
+            startIndex = index;
+            continue;
+         }
+
          index -= 2;
          BlockPattern blockPattern = new BlockPattern("CUsageTask", null, m_buffer, index);
          map.put(blockPattern.getName(), blockPattern);
 
          determineBarBlockBoundary(index, map);
          determineBaselineDataBlockBoundary(index, map);
+         break;
       }
    }
 
@@ -390,7 +446,7 @@ final class ProjectCommanderData
             {
                blockReferences.add(new BlockReference(block, index));
                matchedPatternNames.add(block.getName());
-               
+
                // Nothing useful to us after we hit this block
                // stop reading here to avoid false positives
                if ("CFormatCellInfo".equals(name))
@@ -539,9 +595,9 @@ final class ProjectCommanderData
       return match;
    }
 
-   private byte[] extractFingerprint(String name, int fingerprintLength)
+   private byte[] extractFingerprint(String name, boolean skipBlockStartString, int fingerprintLength)
    {
-      byte[] fingerprint = null;      
+      byte[] fingerprint = null;
       byte[] namePattern = new byte[name.length() + 2];
       namePattern[0] = (byte) name.length();
       System.arraycopy(name.getBytes(), 0, namePattern, 2, name.length());
@@ -549,18 +605,26 @@ final class ProjectCommanderData
 
       if (index == -1)
       {
-         logMessage("Unable to extract finger print for " + name + ": no named block");
+         logMessage("Unable to extract fingerprint for " + name + ": no named block");
       }
       else
       {
-         fingerprint = new byte[fingerprintLength];         
          index += (name.length() + 2);
+
+         if (skipBlockStartString)
+         {
+            index += (DatatypeConverter.getByte(m_buffer, index) + 1);
+         }
+
+         fingerprint = new byte[fingerprintLength];
          System.arraycopy(m_buffer, index, fingerprint, 0, fingerprintLength);
-      }  
+      }
+
+      logMessage("Fingerprint for " + name + ": " + ByteArrayHelper.hexdump(fingerprint, false));
       
       return fingerprint;
    }
-   
+
    /**
     * Identify a block start pattern using a fingerprint, skipping the named block.
     * 
@@ -572,7 +636,7 @@ final class ProjectCommanderData
    private BlockPattern identifyPattern(String name, BlockPatternValidator validator, byte[] fingerprint)
    {
       BlockPattern result = null;
-      
+
       // Find the named block so we can skip it
       byte[] namePattern = new byte[name.length() + 2];
       namePattern[0] = (byte) name.length();
@@ -588,7 +652,7 @@ final class ProjectCommanderData
          index += (name.length() + 2 + 1);
          result = identifyPattern(name, index, validator, fingerprint);
       }
-      
+
       return result;
    }
 
@@ -604,7 +668,7 @@ final class ProjectCommanderData
    private BlockPattern identifyPattern(String name, int index, BlockPatternValidator validator, byte[] fingerprint)
    {
       BlockPattern result = null;
-      
+
       index = findFirstMatch(fingerprint, index);
       if (index == -1)
       {
@@ -817,19 +881,6 @@ final class ProjectCommanderData
       0x75,
       0x74
    };
-
-//   private static final byte[] USAGE_FINGERPRINT =
-//   {
-//      0x00,
-//      0x40,
-//      0x00,
-//      0x01,
-//      0x00,
-//      0x00,
-//      0x00,
-//      0x00,
-//      0x00
-//   };
 
    private static final byte[] BASELINE_DATA_FINGERPRINT =
    {

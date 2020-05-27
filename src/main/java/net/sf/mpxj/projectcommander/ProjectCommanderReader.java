@@ -94,7 +94,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          m_extraBarCounts = new HashMap<>();
 
          m_data = new ProjectCommanderData();
-         m_data.setLogFile("c:/temp/project-commander.log");
+         //m_data.setLogFile("c:/temp/project-commander.log");
          m_data.process(is);
 
          readCalendars();
@@ -407,14 +407,22 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
             // If we're not the first bar, is our duration different to the first bar?
             // This is very much a heuristic!
-            int potentialBarDuration = DatatypeConverter.getInt(cBarData, 97, 0);
-            if (potentialBarDuration != 0 && (potentialBarDuration & 0xFF000000) == 0)
+            int potentialDuration = DatatypeConverter.getInt(cBarData, 97, 0);
+            if (potentialDuration != 0 && (potentialDuration & 0xFF000000) == 0)
             {
                durationInHours = DatatypeConverter.getDuration(cBarData, 97);
             }
             else
             {
-               durationInHours = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
+               potentialDuration = DatatypeConverter.getInt(cUsageTaskBaselineData, 433, 0);
+               if (potentialDuration != 0 && (potentialDuration & 0xFF000000) == 0)
+               {
+                  durationInHours = DatatypeConverter.getDuration(cUsageTaskBaselineData, 433);
+               }
+               else
+               {
+                  durationInHours = Duration.getInstance(0, TimeUnit.HOURS);
+               }
             }
 
             task.setDuration(durationInHours.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties()));
