@@ -320,13 +320,15 @@ public final class ProjectCommanderReader extends AbstractProjectReader
       int offset = name.length() + 1;
 
       Task task = m_projectFile.addTask();
-      task.setName(name);
-
+      task.setName(name);      
+      
       int childTaskCount = DatatypeConverter.getShort(cTaskData, offset + 405, 0);
       if (childTaskCount != 0)
       {
          m_childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
+      
+      task.setCritical(false);
       m_eventManager.fireTaskReadEvent(task);
    }
 
@@ -383,8 +385,8 @@ public final class ProjectCommanderReader extends AbstractProjectReader
    {
       Task task = m_projectFile.addTask();
       m_taskMap.put(task, bar);
-      task.setName(name);
-
+      task.setName(name);      
+      
       byte[] cBarData = bar.getData();
 
       int uniqueID = DatatypeConverter.getShort(cBarData, 23, 0);
@@ -442,6 +444,7 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          }
       }
       
+      task.setCritical(false);
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
