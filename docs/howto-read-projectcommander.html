@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>MPXJ &#x2013; How To: Read Planner files</title>
+    <title>MPXJ &#x2013; How To: Read Project Commander files</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -59,8 +59,7 @@
     <li><a href="howto-read-mpp.html" title="MPP files"><span class="none"></span>MPP files</a>  </li>
     <li><a href="howto-read-mspdi.html" title="MSPDI files"><span class="none"></span>MSPDI files</a>  </li>
     <li><a href="howto-read-mpd.html" title="MPD files"><span class="none"></span>MPD files</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>Planner files</a>
-  </li>
+    <li><a href="howto-read-planner.html" title="Planner files"><span class="none"></span>Planner files</a>  </li>
     <li><a href="howto-read-asta.html" title="Asta files"><span class="none"></span>Asta files</a>  </li>
     <li><a href="howto-read-p3.html" title="P3 files"><span class="none"></span>P3 files</a>  </li>
     <li><a href="howto-read-suretrak.html" title="SureTrak files"><span class="none"></span>SureTrak files</a>  </li>
@@ -78,7 +77,8 @@
     <li><a href="howto-read-ganttdesigner.html" title="Gantt Designer files"><span class="none"></span>Gantt Designer files</a>  </li>
     <li><a href="howto-read-sdef.html" title="SDEF files"><span class="none"></span>SDEF files</a>  </li>
     <li><a href="howto-read-schedule-grid.html" title="Schedule Grid files"><span class="none"></span>Schedule Grid files</a>  </li>
-    <li><a href="howto-read-projectcommander.html" title="Project Commander files"><span class="none"></span>Project Commander files</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>Project Commander files</a>
+  </li>
       </ul>
   </li>
     <li><a href="howto-write.html" title="How to write..."><span class="icon-chevron-right"></span>How to write...</a>  </li>
@@ -101,11 +101,11 @@
         </div>
         <div id="bodyColumn"  class="span9" >
 <div class="section">
-<h2><a name="How_To:_Read_Planner_files"></a>How To: Read Planner files</h2>
-<p>Gnome Planner is a popular open source planning tool which writes its own XML files.</p>
+<h2><a name="How_To:_Read_Project_Commander_files"></a>How To: Read Project Commander files</h2>
+<p>Project Commander is a planning tool for Windows which writes its own PC file format.</p>
 <div class="section">
-<h3><a name="Reading_Planner_files"></a>Reading Planner files</h3>
-<p>The simplest way to read a Planner file is to use the <tt>UniversalProjectReader</tt>:</p>
+<h3><a name="Reading_Project_Commander_files"></a>Reading Project Commander files</h3>
+<p>The simplest way to read a Project Commander file is to use the <tt>UniversalProjectReader</tt>:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
@@ -114,9 +114,9 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read(&quot;my-sample.xml&quot;);
+ProjectFile project = reader.read(&quot;my-sample.pc&quot;);
 </pre></div></div>
-<p>You can work directly with the <tt>PlannerReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>PlannerReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>PlannerReader</tt> class.</p></div></div>
+<p>You can work directly with the <tt>ProjectCommanderReader</tt> by replacing <tt>UniversalProjectReader</tt> with <tt>ProjectCommanderReader</tt>, although this offers no particular advantage as there are no additional configuration settings available on the <tt>ProjectCommanderReader</tt> class.</p></div></div>
         </div>
       </div>
     </div>

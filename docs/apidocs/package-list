@@ -20,6 +20,7 @@ net.sf.mpxj.primavera
 net.sf.mpxj.primavera.common
 net.sf.mpxj.primavera.p3
 net.sf.mpxj.primavera.suretrak
+net.sf.mpxj.projectcommander
 net.sf.mpxj.projectlibre
 net.sf.mpxj.reader
 net.sf.mpxj.sage

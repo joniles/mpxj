@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.</action>
 			<action dev="joniles" type="update">Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.</action>
 			<action dev="joniles" type="update">Update to use JAXB 2.3.2.</action>
+			<action dev="joniles" type="add">Experimental support for reading Project Commander schedules.</action>
 		</release>
 		<release date="20/04/2020" version="8.0.8">
 			<action dev="joniles" type="update">Improve handling of numeric character references invalid for XML 1.0 in PMXML files.</action>
