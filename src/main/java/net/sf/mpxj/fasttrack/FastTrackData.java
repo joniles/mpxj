@@ -25,8 +25,6 @@ package net.sf.mpxj.fasttrack;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -39,6 +37,7 @@ import java.util.TreeSet;
 
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.DebugLogPrintWriter;
 
 /**
  * Read tables of data from a FastTrack file.
@@ -450,26 +449,13 @@ class FastTrackData
       return column instanceof DurationColumn && column.getName().indexOf("Work") != -1;
    }
 
-   /**
-    * Provide the file path for rudimentary logging to support development.
-    *
-    * @param logFile full path to log file
-    */
-   public void setLogFile(String logFile)
-   {
-      m_logFile = logFile;
-   }
 
    /**
     * Open the log file for writing.
     */
-   private void openLogFile() throws IOException
+   private void openLogFile()
    {
-      if (m_logFile != null)
-      {
-         System.out.println("FastTrackLogger Configured");
-         m_log = new PrintWriter(new FileWriter(m_logFile));
-      }
+      m_log = DebugLogPrintWriter.getInstance();
    }
 
    /**
@@ -477,7 +463,7 @@ class FastTrackData
     */
    private void closeLogFile()
    {
-      if (m_logFile != null)
+      if (m_log != null)
       {
          m_log.flush();
          m_log.close();
@@ -565,7 +551,6 @@ class FastTrackData
    }
 
    private byte[] m_buffer;
-   private String m_logFile;
    private PrintWriter m_log;
    private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;

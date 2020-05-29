@@ -23,12 +23,11 @@
 
 package net.sf.mpxj.synchro;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.DebugLogPrintWriter;
 
 /**
  * Provides optional logging to assist with development.
@@ -45,25 +44,11 @@ final class SynchroLogger
    }
 
    /**
-    * Provide the file path for rudimentary logging to support development.
-    *
-    * @param logFile full path to log file
-    */
-   public static void setLogFile(String logFile)
-   {
-      LOG_FILE = logFile;
-   }
-
-   /**
     * Open the log file for writing.
     */
-   public static void openLogFile() throws IOException
+   public static void openLogFile()
    {
-      if (LOG_FILE != null)
-      {
-         System.out.println("SynchroLogger Configured");
-         LOG = new PrintWriter(new FileWriter(LOG_FILE));
-      }
+      LOG = DebugLogPrintWriter.getInstance();
    }
 
    /**
@@ -71,7 +56,7 @@ final class SynchroLogger
     */
    public static void closeLogFile()
    {
-      if (LOG_FILE != null)
+      if (LOG != null)
       {
          LOG.flush();
          LOG.close();
@@ -167,6 +152,5 @@ final class SynchroLogger
       }
    }
 
-   private static String LOG_FILE;
    private static PrintWriter LOG;
 }

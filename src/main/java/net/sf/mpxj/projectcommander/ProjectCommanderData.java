@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.projectcommander;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -42,6 +41,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.DebugLogPrintWriter;
 
 /**
  * Reads a Project Commander file an returns a hierarchical list of blocks.
@@ -731,25 +731,11 @@ final class ProjectCommanderData
    }
 
    /**
-    * Provide the file path for rudimentary diagnostic logging.
-    *
-    * @param logFile full path to log file
-    */
-   public void setLogFile(String logFile)
-   {
-      m_logFile = logFile;
-   }
-
-   /**
     * Open the log file for writing.
     */
-   private void openLogFile() throws IOException
+   private void openLogFile()
    {
-      if (m_logFile != null)
-      {
-         System.out.println("ProjectCommanderLogger Configured");
-         m_log = new PrintWriter(new FileWriter(m_logFile));
-      }
+      m_log = DebugLogPrintWriter.getInstance();
    }
 
    /**
@@ -757,7 +743,7 @@ final class ProjectCommanderData
     */
    private void closeLogFile()
    {
-      if (m_logFile != null)
+      if (m_log != null)
       {
          m_log.flush();
          m_log.close();
@@ -798,7 +784,6 @@ final class ProjectCommanderData
 
    private byte[] m_buffer;
    private byte[] m_usageFingerprint;
-   private String m_logFile;
    private PrintWriter m_log;
    private List<Block> m_blocks = new ArrayList<>();
    private Deque<Block> m_parentStack = new ArrayDeque<>();
