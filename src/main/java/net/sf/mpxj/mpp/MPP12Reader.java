@@ -811,9 +811,11 @@ final class MPP12Reader implements MPPVariantReader
       Integer key;
 
       //
-      // First three items are not tasks, so let's skip them
+      // First three items are not tasks, so let's skip them.
+      // Note we're working backwards: where we have duplicate tasks the later ones
+      // appear to be the correct versions (https://github.com/joniles/mpxj/issues/152)
       //
-      for (int loop = 3; loop < itemCount; loop++)
+      for(int loop = itemCount-1; loop > 2; loop--)
       {
          byte[] data = taskFixedData.getByteArrayValue(loop);
          if (data != null)
@@ -836,10 +838,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                uniqueID = MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
                key = Integer.valueOf(uniqueID);
-               if (taskMap.containsKey(key) == false)
-               {
-                  taskMap.put(key, null); // use null so we can easily ignore this later
-               }
+               taskMap.put(key, null); // use null so we can easily ignore this later
             }
             else
             {
