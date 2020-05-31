@@ -1290,7 +1290,7 @@ final class MPP12Reader implements MPPVariantReader
       // space for later inserts.
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<>();
-      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 2000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
@@ -1302,12 +1302,15 @@ final class MPP12Reader implements MPPVariantReader
       // Insert any null tasks into the correct location
       //
       int insertionCount = 0;
+      Map<Integer, Integer> offsetMap = new HashMap<>();
       for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
       {
          int idValue = entry.getKey().intValue();
          int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
          int targetIDValue = baseTargetIdValue;
-         int offset = 0;
+         Integer previousOffsetKey = Integer.valueOf(baseTargetIdValue);
+         Integer previousOffset = offsetMap.get(previousOffsetKey);
+         int offset = previousOffset == null ? 0 : previousOffset.intValue() + 1;
          ++insertionCount;
 
          while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
@@ -1320,6 +1323,7 @@ final class MPP12Reader implements MPPVariantReader
             targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
 
+         offsetMap.put(previousOffsetKey, Integer.valueOf(offset));
          taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
       }
 
