@@ -335,10 +335,12 @@ public final class PhoenixReader extends AbstractProjectReader
       for (Code code : storepoint.getActivityCodes().getCode())
       {
          int sequence = 0;
+         UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
          for (Value value : code.getValue())
          {
-            UUID uuid = getUUID(value.getUuid(), value.getName());
-            m_activityCodeValues.put(uuid, value.getName());
+            String name = value.getName();
+            UUID uuid = getValueUUID(codeUUID, value.getUuid(), name);
+            m_activityCodeValues.put(uuid, name);
             m_activityCodeSequence.put(uuid, Integer.valueOf(++sequence));
          }
       }
@@ -363,7 +365,7 @@ public final class PhoenixReader extends AbstractProjectReader
       {
          if (option.isShown().booleanValue())
          {
-            m_codeSequence.add(getUUID(option.getCodeUuid(), option.getCode()));
+            m_codeSequence.add(getCodeUUID(option.getCodeUuid(), option.getCode()));
          }
       }
    }
@@ -409,6 +411,17 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       final AlphanumComparator comparator = new AlphanumComparator();
       List<Activity> activities = phoenixProject.getActivities().getActivity();
+
+      // First pass: sort the activities by ID to avoid "Comparison method violates its general contract!" error
+      Collections.sort(activities, new Comparator<Activity>()
+      {
+         @Override public int compare(Activity o1, Activity o2)
+         {
+            return comparator.compare(o1.getId(), o2.getId());
+         }
+      });
+
+      // Second pass: perform the main sort
       Collections.sort(activities, new Comparator<Activity>()
       {
          @Override public int compare(Activity o1, Activity o2)
@@ -718,8 +731,8 @@ public final class PhoenixReader extends AbstractProjectReader
          m_activityCodeCache.put(activity, map);
          for (CodeAssignment ca : activity.getCodeAssignment())
          {
-            UUID code = getUUID(ca.getCodeUuid(), ca.getCode());
-            UUID value = getUUID(ca.getValueUuid(), ca.getValue());
+            UUID code = getCodeUUID(ca.getCodeUuid(), ca.getCode());
+            UUID value = getValueUUID(code, ca.getValueUuid(), ca.getValue());
             map.put(code, value);
          }
       }
@@ -746,17 +759,41 @@ public final class PhoenixReader extends AbstractProjectReader
    }
 
    /**
-    * Utility method. In some cases older compressed PPX files only have a name (or other string attribute)
+    * Utility method. In some cases older compressed PPX files only have a code name
     * but no UUID. This method ensures that we either use the UUID supplied, or if it is missing, we
     * generate a UUID from the name.
     *
-    * @param uuid uuid from object
+    * @param uuid UUID from object
     * @param name name from object
     * @return UUID instance
     */
-   private UUID getUUID(UUID uuid, String name)
+   private UUID getCodeUUID(UUID uuid, String name)
    {
       return uuid == null ? UUID.nameUUIDFromBytes(name.getBytes()) : uuid;
+   }
+
+   /**
+    * Utility method. In some cases older compressed PPX files only have a value name
+    * but no UUID. This method ensures that we either use the UUID supplied, or if it is missing, we
+    * generate a UUID from the value name and parent code UUID.
+    *
+    * @param parent parent code UUID
+    * @param uuid value UUID
+    * @param name value name
+    * @return UUID instance
+    */
+   private UUID getValueUUID(UUID parent, UUID uuid, String name)
+   {
+      UUID result;
+      if (uuid == null)
+      {
+         result = UUID.nameUUIDFromBytes((parent.toString() + ":" + name).getBytes());
+      }
+      else
+      {
+         result = uuid;
+      }
+      return result;
    }
 
    /**
