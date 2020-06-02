@@ -180,6 +180,8 @@ final class MPP9Reader implements MPPVariantReader
 
       m_fontBases = new HashMap<>();
       m_taskSubProjects = new HashMap<>();
+      m_taskOrder = new TreeMap<>();
+      m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
       m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
@@ -199,6 +201,8 @@ final class MPP9Reader implements MPPVariantReader
       m_viewDir = null;
       m_outlineCodeVarData = null;
       m_fontBases = null;
+      m_taskOrder = null;
+      m_nullTaskOrder = null;
       m_taskSubProjects = null;
    }
 
@@ -1079,6 +1083,7 @@ final class MPP9Reader implements MPPVariantReader
             task.setNull(true);
             task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
             task.setID(Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET)));
+            m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
 
@@ -1286,6 +1291,11 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
+         // Process any enterprise columns
+         //
+         processTaskEnterpriseColumns(fieldMap, task, taskVarData);
+
+         //
          // Unfortunately it looks like 'null' tasks sometimes make it through,
          // so let's check for to see if we need to mark this task as a null
          // task after all.
@@ -1297,13 +1307,11 @@ final class MPP9Reader implements MPPVariantReader
             task.setNull(true);
             task.setUniqueID(uniqueID);
             task.setID(id);
+            m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
-
-         //
-         // Process any enterprise columns
-         //
-         processTaskEnterpriseColumns(fieldMap, task, taskVarData);
+         
+         m_taskOrder.put(task.getID(), task.getUniqueID());
 
          //
          // Fire the task read event
@@ -2057,32 +2065,91 @@ final class MPP9Reader implements MPPVariantReader
     * This method is called to try to catch any invalid tasks that may have sneaked past all our other checks.
     * This is done by validating the tasks by task ID.
     */
-   private void postProcessTasks()
+//   private void postProcessTasks()
+//   {
+//      List<Task> allTasks = m_file.getTasks();
+//      if (allTasks.size() > 1)
+//      {
+//         Collections.sort(allTasks);
+//
+//         int taskID = -1;
+//         int lastTaskID = -1;
+//
+//         for (int i = 0; i < allTasks.size(); i++)
+//         {
+//            Task task = allTasks.get(i);
+//            taskID = NumberHelper.getInt(task.getID());
+//            // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
+//            // IDs are represented.
+//            if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1)
+//            {
+//               // This task looks to be invalid.
+//               task.setNull(true);
+//            }
+//            else
+//            {
+//               lastTaskID = taskID;
+//            }
+//         }
+//      }
+//   }
+
+   private void postProcessTasks() throws MPXJException
    {
-      List<Task> allTasks = m_file.getTasks();
-      if (allTasks.size() > 1)
+      //
+      // Renumber ID values using a large increment to allow
+      // space for later inserts.
+      //
+      TreeMap<Integer, Integer> taskMap = new TreeMap<>();
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 2000;
+      int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
+      for (Map.Entry<Integer, Integer> entry : m_taskOrder.entrySet())
       {
-         Collections.sort(allTasks);
+         taskMap.put(Integer.valueOf(nextID), entry.getValue());
+         nextID += nextIDIncrement;
+      }
 
-         int taskID = -1;
-         int lastTaskID = -1;
+      //
+      // Insert any null tasks into the correct location
+      //
+      int insertionCount = 0;
+      Map<Integer, Integer> offsetMap = new HashMap<>();
+      for (Map.Entry<Integer, Integer> entry : m_nullTaskOrder.entrySet())
+      {
+         int idValue = entry.getKey().intValue();
+         int baseTargetIdValue = (idValue - insertionCount) * nextIDIncrement;
+         int targetIDValue = baseTargetIdValue;
+         Integer previousOffsetKey = Integer.valueOf(baseTargetIdValue);
+         Integer previousOffset = offsetMap.get(previousOffsetKey);
+         int offset = previousOffset == null ? 0 : previousOffset.intValue() + 1;
+         ++insertionCount;
 
-         for (int i = 0; i < allTasks.size(); i++)
+         while (taskMap.containsKey(Integer.valueOf(targetIDValue)))
          {
-            Task task = allTasks.get(i);
-            taskID = NumberHelper.getInt(task.getID());
-            // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
-            // IDs are represented.
-            if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1)
+            ++offset;
+            if (offset == nextIDIncrement)
             {
-               // This task looks to be invalid.
-               task.setNull(true);
+               throw new MPXJException("Unable to fix task order");
             }
-            else
-            {
-               lastTaskID = taskID;
-            }
+            targetIDValue = baseTargetIdValue - (nextIDIncrement - offset);
          }
+
+         offsetMap.put(previousOffsetKey, Integer.valueOf(offset));
+         taskMap.put(Integer.valueOf(targetIDValue), entry.getValue());
+      }
+
+      //
+      // Finally, we can renumber the tasks
+      //
+      nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? 1 : 0);
+      for (Map.Entry<Integer, Integer> entry : taskMap.entrySet())
+      {
+         Task task = m_file.getTaskByUniqueID(entry.getValue());
+         if (task != null)
+         {
+            task.setID(Integer.valueOf(nextID));
+         }
+         nextID++;
       }
    }
 
@@ -2126,6 +2193,8 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private Map<Integer, Integer> m_taskOrder;
+   private Map<Integer, Integer> m_nullTaskOrder;
    private DocumentInputStreamFactory m_inputStreamFactory;
 
    // Signals the end of the list of subproject task unique ids

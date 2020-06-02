@@ -1264,15 +1264,12 @@ final class MPP14Reader implements MPPVariantReader
          // need to mark this task as a null task after all.
          if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
          {
-            // Remove this to avoid passing bad data to the client
             m_file.removeTask(task);
-
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(uniqueID);
             task.setID(id);
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
-            //System.out.println(task);
             continue;
          }
 
