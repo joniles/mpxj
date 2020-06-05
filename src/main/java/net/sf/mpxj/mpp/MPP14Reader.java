@@ -810,10 +810,11 @@ final class MPP14Reader implements MPPVariantReader
     * @param fieldMap field map
     * @param taskFixedMeta Fixed meta data for this task
     * @param taskFixedData Fixed data for this task
+    * @param taskFixed2Data Fixed data for this task
     * @param taskVarData Variable task data
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, Var2Data taskVarData)
+   private TreeMap<Integer, Integer> createTaskMap(FieldMap fieldMap, FixedMeta taskFixedMeta, FixedData taskFixedData, FixedData taskFixed2Data, Var2Data taskVarData)
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
@@ -823,12 +824,16 @@ final class MPP14Reader implements MPPVariantReader
       Integer key;
 
       //
-      // First three items are not tasks, so let's skip them
+      // First three items are not tasks, so let's skip them.
+      // Note we're working backwards: where we have duplicate tasks the later ones
+      // appear to be the correct versions (https://github.com/joniles/mpxj/issues/152)
       //
-      for (int loop = 3; loop < itemCount; loop++)
+      for(int loop = itemCount-1; loop > 2; loop--)
       {
          byte[] data = taskFixedData.getByteArrayValue(loop);
-         if (data != null)
+         byte[] data2 = taskFixed2Data.getByteArrayValue(loop);
+         
+         if (data != null && data2 != null)
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
 
@@ -983,7 +988,7 @@ final class MPP14Reader implements MPPVariantReader
          new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
       }
 
-      TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskVarData);
+      TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskFixed2Data, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
@@ -1259,15 +1264,12 @@ final class MPP14Reader implements MPPVariantReader
          // need to mark this task as a null task after all.
          if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
          {
-            // Remove this to avoid passing bad data to the client
             m_file.removeTask(task);
-
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(uniqueID);
             task.setID(id);
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
-            //System.out.println(task);
             continue;
          }
 
@@ -1317,7 +1319,7 @@ final class MPP14Reader implements MPPVariantReader
       // space for later inserts.
       //
       TreeMap<Integer, Integer> taskMap = new TreeMap<>();
-      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 1000;
+      int nextIDIncrement = ((m_nullTaskOrder.size() / 1000) + 1) * 2000;
       int nextID = (m_file.getTaskByUniqueID(Integer.valueOf(0)) == null ? nextIDIncrement : 0);
       for (Map.Entry<Long, Integer> entry : m_taskOrder.entrySet())
       {
