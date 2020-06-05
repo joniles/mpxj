@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.</action>
 			<action dev="joniles" type="update">Update to use JAXB 2.3.2.</action>
 			<action dev="joniles" type="update">Improve accuracy of task order when reading Phoenix files.</action>
+			<action dev="joniles" type="update">Improve accuracy of task data when reading some MPP file variants.</action>
 			<action dev="joniles" type="add">Experimental support for reading Project Commander schedules.</action>
 		</release>
 		<release date="20/04/2020" version="8.0.8">
