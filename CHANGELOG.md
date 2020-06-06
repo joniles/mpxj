@@ -6,6 +6,7 @@
 * Update to use JAXB 2.3.2.
 * Improve accuracy of task order when reading Phoenix files.
 * Improve accuracy of task data when reading some MPP file variants.
+* Improve reliability when reading certain SureTrak files.
 * Experimental support for reading Project Commander schedules.
 
 ## 8.0.8 (20/04/2020)

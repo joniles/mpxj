@@ -489,7 +489,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
    {
       Map<Integer, List<MapRow>> levelMap = new HashMap<>();
       List<MapRow> table = m_definitions.get(WBS_ENTRIES_ID);
-      if (table != null)
+      if (table != null && m_wbsFormat != null)
       {
          for (MapRow row : table)
          {
