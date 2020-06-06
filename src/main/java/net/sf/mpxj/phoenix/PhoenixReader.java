@@ -724,21 +724,21 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    Map<UUID, UUID> getActivityCodes(Activity activity)
    {
-      Map<UUID, UUID> map = m_activityCodeCache.get(activity);
-      if (map == null)
+      return m_activityCodeCache.computeIfAbsent(activity, k -> getActivityCodesForCache(k));
+   }
+
+   private Map<UUID, UUID> getActivityCodesForCache(Activity activity)
+   {
+      Map<UUID, UUID> map = new HashMap<>();
+      for (CodeAssignment ca : activity.getCodeAssignment())
       {
-         map = new HashMap<>();
-         m_activityCodeCache.put(activity, map);
-         for (CodeAssignment ca : activity.getCodeAssignment())
-         {
-            UUID code = getCodeUUID(ca.getCodeUuid(), ca.getCode());
-            UUID value = getValueUUID(code, ca.getValueUuid(), ca.getValue());
-            map.put(code, value);
-         }
+         UUID code = getCodeUUID(ca.getCodeUuid(), ca.getCode());
+         UUID value = getValueUUID(code, ca.getValueUuid(), ca.getValue());
+         map.put(code, value);
       }
       return map;
    }
-
+   
    /**
     * Retrieve the most recent storepoint.
     *

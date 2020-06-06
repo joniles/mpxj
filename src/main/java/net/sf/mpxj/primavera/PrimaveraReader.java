@@ -217,12 +217,7 @@ final class PrimaveraReader
       for (Row row : assignments)
       {
          Integer taskID = row.getInteger("task_id");
-         List<Integer> list = m_activityCodeAssignments.get(taskID);
-         if (list == null)
-         {
-            list = new ArrayList<>();
-            m_activityCodeAssignments.put(taskID, list);
-         }
+         List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
          list.add(row.getInteger("actv_code_id"));
       }
    }
@@ -267,12 +262,7 @@ final class PrimaveraReader
          }
 
          Integer id = row.getInteger("fk_id");
-         List<Row> list = tableData.get(id);
-         if (list == null)
-         {
-            list = new ArrayList<>();
-            tableData.put(id, list);
-         }
+         List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
          list.add(row);
       }
    }

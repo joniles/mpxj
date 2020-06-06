@@ -1202,7 +1202,7 @@ public abstract class GanttChartView extends GenericView
     */
    public Filter getAutoFilterByType(FieldType type)
    {
-      return (m_autoFiltersByType.get(type));
+      return m_autoFiltersByType.get(type);
    }
 
    /**

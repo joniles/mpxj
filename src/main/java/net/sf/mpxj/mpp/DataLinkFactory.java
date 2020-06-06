@@ -101,13 +101,7 @@ class DataLinkFactory
       //System.out.println(props);
 
       String dataLinkID = props.getUnicodeString(PATH);
-      DataLink dataLink = map.get(dataLinkID);
-      if (dataLink == null)
-      {
-         dataLink = new DataLink(dataLinkID);
-         map.put(dataLinkID, dataLink);
-      }
-
+      DataLink dataLink = map.computeIfAbsent(dataLinkID, k -> new DataLink(k));
       Integer rowUniqueID = Integer.valueOf(props.getInt(UNIQUE_ID));
       FieldType fieldType = FieldTypeHelper.getInstance14(props.getInt(FIELD_TYPE));
 

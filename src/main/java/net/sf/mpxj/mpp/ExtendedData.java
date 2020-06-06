@@ -211,7 +211,7 @@ final class ExtendedData
     */
    public byte[] getByteArray(Integer type)
    {
-      return (m_map.get(type));
+      return m_map.get(type);
    }
 
    /**

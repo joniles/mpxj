@@ -62,12 +62,7 @@ public enum CodePage
     */
    public static CodePage getInstance(String value)
    {
-      CodePage result = NAME_MAP.get(value);
-      if (result == null)
-      {
-         result = ANSI;
-      }
-      return (result);
+      return NAME_MAP.getOrDefault(value, ANSI);
    }
 
    /**

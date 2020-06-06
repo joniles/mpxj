@@ -569,11 +569,7 @@ public final class FastTrackReader implements ProjectReader
             matcher.matches();
 
             Integer id = Integer.valueOf(matcher.group(1));
-            RelationType type = RELATION_TYPE_MAP.get(matcher.group(3));
-            if (type == null)
-            {
-               type = RelationType.FINISH_START;
-            }
+            RelationType type = RELATION_TYPE_MAP.getOrDefault(matcher.group(3), RelationType.FINISH_START);
 
             String sign = matcher.group(4);
             double lag = NumberHelper.getDouble(matcher.group(5));

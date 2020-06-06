@@ -144,9 +144,7 @@ public final class DatatypeConverter
     */
    public static final CurrencySymbolPosition parseCurrencySymbolPosition(String value)
    {
-      CurrencySymbolPosition result = MAP_TO_CURRENCY_SYMBOL_POSITION.get(value);
-      result = result == null ? CurrencySymbolPosition.BEFORE_WITH_SPACE : result;
-      return result;
+      return MAP_TO_CURRENCY_SYMBOL_POSITION.getOrDefault(value, CurrencySymbolPosition.BEFORE_WITH_SPACE);
    }
 
    /**

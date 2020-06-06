@@ -198,8 +198,7 @@ class MapRow
     */
    public Object getObject(FastTrackField type)
    {
-      Object result = m_map.get(type);
-      return (result);
+      return m_map.get(type);
    }
 
    /**

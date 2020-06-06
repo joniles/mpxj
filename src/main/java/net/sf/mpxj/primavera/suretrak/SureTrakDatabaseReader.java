@@ -495,12 +495,7 @@ public final class SureTrakDatabaseReader implements ProjectReader
          {
             m_wbsFormat.parseRawValue(row.getString("TEXT1"));
             Integer level = m_wbsFormat.getLevel();
-            List<MapRow> items = levelMap.get(level);
-            if (items == null)
-            {
-               items = new ArrayList<>();
-               levelMap.put(level, items);
-            }
+            List<MapRow> items = levelMap.computeIfAbsent(level, k -> new ArrayList<>());
             items.add(row);
          }
 
