@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -96,7 +95,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<>();
       int items = calFixedData.getItemCount();
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<>();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new ArrayList<>();
       byte[] defaultCalendarData = projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
       ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
       processCalendarHours(defaultCalendarData, null, defaultCalendar, true);

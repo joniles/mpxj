@@ -24,8 +24,8 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -2452,7 +2452,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<>();
+         m_listeners = new ArrayList<>();
       }
       m_listeners.add(listener);
    }
@@ -2550,7 +2550,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * List of all assignments for this resource.
     */
-   private List<ResourceAssignment> m_assignments = new LinkedList<>();
+   private List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;

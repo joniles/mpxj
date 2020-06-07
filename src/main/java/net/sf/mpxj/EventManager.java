@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.listener.ProjectListener;
@@ -212,7 +212,7 @@ public class EventManager
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }

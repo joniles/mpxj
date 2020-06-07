@@ -34,9 +34,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -97,7 +97,7 @@ public final class MerlinReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -619,7 +619,7 @@ public final class MerlinReader implements ProjectReader
     */
    private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
-      List<Row> result = new LinkedList<>();
+      List<Row> result = new ArrayList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       int bindIndex = 1;

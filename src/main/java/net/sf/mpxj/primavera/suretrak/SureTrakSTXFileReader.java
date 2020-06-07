@@ -28,7 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -49,7 +49,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }

@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -174,7 +174,7 @@ public abstract class CriteriaReader
          entryOffset = getCriteriaStartOffset();
       }
 
-      List<GenericCriteria> list = new LinkedList<>();
+      List<GenericCriteria> list = new ArrayList<>();
       processBlock(list, m_criteriaBlockMap.get(Integer.valueOf(entryOffset)));
       GenericCriteria criteria;
       if (list.isEmpty())

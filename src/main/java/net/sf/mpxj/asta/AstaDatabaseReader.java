@@ -31,8 +31,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -59,7 +59,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -368,7 +368,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<>();
+         List<Row> result = new ArrayList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -402,7 +402,7 @@ public final class AstaDatabaseReader implements ProjectReader
 
       try
       {
-         List<Row> result = new LinkedList<>();
+         List<Row> result = new ArrayList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));

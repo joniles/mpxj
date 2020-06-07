@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -154,11 +155,11 @@ public final class RTFEmbeddedObject
       int offset = text.indexOf(OBJDATA);
       if (offset != -1)
       {
-         objects = new LinkedList<>();
+         objects = new ArrayList<>();
 
          while (offset != -1)
          {
-            objectData = new LinkedList<>();
+            objectData = new ArrayList<>();
             objects.add(objectData);
             offset = readObjectData(offset, text, objectData);
             offset = text.indexOf(OBJDATA, offset);

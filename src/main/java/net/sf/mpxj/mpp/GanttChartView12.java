@@ -25,8 +25,8 @@ package net.sf.mpxj.mpp;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +81,7 @@ public final class GanttChartView12 extends GanttChartView
       int filterCount = MPPUtility.getShort(data, 8);
       int offset = 16;
       CriteriaReader criteria = new FilterCriteriaReader12();
-      List<FieldType> fields = new LinkedList<>();
+      List<FieldType> fields = new ArrayList<>();
 
       //
       // Filter data: 24 byte header, plus 80 byte criteria blocks,

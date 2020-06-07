@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.Filter;
@@ -82,7 +82,7 @@ public abstract class FilterReader
          }
 
          //System.out.println(ByteArrayHelper.hexdump(filterVarData, true, 16, ""));
-         List<GenericCriteriaPrompt> prompts = new LinkedList<>();
+         List<GenericCriteriaPrompt> prompts = new ArrayList<>();
 
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
          filter.setCriteria(criteriaReader.process(properties, filterVarData, 0, -1, prompts, null, criteriaType));

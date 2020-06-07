@@ -24,9 +24,9 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -703,7 +703,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
-      List<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
@@ -803,8 +803,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
-      List<TimephasedWork> standardWorkResult = new LinkedList<>();
-      List<TimephasedWork> overtimeWorkResult = new LinkedList<>();
+      List<TimephasedWork> standardWorkResult = new ArrayList<>();
+      List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
       CostRateTable table = getCostRateTable();
       ProjectCalendar calendar = getCalendar();
 
@@ -844,7 +844,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedCost> getTimephasedCostFixedAmount()
    {
-      List<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       ProjectCalendar cal = getCalendar();
 
@@ -918,7 +918,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedCost> getTimephasedActualCostFixedAmount()
    {
-      List<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       double actualCost = getActualCost().doubleValue();
 
@@ -1009,7 +1009,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, Date start)
    {
-      List<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
       double amountForLastDay = totalAmount % standardAmountPerDay;
@@ -1059,7 +1059,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private List<TimephasedWork> splitWork(CostRateTable table, ProjectCalendar calendar, TimephasedWork work, int rateIndex)
    {
-      List<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
       work.setTotalAmount(Duration.getInstance(0, work.getAmountPerDay().getUnits()));
 
       while (true)
@@ -2807,7 +2807,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<>();
+         m_listeners = new ArrayList<>();
       }
       m_listeners.add(listener);
    }

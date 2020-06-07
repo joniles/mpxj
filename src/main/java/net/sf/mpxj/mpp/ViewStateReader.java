@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.ProjectFile;
@@ -60,7 +60,7 @@ public abstract class ViewStateReader
       {
          String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(VIEW_NAME));
          byte[] listData = props.getByteArray(VIEW_CONTENTS);
-         List<Integer> uniqueIdList = new LinkedList<>();
+         List<Integer> uniqueIdList = new ArrayList<>();
          if (listData != null)
          {
             for (int index = 0; index < listData.length; index += 4)

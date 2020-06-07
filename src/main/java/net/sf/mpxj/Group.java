@@ -25,7 +25,7 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,5 +124,5 @@ public final class Group
    private Integer m_id;
    private String m_name;
    private boolean m_showSummaryTasks;
-   private List<GroupClause> m_clauses = new LinkedList<>();
+   private List<GroupClause> m_clauses = new ArrayList<>();
 }

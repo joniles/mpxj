@@ -29,9 +29,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +61,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -479,7 +479,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<>();
+         List<ResultSetRow> result = new ArrayList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_rs = m_ps.executeQuery();
@@ -513,7 +513,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<>();
+         List<ResultSetRow> result = new ArrayList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var));
@@ -549,7 +549,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       try
       {
-         List<ResultSetRow> result = new LinkedList<>();
+         List<ResultSetRow> result = new ArrayList<>();
 
          m_ps = m_connection.prepareStatement(sql);
          m_ps.setInt(1, NumberHelper.getInt(var1));

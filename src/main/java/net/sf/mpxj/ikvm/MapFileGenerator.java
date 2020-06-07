@@ -39,10 +39,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -93,7 +93,7 @@ public class MapFileGenerator
     */
    public void generateMapFile(File jarFile, String mapFileName, boolean mapClassMethods) throws XMLStreamException, IOException, ClassNotFoundException, IntrospectionException
    {
-      m_responseList = new LinkedList<>();
+      m_responseList = new ArrayList<>();
       writeMapFile(mapFileName, jarFile, mapClassMethods);
    }
 
