@@ -31,10 +31,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
 
 import org.junit.Test;
 
@@ -48,6 +52,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -66,7 +71,9 @@ public class CustomerDataTest
    {
       m_privateDirectory = configureDirectory("mpxj.junit.privatedir");
       m_baselineDirectory = configureDirectory("mpxj.junit.baselinedir");
-
+      m_primaveraFile = System.getProperty("mpxj.junit.primavera.file");
+      m_primaveraBaselineDir = configureDirectory("mpxj.junit.primavera.baselinedir");
+      
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
       m_xerReader = new PrimaveraXERFileReader();
@@ -173,6 +180,63 @@ public class CustomerDataTest
    }
 
    /**
+    * Test extracting projects from a sample SQLite P6 database.
+    */
+   @Test public void testPrimaveraDatabase() throws Exception
+   {
+      if (m_primaveraFile == null)
+      {
+         return;
+      }
+
+      Class.forName("org.sqlite.JDBC");
+      String url = "jdbc:sqlite:" + m_primaveraFile;
+
+      Properties props = new Properties();
+      props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
+
+      try (Connection connection = DriverManager.getConnection(url, props))
+      {
+         PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+         reader.setConnection(connection);
+         Map<Integer, String> projects = reader.listProjects();
+         long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(reader, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
+         assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
+      }
+   }
+
+   /**
+    * Test a project from a Primavera SQLite database.
+    * 
+    * @param reader PrimaveraDatabaseReader instance
+    * @param projectID ID of the project to extract
+    * @param projectName Name of the project to extract
+    * @return true if project read and validated successfully
+    */
+   private Boolean testPrimaveraProject(PrimaveraDatabaseReader reader, int projectID, String projectName)
+   {
+      Boolean result = Boolean.TRUE;
+      
+      try
+      {        
+         reader.setProjectID(projectID);
+         ProjectFile project = reader.read();         
+         if (!testBaseline(projectName, project, m_primaveraBaselineDir))
+         {
+            System.err.println("Failed to validate Primavera database project baseline " + projectName);
+            result = Boolean.FALSE;
+         }
+      }
+      catch (Exception e)
+      {
+         System.err.println("Failed to read Primavera database project: " + projectName);
+         result = Boolean.FALSE;
+      }
+      
+      return result;
+   }
+   
+   /**
     * Create a File instance from a path stored as a property.
     *
     * @param propertyName property name
@@ -267,6 +331,8 @@ public class CustomerDataTest
    private void executeTests(List<File> files)
    {
       int failures = 0;
+      int sourceDirNameLength = m_privateDirectory.getPath().length();
+      
       for (File file : files)
       {
          String name = file.getName().toUpperCase();
@@ -295,7 +361,7 @@ public class CustomerDataTest
                continue;
             }
 
-            if (!testBaseline(file, mpxj))
+            if (!testBaseline(file.getPath().substring(sourceDirNameLength), mpxj, m_baselineDirectory))
             {
                System.err.println("Failed to validate baseline " + name);
                ++failures;
@@ -401,20 +467,21 @@ public class CustomerDataTest
     * changes in functionality. If we do not have a baseline for this particular
     * file, we'll generate one.
     *
-    * @param file file under test
+    * @param name name of the project under test
     * @param project ProjectFile instance
+    * @param baselineDirectory directory in which baseline files are held
     * @return true if the baseline test is successful
     */
-   private boolean testBaseline(File file, ProjectFile project) throws Exception
+   private boolean testBaseline(String name, ProjectFile project, File baselineDirectory) throws Exception
    {
-      if (m_baselineDirectory == null)
+      if (baselineDirectory == null)
       {
          return true;
       }
 
-      boolean mspdi = testBaseline(file, project, new File(m_baselineDirectory, "mspdi"), MSPDIWriter.class);
-      boolean pmxml = testBaseline(file, project, new File(m_baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
-      boolean json = testBaseline(file, project, new File(m_baselineDirectory, "json"), JsonWriter.class);
+      boolean mspdi = testBaseline(name, project, new File(baselineDirectory, "mspdi"), MSPDIWriter.class);
+      boolean pmxml = testBaseline(name, project, new File(baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
+      boolean json = testBaseline(name, project, new File(baselineDirectory, "json"), JsonWriter.class);
 
       return mspdi && pmxml && json;
    }
@@ -422,16 +489,15 @@ public class CustomerDataTest
    /**
     * Generate a baseline for a specific file type.
     *
-    * @param file file under test
+    * @param name name of the project under test
     * @param project ProjectFile instance
     * @param baselineDirectory baseline directory location
     * @param writerClass file writer class
     * @return true if the baseline test is successful
     */
-   @SuppressWarnings("unused") private boolean testBaseline(File file, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
+   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
    {
-      boolean success = true;
-      int sourceDirNameLength = m_privateDirectory.getPath().length();
+      boolean success = true;      
 
       ProjectWriter writer = writerClass.newInstance();
       String suffix;
@@ -447,7 +513,7 @@ public class CustomerDataTest
          suffix = ".xml";
       }
 
-      File baselineFile = new File(baselineDirectory, file.getPath().substring(sourceDirNameLength) + suffix);
+      File baselineFile = new File(baselineDirectory, name + suffix);
 
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
 
@@ -541,7 +607,10 @@ public class CustomerDataTest
    }
 
    private final File m_privateDirectory;
-   private final File m_baselineDirectory;
+   private final File m_baselineDirectory;   
+   private final String m_primaveraFile;
+   private final File m_primaveraBaselineDir;
+   
    private UniversalProjectReader m_universalReader;
    private MPXReader m_mpxReader;
    private PrimaveraXERFileReader m_xerReader;
