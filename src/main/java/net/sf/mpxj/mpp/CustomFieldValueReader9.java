@@ -181,12 +181,7 @@ public class CustomFieldValueReader9
          String value = outlineCodeVarData.getUnicodeString(id, VALUE);
          String description = outlineCodeVarData.getUnicodeString(id, DESCRIPTION);
 
-         List<Pair<String, String>> list = valueMap.get(fieldType);
-         if (list == null)
-         {
-            list = new ArrayList<>();
-            valueMap.put(fieldType, list);
-         }
+         List<Pair<String, String>> list = valueMap.computeIfAbsent(fieldType, k -> new ArrayList<>());
          list.add(new Pair<>(value, description));
       }
 

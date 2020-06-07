@@ -195,12 +195,7 @@ final class AstaTextFileReader extends AbstractProjectReader
                //               System.out.println();
 
                TextFileRow row = new TextFileRow(table, columns, m_epochDateFormat);
-               List<Row> rows = m_tables.get(table.getName());
-               if (rows == null)
-               {
-                  rows = new LinkedList<>();
-                  m_tables.put(table.getName(), rows);
-               }
+               List<Row> rows = m_tables.computeIfAbsent(table.getName(), k -> new LinkedList<>());
                rows.add(row);
             }
          }
@@ -432,12 +427,7 @@ final class AstaTextFileReader extends AbstractProjectReader
     */
    private List<Row> getTable(String name)
    {
-      List<Row> result = m_tables.get(name);
-      if (result == null)
-      {
-         result = Collections.emptyList();
-      }
-      return result;
+      return m_tables.getOrDefault(name, Collections.emptyList());
    }
 
    private AstaReader m_reader;

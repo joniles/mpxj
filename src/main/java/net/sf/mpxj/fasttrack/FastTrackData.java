@@ -164,12 +164,7 @@ class FastTrackData
     */
    public FastTrackTable getTable(FastTrackTableType type)
    {
-      FastTrackTable result = m_tables.get(type);
-      if (result == null)
-      {
-         result = EMPTY_TABLE;
-      }
-      return result;
+      return m_tables.getOrDefault(type, EMPTY_TABLE);
    }
 
    /**

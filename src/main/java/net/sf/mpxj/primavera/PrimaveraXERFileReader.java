@@ -606,11 +606,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
                   String fieldName = m_currentFieldNames[loop];
                   String fieldValue = record.get(loop);
-                  XerFieldType fieldType = m_fieldTypes.get(fieldName);
-                  if (fieldType == null)
-                  {
-                     fieldType = XerFieldType.STRING;
-                  }
+                  XerFieldType fieldType = m_fieldTypes.getOrDefault(fieldName, XerFieldType.STRING);
 
                   Object objectValue;
                   if (fieldValue.length() == 0)

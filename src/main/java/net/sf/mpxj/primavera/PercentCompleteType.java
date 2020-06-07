@@ -43,12 +43,7 @@ public enum PercentCompleteType
     */
    public static PercentCompleteType getInstance(String value)
    {
-      PercentCompleteType result = VALUE_MAP.get(value);
-      if (result == null)
-      {
-         result = PercentCompleteType.DURATION;
-      }
-      return result;
+      return VALUE_MAP.getOrDefault(value, PercentCompleteType.DURATION);
    }
 
    /**

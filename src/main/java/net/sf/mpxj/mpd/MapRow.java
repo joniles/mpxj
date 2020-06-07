@@ -168,9 +168,7 @@ class MapRow implements Row
          throw new IllegalArgumentException("Invalid column name " + name);
       }
 
-      Object result = m_map.get(name);
-
-      return (result);
+      return m_map.get(name);
    }
 
    protected Map<String, Object> m_map;

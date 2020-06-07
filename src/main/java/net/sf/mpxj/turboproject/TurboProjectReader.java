@@ -164,11 +164,7 @@ public final class TurboProjectReader extends AbstractProjectReader
       for (int offsetIndex = 1; offsetIndex < offsetList.size() - 1; offsetIndex++)
       {
          String name = nameList.get(offsetIndex - 1);
-         Class<? extends Table> tableClass = TABLE_CLASSES.get(name);
-         if (tableClass == null)
-         {
-            tableClass = Table.class;
-         }
+         Class<? extends Table> tableClass = TABLE_CLASSES.getOrDefault(name, Table.class);
 
          Table table;
          try
@@ -442,12 +438,7 @@ public final class TurboProjectReader extends AbstractProjectReader
     */
    private Table getTable(String name)
    {
-      Table table = m_tables.get(name);
-      if (table == null)
-      {
-         table = EMPTY_TABLE;
-      }
-      return table;
+      return m_tables.getOrDefault(name, EMPTY_TABLE);
    }
 
    /**

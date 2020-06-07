@@ -44,13 +44,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public CustomField getCustomField(FieldType field)
    {
-      CustomField result = m_configMap.get(field);
-      if (result == null)
-      {
-         result = new CustomField(field, this);
-         m_configMap.put(field, result);
-      }
-      return result;
+      return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this)); 
    }
 
    /**

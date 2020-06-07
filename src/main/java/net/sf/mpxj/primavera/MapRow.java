@@ -169,8 +169,7 @@ class MapRow implements Row
     */
    private final Object getObject(String name)
    {
-      Object result = m_map.get(name);
-      return (result);
+      return m_map.get(name);
    }
 
    /**

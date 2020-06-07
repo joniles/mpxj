@@ -951,16 +951,7 @@ final class AstaReader
       for (Task task : m_project.getTasks())
       {
          ProjectCalendar calendar = task.getCalendar();
-         Integer count = map.get(calendar);
-         if (count == null)
-         {
-            count = Integer.valueOf(1);
-         }
-         else
-         {
-            count = Integer.valueOf(count.intValue() + 1);
-         }
-         map.put(calendar, count);
+         map.compute(calendar, (k, v) -> v == null ? Integer.valueOf(1) : Integer.valueOf(v.intValue() + 1));
       }
 
       //
@@ -1143,12 +1134,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
-         List<Row> list = map.get(calendarID);
-         if (list == null)
-         {
-            list = new LinkedList<>();
-            map.put(calendarID, list);
-         }
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;
@@ -1166,12 +1152,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
-         List<Row> list = map.get(calendarID);
-         if (list == null)
-         {
-            list = new LinkedList<>();
-            map.put(calendarID, list);
-         }
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;
@@ -1189,12 +1170,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.get(workPatternID);
-         if (list == null)
-         {
-            list = new LinkedList<>();
-            map.put(workPatternID, list);
-         }
+         List<Row> list = map.computeIfAbsent(workPatternID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;
