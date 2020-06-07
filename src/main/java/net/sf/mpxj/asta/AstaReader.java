@@ -1134,7 +1134,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
-         List<Row> list = map.computeIfAbsent(calendarID, id -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;
@@ -1152,7 +1152,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
-         List<Row> list = map.computeIfAbsent(calendarID, id -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;
@@ -1170,7 +1170,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.computeIfAbsent(workPatternID, id -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(workPatternID, k -> new LinkedList<>());
          list.add(row);
       }
       return map;

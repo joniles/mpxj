@@ -44,7 +44,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public CustomField getCustomField(FieldType field)
    {
-      return m_configMap.computeIfAbsent(field, f -> new CustomField(field, this)); 
+      return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this)); 
    }
 
    /**
