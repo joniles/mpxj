@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -70,7 +70,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    private void splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
       boolean remainderInserted = false;
 
       for (TimephasedCost assignment : list)
@@ -196,7 +196,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    private void mergeSameDay(List<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       TimephasedCost previousAssignment = null;
       for (TimephasedCost assignment : list)
@@ -215,7 +215,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
-               result.removeLast();
+               result.remove(result.size()-1);
 
                double cost = previousAssignment.getTotalAmount().doubleValue();
                cost += assignment.getTotalAmount().doubleValue();
@@ -245,7 +245,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     */
    protected void mergeSameCost(List<TimephasedCost> list)
    {
-      LinkedList<TimephasedCost> result = new LinkedList<>();
+      List<TimephasedCost> result = new ArrayList<>();
 
       TimephasedCost previousAssignment = null;
       for (TimephasedCost assignment : list)
@@ -273,7 +273,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
                merged.setAmountPerDay(assignmentCost);
                merged.setTotalAmount(Double.valueOf(total));
 
-               result.removeLast();
+               result.remove(result.size()-1);
                assignment = merged;
             }
             else

@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -55,7 +55,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     */
    protected void mergeSameWork(List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
@@ -84,7 +84,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
                merged.setAmountPerDay(assignmentWork);
                merged.setTotalAmount(totalWork);
 
-               result.removeLast();
+               result.remove(result.size()-1);
                assignment = merged;
             }
             else
