@@ -35,7 +35,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -62,7 +61,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -294,7 +293,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> getRows(String sql) throws SQLException
    {
-      List<Row> result = new LinkedList<>();
+      List<Row> result = new ArrayList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       m_rs = m_ps.executeQuery();
@@ -318,7 +317,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
-      List<Row> result = new LinkedList<>();
+      List<Row> result = new ArrayList<>();
 
       m_ps = m_connection.prepareStatement(sql);
       m_ps.setInt(1, NumberHelper.getInt(var));

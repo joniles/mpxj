@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,7 +66,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -568,7 +567,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             }
             else
             {
-               m_currentTable = new LinkedList<>();
+               m_currentTable = new ArrayList<>();
                m_tables.put(m_currentTableName, m_currentTable);
             }
             break;
@@ -825,7 +824,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          }
          else
          {
-            result = new LinkedList<>();
+            result = new ArrayList<>();
             for (Row row : table)
             {
                if (NumberHelper.equals(id, row.getInteger(columnName)))

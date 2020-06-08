@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.DateRange;
@@ -61,14 +61,14 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      LinkedList<DateRange> splits = new LinkedList<>();
+      List<DateRange> splits = new ArrayList<>();
       TimephasedWork lastAssignment = null;
       DateRange lastRange = null;
       for (TimephasedWork assignment : timephasedComplete)
       {
          if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
          {
-            splits.removeLast();
+            splits.remove(splits.size()-1);
             lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
          }
          else
@@ -86,7 +86,7 @@ public final class SplitTaskFactory
       Date splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getTotalAmount().getDuration() != 0 && firstPlanned.getTotalAmount().getDuration() != 0)
       {
-         lastRange = splits.removeLast();
+         lastRange = splits.remove(splits.size()-1);
          splitStart = lastRange.getStart();
       }
 
@@ -98,7 +98,7 @@ public final class SplitTaskFactory
          {
             if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
             {
-               splits.removeLast();
+               splits.remove(splits.size()-1);
                lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
             }
             else

@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.common;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimephasedWork;
@@ -43,5 +43,5 @@ public interface TimephasedWorkNormaliser
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
+   public void normalise(ProjectCalendar calendar, List<TimephasedWork> list);
 }

@@ -25,7 +25,7 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.common.NumberHelper;
@@ -329,7 +329,7 @@ public class GraphicalIndicator
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;
    private boolean m_showDataValuesInToolTips;
-   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new LinkedList<>();
-   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new LinkedList<>();
-   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new LinkedList<>();
+   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new ArrayList<>();
+   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new ArrayList<>();
+   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new ArrayList<>();
 }

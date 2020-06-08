@@ -25,10 +25,10 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -774,7 +774,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          return null;
       }
-      List<String> descriptions = new LinkedList<>();
+      List<String> descriptions = new ArrayList<>();
       int offset = 0;
       while (offset < data.length)
       {
@@ -802,7 +802,7 @@ final class MPP9Reader implements MPPVariantReader
          return null;
       }
 
-      List<Object> list = new LinkedList<>();
+      List<Object> list = new ArrayList<>();
       int offset = 0;
 
       switch (field.getDataType())
@@ -1061,7 +1061,7 @@ final class MPP9Reader implements MPPVariantReader
       byte[] metaData;
       Task task;
       boolean autoWBS = true;
-      LinkedList<Task> externalTasks = new LinkedList<>();
+      List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 

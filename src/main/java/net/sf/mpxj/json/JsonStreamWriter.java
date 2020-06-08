@@ -29,9 +29,9 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Writes JSON data to an output stream.
@@ -365,7 +365,7 @@ public class JsonStreamWriter
 
    private final StringBuilder m_buffer = new StringBuilder();
    private final OutputStreamWriter m_writer;
-   private final Deque<Boolean> m_firstNameValuePair = new LinkedList<>();
+   private final Deque<Boolean> m_firstNameValuePair = new ArrayDeque<>();
    private boolean m_pretty;
    private String m_indent = "";
    private DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");

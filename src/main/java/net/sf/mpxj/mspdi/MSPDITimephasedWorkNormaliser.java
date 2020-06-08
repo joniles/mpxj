@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -48,7 +49,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   @Override public void normalise(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       //dumpList("raw", result);
       splitDays(calendar, list);
@@ -62,7 +63,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
    }
 
    /*
-      private void dumpList(String label, LinkedList<TimephasedWork> list)
+      private void dumpList(String label, List<TimephasedWork> list)
       {
          System.out.println(label);
          for (TimephasedWork assignment : list)
@@ -78,9 +79,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     * @param calendar current project calendar
     * @param list list of assignment data
     */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
       for (TimephasedWork assignment : list)
       {
          while (assignment != null)
@@ -197,9 +198,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     * @param calendar current calendar
     * @param list assignment data
     */
-   private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   private void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
@@ -226,7 +227,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
                   continue;
                }
 
-               result.removeLast();
+               result.remove(result.size()-1);
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                {
@@ -257,7 +258,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
-            result.removeLast();
+            result.remove(result.size()-1);
          }
          else
          {
@@ -276,7 +277,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     * @param calendar current calendar
     * @param list assignment data
     */
-   private void validateSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   private void validateSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       for (TimephasedWork assignment : list)
       {

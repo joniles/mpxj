@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -60,7 +60,7 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
-      LinkedList<TimephasedWork> list = new LinkedList<>();
+      List<TimephasedWork> list = new ArrayList<>();
 
       if (calendar != null && data != null && data.length > 2 && MPPUtility.getShort(data, 0) > 0)
       {
@@ -122,7 +122,7 @@ final class TimephasedDataFactory
                previousAssignment.setFinish(finish);
                if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
                {
-                  list.removeLast();
+                  list.remove(list.size() - 1);
                }
             }
 
@@ -140,7 +140,7 @@ final class TimephasedDataFactory
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
             {
-               list.removeLast();
+               list.remove(list.size() - 1);
             }
          }
       }
@@ -163,7 +163,7 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      LinkedList<TimephasedWork> list = new LinkedList<>();
+      List<TimephasedWork> list = new ArrayList<>();
 
       if (calendar != null && data != null && data.length > 0)
       {
@@ -265,7 +265,7 @@ final class TimephasedDataFactory
                   previousAssignment.setFinish(finish);
                   if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
                   {
-                     list.removeLast();
+                     list.remove(list.size() - 1);
                   }
                }
 
@@ -285,7 +285,7 @@ final class TimephasedDataFactory
                previousAssignment.setFinish(finish);
                if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
                {
-                  list.removeLast();
+                  list.remove(list.size() - 1);
                }
             }
          }
@@ -333,7 +333,7 @@ final class TimephasedDataFactory
 
       if (data != null && data.length > 0)
       {
-         LinkedList<TimephasedWork> list = null;
+         List<TimephasedWork> list = null;
 
          //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 8; // 8 byte header
@@ -369,7 +369,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<>();
+                  list = new ArrayList<>();
                }
                list.add(work);
                //System.out.println(work);
@@ -408,7 +408,7 @@ final class TimephasedDataFactory
 
       if (data != null && data.length > 0)
       {
-         LinkedList<TimephasedCost> list = null;
+         List<TimephasedCost> list = null;
 
          //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 16; // 16 byte header
@@ -431,7 +431,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<>();
+                  list = new ArrayList<>();
                }
                list.add(cost);
                //System.out.println(cost);

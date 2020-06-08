@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -43,9 +44,9 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
     * @param calendar current calendar
     * @param list assignment data
     */
-   @Override protected void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   @Override protected void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
@@ -76,8 +77,8 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
 
                if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
                {
-                  result.removeLast();
-
+                  result.remove(result.size() - 1);
+                  
                   if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                   {
                      double work = previousAssignment.getTotalAmount().getDuration();
@@ -108,7 +109,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
          Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
-            result.removeLast();
+            result.remove(result.size()-1);
          }
          else
          {

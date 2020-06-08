@@ -28,11 +28,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -165,7 +165,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -395,7 +395,7 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<>();
+         List<Pair<ProjectCalendar, BigInteger>> baseCalendars = new ArrayList<>();
          for (Project.Calendars.Calendar cal : calendars.getCalendar())
          {
             readCalendar(cal, map, baseCalendars);
@@ -1718,8 +1718,8 @@ public final class MSPDIReader extends AbstractProjectReader
                calendar = task.getEffectiveCalendar();
             }
 
-            LinkedList<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
-            LinkedList<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+            List<TimephasedWork> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+            List<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
             boolean raw = true;
 
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
@@ -1888,9 +1888,9 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param type flag indicating if this is planned or complete work
     * @return list of timephased resource assignment instances
     */
-   private LinkedList<TimephasedWork> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
+   private List<TimephasedWork> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
 
       for (TimephasedDataType item : assignment.getTimephasedData())
       {

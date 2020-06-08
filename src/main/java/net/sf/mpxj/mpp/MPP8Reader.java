@@ -27,9 +27,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -226,7 +226,7 @@ final class MPP8Reader implements MPPVariantReader
       int baseCalendarID;
       int periodIndex;
       Day day;
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<>();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new ArrayList<>();
 
       for (int loop = 0; loop < calendars; loop++)
       {

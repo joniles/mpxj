@@ -25,9 +25,10 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import net.sf.mpxj.AccrueType;
@@ -67,7 +68,7 @@ final class Record
 
          m_formats = formats;
 
-         LinkedList<String> list = new LinkedList<>();
+         List<String> list = new ArrayList<>();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
          {
@@ -93,7 +94,7 @@ final class Record
     *
     * @param list MPX record
     */
-   private void setRecordNumber(LinkedList<String> list)
+   private void setRecordNumber(List<String> list)
    {
       try
       {

@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -57,7 +56,7 @@ final class AstaTextFileReader extends AbstractProjectReader
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList<>();
+         m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
    }
@@ -195,7 +194,7 @@ final class AstaTextFileReader extends AbstractProjectReader
                //               System.out.println();
 
                TextFileRow row = new TextFileRow(table, columns, m_epochDateFormat);
-               List<Row> rows = m_tables.computeIfAbsent(table.getName(), k -> new LinkedList<>());
+               List<Row> rows = m_tables.computeIfAbsent(table.getName(), k -> new ArrayList<>());
                rows.add(row);
             }
          }
@@ -262,7 +261,7 @@ final class AstaTextFileReader extends AbstractProjectReader
       rows = getTable("WORK_PATTERN");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
-      rows = new LinkedList<>();// getTable("WORK_PATTERN_ASSIGNMENT"); // Need to generate an example
+      rows = new ArrayList<>();// getTable("WORK_PATTERN_ASSIGNMENT"); // Need to generate an example
       Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
 
       rows = getTable("EXCEPTION_ASSIGNMENT");
@@ -355,7 +354,7 @@ final class AstaTextFileReader extends AbstractProjectReader
     */
    private List<Row> join(List<Row> leftRows, String leftColumn, String rightTable, List<Row> rightRows, String rightColumn)
    {
-      List<Row> result = new LinkedList<>();
+      List<Row> result = new ArrayList<>();
 
       RowComparator leftComparator = new RowComparator(new String[]
       {

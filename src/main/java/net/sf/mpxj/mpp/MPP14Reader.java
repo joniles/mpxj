@@ -26,10 +26,10 @@ package net.sf.mpxj.mpp;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -999,7 +999,7 @@ final class MPP14Reader implements MPPVariantReader
       byte[] metaData2;
       Task task;
       boolean autoWBS = true;
-      LinkedList<Task> externalTasks = new LinkedList<>();
+      List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
       String notes;
 

@@ -24,9 +24,9 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,10 +55,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
       setActive(true);
-      set(TaskField.PREDECESSORS, new LinkedList<Relation>());
-      set(TaskField.SUCCESSORS, new LinkedList<Relation>());
-      //      m_array[TaskField.PREDECESSORS.getValue()] = new LinkedList<Relation>();
-      //      m_array[TaskField.SUCCESSORS.getValue()] = new LinkedList<Relation>();
+      set(TaskField.PREDECESSORS, new ArrayList<Relation>());
+      set(TaskField.SUCCESSORS, new ArrayList<Relation>());
 
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
@@ -4960,7 +4958,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<>();
+         m_listeners = new ArrayList<>();
       }
       m_listeners.add(listener);
    }
@@ -5082,17 +5080,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List<Task> m_children = new LinkedList<>();
+   private List<Task> m_children = new ArrayList<>();
 
    /**
     * List of resource assignments for this task.
     */
-   private List<ResourceAssignment> m_assignments = new LinkedList<>();
+   private List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * List of activity codes for this task.
     */
-   private List<ActivityCodeValue> m_activityCodes = new LinkedList<>();
+   private List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.
