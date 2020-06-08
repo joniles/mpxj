@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -47,7 +48,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   @Override public void normalise(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       if (!list.isEmpty())
       {
@@ -69,7 +70,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param calendar current project calendar
     * @param list list of assignment data
     */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       LinkedList<TimephasedWork> result = new LinkedList<>();
       boolean remainderInserted = false;
@@ -248,7 +249,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param calendar current calendar
     * @param list assignment data
     */
-   protected abstract void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
+   protected abstract void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list);
 
    /**
     * Retrieves the pro-rata work carried out on a given day.

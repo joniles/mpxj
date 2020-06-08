@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -43,7 +44,7 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
     * @param calendar current calendar
     * @param list assignment data
     */
-   @Override protected void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedWork> list)
+   @Override protected void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       LinkedList<TimephasedWork> result = new LinkedList<>();
 

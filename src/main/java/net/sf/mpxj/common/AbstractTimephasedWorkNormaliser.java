@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -44,7 +45,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public abstract void normalise(ProjectCalendar calendar, LinkedList<TimephasedWork> list);
+   @Override public abstract void normalise(ProjectCalendar calendar, List<TimephasedWork> list);
 
    /**
     * Merges individual days together into time spans where the
@@ -52,7 +53,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     *
     * @param list assignment data
     */
-   protected void mergeSameWork(LinkedList<TimephasedWork> list)
+   protected void mergeSameWork(List<TimephasedWork> list)
    {
       LinkedList<TimephasedWork> result = new LinkedList<>();
 
@@ -105,7 +106,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
     *
     * @param list assignment data
     */
-   protected void convertToHours(LinkedList<TimephasedWork> list)
+   protected void convertToHours(List<TimephasedWork> list)
    {
       for (TimephasedWork assignment : list)
       {
