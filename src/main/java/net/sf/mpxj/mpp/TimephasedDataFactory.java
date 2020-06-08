@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -334,7 +333,7 @@ final class TimephasedDataFactory
 
       if (data != null && data.length > 0)
       {
-         LinkedList<TimephasedWork> list = null;
+         List<TimephasedWork> list = null;
 
          //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 8; // 8 byte header
@@ -370,7 +369,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<>();
+                  list = new ArrayList<>();
                }
                list.add(work);
                //System.out.println(work);
@@ -409,7 +408,7 @@ final class TimephasedDataFactory
 
       if (data != null && data.length > 0)
       {
-         LinkedList<TimephasedCost> list = null;
+         List<TimephasedCost> list = null;
 
          //System.out.println(ByteArrayHelper.hexdump(data, false));
          int index = 16; // 16 byte header
@@ -432,7 +431,7 @@ final class TimephasedDataFactory
 
                if (list == null)
                {
-                  list = new LinkedList<>();
+                  list = new ArrayList<>();
                }
                list.add(cost);
                //System.out.println(cost);
