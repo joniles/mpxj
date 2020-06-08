@@ -23,10 +23,8 @@
 
 package net.sf.mpxj.common;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Deque;
 import java.util.List;
 
 import net.sf.mpxj.DateRange;
