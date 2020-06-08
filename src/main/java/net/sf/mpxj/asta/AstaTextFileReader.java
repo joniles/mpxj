@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -195,7 +194,7 @@ final class AstaTextFileReader extends AbstractProjectReader
                //               System.out.println();
 
                TextFileRow row = new TextFileRow(table, columns, m_epochDateFormat);
-               List<Row> rows = m_tables.computeIfAbsent(table.getName(), k -> new LinkedList<>());
+               List<Row> rows = m_tables.computeIfAbsent(table.getName(), k -> new ArrayList<>());
                rows.add(row);
             }
          }

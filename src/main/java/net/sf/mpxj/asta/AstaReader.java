@@ -30,7 +30,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -1134,7 +1133,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("WORK_PATTERN_ASSIGNMENTID");
-         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new ArrayList<>());
          list.add(row);
       }
       return map;
@@ -1152,7 +1151,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer calendarID = row.getInteger("EXCEPTION_ASSIGNMENTID");
-         List<Row> list = map.computeIfAbsent(calendarID, k -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(calendarID, k -> new ArrayList<>());
          list.add(row);
       }
       return map;
@@ -1170,7 +1169,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer workPatternID = row.getInteger("TIME_ENTRYID");
-         List<Row> list = map.computeIfAbsent(workPatternID, k -> new LinkedList<>());
+         List<Row> list = map.computeIfAbsent(workPatternID, k -> new ArrayList<>());
          list.add(row);
       }
       return map;
