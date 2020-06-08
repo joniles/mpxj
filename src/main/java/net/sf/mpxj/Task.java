@@ -27,7 +27,6 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -5081,7 +5080,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List<Task> m_children = new LinkedList<>();
+   private List<Task> m_children = new ArrayList<>();
 
    /**
     * List of resource assignments for this task.
