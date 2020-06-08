@@ -56,10 +56,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
       setActive(true);
-      set(TaskField.PREDECESSORS, new LinkedList<Relation>());
-      set(TaskField.SUCCESSORS, new LinkedList<Relation>());
-      //      m_array[TaskField.PREDECESSORS.getValue()] = new LinkedList<Relation>();
-      //      m_array[TaskField.SUCCESSORS.getValue()] = new LinkedList<Relation>();
+      set(TaskField.PREDECESSORS, new ArrayList<Relation>());
+      set(TaskField.SUCCESSORS, new ArrayList<Relation>());
 
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
