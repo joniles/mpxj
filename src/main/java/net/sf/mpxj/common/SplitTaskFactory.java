@@ -68,7 +68,7 @@ public final class SplitTaskFactory
       {
          if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
          {
-            splits.remove(splits.size()-1);
+            splits.remove(splits.size() - 1);
             lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
          }
          else
@@ -86,7 +86,7 @@ public final class SplitTaskFactory
       Date splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getTotalAmount().getDuration() != 0 && firstPlanned.getTotalAmount().getDuration() != 0)
       {
-         lastRange = splits.remove(splits.size()-1);
+         lastRange = splits.remove(splits.size() - 1);
          splitStart = lastRange.getStart();
       }
 
@@ -98,7 +98,7 @@ public final class SplitTaskFactory
          {
             if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
             {
-               splits.remove(splits.size()-1);
+               splits.remove(splits.size() - 1);
                lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
             }
             else

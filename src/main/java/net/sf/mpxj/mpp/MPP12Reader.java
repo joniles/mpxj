@@ -816,11 +816,11 @@ final class MPP12Reader implements MPPVariantReader
       // Note we're working backwards: where we have duplicate tasks the later ones
       // appear to be the correct versions (https://github.com/joniles/mpxj/issues/152)
       //
-      for(int loop = itemCount-1; loop > 2; loop--)
+      for (int loop = itemCount - 1; loop > 2; loop--)
       {
          byte[] data = taskFixedData.getByteArrayValue(loop);
          byte[] data2 = taskFixed2Data.getByteArrayValue(loop);
-         
+
          if (data != null && data2 != null)
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
@@ -871,7 +871,7 @@ final class MPP12Reader implements MPPVariantReader
 
                      // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but the name is not null
                      if (!taskMap.containsKey(key) || taskVarData.getUnicodeString(key, taskNameKey) != null)
-                     {                        
+                     {
                         taskMap.put(key, Integer.valueOf(loop));
                      }
                   }

@@ -227,7 +227,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
                   continue;
                }
 
-               result.remove(result.size()-1);
+               result.remove(result.size() - 1);
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                {
@@ -258,7 +258,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
-            result.remove(result.size()-1);
+            result.remove(result.size() - 1);
          }
          else
          {

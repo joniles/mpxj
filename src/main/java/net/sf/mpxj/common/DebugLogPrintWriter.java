@@ -35,7 +35,7 @@ public final class DebugLogPrintWriter
    /**
     * If the MPXJ_DEBUG_LOG environment variable is set, create a
     * PrintWriter to write to the specified file.
-    * 
+    *
     * @return PrintWriter instance
     */
    public static final PrintWriter getInstance()

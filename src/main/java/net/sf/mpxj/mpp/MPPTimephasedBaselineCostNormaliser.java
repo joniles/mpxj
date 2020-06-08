@@ -215,7 +215,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
-               result.remove(result.size()-1);
+               result.remove(result.size() - 1);
 
                double cost = previousAssignment.getTotalAmount().doubleValue();
                cost += assignment.getTotalAmount().doubleValue();
@@ -273,7 +273,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
                merged.setAmountPerDay(assignmentCost);
                merged.setTotalAmount(Double.valueOf(total));
 
-               result.remove(result.size()-1);
+               result.remove(result.size() - 1);
                assignment = merged;
             }
             else

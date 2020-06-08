@@ -828,11 +828,11 @@ final class MPP14Reader implements MPPVariantReader
       // Note we're working backwards: where we have duplicate tasks the later ones
       // appear to be the correct versions (https://github.com/joniles/mpxj/issues/152)
       //
-      for(int loop = itemCount-1; loop > 2; loop--)
+      for (int loop = itemCount - 1; loop > 2; loop--)
       {
          byte[] data = taskFixedData.getByteArrayValue(loop);
          byte[] data2 = taskFixed2Data.getByteArrayValue(loop);
-         
+
          if (data != null && data2 != null)
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);

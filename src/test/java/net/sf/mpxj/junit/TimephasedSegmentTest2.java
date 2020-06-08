@@ -855,7 +855,7 @@ public class TimephasedSegmentTest2
          }
          System.out.println("}");
       }
-   
+
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
       {
          //System.out.println(assignment);

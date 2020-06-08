@@ -46,7 +46,7 @@ abstract class BlockReader
 
    /**
     * Read a list of fixed sized blocks from the input stream.
-
+   
     * @return List of MapRow instances representing the fixed size blocks
     */
    public List<MapRow> read() throws IOException

@@ -916,7 +916,7 @@ final class MPP9Reader implements MPPVariantReader
       // Note we're working backwards: where we have duplicate tasks the later ones
       // appear to be the correct versions (https://github.com/joniles/mpxj/issues/152)
       //
-      for(int loop = itemCount-1; loop > 2; loop--)
+      for (int loop = itemCount - 1; loop > 2; loop--)
       {
          byte[] data = taskFixedData.getByteArrayValue(loop);
          if (data != null)
@@ -966,7 +966,7 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
-                     
+
                      // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but the name is not null
                      if (!taskMap.containsKey(key) || taskVarData.getUnicodeString(key, taskNameKey) != null)
                      {
@@ -1310,7 +1310,7 @@ final class MPP9Reader implements MPPVariantReader
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             continue;
          }
-         
+
          m_taskOrder.put(task.getID(), task.getUniqueID());
 
          //
@@ -2065,34 +2065,34 @@ final class MPP9Reader implements MPPVariantReader
     * This method is called to try to catch any invalid tasks that may have sneaked past all our other checks.
     * This is done by validating the tasks by task ID.
     */
-//   private void postProcessTasks()
-//   {
-//      List<Task> allTasks = m_file.getTasks();
-//      if (allTasks.size() > 1)
-//      {
-//         Collections.sort(allTasks);
-//
-//         int taskID = -1;
-//         int lastTaskID = -1;
-//
-//         for (int i = 0; i < allTasks.size(); i++)
-//         {
-//            Task task = allTasks.get(i);
-//            taskID = NumberHelper.getInt(task.getID());
-//            // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
-//            // IDs are represented.
-//            if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1)
-//            {
-//               // This task looks to be invalid.
-//               task.setNull(true);
-//            }
-//            else
-//            {
-//               lastTaskID = taskID;
-//            }
-//         }
-//      }
-//   }
+   //   private void postProcessTasks()
+   //   {
+   //      List<Task> allTasks = m_file.getTasks();
+   //      if (allTasks.size() > 1)
+   //      {
+   //         Collections.sort(allTasks);
+   //
+   //         int taskID = -1;
+   //         int lastTaskID = -1;
+   //
+   //         for (int i = 0; i < allTasks.size(); i++)
+   //         {
+   //            Task task = allTasks.get(i);
+   //            taskID = NumberHelper.getInt(task.getID());
+   //            // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
+   //            // IDs are represented.
+   //            if (!task.getNull() && lastTaskID != -1 && taskID > lastTaskID + 1)
+   //            {
+   //               // This task looks to be invalid.
+   //               task.setNull(true);
+   //            }
+   //            else
+   //            {
+   //               lastTaskID = taskID;
+   //            }
+   //         }
+   //      }
+   //   }
 
    private void postProcessTasks() throws MPXJException
    {

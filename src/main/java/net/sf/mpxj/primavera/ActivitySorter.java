@@ -64,7 +64,7 @@ class ActivitySorter
          // Sort child activities
          //
          tasks.stream().forEach(task -> sort(task));
-         
+
          //
          // Sort Order:
          // 1. Activities come first

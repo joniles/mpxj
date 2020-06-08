@@ -737,7 +737,7 @@ public final class PhoenixReader extends AbstractProjectReader
       }
       return map;
    }
-   
+
    /**
     * Retrieve the most recent storepoint.
     *

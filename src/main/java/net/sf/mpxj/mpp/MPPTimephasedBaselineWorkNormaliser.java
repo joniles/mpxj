@@ -65,8 +65,8 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
 
             if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
             {
-               result.remove(result.size() -1);
-               
+               result.remove(result.size() - 1);
+
                double work = previousAssignment.getTotalAmount().getDuration();
                work += assignment.getTotalAmount().getDuration();
                Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);

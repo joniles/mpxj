@@ -73,7 +73,7 @@ public class CustomerDataTest
       m_baselineDirectory = configureDirectory("mpxj.junit.baselinedir");
       m_primaveraFile = System.getProperty("mpxj.junit.primavera.file");
       m_primaveraBaselineDir = configureDirectory("mpxj.junit.primavera.baselinedir");
-      
+
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
       m_xerReader = new PrimaveraXERFileReader();
@@ -207,7 +207,7 @@ public class CustomerDataTest
 
    /**
     * Test a project from a Primavera SQLite database.
-    * 
+    *
     * @param reader PrimaveraDatabaseReader instance
     * @param projectID ID of the project to extract
     * @param projectName Name of the project to extract
@@ -216,11 +216,11 @@ public class CustomerDataTest
    private Boolean testPrimaveraProject(PrimaveraDatabaseReader reader, int projectID, String projectName)
    {
       Boolean result = Boolean.TRUE;
-      
+
       try
-      {        
+      {
          reader.setProjectID(projectID);
-         ProjectFile project = reader.read();         
+         ProjectFile project = reader.read();
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))
          {
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
@@ -232,10 +232,10 @@ public class CustomerDataTest
          System.err.println("Failed to read Primavera database project: " + projectName);
          result = Boolean.FALSE;
       }
-      
+
       return result;
    }
-   
+
    /**
     * Create a File instance from a path stored as a property.
     *
@@ -332,7 +332,7 @@ public class CustomerDataTest
    {
       int failures = 0;
       int sourceDirNameLength = m_privateDirectory.getPath().length();
-      
+
       for (File file : files)
       {
          String name = file.getName().toUpperCase();
@@ -497,7 +497,7 @@ public class CustomerDataTest
     */
    @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
    {
-      boolean success = true;      
+      boolean success = true;
 
       ProjectWriter writer = writerClass.newInstance();
       String suffix;
@@ -607,10 +607,10 @@ public class CustomerDataTest
    }
 
    private final File m_privateDirectory;
-   private final File m_baselineDirectory;   
+   private final File m_baselineDirectory;
    private final String m_primaveraFile;
    private final File m_primaveraBaselineDir;
-   
+
    private UniversalProjectReader m_universalReader;
    private MPXReader m_mpxReader;
    private PrimaveraXERFileReader m_xerReader;

@@ -444,7 +444,6 @@ class FastTrackData
       return column instanceof DurationColumn && column.getName().indexOf("Work") != -1;
    }
 
-
    /**
     * Open the log file for writing.
     */

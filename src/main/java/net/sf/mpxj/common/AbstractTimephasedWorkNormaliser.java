@@ -84,7 +84,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWork
                merged.setAmountPerDay(assignmentWork);
                merged.setTotalAmount(totalWork);
 
-               result.remove(result.size()-1);
+               result.remove(result.size() - 1);
                assignment = merged;
             }
             else

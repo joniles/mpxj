@@ -78,7 +78,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
                if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
                {
                   result.remove(result.size() - 1);
-                  
+
                   if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                   {
                      double work = previousAssignment.getTotalAmount().getDuration();
@@ -109,7 +109,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
          Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
-            result.remove(result.size()-1);
+            result.remove(result.size() - 1);
          }
          else
          {
