@@ -24,6 +24,7 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -4960,7 +4961,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList<>();
+         m_listeners = new ArrayList<>();
       }
       m_listeners.add(listener);
    }
@@ -5087,12 +5088,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * List of resource assignments for this task.
     */
-   private List<ResourceAssignment> m_assignments = new LinkedList<>();
+   private List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * List of activity codes for this task.
     */
-   private List<ActivityCodeValue> m_activityCodes = new LinkedList<>();
+   private List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.
