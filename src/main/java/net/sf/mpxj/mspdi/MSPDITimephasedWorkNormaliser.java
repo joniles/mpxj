@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -63,7 +65,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
    }
 
    /*
-      private void dumpList(String label, LinkedList<TimephasedWork> list)
+      private void dumpList(String label, List<TimephasedWork> list)
       {
          System.out.println(label);
          for (TimephasedWork assignment : list)
@@ -81,7 +83,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
       for (TimephasedWork assignment : list)
       {
          while (assignment != null)
@@ -200,7 +202,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    private void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      Deque<TimephasedWork> result = new ArrayDeque<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
