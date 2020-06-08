@@ -63,14 +63,14 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      Deque<DateRange> splits = new ArrayDeque<>();
+      List<DateRange> splits = new ArrayList<>();
       TimephasedWork lastAssignment = null;
       DateRange lastRange = null;
       for (TimephasedWork assignment : timephasedComplete)
       {
          if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
          {
-            splits.removeLast();
+            splits.remove(splits.size()-1);
             lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
          }
          else
@@ -88,7 +88,7 @@ public final class SplitTaskFactory
       Date splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getTotalAmount().getDuration() != 0 && firstPlanned.getTotalAmount().getDuration() != 0)
       {
-         lastRange = splits.removeLast();
+         lastRange = splits.remove(splits.size()-1);
          splitStart = lastRange.getStart();
       }
 
@@ -100,7 +100,7 @@ public final class SplitTaskFactory
          {
             if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
             {
-               splits.removeLast();
+               splits.remove(splits.size()-1);
                lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
             }
             else
@@ -122,7 +122,7 @@ public final class SplitTaskFactory
       //
       if (splits.size() > 2)
       {
-         task.setSplits(new ArrayList<>(splits));
+         task.setSplits(splits);
          task.setSplitCompleteDuration(splitsComplete);
       }
       else

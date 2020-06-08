@@ -202,7 +202,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    private void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      Deque<TimephasedWork> result = new ArrayDeque<>();
+      List<TimephasedWork> result = new ArrayList<>();
 
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
@@ -229,7 +229,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
                   continue;
                }
 
-               result.removeLast();
+               result.remove(result.size()-1);
 
                if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
                {
@@ -260,7 +260,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          Duration assignmentWork = assignment.getTotalAmount();
          if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
          {
-            result.removeLast();
+            result.remove(result.size()-1);
          }
          else
          {
