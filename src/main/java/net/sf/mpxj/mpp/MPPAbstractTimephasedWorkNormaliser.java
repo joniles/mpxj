@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -72,7 +72,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
-      LinkedList<TimephasedWork> result = new LinkedList<>();
+      List<TimephasedWork> result = new ArrayList<>();
       boolean remainderInserted = false;
 
       for (TimephasedWork assignment : list)
@@ -278,7 +278,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
    }
 
    /*
-      private void dumpList(LinkedList<TimephasedWork> list)
+      private void dumpList(List<TimephasedWork> list)
       {
          System.out.println();
          for (TimephasedWork assignment : list)

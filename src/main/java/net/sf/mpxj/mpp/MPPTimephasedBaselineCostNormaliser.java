@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -47,7 +48,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     * @param calendar current calendar
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, LinkedList<TimephasedCost> list)
+   @Override public void normalise(ProjectCalendar calendar, List<TimephasedCost> list)
    {
       if (!list.isEmpty())
       {
@@ -67,7 +68,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     * @param calendar current project calendar
     * @param list list of assignment data
     */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedCost> list)
+   private void splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
    {
       LinkedList<TimephasedCost> result = new LinkedList<>();
       boolean remainderInserted = false;
@@ -193,7 +194,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     *
     * @param list assignment data
     */
-   private void mergeSameDay(LinkedList<TimephasedCost> list)
+   private void mergeSameDay(List<TimephasedCost> list)
    {
       LinkedList<TimephasedCost> result = new LinkedList<>();
 
@@ -242,7 +243,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
     *
     * @param list assignment data
     */
-   protected void mergeSameCost(LinkedList<TimephasedCost> list)
+   protected void mergeSameCost(List<TimephasedCost> list)
    {
       LinkedList<TimephasedCost> result = new LinkedList<>();
 
@@ -290,7 +291,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
    }
 
    /*
-   private void dumpList(LinkedList<TimephasedCost> list)
+   private void dumpList(List<TimephasedCost> list)
    {
       System.out.println();
       for (TimephasedCost assignment : list)

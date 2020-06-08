@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
 
 import net.sf.mpxj.DateRange;
@@ -61,7 +63,7 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      LinkedList<DateRange> splits = new LinkedList<>();
+      Deque<DateRange> splits = new ArrayDeque<>();
       TimephasedWork lastAssignment = null;
       DateRange lastRange = null;
       for (TimephasedWork assignment : timephasedComplete)
@@ -120,7 +122,7 @@ public final class SplitTaskFactory
       //
       if (splits.size() > 2)
       {
-         task.setSplits(splits);
+         task.setSplits(new ArrayList<>(splits));
          task.setSplitCompleteDuration(splitsComplete);
       }
       else
