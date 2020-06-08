@@ -26,7 +26,6 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.common.ByteArrayHelper;
@@ -243,7 +242,7 @@ public final class RTFEmbeddedObject
     */
    private static int readObjectData(int offset, String text, List<RTFEmbeddedObject> objects)
    {
-      LinkedList<byte[]> blocks = new LinkedList<>();
+      List<byte[]> blocks = new ArrayList<>();
 
       offset += (OBJDATA.length());
       offset = skipEndOfLine(text, offset);

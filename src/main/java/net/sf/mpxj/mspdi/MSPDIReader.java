@@ -396,7 +396,7 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<>();
+         List<Pair<ProjectCalendar, BigInteger>> baseCalendars = new ArrayList<>();
          for (Project.Calendars.Calendar cal : calendars.getCalendar())
          {
             readCalendar(cal, map, baseCalendars);
