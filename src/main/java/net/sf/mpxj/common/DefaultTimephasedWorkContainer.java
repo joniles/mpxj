@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.common;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
@@ -45,14 +45,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     */
    public DefaultTimephasedWorkContainer(ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, List<TimephasedWork> data, boolean raw)
    {
-      if (data instanceof LinkedList<?>)
-      {
-         m_data = (LinkedList<TimephasedWork>) data;
-      }
-      else
-      {
-         m_data = new LinkedList<>(data);
-      }
+      m_data = data;
       m_raw = raw;
       m_calendar = calendar;
       m_normaliser = normaliser;
@@ -68,7 +61,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     */
    private DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
    {
-      m_data = new LinkedList<>();
+      m_data = new ArrayList<>();
       m_raw = source.m_raw;
       m_calendar = source.m_calendar;
       m_normaliser = source.m_normaliser;
@@ -107,7 +100,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       return new DefaultTimephasedWorkContainer(this, perDayFactor, totalFactor);
    }
 
-   private LinkedList<TimephasedWork> m_data;
+   private List<TimephasedWork> m_data;
    private boolean m_raw;
    private TimephasedWorkNormaliser m_normaliser;
    private ProjectCalendar m_calendar;

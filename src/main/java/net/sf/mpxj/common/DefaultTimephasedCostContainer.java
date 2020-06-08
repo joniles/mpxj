@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.common;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
@@ -45,14 +44,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
     */
    public DefaultTimephasedCostContainer(ProjectCalendar calendar, TimephasedCostNormaliser normaliser, List<TimephasedCost> data, boolean raw)
    {
-      if (data instanceof LinkedList<?>)
-      {
-         m_data = (LinkedList<TimephasedCost>) data;
-      }
-      else
-      {
-         m_data = new LinkedList<>(data);
-      }
+      m_data = data;
       m_raw = raw;
       m_calendar = calendar;
       m_normaliser = normaliser;
@@ -81,7 +73,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
       return !m_data.isEmpty();
    }
 
-   private LinkedList<TimephasedCost> m_data;
+   private List<TimephasedCost> m_data;
    private boolean m_raw;
    private TimephasedCostNormaliser m_normaliser;
    private ProjectCalendar m_calendar;
