@@ -32,6 +32,7 @@ import net.sf.mpxj.junit.assignment.AssignmentTextTest;
 import net.sf.mpxj.junit.assignment.DeletedAssignmentTest;
 import net.sf.mpxj.junit.calendar.CalendarCalendarsTest;
 import net.sf.mpxj.junit.calendar.InvalidCalendarTest;
+import net.sf.mpxj.junit.calendar.MultiDayExceptionsTest;
 import net.sf.mpxj.junit.calendar.RecurringExceptionsTest;
 import net.sf.mpxj.junit.legacy.BasicTest;
 import net.sf.mpxj.junit.primavera.PrimaveraDatabaseReaderTest;
@@ -148,6 +149,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    RecurringDataTest.class,
    DataLinksTest.class,
    LocaleDataTest.class,
+   MultiDayExceptionsTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
