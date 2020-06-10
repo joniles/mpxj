@@ -44,6 +44,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.DatabaseHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 
@@ -148,18 +149,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          reset();
 
-         if (m_allocatedConnection && m_connection != null)
+         if (m_allocatedConnection)
          {
-            try
-            {
-               m_connection.close();
-            }
-
-            catch (SQLException ex)
-            {
-               // silently ignore errors on close
-            }
-
+            DatabaseHelper.closeQuietly(m_connection);
             m_connection = null;
          }
       }
@@ -591,35 +583,11 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void releaseConnection()
    {
-      if (m_rs != null)
-      {
-         try
-         {
-            m_rs.close();
-         }
+      DatabaseHelper.closeQuietly(m_rs);
+      m_rs = null;
 
-         catch (SQLException ex)
-         {
-            // silently ignore errors on close
-         }
-
-         m_rs = null;
-      }
-
-      if (m_ps != null)
-      {
-         try
-         {
-            m_ps.close();
-         }
-
-         catch (SQLException ex)
-         {
-            // silently ignore errors on close
-         }
-
-         m_ps = null;
-      }
+      DatabaseHelper.closeQuietly(m_ps);
+      m_ps = null;
    }
 
    /**
@@ -692,19 +660,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       finally
       {
-         if (rs != null)
-         {
-            try
-            {
-               rs.close();
-            }
-
-            catch (SQLException ex)
-            {
-               // Ignore errors when closing result set
-            }
-            rs = null;
-         }
+         DatabaseHelper.closeQuietly(rs);
+         rs = null;
       }
    }
 

@@ -31,13 +31,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import net.sf.mpxj.common.DatabaseHelper;
 
 /**
  * Simple utility to export data to an XML file from an arbitrary database
@@ -77,18 +78,7 @@ public final class DataExportUtility
 
          finally
          {
-            if (connection != null)
-            {
-               try
-               {
-                  connection.close();
-               }
-
-               catch (SQLException ex)
-               {
-                  // silently ignore exceptions when closing connection
-               }
-            }
+            DatabaseHelper.closeQuietly(connection);
          }
       }
    }

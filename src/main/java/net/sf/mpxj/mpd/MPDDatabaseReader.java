@@ -36,6 +36,7 @@ import javax.sql.DataSource;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.DatabaseHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
 
@@ -162,18 +163,7 @@ public final class MPDDatabaseReader implements ProjectReader
 
       finally
       {
-         if (m_connection != null)
-         {
-            try
-            {
-               m_connection.close();
-            }
-
-            catch (SQLException ex)
-            {
-               // silently ignore exceptions when closing connection
-            }
-         }
+         DatabaseHelper.closeQuietly(m_connection);
       }
    }
 

@@ -50,6 +50,7 @@ import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.DatabaseHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
@@ -510,10 +511,7 @@ public final class UniversalProjectReader implements ProjectReader
             }
             finally
             {
-               if (connection != null)
-               {
-                  connection.close();
-               }
+               DatabaseHelper.closeQuietly(connection);
             }
          }
 
@@ -827,15 +825,8 @@ public final class UniversalProjectReader implements ProjectReader
 
       finally
       {
-         if (rs != null)
-         {
-            rs.close();
-         }
-
-         if (connection != null)
-         {
-            connection.close();
-         }
+         DatabaseHelper.closeQuietly(rs);
+         DatabaseHelper.closeQuietly(connection);
       }
 
       return tableNames;

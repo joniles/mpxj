@@ -42,6 +42,7 @@ import java.util.Properties;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.DatabaseHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -99,18 +100,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
 
       finally
       {
-         if (m_connection != null)
-         {
-            try
-            {
-               m_connection.close();
-            }
-
-            catch (SQLException ex)
-            {
-               // silently ignore exceptions when closing connection
-            }
-         }
+         DatabaseHelper.closeQuietly(m_connection);
       }
    }
 
