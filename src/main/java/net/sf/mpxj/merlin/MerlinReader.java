@@ -74,7 +74,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DatabaseHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -182,7 +182,7 @@ public final class MerlinReader implements ProjectReader
 
       finally
       {
-         DatabaseHelper.closeQuietly(m_connection);
+         AutoCloseableHelper.closeQuietly(m_connection);
          m_documentBuilder = null;
          m_dayTimeIntervals = null;
          m_entityMap = null;

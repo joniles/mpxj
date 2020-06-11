@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.primavera.common.ColumnDefinition;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.primavera.common.TableDefinition;
@@ -68,7 +68,7 @@ class TableReader
 
       finally
       {
-         StreamHelper.closeQuietly(is);
+         AutoCloseableHelper.closeQuietly(is);
       }
    }
 

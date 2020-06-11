@@ -40,7 +40,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.mpp.MPPUtility;
 
 /**
@@ -129,9 +129,8 @@ public class HexDumpController
 
       finally
       {
-         StreamHelper.closeQuietly(is);
+         AutoCloseableHelper.closeQuietly(is);
       }
-
    }
 
    /**

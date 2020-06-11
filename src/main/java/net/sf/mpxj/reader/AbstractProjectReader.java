@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 
 /**
  * Abstract implementation of the ProjectReader interface
@@ -60,7 +60,7 @@ public abstract class AbstractProjectReader implements ProjectReader
 
       finally
       {
-         StreamHelper.closeQuietly(fis);
+         AutoCloseableHelper.closeQuietly(fis);
       }
    }
 
@@ -86,7 +86,7 @@ public abstract class AbstractProjectReader implements ProjectReader
 
       finally
       {
-         StreamHelper.closeQuietly(fis);
+         AutoCloseableHelper.closeQuietly(fis);
       }
    }
 }

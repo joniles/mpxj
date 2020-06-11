@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import net.sf.mpxj.common.DatabaseHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 
 /**
  * Simple utility to export data to an XML file from an arbitrary database
@@ -78,7 +78,7 @@ public final class DataExportUtility
 
          finally
          {
-            DatabaseHelper.closeQuietly(connection);
+            AutoCloseableHelper.closeQuietly(connection);
          }
       }
    }

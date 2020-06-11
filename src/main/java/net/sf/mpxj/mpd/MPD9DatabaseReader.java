@@ -44,7 +44,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.common.DatabaseHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 
@@ -151,7 +151,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
          if (m_allocatedConnection)
          {
-            DatabaseHelper.closeQuietly(m_connection);
+            AutoCloseableHelper.closeQuietly(m_connection);
             m_connection = null;
          }
       }
@@ -583,10 +583,10 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void releaseConnection()
    {
-      DatabaseHelper.closeQuietly(m_rs);
+      AutoCloseableHelper.closeQuietly(m_rs);
       m_rs = null;
 
-      DatabaseHelper.closeQuietly(m_ps);
+      AutoCloseableHelper.closeQuietly(m_ps);
       m_ps = null;
    }
 
@@ -660,7 +660,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       finally
       {
-         DatabaseHelper.closeQuietly(rs);
+         AutoCloseableHelper.closeQuietly(rs);
          rs = null;
       }
    }

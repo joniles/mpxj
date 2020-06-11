@@ -44,7 +44,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.common.DatabaseHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.ProjectReader;
@@ -137,7 +137,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          if (m_allocatedConnection)
          {
-            DatabaseHelper.closeQuietly(m_connection);
+            AutoCloseableHelper.closeQuietly(m_connection);
             m_connection = null;
          }
       }
@@ -502,10 +502,10 @@ public final class PrimaveraDatabaseReader implements ProjectReader
     */
    private void releaseConnection()
    {
-      DatabaseHelper.closeQuietly(m_rs);
+      AutoCloseableHelper.closeQuietly(m_rs);
       m_rs = null;
 
-      DatabaseHelper.closeQuietly(m_ps);
+      AutoCloseableHelper.closeQuietly(m_ps);
       m_ps = null;
    }
 

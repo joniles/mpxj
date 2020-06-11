@@ -42,7 +42,7 @@ import java.util.Properties;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.DatabaseHelper;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -81,7 +81,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
-      {
+      {         
          String url = "jdbc:sqlite:" + file.getAbsolutePath();
          Properties props = new Properties();
          props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
@@ -100,7 +100,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
 
       finally
       {
-         DatabaseHelper.closeQuietly(m_connection);
+         AutoCloseableHelper.closeQuietly(m_connection);
       }
    }
 

@@ -1,8 +1,8 @@
 /*
- * file:       StreamHelper
+ * file:       AutoCloseablehelper
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2018
- * date:       19/01/2018
+ * copyright:  (c) Packwood Software 2020
+ * date:       10/067/2020
  */
 
 /*
@@ -23,32 +23,29 @@
 
 package net.sf.mpxj.common;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
- * Common helper methods for working with streams.
+ * Common helper methods for working with AutoCloseable resources.
  */
-public final class StreamHelper
+public final class AutoCloseableHelper
 {
    /**
-    * The documentation for InputStream.skip indicates that it can bail out early, and not skip
-    * the requested number of bytes. I've encountered this in practice, hence this helper method.
+    * Close a database connection without raising an exception on error.
     *
-    * @param stream InputStream instance
-    * @param skip number of bytes to skip
+    * @param closeable connection to close
     */
-   public static void skip(InputStream stream, long skip) throws IOException
+   public static final void closeQuietly(AutoCloseable closeable)
    {
-      long count = skip;
-      while (count > 0)
+      if (closeable != null)
       {
-         long skipped = stream.skip(count);
-         if (skipped == 0)
+         try
          {
-            throw new IOException("Cannot skip forward within InputStream");
+            closeable.close();
          }
-         count -= skipped;
+
+         catch (Exception ex)
+         {
+            // silently ignore exceptions
+         }
       }
    }
 }
