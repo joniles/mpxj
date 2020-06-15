@@ -46,7 +46,7 @@ class DayTypeAssignmentReader extends TableReader
       map.put("DATE", stream.readDate());
       map.put("UNKNOWN1", stream.readBytes(4));
       map.put("DAY_TYPE_UUID", stream.readUUID());
-      map.put("UNKNOWN2", stream.readBytes(4));
+      map.put("UNKNOWN2", stream.readBytes(4+4));
    }
 
    @Override protected boolean hasUUID()
