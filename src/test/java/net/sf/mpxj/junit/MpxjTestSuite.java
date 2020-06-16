@@ -150,6 +150,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    DataLinksTest.class,
    LocaleDataTest.class,
    MultiDayExceptionsTest.class,
+   SemVerTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

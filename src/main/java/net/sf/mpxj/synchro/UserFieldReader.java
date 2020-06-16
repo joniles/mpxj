@@ -43,7 +43,7 @@ class UserFieldReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      if (stream.getMajorVersion() > 5)
+      if (stream.getVersion().atLeast(Synchro.VERSION_6_0_0))
       {
          map.put("VALUE", stream.readString());
          map.put("UNKNOWN1", stream.readBytes(26));
