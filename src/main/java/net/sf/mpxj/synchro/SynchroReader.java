@@ -125,7 +125,7 @@ public final class SynchroReader extends AbstractProjectReader
       m_eventManager.addProjectListeners(m_projectListeners);
 
       processCalendars();
-      processResources();
+      //processResources();
       processTasks();
       processPredecessors();
 

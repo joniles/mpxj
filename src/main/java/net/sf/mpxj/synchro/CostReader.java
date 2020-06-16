@@ -43,8 +43,10 @@ class CostReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
+      int unknown1size = stream.getVersion().atLeast(Synchro.VERSION_6_2_0) ? 36 : 20;
+      
       map.put("NAME", stream.readString());
-      map.put("UNKNOWN1", stream.readBytes(20));
+      map.put("UNKNOWN1", stream.readBytes(unknown1size));
    }
 
    @Override protected int rowMagicNumber()

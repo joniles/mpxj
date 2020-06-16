@@ -44,7 +44,7 @@ class CompanyReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       map.put("UNKNOWN1", stream.readBytes(20));
-      map.put("RESOURCES", stream.readTable(ResourceReader.class));
+      //map.put("RESOURCES", stream.readTable(ResourceReader.class));
       map.put("NAME", stream.readString());
       map.put("ADDRESS", stream.readString());
       map.put("PHONE", stream.readString());
