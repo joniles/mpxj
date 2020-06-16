@@ -51,7 +51,7 @@ class CommentaryReader extends TableReader
 
    @Override protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      if (stream.getMajorVersion() < 6)
+      if (stream.getVersion().before(Synchro.VERSION_6_0_0))
       {
          map.put("UNKNOWN0", stream.readBytes(16));
       }

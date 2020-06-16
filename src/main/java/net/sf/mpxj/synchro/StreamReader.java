@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.common.ByteArray;
+import net.sf.mpxj.common.SemVer;
 
 /**
  * This class wraps an input stream, providing methods to read specific types.
@@ -41,15 +42,14 @@ class StreamReader
    /**
     * Constructor.
     *
-    * @param majorVersion major version
-    * @param minorVersion minor version
+    * @param version version
     * @param stream input stream
     */
-   public StreamReader(int majorVersion, int minorVersion, final InputStream stream)
+   public StreamReader(SemVer version, final InputStream stream)
    {
-      m_majorVersion = majorVersion;
-      m_minorVersion = minorVersion;
+      m_version = version;
       m_stream = stream;
+      
       //      m_stream = new InputStream()
       //      {
       //         @Override public int read() throws IOException
@@ -299,37 +299,15 @@ class StreamReader
    }
 
    /**
-    * Retrieve the major version number of this file.
-    *
-    * @return major version number
+    * Retrieve the file version.
+    * 
+    * @return file version
     */
-   public int getMajorVersion()
+   public SemVer getVersion()
    {
-      return m_majorVersion;
+      return m_version;
    }
 
-   /**
-    * Retrieve the minor version number of this file.
-    *
-    * @return minor version number
-    */
-   public int getMinorVersion()
-   {
-      return m_minorVersion;
-   }
-
-   /**
-    * Retrieve the combined version number of this file.
-    * Note that this is simplistic and assumes that we'll never seem a minor version > 99.
-    *
-    * @return combined version number
-    */
-   public int getCombinedVersion()
-   {
-      return (m_majorVersion * 100) + m_minorVersion;
-   }
-
-   private final int m_majorVersion;
-   private final int m_minorVersion;
+   private final SemVer m_version;
    private final InputStream m_stream;
 }

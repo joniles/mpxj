@@ -54,7 +54,7 @@ class PredecessorReader extends TableReader
       map.put("LAG", stream.readDuration());
       map.put("UNKNOWN2", stream.readBytes(4));
 
-      if (stream.getCombinedVersion() < 601)
+      if (stream.getVersion().before(Synchro.VERSION_6_1_0))
       {
          // Prior to version 6.1.0.0
          lagIsNegative = stream.readInt() == 2;

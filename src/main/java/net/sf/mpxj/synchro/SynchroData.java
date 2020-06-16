@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import net.sf.mpxj.common.SemVer;
 import net.sf.mpxj.common.StreamHelper;
 
 /**
@@ -69,13 +70,13 @@ class SynchroData
    public StreamReader getTableData(String name) throws IOException
    {
       InputStream stream = new ByteArrayInputStream(m_tableData.get(name));
-      if (m_majorVersion > 5)
+      if (m_version.atLeast(Synchro.VERSION_6_0_0))
       {
          byte[] header = new byte[24];
          stream.read(header);
          SynchroLogger.log("TABLE HEADER", header);
       }
-      return new StreamReader(m_majorVersion, m_minorVersion, stream);
+      return new StreamReader(m_version, stream);
    }
 
    /**
@@ -251,14 +252,10 @@ class SynchroData
       String version = DatatypeConverter.getString(bytesReadStream);
       m_offset += bytesReadStream.getBytesRead();
       SynchroLogger.log("VERSION", version);
-
-      String[] versionArray = version.split("\\.");
-      m_majorVersion = Integer.parseInt(versionArray[0]);
-      m_minorVersion = Integer.parseInt(versionArray[1]);
+      m_version = new SemVer(version);
    }
 
-   private int m_majorVersion;
-   private int m_minorVersion;
+   private SemVer m_version;
    private int m_offset;
    private Map<String, byte[]> m_tableData = new HashMap<>();
    private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies"));

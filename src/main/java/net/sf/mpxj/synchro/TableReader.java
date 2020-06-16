@@ -123,7 +123,7 @@ abstract class TableReader
     */
    protected void readUUID(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      int unknown0Size = stream.getMajorVersion() > 5 ? 8 : 16;
+      int unknown0Size = stream.getVersion().atLeast(Synchro.VERSION_6_0_0) ? 8 : 16;
       map.put("UNKNOWN0", stream.readBytes(unknown0Size));
       map.put("UUID", stream.readUUID());
    }
