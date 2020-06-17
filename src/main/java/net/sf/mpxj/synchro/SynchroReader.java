@@ -248,8 +248,14 @@ public final class SynchroReader extends AbstractProjectReader
 
    private void process62Resources() throws IOException
    {
-//      ResourceReader reader = new ResourceReader(m_data.getTableData("Resources"));
-//      reader.read();
+      ResourceReader reader = new ResourceReader(m_data.getTableData("Resources"));
+      reader.read();
+      
+      // TODO: need to sort by type as well as by name!
+      for (MapRow resourceRow : sort(reader.getRows(), "NAME"))
+      {
+         processResource(resourceRow);
+      }
    }
    
    /**

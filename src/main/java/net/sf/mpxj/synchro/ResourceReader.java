@@ -43,7 +43,7 @@ class ResourceReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      int unknown3BlockSize = m_stream.getVersion().atLeast(Synchro.VERSION_6_0_0) ? 56 : 64;
+      int unknown3BlockSize = stream.getVersion().atLeast(Synchro.VERSION_6_0_0) ? 56 : 64;
 
       map.put("NAME", stream.readString());
       map.put("DESCRIPTION", stream.readString());
@@ -64,22 +64,13 @@ class ResourceReader extends TableReader
       map.put("UNKNOWN3", stream.readUnknownTable(unknown3BlockSize, 0x701BAFBD));
       map.put("UNKNOWN4", stream.readBytes(30));
       map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
-      map.put("UNKNOWN5", stream.readBytes(48));
-      Integer unknown6Flag = stream.readInteger();
-      map.put("UNKNOWN6_FLAG", unknown6Flag);
-      if (unknown6Flag.intValue() != 0)
-      {
-         map.put("UNKNOWN6", stream.readBytes(70));
-         map.put("UNKNOWN7", stream.readString());
-         map.put("UNKNOWN8", stream.readBytes(4));
-      }
-      map.put("UNKNOWN9", stream.readBytes(12));
-
-      if (m_stream.getVersion().atLeast(Synchro.VERSION_6_0_0))
-      {
-         map.put("UNKNOWN10", stream.readBytes(12));
-      }
-      map.put("UNIQUE_ID", stream.readInteger());
+                 
+      // Complex structure after this point which varies between file versions,
+      // and I haven't had time to analyse in detail yet.
+      // For now we'll take the easy way out and skip to the end of the row,
+      skipToRowEnd(4);
+      
+      map.put("UNIQUE_ID", stream.readInteger());     
    }
 
    @Override protected int rowMagicNumber()
