@@ -1,6 +1,11 @@
 # Changelog
 
-## 8.1.0 (git master)
+## 8.1.2 (git master)
+
+## 8.1.1 (17/06/2020)
+* Improve support for Synchro 6.2 SP files.
+
+## 8.1.0 (11/06/2020)
 * Experimental support for reading Project Commander schedules.
 * Update to use JAXB 2.3.2.
 * Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.
