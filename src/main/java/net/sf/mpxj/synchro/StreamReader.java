@@ -49,7 +49,7 @@ class StreamReader
    {
       m_version = version;
       m_stream = stream;
-      
+
       //      m_stream = new InputStream()
       //      {
       //         @Override public int read() throws IOException
@@ -236,6 +236,16 @@ class StreamReader
    }
 
    /**
+    * Read a duration.
+    *
+    * @return Duration instance
+    */
+   public Duration readDurationFromLong() throws IOException
+   {
+      return DatatypeConverter.getDurationFromLong(m_stream);
+   }
+
+   /**
     * Read an int.
     *
     * @return int value
@@ -312,7 +322,7 @@ class StreamReader
    {
       return m_stream;
    }
-   
+
    private final SemVer m_version;
    private final InputStream m_stream;
 }

@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.ByteArray;
 
 /**
  * Common functionality to support reading Synchro tables.
@@ -136,8 +136,9 @@ abstract class TableReader
     * the next row, or the end of the table, while accounting for nested tables.
     * 
     * @param preserveBytes number of bytes to leave in the stream for the subclass to read
+    * @return skipped bytes
     */
-   protected void skipToRowEnd(int preserveBytes) throws IOException
+   protected ByteArray skipToRowEnd(int preserveBytes) throws IOException
    {
       InputStream is = m_stream.getStream();
       int available = is.available();
@@ -175,7 +176,7 @@ abstract class TableReader
          }
       }
 
-      StreamHelper.skip(is, blockSize - preserveBytes);
+      return m_stream.readBytes(blockSize - preserveBytes);
    }
    
    /**

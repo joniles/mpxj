@@ -45,35 +45,43 @@ class PredecessorReader extends TableReader
    }
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
-   {
-      boolean lagIsNegative;
-
+   {    
       map.put("PREDECESSOR_UUID", stream.readUUID());
       map.put("RELATION_TYPE", getRelationType(stream.readInt()));
-      map.put("UNKNOWN1", stream.readBytes(4));
-      map.put("LAG", stream.readDuration());
-      map.put("UNKNOWN2", stream.readBytes(4));
-
-      if (stream.getVersion().before(Synchro.VERSION_6_1_0))
+      
+      if (stream.getVersion().atLeast(Synchro.VERSION_6_2_0))
       {
-         // Prior to version 6.1.0.0
-         lagIsNegative = stream.readInt() == 2;
-         map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
+         map.put("LAG", stream.readDurationFromLong());
          map.put("CALENDAR_UUID", stream.readUUID());
-         map.put("UNKNOWN3", stream.readBytes(8));
+         map.put("UNKNOWN1", stream.readBytes(8));
+
       }
       else
       {
-         // Version 6.1.0.0 and after
-         map.put("CALENDAR_UUID", stream.readUUID());
-         lagIsNegative = stream.readInt() == 2;
-         map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
-      }
-
-      if (lagIsNegative)
-      {
-         Duration lag = (Duration) map.get("LAG");
-         map.put("LAG", Duration.getInstance(-lag.getDuration(), lag.getUnits()));
+         map.put("UNKNOWN1", stream.readBytes(4));
+         map.put("LAG", stream.readDuration());
+         map.put("UNKNOWN2", stream.readBytes(4));
+    
+         boolean lagIsNegative;
+         if (stream.getVersion().before(Synchro.VERSION_6_1_0))
+         {
+            lagIsNegative = stream.readInt() == 2;
+            map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
+            map.put("CALENDAR_UUID", stream.readUUID());
+            map.put("UNKNOWN3", stream.readBytes(8));
+         }
+         else
+         {
+            map.put("CALENDAR_UUID", stream.readUUID());
+            lagIsNegative = stream.readInt() == 2;
+            map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
+         }
+   
+         if (lagIsNegative)
+         {
+            Duration lag = (Duration) map.get("LAG");
+            map.put("LAG", Duration.getInstance(-lag.getDuration(), lag.getUnits()));
+         }
       }
    }
 
