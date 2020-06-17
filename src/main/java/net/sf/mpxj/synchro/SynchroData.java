@@ -61,6 +61,16 @@ class SynchroData
    }
 
    /**
+    * Retrieve the file version.
+    * 
+    * @return file version
+    */
+   public SemVer getVersion()
+   {
+      return m_version;
+   }
+   
+   /**
     * Return an input stream to read the data from the named table.
     *
     * @param name table name
@@ -258,5 +268,5 @@ class SynchroData
    private SemVer m_version;
    private int m_offset;
    private Map<String, byte[]> m_tableData = new HashMap<>();
-   private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies"));
+   private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies", "Resources"));
 }

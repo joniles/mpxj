@@ -43,10 +43,12 @@ class DayTypeAssignmentReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
+      int unknown2size = stream.getVersion().atLeast(Synchro.VERSION_6_2_0) ? 8 : 4;
+      
       map.put("DATE", stream.readDate());
       map.put("UNKNOWN1", stream.readBytes(4));
       map.put("DAY_TYPE_UUID", stream.readUUID());
-      map.put("UNKNOWN2", stream.readBytes(4));
+      map.put("UNKNOWN2", stream.readBytes(unknown2size));
    }
 
    @Override protected boolean hasUUID()

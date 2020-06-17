@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.1.0">
+		<release date="git master" version="8.1.1">
+			<action dev="joniles" type="update">Improve support for Synchro 6.2 SP files.</action>
+		</release>
+		<release date="11/06/2020" version="8.1.0">
 			<action dev="joniles" type="add">Experimental support for reading Project Commander schedules.</action>
 			<action dev="joniles" type="update">Update to use JAXB 2.3.2.</action>
 			<action dev="joniles" type="update">Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.</action>

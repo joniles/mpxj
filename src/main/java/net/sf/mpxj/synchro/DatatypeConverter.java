@@ -307,7 +307,28 @@ final class DatatypeConverter
     */
    public static final Duration getDuration(InputStream is) throws IOException
    {
-      int durationInSeconds = getInt(is);
+      return getDurationFromSeconds(getInt(is));
+   }
+
+   /**
+    * Retrieve a Synchro Duration from an input stream.
+    *
+    * @param is input stream
+    * @return Duration instance
+    */
+   public static final Duration getDurationFromLong(InputStream is) throws IOException
+   {
+      return getDurationFromSeconds((int)getLong(is));
+   }
+
+   /**
+    * Convert a duration in seconds to a Duration instance.
+    * 
+    * @param durationInSeconds duration in seconds
+    * @return Duration instance
+    */
+   private static final Duration getDurationFromSeconds(int durationInSeconds)
+   {
       if (durationInSeconds == NULL_SECONDS)
       {
          return null;

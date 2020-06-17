@@ -24,10 +24,13 @@
 package net.sf.mpxj.synchro;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.mpxj.common.ByteArray;
 
 /**
  * Common functionality to support reading Synchro tables.
@@ -63,7 +66,7 @@ abstract class TableReader
    public TableReader read() throws IOException
    {
       int tableHeader = m_stream.readInt();
-      if (tableHeader != 0x39AF547A)
+      if (tableHeader != TABLE_HEADER)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -94,7 +97,7 @@ abstract class TableReader
       }
 
       int tableTrailer = m_stream.readInt();
-      if (tableTrailer != 0x6F99E416)
+      if (tableTrailer != TABLE_TRAILER)
       {
          throw new IllegalArgumentException("Unexpected file format");
       }
@@ -129,6 +132,54 @@ abstract class TableReader
    }
 
    /**
+    * Attempts to find the end of the row by looking for either the start of
+    * the next row, or the end of the table, while accounting for nested tables.
+    * 
+    * @param preserveBytes number of bytes to leave in the stream for the subclass to read
+    * @return skipped bytes
+    */
+   protected ByteArray skipToRowEnd(int preserveBytes) throws IOException
+   {
+      InputStream is = m_stream.getStream();
+      int available = is.available();
+      is.mark(available);
+      byte[] data = m_stream.readBytes(available).getData();
+      is.reset();
+      
+      int tableDepth = 0;
+      int blockSize = data.length - 4;
+      for (int index=0; index < data.length-4; index++)
+      {
+         int value = DatatypeConverter.getInt(data, index);
+         if (value == TABLE_HEADER)
+         {
+            ++tableDepth;
+            continue;
+         }
+         
+         if (value == TABLE_TRAILER)
+         {
+            if (tableDepth == 0)
+            {
+               blockSize = index;
+               break;
+            }
+
+            --tableDepth;
+            continue;
+         }
+         
+         if (value == rowMagicNumber())
+         {
+            blockSize = index;
+            break;
+         }
+      }
+
+      return m_stream.readBytes(blockSize - preserveBytes);
+   }
+   
+   /**
     * Allows additional behaviour once the main table data has been read.
     *
     * @param stream input stream
@@ -155,4 +206,7 @@ abstract class TableReader
 
    protected final StreamReader m_stream;
    private final List<MapRow> m_rows = new ArrayList<>();
+   
+   private static final int TABLE_HEADER = 0x39AF547A;
+   private static final int TABLE_TRAILER = 0x6F99E416;
 }

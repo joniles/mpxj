@@ -222,6 +222,18 @@ public final class SynchroReader extends AbstractProjectReader
     */
    private void processResources() throws IOException
    {
+      if (m_data.getVersion().atLeast(Synchro.VERSION_6_2_0))
+      {
+         process62Resources();
+      }
+      else
+      {
+         process50Resources();
+      }
+   }
+
+   private void process50Resources() throws IOException
+   {
       CompanyReader reader = new CompanyReader(m_data.getTableData("Companies"));
       reader.read();
       for (MapRow companyRow : reader.getRows())
@@ -234,6 +246,18 @@ public final class SynchroReader extends AbstractProjectReader
       }
    }
 
+   private void process62Resources() throws IOException
+   {
+      ResourceReader reader = new ResourceReader(m_data.getTableData("Resources"));
+      reader.read();
+      
+      // TODO: need to sort by type as well as by name!
+      for (MapRow resourceRow : sort(reader.getRows(), "NAME"))
+      {
+         processResource(resourceRow);
+      }
+   }
+   
    /**
     * Extract data for a single resource.
     *
