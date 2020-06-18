@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.1.2 (git master)
+## 8.1.3 (git master)
+
+## 8.1.2 (18/06/2020)
 * Improve detection of unusual MSPDI file variants.
 * Updated to read task notes from FastTrack FTS files.
 
