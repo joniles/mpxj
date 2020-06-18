@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.1.2 (git master)
+* Improve detection of unusual MSPDI file variants.
 
 ## 8.1.1 (17/06/2020)
 * Improve support for Synchro 6.2 SP files.
