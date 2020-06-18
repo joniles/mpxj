@@ -45,10 +45,10 @@ class PredecessorReader extends TableReader
    }
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
-   {    
+   {
       map.put("PREDECESSOR_UUID", stream.readUUID());
       map.put("RELATION_TYPE", getRelationType(stream.readInt()));
-      
+
       if (stream.getVersion().atLeast(Synchro.VERSION_6_2_0))
       {
          map.put("LAG", stream.readDurationFromLong());
@@ -61,7 +61,7 @@ class PredecessorReader extends TableReader
          map.put("UNKNOWN1", stream.readBytes(4));
          map.put("LAG", stream.readDuration());
          map.put("UNKNOWN2", stream.readBytes(4));
-    
+
          boolean lagIsNegative;
          if (stream.getVersion().before(Synchro.VERSION_6_1_0))
          {
@@ -76,7 +76,7 @@ class PredecessorReader extends TableReader
             lagIsNegative = stream.readInt() == 2;
             map.put("LAG_IS_NEGATIVE", Boolean.valueOf(lagIsNegative));
          }
-   
+
          if (lagIsNegative)
          {
             Duration lag = (Duration) map.get("LAG");

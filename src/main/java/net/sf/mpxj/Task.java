@@ -2873,7 +2873,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * This method retrieves a flag indicating whether the duration of the
     * task has only been estimated.
-
+   
     * @param estimated Boolean flag
     */
    public void setEstimated(boolean estimated)

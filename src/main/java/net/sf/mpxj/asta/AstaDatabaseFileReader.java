@@ -81,7 +81,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
-      {         
+      {
          String url = "jdbc:sqlite:" + file.getAbsolutePath();
          Properties props = new Properties();
          props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");

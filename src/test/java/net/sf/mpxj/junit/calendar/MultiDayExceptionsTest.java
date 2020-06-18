@@ -76,12 +76,12 @@ public class MultiDayExceptionsTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile project = reader.read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
-      
+
       Date startDate = DateHelper.getDayStartDate(df.parse("23/12/2019"));
       Date endDate = DateHelper.getDayEndDate(df.parse("08/01/2020"));
-      
+
       Duration duration = calendar.getWork(startDate, endDate, TimeUnit.DAYS);
-    
-      assertEquals("9.0d", duration.toString());      
+
+      assertEquals("9.0d", duration.toString());
    }
 }

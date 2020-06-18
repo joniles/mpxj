@@ -250,14 +250,14 @@ public final class SynchroReader extends AbstractProjectReader
    {
       ResourceReader reader = new ResourceReader(m_data.getTableData("Resources"));
       reader.read();
-      
+
       // TODO: need to sort by type as well as by name!
       for (MapRow resourceRow : sort(reader.getRows(), "NAME"))
       {
          processResource(resourceRow);
       }
    }
-   
+
    /**
     * Extract data for a single resource.
     *

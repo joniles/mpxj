@@ -65,7 +65,7 @@ class StreamReader
    /**
     * Read a single byte.
     *
-    * @return Integer instance representing the byte read 
+    * @return Integer instance representing the byte read
     */
    public Integer readByte() throws IOException
    {
@@ -310,7 +310,7 @@ class StreamReader
 
    /**
     * Retrieve the file version.
-    * 
+    *
     * @return file version
     */
    public SemVer getVersion()

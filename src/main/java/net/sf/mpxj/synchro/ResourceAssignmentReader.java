@@ -44,7 +44,7 @@ class ResourceAssignmentReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       int unknown8Size = stream.getVersion().atLeast(Synchro.VERSION_6_2_0) ? 29 : 13;
-      
+
       map.put("UNKNOWN1", stream.readBytes(57));
       map.put("UNKNOWN2", stream.readDouble());
       map.put("UNKNOWN3", stream.readBytes(10));

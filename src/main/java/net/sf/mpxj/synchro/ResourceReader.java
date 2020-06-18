@@ -64,13 +64,13 @@ class ResourceReader extends TableReader
       map.put("UNKNOWN3", stream.readUnknownTable(unknown3BlockSize, 0x701BAFBD));
       map.put("UNKNOWN4", stream.readBytes(30));
       map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
-                 
+
       // Complex structure after this point which varies between file versions,
       // and I haven't had time to analyse in detail yet.
       // For now we'll take the easy way out and skip to the end of the row,
       skipToRowEnd(4);
-      
-      map.put("UNIQUE_ID", stream.readInteger());     
+
+      map.put("UNIQUE_ID", stream.readInteger());
    }
 
    @Override protected int rowMagicNumber()

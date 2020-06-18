@@ -32,17 +32,17 @@ public final class SemVer implements Comparable<SemVer>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param version integer version components
     */
    public SemVer(int... version)
    {
       m_version = version;
    }
-   
+
    /**
     * Constructor.
-    * 
+    *
     * @param version string version with dot separators
     */
    public SemVer(String version)
@@ -52,7 +52,7 @@ public final class SemVer implements Comparable<SemVer>
 
    /**
     * Comparator.
-    * 
+    *
     * @param otherVersion version to compare
     * @return true if  this version is >= the other version
     */
@@ -63,7 +63,7 @@ public final class SemVer implements Comparable<SemVer>
 
    /**
     * Comparator.
-    * 
+    *
     * @param otherVersion version to compare
     * @return true if  this version is < the other version
     */
@@ -75,19 +75,19 @@ public final class SemVer implements Comparable<SemVer>
    @Override public int compareTo(SemVer o)
    {
       int maxLength = Math.max(m_version.length, o.m_version.length);
-      for (int index=0; index < maxLength; index++)
+      for (int index = 0; index < maxLength; index++)
       {
          int thisValue = m_version.length > index ? m_version[index] : 0;
          int otherValue = o.m_version.length > index ? o.m_version[index] : 0;
-         
+
          if (thisValue == otherValue)
          {
             continue;
          }
-         
+
          return thisValue - otherValue;
       }
-      
+
       return 0;
    }
 

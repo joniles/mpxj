@@ -30,7 +30,7 @@ import net.sf.mpxj.common.SemVer;
  */
 final class Synchro
 {
-   public static final SemVer VERSION_6_0_0 = new SemVer(6, 0, 0, 0); 
+   public static final SemVer VERSION_6_0_0 = new SemVer(6, 0, 0, 0);
    public static final SemVer VERSION_6_1_0 = new SemVer(6, 1, 0, 0);
    public static final SemVer VERSION_6_2_0 = new SemVer(6, 2, 0, 0);
 }

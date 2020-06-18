@@ -424,7 +424,7 @@ public final class AstaDatabaseReader implements ProjectReader
    {
       AutoCloseableHelper.closeQuietly(m_rs);
       m_rs = null;
-      
+
       AutoCloseableHelper.closeQuietly(m_ps);
       m_ps = null;
    }

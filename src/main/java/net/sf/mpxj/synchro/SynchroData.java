@@ -62,14 +62,14 @@ class SynchroData
 
    /**
     * Retrieve the file version.
-    * 
+    *
     * @return file version
     */
    public SemVer getVersion()
    {
       return m_version;
    }
-   
+
    /**
     * Return an input stream to read the data from the named table.
     *

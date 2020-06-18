@@ -318,12 +318,12 @@ final class DatatypeConverter
     */
    public static final Duration getDurationFromLong(InputStream is) throws IOException
    {
-      return getDurationFromSeconds((int)getLong(is));
+      return getDurationFromSeconds((int) getLong(is));
    }
 
    /**
     * Convert a duration in seconds to a Duration instance.
-    * 
+    *
     * @param durationInSeconds duration in seconds
     * @return Duration instance
     */
