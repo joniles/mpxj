@@ -346,6 +346,9 @@ public final class FastTrackReader implements ProjectReader
          task.setWBS(row.getString(ActivityField.WBS));
          task.setGUID(row.getUUID(ActivityField._ACTIVITY_GUID));
          task.setOutlineLevel(getOutlineLevel(task));
+         
+         task.setNotes(row.getString(ActivityField.NOTES));
+         
          m_eventManager.fireTaskReadEvent(task);
       }
 

@@ -2,6 +2,7 @@
 
 ## 8.1.2 (git master)
 * Improve detection of unusual MSPDI file variants.
+* Updated to read task notes from FastTrack FTS files.
 
 ## 8.1.1 (17/06/2020)
 * Improve support for Synchro 6.2 SP files.

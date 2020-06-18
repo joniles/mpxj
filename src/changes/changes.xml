@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="8.1.2">
 			<action dev="joniles" type="update">Improve detection of unusual MSPDI file variants.</action>
+			<action dev="joniles" type="update">Updated to read task notes from FastTrack FTS files.</action>
 		</release>
 		<release date="17/06/2020" version="8.1.1">
 			<action dev="joniles" type="update">Improve support for Synchro 6.2 SP files.</action>
