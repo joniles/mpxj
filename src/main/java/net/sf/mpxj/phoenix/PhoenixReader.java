@@ -24,6 +24,7 @@
 package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
@@ -64,6 +66,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
@@ -105,6 +108,8 @@ public final class PhoenixReader extends AbstractProjectReader
     */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
+      openLogFile();
+
       try
       {
          m_projectFile = new ProjectFile();
@@ -180,6 +185,8 @@ public final class PhoenixReader extends AbstractProjectReader
          m_activityCodeSequence = null;
          m_activityCodeCache = null;
          m_codeSequence = null;
+
+         closeLogFile();
       }
    }
 
@@ -410,6 +417,29 @@ public final class PhoenixReader extends AbstractProjectReader
    {
       final AlphanumComparator comparator = new AlphanumComparator();
       List<Activity> activities = phoenixProject.getActivities().getActivity();
+
+      // If logging enabled, dump detail to investigate "Comparison method violates its general contract!" error
+      if (m_log != null)
+      {
+         m_log.println("{");
+         StringJoiner codeJoiner = new StringJoiner(",");
+         m_codeSequence.stream().forEach(code -> codeJoiner.add("\"" + code + "\""));
+         m_log.println("\"codeSequence\": [" + codeJoiner + "],");
+
+         StringJoiner sequenceJoiner = new StringJoiner(",");
+         m_activityCodeSequence.entrySet().stream().forEach(entry -> sequenceJoiner.add("\"" + entry.getKey() + "\": " + entry.getValue() + ""));
+         m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
+
+         StringJoiner activityJoiner = new StringJoiner(",");
+         for (Activity activity : activities)
+         {
+            Map<UUID, UUID> codes = getActivityCodes(activity);
+            StringJoiner activityCodeJoiner = new StringJoiner(",");
+            codes.entrySet().stream().forEach(entry -> activityCodeJoiner.add("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\""));
+            activityJoiner.add("\"" + activity.getId() + "\": {" + activityCodeJoiner + "}");
+         }
+         m_log.println("\"activityCodes\": {" + activityJoiner + "}}");
+      }
 
       // First pass: sort the activities by ID to avoid "Comparison method violates its general contract!" error
       Collections.sort(activities, new Comparator<Activity>()
@@ -870,6 +900,27 @@ public final class PhoenixReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Open the log file for writing.
+    */
+   private void openLogFile()
+   {
+      m_log = DebugLogPrintWriter.getInstance();
+   }
+
+   /**
+    * Close the log file.
+    */
+   private void closeLogFile()
+   {
+      if (m_log != null)
+      {
+         m_log.flush();
+         m_log.close();
+      }
+   }
+
+   private PrintWriter m_log;
    private ProjectFile m_projectFile;
    private Map<String, Task> m_activityMap;
    private Map<UUID, String> m_activityCodeValues;
