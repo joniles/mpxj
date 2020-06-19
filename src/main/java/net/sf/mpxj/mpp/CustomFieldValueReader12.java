@@ -113,8 +113,8 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
       index += (8 * recordCount);
 
       Map<UUID, FieldType> map = new HashMap<>();
-      while (index < data.length)
-      {
+      while (index + 176 <= data.length)
+      {         
          int blockLength = MPPUtility.getInt(data, index);
          if (blockLength <= 0 || index + blockLength > data.length)
          {

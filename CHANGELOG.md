@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.1.3 (git master)
+* Improve reliability when reading custom field values from certain MPP12 files.
 
 ## 8.1.2 (18/06/2020)
 * Improve detection of unusual MSPDI file variants.
