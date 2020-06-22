@@ -201,6 +201,14 @@ public class CustomerDataTest
          reader.setConnection(connection);
          Map<Integer, String> projects = reader.listProjects();
          long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(reader, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
+         
+         if (DIFF_BASELINE_DIR != null)
+         {
+            System.out.println();
+            System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
+            System.out.println("Test: " + DIFF_TEST_DIR.getPath());
+         }
+
          assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
       }
    }
