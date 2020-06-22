@@ -1167,16 +1167,24 @@ final class PrimaveraReader
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
-            Date startDate = parentTask.getEarlyStart();
+            Date startDate = parentTask.getRemainingEarlyStart();
             if (startDate == null)
             {
-               startDate = baselineStartDate;
+               startDate = parentTask.getEarlyStart();
+               if (startDate == null)
+               {
+                  startDate = baselineStartDate;
+               }
             }
 
-            Date finishDate = parentTask.getEarlyFinish();
+            Date finishDate = parentTask.getRemainingEarlyFinish();
             if (finishDate == null)
             {
-               finishDate = baselineFinishDate;
+               finishDate = parentTask.getEarlyFinish();
+               if (finishDate == null)
+               {
+                  finishDate = baselineFinishDate;
+               }
             }
 
             if (startDate != null && finishDate != null)
