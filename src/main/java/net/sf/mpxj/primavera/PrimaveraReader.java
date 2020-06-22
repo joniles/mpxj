@@ -1547,24 +1547,33 @@ final class PrimaveraReader
    private Number calculatePercentComplete(Row row)
    {
       Number result;
-      switch (PercentCompleteType.getInstance(row.getString("complete_pct_type")))
+
+      // If we have an actual end date, we must be 100% complete.
+      if (row.getDate("act_end_date") != null)
       {
-         case UNITS:
+         result = Integer.valueOf(100);
+      }
+      else
+      {
+         switch (PercentCompleteType.getInstance(row.getString("complete_pct_type")))
          {
-            result = calculateUnitsPercentComplete(row);
-            break;
-         }
+            case UNITS:
+            {
+               result = calculateUnitsPercentComplete(row);
+               break;
+            }
 
-         case DURATION:
-         {
-            result = calculateDurationPercentComplete(row);
-            break;
-         }
+            case DURATION:
+            {
+               result = calculateDurationPercentComplete(row);
+               break;
+            }
 
-         default:
-         {
-            result = calculatePhysicalPercentComplete(row);
-            break;
+            default:
+            {
+               result = calculatePhysicalPercentComplete(row);
+               break;
+            }
          }
       }
 

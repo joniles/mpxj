@@ -2,6 +2,7 @@
 
 ## 8.1.3 (git master)
 * Improve reliability when reading custom field values from certain MPP12 files.
+* Improve accuracy of task percent complete when reading from certain XER files or P6 databases.
 
 ## 8.1.2 (18/06/2020)
 * Improve detection of unusual MSPDI file variants.
