@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Improve reliability when reading custom field values from certain MPP12 files.</action>
 			<action dev="joniles" type="update">Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.</action>
 			<action dev="joniles" type="update">Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.</action>
+			<action dev="joniles" type="update">Improve accuracy of task durations when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Fix an issue handling the end date of calendar exceptions when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Fix an issue with correctly identifying the calendar applied to summary tasks when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Populate duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.</action>

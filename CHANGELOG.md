@@ -4,6 +4,10 @@
 * Improve reliability when reading custom field values from certain MPP12 files.
 * Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.
 * Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.
+* Improve accuracy of task durations when reading Asta schedules.
+* Fix an issue handling the end date of calendar exceptions when reading Asta schedules.
+* Fix an issue with correctly identifying the calendar applied to summary tasks when reading Asta schedules.
+* Populate duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.
 
 ## 8.1.2 (18/06/2020)
 * Improve detection of unusual MSPDI file variants.

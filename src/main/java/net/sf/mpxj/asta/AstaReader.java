@@ -432,7 +432,10 @@ final class AstaReader
       task.setUniqueID(row.getInteger("TASKID"));
       //GIVEN_DURATIONTYPF
       //GIVEN_DURATIONELA_MONTHS
-      task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+      
+      // This does not appear to be accurate 
+      //task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+      
       task.setResume(row.getDate("RESUME"));
       //task.setStart(row.getDate("GIVEN_START"));
       //LATEST_PROGRESS_PERIOD
@@ -491,7 +494,16 @@ final class AstaReader
       //LAST_EDITED_BY
 
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
-
+      
+      //
+      // The attribute we thought contained the duration appears to be unreliable.
+      // To match what we see in Asta the best way to determine the duration appears
+      // to be to calculate it from the start and finish dates.
+      // Note the conversion to hours is not strictly necessary, but matches the units previously used.
+      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());      
+      duration = Duration.convertUnits(duration.getDuration(), duration.getUnits(), TimeUnit.HOURS, m_project.getProjectProperties());
+      task.setDuration(duration);
+      
       processConstraints(row, task);
 
       if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
@@ -1429,6 +1441,9 @@ final class AstaReader
          if (timeEntryRows != null)
          {
             long lastEndTime = Long.MIN_VALUE;
+            
+            // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
+            // Haven't worked out how the start day is determined.
             Day currentDay = Day.SUNDAY;
             ProjectCalendarHours hours = week.addCalendarHours(currentDay);
             Arrays.fill(week.getDays(), DayType.NON_WORKING);
