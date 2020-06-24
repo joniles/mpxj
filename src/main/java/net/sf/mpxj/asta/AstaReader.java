@@ -220,6 +220,8 @@ final class AstaReader
       createTasks(m_project, "", parentBars);
       deriveProjectCalendar();
       updateStructure();
+      updateDates();
+      calculatePercentComplete();
    }
 
    /**
@@ -488,6 +490,8 @@ final class AstaReader
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
 
+      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+
       processConstraints(row, task);
 
       if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
@@ -509,7 +513,12 @@ final class AstaReader
     */
    private void populateBar(Row row, Task task)
    {
-      Integer calendarID = row.getInteger("CALENDAU");
+      Integer calendarID = row.getInteger("_CALENDAU");
+      if (calendarID == null)
+      {
+         calendarID = row.getInteger("_COMMON_CALENDAR");
+      }
+
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
@@ -538,6 +547,8 @@ final class AstaReader
       //QA Checked
       //Related_Documents
       task.setCalendar(calendar);
+
+      task.setDuration(task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish()));
    }
 
    /**
@@ -604,6 +615,8 @@ final class AstaReader
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
       task.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
+
+      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
    }
 
    /**
@@ -641,6 +654,164 @@ final class AstaReader
       return id;
    }
 
+   /**
+    * Summary task percent complete calculations.
+    */
+   private void calculatePercentComplete()
+   {
+      //List<Task> childTasks = new ArrayList<>();
+
+      for (Task task : m_project.getTasks())
+      {
+         if (task.hasChildTasks())
+         {
+            if (task.getActualFinish() != null)
+            {
+               task.setPercentageComplete(Double.valueOf(100.0));
+               continue;
+            }
+            
+            // TODO:
+            // 1. Duration percent complete seems like a straightforward thing to calculate, but we're not always
+            //    reading duration values which match those shown in Asta, so the results don't match.
+            // 2. Overall Percent Complete also seems straightforward based on the description in the Asta documentation
+            //    but the values shown in Asta for the "jagged progress" sample file don't seem to align with the calculation method.
+            
+/*            
+            childTasks.clear();
+            gatherChildTasks(childTasks, task);
+
+            // double totalPercentComplete = 0;
+            double totalWeight = 0;
+            double totalActualDuration = 0;
+            double totalDuration = 0;
+            
+            for (Task child : childTasks)
+            {
+               // totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
+               totalWeight += NumberHelper.getDouble(m_weights.get(child));
+               
+               Duration actualDuration = child.getActualDuration();
+               if (actualDuration != null)
+               {
+                  totalActualDuration += actualDuration.getDuration();
+               }
+               
+               Duration duration = child.getDuration();
+               if (duration != null)
+               {
+                  totalDuration += duration.getDuration();
+               }                              
+            }
+
+            if (totalWeight == 0)
+            {
+               totalWeight = 1.0;
+            }
+
+            if (totalDuration != 0)
+            {
+               TimeUnit units = task.getDuration().getUnits();
+               double durationPercentComplete = (totalActualDuration / totalDuration) * 100.0;
+               double duration = task.getDuration().getDuration();
+               double actualDuration = (duration * durationPercentComplete) / 100.0;
+               double remainingDuration = duration - actualDuration;
+               
+               task.setPercentageComplete(Double.valueOf(durationPercentComplete));
+               task.setActualDuration(Duration.getInstance(actualDuration, units));
+               task.setRemainingDuration(Duration.getInstance(remainingDuration, units));               
+            }
+                    
+            // Calculating Overall Percent Complete seems to work in some cases
+            // but for others it's not clear how the percent completes and weights are being
+            // combined in Powerproject to determine the value shown.
+            // double overallPercentComplete = totalPercentComplete / totalWeight;
+            // task.setPercentageComplete(Double.valueOf(overallPercentComplete));
+*/                          
+         }
+      }
+   }
+
+   /**
+    * Retrieve all child tasks below this task to the bottom of the hierarchy.
+    * If the task has no child tasks then just add it to the array.
+    *  
+    * @param tasks array to collect child tasks
+    * @param task current task
+    */
+/*
+   private void gatherChildTasks(List<Task> tasks, Task task)
+   {
+      if (task.hasChildTasks())
+      {
+         task.getChildTasks().forEach(child -> gatherChildTasks(tasks, child));
+      }
+      else
+      {
+         tasks.add(task);
+      }
+   }
+*/
+
+   /**
+    * Populate summary task dates.
+    */
+   private void updateDates()
+   {
+      m_project.getChildTasks().forEach(task -> updateDates(task));
+   }
+
+   /**
+    * Populate summary task dates.
+    * 
+    * @param parentTask summary task
+    */
+   private void updateDates(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         int finished = 0;
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            updateDates(task);
+
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+         }
+
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
+         }
+      }
+   }
+  
    /**
     * Processes predecessor data.
     *
@@ -1224,6 +1395,13 @@ final class AstaReader
          {
             Date startDate = row.getDate("STARU_DATE");
             Date endDate = row.getDate("ENE_DATE");
+
+            // special case - when the exception end time is midnight, it really finishes at the end of the previous day
+            if (endDate.getTime() == DateHelper.getDayStartDate(endDate).getTime())
+            {
+               endDate = DateHelper.addDays(endDate, -1);
+            }
+
             calendar.addCalendarException(startDate, endDate);
          }
       }
@@ -1321,6 +1499,7 @@ final class AstaReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
+   private final Map<Task, Double> m_weights = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
