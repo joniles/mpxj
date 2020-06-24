@@ -461,7 +461,6 @@ final class AstaReader
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
-      task.setPercentageComplete(row.getPercent("OVERALL_PERCENV_COMPLETE"));
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       task.setNotes(getNotes(row));
@@ -493,28 +492,52 @@ final class AstaReader
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
 
-      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
       
+
       //
       // The attribute we thought contained the duration appears to be unreliable.
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
       // Note the conversion to hours is not strictly necessary, but matches the units previously used.
-      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());      
+      //
+      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());
       duration = Duration.convertUnits(duration.getDuration(), duration.getUnits(), TimeUnit.HOURS, m_project.getProjectProperties());
       task.setDuration(duration);
-      
-      processConstraints(row, task);
 
-      if (NumberHelper.getInt(task.getPercentageComplete()) != 0)
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
+      
+      //task.setPercentageComplete(overallPercentComplete);      
+      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+
+      if (overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0)
       {
+         task.setActualDuration(task.getDuration());
          task.setActualStart(task.getStart());
-         if (task.getPercentageComplete().intValue() == 100)
+         task.setActualFinish(task.getFinish());
+         task.setPercentageComplete(COMPLETE);
+      }
+      else
+      {
+         Duration actualDuration = task.getActualDuration();      
+         if (duration != null && duration.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
          {
-            task.setActualFinish(task.getFinish());
-            task.setDuration(task.getActualDuration());
+            // We have an actual duration, so we must have an actual start date
+            task.setActualStart(task.getStart());
+   
+            double percentComplete = (actualDuration.getDuration() / duration.getDuration()) * 100.0;
+            task.setPercentageComplete(Double.valueOf(percentComplete));
+            if (percentComplete > 99.0)
+            {
+               task.setActualFinish(task.getFinish());
+            }
+         }
+         else
+         {
+            task.setPercentageComplete(INCOMPLETE);
          }
       }
+      
+      processConstraints(row, task);
    }
 
    /**
@@ -580,7 +603,6 @@ final class AstaReader
       //SYMBOL_APPEARANCE
       //MILESTONE_TYPE
       //PLACEMENU
-      task.setPercentageComplete(row.getBoolean("COMPLETED") ? COMPLETE : INCOMPLETE);
       //INTERRUPTIBLE_X
       //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
@@ -628,6 +650,17 @@ final class AstaReader
       //LAST_EDITED_BY
       task.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
 
+      if (row.getBoolean("COMPLETED"))
+      {        
+         task.setPercentageComplete(COMPLETE);
+         task.setActualStart(task.getStart());
+         task.setActualFinish(task.getFinish());
+      }
+      else
+      {
+         task.setPercentageComplete(INCOMPLETE);
+      }
+      
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
    }
 
@@ -671,7 +704,7 @@ final class AstaReader
     */
    private void calculatePercentComplete()
    {
-      //List<Task> childTasks = new ArrayList<>();
+      List<Task> childTasks = new ArrayList<>();
 
       for (Task task : m_project.getTasks())
       {
@@ -679,41 +712,34 @@ final class AstaReader
          {
             if (task.getActualFinish() != null)
             {
-               task.setPercentageComplete(Double.valueOf(100.0));
+               task.setPercentageComplete(COMPLETE);
                continue;
             }
-            
-            // TODO:
-            // 1. Duration percent complete seems like a straightforward thing to calculate, but we're not always
-            //    reading duration values which match those shown in Asta, so the results don't match.
-            // 2. Overall Percent Complete also seems straightforward based on the description in the Asta documentation
-            //    but the values shown in Asta for the "jagged progress" sample file don't seem to align with the calculation method.
-            
-/*            
+
             childTasks.clear();
             gatherChildTasks(childTasks, task);
 
-            // double totalPercentComplete = 0;
+            double totalPercentComplete = 0;
             double totalWeight = 0;
             double totalActualDuration = 0;
             double totalDuration = 0;
-            
+
             for (Task child : childTasks)
             {
-               // totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
+               totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
                totalWeight += NumberHelper.getDouble(m_weights.get(child));
-               
+
                Duration actualDuration = child.getActualDuration();
                if (actualDuration != null)
                {
                   totalActualDuration += actualDuration.getDuration();
                }
-               
+
                Duration duration = child.getDuration();
                if (duration != null)
                {
                   totalDuration += duration.getDuration();
-               }                              
+               }
             }
 
             if (totalWeight == 0)
@@ -721,25 +747,34 @@ final class AstaReader
                totalWeight = 1.0;
             }
 
-            if (totalDuration != 0)
+            // Calculating Overall Percent Complete seems to work in some cases
+            // but for others it's not clear how the percent completes and weights are being
+            // combined in Powerproject to determine the value shown.
+            //double overallPercentComplete = totalPercentComplete / totalWeight;
+            // task.setPercentageComplete(Double.valueOf(overallPercentComplete));
+
+            if (totalDuration == 0)
+            {
+               if (totalPercentComplete != 0)
+               {
+                  // If the total duration is zero, but we have percent complete values,
+                  // we must just have milestones, a different approach is required as we won't have durations
+                  double durationPercentComplete = totalPercentComplete / childTasks.size();
+                  task.setPercentageComplete(Double.valueOf(durationPercentComplete));
+               }
+            }
+            else
             {
                TimeUnit units = task.getDuration().getUnits();
                double durationPercentComplete = (totalActualDuration / totalDuration) * 100.0;
                double duration = task.getDuration().getDuration();
                double actualDuration = (duration * durationPercentComplete) / 100.0;
                double remainingDuration = duration - actualDuration;
-               
+
                task.setPercentageComplete(Double.valueOf(durationPercentComplete));
                task.setActualDuration(Duration.getInstance(actualDuration, units));
-               task.setRemainingDuration(Duration.getInstance(remainingDuration, units));               
+               task.setRemainingDuration(Duration.getInstance(remainingDuration, units));
             }
-                    
-            // Calculating Overall Percent Complete seems to work in some cases
-            // but for others it's not clear how the percent completes and weights are being
-            // combined in Powerproject to determine the value shown.
-            // double overallPercentComplete = totalPercentComplete / totalWeight;
-            // task.setPercentageComplete(Double.valueOf(overallPercentComplete));
-*/                          
          }
       }
    }
@@ -751,7 +786,6 @@ final class AstaReader
     * @param tasks array to collect child tasks
     * @param task current task
     */
-/*
    private void gatherChildTasks(List<Task> tasks, Task task)
    {
       if (task.hasChildTasks())
@@ -763,7 +797,6 @@ final class AstaReader
          tasks.add(task);
       }
    }
-*/
 
    /**
     * Populate summary task dates.
@@ -1441,7 +1474,7 @@ final class AstaReader
          if (timeEntryRows != null)
          {
             long lastEndTime = Long.MIN_VALUE;
-            
+
             // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
             // Haven't worked out how the start day is determined.
             Day currentDay = Day.SUNDAY;
