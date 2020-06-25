@@ -7,7 +7,8 @@
 * Improve accuracy of task durations when reading Asta schedules.
 * Fix an issue handling the end date of calendar exceptions when reading Asta schedules.
 * Fix an issue with correctly identifying the calendar applied to summary tasks when reading Asta schedules.
-* Populate duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.
+* Populate percent complete, duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.
+* The percent complete value reported for tasks when reading Asta schedules is now Duration Percent Complete. The Overall Percent Complete value originally being returned is available in a custom field. 
 
 ## 8.1.2 (18/06/2020)
 * Improve detection of unusual MSPDI file variants.

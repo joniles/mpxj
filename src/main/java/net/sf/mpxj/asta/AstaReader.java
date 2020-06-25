@@ -85,6 +85,7 @@ final class AstaReader
 
       CustomFieldContainer fields = m_project.getCustomFields();
       fields.getCustomField(TaskField.TEXT1).setAlias("Code");
+      fields.getCustomField(TaskField.NUMBER1).setAlias("Overall Percent Complete");
    }
 
    /**
@@ -504,11 +505,16 @@ final class AstaReader
       duration = Duration.convertUnits(duration.getDuration(), duration.getUnits(), TimeUnit.HOURS, m_project.getProjectProperties());
       task.setDuration(duration);
 
-      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
-      
-      //task.setPercentageComplete(overallPercentComplete);      
+      //
+      // Overall Percent Complete
+      //
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");      
+      task.setNumber(1, overallPercentComplete);      
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
 
+      //
+      // Duration Percent Complete
+      //
       if (overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0)
       {
          task.setActualDuration(task.getDuration());
@@ -720,6 +726,7 @@ final class AstaReader
             gatherChildTasks(childTasks, task);
 
             double totalPercentComplete = 0;
+            double totalOverallPercentComplete = 0;
             double totalWeight = 0;
             double totalActualDuration = 0;
             double totalDuration = 0;
@@ -727,6 +734,7 @@ final class AstaReader
             for (Task child : childTasks)
             {
                totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
+               totalOverallPercentComplete += NumberHelper.getDouble(child.getNumber(1));
                totalWeight += NumberHelper.getDouble(m_weights.get(child));
 
                Duration actualDuration = child.getActualDuration();
@@ -750,9 +758,12 @@ final class AstaReader
             // Calculating Overall Percent Complete seems to work in some cases
             // but for others it's not clear how the percent completes and weights are being
             // combined in Powerproject to determine the value shown.
-            //double overallPercentComplete = totalPercentComplete / totalWeight;
-            // task.setPercentageComplete(Double.valueOf(overallPercentComplete));
+            double overallPercentComplete = totalOverallPercentComplete / totalWeight;
+            task.setNumber(1, Double.valueOf(overallPercentComplete));
 
+            //
+            // Duration percent complete
+            //
             if (totalDuration == 0)
             {
                if (totalPercentComplete != 0)
