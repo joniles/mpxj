@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.1.3 (git master)
+## 8.1.4 (git master)
+
+## 8.1.3 (25/06/2020)
 * Improve reliability when reading custom field values from certain MPP12 files.
 * Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.
 * Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.
