@@ -149,7 +149,7 @@ public final class ProjectPropertiesReader
          }
          ph.setCustomProperties(customPropertiesMap);
 
-         ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
+         ph.setMultipleCriticalPaths(props.getBoolean(Props.MULTIPLE_CRITICAL_PATHS));
 
          ph.setBaselineDate(props.getTimestamp(Props.BASELINE_DATE));
          ph.setBaselineDate(1, props.getTimestamp(Props.BASELINE1_DATE));

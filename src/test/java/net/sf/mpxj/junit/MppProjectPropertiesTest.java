@@ -176,7 +176,7 @@ public class MppProjectPropertiesTest
       if (isMPP)
       {
          assertEquals("comments", ph.getComments());
-         assertTrue(ph.getCalculateMultipleCriticalPaths());
+         assertTrue(ph.getMultipleCriticalPaths());
       }
    }
 }

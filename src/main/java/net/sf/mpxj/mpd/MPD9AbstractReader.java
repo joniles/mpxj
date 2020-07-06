@@ -196,8 +196,7 @@ abstract class MPD9AbstractReader
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //properties.setNewTaskStartIsProjectStart();
       properties.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
-      //properties.setCalculateMultipleCriticalPaths();
-      properties.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
+      //properties.setCalculateMultipleCriticalPaths();      
 
       //
       // Unused attributes
