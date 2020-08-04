@@ -29,10 +29,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -666,7 +668,9 @@ final class AstaReader
       {
          task.setPercentageComplete(INCOMPLETE);
       }
-      
+
+      processConstraints(row, task);
+
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
    }
 
@@ -916,6 +920,13 @@ final class AstaReader
 
             Relation relation = endTask.addPredecessor(startTask, type, Duration.getInstance(totalLag, TimeUnit.HOURS));
             relation.setUniqueID(row.getInteger("LINKID"));
+
+            // resolve indeterminate constraint for successor tasks
+            if (m_deferredConstraintType.contains(endTask.getUniqueID()))
+            {
+               endTask.setConstraintType(ConstraintType.AS_LATE_AS_POSSIBLE);
+               endTask.setConstraintDate(null);
+            }
          }
 
          //PROJID
@@ -1227,13 +1238,21 @@ final class AstaReader
       {
          case 0:
          {
-            if (row.getInt("PLACEMENT") == 0)
+            // 0 = ASAP, 1 = ALAP, 2 = ASAP Force Critical
+            if (row.getInt("PLACEMENT") == 1)
             {
-               constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
+               // If the task has no predecessors, the constraint type will be START_NO_EARLIER_THAN.
+               // If the task has predecessors, the constraint type will be AS_LATE_AS_POSSIBLE.
+               // We don't have the predecessor information at this point so we note the task Unique ID
+               // to allow us to update the constraint type later if necessary.
+               // https://github.com/joniles/mpxj/issues/161
+               m_deferredConstraintType.add(task.getUniqueID());
+               constraintType = ConstraintType.START_NO_EARLIER_THAN;
+               constraintDate = row.getDate("START_CONSTRAINT_DATE");
             }
             else
             {
-               constraintType = ConstraintType.AS_LATE_AS_POSSIBLE;
+               constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
             }
             break;
          }
@@ -1559,7 +1578,8 @@ final class AstaReader
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
-
+   private final Set<Integer> m_deferredConstraintType = new HashSet<>();
+   
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final String LINE_BREAK = "|@|||";
