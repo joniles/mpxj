@@ -558,8 +558,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          }
 
          case TABLE:
-         {
-            m_currentTableName = record.get(1).toLowerCase();
+         {            
+            m_currentTableName = record.size() > 1 ? record.get(1).toLowerCase() : null;
             m_skipTable = !REQUIRED_TABLES.contains(m_currentTableName);
             if (m_skipTable)
             {

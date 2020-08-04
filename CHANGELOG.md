@@ -3,6 +3,7 @@
 ## 8.1.4 (git master)
 * Import milestone constraints from Asta schedules (Contributed by Dave McKay)
 * Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)
+* Gracefully handle a missing table name when reading an XER file.
 
 ## 8.1.3 (25/06/2020)
 * Improve reliability when reading custom field values from certain MPP12 files.
