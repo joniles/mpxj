@@ -925,16 +925,6 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 't'
    };
 
-   private static final byte[] XER_FINGERPRINT =
-   {
-      (byte) 'E',
-      (byte) 'R',
-      (byte) 'M',
-      (byte) 'H',
-      (byte) 'D',
-      (byte) 'R'
-   };
-
    private static final byte[] ZIP_FINGERPRINT =
    {
       (byte) 'P',
@@ -1082,6 +1072,8 @@ public final class UniversalProjectReader implements ProjectReader
       (byte) 0x00
    };
 
+   private static final Pattern XER_FINGERPRINT = Pattern.compile("ERMHDR.*", Pattern.DOTALL);
+   
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*(<BusinessObjects|APIBusinessObjects).*", Pattern.DOTALL);

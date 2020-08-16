@@ -265,12 +265,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          // "ERMHDR" in the first field position.
          //
          BufferedInputStream bis = new BufferedInputStream(is);
-         byte[] data = new byte[6];
+         byte[] data = new byte[12];
          data[0] = (byte) bis.read();
          bis.mark(1024);
-         bis.read(data, 1, 5);
+         bis.read(data, 1, data.length-1);
 
-         if (!new String(data).equals("ERMHDR"))
+         if (!new String(data, getCharset()).startsWith("ERMHDR"))
          {
             throw new MPXJException(MPXJException.INVALID_FILE);
          }
