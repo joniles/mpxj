@@ -32,6 +32,31 @@ import java.util.Date;
 
 import net.sf.mpxj.common.DateHelper;
 
+/*
+ * Duration Types
+ * 
+ * 10 Elapsed Year
+ * 11 Elapsed Quarter
+ * 12 Elapsed Month
+ * 13 Elapsed Week
+ * 14 Elapsed Day
+ * 15 Elapsed Half Day
+ * 16 Elapsed Hours
+ * 17 Elapsed Minutes
+ * 18 Elapsed Seconds
+ * 
+ * 19 Year
+ * 20 Quarter
+ * 21 Month
+ * 22 Week
+ * 23 Day
+ * 24 Half Day
+ * 25 Hours
+ * 26 Minutes
+ * 27 Seconds
+ */
+
+
 /**
  * Methods for handling Asta data types.
  */
