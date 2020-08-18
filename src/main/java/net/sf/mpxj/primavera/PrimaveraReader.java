@@ -416,21 +416,24 @@ final class PrimaveraReader
    {
       // ... for each day of the week
       Day day = Day.getInstance(Integer.parseInt(dayRecord.getField()));
-      // Get hours
-      List<Record> recHours = dayRecord.getChildren();
-      if (recHours.size() == 0)
+      if (day != null)
       {
-         // No data -> not working
-         calendar.setWorkingDay(day, false);
-      }
-      else
-      {
-         calendar.setWorkingDay(day, true);
-         // Read hours
-         ProjectCalendarHours hours = calendar.addCalendarHours(day);
-         for (Record recWorkingHours : recHours)
+         // Get hours
+         List<Record> recHours = dayRecord.getChildren();
+         if (recHours.size() == 0)
          {
-            addHours(hours, recWorkingHours);
+            // No data -> not working
+            calendar.setWorkingDay(day, false);
+         }
+         else
+         {
+            calendar.setWorkingDay(day, true);
+            // Read hours
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            for (Record recWorkingHours : recHours)
+            {
+               addHours(hours, recWorkingHours);
+            }
          }
       }
    }
