@@ -913,12 +913,40 @@ final class AstaReader
          if (startTask != null && endTask != null)
          {
             RelationType type = getRelationType(row.getInt("TYPI"));
+ 
+            Duration startLag = row.getDuration("START_LAG_TIMEHOURS");
+            Duration endLag = row.getDuration("END_LAG_TIMEHOURS");
+            Duration lag;
+            
+            double startLagDuration = startLag.getDuration();
+            double endLagDuration = endLag.getDuration();
+                        
+            if (startLagDuration == 0.0 && endLagDuration == 0.0)
+            {
+               lag = Duration.getInstance(0, TimeUnit.HOURS);
+            }
+            else
+            {
+               if (startLagDuration != 0.0 && endLagDuration == 0.0)
+               {
+                  lag = startLag;
+               }
+               else
+               {
+                  if (startLagDuration == 0.0 && endLagDuration != 0.0)
+                  {
+                     lag = Duration.getInstance(startLagDuration - endLagDuration, endLag.getUnits());
+                  }
+                  else
+                  {
+                     // For the moment we're assuming if both a start lag and an end lag are supplied, they both use the same units.
+                     // If I'm given an example where they are different I'll revisit this code.
+                     lag = Duration.getInstance(startLagDuration - endLagDuration, startLag.getUnits());
+                  }
+               }
+            }
 
-            double startLag = row.getDuration("START_LAG_TIMEHOURS").getDuration();
-            double endLag = row.getDuration("END_LAG_TIMEHOURS").getDuration();
-            double totalLag = startLag - endLag;
-
-            Relation relation = endTask.addPredecessor(startTask, type, Duration.getInstance(totalLag, TimeUnit.HOURS));
+            Relation relation = endTask.addPredecessor(startTask, type, lag);
             relation.setUniqueID(row.getInteger("LINKID"));
 
             // resolve indeterminate constraint for successor tasks

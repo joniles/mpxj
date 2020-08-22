@@ -184,7 +184,9 @@ final class SqliteResultSetRow extends MapRow
          throw new IllegalArgumentException("Unexpected duration value", ex);
       }
 
-      return Duration.getInstance(NumberHelper.getDouble(durationValue), TimeUnit.HOURS);
+      TimeUnit durationUnits = "1".equals(items[0]) ? TimeUnit.ELAPSED_HOURS : TimeUnit.HOURS;
+      
+      return Duration.getInstance(NumberHelper.getDouble(durationValue), durationUnits);
    }
 
 }
