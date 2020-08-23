@@ -6,6 +6,7 @@
 * Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)
 * Gracefully handle a missing table name when reading an XER file.
 * Gracefully handle a unexpected calendar data when reading an XER file.
+* Correctly handle XER files with multi-byte character encoding.
 
 ## 8.1.3 (25/06/2020)
 * Improve reliability when reading custom field values from certain MPP12 files.
