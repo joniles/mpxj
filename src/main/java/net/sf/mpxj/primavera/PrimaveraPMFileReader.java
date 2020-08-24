@@ -335,7 +335,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
          processActivityCodes(apibo, project);
-         processCalendars(apibo);
+         processCalendars(apibo, project);
          processResources(apibo);
          processTasks(project);
          processPredecessors(project);
@@ -584,15 +584,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    /**
     * Process project calendars.
     *
-    * @param apibo xml container
+    * @param apibo file data
+    * @param project current project data
     */
-   private void processCalendars(APIBusinessObjects apibo)
+   private void processCalendars(APIBusinessObjects apibo, ProjectType project)
    {
+      List<CalendarType> calendars = new ArrayList<>(apibo.getCalendar());
+      calendars.addAll(project.getCalendar());
+      
       //
       // First pass: read calendar definitions
       //
       Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
-      for (CalendarType row : apibo.getCalendar())
+      for (CalendarType row : calendars)
       {
          ProjectCalendar calendar = processCalendar(row);
          Integer baseCalendarID = row.getBaseCalendarObjectId();

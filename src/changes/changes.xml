@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Gracefully handle a missing table name when reading an XER file.</action>
 			<action dev="joniles" type="update">Gracefully handle a unexpected calendar data when reading an XER file.</action>
 			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>
+			<action dev="joniles" type="update">Ensure project calendars are read from PMXML files.</action>
 			<action dev="joniles" type="add">Added readAll methods to PrimaveraPMFileWriter to allow all projects contained in a PMXML file to be read in a single pass.</action>
 		</release>
 		<release date="25/06/2020" version="8.1.3">
