@@ -150,6 +150,81 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
+   {      
+      APIBusinessObjects apibo = processFile(stream); 
+      
+      List<ProjectType> projects = apibo.getProject();
+      ProjectType project = null;
+      for (ProjectType currentProject : projects)
+      {
+         if (!BooleanHelper.getBoolean(currentProject.isExternal()))
+         {
+            project = currentProject;
+            break;
+         }
+      }
+
+      if (project == null)
+      {
+         throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
+      }
+
+      return read(apibo, project);
+   }
+
+   /**
+    * Parse the PMXML file.
+    * 
+    * @param stream PMXML file
+    * @return APIBusinessObjects instance
+    */
+   private APIBusinessObjects processFile(InputStream stream) throws MPXJException
+   {
+      try
+      {
+         SAXParserFactory factory = SAXParserFactory.newInstance();
+         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+         factory.setNamespaceAware(true);
+         SAXParser saxParser = factory.newSAXParser();
+         XMLReader xmlReader = saxParser.getXMLReader();
+
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
+         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
+         XMLFilter filter = new NamespaceFilter();
+         filter.setParent(xmlReader);
+         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
+         filter.setContentHandler(unmarshallerHandler);
+         filter.parse(configureInputSource(stream));
+         
+         return (APIBusinessObjects) unmarshallerHandler.getResult();         
+      }
+
+      catch (ParserConfigurationException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
+      catch (JAXBException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
+      catch (SAXException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }      
+   }
+   
+   private ProjectFile read(APIBusinessObjects apibo, ProjectType project)
    {
       try
       {
@@ -174,41 +249,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         SAXParserFactory factory = SAXParserFactory.newInstance();
-         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-         factory.setNamespaceAware(true);
-         SAXParser saxParser = factory.newSAXParser();
-         XMLReader xmlReader = saxParser.getXMLReader();
-
-         if (CONTEXT == null)
-         {
-            throw CONTEXT_EXCEPTION;
-         }
-
-         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
-         XMLFilter filter = new NamespaceFilter();
-         filter.setParent(xmlReader);
-         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
-         filter.setContentHandler(unmarshallerHandler);
-         filter.parse(configureInputSource(stream));
-         APIBusinessObjects apibo = (APIBusinessObjects) unmarshallerHandler.getResult();
-
-         List<ProjectType> projects = apibo.getProject();
-         ProjectType project = null;
-         for (ProjectType currentProject : projects)
-         {
-            if (!BooleanHelper.getBoolean(currentProject.isExternal()))
-            {
-               project = currentProject;
-               break;
-            }
-         }
-
-         if (project == null)
-         {
-            throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
-         }
-
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
          processActivityCodes(apibo, project);
@@ -226,26 +266,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          config.updateUniqueCounters();
 
          return (m_projectFile);
-      }
-
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
       }
 
       finally
