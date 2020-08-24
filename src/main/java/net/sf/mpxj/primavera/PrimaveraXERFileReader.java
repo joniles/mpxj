@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -257,31 +256,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
       try
       {
-         //
-         // Test the header and extract the separator. If this is successful,
-         // we reset the stream back as far as we can. The design of the
-         // BufferedInputStream class means that we can't get back to character
-         // zero, so the first record we will read will get "RMHDR" rather than
-         // "ERMHDR" in the first field position.
-         //
-         BufferedInputStream bis = new BufferedInputStream(is);
-         byte[] data = new byte[6];
-         data[0] = (byte) bis.read();
-         bis.mark(1024);
-         bis.read(data, 1, 5);
-
-         if (!new String(data).equals("ERMHDR"))
-         {
-            throw new MPXJException(MPXJException.INVALID_FILE);
-         }
-
-         bis.reset();
-
-         InputStreamReader reader = new InputStreamReader(bis, getCharset());
+         InputStreamReader reader = new InputStreamReader(is, getCharset());
          Tokenizer tk = new ReaderTokenizer(reader);
          tk.setDelimiter('\t');
          List<String> record = new ArrayList<>();
 
+         //
+         // Read the first record as a special case so we can check for the header record token
+         //
+         if (tk.getType() == Tokenizer.TT_EOF)
+         {
+            throw new MPXJException(MPXJException.INVALID_FILE);
+         }
+         
+         readRecord(tk, record);
+         if (record.isEmpty() || !"ERMHDR".equals(record.get(0)))
+         {
+            throw new MPXJException(MPXJException.INVALID_FILE);
+         }
+         
+         processRecord(record);
+         
+         //
+         // Read the remaining records
+         //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
             readRecord(tk, record);
@@ -940,7 +938,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private static final Map<String, XerRecordType> RECORD_TYPE_MAP = new HashMap<>();
    static
    {
-      RECORD_TYPE_MAP.put("RMHDR", XerRecordType.HEADER);
+      RECORD_TYPE_MAP.put("ERMHDR", XerRecordType.HEADER);
       RECORD_TYPE_MAP.put("%T", XerRecordType.TABLE);
       RECORD_TYPE_MAP.put("%F", XerRecordType.FIELDS);
       RECORD_TYPE_MAP.put("%R", XerRecordType.DATA);
