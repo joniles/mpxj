@@ -435,10 +435,10 @@ final class AstaReader
       task.setUniqueID(row.getInteger("TASKID"));
       //GIVEN_DURATIONTYPF
       //GIVEN_DURATIONELA_MONTHS
-      
-      // This does not appear to be accurate 
+
+      // This does not appear to be accurate
       //task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
-      
+
       task.setResume(row.getDate("RESUME"));
       //task.setStart(row.getDate("GIVEN_START"));
       //LATEST_PROGRESS_PERIOD
@@ -495,8 +495,6 @@ final class AstaReader
       //LAST_EDITED_DATE
       //LAST_EDITED_BY
 
-      
-
       //
       // The attribute we thought contained the duration appears to be unreliable.
       // To match what we see in Asta the best way to determine the duration appears
@@ -510,8 +508,8 @@ final class AstaReader
       //
       // Overall Percent Complete
       //
-      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");      
-      task.setNumber(1, overallPercentComplete);      
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
+      task.setNumber(1, overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
 
       //
@@ -526,12 +524,12 @@ final class AstaReader
       }
       else
       {
-         Duration actualDuration = task.getActualDuration();      
+         Duration actualDuration = task.getActualDuration();
          if (duration != null && duration.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
          {
             // We have an actual duration, so we must have an actual start date
             task.setActualStart(task.getStart());
-   
+
             double percentComplete = (actualDuration.getDuration() / duration.getDuration()) * 100.0;
             task.setPercentageComplete(Double.valueOf(percentComplete));
             if (percentComplete > 99.0)
@@ -544,7 +542,7 @@ final class AstaReader
             task.setPercentageComplete(INCOMPLETE);
          }
       }
-      
+
       processConstraints(row, task);
    }
 
@@ -659,7 +657,7 @@ final class AstaReader
       task.setDuration(Duration.getInstance(0, TimeUnit.HOURS));
 
       if (row.getBoolean("COMPLETED"))
-      {        
+      {
          task.setPercentageComplete(COMPLETE);
          task.setActualStart(task.getStart());
          task.setActualFinish(task.getFinish());
@@ -797,7 +795,7 @@ final class AstaReader
    /**
     * Retrieve all child tasks below this task to the bottom of the hierarchy.
     * If the task has no child tasks then just add it to the array.
-    *  
+    *
     * @param tasks array to collect child tasks
     * @param task current task
     */
@@ -823,7 +821,7 @@ final class AstaReader
 
    /**
     * Populate summary task dates.
-    * 
+    *
     * @param parentTask summary task
     */
    private void updateDates(Task parentTask)
@@ -871,7 +869,7 @@ final class AstaReader
          }
       }
    }
-  
+
    /**
     * Processes predecessor data.
     *
@@ -913,14 +911,14 @@ final class AstaReader
          if (startTask != null && endTask != null)
          {
             RelationType type = getRelationType(row.getInt("TYPI"));
- 
+
             Duration startLag = row.getDuration("START_LAG_TIMEHOURS");
             Duration endLag = row.getDuration("END_LAG_TIMEHOURS");
             Duration lag;
-            
+
             double startLagDuration = startLag.getDuration();
             double endLagDuration = endLag.getDuration();
-                        
+
             if (startLagDuration == 0.0 && endLagDuration == 0.0)
             {
                lag = Duration.getInstance(0, TimeUnit.HOURS);
@@ -1607,7 +1605,7 @@ final class AstaReader
    private EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
    private final Set<Integer> m_deferredConstraintType = new HashSet<>();
-   
+
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final String LINE_BREAK = "|@|||";

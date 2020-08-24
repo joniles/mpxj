@@ -1073,7 +1073,7 @@ public final class UniversalProjectReader implements ProjectReader
    };
 
    private static final Pattern XER_FINGERPRINT = Pattern.compile("ERMHDR.*", Pattern.DOTALL);
-   
+
    private static final Pattern PLANNER_FINGERPRINT = Pattern.compile(".*<project.*mrproject-version.*", Pattern.DOTALL);
 
    private static final Pattern PMXML_FINGERPRINT = Pattern.compile(".*(<BusinessObjects|APIBusinessObjects).*", Pattern.DOTALL);

@@ -56,7 +56,7 @@ public final class ExternalRelation
       {
          m_type = type;
       }
-      
+
       if (lag == null)
       {
          m_lag = Duration.getInstance(0, TimeUnit.DAYS);
@@ -65,7 +65,7 @@ public final class ExternalRelation
       {
          m_lag = lag;
       }
-      
+
       m_predecessor = predecessor;
    }
 
@@ -133,14 +133,14 @@ public final class ExternalRelation
 
    /**
     * Indication relation type.
-    * 
+    *
     * @return true if this is an external predecessor, or false if it is an external successor.
     */
    public boolean getPredecessor()
    {
       return m_predecessor;
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -170,7 +170,7 @@ public final class ExternalRelation
     * Lag between the two tasks.
     */
    private final Duration m_lag;
-   
+
    /**
     * True if the external activity is a predecessor.
     */

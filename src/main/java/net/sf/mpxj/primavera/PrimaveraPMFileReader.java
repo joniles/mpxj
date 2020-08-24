@@ -234,7 +234,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Find a task by unique ID across multiple projects.
-    * 
+    *
     * @param projects list of projects
     * @param uniqueID unique ID to find
     * @return requested task, or null if the task can't be found
@@ -257,7 +257,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    /**
     * Parse the PMXML file.
-    * 
+    *
     * @param stream PMXML file
     * @return APIBusinessObjects instance
     */
@@ -591,7 +591,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       List<CalendarType> calendars = new ArrayList<>(apibo.getCalendar());
       calendars.addAll(project.getCalendar());
-      
+
       //
       // First pass: read calendar definitions
       //

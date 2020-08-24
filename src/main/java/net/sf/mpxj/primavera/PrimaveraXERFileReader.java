@@ -266,15 +266,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          {
             throw new MPXJException(MPXJException.INVALID_FILE);
          }
-         
+
          readRecord(tk, record);
          if (record.isEmpty() || !"ERMHDR".equals(record.get(0)))
          {
             throw new MPXJException(MPXJException.INVALID_FILE);
          }
-         
+
          processRecord(record);
-         
+
          //
          // Read the remaining records
          //
@@ -554,7 +554,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          }
 
          case TABLE:
-         {            
+         {
             m_currentTableName = record.size() > 1 ? record.get(1).toLowerCase() : null;
             m_skipTable = !REQUIRED_TABLES.contains(m_currentTableName);
             if (m_skipTable)

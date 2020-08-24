@@ -201,7 +201,7 @@ public class CustomerDataTest
          reader.setConnection(connection);
          Map<Integer, String> projects = reader.listProjects();
          long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(reader, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
-         
+
          if (DIFF_BASELINE_DIR != null)
          {
             System.out.println();
