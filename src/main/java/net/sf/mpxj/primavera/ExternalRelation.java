@@ -1,5 +1,5 @@
 /*
- * file:       ExternalPredecessorRelation.java
+ * file:       ExternalRelation.java
  * author:     Brandon Herzog
  * copyright:  (c) Packwood Software 2017
  * date:       3/20/2017
@@ -32,7 +32,7 @@ import net.sf.mpxj.TimeUnit;
  * This class represents the relationship between two tasks in Primavera when the predecessor
  * task is not contained in the same project.
  */
-public final class ExternalPredecessorRelation
+public final class ExternalRelation
 {
    /**
     * Default constructor.
@@ -41,23 +41,32 @@ public final class ExternalPredecessorRelation
     * @param targetTask target task instance
     * @param type relation type
     * @param lag relation lag
+    * @param predecessor TODO
     */
-   public ExternalPredecessorRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag)
+   public ExternalRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
    {
-      m_sourceUniqueID = sourceUniqueID;
+      m_externalTaskUniqueID = sourceUniqueID;
       m_targetTask = targetTask;
-      m_type = type;
-      m_lag = lag;
 
-      if (m_type == null)
+      if (type == null)
       {
          m_type = RelationType.FINISH_START;
       }
-
-      if (m_lag == null)
+      else
+      {
+         m_type = type;
+      }
+      
+      if (lag == null)
       {
          m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
+      else
+      {
+         m_lag = lag;
+      }
+      
+      m_predecessor = predecessor;
    }
 
    /**
@@ -87,9 +96,9 @@ public final class ExternalPredecessorRelation
     *
     * @return source task
     */
-   public Integer getSourceUniqueID()
+   public Integer externalTaskUniqueID()
    {
-      return m_sourceUniqueID;
+      return m_externalTaskUniqueID;
    }
 
    /**
@@ -123,32 +132,47 @@ public final class ExternalPredecessorRelation
    }
 
    /**
+    * Indication relation type.
+    * 
+    * @return true if this is an external predecessor, or false if it is an external successor.
+    */
+   public boolean getPredecessor()
+   {
+      return m_predecessor;
+   }
+   
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
-      return ("[ExternalPredecessor " + m_sourceUniqueID + " -> " + m_targetTask + "]");
+      return ("[ExternalPredecessor " + m_externalTaskUniqueID + " -> " + m_targetTask + "]");
    }
 
    private Integer m_uniqueID;
 
    /**
-    * Parent task file.
+    * External task unique ID.
     */
-   private Integer m_sourceUniqueID;
+   private final Integer m_externalTaskUniqueID;
 
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Task m_targetTask;
+   private final Task m_targetTask;
 
    /**
     * Type of relationship.
     */
-   private RelationType m_type;
+   private final RelationType m_type;
 
    /**
     * Lag between the two tasks.
     */
-   private Duration m_lag;
+   private final Duration m_lag;
+   
+   /**
+    * True if the external activity is a predecessor.
+    */
+   private final boolean m_predecessor;
 }

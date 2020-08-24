@@ -144,9 +144,9 @@ final class PrimaveraReader
     *
     * @return list of external predecessors
     */
-   public List<ExternalPredecessorRelation> getExternalPredecessors()
+   public List<ExternalRelation> getExternalRelations()
    {
-      return m_externalPredecessors;
+      return m_externalRelations;
    }
 
    /**
@@ -1293,8 +1293,8 @@ final class PrimaveraReader
             else
             {
                // if we can't find the predecessor, it must lie outside the project
-               ExternalPredecessorRelation relation = new ExternalPredecessorRelation(predecessorID, currentTask, type, lag);
-               m_externalPredecessors.add(relation);
+               ExternalRelation relation = new ExternalRelation(predecessorID, currentTask, type, lag, true);
+               m_externalRelations.add(relation);
                relation.setUniqueID(uniqueID);
             }
          }
@@ -1811,7 +1811,7 @@ final class PrimaveraReader
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
-   private List<ExternalPredecessorRelation> m_externalPredecessors = new ArrayList<>();
+   private List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
 

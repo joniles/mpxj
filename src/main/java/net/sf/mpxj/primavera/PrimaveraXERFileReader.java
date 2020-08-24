@@ -132,7 +132,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     *
     * @param is input stream
     * @return list of ProjectFile instances
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
@@ -146,7 +145,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * @param is input stream
     * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
     * @return list of ProjectFile instances
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
    {
@@ -159,27 +157,27 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
 
          List<Row> rows = getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<>(rows.size());
-         List<ExternalPredecessorRelation> externalPredecessors = new ArrayList<>();
+         List<ExternalRelation> externalRelations = new ArrayList<>();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
             m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
             ProjectFile project = readProject();
-            externalPredecessors.addAll(m_reader.getExternalPredecessors());
+            externalRelations.addAll(m_reader.getExternalRelations());
 
             result.add(project);
          }
 
          if (linkCrossProjectRelations)
          {
-            for (ExternalPredecessorRelation externalRelation : externalPredecessors)
+            for (ExternalRelation externalRelation : externalRelations)
             {
                Task predecessorTask;
                // we could aggregate the project task id maps but that's likely more work
                // than just looping through the projects
                for (ProjectFile proj : result)
                {
-                  predecessorTask = proj.getTaskByUniqueID(externalRelation.getSourceUniqueID());
+                  predecessorTask = proj.getTaskByUniqueID(externalRelation.externalTaskUniqueID());
                   if (predecessorTask != null)
                   {
                      Relation relation = externalRelation.getTargetTask().addPredecessor(predecessorTask, externalRelation.getType(), externalRelation.getLag());

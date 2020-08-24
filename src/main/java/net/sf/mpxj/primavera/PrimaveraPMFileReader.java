@@ -150,9 +150,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
-   {      
-      APIBusinessObjects apibo = processFile(stream); 
-      
+   {
+      APIBusinessObjects apibo = processFile(stream);
+
       List<ProjectType> projects = apibo.getProject();
       ProjectType project = null;
       for (ProjectType currentProject : projects)
@@ -170,6 +170,89 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
 
       return read(apibo, project);
+   }
+
+   /**
+    * This is a convenience method which allows all projects in a
+    * PMXML file to be read in a single pass. External relationships
+    * are not linked.
+    *
+    * @param is input stream
+    * @return list of ProjectFile instances
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(InputStream is) throws MPXJException
+   {
+      return readAll(is, false);
+   }
+
+   /**
+    * This is a convenience method which allows all projects in a
+    * PMXML file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    */
+   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   {
+      APIBusinessObjects apibo = processFile(is);
+
+      List<ProjectType> projects = apibo.getProject();
+      List<ProjectFile> result = new ArrayList<>(projects.size());
+      projects.forEach(project -> result.add(read(apibo, project)));
+
+      if (linkCrossProjectRelations)
+      {
+         for (ExternalRelation externalRelation : m_externalRelations)
+         {
+            Task externalTask = findTaskInProjects(result, externalRelation.externalTaskUniqueID());
+            if (externalTask != null)
+            {
+               Task successor;
+               Task predecessor;
+
+               if (externalRelation.getPredecessor())
+               {
+                  successor = externalRelation.getTargetTask();
+                  predecessor = externalTask;
+               }
+               else
+               {
+                  successor = externalTask;
+                  predecessor = externalRelation.getTargetTask();
+               }
+
+               Relation relation = successor.addPredecessor(predecessor, externalRelation.getType(), externalRelation.getLag());
+               relation.setUniqueID(externalRelation.getUniqueID());
+            }
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Find a task by unique ID across multiple projects.
+    * 
+    * @param projects list of projects
+    * @param uniqueID unique ID to find
+    * @return requested task, or null if the task can't be found
+    */
+   private Task findTaskInProjects(List<ProjectFile> projects, Integer uniqueID)
+   {
+      Task result = null;
+
+      // we could aggregate the project task id maps but that's likely more work than just looping through the projects
+      for (ProjectFile proj : projects)
+      {
+         result = proj.getTaskByUniqueID(uniqueID);
+         if (result != null)
+         {
+            break;
+         }
+      }
+      return result;
    }
 
    /**
@@ -199,8 +282,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
          filter.setContentHandler(unmarshallerHandler);
          filter.parse(configureInputSource(stream));
-         
-         return (APIBusinessObjects) unmarshallerHandler.getResult();         
+
+         return (APIBusinessObjects) unmarshallerHandler.getResult();
       }
 
       catch (ParserConfigurationException ex)
@@ -221,9 +304,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       catch (IOException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
-      }      
+      }
    }
-   
+
    private ProjectFile read(APIBusinessObjects apibo, ProjectType project)
    {
       try
@@ -1076,16 +1159,39 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    {
       for (RelationshipType row : project.getRelationship())
       {
+         Integer predecessorID = row.getPredecessorActivityObjectId();
+         Integer successorID = row.getSuccessorActivityObjectId();
 
-         Task currentTask = m_projectFile.getTaskByUniqueID(mapTaskID(row.getSuccessorActivityObjectId()));
-         Task predecessorTask = m_projectFile.getTaskByUniqueID(mapTaskID(row.getPredecessorActivityObjectId()));
-         if (currentTask != null && predecessorTask != null)
+         Task successorTask = m_projectFile.getTaskByUniqueID(mapTaskID(successorID));
+         Task predecessorTask = m_projectFile.getTaskByUniqueID(mapTaskID(predecessorID));
+
+         RelationType type = RELATION_TYPE_MAP.get(row.getType());
+         Duration lag = getDuration(row.getLag());
+
+         if (successorTask != null && predecessorTask != null)
          {
-            RelationType type = RELATION_TYPE_MAP.get(row.getType());
-            Duration lag = getDuration(row.getLag());
-            Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
+            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
             relation.setUniqueID(row.getObjectId());
             m_eventManager.fireRelationReadEvent(relation);
+         }
+         else
+         {
+            // If we're missing the predecessor or successor we assume they are external relations
+            if (successorTask != null && predecessorTask == null)
+            {
+               ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
+               m_externalRelations.add(relation);
+               relation.setUniqueID(row.getObjectId());
+            }
+            else
+            {
+               if (successorTask == null && predecessorTask != null)
+               {
+                  ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
+                  m_externalRelations.add(relation);
+                  relation.setUniqueID(row.getObjectId());
+               }
+            }
          }
       }
    }
@@ -1330,6 +1436,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
+   private List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private boolean m_wbsIsFullPath = true;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
