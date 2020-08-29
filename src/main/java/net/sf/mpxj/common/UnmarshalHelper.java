@@ -33,11 +33,13 @@ import javax.xml.bind.UnmarshallerHandler;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
 
 /**
  * Utility methods wrapping JAXB unmarshal.
@@ -53,7 +55,7 @@ public final class UnmarshalHelper
     */
    public static final Object unmarshal(JAXBContext context, InputStream stream) throws JAXBException, SAXException, ParserConfigurationException
    {
-      return context.createUnmarshaller().unmarshal(new SAXSource(XmlReaderHelper.createXmlReader(), new InputSource(stream)));
+      return context.createUnmarshaller().unmarshal(new SAXSource(createXmlReader(), new InputSource(stream)));
    }
 
    /**
@@ -94,10 +96,23 @@ public final class UnmarshalHelper
       }
 
       UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
-      filter.setParent(XmlReaderHelper.createXmlReader());
+      filter.setParent(createXmlReader());
       filter.setContentHandler(unmarshallerHandler);
       filter.parse(source);
 
       return unmarshallerHandler.getResult();
+   }
+   
+   /**
+    * Create a new XmlReader instance.
+    *
+    * @return XmlReader instance
+    */
+   public static final XMLReader createXmlReader() throws SAXException, ParserConfigurationException
+   {
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      factory.setNamespaceAware(true);
+      return factory.newSAXParser().getXMLReader();
    }
 }
