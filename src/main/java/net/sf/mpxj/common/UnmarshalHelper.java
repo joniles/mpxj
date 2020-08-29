@@ -100,5 +100,4 @@ public final class UnmarshalHelper
 
       return unmarshallerHandler.getResult();
    }
-
 }

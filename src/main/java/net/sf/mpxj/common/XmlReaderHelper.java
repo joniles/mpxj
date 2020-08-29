@@ -24,7 +24,6 @@
 package net.sf.mpxj.common;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
@@ -45,7 +44,6 @@ public final class XmlReaderHelper
       SAXParserFactory factory = SAXParserFactory.newInstance();
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
       factory.setNamespaceAware(true);
-      SAXParser saxParser = factory.newSAXParser();
-      return saxParser.getXMLReader();
+      return factory.newSAXParser().getXMLReader();
    }
 }
