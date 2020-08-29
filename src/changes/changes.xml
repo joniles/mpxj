@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.1.4">
+			<action dev="joniles" type="update">Fix XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
 			<action dev="joniles" type="update">Import milestone constraints from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)</action>
 			<action dev="joniles" type="update">Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)</action>

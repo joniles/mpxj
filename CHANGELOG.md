@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.1.4 (git master)
+* Fix XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 * Import milestone constraints from Asta schedules (Contributed by Dave McKay)
 * Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)
 * Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)

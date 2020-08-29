@@ -40,18 +40,10 @@ import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.UnmarshallerHandler;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLFilter;
-import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
@@ -104,6 +96,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -177,6 +170,11 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       try
       {
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -193,41 +191,9 @@ public final class MSPDIReader extends AbstractProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         SAXParserFactory factory = SAXParserFactory.newInstance();
-         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-         factory.setNamespaceAware(true);
-         SAXParser saxParser = factory.newSAXParser();
-         XMLReader xmlReader = saxParser.getXMLReader();
-
-         if (CONTEXT == null)
-         {
-            throw CONTEXT_EXCEPTION;
-         }
-
          DatatypeConverter.setParentFile(m_projectFile);
-         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
-         //
-         // If we are matching the behaviour of MS project, then we need to
-         // ignore validation warnings.
-         //
-         if (m_compatibleInput == true)
-         {
-            unmarshaller.setEventHandler(new ValidationEventHandler()
-            {
-               @Override public boolean handleEvent(ValidationEvent event)
-               {
-                  return (true);
-               }
-            });
-         }
-
-         XMLFilter filter = new NamespaceFilter();
-         filter.setParent(xmlReader);
-         UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
-         filter.setContentHandler(unmarshallerHandler);
-         filter.parse(new InputSource(new InputStreamReader(stream, getCharset())));
-         Project project = (Project) unmarshallerHandler.getResult();
+         Project project = (Project) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput);
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 

@@ -37,15 +37,9 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
 
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -76,6 +70,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
+import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.ganttproject.schema.Allocation;
 import net.sf.mpxj.ganttproject.schema.Allocations;
 import net.sf.mpxj.ganttproject.schema.Calendars;
@@ -118,6 +113,11 @@ public final class GanttProjectReader extends AbstractProjectReader
    {
       try
       {
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
          m_resourcePropertyDefinitions = new HashMap<>();
@@ -137,19 +137,7 @@ public final class GanttProjectReader extends AbstractProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         SAXParserFactory factory = SAXParserFactory.newInstance();
-         SAXParser saxParser = factory.newSAXParser();
-         XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
-
-         if (CONTEXT == null)
-         {
-            throw CONTEXT_EXCEPTION;
-         }
-
-         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
-
-         Project ganttProject = (Project) unmarshaller.unmarshal(doc);
+         Project ganttProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 
          readProjectProperties(ganttProject);
          readCalendars(ganttProject);

@@ -39,15 +39,9 @@ import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
 
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
@@ -73,6 +67,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
@@ -114,6 +109,11 @@ public final class PlannerReader extends AbstractProjectReader
    {
       try
       {
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -129,21 +129,7 @@ public final class PlannerReader extends AbstractProjectReader
 
          m_eventManager.addProjectListeners(m_projectListeners);
 
-         SAXParserFactory factory = SAXParserFactory.newInstance();
-         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-         factory.setNamespaceAware(true);
-         SAXParser saxParser = factory.newSAXParser();
-         XMLReader xmlReader = saxParser.getXMLReader();
-         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
-
-         if (CONTEXT == null)
-         {
-            throw CONTEXT_EXCEPTION;
-         }
-
-         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
-
-         Project plannerProject = (Project) unmarshaller.unmarshal(doc);
+         Project plannerProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 
          readProjectProperties(plannerProject);
          readCalendars(plannerProject);
