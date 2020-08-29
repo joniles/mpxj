@@ -8,6 +8,7 @@
 * Gracefully handle a missing table name when reading an XER file.
 * Gracefully handle a unexpected calendar data when reading an XER file.
 * Correctly handle XER files with multi-byte character encoding.
+* Import all schedule and leveling options from XER files.
 * Ensure project calendars are read from PMXML files.
 * Added readAll methods to PrimaveraPMFileWriter to allow all projects contained in a PMXML file to be read in a single pass.
 
