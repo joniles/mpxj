@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.1.5">
+			<action dev="joniles" type="update">Ensure that the summary flag is true for WBS items, even if they have no child activities.</action>
 		</release>	
 		<release date="31/08/2020" version="8.1.4">
 			<action dev="joniles" type="update">Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>

@@ -1081,6 +1081,14 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
+            case SUMMARY:
+            {
+               // We ignore the summary attribute from the file, and default to false here.
+               // We'll set this flag correctly later when we update the structure.
+               task.setSummary(false);
+               break;
+            }
+
             case SUCCESSORS:
             {
                // Normally MPX files only use predecessors - ignore the successors attribute
@@ -1212,7 +1220,6 @@ public final class MPXReader extends AbstractProjectReader
             case MARKED:
             case MILESTONE:
             case ROLLUP:
-            case SUMMARY:
             case UPDATE_NEEDED:
             {
                task.set(taskField, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));

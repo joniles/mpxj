@@ -1278,7 +1278,8 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setSubprojectName(xml.getSubprojectName());
          mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          //mpx.setSuccessors();
-         mpx.setSummary(BooleanHelper.getBoolean(xml.isSummary()));
+         // Rely on the presence of child tasks to determine if this is a summary task rather than using this attribute
+         //mpx.setSummary(BooleanHelper.getBoolean(xml.isSummary()));
          //mpx.setSV();
          //mpx.setText1();
          //mpx.setText2();
@@ -1327,6 +1328,8 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          if (NumberHelper.getInt(mpx.getUniqueID()) == 0)
          {
+            // ensure that the project summary task is always marked as a summary task 
+            mpx.setSummary(true);
             updateProjectProperties(mpx);
          }
       }

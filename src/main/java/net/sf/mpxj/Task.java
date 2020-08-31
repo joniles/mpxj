@@ -316,8 +316,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void clearChildTasks()
    {
-      m_children.clear();
-      setSummary(false);
+      // Only take action if the child list is populated. This ensures that
+      // the summary flag value is preserved. This is important when identifying
+      // WBS entries which have no child activities.
+      if (!m_children.isEmpty())
+      {
+         m_children.clear();
+         setSummary(false);
+      }
    }
 
    /**
