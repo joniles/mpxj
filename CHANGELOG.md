@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.1.4 (git master)
+## 8.1.5 (git master)
+
+## 8.1.4 (31/08/2020)
 * Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 * Import milestone constraints from Asta schedules (Contributed by Dave McKay)
 * Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)
@@ -10,7 +12,7 @@
 * Correctly handle XER files with multi-byte character encoding.
 * Import all schedule and leveling options from XER files.
 * Ensure project calendars are read from PMXML files.
-* Added readAll methods to PrimaveraPMFileWriter to allow all projects contained in a PMXML file to be read in a single pass.
+* Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.
 
 ## 8.1.3 (25/06/2020)
 * Improve reliability when reading custom field values from certain MPP12 files.

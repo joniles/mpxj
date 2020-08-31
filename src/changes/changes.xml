@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.1.4">
+		<release date="git master" version="8.1.5">
+		</release>	
+		<release date="31/08/2020" version="8.1.4">
 			<action dev="joniles" type="update">Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
 			<action dev="joniles" type="update">Import milestone constraints from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)</action>
@@ -15,7 +17,7 @@
 			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>			
 			<action dev="joniles" type="update">Import all schedule and leveling options from XER files.</action>			
 			<action dev="joniles" type="update">Ensure project calendars are read from PMXML files.</action>
-			<action dev="joniles" type="add">Added readAll methods to PrimaveraPMFileWriter to allow all projects contained in a PMXML file to be read in a single pass.</action>
+			<action dev="joniles" type="add">Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.</action>
 		</release>
 		<release date="25/06/2020" version="8.1.3">
 			<action dev="joniles" type="update">Improve reliability when reading custom field values from certain MPP12 files.</action>
