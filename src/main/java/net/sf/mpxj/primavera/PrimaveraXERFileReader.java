@@ -442,13 +442,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          customProperties.put("ConsiderAssignmentsInOtherProjects", Boolean.valueOf(row.getBoolean("level_outer_assign_flag")));
          customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", row.getString("level_outer_assign_priority"));
          customProperties.put("PreserveScheduledEarlyAndLateDates", Boolean.valueOf(row.getBoolean("level_keep_sched_date_flag")));
-         // Recalculate assignment costs after leveling         
+         // Recalculate assignment costs after leveling
          customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
          customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
          customProperties.put("PreserveMinimumFloatWhenLeveling", row.getString("level_float_thrs_cnt"));
          customProperties.put("MaxPercentToOverallocateResources", row.getString("level_over_alloc_pct"));
          customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
-         
 
          //
          // Schedule
@@ -480,7 +479,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
          customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
 
-         
          //
          // Backward Compatibility
          //
@@ -489,7 +487,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
          customProperties.put("IgnoreOtherProjectRelationships", row.getString("sched_outer_depend_type"));
          customProperties.put("StartToStartLagCalculationType", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
-         
+
          m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
       }
    }

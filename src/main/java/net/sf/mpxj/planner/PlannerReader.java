@@ -968,7 +968,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Retrieve task priority, default to medium if not present.
-    * 
+    *
     * @param value string representation of task priority
     * @return Priority instance
     */
@@ -980,7 +980,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Retrieve task percent complete. Default to zero if not present.
-    * 
+    *
     * @param value string representation of percent complete.
     * @return percent complete value
     */
@@ -991,7 +991,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Retrieve resource type, default to work if not present.
-    * 
+    *
     * @param value string representation of task priority
     * @return ResourceType instance
     */
@@ -1002,7 +1002,7 @@ public final class PlannerReader extends AbstractProjectReader
 
    /**
     * Retrieve resource assignment units, default to 100% if not present.
-    * 
+    *
     * @param value string representation of resource assignment units
     * @return resource assignment units
     */

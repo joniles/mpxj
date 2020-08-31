@@ -102,7 +102,7 @@ public final class UnmarshalHelper
 
       return unmarshallerHandler.getResult();
    }
-   
+
    /**
     * Create a new XmlReader instance.
     *
