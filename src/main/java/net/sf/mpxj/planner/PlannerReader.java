@@ -473,7 +473,7 @@ public final class PlannerReader extends AbstractProjectReader
       mpxjResource.setName(plannerResource.getName());
       mpxjResource.setNotes(plannerResource.getNote());
       mpxjResource.setInitials(plannerResource.getShortName());
-      mpxjResource.setType(getInt(plannerResource.getType()) == 2 ? ResourceType.MATERIAL : ResourceType.WORK);
+      mpxjResource.setType(getResourceType(plannerResource.getType()));
       //plannerResource.getStdRate();
       //plannerResource.getOvtRate();
       //plannerResource.getUnits();
@@ -547,7 +547,7 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Read task attributes from Planner
       //
-      Integer percentComplete = getInteger(plannerTask.getPercentComplete());
+      Integer percentComplete = getPercentComplete(plannerTask.getPercentComplete());
       //plannerTask.getDuration(); calculate from end - start, not in file?
       //plannerTask.getEffort(); not set?
       mpxjTask.setFinish(getDateTime(plannerTask.getEnd()));
@@ -556,7 +556,7 @@ public final class PlannerReader extends AbstractProjectReader
       mpxjTask.setNotes(plannerTask.getNote());
       mpxjTask.setPercentageComplete(percentComplete);
       mpxjTask.setPercentageWorkComplete(percentComplete);
-      mpxjTask.setPriority(Priority.getInstance(getInt(plannerTask.getPriority()) / 10));
+      mpxjTask.setPriority(getPriority(plannerTask.getPriority()));
       mpxjTask.setType(getTaskType(plannerTask.getScheduling()));
       //plannerTask.getStart(); // Start day, time is always 00:00?
       mpxjTask.setMilestone(plannerTask.getType().equals("milestone"));
@@ -693,7 +693,7 @@ public final class PlannerReader extends AbstractProjectReader
       {
          Integer taskID = getInteger(allocation.getTaskId());
          Integer resourceID = getInteger(allocation.getResourceId());
-         Integer units = getInteger(allocation.getUnits());
+         Integer units = getResourceAssignmentUnits(allocation.getUnits());
 
          Task task = m_projectFile.getTaskByUniqueID(taskID);
          Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
@@ -776,6 +776,11 @@ public final class PlannerReader extends AbstractProjectReader
     */
    private Date getDateTime(String value) throws MPXJException
    {
+      if (value == null)
+      {
+         return null;
+      }
+
       try
       {
          Number year = m_fourDigitFormat.parse(value.substring(0, 4));
@@ -959,6 +964,51 @@ public final class PlannerReader extends AbstractProjectReader
       }
 
       return (result);
+   }
+
+   /**
+    * Retrieve task priority, default to medium if not present.
+    * 
+    * @param value string representation of task priority
+    * @return Priority instance
+    */
+   private Priority getPriority(String value)
+   {
+      int priority = value == null ? Priority.MEDIUM : getInt(value) / 10;
+      return Priority.getInstance(priority);
+   }
+
+   /**
+    * Retrieve task percent complete. Default to zero if not present.
+    * 
+    * @param value string representation of percent complete.
+    * @return percent complete value
+    */
+   private Integer getPercentComplete(String value)
+   {
+      return value == null ? Integer.valueOf(0) : getInteger(value);
+   }
+
+   /**
+    * Retrieve resource type, default to work if not present.
+    * 
+    * @param value string representation of task priority
+    * @return ResourceType instance
+    */
+   private ResourceType getResourceType(String value)
+   {
+      return value == null ? ResourceType.WORK : (getInt(value) == 2 ? ResourceType.MATERIAL : ResourceType.WORK);
+   }
+
+   /**
+    * Retrieve resource assignment units, default to 100% if not present.
+    * 
+    * @param value string representation of resource assignment units
+    * @return resource assignment units
+    */
+   private Integer getResourceAssignmentUnits(String value)
+   {
+      return value == null ? Integer.valueOf(100) : getInteger(value);
    }
 
    private ProjectFile m_projectFile;
