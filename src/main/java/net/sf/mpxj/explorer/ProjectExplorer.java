@@ -41,6 +41,10 @@ import javax.swing.UIManager;
 
 import com.jgoodies.binding.beans.PropertyAdapter;
 
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
 /**
  * MppExplorer is a Swing UI used to examine the contents of a project file read by MPXJ.
  */
@@ -146,9 +150,22 @@ public class ProjectExplorer
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
-            File file = fileChooserModel.getFile();
-            tabbedPane.add(file.getName(), new ProjectFilePanel(file));
-            mntmSave.setEnabled(true);
+            try
+            {
+               File file = fileChooserModel.getFile();
+               ProjectFile projectFile = new UniversalProjectReader().read(file);
+               if (projectFile == null)
+               {
+                  throw new IllegalArgumentException("Unsupported file type");
+               }
+               tabbedPane.add(file.getName(), new ProjectFilePanel(projectFile));
+               mntmSave.setEnabled(true);
+            }
+
+            catch (MPXJException ex)
+            {
+               throw new IllegalArgumentException("Failed to read file");
+            }
          }
       });
 
@@ -161,6 +178,5 @@ public class ProjectExplorer
             panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
          }
       });
-
    }
 }

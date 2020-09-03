@@ -55,7 +55,6 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
-import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.writer.ProjectWriter;
 
@@ -102,15 +101,11 @@ public class ProjectTreeController
     *
     * @param file file to load
     */
-   public void loadFile(File file)
+   public void loadFile(ProjectFile file)
    {
       try
       {
-         m_projectFile = new UniversalProjectReader().read(file);
-         if (m_projectFile == null)
-         {
-            throw new IllegalArgumentException("Unsupported file type");
-         }
+         m_projectFile = file;
       }
 
       catch (Exception ex)

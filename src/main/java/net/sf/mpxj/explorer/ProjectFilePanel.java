@@ -37,6 +37,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
+import net.sf.mpxj.ProjectFile;
+
 /**
  * Component representing the main view of a project file.
  */
@@ -52,7 +54,7 @@ public class ProjectFilePanel extends JPanel
     *
     * @param file MPP file to be displayed in this view.
     */
-   public ProjectFilePanel(File file)
+   public ProjectFilePanel(ProjectFile file)
    {
       m_treeModel = new ProjectTreeModel();
       m_treeController = new ProjectTreeController(m_treeModel);
