@@ -1112,7 +1112,8 @@ final class PrimaveraReader
          Date baselineFinishDate = parentTask.getBaselineFinish();
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-
+         boolean critical = false;
+         
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -1137,6 +1138,8 @@ final class PrimaveraReader
             {
                ++finished;
             }
+            
+            critical = critical || task.getCritical();
          }
 
          parentTask.setStart(plannedStartDate);
@@ -1217,6 +1220,8 @@ final class PrimaveraReader
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
+         
+         parentTask.setCritical(critical);
       }
    }
 

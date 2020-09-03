@@ -1,7 +1,8 @@
 # Changelog
 
 ## 8.1.5 (git master)
-* Ensure that the summary flag is true for WBS items, even if they have no child activities.
+* Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.
+* Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.
 
 ## 8.1.4 (31/08/2020)
 * Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)

@@ -981,7 +981,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          Date baselineFinishDate = parentTask.getBaselineFinish();
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-
+         boolean critical = false;
+         
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -1006,6 +1007,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             {
                ++finished;
             }
+            
+            critical = critical || task.getCritical();
          }
 
          parentTask.setStart(plannedStartDate);
@@ -1078,6 +1081,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
+         
+         parentTask.setCritical(critical);
       }
    }
 
