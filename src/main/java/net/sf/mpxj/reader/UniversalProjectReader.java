@@ -138,20 +138,7 @@ public final class UniversalProjectReader implements ProjectReader
          }
          else
          {
-            FileInputStream fis = null;
-
-            try
-            {
-               fis = new FileInputStream(file);
-               ProjectFile projectFile = read(fis);
-               fis.close();
-               return (projectFile);
-            }
-
-            finally
-            {
-               AutoCloseableHelper.closeQuietly(fis);
-            }
+            result = handleFile(file);
          }
          return result;
       }
@@ -219,9 +206,7 @@ public final class UniversalProjectReader implements ProjectReader
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
          {
-            MSPDIReader reader = new MSPDIReader();
-            reader.setCharset(m_charset);
-            return reader.read(bis);
+            return handleMspdiFile(bis);
          }
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
@@ -386,6 +371,19 @@ public final class UniversalProjectReader implements ProjectReader
    {
       addListeners(reader);
       return reader.read(file);
+   }
+
+   /**
+    * Configure the MSPDI file reader and read.
+    * 
+    * @param stream input stream
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleMspdiFile(InputStream stream) throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
+      reader.setCharset(m_charset);
+      return reader.read(stream);
    }
 
    /**
@@ -556,6 +554,30 @@ public final class UniversalProjectReader implements ProjectReader
       }
 
       return null;
+   }
+
+   /**
+    * Open and read a file.
+    * 
+    * @param file File instance
+    * @return ProjectFile instance
+    */
+   private ProjectFile handleFile(File file) throws Exception
+   {
+      FileInputStream fis = null;
+
+      try
+      {
+         fis = new FileInputStream(file);
+         ProjectFile projectFile = read(fis);
+         fis.close();
+         return (projectFile);
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(fis);
+      }
    }
 
    /**
