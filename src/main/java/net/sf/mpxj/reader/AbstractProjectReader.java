@@ -49,17 +49,17 @@ public abstract class AbstractProjectReader implements ProjectReader
 
    /**
     * Common method to add listeners to a project.
-    * 
+    *
     * @param project target project
     */
    protected void addListenersToProject(ProjectFile project)
    {
       project.getEventManager().addProjectListeners(m_projectListeners);
    }
-   
+
    /**
     * Common method to add listeners to a reader.
-    * 
+    *
     * @param reader target reader
     */
    protected void addListenersToReader(ProjectReader reader)
@@ -69,6 +69,6 @@ public abstract class AbstractProjectReader implements ProjectReader
          m_projectListeners.forEach(l -> reader.addProjectListener(l));
       }
    }
-   
+
    private List<ProjectListener> m_projectListeners;
 }

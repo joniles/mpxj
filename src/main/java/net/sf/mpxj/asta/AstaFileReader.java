@@ -61,9 +61,9 @@ public final class AstaFileReader extends AbstractProjectStreamReader
          {
             reader = new AstaTextFileReader();
          }
-         
+
          addListenersToReader(reader);
-         
+
          return reader.read(is);
       }
 

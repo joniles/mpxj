@@ -166,7 +166,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          ProjectCalendarException exception = calendar.addCalendarException(holiday.getDate(), holiday.getDate());
          exception.setName(holiday.getContent());
       }
-      
+
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 
@@ -213,7 +213,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
          m_taskMap.put(wbs, task);
-         
+
          m_eventManager.fireTaskReadEvent(task);
       }
    }

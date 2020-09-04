@@ -122,7 +122,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("GAN");
 
          addListenersToProject(m_projectFile);
-         
+
          Project ganttProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 
          readProjectProperties(ganttProject);

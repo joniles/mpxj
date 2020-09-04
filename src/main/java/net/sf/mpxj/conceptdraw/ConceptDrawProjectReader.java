@@ -209,7 +209,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          readExceptionDay(mpxjCalendar, day);
       }
-      
+
       m_eventManager.fireCalendarReadEvent(mpxjCalendar);
    }
 
@@ -422,7 +422,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       map.put(task.getOutlineNumber(), mpxjTask);
 
       m_eventManager.fireTaskReadEvent(mpxjTask);
-      
+
       for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())
       {
          readResourceAssignment(mpxjTask, assignment);

@@ -480,7 +480,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setProjectTitle(project.getId());
       properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-      
+
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
@@ -970,7 +970,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          boolean critical = false;
-         
+
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -995,7 +995,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                ++finished;
             }
-            
+
             critical = critical || task.getCritical();
          }
 
@@ -1069,7 +1069,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
-         
+
          parentTask.setCritical(critical);
       }
    }

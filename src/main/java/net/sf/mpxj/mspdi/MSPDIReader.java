@@ -177,7 +177,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
 
          addListenersToProject(m_projectFile);
-         
+
          DatatypeConverter.setParentFile(m_projectFile);
 
          Project project = (Project) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput);
@@ -1315,7 +1315,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          if (NumberHelper.getInt(mpx.getUniqueID()) == 0)
          {
-            // ensure that the project summary task is always marked as a summary task 
+            // ensure that the project summary task is always marked as a summary task
             mpx.setSummary(true);
             updateProjectProperties(mpx);
          }

@@ -362,7 +362,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    /**
     * Configure the MSPDI file reader and read.
-    * 
+    *
     * @param stream input stream
     * @return ProjectFile instance
     */
@@ -545,7 +545,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    /**
     * Open and read a file.
-    * 
+    *
     * @param file File instance
     * @return ProjectFile instance
     */

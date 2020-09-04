@@ -120,7 +120,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 
          addListenersToProject(m_projectFile);
-         
+
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
          readProjectProperties(phoenixProject.getSettings(), storepoint);

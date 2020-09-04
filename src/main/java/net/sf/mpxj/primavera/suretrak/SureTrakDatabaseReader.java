@@ -312,7 +312,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
             calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
-         
+
          m_eventManager.fireCalendarReadEvent(calendar);
       }
    }

@@ -349,7 +349,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
             task.setStart(task.getActualStart());
             task.setFinish(task.getActualFinish());
             break;
-         }                
+         }
       }
 
       setConstraints(task, row);
@@ -358,7 +358,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
       m_taskMap.put(task.getGUID(), task);
       m_eventManager.fireTaskReadEvent(task);
-      
+
       List<MapRow> predecessors = row.getRows("PREDECESSORS");
       if (predecessors != null && !predecessors.isEmpty())
       {

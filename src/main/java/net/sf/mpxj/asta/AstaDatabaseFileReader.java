@@ -78,7 +78,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          AutoCloseableHelper.closeQuietly(m_connection);
       }
    }
-   
+
    /**
     * Read a project from the current data source.
     *
