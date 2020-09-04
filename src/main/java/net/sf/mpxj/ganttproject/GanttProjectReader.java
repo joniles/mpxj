@@ -87,12 +87,12 @@ import net.sf.mpxj.ganttproject.schema.Roles;
 import net.sf.mpxj.ganttproject.schema.Taskproperty;
 import net.sf.mpxj.ganttproject.schema.Tasks;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttProject file.
  */
-public final class GanttProjectReader extends AbstractProjectReader
+public final class GanttProjectReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

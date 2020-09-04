@@ -24,8 +24,6 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,11 +43,9 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 // TODO:
 // 1. Handle multiple bars per activity
@@ -64,7 +60,7 @@ import net.sf.mpxj.reader.ProjectReader;
 /**
  * Reads FastTrack FTS files.
  */
-public final class FastTrackReader implements ProjectReader
+public final class FastTrackReader extends AbstractProjectFileReader
 {
    /**
     * {@inheritDoc}
@@ -76,36 +72,6 @@ public final class FastTrackReader implements ProjectReader
          m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
-   {
-      File file = null;
-
-      try
-      {
-         file = InputStreamHelper.writeStreamToTempFile(inputStream, ".fts");
-         return read(file);
-      }
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.INVALID_FILE, ex);
-      }
-      finally
-      {
-         FileHelper.deleteQuietly(file);
-      }
    }
 
    /**

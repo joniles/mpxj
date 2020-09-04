@@ -1,5 +1,5 @@
 /*
- * file:       AbstractProjectReader.java
+ * file:       AbstractProjectStreamReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       Dec 21, 2005
@@ -35,7 +35,7 @@ import net.sf.mpxj.common.AutoCloseableHelper;
  * Abstract implementation of the ProjectReader interface
  * which supplies implementations of the trivial read methods.
  */
-public abstract class AbstractProjectReader implements ProjectReader
+public abstract class AbstractProjectStreamReader implements ProjectReader
 {
    /**
     * {@inheritDoc}

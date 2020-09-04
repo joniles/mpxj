@@ -26,7 +26,6 @@ package net.sf.mpxj.primavera.p3;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,12 +54,12 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * Reads schedule data from a P3 multi-file Btrieve database in a directory.
  */
-public final class P3DatabaseReader implements ProjectReader
+public final class P3DatabaseReader extends AbstractProjectFileReader
 {
    /**
     * Convenience method which locates the first P3 database in a directory
@@ -134,16 +133,6 @@ public final class P3DatabaseReader implements ProjectReader
          m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
-   }
-
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
-
-   @Override public ProjectFile read(InputStream inputStream)
-   {
-      throw new UnsupportedOperationException();
    }
 
    /**

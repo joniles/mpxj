@@ -54,12 +54,12 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads schedule data from a Project Commander file.
  */
-public final class ProjectCommanderReader extends AbstractProjectReader
+public final class ProjectCommanderReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

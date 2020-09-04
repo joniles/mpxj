@@ -32,7 +32,7 @@ import java.util.List;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import net.sf.mpxj.reader.ProjectReader;
 
 /**
@@ -40,7 +40,7 @@ import net.sf.mpxj.reader.ProjectReader;
  * an Asta PP file. Determines if the file is a text file or a SQLite database
  * and takes the appropriate action.
  */
-public final class AstaFileReader extends AbstractProjectReader
+public final class AstaFileReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

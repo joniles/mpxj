@@ -83,12 +83,12 @@ import net.sf.mpxj.planner.schema.Predecessors;
 import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Planner file.
  */
-public final class PlannerReader extends AbstractProjectReader
+public final class PlannerReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

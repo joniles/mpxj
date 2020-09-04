@@ -37,12 +37,12 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Read the contents of an SDEF file.
  */
-public final class SDEFReader extends AbstractProjectReader
+public final class SDEFReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

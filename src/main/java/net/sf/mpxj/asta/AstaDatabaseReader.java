@@ -24,7 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -45,13 +44,13 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class AstaDatabaseReader implements ProjectReader
+public final class AstaDatabaseReader extends AbstractProjectFileReader
 {
    /**
     * {@inheritDoc}
@@ -283,19 +282,14 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * This is a convenience method which reads the first project
-    * from the named Asta MDB file using the JDBC-ODBC bridge driver.
-    *
-    * @param accessDatabaseFileName access database file name
-    * @return ProjectFile instance
-    * @throws MPXJException
+    * {@inheritDoc}
     */
-   @Override public ProjectFile read(String accessDatabaseFileName) throws MPXJException
+   @Override public ProjectFile read(File file) throws MPXJException
    {
       try
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
+         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
          m_connection = DriverManager.getConnection(url, props);
@@ -317,22 +311,6 @@ public final class AstaDatabaseReader implements ProjectReader
       {
          AutoCloseableHelper.closeQuietly(m_connection);
       }
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(File file) throws MPXJException
-   {
-      return (read(file.getAbsolutePath()));
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(InputStream inputStream)
-   {
-      throw new UnsupportedOperationException();
    }
 
    /**

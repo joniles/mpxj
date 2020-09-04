@@ -24,8 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,17 +41,15 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a SQLite-based Asta PP file.
  */
-public final class AstaDatabaseFileReader implements ProjectReader
+public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 {
    /**
     * {@inheritDoc}
@@ -67,13 +63,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
       m_projectListeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
 
    /**
     * {@inheritDoc}
@@ -103,28 +92,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
          AutoCloseableHelper.closeQuietly(m_connection);
       }
    }
-
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
-   {
-      File tempFile = null;
-
-      try
-      {
-         tempFile = InputStreamHelper.writeStreamToTempFile(inputStream, "pp");
-         return read(tempFile);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("Failed to read file", ex);
-      }
-
-      finally
-      {
-         FileHelper.deleteQuietly(tempFile);
-      }
-   }
-
+   
    /**
     * Read a project from the current data source.
     *

@@ -79,12 +79,12 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calen
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
  */
-public final class PhoenixReader extends AbstractProjectReader
+public final class PhoenixReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

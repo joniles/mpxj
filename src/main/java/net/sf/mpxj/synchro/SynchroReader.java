@@ -50,12 +50,12 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads Synchro SP files.
  */
-public final class SynchroReader extends AbstractProjectReader
+public final class SynchroReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

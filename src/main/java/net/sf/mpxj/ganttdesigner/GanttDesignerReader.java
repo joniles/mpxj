@@ -52,12 +52,12 @@ import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.ganttdesigner.schema.Gantt;
 import net.sf.mpxj.ganttdesigner.schema.GanttDesignerRemark;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttDesigner file.
  */
-public final class GanttDesignerReader extends AbstractProjectReader
+public final class GanttDesignerReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

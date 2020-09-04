@@ -41,13 +41,13 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a text-based Asta PP file.
  */
-final class AstaTextFileReader extends AbstractProjectReader
+final class AstaTextFileReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

@@ -38,12 +38,12 @@ import net.sf.mpxj.common.FixedLengthInputStream;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.Blast;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads a schedule data from a SureTrak STX file.
  */
-public final class SureTrakSTXFileReader extends AbstractProjectReader
+public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
 {
    @Override public void addProjectListener(ProjectListener listener)
    {

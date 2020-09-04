@@ -39,12 +39,12 @@ import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads a schedule data from a P3 PRX file.
  */
-public final class P3PRXFileReader extends AbstractProjectReader
+public final class P3PRXFileReader extends AbstractProjectStreamReader
 {
    @Override public void addProjectListener(ProjectListener listener)
    {

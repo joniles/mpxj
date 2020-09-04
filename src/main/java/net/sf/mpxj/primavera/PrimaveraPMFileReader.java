@@ -100,12 +100,12 @@ import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera PM file.
  */
-public final class PrimaveraPMFileReader extends AbstractProjectReader
+public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

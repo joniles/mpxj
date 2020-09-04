@@ -66,12 +66,12 @@ import net.sf.mpxj.conceptdraw.schema.Document.Links.Link;
 import net.sf.mpxj.conceptdraw.schema.Document.Projects.Project;
 import net.sf.mpxj.conceptdraw.schema.Document.WorkspaceProperties;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a ConceptDraw Project file.
  */
-public final class ConceptDrawProjectReader extends AbstractProjectReader
+public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

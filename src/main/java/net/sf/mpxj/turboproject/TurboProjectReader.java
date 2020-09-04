@@ -53,12 +53,12 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a TurboProject PEP file.
  */
-public final class TurboProjectReader extends AbstractProjectReader
+public final class TurboProjectReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

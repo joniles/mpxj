@@ -108,12 +108,12 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MSPDI file.
  */
-public final class MSPDIReader extends AbstractProjectReader
+public final class MSPDIReader extends AbstractProjectStreamReader
 {
    /**
     * Sets the character encoding used when reading an MSPDI file.

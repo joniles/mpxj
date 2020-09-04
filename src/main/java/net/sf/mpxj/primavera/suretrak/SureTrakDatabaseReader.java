@@ -26,7 +26,6 @@ package net.sf.mpxj.primavera.suretrak;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -63,12 +62,12 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * Reads schedule data from a SureTrak multi-file database in a directory.
  */
-public final class SureTrakDatabaseReader implements ProjectReader
+public final class SureTrakDatabaseReader extends AbstractProjectFileReader
 {
    /**
     * Convenience method which locates the first SureTrak database in a directory
@@ -142,16 +141,6 @@ public final class SureTrakDatabaseReader implements ProjectReader
          m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
-   }
-
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
-
-   @Override public ProjectFile read(InputStream inputStream)
-   {
-      throw new UnsupportedOperationException();
    }
 
    /**

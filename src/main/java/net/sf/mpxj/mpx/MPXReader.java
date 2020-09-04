@@ -63,12 +63,12 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPX file.
  */
-public final class MPXReader extends AbstractProjectReader
+public final class MPXReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}

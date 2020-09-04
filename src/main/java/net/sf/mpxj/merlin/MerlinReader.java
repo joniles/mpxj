@@ -24,8 +24,6 @@
 package net.sf.mpxj.merlin;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -76,11 +74,9 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class reads Merlin Project files. As Merlin is a Mac application, the "file"
@@ -89,7 +85,7 @@ import net.sf.mpxj.reader.ProjectReader;
  * file, or the read methods that accept a file name or a File object can be pointed at
  * the top level directory.
  */
-public final class MerlinReader implements ProjectReader
+public final class MerlinReader extends AbstractProjectFileReader
 {
    /**
     * {@inheritDoc}
@@ -101,37 +97,6 @@ public final class MerlinReader implements ProjectReader
          m_projectListeners = new ArrayList<>();
       }
       m_projectListeners.add(listener);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(InputStream stream) throws MPXJException
-   {
-      File file = null;
-      try
-      {
-         file = InputStreamHelper.writeStreamToTempFile(stream, ".sqlite");
-         return read(file);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("", ex);
-      }
-
-      finally
-      {
-         FileHelper.deleteQuietly(file);
-      }
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
    }
 
    /**

@@ -43,12 +43,12 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPP file.
  */
-public final class MPPReader extends AbstractProjectReader
+public final class MPPReader extends AbstractProjectStreamReader
 {
    /**
     * {@inheritDoc}
