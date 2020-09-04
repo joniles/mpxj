@@ -68,7 +68,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -90,18 +89,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class PlannerReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -1017,7 +1004,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private List<DateRange> m_defaultWorkingHours = new ArrayList<>();
-   private List<ProjectListener> m_projectListeners;
 
    private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static

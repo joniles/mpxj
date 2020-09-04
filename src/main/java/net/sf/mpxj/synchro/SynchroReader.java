@@ -49,7 +49,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -57,18 +56,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SynchroReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -634,7 +621,6 @@ public final class SynchroReader extends AbstractProjectStreamReader
    private SynchroData m_data;
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<UUID, ProjectCalendar> m_calendarMap;
    private Map<UUID, Task> m_taskMap;
    private Map<Task, List<MapRow>> m_predecessorMap;

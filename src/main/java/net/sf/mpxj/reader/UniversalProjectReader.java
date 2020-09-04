@@ -49,8 +49,8 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaDatabaseReader;
 import net.sf.mpxj.asta.AstaFileReader;
-import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
@@ -86,20 +86,8 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  * will sample the content and determine the type of file it has been given. It will then
  * instantiate the correct reader for that file type and proceed to read the file.
  */
-public final class UniversalProjectReader implements ProjectReader
+public final class UniversalProjectReader extends AbstractProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Package private method used when handling byte order mark.
     * Tells the reader to skip a number of bytes before starting to read from the stream.
@@ -872,7 +860,6 @@ public final class UniversalProjectReader implements ProjectReader
 
    private int m_skipBytes;
    private Charset m_charset;
-   private List<ProjectListener> m_projectListeners;
 
    private static final int BUFFER_SIZE = 512;
 

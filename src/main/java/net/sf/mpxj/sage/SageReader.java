@@ -44,7 +44,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -52,18 +51,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SageReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -366,7 +353,6 @@ public final class SageReader extends AbstractProjectStreamReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<String, Task> m_taskMap;
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()

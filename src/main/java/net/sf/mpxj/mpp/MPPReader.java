@@ -42,7 +42,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -50,18 +49,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPPReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -410,7 +397,6 @@ public final class MPPReader extends AbstractProjectStreamReader
    private boolean m_respectPasswordProtection = true;
 
    private String m_readPassword;
-   private List<ProjectListener> m_projectListeners;
 
    /**
     * Populate a map of file types and file processing classes.

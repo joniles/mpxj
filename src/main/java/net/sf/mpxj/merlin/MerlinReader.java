@@ -75,7 +75,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -87,18 +86,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class MerlinReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -630,7 +617,6 @@ public final class MerlinReader extends AbstractProjectFileReader
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
-   private List<ProjectListener> m_projectListeners;
    private DocumentBuilder m_documentBuilder;
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;

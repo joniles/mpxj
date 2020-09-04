@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,7 +85,6 @@ import net.sf.mpxj.ganttproject.schema.Role;
 import net.sf.mpxj.ganttproject.schema.Roles;
 import net.sf.mpxj.ganttproject.schema.Taskproperty;
 import net.sf.mpxj.ganttproject.schema.Tasks;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -94,18 +92,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class GanttProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -867,7 +853,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private ProjectCalendar m_mpxjCalendar;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private DateFormat m_localeDateFormat;
    private DateFormat m_dateFormat;
    private Map<String, Pair<FieldType, String>> m_resourcePropertyDefinitions;

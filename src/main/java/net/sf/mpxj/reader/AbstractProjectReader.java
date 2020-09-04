@@ -1,5 +1,5 @@
 /*
- * file:       AbstractProjectFileReader.java
+ * file:       AbstractProjectReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2020
  * date:       04/09/2020
@@ -23,50 +23,28 @@
 
 package net.sf.mpxj.reader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * Abstract implementation of the ProjectReader interface
  * for readers which consume a file.
  */
-public abstract class AbstractProjectFileReader extends AbstractProjectReader
+public abstract class AbstractProjectReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
     */
-   @Override public ProjectFile read(String fileName) throws MPXJException
+   @Override public void addProjectListener(ProjectListener listener)
    {
-      return read(new File(fileName));
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new ArrayList<>();
+      }
+      m_projectListeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
-   {
-      File tempFile = null;
-
-      try
-      {
-         tempFile = InputStreamHelper.writeStreamToTempFile(inputStream, "tmp");
-         return read(tempFile);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("Failed to read file", ex);
-      }
-
-      finally
-      {
-         FileHelper.deleteQuietly(tempFile);
-      }
-   }
+   protected List<ProjectListener> m_projectListeners;
 }

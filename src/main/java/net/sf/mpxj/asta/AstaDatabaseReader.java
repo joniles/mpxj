@@ -43,7 +43,6 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -52,18 +51,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class AstaDatabaseReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -459,5 +446,4 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
-   private List<ProjectListener> m_projectListeners;
 }

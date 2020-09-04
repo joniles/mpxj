@@ -97,7 +97,6 @@ import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
@@ -149,18 +148,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          result = m_encoding == null ? CharsetHelper.UTF8 : Charset.forName(m_encoding);
       }
       return result;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
    }
 
    /**
@@ -1962,7 +1949,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
 
    private static final RecurrenceType[] RECURRENCE_TYPES =

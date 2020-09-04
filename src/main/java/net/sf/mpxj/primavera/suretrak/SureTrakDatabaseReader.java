@@ -59,7 +59,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -132,15 +131,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       Collections.sort(result);
 
       return result;
-   }
-
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
    }
 
    /**
@@ -745,7 +735,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    private String m_projectName;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
    private SureTrakWbsFormat m_wbsFormat;
    private Map<Integer, List<MapRow>> m_definitions;

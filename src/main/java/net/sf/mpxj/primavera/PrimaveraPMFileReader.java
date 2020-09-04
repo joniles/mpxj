@@ -79,7 +79,6 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
 import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
@@ -107,18 +106,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Returns true if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
@@ -1421,7 +1408,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<>();
    private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();

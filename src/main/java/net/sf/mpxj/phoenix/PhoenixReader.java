@@ -63,7 +63,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
 import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout;
 import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout.CodeOptions.CodeOption;
@@ -86,18 +85,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class PhoenixReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -915,7 +902,6 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    Map<UUID, Integer> m_activityCodeSequence;
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    List<UUID> m_codeSequence;
 
    /**

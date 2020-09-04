@@ -27,8 +27,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -36,7 +34,6 @@ import javax.sql.DataSource;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -45,18 +42,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class MPDDatabaseReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -166,5 +151,4 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_preserveNoteFormatting;
-   private List<ProjectListener> m_projectListeners;
 }

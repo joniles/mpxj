@@ -40,7 +40,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -49,18 +48,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 final class AstaTextFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -430,7 +417,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    }
 
    private AstaReader m_reader;
-   private List<ProjectListener> m_projectListeners;
    private Map<String, List<Row>> m_tables;
    private Map<Integer, TableDefinition> m_tableDefinitions;
    private boolean m_epochDateFormat;

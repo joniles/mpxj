@@ -65,7 +65,6 @@ import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar.WeekDays.WeekD
 import net.sf.mpxj.conceptdraw.schema.Document.Links.Link;
 import net.sf.mpxj.conceptdraw.schema.Document.Projects.Project;
 import net.sf.mpxj.conceptdraw.schema.Document.WorkspaceProperties;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -73,18 +72,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -571,7 +558,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<Integer, ProjectCalendar> m_calendarMap;
    private Map<Integer, Task> m_taskIdMap;
    private double m_workHoursPerDay;

@@ -26,8 +26,6 @@ package net.sf.mpxj.asta;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -42,18 +40,6 @@ import net.sf.mpxj.reader.ProjectReader;
  */
 public final class AstaFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -126,8 +112,6 @@ public final class AstaFileReader extends AbstractProjectStreamReader
       addListeners(reader);
       return reader.read(inputStream);
    }
-
-   private List<ProjectListener> m_projectListeners;
 
    private static final String SQLITE_TEXT = "SQLite format";
 }
