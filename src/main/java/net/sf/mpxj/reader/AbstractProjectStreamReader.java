@@ -33,7 +33,7 @@ import net.sf.mpxj.common.AutoCloseableHelper;
 
 /**
  * Abstract implementation of the ProjectReader interface
- * which supplies implementations of the trivial read methods.
+ * for readers which consume a stream.
  */
 public abstract class AbstractProjectStreamReader implements ProjectReader
 {

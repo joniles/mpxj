@@ -32,6 +32,10 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 
+/**
+ * Abstract implementation of the ProjectReader interface
+ * for readers which consume a file.
+ */
 public abstract class AbstractProjectFileReader implements ProjectReader
 {
    /**
@@ -42,6 +46,9 @@ public abstract class AbstractProjectFileReader implements ProjectReader
       return read(new File(fileName));
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       File tempFile = null;
