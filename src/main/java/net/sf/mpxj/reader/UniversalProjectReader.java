@@ -58,7 +58,6 @@ import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.merlin.MerlinReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
@@ -344,7 +343,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private ProjectFile readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
    {
-      addListeners(reader);
+      addListenersToReader(reader);
       return reader.read(stream);
    }
 
@@ -357,7 +356,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private ProjectFile readProjectFile(ProjectReader reader, File file) throws MPXJException
    {
-      addListeners(reader);
+      addListenersToReader(reader);
       return reader.read(file);
    }
 
@@ -398,7 +397,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       if (fileFormat != null && fileFormat.startsWith("MSProject"))
       {
          MPPReader reader = new MPPReader();
-         addListeners(reader);
+         addListenersToReader(reader);
          return reader.read(fs);
       }
       return null;
@@ -492,7 +491,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                connection = DriverManager.getConnection(url, props);
                PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
                reader.setConnection(connection);
-               addListeners(reader);
+               addListenersToReader(reader);
                return reader.read();
             }
             finally
@@ -840,22 +839,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
 
       return tableNames;
-   }
-
-   /**
-    * Adds any listeners attached to this reader to the reader created internally.
-    *
-    * @param reader internal project reader
-    */
-   private void addListeners(ProjectReader reader)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            reader.addProjectListener(listener);
-         }
-      }
    }
 
    private int m_skipBytes;

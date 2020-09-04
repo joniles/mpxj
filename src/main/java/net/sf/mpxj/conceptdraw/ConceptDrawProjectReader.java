@@ -96,7 +96,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("ConceptDraw PROJECT");
          m_projectFile.getProjectProperties().setFileType("CDP");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          Document cdp = (Document) UnmarshalHelper.unmarshal(CONTEXT, stream, new NamespaceFilter());
 
@@ -138,7 +138,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_calendarMap = null;
          m_taskIdMap = null;
       }
@@ -210,6 +209,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          readExceptionDay(mpxjCalendar, day);
       }
+      
+      m_eventManager.fireCalendarReadEvent(mpxjCalendar);
    }
 
    /**
@@ -281,6 +282,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjResource.setID(Integer.valueOf(resource.getOutlineNumber()));
       //resource.getStyleProject()
       mpxjResource.setType(resource.getSubType() == null ? resource.getType() : resource.getSubType());
+      m_eventManager.fireResourceReadEvent(mpxjResource);
    }
 
    /**
@@ -419,6 +421,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
       map.put(task.getOutlineNumber(), mpxjTask);
 
+      m_eventManager.fireTaskReadEvent(mpxjTask);
+      
       for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())
       {
          readResourceAssignment(mpxjTask, assignment);
@@ -440,6 +444,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          mpxjAssignment.setUniqueID(assignment.getID());
          mpxjAssignment.setWork(Duration.getInstance(assignment.getManHour().doubleValue() * m_workHoursPerDay, TimeUnit.HOURS));
          mpxjAssignment.setUnits(assignment.getUse());
+         m_eventManager.fireAssignmentReadEvent(mpxjAssignment);
       }
    }
 
@@ -471,6 +476,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          RelationType type = link.getType();
          Relation relation = destinationTask.addPredecessor(sourceTask, type, lag);
          relation.setUniqueID(link.getID());
+         m_eventManager.fireRelationReadEvent(relation);
       }
    }
 

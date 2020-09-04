@@ -110,7 +110,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          m_projectConfig.setAutoOutlineNumber(false);
          m_projectConfig.setAutoWBS(false);
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];

@@ -176,8 +176,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_eventManager.addProjectListeners(m_projectListeners);
-
+         addListenersToProject(m_projectFile);
+         
          DatatypeConverter.setParentFile(m_projectFile);
 
          Project project = (Project) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput);

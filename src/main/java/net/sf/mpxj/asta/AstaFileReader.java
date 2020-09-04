@@ -29,7 +29,6 @@ import java.io.InputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import net.sf.mpxj.reader.ProjectReader;
 
@@ -53,64 +52,25 @@ public final class AstaFileReader extends AbstractProjectStreamReader
          is.read(buffer);
          is.reset();
          String actualText = new String(buffer);
-         ProjectFile result;
+         ProjectReader reader;
          if (SQLITE_TEXT.equals(actualText))
          {
-            result = readDatabaseFile(is);
+            reader = new AstaDatabaseFileReader();
          }
          else
          {
-            result = readTextFile(is);
+            reader = new AstaTextFileReader();
          }
-         return result;
+         
+         addListenersToReader(reader);
+         
+         return reader.read(is);
       }
 
       catch (IOException ex)
       {
          throw new MPXJException("Failed to read file", ex);
       }
-   }
-
-   /**
-    * Adds any listeners attached to this reader to the reader created internally.
-    *
-    * @param reader internal project reader
-    */
-   private void addListeners(ProjectReader reader)
-   {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            reader.addProjectListener(listener);
-         }
-      }
-   }
-
-   /**
-    * Process a text-based PP file.
-    *
-    * @param inputStream file input stream
-    * @return ProjectFile instance
-    */
-   private ProjectFile readTextFile(InputStream inputStream) throws MPXJException
-   {
-      ProjectReader reader = new AstaTextFileReader();
-      addListeners(reader);
-      return reader.read(inputStream);
-   }
-
-   /**
-    * Process a SQLite database PP file.
-    *
-    * @param inputStream file input stream
-    * @return ProjectFile instance
-    */
-   private ProjectFile readDatabaseFile(InputStream inputStream) throws MPXJException
-   {
-      ProjectReader reader = new AstaDatabaseFileReader();
-      addListeners(reader);
-      return reader.read(inputStream);
    }
 
    private static final String SQLITE_TEXT = "SQLite format";

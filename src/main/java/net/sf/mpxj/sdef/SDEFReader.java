@@ -65,7 +65,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");
 
-      context.getEventManager().addProjectListeners(m_projectListeners);
+      addListenersToProject(project);
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 

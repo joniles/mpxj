@@ -83,7 +83,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("TurboProject");
          m_projectFile.getProjectProperties().setFileType("PEP");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          applyAliases();
 
@@ -111,7 +111,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_tables = null;
       }
    }

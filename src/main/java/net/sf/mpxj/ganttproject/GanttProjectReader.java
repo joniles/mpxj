@@ -121,8 +121,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("GanttProject");
          m_projectFile.getProjectProperties().setFileType("GAN");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
-
+         addListenersToProject(m_projectFile);
+         
          Project ganttProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 
          readProjectProperties(ganttProject);
@@ -160,7 +160,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_mpxjCalendar = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_localeDateFormat = null;
          m_resourcePropertyDefinitions = null;
          m_taskPropertyDefinitions = null;

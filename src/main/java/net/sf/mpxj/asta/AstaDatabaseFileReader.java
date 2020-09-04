@@ -91,7 +91,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processProjectProperties();
          processCalendars();

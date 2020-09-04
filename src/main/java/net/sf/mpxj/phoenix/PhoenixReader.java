@@ -119,8 +119,8 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          // Equivalent to Primavera's Activity ID
          m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
-
+         addListenersToProject(m_projectFile);
+         
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
          readProjectProperties(phoenixProject.getSettings(), storepoint);

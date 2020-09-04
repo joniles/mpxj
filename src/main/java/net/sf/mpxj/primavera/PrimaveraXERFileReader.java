@@ -199,7 +199,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          ProjectFile project = m_reader.getProject();
          project.getProjectProperties().setFileApplication("Primavera");
          project.getProjectProperties().setFileType("XER");
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processProjectID();
          processProjectProperties();

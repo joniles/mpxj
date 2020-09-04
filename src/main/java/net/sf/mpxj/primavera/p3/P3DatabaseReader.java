@@ -44,8 +44,10 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -163,7 +165,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          m_tables = new DatabaseReader().process(directory, m_projectName);
          m_resourceMap = new HashMap<>();
@@ -189,7 +191,6 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_tables = null;
          m_resourceMap = null;
          m_wbsFormat = null;
@@ -309,6 +310,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
                task.setWBS(wbs);
                task.setSummary(true);
                m_wbsMap.put(wbs, task);
+               m_eventManager.fireTaskReadEvent(task);
             }
          }
       }
@@ -435,6 +437,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          }
 
          m_activityMap.put(activityID, task);
+         m_eventManager.fireTaskReadEvent(task);
       }
    }
 
@@ -452,7 +455,8 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
             Duration lag = row.getDuration("LAG_VALUE");
             RelationType type = row.getRelationType("LAG_TYPE");
 
-            successor.addPredecessor(predecessor, type, lag);
+            Relation relation = successor.addPredecessor(predecessor, type, lag);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -468,7 +472,8 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          Resource resource = m_resourceMap.get(row.getString("RESOURCE_ID"));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment(resource);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }

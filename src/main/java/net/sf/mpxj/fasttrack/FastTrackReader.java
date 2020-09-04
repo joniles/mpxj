@@ -108,7 +108,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
       m_project.getProjectProperties().setFileApplication("FastTrack");
       m_project.getProjectProperties().setFileType("FTS");
 
-      m_eventManager.addProjectListeners(m_projectListeners);
+      addListenersToProject(m_project);
 
       // processProject();
       // processCalendars();

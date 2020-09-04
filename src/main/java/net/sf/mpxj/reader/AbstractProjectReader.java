@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
 
 /**
@@ -46,5 +47,28 @@ public abstract class AbstractProjectReader implements ProjectReader
       m_projectListeners.add(listener);
    }
 
-   protected List<ProjectListener> m_projectListeners;
+   /**
+    * Common method to add listeners to a project.
+    * 
+    * @param project target project
+    */
+   protected void addListenersToProject(ProjectFile project)
+   {
+      project.getEventManager().addProjectListeners(m_projectListeners);
+   }
+   
+   /**
+    * Common method to add listeners to a reader.
+    * 
+    * @param reader target reader
+    */
+   protected void addListenersToReader(ProjectReader reader)
+   {
+      if (m_projectListeners != null)
+      {
+         m_projectListeners.forEach(l -> reader.addProjectListener(l));
+      }
+   }
+   
+   private List<ProjectListener> m_projectListeners;
 }

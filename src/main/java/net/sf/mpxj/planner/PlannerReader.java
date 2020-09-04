@@ -114,7 +114,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("Planner");
          m_projectFile.getProjectProperties().setFileType("XML");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          Project plannerProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 

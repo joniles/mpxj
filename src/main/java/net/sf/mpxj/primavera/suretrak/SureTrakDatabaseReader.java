@@ -51,8 +51,10 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -176,7 +178,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          m_tables = new DatabaseReader().process(directory, m_projectName);
          m_definitions = new HashMap<>();
@@ -206,7 +208,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_tables = null;
          m_definitions = null;
          m_wbsFormat = null;
@@ -311,6 +312,8 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
             calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
+         
+         m_eventManager.fireCalendarReadEvent(calendar);
       }
    }
 
@@ -447,6 +450,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             resource.setResourceCalendar(calendar);
          }
          m_resourceMap.put(resource.getCode(), resource);
+         m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
@@ -523,6 +527,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
                task.setWBS(wbs);
                task.setSummary(true);
                m_wbsMap.put(wbs, task);
+               m_eventManager.fireTaskReadEvent(task);
             }
          }
       }
@@ -578,6 +583,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Duration remainingDuration = task.getRemainingDuration();
          task.setActualDuration(Duration.getInstance(duration.getDuration() - remainingDuration.getDuration(), TimeUnit.HOURS));
          m_activityMap.put(activityID, task);
+         m_eventManager.fireTaskReadEvent(task);
       }
    }
 
@@ -595,7 +601,8 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             Duration lag = row.getDuration("LAG");
             RelationType type = row.getRelationType("TYPE");
 
-            successor.addPredecessor(predecessor, type, lag);
+            Relation relation = successor.addPredecessor(predecessor, type, lag);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -611,7 +618,8 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Resource resource = m_resourceMap.get(row.getString("RESOURCE_ID"));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment(resource);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }

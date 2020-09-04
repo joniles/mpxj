@@ -159,7 +159,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       m_project.getProjectProperties().setFileApplication("Merlin");
       m_project.getProjectProperties().setFileType("SQLITE");
 
-      m_eventManager.addProjectListeners(m_projectListeners);
+      addListenersToProject(m_project);
 
       populateEntityMap();
       processProject();

@@ -45,7 +45,9 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DateHelper;
@@ -109,7 +111,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       CustomFieldContainer fields = m_project.getCustomFields();
       fields.getCustomField(TaskField.TEXT1).setAlias("Code");
 
-      m_eventManager.addProjectListeners(m_projectListeners);
+      addListenersToProject(m_project);
 
       processCalendars();
       processResources();
@@ -163,6 +165,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       }
 
       m_calendarMap.put(row.getUUID("UUID"), calendar);
+      m_eventManager.fireCalendarReadEvent(calendar);
    }
 
    /**
@@ -272,6 +275,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       }
 
       m_resourceMap.put(resource.getGUID(), resource);
+      m_eventManager.fireResourceReadEvent(resource);
    }
 
    /**
@@ -345,7 +349,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
             task.setStart(task.getActualStart());
             task.setFinish(task.getActualFinish());
             break;
-         }
+         }                
       }
 
       setConstraints(task, row);
@@ -353,7 +357,8 @@ public final class SynchroReader extends AbstractProjectStreamReader
       processChildTasks(task, row);
 
       m_taskMap.put(task.getGUID(), task);
-
+      m_eventManager.fireTaskReadEvent(task);
+      
       List<MapRow> predecessors = row.getRows("PREDECESSORS");
       if (predecessors != null && !predecessors.isEmpty())
       {
@@ -412,7 +417,8 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
       if (predecessor != null)
       {
-         task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+         Relation relation = task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+         m_eventManager.fireRelationReadEvent(relation);
       }
    }
 
@@ -439,7 +445,8 @@ public final class SynchroReader extends AbstractProjectStreamReader
    private void processResourceAssignment(Task task, MapRow row)
    {
       Resource resource = m_resourceMap.get(row.getUUID("RESOURCE_UUID"));
-      task.addResourceAssignment(resource);
+      ResourceAssignment assignment = task.addResourceAssignment(resource);
+      m_eventManager.fireAssignmentReadEvent(assignment);
    }
 
    /**

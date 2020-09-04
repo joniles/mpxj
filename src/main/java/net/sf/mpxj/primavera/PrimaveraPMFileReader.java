@@ -299,7 +299,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          fields.getCustomField(TaskField.TEXT3).setAlias("Status");
          fields.getCustomField(TaskField.NUMBER1).setAlias("Primary Resource Unique ID");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
