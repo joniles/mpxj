@@ -114,6 +114,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return read(new File(fileName));
    }
 
+   @Override public List<ProjectFile> readAll(String fileName) throws MPXJException
+   {
+      return readAll(new File(fileName));
+   }
+
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -133,6 +138,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
+   }
+
+   // TODO TEMP
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Arrays.asList(read(file));
    }
 
    /**
@@ -308,6 +319,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
+   }
+
+   // TODO TEMP
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

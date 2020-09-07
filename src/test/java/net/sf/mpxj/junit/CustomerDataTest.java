@@ -436,7 +436,8 @@ public class CustomerDataTest
          // For now, ignore files with non-standard encodings.
          if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
          {
-            m_xerReader.readAll(new FileInputStream(file), true);
+            m_xerReader.setLinkCrossProjectRelations(true);
+            m_xerReader.readAll(new FileInputStream(file));
          }
       }
 

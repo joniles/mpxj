@@ -389,6 +389,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
+   @Override public List<ProjectFile> readAll(String fileName)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(File file)
    {
       throw new UnsupportedOperationException();
@@ -397,7 +405,23 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
+   @Override public List<ProjectFile> readAll(File file)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(InputStream inputStream)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream)
    {
       throw new UnsupportedOperationException();
    }

@@ -31,6 +31,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,14 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       {
          AutoCloseableHelper.closeQuietly(m_connection);
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Arrays.asList(read(file));
    }
 
    /**

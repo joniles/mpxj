@@ -26,6 +26,7 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -141,6 +142,14 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          m_calendarMap = null;
          m_taskIdMap = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

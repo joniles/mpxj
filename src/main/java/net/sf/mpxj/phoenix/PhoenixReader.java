@@ -26,6 +26,7 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -163,6 +164,14 @@ public final class PhoenixReader extends AbstractProjectStreamReader
 
          closeLogFile();
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

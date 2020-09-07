@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +102,14 @@ public final class MerlinReader extends AbstractProjectFileReader
          databaseFile = file;
       }
       return readFile(databaseFile);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Arrays.asList(read(file));
    }
 
    /**

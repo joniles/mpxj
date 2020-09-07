@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -68,6 +70,14 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
       {
          FileHelper.deleteQuietly(tempDir);
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

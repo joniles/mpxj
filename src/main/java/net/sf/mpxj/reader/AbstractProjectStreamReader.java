@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -42,15 +43,31 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
     */
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
+      return read(new File(fileName));
+   }
+
+   /**
+    * Default implementation of readAll to support file
+    * formats which do not contain multiple schedules.
+    */
+   @Override public List<ProjectFile> readAll(String fileName) throws MPXJException
+   {
+      return readAll(new File(fileName));
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
       FileInputStream fis = null;
 
       try
       {
-         fis = new FileInputStream(fileName);
+         fis = new FileInputStream(file);
          ProjectFile projectFile = read(fis);
          fis.close();
-         fis = null;
-         return (projectFile);
+         return projectFile;
       }
 
       catch (IOException ex)
@@ -65,18 +82,19 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
    }
 
    /**
-    * {@inheritDoc}
+    * Default implementation of readAll to support file
+    * formats which do not contain multiple schedules.
     */
-   @Override public ProjectFile read(File file) throws MPXJException
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       FileInputStream fis = null;
 
       try
       {
          fis = new FileInputStream(file);
-         ProjectFile projectFile = read(fis);
+         List<ProjectFile> projectFiles = readAll(fis);
          fis.close();
-         return (projectFile);
+         return projectFiles;
       }
 
       catch (IOException ex)
@@ -88,5 +106,5 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       {
          AutoCloseableHelper.closeQuietly(fis);
       }
-   }
+   }  
 }

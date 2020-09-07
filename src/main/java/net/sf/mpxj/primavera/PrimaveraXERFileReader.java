@@ -89,6 +89,28 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Retrieve a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    * 
+    * @return true if cross project relations should be linked
+    */
+   public boolean getLinkCrossProjectRelations()
+   {
+      return m_linkCrossProjectRelations;
+   }
+
+   /**
+    * Sets a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    * 
+    * @param linkCrossProjectRelations true if cross project relations should be linked
+    */
+   public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
@@ -122,19 +144,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
-      return readAll(is, false);
-   }
-
-   /**
-    * This is a convenience method which allows all projects in an
-    * XER file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    */
-   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
-   {
       try
       {
          m_tables = new HashMap<>();
@@ -155,7 +164,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             result.add(project);
          }
 
-         if (linkCrossProjectRelations)
+         if (m_linkCrossProjectRelations)
          {
             for (ExternalRelation externalRelation : externalRelations)
             {
@@ -185,6 +194,21 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          m_numberFormat = null;
          m_reader = null;
       }
+   }
+
+   /**
+    * This is a convenience method which allows all projects in an
+    * XER file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
+    */
+   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+      return readAll(is);
    }
 
    /**
@@ -952,7 +976,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
-
+   private boolean m_linkCrossProjectRelations;
+   
    /**
     * Represents expected record types.
     */

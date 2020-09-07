@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -152,6 +153,14 @@ public final class PlannerReader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_defaultCalendar = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

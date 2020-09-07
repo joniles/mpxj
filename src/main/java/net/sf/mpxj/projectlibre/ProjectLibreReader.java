@@ -24,6 +24,8 @@
 package net.sf.mpxj.projectlibre;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -66,6 +68,14 @@ public class ProjectLibreReader extends AbstractProjectStreamReader
 
          throw ex;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    private final MSPDIReader m_reader = new MSPDIReader();

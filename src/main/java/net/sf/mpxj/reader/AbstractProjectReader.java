@@ -23,13 +23,9 @@
 
 package net.sf.mpxj.reader;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
 
@@ -72,33 +68,6 @@ public abstract class AbstractProjectReader implements ProjectReader
       {
          m_projectListeners.forEach(l -> reader.addProjectListener(l));
       }
-   }
-
-   /**
-    * Default implementation of readAll to support file
-    * formats which do not contain multiple schedules.
-    */
-   @Override public List<ProjectFile> readAll(String fileName) throws MPXJException
-   {
-      return Arrays.asList(read(fileName));
-   }
-
-   /**
-    * Default implementation of readAll to support file
-    * formats which do not contain multiple schedules.
-    */
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Arrays.asList(read(file));
-   }
-   
-   /**
-    * Default implementation of readAll to support file
-    * formats which do not contain multiple schedules.
-    */   
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Arrays.asList(read(inputStream));
    }
    
    private List<ProjectListener> m_projectListeners;

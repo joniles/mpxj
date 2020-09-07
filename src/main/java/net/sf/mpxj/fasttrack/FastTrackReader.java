@@ -24,8 +24,10 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -85,6 +87,14 @@ public final class FastTrackReader extends AbstractProjectFileReader
          m_data = null;
          FastTrackData.clearInstance();
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Arrays.asList(read(file));
    }
 
    /**

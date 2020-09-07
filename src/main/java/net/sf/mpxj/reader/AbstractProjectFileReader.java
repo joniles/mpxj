@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -47,6 +48,15 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
    }
 
    /**
+    * Default implementation of readAll to support file
+    * formats which do not contain multiple schedules.
+    */
+   @Override public List<ProjectFile> readAll(String fileName) throws MPXJException
+   {
+      return readAll(new File(fileName));
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
@@ -57,6 +67,31 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
       {
          tempFile = InputStreamHelper.writeStreamToTempFile(inputStream, "tmp");
          return read(tempFile);
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXJException("Failed to read file", ex);
+      }
+
+      finally
+      {
+         FileHelper.deleteQuietly(tempFile);
+      }
+   }
+      
+   /**
+    * Default implementation of readAll to support file
+    * formats which do not contain multiple schedules.
+    */   
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      File tempFile = null;
+
+      try
+      {
+         tempFile = InputStreamHelper.writeStreamToTempFile(inputStream, "tmp");
+         return readAll(tempFile);
       }
 
       catch (IOException ex)

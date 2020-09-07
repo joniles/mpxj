@@ -129,6 +129,28 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Retrieve a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    * 
+    * @return true if cross project relations should be linked
+    */
+   public boolean getLinkCrossProjectRelations()
+   {
+      return m_linkCrossProjectRelations;
+   }
+
+   /**
+    * Sets a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    * 
+    * @param linkCrossProjectRelations true if cross project relations should be linked
+    */
+   public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
@@ -165,26 +187,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
-      return readAll(is, false);
-   }
-
-   /**
-    * This is a convenience method which allows all projects in a
-    * PMXML file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    */
-   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
-   {
       APIBusinessObjects apibo = processFile(is);
 
       List<ProjectType> projects = apibo.getProject();
       List<ProjectFile> result = new ArrayList<>(projects.size());
       projects.forEach(project -> result.add(read(apibo, project)));
 
-      if (linkCrossProjectRelations)
+      if (m_linkCrossProjectRelations)
       {
          for (ExternalRelation externalRelation : m_externalRelations)
          {
@@ -212,6 +221,21 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       return result;
+   }
+
+   /**
+    * This is a convenience method which allows all projects in a
+    * PMXML file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
+    */
+   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+      return readAll(is);
    }
 
    /**
@@ -1416,6 +1440,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
    private List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private boolean m_wbsIsFullPath = true;
+   private boolean m_linkCrossProjectRelations;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static

@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -234,6 +235,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_lookupTableMap.clear();
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

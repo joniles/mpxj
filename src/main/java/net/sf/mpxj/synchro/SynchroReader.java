@@ -26,6 +26,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -93,6 +94,14 @@ public final class SynchroReader extends AbstractProjectStreamReader
          m_predecessorMap = null;
          m_resourceMap = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**

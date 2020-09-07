@@ -27,6 +27,8 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -145,6 +147,14 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
          AutoCloseableHelper.closeQuietly(m_connection);
       }
 
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Arrays.asList(read(file));
    }
 
    private Integer m_projectID;

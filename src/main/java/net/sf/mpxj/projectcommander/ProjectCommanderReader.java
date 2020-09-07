@@ -26,6 +26,7 @@ package net.sf.mpxj.projectcommander;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,6 +106,14 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          m_extraBarCounts = null;
          m_data = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
