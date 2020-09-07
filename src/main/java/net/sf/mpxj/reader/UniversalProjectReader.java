@@ -35,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -121,9 +122,22 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
+      m_readAll = false;
+      List<ProjectFile> projects = readInternal(file);
+      return projects.isEmpty() ? null : projects.get(0);
+   }
+   
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      m_readAll = true;
+      return readInternal(file);
+   }
+
+   private List<ProjectFile> readInternal(File file) throws MPXJException
+   {
       try
       {
-         ProjectFile result;
+         List<ProjectFile> result;
          if (file.isDirectory())
          {
             result = handleDirectory(file);
@@ -140,18 +154,20 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   // TODO TEMP
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      m_readAll = false;
+      List<ProjectFile> projects = readInternal(inputStream);
+      return projects.isEmpty() ? null : projects.get(0);
+   }
+   
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      m_readAll = true;
+      return readInternal(inputStream);
    }
 
-   /**
-    * Note that this method returns null if we can't determine the file type.
-    *
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
+   private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
    {
       try
       {
@@ -168,7 +184,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          //
          if (bytesRead != BUFFER_SIZE)
          {
-            return null;
+            return Collections.emptyList();
          }
 
          //
@@ -312,19 +328,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
             return readProjectFile(new ProjectCommanderReader(), bis);
          }
 
-         return null;
+         return Collections.emptyList();
       }
 
       catch (Exception ex)
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
-   }
-
-   // TODO TEMP
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -358,10 +368,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
+   private List<ProjectFile> readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
    {
       addListenersToReader(reader);
-      return reader.read(stream);
+      return m_readAll? reader.readAll(stream) : Arrays.asList(reader.read(stream));
    }
 
    /**
@@ -371,10 +381,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param file schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile readProjectFile(ProjectReader reader, File file) throws MPXJException
+   private List<ProjectFile> readProjectFile(ProjectReader reader, File file) throws MPXJException
    {
       addListenersToReader(reader);
-      return reader.read(file);
+      return m_readAll ? reader.readAll(file) : Arrays.asList(reader.read(file));
    }
 
    /**
@@ -383,11 +393,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream input stream
     * @return ProjectFile instance
     */
-   private ProjectFile handleMspdiFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleMspdiFile(InputStream stream) throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
       reader.setCharset(m_charset);
-      return reader.read(stream);
+      return reader.readAll(stream);
    }
 
    /**
@@ -396,7 +406,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private ProjectFile handleOleCompoundDocument(InputStream stream) throws Exception
+   private List<ProjectFile> handleOleCompoundDocument(InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
 
@@ -407,7 +417,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       catch (Exception ex)
       {
-         return null;
+         return Collections.emptyList();
       }
 
       String fileFormat = MPPReader.getFileFormat(fs);
@@ -415,9 +425,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
-         return reader.read(fs);
+         return Arrays.asList(reader.read(fs));
       }
-      return null;
+      return Collections.emptyList();
    }
 
    /**
@@ -426,7 +436,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private ProjectFile handleBinaryPropertyList(InputStream stream) throws Exception
+   private List<ProjectFile> handleBinaryPropertyList(InputStream stream) throws Exception
    {
       // This is an unusual case. I have seen an instance where an MSPDI file was downloaded
       // as a web archive, which is a binary property list containing the file data.
@@ -435,7 +445,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       // I'm not inclined to add support for extracting files from binary plists at the moment,
       // so adding this fingerprint allows us to cleanly reject the file as unsupported
       // rather than getting a confusing error from one of the other file type readers.
-      return null;
+      return Collections.emptyList();
    }
 
    /**
@@ -446,7 +456,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile handleMDBFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleMDBFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".mdb");
 
@@ -466,7 +476,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             return readProjectFile(new AstaDatabaseReader(), file);
          }
 
-         return null;
+         return Collections.emptyList();
       }
 
       finally
@@ -483,7 +493,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile handleSQLiteFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleSQLiteFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".sqlite");
 
@@ -509,7 +519,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
                reader.setConnection(connection);
                addListenersToReader(reader);
-               return reader.read();
+               return Arrays.asList(reader.read());
             }
             finally
             {
@@ -522,7 +532,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             return readProjectFile(new MerlinReader(), file);
          }
 
-         return null;
+         return Collections.emptyList();
       }
 
       finally
@@ -538,26 +548,20 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile handleZipFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleZipFile(InputStream stream) throws Exception
    {
       File dir = null;
 
       try
       {
          dir = InputStreamHelper.writeZipStreamToTempDir(stream);
-         ProjectFile result = handleDirectory(dir);
-         if (result != null)
-         {
-            return result;
-         }
+         return handleDirectory(dir);
       }
 
       finally
       {
          FileHelper.deleteQuietly(dir);
       }
-
-      return null;
    }
 
    /**
@@ -566,16 +570,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param file File instance
     * @return ProjectFile instance
     */
-   private ProjectFile handleFile(File file) throws Exception
+   private List<ProjectFile> handleFile(File file) throws Exception
    {
       FileInputStream fis = null;
 
       try
       {
          fis = new FileInputStream(file);
-         ProjectFile projectFile = read(fis);
+         List<ProjectFile> projectFiles = readInternal(fis);
          fis.close();
-         return (projectFile);
+         return projectFiles;
       }
 
       finally
@@ -592,10 +596,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectFile handleDirectory(File directory) throws Exception
+   private List<ProjectFile> handleDirectory(File directory) throws Exception
    {
-      ProjectFile result = handleDatabaseInDirectory(directory);
-      if (result == null)
+      List<ProjectFile> result = handleDatabaseInDirectory(directory);
+      if (result.isEmpty())
       {
          result = handleFileInDirectory(directory);
       }
@@ -609,7 +613,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectFile handleDatabaseInDirectory(File directory) throws Exception
+   private List<ProjectFile> handleDatabaseInDirectory(File directory) throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
       File[] files = directory.listFiles();
@@ -646,7 +650,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             }
          }
       }
-      return null;
+      return Collections.emptyList();
    }
 
    /**
@@ -656,7 +660,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectFile handleFileInDirectory(File directory) throws Exception
+   private List<ProjectFile> handleFileInDirectory(File directory) throws Exception
    {
       List<File> directories = new ArrayList<>();
       File[] files = directory.listFiles();
@@ -673,10 +677,21 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
-               ProjectFile result = reader.read(file);
-               if (result != null)
+               if (m_readAll)
                {
-                  return result;
+                  List<ProjectFile> result = reader.readAll(file);
+                  if (!result.isEmpty())
+                  {
+                     return result;
+                  }
+               }
+               else
+               {
+                  ProjectFile result = reader.read(file);
+                  if (result != null)
+                  {
+                     return Arrays.asList(result);
+                  }
                }
             }
          }
@@ -684,14 +699,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
          // Haven't found a file we can read? Try the directories.
          for (File file : directories)
          {
-            ProjectFile result = handleDirectory(file);
-            if (result != null)
+            List<ProjectFile> result = handleDirectory(file);
+            if (!result.isEmpty())
             {
                return result;
             }
          }
       }
-      return null;
+      return Collections.emptyList();
    }
 
    /**
@@ -700,9 +715,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectFile handleP3BtrieveDatabase(File directory) throws Exception
+   private List<ProjectFile> handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return P3DatabaseReader.setProjectNameAndRead(directory);
+      return m_readAll ? new P3DatabaseReader().readAll(directory) : Arrays.asList(P3DatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -711,9 +726,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectFile handleSureTrakDatabase(File directory) throws Exception
+   private List<ProjectFile> handleSureTrakDatabase(File directory) throws Exception
    {
-      return SureTrakDatabaseReader.setProjectNameAndRead(directory);
+      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Arrays.asList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -724,12 +739,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param charset charset indicated by byte order mark
     * @return ProjectFile instance
     */
-   private ProjectFile handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
+   private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       reader.setSkipBytes(length);
       reader.setCharset(charset);
-      return reader.read(stream);
+      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
    }
 
    /**
@@ -739,7 +754,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile handleDosExeFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleDosExeFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".tmp");
       InputStream is = null;
@@ -784,7 +799,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                }
             }
          }
-         return null;
+         return Collections.emptyList();
       }
 
       finally
@@ -805,17 +820,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProjectFile handleXerFile(InputStream stream) throws Exception
+   private List<ProjectFile> handleXerFile(InputStream stream) throws Exception
    {
       PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
       reader.setCharset(m_charset);
-      List<ProjectFile> projects = reader.readAll(stream);
-      ProjectFile project = null;
-      if (!projects.isEmpty())
-      {
-         project = projects.get(0);
-      }
-      return project;
+      return reader.readAll(stream);
    }
 
    /**
@@ -852,7 +861,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private int m_skipBytes;
    private Charset m_charset;
-
+   private boolean m_readAll;
+   
    private static final int BUFFER_SIZE = 512;
 
    private static final byte[] OLE_COMPOUND_DOC_FINGERPRINT =
