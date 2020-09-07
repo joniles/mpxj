@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -203,9 +202,18 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    /**
     * {@inheritDoc}
     */
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   @Override public List<ProjectFile> readAll(File directory) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      List<ProjectFile> projects = new ArrayList<>();
+
+      for (String name : listProjectNames(directory))
+      {
+         P3DatabaseReader reader = new P3DatabaseReader();
+         reader.setProjectName(name);
+         projects.add(reader.read(directory));
+      }
+
+      return projects;
    }
 
    /**

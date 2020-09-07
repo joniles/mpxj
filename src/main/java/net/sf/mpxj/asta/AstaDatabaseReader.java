@@ -457,33 +457,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * Set the name of the schema containing the schedule tables.
-    *
-    * @param schema schema name.
-    */
-   public void setSchema(String schema)
-   {
-      if (schema.charAt(schema.length() - 1) != '.')
-      {
-         schema = schema + '.';
-      }
-      m_schema = schema;
-   }
-
-   /**
-    * Retrieve the name of the schema containing the schedule tables.
-    *
-    * @return schema name
-    */
-   public String getSchema()
-   {
-      return m_schema;
-   }
-
    private AstaReader m_reader;
    private Integer m_projectID;
-   private String m_schema = "";
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;

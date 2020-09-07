@@ -228,16 +228,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    }
 
    /**
-    * Set the ID of the project to be read.
-    *
-    * @param projectID project ID
-    */
-   public void setProjectID(int projectID)
-   {
-      m_projectID = Integer.valueOf(projectID);
-   }
-
-   /**
     * Retrieve a number of rows matching the supplied query.
     *
     * @param sql query statement
@@ -301,30 +291,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          Integer type = Integer.valueOf(meta.getColumnType(loop));
          m_meta.put(name, type);
       }
-   }
-
-   /**
-    * Set the name of the schema containing the Primavera tables.
-    *
-    * @param schema schema name.
-    */
-   public void setSchema(String schema)
-   {
-      if (schema.charAt(schema.length() - 1) != '.')
-      {
-         schema = schema + '.';
-      }
-      m_schema = schema;
-   }
-
-   /**
-    * Retrieve the name of the schema containing the Primavera tables.
-    *
-    * @return schema name
-    */
-   public String getSchema()
-   {
-      return m_schema;
    }
 
    /**
@@ -478,7 +444,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    }
    private AstaReader m_reader;
    private Integer m_projectID = Integer.valueOf(1);
-   private String m_schema = "";
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
