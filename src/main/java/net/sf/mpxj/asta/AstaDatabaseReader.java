@@ -31,11 +31,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -68,8 +68,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
          List<Row> rows = getRows("select projid, short_name from project_summary");
          for (Row row : rows)
          {
-            Integer id = row.getInteger("projid");
-            String name = row.getString("short_name");
+            Integer id = row.getInteger("PROJID");
+            String name = row.getString("SHORT_NAME");
             result.put(id, name);
          }
 
@@ -80,14 +80,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Arrays.asList(read(file));
    }
 
    /**
@@ -284,13 +276,61 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
+         m_connection = getDatabaseConnection(file);
+         m_projectID = Integer.valueOf(0);
+         return read();
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      try
+      {
+         m_connection = getDatabaseConnection(file);
+         List<ProjectFile> result = new ArrayList<>();
+         Set<Integer> ids = listProjects().keySet();         
+         for (Integer id : ids)
+         {
+            m_projectID = id;
+            result.add(read());
+         }
+         return result;
+      }
+
+      catch (Exception ex)
+      {
+         throw ex;
+      }
+      
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
+   }
+
+   /**
+    * Create and configure a JDBC/ODBC bridge connection.
+    * 
+    * @param file database file to open
+    * @return database connection
+    */
+   private Connection getDatabaseConnection(File file) throws MPXJException
+   {
+      try
+      {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
-         m_connection = DriverManager.getConnection(url, props);
-         m_projectID = Integer.valueOf(0);
-         return (read());
+         return DriverManager.getConnection(url, props);
       }
 
       catch (ClassNotFoundException ex)
@@ -301,11 +341,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       catch (SQLException ex)
       {
          throw new MPXJException("Failed to create connection", ex);
-      }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(m_connection);
       }
    }
 

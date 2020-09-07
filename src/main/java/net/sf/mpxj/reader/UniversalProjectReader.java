@@ -486,7 +486,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
                reader.setConnection(connection);
                addListenersToReader(reader);
-               return Arrays.asList(reader.read());
+               return m_readAll ? reader.readAll() : Arrays.asList(reader.read());
             }
             finally
             {
