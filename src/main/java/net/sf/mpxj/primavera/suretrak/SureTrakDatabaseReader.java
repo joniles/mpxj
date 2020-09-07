@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -222,9 +221,18 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    /**
     * {@inheritDoc}
     */
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   @Override public List<ProjectFile> readAll(File directory) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      List<ProjectFile> projects = new ArrayList<>();
+
+      for (String name : listProjectNames(directory))
+      {
+         SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
+         reader.setProjectName(name);
+         projects.add(reader.read(directory));
+      }
+
+      return projects;
    }
 
    /**
