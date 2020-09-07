@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -95,17 +96,31 @@ public class ProjectExplorer
       m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       m_frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
+      //
+      // Read schedule
+      //      
       final FileChooserModel fileChooserModel = new FileChooserModel();
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
-      fileChooserModel.setExtensions("cdpx", "cdpz", "exe", "fts", "gan", "gnt", "mdb", "mpd", "mpp", "mpx", "pc", "pep", "planner", "pmxml", "pod", "pp", "ppx", "prx", "schedule_grid", "sdef", "sp", "stx", "xer", "xml", "zip");
+      fileChooserModel.setExtensions(READ_EXTENSIONS);
 
+      // Read All
+      //
+      final FileChooserModel readAllFileChooserModel = new FileChooserModel();
+      final FileChooserController readAllFileChooserController = new FileChooserController(readAllFileChooserModel);
+      @SuppressWarnings("unused")
+      FileChooserView readAllFileChooserView = new FileChooserView(m_frame, readAllFileChooserModel);
+      readAllFileChooserModel.setExtensions(READ_EXTENSIONS);
+
+      //
+      // Save
+      //
       final FileSaverModel fileSaverModel = new FileSaverModel();
       final FileSaverController fileSaverController = new FileSaverController(fileSaverModel);
       @SuppressWarnings("unused")
       FileSaverView fileSaverView = new FileSaverView(m_frame, fileSaverModel);
-      fileSaverModel.setExtensions("sdef", "sdef", "mpx", "mpx", "planner", "xml", "pmxml", "xml", "json", "json", "mspdi", "xml");
+      fileSaverModel.setExtensions(WRITE_EXTENSIONS);
 
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
@@ -113,21 +128,35 @@ public class ProjectExplorer
       JMenu mnFile = new JMenu("File");
       menuBar.add(mnFile);
 
-      JMenuItem mntmOpen = new JMenuItem("Open File...");
+      JMenuItem mntmOpen = new JMenuItem("Open...");
       mnFile.add(mntmOpen);
+
+      JMenuItem mntmOpenAll = new JMenuItem("Open All...");
+      mnFile.add(mntmOpenAll);
 
       final JMenuItem mntmSave = new JMenuItem("Save As...");
       mntmSave.setEnabled(false);
       mnFile.add(mntmSave);
 
       //
-      // Open file
+      // Open
       //
       mntmOpen.addActionListener(new ActionListener()
       {
          @Override public void actionPerformed(ActionEvent e)
          {
             fileChooserController.openFileChooser();
+         }
+      });
+
+      //
+      // Open All
+      //
+      mntmOpenAll.addActionListener(new ActionListener()
+      {
+         @Override public void actionPerformed(ActionEvent e)
+         {
+            readAllFileChooserController.openFileChooser();
          }
       });
 
@@ -169,6 +198,36 @@ public class ProjectExplorer
          }
       });
 
+      PropertyAdapter<FileChooserModel> openAllAdapter = new PropertyAdapter<>(readAllFileChooserModel, "file", true);
+      openAllAdapter.addValueChangeListener(new PropertyChangeListener()
+      {
+         @Override public void propertyChange(PropertyChangeEvent evt)
+         {
+            try
+            {
+               File file = readAllFileChooserModel.getFile();
+               List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
+               if (projectFiles.isEmpty())
+               {
+                  throw new IllegalArgumentException("Unsupported file type");
+               }
+
+               int index = 1;
+               for (ProjectFile projectFile : projectFiles)
+               {
+                  String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
+                  tabbedPane.add(name, new ProjectFilePanel(projectFile));
+               }
+               mntmSave.setEnabled(true);
+            }
+
+            catch (MPXJException ex)
+            {
+               throw new IllegalArgumentException("Failed to read file");
+            }
+         }
+      });
+
       PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<>(fileSaverModel, "file", true);
       saveAdapter.addValueChangeListener(new PropertyChangeListener()
       {
@@ -179,4 +238,49 @@ public class ProjectExplorer
          }
       });
    }
+
+   private static final String[] READ_EXTENSIONS =
+   {
+      "cdpx",
+      "cdpz",
+      "exe",
+      "fts",
+      "gan",
+      "gnt",
+      "mdb",
+      "mpd",
+      "mpp",
+      "mpx",
+      "pc",
+      "pep",
+      "planner",
+      "pmxml",
+      "pod",
+      "pp",
+      "ppx",
+      "prx",
+      "schedule_grid",
+      "sdef",
+      "sp",
+      "stx",
+      "xer",
+      "xml",
+      "zip"
+   };
+
+   private static final String[] WRITE_EXTENSIONS =
+   {
+      "sdef",
+      "sdef",
+      "mpx",
+      "mpx",
+      "planner",
+      "xml",
+      "pmxml",
+      "xml",
+      "json",
+      "json",
+      "mspdi",
+      "xml"
+   };
 }

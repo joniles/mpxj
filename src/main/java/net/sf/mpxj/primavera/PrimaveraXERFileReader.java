@@ -120,7 +120,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     * @param is input stream
     * @return list of ProjectFile instances
     */
-   public List<ProjectFile> readAll(InputStream is) throws MPXJException
+   @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       return readAll(is, false);
    }
