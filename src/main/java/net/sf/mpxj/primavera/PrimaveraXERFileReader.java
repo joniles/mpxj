@@ -164,6 +164,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             result.add(project);
          }
 
+         // Sort to ensure exported project is first
+         result.sort((o1, o2)->Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+         
          if (m_linkCrossProjectRelations)
          {
             for (ExternalRelation externalRelation : externalRelations)

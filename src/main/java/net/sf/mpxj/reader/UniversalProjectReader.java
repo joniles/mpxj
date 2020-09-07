@@ -811,15 +811,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       reader.setCharset(m_charset);
       List<ProjectFile> projects = reader.readAll(stream);
       ProjectFile project = null;
-      for (ProjectFile file : projects)
-      {
-         if (file.getProjectProperties().getExportFlag())
-         {
-            project = file;
-            break;
-         }
-      }
-      if (project == null && !projects.isEmpty())
+      if (!projects.isEmpty())
       {
          project = projects.get(0);
       }
