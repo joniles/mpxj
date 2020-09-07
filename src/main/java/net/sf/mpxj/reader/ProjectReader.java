@@ -25,6 +25,7 @@ package net.sf.mpxj.reader;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -100,4 +101,13 @@ public interface ProjectReader
     * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
+   
+   /**
+    * Some readers will be sensitive to the encoding of the file they are reading.
+    * If this is applicable, this method can be called to set the encoding to
+    * use when reading a file.
+    * 
+    * @param charset encoding to use when reading a file
+    */
+   public void setCharset(Charset charset);
 }

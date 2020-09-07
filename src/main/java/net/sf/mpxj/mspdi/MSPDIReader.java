@@ -131,7 +131,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param charset Charset used when reading the file
     */
-   public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }

@@ -88,28 +88,6 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  */
 public final class UniversalProjectReader extends AbstractProjectReader
 {
-   /**
-    * Package private method used when handling byte order mark.
-    * Tells the reader to skip a number of bytes before starting to read from the stream.
-    *
-    * @param skipBytes number of bytes to skip
-    */
-   void setSkipBytes(int skipBytes)
-   {
-      m_skipBytes = skipBytes;
-   }
-
-   /**
-    * Package private method used when handling byte order mark.
-    * Notes the charset indicated by the byte order mark.
-    *
-    * @param charset character set indicated by byte order mark
-    */
-   void setCharset(Charset charset)
-   {
-      m_charset = charset;
-   }
-
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
@@ -220,7 +198,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
          {
-            return handleMspdiFile(bis);
+            return readProjectFile(new MSPDIReader(), bis);
          }
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
@@ -235,7 +213,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, XER_FINGERPRINT))
          {
-            return handleXerFile(bis);
+            return readProjectFile(new PrimaveraXERFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
@@ -371,6 +349,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> readProjectFile(ProjectReader reader, InputStream stream) throws MPXJException
    {
       addListenersToReader(reader);
+      reader.setCharset(m_charset);
       return m_readAll? reader.readAll(stream) : Arrays.asList(reader.read(stream));
    }
 
@@ -384,20 +363,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> readProjectFile(ProjectReader reader, File file) throws MPXJException
    {
       addListenersToReader(reader);
-      return m_readAll ? reader.readAll(file) : Arrays.asList(reader.read(file));
-   }
-
-   /**
-    * Configure the MSPDI file reader and read.
-    *
-    * @param stream input stream
-    * @return ProjectFile instance
-    */
-   private List<ProjectFile> handleMspdiFile(InputStream stream) throws Exception
-   {
-      MSPDIReader reader = new MSPDIReader();
       reader.setCharset(m_charset);
-      return reader.readAll(stream);
+      return m_readAll ? reader.readAll(file) : Arrays.asList(reader.read(file));
    }
 
    /**
@@ -742,8 +709,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-      reader.setSkipBytes(length);
-      reader.setCharset(charset);
+      reader.m_skipBytes = length;
+      reader.m_charset = charset;
       return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
    }
 
@@ -807,24 +774,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
          AutoCloseableHelper.closeQuietly(is);
          FileHelper.deleteQuietly(file);
       }
-   }
-
-   /**
-    * XER files can contain multiple projects when there are cross-project dependencies.
-    * As the UniversalProjectReader is designed just to read a single project, we need
-    * to select one project from those available in the XER file.
-    * The original project selected for export by the user will have its "export flag"
-    * set to true. We'll return the first project we find where the export flag is
-    * set to true, otherwise we'll just return the first project we find in the file.
-    *
-    * @param stream schedule data
-    * @return ProjectFile instance
-    */
-   private List<ProjectFile> handleXerFile(InputStream stream) throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      reader.setCharset(m_charset);
-      return reader.readAll(stream);
    }
 
    /**

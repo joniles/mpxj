@@ -83,7 +83,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @param charset Charset used when reading the file
     */
-   public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }
@@ -115,23 +115,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
-      try
-      {
-         m_tables = new HashMap<>();
-         m_numberFormat = new DecimalFormat();
-
-         processFile(is);
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
-         ProjectFile project = readProject();
-         return (project);
-      }
-
-      finally
-      {
-         m_tables = null;
-         m_numberFormat = null;
-         m_reader = null;
-      }
+      List<ProjectFile> projects = readAll(is);
+      return projects.isEmpty() ? null : projects.get(0);
    }
 
    /**
