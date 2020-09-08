@@ -79,7 +79,6 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
 import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
@@ -100,25 +99,13 @@ import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera PM file.
  */
-public final class PrimaveraPMFileReader extends AbstractProjectReader
+public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Returns true if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
@@ -139,6 +126,28 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    public void setWbsIsFullPath(boolean wbsIsFullPath)
    {
       m_wbsIsFullPath = wbsIsFullPath;
+   }
+
+   /**
+    * Retrieve a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    *
+    * @return true if cross project relations should be linked
+    */
+   public boolean getLinkCrossProjectRelations()
+   {
+      return m_linkCrossProjectRelations;
+   }
+
+   /**
+    * Sets a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    *
+    * @param linkCrossProjectRelations true if cross project relations should be linked
+    */
+   public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
    }
 
    /**
@@ -176,20 +185,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
     * @return list of ProjectFile instances
     * @throws MPXJException
     */
-   public List<ProjectFile> readAll(InputStream is) throws MPXJException
-   {
-      return readAll(is, false);
-   }
-
-   /**
-    * This is a convenience method which allows all projects in a
-    * PMXML file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    */
-   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       APIBusinessObjects apibo = processFile(is);
 
@@ -197,7 +193,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       List<ProjectFile> result = new ArrayList<>(projects.size());
       projects.forEach(project -> result.add(read(apibo, project)));
 
-      if (linkCrossProjectRelations)
+      // Sort to ensure exported project is first
+      result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+
+      if (m_linkCrossProjectRelations)
       {
          for (ExternalRelation externalRelation : m_externalRelations)
          {
@@ -225,6 +224,21 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       }
 
       return result;
+   }
+
+   /**
+    * This is a convenience method which allows all projects in a
+    * PMXML file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
+    */
+   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+      return readAll(is);
    }
 
    /**
@@ -312,7 +326,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          fields.getCustomField(TaskField.TEXT3).setAlias("Status");
          fields.getCustomField(TaskField.NUMBER1).setAlias("Primary Resource Unique ID");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          processProjectUDFs(apibo);
          processProjectProperties(apibo, project);
@@ -493,7 +507,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
       properties.setProjectTitle(project.getId());
       properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-      
+
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
@@ -983,7 +997,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
          boolean critical = false;
-         
+
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -1008,7 +1022,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             {
                ++finished;
             }
-            
+
             critical = critical || task.getCritical();
          }
 
@@ -1082,7 +1096,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
          }
-         
+
          parentTask.setCritical(critical);
       }
    }
@@ -1421,7 +1435,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<Integer, Integer> m_clashMap = new HashMap<>();
    private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
@@ -1430,6 +1443,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectReader
    private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
    private List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private boolean m_wbsIsFullPath = true;
+   private boolean m_linkCrossProjectRelations;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static

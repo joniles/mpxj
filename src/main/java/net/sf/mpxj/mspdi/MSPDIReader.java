@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,7 +98,6 @@ import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
@@ -108,12 +108,12 @@ import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MSPDI file.
  */
-public final class MSPDIReader extends AbstractProjectReader
+public final class MSPDIReader extends AbstractProjectStreamReader
 {
    /**
     * Sets the character encoding used when reading an MSPDI file.
@@ -131,7 +131,7 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param charset Charset used when reading the file
     */
-   public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }
@@ -149,18 +149,6 @@ public final class MSPDIReader extends AbstractProjectReader
          result = m_encoding == null ? CharsetHelper.UTF8 : Charset.forName(m_encoding);
       }
       return result;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
    }
 
    /**
@@ -189,7 +177,7 @@ public final class MSPDIReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          DatatypeConverter.setParentFile(m_projectFile);
 
@@ -247,6 +235,14 @@ public final class MSPDIReader extends AbstractProjectReader
          m_projectFile = null;
          m_lookupTableMap.clear();
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -1328,7 +1324,7 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          if (NumberHelper.getInt(mpx.getUniqueID()) == 0)
          {
-            // ensure that the project summary task is always marked as a summary task 
+            // ensure that the project summary task is always marked as a summary task
             mpx.setSummary(true);
             updateProjectProperties(mpx);
          }
@@ -1962,7 +1958,6 @@ public final class MSPDIReader extends AbstractProjectReader
    private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
 
    private static final RecurrenceType[] RECURRENCE_TYPES =

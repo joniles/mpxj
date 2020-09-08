@@ -26,6 +26,7 @@ package net.sf.mpxj.projectcommander;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,26 +54,13 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads schedule data from a Project Commander file.
  */
-public final class ProjectCommanderReader extends AbstractProjectReader
+public final class ProjectCommanderReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -118,6 +106,14 @@ public final class ProjectCommanderReader extends AbstractProjectReader
          m_extraBarCounts = null;
          m_data = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -642,7 +638,6 @@ public final class ProjectCommanderReader extends AbstractProjectReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private ProjectCommanderData m_data;
    private Map<Task, Block> m_taskMap;
    private Map<Integer, Integer> m_childTaskCounts;

@@ -28,7 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -36,25 +36,15 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.FixedLengthInputStream;
 import net.sf.mpxj.common.StreamHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads a schedule data from a P3 PRX file.
  */
-public final class P3PRXFileReader extends AbstractProjectReader
+public final class P3PRXFileReader extends AbstractProjectStreamReader
 {
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       File tempDir = null;
@@ -93,6 +83,14 @@ public final class P3PRXFileReader extends AbstractProjectReader
       {
          FileHelper.deleteQuietly(tempDir);
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -175,6 +173,4 @@ public final class P3PRXFileReader extends AbstractProjectReader
 
       return buffer.toString();
    }
-
-   private List<ProjectListener> m_projectListeners;
 }

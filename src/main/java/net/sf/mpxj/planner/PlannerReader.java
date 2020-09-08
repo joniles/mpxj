@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -83,25 +83,13 @@ import net.sf.mpxj.planner.schema.Predecessors;
 import net.sf.mpxj.planner.schema.Project;
 import net.sf.mpxj.planner.schema.Resources;
 import net.sf.mpxj.planner.schema.Tasks;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Planner file.
  */
-public final class PlannerReader extends AbstractProjectReader
+public final class PlannerReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -127,7 +115,7 @@ public final class PlannerReader extends AbstractProjectReader
          m_projectFile.getProjectProperties().setFileApplication("Planner");
          m_projectFile.getProjectProperties().setFileType("XML");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          Project plannerProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, stream);
 
@@ -165,6 +153,14 @@ public final class PlannerReader extends AbstractProjectReader
          m_projectFile = null;
          m_defaultCalendar = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -1017,7 +1013,6 @@ public final class PlannerReader extends AbstractProjectReader
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private List<DateRange> m_defaultWorkingHours = new ArrayList<>();
-   private List<ProjectListener> m_projectListeners;
 
    private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static

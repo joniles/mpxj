@@ -26,13 +26,12 @@ package net.sf.mpxj.asta;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import net.sf.mpxj.reader.ProjectReader;
 
 /**
@@ -40,20 +39,8 @@ import net.sf.mpxj.reader.ProjectReader;
  * an Asta PP file. Determines if the file is a text file or a SQLite database
  * and takes the appropriate action.
  */
-public final class AstaFileReader extends AbstractProjectReader
+public final class AstaFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -67,16 +54,19 @@ public final class AstaFileReader extends AbstractProjectReader
          is.read(buffer);
          is.reset();
          String actualText = new String(buffer);
-         ProjectFile result;
+         ProjectReader reader;
          if (SQLITE_TEXT.equals(actualText))
          {
-            result = readDatabaseFile(is);
+            reader = new AstaDatabaseFileReader();
          }
          else
          {
-            result = readTextFile(is);
+            reader = new AstaTextFileReader();
          }
-         return result;
+
+         addListenersToReader(reader);
+
+         return reader.read(is);
       }
 
       catch (IOException ex)
@@ -86,48 +76,12 @@ public final class AstaFileReader extends AbstractProjectReader
    }
 
    /**
-    * Adds any listeners attached to this reader to the reader created internally.
-    *
-    * @param reader internal project reader
+    * {@inheritDoc}
     */
-   private void addListeners(ProjectReader reader)
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      if (m_projectListeners != null)
-      {
-         for (ProjectListener listener : m_projectListeners)
-         {
-            reader.addProjectListener(listener);
-         }
-      }
+      return Arrays.asList(read(inputStream));
    }
-
-   /**
-    * Process a text-based PP file.
-    *
-    * @param inputStream file input stream
-    * @return ProjectFile instance
-    */
-   private ProjectFile readTextFile(InputStream inputStream) throws MPXJException
-   {
-      ProjectReader reader = new AstaTextFileReader();
-      addListeners(reader);
-      return reader.read(inputStream);
-   }
-
-   /**
-    * Process a SQLite database PP file.
-    *
-    * @param inputStream file input stream
-    * @return ProjectFile instance
-    */
-   private ProjectFile readDatabaseFile(InputStream inputStream) throws MPXJException
-   {
-      ProjectReader reader = new AstaDatabaseFileReader();
-      addListeners(reader);
-      return reader.read(inputStream);
-   }
-
-   private List<ProjectListener> m_projectListeners;
 
    private static final String SQLITE_TEXT = "SQLite format";
 }

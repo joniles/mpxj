@@ -24,7 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -36,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -44,27 +44,14 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class AstaDatabaseReader implements ProjectReader
+public final class AstaDatabaseReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -81,8 +68,8 @@ public final class AstaDatabaseReader implements ProjectReader
          List<Row> rows = getRows("select projid, short_name from project_summary");
          for (Row row : rows)
          {
-            Integer id = row.getInteger("projid");
-            String name = row.getString("short_name");
+            Integer id = row.getInteger("PROJID");
+            String name = row.getString("SHORT_NAME");
             result.put(id, name);
          }
 
@@ -107,7 +94,7 @@ public final class AstaDatabaseReader implements ProjectReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processProjectProperties();
          processCalendars();
@@ -283,34 +270,15 @@ public final class AstaDatabaseReader implements ProjectReader
    }
 
    /**
-    * This is a convenience method which reads the first project
-    * from the named Asta MDB file using the JDBC-ODBC bridge driver.
-    *
-    * @param accessDatabaseFileName access database file name
-    * @return ProjectFile instance
-    * @throws MPXJException
+    * {@inheritDoc}
     */
-   @Override public ProjectFile read(String accessDatabaseFileName) throws MPXJException
+   @Override public ProjectFile read(File file) throws MPXJException
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
-         Properties props = new Properties();
-         props.put("charSet", "Cp1252");
-         m_connection = DriverManager.getConnection(url, props);
+         m_connection = getDatabaseConnection(file);
          m_projectID = Integer.valueOf(0);
-         return (read());
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException("Failed to create connection", ex);
+         return read();
       }
 
       finally
@@ -322,17 +290,53 @@ public final class AstaDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   @Override public ProjectFile read(File file) throws MPXJException
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return (read(file.getAbsolutePath()));
+      try
+      {
+         m_connection = getDatabaseConnection(file);
+         List<ProjectFile> result = new ArrayList<>();
+         Set<Integer> ids = listProjects().keySet();
+         for (Integer id : ids)
+         {
+            m_projectID = id;
+            result.add(read());
+         }
+         return result;
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
    }
 
    /**
-    * {@inheritDoc}
+    * Create and configure a JDBC/ODBC bridge connection.
+    *
+    * @param file database file to open
+    * @return database connection
     */
-   @Override public ProjectFile read(InputStream inputStream)
+   private Connection getDatabaseConnection(File file) throws MPXJException
    {
-      throw new UnsupportedOperationException();
+      try
+      {
+         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
+         Properties props = new Properties();
+         props.put("charSet", "Cp1252");
+         return DriverManager.getConnection(url, props);
+      }
+
+      catch (ClassNotFoundException ex)
+      {
+         throw new MPXJException("Failed to load JDBC driver", ex);
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException("Failed to create connection", ex);
+      }
    }
 
    /**
@@ -448,38 +452,12 @@ public final class AstaDatabaseReader implements ProjectReader
       }
    }
 
-   /**
-    * Set the name of the schema containing the schedule tables.
-    *
-    * @param schema schema name.
-    */
-   public void setSchema(String schema)
-   {
-      if (schema.charAt(schema.length() - 1) != '.')
-      {
-         schema = schema + '.';
-      }
-      m_schema = schema;
-   }
-
-   /**
-    * Retrieve the name of the schema containing the schedule tables.
-    *
-    * @return schema name
-    */
-   public String getSchema()
-   {
-      return m_schema;
-   }
-
    private AstaReader m_reader;
    private Integer m_projectID;
-   private String m_schema = "";
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
-   private List<ProjectListener> m_projectListeners;
 }

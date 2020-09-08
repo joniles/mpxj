@@ -444,18 +444,25 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></span></code>
+<div class="block">This class provides a generic front end to read project data from
+ a SQLite-based Primavera database.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></span></code>
 <div class="block">This class provides a generic front end to read project data from
  a database.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></span></code>
 <div class="block">This class creates a new ProjectFile instance by reading a Primavera PM file.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></span></code>
 <div class="block">This class creates a new ProjectFile instance by reading a Primavera XER file.</div>
@@ -569,9 +576,23 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></span></code>
+<div class="block">Abstract implementation of the ProjectReader interface
+ for readers which consume a file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></span></code>
 <div class="block">Abstract implementation of the ProjectReader interface
- which supplies implementations of the trivial read methods.</div>
+ for readers which consume a file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></span></code>
+<div class="block">Abstract implementation of the ProjectReader interface
+ for readers which consume a stream.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -595,6 +616,21 @@
 <td class="colLast"><span class="typeNameLabel">ProjectReaderUtility.</span><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/reader/ProjectReaderUtility.html#getProjectReader-java.lang.String-">getProjectReader</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
 <div class="block">Retrieves a ProjectReader instance which can read a file of the
  type specified by the supplied file name.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../../net/sf/mpxj/reader/package-summary.html">net.sf.mpxj.reader</a> with parameters of type <a href="../../../../../net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>protected void</code></td>
+<td class="colLast"><span class="typeNameLabel">AbstractProjectReader.</span><code><span class="memberNameLink"><a href="../../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToReader-net.sf.mpxj.reader.ProjectReader-">addListenersToReader</a></span>(<a href="../../../../../net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a>&nbsp;reader)</code>
+<div class="block">Common method to add listeners to a reader.</div>
 </td>
 </tr>
 </tbody>

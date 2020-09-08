@@ -49,39 +49,22 @@ reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read();
 ```
 
-You can also connect to a standalone SQLite P6 database, although a 
-property has to be set on the database connection in order for
-date and time values to be read correctly.
+You can also connect to a standalone SQLite P6 database. This
+is easier to achieve as a specific reader class has bee created
+which manages the database connection for you:
 
-```
-import java.sql.Connection;
-import java.sql.DriverManager;
+```java
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 
 ...
 
-//
-// Load the JDBC driver
-//
-String driverClass="org.sqlite.JDBC";
-Class.forName(driverClass);
-
-//
-// Open a database connection. You will need to change
-// these details to match the location of your database file.
-//
-String connectionString="jdbc:sqlite:C:/temp/PPMDBSQLite.db";
-Properties props = new Properties();
-props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-Connection c = DriverManager.getConnection(connectionString, props);
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setConnection(c);
+PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
 
 //
 // Retrieve a list of the projects available in the database
 //
-Map<Integer,String> projects = reader.listProjects();
+Map<Integer,String> projects = reader.listProjects("PPMDBSQLite.db");
 
 //
 // At this point you'll select the project
@@ -93,7 +76,7 @@ Map<Integer,String> projects = reader.listProjects();
 //
 int selectedProjectID = 1;
 reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read();
+ProjectFile projectFile = reader.read("PPMDBSQLite.db");
 ```
 
 ### .Net

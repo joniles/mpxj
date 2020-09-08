@@ -26,7 +26,6 @@ package net.sf.mpxj.primavera.p3;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,22 +44,23 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * Reads schedule data from a P3 multi-file Btrieve database in a directory.
  */
-public final class P3DatabaseReader implements ProjectReader
+public final class P3DatabaseReader extends AbstractProjectFileReader
 {
    /**
     * Convenience method which locates the first P3 database in a directory
@@ -127,25 +127,6 @@ public final class P3DatabaseReader implements ProjectReader
       return result;
    }
 
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
-
-   @Override public ProjectFile read(InputStream inputStream)
-   {
-      throw new UnsupportedOperationException();
-   }
-
    /**
     * Set the project name (file name prefix) used to identify which database is read from the directory.
     * There may potentially be more than one database in a directory.
@@ -184,7 +165,7 @@ public final class P3DatabaseReader implements ProjectReader
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          m_tables = new DatabaseReader().process(directory, m_projectName);
          m_resourceMap = new HashMap<>();
@@ -210,13 +191,29 @@ public final class P3DatabaseReader implements ProjectReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_tables = null;
          m_resourceMap = null;
          m_wbsFormat = null;
          m_wbsMap = null;
          m_activityMap = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File directory) throws MPXJException
+   {
+      List<ProjectFile> projects = new ArrayList<>();
+
+      for (String name : listProjectNames(directory))
+      {
+         P3DatabaseReader reader = new P3DatabaseReader();
+         reader.setProjectName(name);
+         projects.add(reader.read(directory));
+      }
+
+      return projects;
    }
 
    /**
@@ -330,6 +327,7 @@ public final class P3DatabaseReader implements ProjectReader
                task.setWBS(wbs);
                task.setSummary(true);
                m_wbsMap.put(wbs, task);
+               m_eventManager.fireTaskReadEvent(task);
             }
          }
       }
@@ -456,6 +454,7 @@ public final class P3DatabaseReader implements ProjectReader
          }
 
          m_activityMap.put(activityID, task);
+         m_eventManager.fireTaskReadEvent(task);
       }
    }
 
@@ -473,7 +472,8 @@ public final class P3DatabaseReader implements ProjectReader
             Duration lag = row.getDuration("LAG_VALUE");
             RelationType type = row.getRelationType("LAG_TYPE");
 
-            successor.addPredecessor(predecessor, type, lag);
+            Relation relation = successor.addPredecessor(predecessor, type, lag);
+            m_eventManager.fireRelationReadEvent(relation);
          }
       }
    }
@@ -489,7 +489,8 @@ public final class P3DatabaseReader implements ProjectReader
          Resource resource = m_resourceMap.get(row.getString("RESOURCE_ID"));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment(resource);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
    }
@@ -613,7 +614,6 @@ public final class P3DatabaseReader implements ProjectReader
    private String m_projectName;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<String, Table> m_tables;
    private P3WbsFormat m_wbsFormat;
    private Map<String, Resource> m_resourceMap;

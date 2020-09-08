@@ -26,6 +26,7 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -65,26 +66,13 @@ import net.sf.mpxj.conceptdraw.schema.Document.Calendars.Calendar.WeekDays.WeekD
 import net.sf.mpxj.conceptdraw.schema.Document.Links.Link;
 import net.sf.mpxj.conceptdraw.schema.Document.Projects.Project;
 import net.sf.mpxj.conceptdraw.schema.Document.WorkspaceProperties;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a ConceptDraw Project file.
  */
-public final class ConceptDrawProjectReader extends AbstractProjectReader
+public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -109,7 +97,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          m_projectFile.getProjectProperties().setFileApplication("ConceptDraw PROJECT");
          m_projectFile.getProjectProperties().setFileType("CDP");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          Document cdp = (Document) UnmarshalHelper.unmarshal(CONTEXT, stream, new NamespaceFilter());
 
@@ -151,10 +139,17 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_projectListeners = null;
          m_calendarMap = null;
          m_taskIdMap = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -223,6 +218,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       {
          readExceptionDay(mpxjCalendar, day);
       }
+
+      m_eventManager.fireCalendarReadEvent(mpxjCalendar);
    }
 
    /**
@@ -294,6 +291,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
       mpxjResource.setID(Integer.valueOf(resource.getOutlineNumber()));
       //resource.getStyleProject()
       mpxjResource.setType(resource.getSubType() == null ? resource.getType() : resource.getSubType());
+      m_eventManager.fireResourceReadEvent(mpxjResource);
    }
 
    /**
@@ -432,6 +430,8 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
 
       map.put(task.getOutlineNumber(), mpxjTask);
 
+      m_eventManager.fireTaskReadEvent(mpxjTask);
+
       for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())
       {
          readResourceAssignment(mpxjTask, assignment);
@@ -453,6 +453,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          mpxjAssignment.setUniqueID(assignment.getID());
          mpxjAssignment.setWork(Duration.getInstance(assignment.getManHour().doubleValue() * m_workHoursPerDay, TimeUnit.HOURS));
          mpxjAssignment.setUnits(assignment.getUse());
+         m_eventManager.fireAssignmentReadEvent(mpxjAssignment);
       }
    }
 
@@ -484,6 +485,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
          RelationType type = link.getType();
          Relation relation = destinationTask.addPredecessor(sourceTask, type, lag);
          relation.setUniqueID(link.getID());
+         m_eventManager.fireRelationReadEvent(relation);
       }
    }
 
@@ -571,7 +573,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    private Map<Integer, ProjectCalendar> m_calendarMap;
    private Map<Integer, Task> m_taskIdMap;
    private double m_workHoursPerDay;

@@ -25,6 +25,8 @@ package net.sf.mpxj.reader;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -45,7 +47,7 @@ public interface ProjectReader
    public void addProjectListener(ProjectListener listener);
 
    /**
-    * Read a file where the file name is supplied.
+    * Read a single schedule from a file where the file name is supplied.
     *
     * @param fileName file name
     * @return ProjectFile instance
@@ -54,7 +56,16 @@ public interface ProjectReader
    public ProjectFile read(String fileName) throws MPXJException;
 
    /**
-    * Read a file where a File instance is supplied.
+    * Read all schedules from a file where the file name is supplied.
+    *
+    * @param fileName file name
+    * @return ProjectFile instance
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(String fileName) throws MPXJException;
+
+   /**
+    * Read a single schedule from a file where a File instance is supplied.
     *
     * @param file File instance
     * @return ProjectFile instance
@@ -63,7 +74,16 @@ public interface ProjectReader
    public ProjectFile read(File file) throws MPXJException;
 
    /**
-    * Read a file where the contents of the project file
+    * Read all schedules from a file where a File instance is supplied.
+    *
+    * @param file File instance
+    * @return ProjectFile instance
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(File file) throws MPXJException;
+
+   /**
+    * Read a single schedule from a file where the contents of the project file
     * are supplied via an input stream.
     *
     * @param inputStream InputStream instance
@@ -71,4 +91,23 @@ public interface ProjectReader
     * @throws MPXJException
     */
    public ProjectFile read(InputStream inputStream) throws MPXJException;
+
+   /**
+    * Read all schedules from a file where the contents of the project file
+    * are supplied via an input stream.
+    *
+    * @param inputStream InputStream instance
+    * @return ProjectFile instance
+    * @throws MPXJException
+    */
+   public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
+
+   /**
+    * Some readers will be sensitive to the encoding of the file they are reading.
+    * If this is applicable, this method can be called to set the encoding to
+    * use when reading a file.
+    *
+    * @param charset encoding to use when reading a file
+    */
+   public void setCharset(Charset charset);
 }

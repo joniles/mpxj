@@ -24,12 +24,14 @@
 package net.sf.mpxj.projectlibre;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.mspdi.MSPDIReader;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Reads a ProjectLibre POD file.
@@ -38,7 +40,7 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  * Note that if the POD file was written by a version of ProjectLibre prior to 1.5.5
  * it won't contain the MSPDI file. In this case the read method will return null.
  */
-public class ProjectLibreReader extends AbstractProjectReader
+public class ProjectLibreReader extends AbstractProjectStreamReader
 {
    @Override public void addProjectListener(ProjectListener listener)
    {
@@ -66,6 +68,14 @@ public class ProjectLibreReader extends AbstractProjectReader
 
          throw ex;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    private final MSPDIReader m_reader = new MSPDIReader();

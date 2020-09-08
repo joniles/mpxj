@@ -46,27 +46,14 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class PrimaveraDatabaseReader implements ProjectReader
+public final class PrimaveraDatabaseReader extends AbstractProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -109,7 +96,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       {
          m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processAnalytics();
          processProjectProperties();
@@ -402,6 +389,14 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
+   @Override public List<ProjectFile> readAll(String fileName)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(File file)
    {
       throw new UnsupportedOperationException();
@@ -410,7 +405,23 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
+   @Override public List<ProjectFile> readAll(File file)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
    @Override public ProjectFile read(InputStream inputStream)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream)
    {
       throw new UnsupportedOperationException();
    }
@@ -697,7 +708,6 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
-   private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();

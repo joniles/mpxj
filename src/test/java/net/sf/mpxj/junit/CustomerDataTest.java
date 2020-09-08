@@ -31,14 +31,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
 import org.junit.Test;
 
@@ -52,7 +49,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -189,46 +186,37 @@ public class CustomerDataTest
          return;
       }
 
-      Class.forName("org.sqlite.JDBC");
-      String url = "jdbc:sqlite:" + m_primaveraFile;
+      File file = new File(m_primaveraFile);
+      Map<Integer, String> projects = new PrimaveraDatabaseFileReader().listProjects(file);
+      long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(file, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
 
-      Properties props = new Properties();
-      props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-
-      try (Connection connection = DriverManager.getConnection(url, props))
+      if (DIFF_BASELINE_DIR != null)
       {
-         PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-         reader.setConnection(connection);
-         Map<Integer, String> projects = reader.listProjects();
-         long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(reader, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
-
-         if (DIFF_BASELINE_DIR != null)
-         {
-            System.out.println();
-            System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
-            System.out.println("Test: " + DIFF_TEST_DIR.getPath());
-         }
-
-         assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
+         System.out.println();
+         System.out.println("Baseline: " + DIFF_BASELINE_DIR.getPath());
+         System.out.println("Test: " + DIFF_TEST_DIR.getPath());
       }
+
+      assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
    }
 
    /**
     * Test a project from a Primavera SQLite database.
     *
-    * @param reader PrimaveraDatabaseReader instance
+    * @param file database file
     * @param projectID ID of the project to extract
     * @param projectName Name of the project to extract
     * @return true if project read and validated successfully
     */
-   private Boolean testPrimaveraProject(PrimaveraDatabaseReader reader, int projectID, String projectName)
+   private Boolean testPrimaveraProject(File file, int projectID, String projectName)
    {
       Boolean result = Boolean.TRUE;
 
       try
       {
+         PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
          reader.setProjectID(projectID);
-         ProjectFile project = reader.read();
+         ProjectFile project = reader.read(file);
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))
          {
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
@@ -436,7 +424,8 @@ public class CustomerDataTest
          // For now, ignore files with non-standard encodings.
          if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
          {
-            m_xerReader.readAll(new FileInputStream(file), true);
+            m_xerReader.setLinkCrossProjectRelations(true);
+            m_xerReader.readAll(new FileInputStream(file));
          }
       }
 

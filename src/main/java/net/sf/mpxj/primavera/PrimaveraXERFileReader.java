@@ -50,26 +50,13 @@ import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera XER file.
  */
-public final class PrimaveraXERFileReader extends AbstractProjectReader
+public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Set the ID of the project to be read.
     *
@@ -96,9 +83,31 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     *
     * @param charset Charset used when reading the file
     */
-   public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
+   }
+
+   /**
+    * Retrieve a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    *
+    * @return true if cross project relations should be linked
+    */
+   public boolean getLinkCrossProjectRelations()
+   {
+      return m_linkCrossProjectRelations;
+   }
+
+   /**
+    * Sets a flag indicating if, when using `realAll` to retrieve all
+    * projects from a file, cross project relations should be linked together.
+    *
+    * @param linkCrossProjectRelations true if cross project relations should be linked
+    */
+   public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
    }
 
    /**
@@ -106,23 +115,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
-      try
-      {
-         m_tables = new HashMap<>();
-         m_numberFormat = new DecimalFormat();
-
-         processFile(is);
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
-         ProjectFile project = readProject();
-         return (project);
-      }
-
-      finally
-      {
-         m_tables = null;
-         m_numberFormat = null;
-         m_reader = null;
-      }
+      List<ProjectFile> projects = readAll(is);
+      return projects.isEmpty() ? null : projects.get(0);
    }
 
    /**
@@ -133,20 +127,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
     * @param is input stream
     * @return list of ProjectFile instances
     */
-   public List<ProjectFile> readAll(InputStream is) throws MPXJException
-   {
-      return readAll(is, false);
-   }
-
-   /**
-    * This is a convenience method which allows all projects in an
-    * XER file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    */
-   public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       try
       {
@@ -168,7 +149,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
             result.add(project);
          }
 
-         if (linkCrossProjectRelations)
+         // Sort to ensure exported project is first
+         result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+
+         if (m_linkCrossProjectRelations)
          {
             for (ExternalRelation externalRelation : externalRelations)
             {
@@ -201,6 +185,21 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    }
 
    /**
+    * This is a convenience method which allows all projects in an
+    * XER file to be read in a single pass.
+    *
+    * @param is input stream
+    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
+    * @return list of ProjectFile instances
+    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
+    */
+   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   {
+      m_linkCrossProjectRelations = linkCrossProjectRelations;
+      return readAll(is);
+   }
+
+   /**
     * Common project read functionality.
     *
     * @return ProjectFile instance
@@ -212,7 +211,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
          ProjectFile project = m_reader.getProject();
          project.getProjectProperties().setFileApplication("Primavera");
          project.getProjectProperties().setFileType("XER");
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processProjectID();
          processProjectProperties();
@@ -954,7 +953,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
-   private List<ProjectListener> m_projectListeners;
    private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
@@ -966,6 +964,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectReader
    private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
+   private boolean m_linkCrossProjectRelations;
 
    /**
     * Represents expected record types.

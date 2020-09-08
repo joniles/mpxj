@@ -24,8 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,6 +31,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,38 +42,15 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a SQLite-based Asta PP file.
  */
-public final class AstaDatabaseFileReader implements ProjectReader
+public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public ProjectFile read(String fileName) throws MPXJException
-   {
-      return read(new File(fileName));
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -104,25 +80,12 @@ public final class AstaDatabaseFileReader implements ProjectReader
       }
    }
 
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      File tempFile = null;
-
-      try
-      {
-         tempFile = InputStreamHelper.writeStreamToTempFile(inputStream, "pp");
-         return read(tempFile);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException("Failed to read file", ex);
-      }
-
-      finally
-      {
-         FileHelper.deleteQuietly(tempFile);
-      }
+      return Arrays.asList(read(file));
    }
 
    /**
@@ -137,7 +100,7 @@ public final class AstaDatabaseFileReader implements ProjectReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          processProjectProperties();
          processCalendars();
@@ -265,16 +228,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
    }
 
    /**
-    * Set the ID of the project to be read.
-    *
-    * @param projectID project ID
-    */
-   public void setProjectID(int projectID)
-   {
-      m_projectID = Integer.valueOf(projectID);
-   }
-
-   /**
     * Retrieve a number of rows matching the supplied query.
     *
     * @param sql query statement
@@ -338,30 +291,6 @@ public final class AstaDatabaseFileReader implements ProjectReader
          Integer type = Integer.valueOf(meta.getColumnType(loop));
          m_meta.put(name, type);
       }
-   }
-
-   /**
-    * Set the name of the schema containing the Primavera tables.
-    *
-    * @param schema schema name.
-    */
-   public void setSchema(String schema)
-   {
-      if (schema.charAt(schema.length() - 1) != '.')
-      {
-         schema = schema + '.';
-      }
-      m_schema = schema;
-   }
-
-   /**
-    * Retrieve the name of the schema containing the Primavera tables.
-    *
-    * @return schema name
-    */
-   public String getSchema()
-   {
-      return m_schema;
    }
 
    /**
@@ -515,10 +444,8 @@ public final class AstaDatabaseFileReader implements ProjectReader
    }
    private AstaReader m_reader;
    private Integer m_projectID = Integer.valueOf(1);
-   private String m_schema = "";
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
-   private List<ProjectListener> m_projectListeners;
 }

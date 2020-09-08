@@ -1,8 +1,8 @@
 /*
  * file:       AbstractProjectReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       Dec 21, 2005
+ * copyright:  (c) Packwood Software 2020
+ * date:       04/09/2020
  */
 
 /*
@@ -23,70 +23,62 @@
 
 package net.sf.mpxj.reader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * Abstract implementation of the ProjectReader interface
- * which supplies implementations of the trivial read methods.
+ * for readers which consume a file.
  */
 public abstract class AbstractProjectReader implements ProjectReader
 {
    /**
     * {@inheritDoc}
     */
-   @Override public ProjectFile read(String fileName) throws MPXJException
+   @Override public void addProjectListener(ProjectListener listener)
    {
-      FileInputStream fis = null;
-
-      try
+      if (m_projectListeners == null)
       {
-         fis = new FileInputStream(fileName);
-         ProjectFile projectFile = read(fis);
-         fis.close();
-         fis = null;
-         return (projectFile);
+         m_projectListeners = new ArrayList<>();
       }
+      m_projectListeners.add(listener);
+   }
 
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
+   /**
+    * Common method to add listeners to a project.
+    *
+    * @param project target project
+    */
+   protected void addListenersToProject(ProjectFile project)
+   {
+      project.getEventManager().addProjectListeners(m_projectListeners);
+   }
 
-      finally
+   /**
+    * Common method to add listeners to a reader.
+    *
+    * @param reader target reader
+    */
+   protected void addListenersToReader(ProjectReader reader)
+   {
+      if (m_projectListeners != null)
       {
-         AutoCloseableHelper.closeQuietly(fis);
+         m_projectListeners.forEach(l -> reader.addProjectListener(l));
       }
    }
 
    /**
-    * {@inheritDoc}
+    * Default "do nothing" implementation, as most readers do not need
+    * to be provided with an explicit encoding.
     */
-   @Override public ProjectFile read(File file) throws MPXJException
+   @Override public void setCharset(Charset charset)
    {
-      FileInputStream fis = null;
-
-      try
-      {
-         fis = new FileInputStream(file);
-         ProjectFile projectFile = read(fis);
-         fis.close();
-         return (projectFile);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(fis);
-      }
+      // default implementatoin - do nothing
    }
+
+   private List<ProjectListener> m_projectListeners;
 }

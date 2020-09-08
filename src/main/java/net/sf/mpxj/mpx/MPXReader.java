@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -62,26 +63,13 @@ import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPX file.
  */
-public final class MPXReader extends AbstractProjectReader
+public final class MPXReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -123,7 +111,7 @@ public final class MPXReader extends AbstractProjectReader
          m_projectConfig.setAutoOutlineNumber(false);
          m_projectConfig.setAutoWBS(false);
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
          m_delimiter = (char) data[3];
@@ -219,6 +207,14 @@ public final class MPXReader extends AbstractProjectReader
          m_formats = null;
          m_deferredRelationships = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -1657,7 +1653,6 @@ public final class MPXReader extends AbstractProjectReader
    private char m_delimiter;
    private MPXJFormats m_formats;
    private List<DeferredRelationship> m_deferredRelationships;
-   private List<ProjectListener> m_projectListeners;
 
    /**
     * This member data is used to hold the outline level number of the

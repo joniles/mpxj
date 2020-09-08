@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,35 +43,20 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPP file.
  */
-public final class MPPReader extends AbstractProjectReader
+public final class MPPReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
-
       try
       {
-
          //
          // Open the file system
          //
@@ -85,6 +71,14 @@ public final class MPPReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.READ_ERROR, ex);
 
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -133,7 +127,7 @@ public final class MPPReader extends AbstractProjectReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
 
-         projectFile.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(projectFile);
 
          //
          // Open the file system and retrieve the root directory
@@ -410,7 +404,6 @@ public final class MPPReader extends AbstractProjectReader
    private boolean m_respectPasswordProtection = true;
 
    private String m_readPassword;
-   private List<ProjectListener> m_projectListeners;
 
    /**
     * Populate a map of file types and file processing classes.

@@ -26,6 +26,7 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -63,7 +64,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.phoenix.schema.Project;
 import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout;
 import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout.CodeOptions.CodeOption;
@@ -79,25 +79,13 @@ import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calen
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
  */
-public final class PhoenixReader extends AbstractProjectReader
+public final class PhoenixReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -132,7 +120,7 @@ public final class PhoenixReader extends AbstractProjectReader
          // Equivalent to Primavera's Activity ID
          m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
 
-         m_eventManager.addProjectListeners(m_projectListeners);
+         addListenersToProject(m_projectFile);
 
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
@@ -176,6 +164,14 @@ public final class PhoenixReader extends AbstractProjectReader
 
          closeLogFile();
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -915,7 +911,6 @@ public final class PhoenixReader extends AbstractProjectReader
    Map<UUID, Integer> m_activityCodeSequence;
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
-   private List<ProjectListener> m_projectListeners;
    List<UUID> m_codeSequence;
 
    /**

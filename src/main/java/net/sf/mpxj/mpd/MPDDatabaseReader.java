@@ -24,40 +24,27 @@
 package net.sf.mpxj.mpd;
 
 import java.io.File;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class MPDDatabaseReader implements ProjectReader
+public final class MPDDatabaseReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -67,8 +54,7 @@ public final class MPDDatabaseReader implements ProjectReader
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
-      MPD9DatabaseReader reader = new MPD9DatabaseReader();
-      return reader.listProjects();
+      return getReader().listProjects();
    }
 
    /**
@@ -79,13 +65,10 @@ public final class MPDDatabaseReader implements ProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
-      MPD9DatabaseReader reader = new MPD9DatabaseReader();
+      MPD9DatabaseReader reader = getReader();
       reader.setProjectID(m_projectID);
       reader.setPreserveNoteFormatting(m_preserveNoteFormatting);
-      reader.setDataSource(m_dataSource);
-      reader.setConnection(m_connection);
-      ProjectFile project = reader.read();
-      return (project);
+      return reader.read();
    }
 
    /**
@@ -133,32 +116,15 @@ public final class MPDDatabaseReader implements ProjectReader
    }
 
    /**
-    * This is a convenience method which reads the first project
-    * from the named MPD file using the JDBC-ODBC bridge driver.
-    *
-    * @param accessDatabaseFileName access database file name
-    * @return ProjectFile instance
-    * @throws MPXJException
+    * {@inheritDoc}
     */
-   @Override public ProjectFile read(String accessDatabaseFileName) throws MPXJException
+   @Override public ProjectFile read(File file) throws MPXJException
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
-         m_connection = DriverManager.getConnection(url);
+         m_connection = getDatabaseConnection(file);
          m_projectID = Integer.valueOf(1);
-         return (read());
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException("Failed to create connection", ex);
+         return read();
       }
 
       finally
@@ -170,22 +136,68 @@ public final class MPDDatabaseReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   @Override public ProjectFile read(File file) throws MPXJException
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return (read(file.getAbsolutePath()));
+      try
+      {
+         m_connection = getDatabaseConnection(file);
+         List<ProjectFile> result = new ArrayList<>();
+         Set<Integer> ids = listProjects().keySet();
+         for (Integer id : ids)
+         {
+            m_projectID = id;
+            result.add(read());
+         }
+         return result;
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
    }
 
    /**
-    * {@inheritDoc}
+    * Create and configure a JDBC/ODBC bridge connection.
+    *
+    * @param file database file to open
+    * @return database connection
     */
-   @Override public ProjectFile read(InputStream inputStream)
+   private Connection getDatabaseConnection(File file) throws MPXJException
    {
-      throw new UnsupportedOperationException();
+      try
+      {
+         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
+         return DriverManager.getConnection(url);
+      }
+
+      catch (ClassNotFoundException ex)
+      {
+         throw new MPXJException("Failed to load JDBC driver", ex);
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException("Failed to create connection", ex);
+      }
+   }
+
+   /**
+    * Create, configure, and return an MPD9DatabaseReader instance.
+    *
+    * @return MPD9DatabaseReader instance
+    */
+   private MPD9DatabaseReader getReader()
+   {
+      MPD9DatabaseReader reader = new MPD9DatabaseReader();
+      reader.setDataSource(m_dataSource);
+      reader.setConnection(m_connection);
+      return reader;
    }
 
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_preserveNoteFormatting;
-   private List<ProjectListener> m_projectListeners;
 }

@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -40,27 +41,14 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a text-based Asta PP file.
  */
-final class AstaTextFileReader extends AbstractProjectReader
+final class AstaTextFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -70,7 +58,7 @@ final class AstaTextFileReader extends AbstractProjectReader
       {
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
-         project.getEventManager().addProjectListeners(m_projectListeners);
+         addListenersToProject(project);
 
          m_tables = new HashMap<>();
 
@@ -95,6 +83,14 @@ final class AstaTextFileReader extends AbstractProjectReader
       {
          m_reader = null;
       }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -430,7 +426,6 @@ final class AstaTextFileReader extends AbstractProjectReader
    }
 
    private AstaReader m_reader;
-   private List<ProjectListener> m_projectListeners;
    private Map<String, List<Row>> m_tables;
    private Map<Integer, TableDefinition> m_tableDefinitions;
    private boolean m_epochDateFormat;

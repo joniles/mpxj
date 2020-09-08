@@ -27,7 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,26 +36,13 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
  * Read the contents of an SDEF file.
  */
-public final class SDEFReader extends AbstractProjectReader
+public final class SDEFReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override public void addProjectListener(ProjectListener listener)
-   {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -80,7 +67,7 @@ public final class SDEFReader extends AbstractProjectReader
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");
 
-      context.getEventManager().addProjectListeners(m_projectListeners);
+      addListenersToProject(project);
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -98,6 +85,14 @@ public final class SDEFReader extends AbstractProjectReader
       }
 
       return project;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Arrays.asList(read(inputStream));
    }
 
    /**
@@ -138,8 +133,6 @@ public final class SDEFReader extends AbstractProjectReader
 
       return true;
    }
-
-   private List<ProjectListener> m_projectListeners;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static
