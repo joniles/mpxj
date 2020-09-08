@@ -193,7 +193,7 @@ public class ProjectExplorer
 
             catch (MPXJException ex)
             {
-               throw new IllegalArgumentException("Failed to read file");
+               throw new IllegalArgumentException("Failed to read file", ex);
             }
          }
       });
@@ -223,7 +223,7 @@ public class ProjectExplorer
 
             catch (MPXJException ex)
             {
-               throw new IllegalArgumentException("Failed to read file");
+               throw new IllegalArgumentException("Failed to read file", ex);
             }
          }
       });
