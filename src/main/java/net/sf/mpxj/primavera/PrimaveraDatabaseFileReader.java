@@ -40,7 +40,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  * This class provides a generic front end to read project data from
  * a SQLite-based Primavera database.
  */
-
 public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
 {
    /**
@@ -137,6 +136,12 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
       }
    }
 
+   /**
+    * Open a database connection to the database file.
+    * 
+    * @param file database file
+    * @return database connection
+    */
    private Connection getDatabaseConnection(File file) throws SQLException
    {
       String url = "jdbc:sqlite:" + file.getAbsolutePath();
