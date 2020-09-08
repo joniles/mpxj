@@ -54,7 +54,7 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
    {
       return readAll(new File(fileName));
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -106,5 +106,5 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       {
          AutoCloseableHelper.closeQuietly(fis);
       }
-   }  
+   }
 }

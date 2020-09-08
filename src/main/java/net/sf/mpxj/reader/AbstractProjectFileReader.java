@@ -79,11 +79,11 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
          FileHelper.deleteQuietly(tempFile);
       }
    }
-      
+
    /**
     * Default implementation of readAll to support file
     * formats which do not contain multiple schedules.
-    */   
+    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       File tempFile = null;

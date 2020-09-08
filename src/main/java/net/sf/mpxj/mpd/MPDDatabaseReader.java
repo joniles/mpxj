@@ -142,7 +142,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       {
          m_connection = getDatabaseConnection(file);
          List<ProjectFile> result = new ArrayList<>();
-         Set<Integer> ids = listProjects().keySet();         
+         Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
          {
             m_projectID = id;
@@ -150,7 +150,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
          }
          return result;
       }
-      
+
       finally
       {
          AutoCloseableHelper.closeQuietly(m_connection);
@@ -159,7 +159,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Create and configure a JDBC/ODBC bridge connection.
-    * 
+    *
     * @param file database file to open
     * @return database connection
     */
@@ -185,7 +185,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Create, configure, and return an MPD9DatabaseReader instance.
-    * 
+    *
     * @return MPD9DatabaseReader instance
     */
    private MPD9DatabaseReader getReader()
@@ -195,7 +195,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       reader.setConnection(m_connection);
       return reader;
    }
-   
+
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;

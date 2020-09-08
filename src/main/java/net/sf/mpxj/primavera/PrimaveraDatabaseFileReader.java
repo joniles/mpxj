@@ -44,14 +44,14 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
 {
    /**
     * Retrieve a map containing details of the projects available in this database.
-    * 
+    *
     * @param file database file
     * @return map of project ids and names
     */
    public Map<Integer, String> listProjects(File file) throws MPXJException
    {
-      Connection connection  = null;
-      
+      Connection connection = null;
+
       try
       {
          connection = getDatabaseConnection(file);
@@ -86,8 +86,8 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
     */
    @Override public ProjectFile read(File file) throws MPXJException
    {
-      Connection connection  = null;
-      
+      Connection connection = null;
+
       try
       {
          connection = getDatabaseConnection(file);
@@ -114,8 +114,8 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
     */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      Connection connection  = null;
-      
+      Connection connection = null;
+
       try
       {
          connection = getDatabaseConnection(file);
@@ -138,7 +138,7 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
 
    /**
     * Open a database connection to the database file.
-    * 
+    *
     * @param file database file
     * @return database connection
     */
@@ -150,8 +150,8 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
       // Note that we use the JDBC driver class directly here.
       // This ensures that it is an explicit dependency of MPXJ
       // and will work as expected in .Net.
-      return org.sqlite.JDBC.createConnection(url, props);      
+      return org.sqlite.JDBC.createConnection(url, props);
    }
-   
+
    private Integer m_projectID;
 }

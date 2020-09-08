@@ -296,7 +296,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       {
          m_connection = getDatabaseConnection(file);
          List<ProjectFile> result = new ArrayList<>();
-         Set<Integer> ids = listProjects().keySet();         
+         Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
          {
             m_projectID = id;
@@ -304,7 +304,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
          }
          return result;
       }
-      
+
       finally
       {
          AutoCloseableHelper.closeQuietly(m_connection);
@@ -313,7 +313,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Create and configure a JDBC/ODBC bridge connection.
-    * 
+    *
     * @param file database file to open
     * @return database connection
     */

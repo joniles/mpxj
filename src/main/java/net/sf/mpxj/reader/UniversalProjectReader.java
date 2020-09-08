@@ -103,7 +103,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       List<ProjectFile> projects = readInternal(file);
       return projects.isEmpty() ? null : projects.get(0);
    }
-   
+
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       m_readAll = true;
@@ -137,7 +137,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       List<ProjectFile> projects = readInternal(inputStream);
       return projects.isEmpty() ? null : projects.get(0);
    }
-   
+
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       m_readAll = true;
@@ -349,7 +349,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
-      return m_readAll? reader.readAll(stream) : Arrays.asList(reader.read(stream));
+      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
    }
 
    /**
@@ -796,7 +796,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
-   
+
    private static final int BUFFER_SIZE = 512;
 
    private static final byte[] OLE_COMPOUND_DOC_FINGERPRINT =

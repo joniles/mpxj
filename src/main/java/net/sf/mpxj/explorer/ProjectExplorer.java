@@ -98,7 +98,7 @@ public class ProjectExplorer
 
       //
       // Open
-      //      
+      //
       final FileChooserModel fileChooserModel = new FileChooserModel();
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
       @SuppressWarnings("unused")

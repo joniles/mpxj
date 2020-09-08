@@ -131,7 +131,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Retrieve a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
-    * 
+    *
     * @return true if cross project relations should be linked
     */
    public boolean getLinkCrossProjectRelations()
@@ -142,7 +142,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Sets a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
-    * 
+    *
     * @param linkCrossProjectRelations true if cross project relations should be linked
     */
    public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
@@ -192,9 +192,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ProjectType> projects = apibo.getProject();
       List<ProjectFile> result = new ArrayList<>(projects.size());
       projects.forEach(project -> result.add(read(apibo, project)));
-      
+
       // Sort to ensure exported project is first
-      result.sort((o1, o2)->Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+      result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
       if (m_linkCrossProjectRelations)
       {

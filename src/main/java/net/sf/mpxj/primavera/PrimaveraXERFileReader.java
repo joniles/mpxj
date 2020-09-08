@@ -91,7 +91,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    /**
     * Retrieve a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
-    * 
+    *
     * @return true if cross project relations should be linked
     */
    public boolean getLinkCrossProjectRelations()
@@ -102,7 +102,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    /**
     * Sets a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
-    * 
+    *
     * @param linkCrossProjectRelations true if cross project relations should be linked
     */
    public void setLinkCrossProjectRelations(boolean linkCrossProjectRelations)
@@ -150,8 +150,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          }
 
          // Sort to ensure exported project is first
-         result.sort((o1, o2)->Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
-         
+         result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+
          if (m_linkCrossProjectRelations)
          {
             for (ExternalRelation externalRelation : externalRelations)
@@ -965,7 +965,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
-   
+
    /**
     * Represents expected record types.
     */

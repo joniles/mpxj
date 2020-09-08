@@ -70,15 +70,15 @@ public abstract class AbstractProjectReader implements ProjectReader
          m_projectListeners.forEach(l -> reader.addProjectListener(l));
       }
    }
-   
+
    /**
     * Default "do nothing" implementation, as most readers do not need
-    * to be provided with an explicit encoding. 
+    * to be provided with an explicit encoding.
     */
    @Override public void setCharset(Charset charset)
    {
       // default implementatoin - do nothing
    }
-   
+
    private List<ProjectListener> m_projectListeners;
 }

@@ -63,7 +63,7 @@ public interface ProjectReader
     * @throws MPXJException
     */
    public List<ProjectFile> readAll(String fileName) throws MPXJException;
-   
+
    /**
     * Read a single schedule from a file where a File instance is supplied.
     *
@@ -81,7 +81,7 @@ public interface ProjectReader
     * @throws MPXJException
     */
    public List<ProjectFile> readAll(File file) throws MPXJException;
-   
+
    /**
     * Read a single schedule from a file where the contents of the project file
     * are supplied via an input stream.
@@ -101,12 +101,12 @@ public interface ProjectReader
     * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
-   
+
    /**
     * Some readers will be sensitive to the encoding of the file they are reading.
     * If this is applicable, this method can be called to set the encoding to
     * use when reading a file.
-    * 
+    *
     * @param charset encoding to use when reading a file
     */
    public void setCharset(Charset charset);
