@@ -6,6 +6,9 @@
 * Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.
 * Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.
 * Set export flag property when reading projects from a PMXML file.
+* Corrected data type of resource assignment Work Contour field.
+* Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.
+* Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.
 
 ## 8.1.4 (31/08/2020)
 * Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)

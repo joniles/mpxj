@@ -131,7 +131,7 @@ public enum TaskField implements FieldType
    FLAG9(DataType.BOOLEAN),
    FLAG10(DataType.BOOLEAN),
    ROLLUP(DataType.BOOLEAN),
-   CV(DataType.NUMERIC),
+   CV(DataType.CURRENCY),
    PROJECT(DataType.STRING),
    OUTLINE_LEVEL(DataType.SHORT),
    UNIQUE_ID(DataType.INTEGER),
@@ -161,7 +161,7 @@ public enum TaskField implements FieldType
    UPDATE_NEEDED(DataType.BOOLEAN),
    CONTACT(DataType.STRING),
    RESOURCE_GROUP(DataType.STRING),
-   ACWP(DataType.NUMERIC),
+   ACWP(DataType.CURRENCY),
    TYPE(DataType.TASK_TYPE),
    RECURRING(DataType.BOOLEAN),
    EFFORT_DRIVEN(DataType.BOOLEAN),
@@ -186,7 +186,7 @@ public enum TaskField implements FieldType
    TEAMSTATUS_PENDING(DataType.BOOLEAN),
    LEVELING_CAN_SPLIT(DataType.BOOLEAN),
    LEVEL_ASSIGNMENTS(DataType.BOOLEAN),
-   WORK_CONTOUR(DataType.STRING),
+   WORK_CONTOUR(DataType.WORK_CONTOUR),
    COST4(DataType.CURRENCY),
    COST5(DataType.CURRENCY),
    COST6(DataType.CURRENCY),
@@ -288,7 +288,7 @@ public enum TaskField implements FieldType
    DEADLINE(DataType.DATE),
    START_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    FINISH_SLACK(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
-   VAC(DataType.NUMERIC),
+   VAC(DataType.CURRENCY),
    GROUP_BY_SUMMARY(DataType.STRING),
    WBS_PREDECESSORS(DataType.RELATION_LIST),
    WBS_SUCCESSORS(DataType.RELATION_LIST),
@@ -631,7 +631,7 @@ public enum TaskField implements FieldType
    BASELINE10_DELIVERABLE_FINISH(DataType.DATE),
    BASELINE10_DELIVERABLE_START(DataType.DATE),
 
-   CPI(DataType.STRING), // Check data type
+   CPI(DataType.NUMERIC),
    CVPERCENT(DataType.PERCENTAGE),
    DELIVERABLE_FINISH(DataType.DATE),
    DELIVERABLE_GUID(DataType.GUID),
@@ -639,7 +639,7 @@ public enum TaskField implements FieldType
    DELIVERABLE_START(DataType.DATE),
    DELIVERABLE_TYPE(DataType.STRING), // Check data type
 
-   EAC(DataType.STRING), // Check data type
+   EAC(DataType.CURRENCY),
    EARNED_VALUE_METHOD(DataType.EARNED_VALUE_METHOD),
    ERROR_MESSAGE(DataType.STRING),
 
@@ -652,14 +652,14 @@ public enum TaskField implements FieldType
    SCHEDULED_DURATION(DataType.DURATION, TaskField.ACTUAL_DURATION_UNITS),
    SCHEDULED_FINISH(DataType.DATE),
    SCHEDULED_START(DataType.DATE),
-   SPI(DataType.STRING), // Check data type
+   SPI(DataType.NUMERIC),
    STATUS(DataType.STRING), // Check data type
    STATUS_INDICATOR(DataType.STRING), // Check data type
    STATUS_MANAGER(DataType.STRING), // Check data type
    SVPERCENT(DataType.PERCENTAGE),
    TASK_CALENDAR(DataType.STRING), // Check data type
    TASK_CALENDAR_GUID(DataType.GUID),
-   TCPI(DataType.STRING), // Check data type
+   TCPI(DataType.NUMERIC),
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
    SPLITS(DataType.DATE_RANGE_LIST),

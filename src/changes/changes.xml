@@ -11,6 +11,9 @@
 			<action dev="joniles" type="update">Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.</action>
 			<action dev="joniles" type="update">Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.</action>
 			<action dev="joniles" type="update">Set export flag property when reading projects from a PMXML file.</action>
+			<action dev="joniles" type="update">Corrected data type of resource assignment Work Contour field.</action>
+			<action dev="joniles" type="update">Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.</action>
+			<action dev="joniles" type="update">Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.</action>
 		</release>	
 		<release date="31/08/2020" version="8.1.4">
 			<action dev="joniles" type="update">Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
