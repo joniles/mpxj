@@ -98,12 +98,26 @@
 <dd>
 <div class="block">Constructor.</div>
 </dd>
+<dt><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader"><span class="typeNameLink">AbstractProjectFileReader</span></a> - Class in <a href="net/sf/mpxj/reader/package-summary.html">net.sf.mpxj.reader</a></dt>
+<dd>
+<div class="block">Abstract implementation of the ProjectReader interface
+ for readers which consume a file.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html#AbstractProjectFileReader--">AbstractProjectFileReader()</a></span> - Constructor for class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader"><span class="typeNameLink">AbstractProjectReader</span></a> - Class in <a href="net/sf/mpxj/reader/package-summary.html">net.sf.mpxj.reader</a></dt>
 <dd>
 <div class="block">Abstract implementation of the ProjectReader interface
- which supplies implementations of the trivial read methods.</div>
+ for readers which consume a file.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#AbstractProjectReader--">AbstractProjectReader()</a></span> - Constructor for class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader"><span class="typeNameLink">AbstractProjectStreamReader</span></a> - Class in <a href="net/sf/mpxj/reader/package-summary.html">net.sf.mpxj.reader</a></dt>
+<dd>
+<div class="block">Abstract implementation of the ProjectReader interface
+ for readers which consume a stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html#AbstractProjectStreamReader--">AbstractProjectStreamReader()</a></span> - Constructor for class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="net/sf/mpxj/writer/AbstractProjectWriter.html" title="class in net.sf.mpxj.writer"><span class="typeNameLink">AbstractProjectWriter</span></a> - Class in <a href="net/sf/mpxj/writer/package-summary.html">net.sf.mpxj.writer</a></dt>
 <dd>
@@ -316,6 +330,14 @@
 <dd>
 <div class="block">Adds a clause to the group definition.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToProject-net.sf.mpxj.ProjectFile-">addListenersToProject(ProjectFile)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dd>
+<div class="block">Common method to add listeners to a project.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToReader-net.sf.mpxj.reader.ProjectReader-">addListenersToReader(ProjectReader)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dd>
+<div class="block">Common method to add listeners to a reader.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/GraphicalIndicator.html#addNonSummaryRowCriteria-net.sf.mpxj.GraphicalIndicatorCriteria-">addNonSummaryRowCriteria(GraphicalIndicatorCriteria)</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/GraphicalIndicator.html" title="class in net.sf.mpxj">GraphicalIndicator</a></dt>
 <dd>
 <div class="block">Add criteria relating to non summary rows.</div>
@@ -325,117 +347,21 @@
 <div class="block">This method allows a predecessor relationship to be added to this
  task instance.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaFileReader.html" title="class in net.sf.mpxj.asta">AstaFileReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.conceptdraw.<a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html" title="class in net.sf.mpxj.conceptdraw">ConceptDrawProjectReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/EventManager.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/EventManager.html" title="class in net.sf.mpxj">EventManager</a></dt>
 <dd>
 <div class="block">Adds a listener to this project file.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/fasttrack/FastTrackReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.fasttrack.<a href="net/sf/mpxj/fasttrack/FastTrackReader.html" title="class in net.sf.mpxj.fasttrack">FastTrackReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.ganttdesigner.<a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html" title="class in net.sf.mpxj.ganttdesigner">GanttDesignerReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttproject/GanttProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.ganttproject.<a href="net/sf/mpxj/ganttproject/GanttProjectReader.html" title="class in net.sf.mpxj.ganttproject">GanttProjectReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/merlin/MerlinReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.merlin.<a href="net/sf/mpxj/merlin/MerlinReader.html" title="class in net.sf.mpxj.merlin">MerlinReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPD9DatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPD9DatabaseReader.html" title="class in net.sf.mpxj.mpd">MPD9DatabaseReader</a></dt>
 <dd>
 <div class="block">Add a listener to receive events as a project is being read.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpp/MPPReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPReader.html" title="class in net.sf.mpxj.mpp">MPPReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpx/MPXReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.mpx.<a href="net/sf/mpxj/mpx/MPXReader.html" title="class in net.sf.mpxj.mpx">MPXReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mspdi/MSPDIReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.mspdi.<a href="net/sf/mpxj/mspdi/MSPDIReader.html" title="class in net.sf.mpxj.mspdi">MSPDIReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/phoenix/PhoenixReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.phoenix.<a href="net/sf/mpxj/phoenix/PhoenixReader.html" title="class in net.sf.mpxj.phoenix">PhoenixReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/planner/PlannerReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.planner.<a href="net/sf/mpxj/planner/PlannerReader.html" title="class in net.sf.mpxj.planner">PlannerReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html" title="class in net.sf.mpxj.primavera.p3">P3DatabaseReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html" title="class in net.sf.mpxj.primavera.p3">P3PRXFileReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakDatabaseReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakSTXFileReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.projectcommander.<a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html" title="class in net.sf.mpxj.projectcommander">ProjectCommanderReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.projectlibre.<a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html" title="class in net.sf.mpxj.projectlibre">ProjectLibreReader</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dd>
+<div class="block">Add a listener to receive events as a project is being read.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/sage/SageReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.sage.<a href="net/sf/mpxj/sage/SageReader.html" title="class in net.sf.mpxj.sage">SageReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/sdef/SDEFReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.sdef.<a href="net/sf/mpxj/sdef/SDEFReader.html" title="class in net.sf.mpxj.sdef">SDEFReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/synchro/SynchroReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.synchro.<a href="net/sf/mpxj/synchro/SynchroReader.html" title="class in net.sf.mpxj.synchro">SynchroReader</a></dt>
-<dd>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/turboproject/TurboProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener(ProjectListener)</a></span> - Method in class net.sf.mpxj.turboproject.<a href="net/sf/mpxj/turboproject/TurboProjectReader.html" title="class in net.sf.mpxj.turboproject">TurboProjectReader</a></dt>
 <dd>
 <div class="block">Add a listener to receive events as a project is being read.</div>
 </dd>
@@ -4732,10 +4658,6 @@
 <dd>
 <div class="block">This method reads a four byte integer from the input array.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html#getInt-byte:A-int-">getInt(byte[], int)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakSTXFileReader</a></dt>
-<dd>
-<div class="block">Retrieve a four byte integer.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/common/NumberHelper.html#getInteger-java.lang.Number-">getInteger(Number)</a></span> - Static method in class net.sf.mpxj.common.<a href="net/sf/mpxj/common/NumberHelper.html" title="class in net.sf.mpxj.common">NumberHelper</a></dt>
 <dd>
 <div class="block">Utility method used to convert an arbitrary Number into an Integer.</div>
@@ -4859,6 +4781,16 @@
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/Task.html#getLevelingDelayFormat--">getLevelingDelayFormat()</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a></dt>
 <dd>
 <div class="block">Retrieve the leveling delay format.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#getLinkCrossProjectRelations--">getLinkCrossProjectRelations()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
+<dd>
+<div class="block">Retrieve a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getLinkCrossProjectRelations--">getLinkCrossProjectRelations()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
+<dd>
+<div class="block">Retrieve a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/Resource.html#getLinkedFields--">getLinkedFields()</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></dt>
 <dd>
@@ -6235,14 +6167,6 @@
 <dd>
 <div class="block">Retrieves the schedule ID.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#getSchema--">getSchema()</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>
-<div class="block">Retrieve the name of the schema containing the Primavera tables.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#getSchema--">getSchema()</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
-<dd>
-<div class="block">Retrieve the name of the schema containing the schedule tables.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#getSchema--">getSchema()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
 <div class="block">Retrieve the name of the schema containing the Primavera tables.</div>
@@ -6540,10 +6464,6 @@
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/common/MapRow.html#getString-java.lang.String-">getString(String)</a></span> - Method in class net.sf.mpxj.primavera.common.<a href="net/sf/mpxj/primavera/common/MapRow.html" title="class in net.sf.mpxj.primavera.common">MapRow</a></dt>
 <dd>
 <div class="block">Retrieve a string value.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html#getString-byte:A-int-">getString(byte[], int)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakSTXFileReader</a></dt>
-<dd>
-<div class="block">Retrieve a string from the byte array.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/LocaleData.html#getStringArray-java.util.Locale-java.lang.String-">getStringArray(Locale, String)</a></span> - Static method in class net.sf.mpxj.<a href="net/sf/mpxj/LocaleData.html" title="class in net.sf.mpxj">LocaleData</a></dt>
 <dd>
@@ -8061,6 +7981,10 @@
 <div class="block">Populates a Map instance representing the IDs and names of
  projects available in the current database.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html#listProjects-java.io.File-">listProjects(File)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></dt>
+<dd>
+<div class="block">Retrieve a map containing details of the projects available in this database.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#listProjects--">listProjects()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
 <div class="block">Populates a Map instance representing the IDs and names of
@@ -8082,7 +8006,7 @@
 <dd>
 <div class="block">Command to load a file.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/explorer/ProjectTreeController.html#loadFile-java.io.File-">loadFile(File)</a></span> - Method in class net.sf.mpxj.explorer.<a href="net/sf/mpxj/explorer/ProjectTreeController.html" title="class in net.sf.mpxj.explorer">ProjectTreeController</a></dt>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/explorer/ProjectTreeController.html#loadFile-net.sf.mpxj.ProjectFile-">loadFile(ProjectFile)</a></span> - Method in class net.sf.mpxj.explorer.<a href="net/sf/mpxj/explorer/ProjectTreeController.html" title="class in net.sf.mpxj.explorer">ProjectTreeController</a></dt>
 <dd>
 <div class="block">Command to load a file.</div>
 </dd>
@@ -9470,6 +9394,13 @@
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/sample/PrimaveraConvert.html#PrimaveraConvert--">PrimaveraConvert()</a></span> - Constructor for class net.sf.mpxj.sample.<a href="net/sf/mpxj/sample/PrimaveraConvert.html" title="class in net.sf.mpxj.sample">PrimaveraConvert</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera"><span class="typeNameLink">PrimaveraDatabaseFileReader</span></a> - Class in <a href="net/sf/mpxj/primavera/package-summary.html">net.sf.mpxj.primavera</a></dt>
+<dd>
+<div class="block">This class provides a generic front end to read project data from
+ a SQLite-based Primavera database.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html#PrimaveraDatabaseFileReader--">PrimaveraDatabaseFileReader()</a></span> - Constructor for class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera"><span class="typeNameLink">PrimaveraDatabaseReader</span></a> - Class in <a href="net/sf/mpxj/primavera/package-summary.html">net.sf.mpxj.primavera</a></dt>
 <dd>
 <div class="block">This class provides a generic front end to read project data from
@@ -10113,7 +10044,7 @@
 <dd>
 <div class="block">Component representing the main view of a project file.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/explorer/ProjectFilePanel.html#ProjectFilePanel-java.io.File-">ProjectFilePanel(File)</a></span> - Constructor for class net.sf.mpxj.explorer.<a href="net/sf/mpxj/explorer/ProjectFilePanel.html" title="class in net.sf.mpxj.explorer">ProjectFilePanel</a></dt>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/explorer/ProjectFilePanel.html#ProjectFilePanel-net.sf.mpxj.ProjectFile-">ProjectFilePanel(ProjectFile)</a></span> - Constructor for class net.sf.mpxj.explorer.<a href="net/sf/mpxj/explorer/ProjectFilePanel.html" title="class in net.sf.mpxj.explorer">ProjectFilePanel</a></dt>
 <dd>
 <div class="block">Constructor.</div>
 </dd>
@@ -10210,16 +10141,10 @@
 <div class="block">This constructor builds an instance of this class from a currency
  amount and a time unit.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>
-<div class="block">Read a file where the file name is supplied.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#read--">read()</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
 <dd>
 <div class="block">Read a project from the current data source.</div>
@@ -10228,23 +10153,13 @@
 <dd>
 <div class="block">Read a project from the current data source.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
-<dd>
-<div class="block">This is a convenience method which reads the first project
- from the named Asta MDB file using the JDBC-ODBC bridge driver.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
-<dd>
-<div class="block">Read a file where the contents of the project file
- are supplied via an input stream.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaFileReader.html" title="class in net.sf.mpxj.asta">AstaFileReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/common/FixedLengthInputStream.html#read--">read()</a></span> - Method in class net.sf.mpxj.common.<a href="net/sf/mpxj/common/FixedLengthInputStream.html" title="class in net.sf.mpxj.common">FixedLengthInputStream</a></dt>
@@ -10270,44 +10185,26 @@
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.conceptdraw.<a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html" title="class in net.sf.mpxj.conceptdraw">ConceptDrawProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
- are supplied via an input stream.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/fasttrack/FastTrackReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.fasttrack.<a href="net/sf/mpxj/fasttrack/FastTrackReader.html" title="class in net.sf.mpxj.fasttrack">FastTrackReader</a></dt>
-<dd>
-<div class="block">Read a file where the file name is supplied.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/fasttrack/FastTrackReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.fasttrack.<a href="net/sf/mpxj/fasttrack/FastTrackReader.html" title="class in net.sf.mpxj.fasttrack">FastTrackReader</a></dt>
-<dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/fasttrack/FastTrackReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.fasttrack.<a href="net/sf/mpxj/fasttrack/FastTrackReader.html" title="class in net.sf.mpxj.fasttrack">FastTrackReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.ganttdesigner.<a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html" title="class in net.sf.mpxj.ganttdesigner">GanttDesignerReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttproject/GanttProjectReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.ganttproject.<a href="net/sf/mpxj/ganttproject/GanttProjectReader.html" title="class in net.sf.mpxj.ganttproject">GanttProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/merlin/MerlinReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.merlin.<a href="net/sf/mpxj/merlin/MerlinReader.html" title="class in net.sf.mpxj.merlin">MerlinReader</a></dt>
-<dd>
-<div class="block">Read a file where the contents of the project file
- are supplied via an input stream.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/merlin/MerlinReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.merlin.<a href="net/sf/mpxj/merlin/MerlinReader.html" title="class in net.sf.mpxj.merlin">MerlinReader</a></dt>
-<dd>
-<div class="block">Read a file where the file name is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/merlin/MerlinReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.merlin.<a href="net/sf/mpxj/merlin/MerlinReader.html" title="class in net.sf.mpxj.merlin">MerlinReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPD9DatabaseReader.html#read--">read()</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPD9DatabaseReader.html" title="class in net.sf.mpxj.mpd">MPD9DatabaseReader</a></dt>
 <dd>
@@ -10317,23 +10214,13 @@
 <dd>
 <div class="block">Read project data from a database.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
-<dd>
-<div class="block">This is a convenience method which reads the first project
- from the named MPD file using the JDBC-ODBC bridge driver.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
-<dd>
-<div class="block">Read a file where the contents of the project file
- are supplied via an input stream.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpp/MPPReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPReader.html" title="class in net.sf.mpxj.mpp">MPPReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpp/MPPReader.html#read-org.apache.poi.poifs.filesystem.POIFSFileSystem-">read(POIFSFileSystem)</a></span> - Method in class net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPReader.html" title="class in net.sf.mpxj.mpp">MPPReader</a></dt>
@@ -10343,24 +10230,24 @@
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpx/MPXReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.mpx.<a href="net/sf/mpxj/mpx/MPXReader.html" title="class in net.sf.mpxj.mpx">MPXReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mspdi/MSPDIReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.mspdi.<a href="net/sf/mpxj/mspdi/MSPDIReader.html" title="class in net.sf.mpxj.mspdi">MSPDIReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/phoenix/PhoenixInputStream.html#read--">read()</a></span> - Method in class net.sf.mpxj.phoenix.<a href="net/sf/mpxj/phoenix/PhoenixInputStream.html" title="class in net.sf.mpxj.phoenix">PhoenixInputStream</a></dt>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/phoenix/PhoenixReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.phoenix.<a href="net/sf/mpxj/phoenix/PhoenixReader.html" title="class in net.sf.mpxj.phoenix">PhoenixReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/phoenix/SkipNulInputStream.html#read--">read()</a></span> - Method in class net.sf.mpxj.phoenix.<a href="net/sf/mpxj/phoenix/SkipNulInputStream.html" title="class in net.sf.mpxj.phoenix">SkipNulInputStream</a></dt>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/planner/PlannerReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.planner.<a href="net/sf/mpxj/planner/PlannerReader.html" title="class in net.sf.mpxj.planner">PlannerReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/common/ByteColumn.html#read-int-byte:A-">read(int, byte[])</a></span> - Method in class net.sf.mpxj.primavera.common.<a href="net/sf/mpxj/primavera/common/ByteColumn.html" title="class in net.sf.mpxj.primavera.common">ByteColumn</a></dt>
@@ -10375,76 +10262,81 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/common/StringColumn.html#read-int-byte:A-">read(int, byte[])</a></span> - Method in class net.sf.mpxj.primavera.common.<a href="net/sf/mpxj/primavera/common/StringColumn.html" title="class in net.sf.mpxj.primavera.common">StringColumn</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html" title="class in net.sf.mpxj.primavera.p3">P3DatabaseReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html" title="class in net.sf.mpxj.primavera.p3">P3DatabaseReader</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html" title="class in net.sf.mpxj.primavera.p3">P3DatabaseReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html" title="class in net.sf.mpxj.primavera.p3">P3PRXFileReader</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></dt>
+<dd>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#read--">read()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
 <div class="block">Read a project from the current data source.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
-<div class="block">Read a file where the file name is supplied.</div>
+<div class="block">Read a single schedule from a file where the file name is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakDatabaseReader</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakDatabaseReader</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakDatabaseReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakSTXFileReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.projectcommander.<a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html" title="class in net.sf.mpxj.projectcommander">ProjectCommanderReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.projectlibre.<a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html" title="class in net.sf.mpxj.projectlibre">ProjectLibreReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/projectlibre/SearchableInputStream.html#read--">read()</a></span> - Method in class net.sf.mpxj.projectlibre.<a href="net/sf/mpxj/projectlibre/SearchableInputStream.html" title="class in net.sf.mpxj.projectlibre">SearchableInputStream</a></dt>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></dt>
 <dd>
-<div class="block">Read a file where the file name is supplied.</div>
+<div class="block">Read a single schedule from a file where the file name is supplied.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></dt>
+<dd>
+<div class="block">Read a single schedule from a file where the file name is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></dt>
+<dd>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#read-java.lang.String-">read(String)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where the file name is supplied.</div>
+<div class="block">Read a single schedule from a file where the file name is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#read-java.io.File-">read(File)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where a File instance is supplied.</div>
+<div class="block">Read a single schedule from a file where a File instance is supplied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#read-java.lang.String-">read(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
@@ -10452,37 +10344,126 @@
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#read-java.io.File-">read(File)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
-<dd>
-<div class="block">Note that this method returns null if we can't determine the file type.</div>
-</dd>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/sage/SageReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.sage.<a href="net/sf/mpxj/sage/SageReader.html" title="class in net.sf.mpxj.sage">SageReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/sdef/SDEFReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.sdef.<a href="net/sf/mpxj/sdef/SDEFReader.html" title="class in net.sf.mpxj.sdef">SDEFReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/synchro/SynchroReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.synchro.<a href="net/sf/mpxj/synchro/SynchroReader.html" title="class in net.sf.mpxj.synchro">SynchroReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/turboproject/TurboProjectReader.html#read-java.io.InputStream-">read(InputStream)</a></span> - Method in class net.sf.mpxj.turboproject.<a href="net/sf/mpxj/turboproject/TurboProjectReader.html" title="class in net.sf.mpxj.turboproject">TurboProjectReader</a></dt>
 <dd>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/MPXJException.html#READ_ERROR">READ_ERROR</a></span> - Static variable in exception net.sf.mpxj.<a href="net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></dt>
 <dd>
 <div class="block">Read error message.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaFileReader.html" title="class in net.sf.mpxj.asta">AstaFileReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.conceptdraw.<a href="net/sf/mpxj/conceptdraw/ConceptDrawProjectReader.html" title="class in net.sf.mpxj.conceptdraw">ConceptDrawProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/fasttrack/FastTrackReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.fasttrack.<a href="net/sf/mpxj/fasttrack/FastTrackReader.html" title="class in net.sf.mpxj.fasttrack">FastTrackReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.ganttdesigner.<a href="net/sf/mpxj/ganttdesigner/GanttDesignerReader.html" title="class in net.sf.mpxj.ganttdesigner">GanttDesignerReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/ganttproject/GanttProjectReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.ganttproject.<a href="net/sf/mpxj/ganttproject/GanttProjectReader.html" title="class in net.sf.mpxj.ganttproject">GanttProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/merlin/MerlinReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.merlin.<a href="net/sf/mpxj/merlin/MerlinReader.html" title="class in net.sf.mpxj.merlin">MerlinReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpp/MPPReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPReader.html" title="class in net.sf.mpxj.mpp">MPPReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/mpx/MPXReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.mpx.<a href="net/sf/mpxj/mpx/MPXReader.html" title="class in net.sf.mpxj.mpx">MPXReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/mspdi/MSPDIReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.mspdi.<a href="net/sf/mpxj/mspdi/MSPDIReader.html" title="class in net.sf.mpxj.mspdi">MSPDIReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/phoenix/PhoenixReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.phoenix.<a href="net/sf/mpxj/phoenix/PhoenixReader.html" title="class in net.sf.mpxj.phoenix">PhoenixReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/planner/PlannerReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.planner.<a href="net/sf/mpxj/planner/PlannerReader.html" title="class in net.sf.mpxj.planner">PlannerReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3DatabaseReader.html" title="class in net.sf.mpxj.primavera.p3">P3DatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.p3.<a href="net/sf/mpxj/primavera/p3/P3PRXFileReader.html" title="class in net.sf.mpxj.primavera.p3">P3PRXFileReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#readAll--">readAll()</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>
 <div class="block">Convenience method which allows all projects in the database to
  be read in a single operation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#readAll-java.lang.String-">readAll(String)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the file name is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
 <dd>
@@ -10491,8 +10472,9 @@
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#readAll-java.io.InputStream-boolean-">readAll(InputStream, boolean)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
 <dd>
-<div class="block">This is a convenience method which allows all projects in a
- PMXML file to be read in a single pass.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">use setLinkCrossProjectRelations(flag) and readAll(is) instead</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
 <dd>
@@ -10501,8 +10483,87 @@
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#readAll-java.io.InputStream-boolean-">readAll(InputStream, boolean)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
 <dd>
-<div class="block">This is a convenience method which allows all projects in an
- XER file to be read in a single pass.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">use setLinkCrossProjectRelations(flag) and readAll(is) instead</span></div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakDatabaseReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakDatabaseReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.primavera.suretrak.<a href="net/sf/mpxj/primavera/suretrak/SureTrakSTXFileReader.html" title="class in net.sf.mpxj.primavera.suretrak">SureTrakSTXFileReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.projectcommander.<a href="net/sf/mpxj/projectcommander/ProjectCommanderReader.html" title="class in net.sf.mpxj.projectcommander">ProjectCommanderReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.projectlibre.<a href="net/sf/mpxj/projectlibre/ProjectLibreReader.html" title="class in net.sf.mpxj.projectlibre">ProjectLibreReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html#readAll-java.lang.String-">readAll(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></dt>
+<dd>
+<div class="block">Default implementation of readAll to support file
+ formats which do not contain multiple schedules.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectFileReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectFileReader.html" title="class in net.sf.mpxj.reader">AbstractProjectFileReader</a></dt>
+<dd>
+<div class="block">Default implementation of readAll to support file
+ formats which do not contain multiple schedules.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.lang.String-">readAll(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></dt>
+<dd>
+<div class="block">Default implementation of readAll to support file
+ formats which do not contain multiple schedules.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></dt>
+<dd>
+<div class="block">Default implementation of readAll to support file
+ formats which do not contain multiple schedules.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#readAll-java.lang.String-">readAll(String)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the file name is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where a File instance is supplied.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#readAll-java.lang.String-">readAll(String)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#readAll-java.io.File-">readAll(File)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/UniversalProjectReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/UniversalProjectReader.html" title="class in net.sf.mpxj.reader">UniversalProjectReader</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/sage/SageReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.sage.<a href="net/sf/mpxj/sage/SageReader.html" title="class in net.sf.mpxj.sage">SageReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/sdef/SDEFReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.sdef.<a href="net/sf/mpxj/sdef/SDEFReader.html" title="class in net.sf.mpxj.sdef">SDEFReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/synchro/SynchroReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.synchro.<a href="net/sf/mpxj/synchro/SynchroReader.html" title="class in net.sf.mpxj.synchro">SynchroReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/turboproject/TurboProjectReader.html#readAll-java.io.InputStream-">readAll(InputStream)</a></span> - Method in class net.sf.mpxj.turboproject.<a href="net/sf/mpxj/turboproject/TurboProjectReader.html" title="class in net.sf.mpxj.turboproject">TurboProjectReader</a></dt>
+<dd>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
 </dd>
 <dt><a href="net/sf/mpxj/common/ReaderTokenizer.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">ReaderTokenizer</span></a> - Class in <a href="net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a></dt>
 <dd>
@@ -11504,6 +11565,15 @@
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setCharset-java.nio.charset.Charset-">setCharset(Charset)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
 <dd>
 <div class="block">Alternative way to set the file encoding.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/AbstractProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset(Charset)</a></span> - Method in class net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></dt>
+<dd>
+<div class="block">Default "do nothing" implementation, as most readers do not need
+ to be provided with an explicit encoding.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/reader/ProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset(Charset)</a></span> - Method in interface net.sf.mpxj.reader.<a href="net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></dt>
+<dd>
+<div class="block">Some readers will be sensitive to the encoding of the file they are reading.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/Resource.html#setCode-java.lang.String-">setCode(String)</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></dt>
 <dd>
@@ -12533,6 +12603,16 @@
 <dd>
 <div class="block">Set the leveling delay format.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html#setLinkCrossProjectRelations-boolean-">setLinkCrossProjectRelations(boolean)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraPMFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraPMFileReader</a></dt>
+<dd>
+<div class="block">Sets a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setLinkCrossProjectRelations-boolean-">setLinkCrossProjectRelations(boolean)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraXERFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraXERFileReader</a></dt>
+<dd>
+<div class="block">Sets a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/Resource.html#setLinkedFields-boolean-">setLinkedFields(boolean)</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></dt>
 <dd>
 <div class="block">This field is ignored on import into MS Project.</div>
@@ -13035,15 +13115,15 @@
 <dd>
 <div class="block">Sets the project file path.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#setProjectID-int-">setProjectID(int)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>
-<div class="block">Set the ID of the project to be read.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#setProjectID-int-">setProjectID(int)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
 <dd>
 <div class="block">Set the ID of the project to be read.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/mpd/MPDDatabaseReader.html#setProjectID-int-">setProjectID(int)</a></span> - Method in class net.sf.mpxj.mpd.<a href="net/sf/mpxj/mpd/MPDDatabaseReader.html" title="class in net.sf.mpxj.mpd">MPDDatabaseReader</a></dt>
+<dd>
+<div class="block">Set the ID of the project to be read.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html#setProjectID-int-">setProjectID(int)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseFileReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseFileReader</a></dt>
 <dd>
 <div class="block">Set the ID of the project to be read.</div>
 </dd>
@@ -13311,14 +13391,6 @@
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/ResourceAssignmentWorkgroupFields.html#setScheduleID-java.lang.String-">setScheduleID(String)</a></span> - Method in class net.sf.mpxj.<a href="net/sf/mpxj/ResourceAssignmentWorkgroupFields.html" title="class in net.sf.mpxj">ResourceAssignmentWorkgroupFields</a></dt>
 <dd>
 <div class="block">Sets the schedule ID.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html#setSchema-java.lang.String-">setSchema(String)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseFileReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseFileReader</a></dt>
-<dd>
-<div class="block">Set the name of the schema containing the Primavera tables.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/sf/mpxj/asta/AstaDatabaseReader.html#setSchema-java.lang.String-">setSchema(String)</a></span> - Method in class net.sf.mpxj.asta.<a href="net/sf/mpxj/asta/AstaDatabaseReader.html" title="class in net.sf.mpxj.asta">AstaDatabaseReader</a></dt>
-<dd>
-<div class="block">Set the name of the schema containing the schedule tables.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html#setSchema-java.lang.String-">setSchema(String)</a></span> - Method in class net.sf.mpxj.primavera.<a href="net/sf/mpxj/primavera/PrimaveraDatabaseReader.html" title="class in net.sf.mpxj.primavera">PrimaveraDatabaseReader</a></dt>
 <dd>

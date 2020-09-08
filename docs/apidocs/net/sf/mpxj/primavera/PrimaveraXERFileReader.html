@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":42,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -103,7 +103,12 @@ var activeTableTab = "activeTableTab";
 <li><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">net.sf.mpxj.reader.AbstractProjectReader</a></li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">net.sf.mpxj.reader.AbstractProjectStreamReader</a></li>
+<li>
+<ul class="inheritance">
 <li>net.sf.mpxj.primavera.PrimaveraXERFileReader</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -119,7 +124,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public final class <span class="typeNameLabel">PrimaveraXERFileReader</span>
-extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></pre>
+extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></pre>
 <div class="block">This class creates a new ProjectFile instance by reading a Primavera XER file.</div>
 </li>
 </ul>
@@ -151,39 +156,40 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener</a></span>(<a href="../../../../net/sf/mpxj/listener/ProjectListener.html" title="interface in net.sf.mpxj.listener">ProjectListener</a>&nbsp;listener)</code>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getActivityFieldMap--">getActivityFieldMap</a></span>()</code>
 <div class="block">Customise the data retrieved by this reader by modifying the contents of this map.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getAliases--">getAliases</a></span>()</code>
 <div class="block">Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../net/sf/mpxj/FieldType.html" title="interface in net.sf.mpxj">FieldType</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getAssignmentFieldMap--">getAssignmentFieldMap</a></span>()</code>
 <div class="block">Customise the data retrieved by this reader by modifying the contents of this map.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="../../../../net/sf/mpxj/primavera/XerFieldType.html" title="enum in net.sf.mpxj.primavera">XerFieldType</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getFieldTypeMap--">getFieldTypeMap</a></span>()</code>
 <div class="block">Customise the data retrieved by this reader by modifying the contents of this map.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#getLinkCrossProjectRelations--">getLinkCrossProjectRelations</a></span>()</code>
+<div class="block">Retrieve a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -221,7 +227,7 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#read-java.io.InputStream-">read</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is)</code>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 </td>
 </tr>
@@ -236,8 +242,9 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#readAll-java.io.InputStream-boolean-">readAll</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is,
        boolean&nbsp;linkCrossProjectRelations)</code>
-<div class="block">This is a convenience method which allows all projects in an
- XER file to be read in a single pass.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">use setLinkCrossProjectRelations(flag) and readAll(is) instead</span></div>
+</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -275,17 +282,24 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setLinkCrossProjectRelations-boolean-">setLinkCrossProjectRelations</a></span>(boolean&nbsp;linkCrossProjectRelations)</code>
+<div class="block">Sets a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setMatchPrimaveraWBS-boolean-">setMatchPrimaveraWBS</a></span>(boolean&nbsp;matchPrimaveraWBS)</code>
 <div class="block">If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setProjectID-int-">setProjectID</a></span>(int&nbsp;projectID)</code>
 <div class="block">Set the ID of the project to be read.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileReader.html#setWbsIsFullPath-boolean-">setWbsIsFullPath</a></span>(boolean&nbsp;wbsIsFullPath)</code>
 <div class="block">Sets a flag indicating if the WBS attribute of a summary task
@@ -294,11 +308,18 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </tr>
 </table>
 <ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.reader.AbstractProjectStreamReader">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;net.sf.mpxj.reader.<a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></h3>
+<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.io.File-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.lang.String-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.io.File-">readAll</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.lang.String-">readAll</a></code></li>
+</ul>
+<ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.reader.AbstractProjectReader">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;net.sf.mpxj.reader.<a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></h3>
-<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#read-java.io.File-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#read-java.lang.String-">read</a></code></li>
+<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToProject-net.sf.mpxj.ProjectFile-">addListenersToProject</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToReader-net.sf.mpxj.reader.ProjectReader-">addListenersToReader</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -338,20 +359,6 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="addProjectListener-net.sf.mpxj.listener.ProjectListener-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addProjectListener</h4>
-<pre>public&nbsp;void&nbsp;addProjectListener(<a href="../../../../net/sf/mpxj/listener/ProjectListener.html" title="interface in net.sf.mpxj.listener">ProjectListener</a>&nbsp;listener)</pre>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - ProjectListener instance</dd>
-</dl>
-</li>
-</ul>
 <a name="setProjectID-int-">
 <!--   -->
 </a>
@@ -390,8 +397,42 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <div class="block">Alternative way to set the file encoding. If both an encoding name and a Charset instance
  are supplied, the Charset instance is used.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/reader/ProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset</a></code>&nbsp;in class&nbsp;<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>charset</code> - Charset used when reading the file</dd>
+</dl>
+</li>
+</ul>
+<a name="getLinkCrossProjectRelations--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLinkCrossProjectRelations</h4>
+<pre>public&nbsp;boolean&nbsp;getLinkCrossProjectRelations()</pre>
+<div class="block">Retrieve a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if cross project relations should be linked</dd>
+</dl>
+</li>
+</ul>
+<a name="setLinkCrossProjectRelations-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setLinkCrossProjectRelations</h4>
+<pre>public&nbsp;void&nbsp;setLinkCrossProjectRelations(boolean&nbsp;linkCrossProjectRelations)</pre>
+<div class="block">Sets a flag indicating if, when using `realAll` to retrieve all
+ projects from a file, cross project relations should be linked together.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>linkCrossProjectRelations</code> - true if cross project relations should be linked</dd>
 </dl>
 </li>
 </ul>
@@ -403,7 +444,7 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <h4>read</h4>
 <pre>public&nbsp;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&nbsp;read(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is)
                  throws <a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></pre>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -442,9 +483,11 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>readAll</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&gt;&nbsp;readAll(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is,
-                                 boolean&nbsp;linkCrossProjectRelations)
-                          throws <a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&gt;&nbsp;readAll(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;is,
+                                              boolean&nbsp;linkCrossProjectRelations)
+                                       throws <a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">use setLinkCrossProjectRelations(flag) and readAll(is) instead</span></div>
 <div class="block">This is a convenience method which allows all projects in an
  XER file to be read in a single pass.</div>
 <dl>

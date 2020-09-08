@@ -103,7 +103,12 @@ var activeTableTab = "activeTableTab";
 <li><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">net.sf.mpxj.reader.AbstractProjectReader</a></li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">net.sf.mpxj.reader.AbstractProjectStreamReader</a></li>
+<li>
+<ul class="inheritance">
 <li>net.sf.mpxj.mspdi.MSPDIReader</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -119,7 +124,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public final class <span class="typeNameLabel">MSPDIReader</span>
-extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></pre>
+extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></pre>
 <div class="block">This class creates a new ProjectFile instance by reading an MSPDI file.</div>
 </li>
 </ul>
@@ -157,22 +162,23 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener</a></span>(<a href="../../../../net/sf/mpxj/listener/ProjectListener.html" title="interface in net.sf.mpxj.listener">ProjectListener</a>&nbsp;listener)</code>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#getMicrosoftProjectCompatibleInput--">getMicrosoftProjectCompatibleInput</a></span>()</code>
 <div class="block">Retrieves a flag indicating that this class will attempt to correct
  and read XML which is not compliant with the XML Schema.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#read-java.io.InputStream-">read</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream)</code>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
+ are supplied via an input stream.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDIReader.html#readAll-java.io.InputStream-">readAll</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;inputStream)</code>
+<div class="block">Read all schedules from a file where the contents of the project file
  are supplied via an input stream.</div>
 </td>
 </tr>
@@ -197,11 +203,18 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 </tr>
 </table>
 <ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.reader.AbstractProjectStreamReader">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;net.sf.mpxj.reader.<a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html" title="class in net.sf.mpxj.reader">AbstractProjectStreamReader</a></h3>
+<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.io.File-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#read-java.lang.String-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.io.File-">readAll</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectStreamReader.html#readAll-java.lang.String-">readAll</a></code></li>
+</ul>
+<ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.reader.AbstractProjectReader">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;net.sf.mpxj.reader.<a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></h3>
-<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#read-java.io.File-">read</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#read-java.lang.String-">read</a></code></li>
+<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToProject-net.sf.mpxj.ProjectFile-">addListenersToProject</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addListenersToReader-net.sf.mpxj.reader.ProjectReader-">addListenersToReader</a>, <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#addProjectListener-net.sf.mpxj.listener.ProjectListener-">addProjectListener</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -265,22 +278,12 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <div class="block">Alternative way to set the file encoding. If both an encoding name and a Charset instance
  are supplied, the Charset instance is used.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/reader/ProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../net/sf/mpxj/reader/ProjectReader.html" title="interface in net.sf.mpxj.reader">ProjectReader</a></code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html#setCharset-java.nio.charset.Charset-">setCharset</a></code>&nbsp;in class&nbsp;<code><a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" title="class in net.sf.mpxj.reader">AbstractProjectReader</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>charset</code> - Charset used when reading the file</dd>
-</dl>
-</li>
-</ul>
-<a name="addProjectListener-net.sf.mpxj.listener.ProjectListener-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addProjectListener</h4>
-<pre>public&nbsp;void&nbsp;addProjectListener(<a href="../../../../net/sf/mpxj/listener/ProjectListener.html" title="interface in net.sf.mpxj.listener">ProjectListener</a>&nbsp;listener)</pre>
-<div class="block">Add a listener to receive events as a project is being read.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - ProjectListener instance</dd>
 </dl>
 </li>
 </ul>
@@ -292,11 +295,31 @@ extends <a href="../../../../net/sf/mpxj/reader/AbstractProjectReader.html" titl
 <h4>read</h4>
 <pre>public&nbsp;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&nbsp;read(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream)
                  throws <a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></pre>
-<div class="block">Read a file where the contents of the project file
+<div class="block">Read a single schedule from a file where the contents of the project file
  are supplied via an input stream.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>stream</code> - InputStream instance</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>ProjectFile instance</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="readAll-java.io.InputStream-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>readAll</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectFile.html" title="class in net.sf.mpxj">ProjectFile</a>&gt;&nbsp;readAll(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;inputStream)
+                          throws <a href="../../../../net/sf/mpxj/MPXJException.html" title="class in net.sf.mpxj">MPXJException</a></pre>
+<div class="block">Read all schedules from a file where the contents of the project file
+ are supplied via an input stream.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>inputStream</code> - InputStream instance</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>ProjectFile instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
