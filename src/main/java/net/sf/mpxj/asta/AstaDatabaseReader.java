@@ -304,11 +304,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
          }
          return result;
       }
-
-      catch (Exception ex)
-      {
-         throw ex;
-      }
       
       finally
       {

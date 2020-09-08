@@ -97,7 +97,7 @@ public class ProjectExplorer
       m_frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
       //
-      // Read schedule
+      // Open
       //      
       final FileChooserModel fileChooserModel = new FileChooserModel();
       final FileChooserController fileChooserController = new FileChooserController(fileChooserModel);
@@ -105,7 +105,7 @@ public class ProjectExplorer
       FileChooserView fileChooserView = new FileChooserView(m_frame, fileChooserModel);
       fileChooserModel.setExtensions(READ_EXTENSIONS);
 
-      // Read All
+      // Open All
       //
       final FileChooserModel readAllFileChooserModel = new FileChooserModel();
       final FileChooserController readAllFileChooserController = new FileChooserController(readAllFileChooserModel);
@@ -161,7 +161,7 @@ public class ProjectExplorer
       });
 
       //
-      // Save file
+      // Save
       //
       mntmSave.addActionListener(new ActionListener()
       {

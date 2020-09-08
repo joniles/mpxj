@@ -150,11 +150,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
          }
          return result;
       }
-
-      catch (Exception ex)
-      {
-         throw ex;
-      }
       
       finally
       {
