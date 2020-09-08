@@ -107,11 +107,11 @@ public class ProjectExplorer
 
       // Open All
       //
-      final FileChooserModel readAllFileChooserModel = new FileChooserModel();
-      final FileChooserController readAllFileChooserController = new FileChooserController(readAllFileChooserModel);
+      final FileChooserModel openAllFileChooserModel = new FileChooserModel();
+      final FileChooserController openAllFileChooserController = new FileChooserController(openAllFileChooserModel);
       @SuppressWarnings("unused")
-      FileChooserView readAllFileChooserView = new FileChooserView(m_frame, readAllFileChooserModel);
-      readAllFileChooserModel.setExtensions(READ_EXTENSIONS);
+      FileChooserView openAllFileChooserView = new FileChooserView(m_frame, openAllFileChooserModel);
+      openAllFileChooserModel.setExtensions(READ_EXTENSIONS);
 
       //
       // Save
@@ -156,7 +156,7 @@ public class ProjectExplorer
       {
          @Override public void actionPerformed(ActionEvent e)
          {
-            readAllFileChooserController.openFileChooser();
+            openAllFileChooserController.openFileChooser();
          }
       });
 
@@ -198,14 +198,14 @@ public class ProjectExplorer
          }
       });
 
-      PropertyAdapter<FileChooserModel> openAllAdapter = new PropertyAdapter<>(readAllFileChooserModel, "file", true);
+      PropertyAdapter<FileChooserModel> openAllAdapter = new PropertyAdapter<>(openAllFileChooserModel, "file", true);
       openAllAdapter.addValueChangeListener(new PropertyChangeListener()
       {
          @Override public void propertyChange(PropertyChangeEvent evt)
          {
             try
             {
-               File file = readAllFileChooserModel.getFile();
+               File file = openAllFileChooserModel.getFile();
                List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
                if (projectFiles.isEmpty())
                {
