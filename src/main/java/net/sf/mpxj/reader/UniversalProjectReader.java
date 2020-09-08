@@ -38,7 +38,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -67,7 +66,7 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.phoenix.PhoenixInputStream;
 import net.sf.mpxj.phoenix.PhoenixReader;
 import net.sf.mpxj.planner.PlannerReader;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.p3.P3DatabaseReader;
@@ -477,21 +476,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (tableNames.contains("PROJWBS"))
          {
-            Connection connection = null;
-            try
-            {
-               Properties props = new Properties();
-               props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-               connection = DriverManager.getConnection(url, props);
-               PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-               reader.setConnection(connection);
-               addListenersToReader(reader);
-               return m_readAll ? reader.readAll() : Arrays.asList(reader.read());
-            }
-            finally
-            {
-               AutoCloseableHelper.closeQuietly(connection);
-            }
+            return readProjectFile(new PrimaveraDatabaseFileReader(), file);
          }
 
          if (tableNames.contains("ZSCHEDULEITEM"))
