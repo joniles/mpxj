@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.2.0 (git master)
+## 8.2.1 (git master)
+
+## 8.2.0 (09/09/2020)
 * All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.
 * Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.
 * Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.
