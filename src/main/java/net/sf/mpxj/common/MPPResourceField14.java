@@ -609,7 +609,7 @@ public class MPPResourceField14
       FIELD_ARRAY[295] = ResourceField.OUTLINE_CODE9_INDEX;
       FIELD_ARRAY[297] = ResourceField.OUTLINE_CODE10_INDEX;
       FIELD_ARRAY[136] = ResourceField.HYPERLINK_DATA;
-      FIELD_ARRAY[276] = ResourceField.AVAILABILITY_DATA;      
+      FIELD_ARRAY[276] = ResourceField.AVAILABILITY_DATA;
       FIELD_ARRAY[853] = ResourceField.PROPOSED_START;
       FIELD_ARRAY[856] = ResourceField.PROPOSED_FINISH;
       FIELD_ARRAY[859] = ResourceField.PROPOSED_MAX_UNITS;

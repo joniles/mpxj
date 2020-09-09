@@ -693,7 +693,7 @@ public enum TaskField implements FieldType
    BOARD_STATUS(DataType.STRING), // Check type
    TASK_SUMMARY(DataType.STRING), // Check type
    SHOW_ON_BOARD(DataType.STRING), // Check type
-   
+
    FIXED_DURATION(DataType.BOOLEAN),
    RESUME_NO_EARLIER_THAN(DataType.DATE),
    PARENT_TASK(DataType.INTEGER),

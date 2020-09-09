@@ -585,7 +585,7 @@ public enum ResourceField implements FieldType
    PROPOSED_FINISH(DataType.DATE),
    PROPOSED_MAX_UNITS(DataType.UNITS),
    ENGAGEMENT_STATUS(DataType.STRING), // Check this type
-   
+
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),
    ENTERPRISE_CUSTOM_FIELD2(DataType.STRING),
