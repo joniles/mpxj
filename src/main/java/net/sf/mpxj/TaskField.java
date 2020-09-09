@@ -689,7 +689,11 @@ public enum TaskField implements FieldType
    ENTERPRISE_DATA(DataType.BINARY),
    PARENT_TASK_UNIQUE_ID(DataType.INTEGER),
    CALENDAR_UNIQUE_ID(DataType.INTEGER),
-
+   SPRINT(DataType.STRING), // Check type
+   BOARD_STATUS(DataType.STRING), // Check type
+   TASK_SUMMARY(DataType.STRING), // Check type
+   SHOW_ON_BOARD(DataType.STRING), // Check type
+   
    FIXED_DURATION(DataType.BOOLEAN),
    RESUME_NO_EARLIER_THAN(DataType.DATE),
    PARENT_TASK(DataType.INTEGER),

@@ -102,7 +102,7 @@ public class MPPTaskField14
       return (ID_ARRAY[value.getValue()]);
    }
 
-   private static final int MAX_VALUE = 1385;
+   private static final int MAX_VALUE = 1410;
    private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
 
    static
@@ -1034,6 +1034,11 @@ public class MPPTaskField14
       FIELD_ARRAY[1381] = TaskField.PATH_DRIVING_PREDECESSOR;
       FIELD_ARRAY[1382] = TaskField.PATH_PREDECESSOR;
       FIELD_ARRAY[1384] = TaskField.PATH_SUCCESSOR;
+      
+      FIELD_ARRAY[1409] = TaskField.SPRINT;
+      FIELD_ARRAY[1407] = TaskField.BOARD_STATUS;
+      FIELD_ARRAY[1405] = TaskField.TASK_SUMMARY;
+      FIELD_ARRAY[1408] = TaskField.SHOW_ON_BOARD;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];
