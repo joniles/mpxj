@@ -107,6 +107,11 @@ public class CustomField
       return m_masks;
    }
 
+   @Override public String toString()
+   {
+      return "[CustomField field=" + m_field + " alias=" + m_alias + "]";
+   }
+   
    private final FieldType m_field;
    private final CustomFieldContainer m_parent;
    private final CustomFieldLookupTable m_table;

@@ -18,7 +18,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="list">Java collection</param>
         /// <returns></returns>
-        public static IEnumerable ToIEnumerable(this java.util.Collection list)
+        public static IEnumerable ToIEnumerable(this java.lang.Iterable list)
         {
             if (list != null)
             {
@@ -35,7 +35,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="list">Java collection</param>
         /// <returns></returns>
-        public static IEnumerable<T> ToIEnumerable<T>(this java.util.Collection list)
+        public static IEnumerable<T> ToIEnumerable<T>(this java.lang.Iterable list)
         {
             if (list != null)
             {

@@ -67,6 +67,8 @@ namespace MpxjQuery
             listSlack(mpx);
 
             listCalendars(mpx);
+
+            listCustomFields(mpx);
         }
 
         /// <summary>
@@ -405,6 +407,18 @@ namespace MpxjQuery
             foreach (ProjectCalendar cal in file.Calendars.ToIEnumerable())
             {
                 System.Console.WriteLine(cal.toString());
+            }
+        }
+
+        /// <summary>
+        /// List details of custom fields in the file.
+        /// </summary>
+        /// <param name="file">project file</param>
+        private static void listCustomFields(ProjectFile file)
+        {
+            foreach (CustomField field in file.CustomFields.ToIEnumerable())
+            {
+                System.Console.WriteLine(field.toString());
             }
         }
     }
