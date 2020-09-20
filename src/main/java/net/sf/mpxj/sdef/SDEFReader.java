@@ -57,8 +57,8 @@ public final class SDEFReader extends AbstractProjectStreamReader
       fields.getCustomField(TaskField.NUMBER1).setAlias("Workers Per Day");
       fields.getCustomField(TaskField.TEXT3).setAlias("Responsibility Code");
       fields.getCustomField(TaskField.TEXT4).setAlias("Work Area Code");
-      fields.getCustomField(TaskField.TEXT5).setAlias("Mod of Claim No");
-      fields.getCustomField(TaskField.TEXT6).setAlias("Bide Item");
+      fields.getCustomField(TaskField.TEXT5).setAlias("Mod or Claim No");
+      fields.getCustomField(TaskField.TEXT6).setAlias("Bid Item");
       fields.getCustomField(TaskField.TEXT7).setAlias("Phase of Work");
       fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work");
       fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work");

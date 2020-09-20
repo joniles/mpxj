@@ -12,8 +12,7 @@
  * a project schedule up into the QCS (Quality Control System) software from USACE
  *
  * Precise specification of SDEF can be found at the USACE library:
- * http://140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
- *
+ * https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf
  */
 
 /*
