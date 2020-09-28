@@ -576,23 +576,29 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Handles a complete record at a time, stores it in a form ready for
-    * further processing.
+    * Determine the XER record type and process.
     *
     * @param record record to be processed
     * @return flag indicating if this is the last record in the file to be processed
-    * @throws MPXJException
     */
-   private boolean processRecord(List<String> record) throws MPXJException
+   private boolean processRecord(List<String> record)
+   {
+      XerRecordType type = RECORD_TYPE_MAP.get(record.get(0));
+      return type == null ? false : processRecord(type, record);
+   }
+
+   /**
+    * Handles a complete record at a time, stores it in a form ready for
+    * further processing.
+    * 
+    * @param type XER record type
+    * @param record record to be processed
+    * @return flag indicating if this is the last record in the file to be processed
+    */
+   private boolean processRecord(XerRecordType type, List<String> record)
    {
       boolean done = false;
-
-      XerRecordType type = RECORD_TYPE_MAP.get(record.get(0));
-      if (type == null)
-      {
-         throw new MPXJException(MPXJException.INVALID_FORMAT);
-      }
-
+      
       switch (type)
       {
          case HEADER:
