@@ -702,7 +702,7 @@ final class PrimaveraReader
       //
       // Create hierarchical structure
       //
-      FieldType activityIDField = getActivityIDField(m_wbsFields);
+      FieldType activityIDField = getActivityIDField(m_taskFields);
       m_project.getChildTasks().clear();
       for (Row row : wbs)
       {
@@ -1704,9 +1704,6 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_COST, "indep_remain_total_cost");
       map.put(TaskField.REMAINING_WORK, "indep_remain_work_qty");
       map.put(TaskField.DEADLINE, "anticip_end_date");
-      map.put(TaskField.DATE1, "suspend_date");
-      map.put(TaskField.DATE2, "resume_date");
-      map.put(TaskField.TEXT1, "task_code");
       map.put(TaskField.WBS, "wbs_short_name");
 
       return map;
@@ -1754,6 +1751,8 @@ final class PrimaveraReader
       map.put(TaskField.TEXT2, "task_type");
       map.put(TaskField.TEXT3, "status_code");
       map.put(TaskField.NUMBER1, "rsrc_id");
+      map.put(TaskField.DATE1, "suspend_date");
+      map.put(TaskField.DATE2, "resume_date");
 
       return map;
    }

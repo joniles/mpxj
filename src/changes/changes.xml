@@ -8,6 +8,7 @@
 	    <release date="git master" version="8.2.1">
 	    	<action dev="joniles" type="update">Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection</action>
 	    	<action dev="joniles" type="update">Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6</action>
+	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.</action>
 	    </release>
 		<release date="09/09/2020" version="8.2.0">
 			<action dev="joniles" type="add">All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.</action>			
