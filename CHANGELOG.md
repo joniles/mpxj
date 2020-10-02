@@ -4,6 +4,7 @@
 * Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection
 * Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6
 * Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.
+* Updated PMXML reader to avoid user defined field collisions.
 
 ## 8.2.0 (09/09/2020)
 * All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.

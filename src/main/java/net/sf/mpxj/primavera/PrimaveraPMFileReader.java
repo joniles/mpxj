@@ -321,10 +321,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
-         fields.getCustomField(TaskField.TEXT1).setAlias("Code");
-         fields.getCustomField(TaskField.TEXT2).setAlias("Activity Type");
-         fields.getCustomField(TaskField.TEXT3).setAlias("Status");
-         fields.getCustomField(TaskField.NUMBER1).setAlias("Primary Resource Unique ID");
+         TASK_FIELD_ALIASES.forEach((k,v) -> fields.getCustomField(k).setAlias(v));
 
          addListenersToProject(m_projectFile);
 
@@ -447,7 +444,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
-               while (RESERVED_TASK_FIELDS.contains(field));
+               while (TASK_FIELD_ALIASES.containsKey(field));
 
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
 
@@ -1529,12 +1526,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
    }
 
-   private static final Set<TaskField> RESERVED_TASK_FIELDS = new HashSet<>();
+   private static final Map<TaskField, String> TASK_FIELD_ALIASES = new HashMap<>();
    static
    {
-      RESERVED_TASK_FIELDS.add(TaskField.TEXT1);
-      RESERVED_TASK_FIELDS.add(TaskField.TEXT2);
-
+      TASK_FIELD_ALIASES.put(TaskField.TEXT1, "Code");
+      TASK_FIELD_ALIASES.put(TaskField.TEXT2, "Activity Type");
+      TASK_FIELD_ALIASES.put(TaskField.TEXT3, "Status");
+      TASK_FIELD_ALIASES.put(TaskField.NUMBER1, "Primary Resource Unique ID");
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
