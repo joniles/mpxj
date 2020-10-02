@@ -38,7 +38,43 @@ reader.setWbsIsFullPath(false);
 ```
 
 #### Multiple Projects
-A PMXML file can contain multiple projects. You can ask MPXJ to read all of the projects contained in the file:
+A PMXML file can contain multiple projects. By default MPXJ reads the first non-external project
+it finds in the file, otehrwise it defaults to the first project it finds.
+You can however use MPXJ to list the projects contained in
+a PMXML file, as shown below:
+
+```java
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+FileInputStream is = new FileInputStream("my-sample.xml");
+Map<Integer, String> projects = reader.listProjects(is);
+System.out.println("ID\tName");
+for (Entry<Integer, String> entry : projects.entrySet())
+{
+   System.out.println(entry.getKey()+"\t"+entry.getValue());
+}
+```
+The call to `listProjects` returns a `Map` whose key is the project ID,
+and the values are project short names.
+
+Once you have decided which of these projects you want to work with, you can
+call `setProjectID` to tell the reader which project to open, as shown below.
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setProjectID(123);
+ProjectFile file = reader.read("my-sample.xml");
+```
+
+Alternatively you can ask MPXJ to read all of the projects contained in the file:
 
 ```java
 import net.sf.mpxj.ProjectFile;
@@ -54,16 +90,11 @@ List<ProjectFile> files = reader.readAll(is);
 The call to the `readAll` method returns a list of `ProjectFile` instances corresponding
 to the projects in the PMXML file.
 
-There is a variant of the `readAll` method taking a Boolean argument which determines
-if cross-project predecessors and successors are linked together. For example, if we
-have Project A with Task 1, and Project B with Task 2 and Task 1 is a predecessor of Task 2,
-when the `linkCrossProjectRelations` argument is set to true, Task 1 will appear as a predecessor
-of Task 2 despite the two tasks appearing in different projects. If `linkCrossProjectRelations` is set
-to false (or any of the other methods are used to read data from an PMXML file),
-Task 1 and Task 2 will no be linked.
-
-The sample below shows how `readAll` can be called with the `linkCrossProjectRelations`
-argument set to true:
+#### Link Cross-Project Relations
+A PMXML file can contain multiple projects with relations between activities which span
+those projects. By default these cross-project relations are ignored. However, if you set the
+`linkCrossProjectRelations` reader attribute to `true`, MPXJ will attempt to
+link these relations across projects: 
 
 ```java
 import net.sf.mpxj.ProjectFile;
@@ -72,6 +103,7 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setLinkCrossProjectRelations(true);
 InputStream is = new FileInputStream("my-sample.xml");
-List<ProjectFile> files = reader.readAll(is, true);
+List<ProjectFile> files = reader.readAll(is);
 ```

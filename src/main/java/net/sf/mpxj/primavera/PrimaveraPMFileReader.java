@@ -107,6 +107,16 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 {
    /**
+    * Set the ID of the project to be read.
+    *
+    * @param projectID project ID
+    */
+   public void setProjectID(int projectID)
+   {
+      m_projectID = Integer.valueOf(projectID);
+   }
+
+   /**
     * Returns true if the WBS attribute of a summary task
     * contains a dot separated list representing the WBS hierarchy.
     *
@@ -151,29 +161,46 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current file.
+    *
+    * @param is input stream used to read XER file
+    * @return Map instance containing ID and name pairs
+    * @throws MPXJException
+    */
+   public Map<Integer, String> listProjects(InputStream is) throws MPXJException
+   {
+      APIBusinessObjects apibo = processFile(is);
+      List<ProjectType> projects = apibo.getProject();
+
+      Map<Integer, String> result = new HashMap<>();
+      projects.forEach(p -> result.put(p.getObjectId(), p.getName()));
+      return result;
+   }
+
+   /**
     * {@inheritDoc}
     */
-   @Override public ProjectFile read(InputStream stream) throws MPXJException
+   @Override public ProjectFile read(InputStream is) throws MPXJException
    {
-      APIBusinessObjects apibo = processFile(stream);
-
-      List<ProjectType> projects = apibo.getProject();
-      ProjectType project = null;
-      for (ProjectType currentProject : projects)
+      ProjectFile project = null;
+      // Using readAll ensures that cross project relations can be included if required
+      List<ProjectFile> projects = readAll(is);
+      if (!projects.isEmpty()) 
       {
-         if (!BooleanHelper.getBoolean(currentProject.isExternal()))
+         if (m_projectID == null)
          {
-            project = currentProject;
-            break;
+            project = projects.get(0);
+         }
+         else
+         {
+            String uniqueID = m_projectID.toString();
+            project = projects.stream().filter(p -> uniqueID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
+         
          }
       }
-
-      if (project == null)
-      {
-         throw new MPXJException("Unable to locate any non-external projects in a list of " + projects.size() + " projects");
-      }
-
-      return read(apibo, project);
+      
+      return project;
    }
 
    /**
@@ -191,6 +218,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       List<ProjectType> projects = apibo.getProject();
       List<ProjectFile> result = new ArrayList<>(projects.size());
+      m_externalRelations = new ArrayList<>();
       projects.forEach(project -> result.add(read(apibo, project)));
 
       // Sort to ensure exported project is first
@@ -223,6 +251,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
       }
 
+      m_externalRelations = null;
+     
       return result;
    }
 
@@ -307,6 +337,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       try
       {
+         m_clashMap = new HashMap<>();
+         m_activityCodeMap = new HashMap<>();
+         m_taskUdfCounters = new UserFieldCounters();
+         m_resourceUdfCounters = new UserFieldCounters();
+         m_assignmentUdfCounters = new UserFieldCounters();
+         m_fieldTypeMap = new HashMap<>();
+
+         
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -321,7 +359,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
-         TASK_FIELD_ALIASES.forEach((k,v) -> fields.getCustomField(k).setAlias(v));
+         TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v));
 
          addListenersToProject(m_projectFile);
 
@@ -347,8 +385,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_clashMap.clear();
-         m_activityCodeMap.clear();
+         m_clashMap = null;
+         m_activityCodeMap = null;
+         m_taskUdfCounters = null;
+         m_resourceUdfCounters = null;
+         m_assignmentUdfCounters = null;
+         m_fieldTypeMap = null;
       }
    }
 
@@ -1430,15 +1472,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       return (mappedID);
    }
 
+   private Integer m_projectID;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap = new HashMap<>();
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
-   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
-   private Map<Integer, FieldType> m_fieldTypeMap = new HashMap<>();
-   private List<ExternalRelation> m_externalRelations = new ArrayList<>();
+   private Map<Integer, Integer> m_clashMap;
+   private Map<Integer, ActivityCodeValue> m_activityCodeMap;
+   private UserFieldCounters m_taskUdfCounters;
+   private UserFieldCounters m_resourceUdfCounters;
+   private UserFieldCounters m_assignmentUdfCounters;
+   private Map<Integer, FieldType> m_fieldTypeMap;
+   private List<ExternalRelation> m_externalRelations;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
 

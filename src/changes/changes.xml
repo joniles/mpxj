@@ -10,6 +10,7 @@
 	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.</action>	    	
 	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.</action>
 	    	<action dev="joniles" type="update">Updated PMXML reader to avoid user defined field collisions.</action>
+	    	<action dev="joniles" type="update">Updated PMXML reader to add setProjectID and listProjects methods.</action>
 	    	<action dev="joniles" type="update">Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection</action>
 	    </release>
 		<release date="09/09/2020" version="8.2.0">

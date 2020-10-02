@@ -5,6 +5,7 @@
 * Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.
 * Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.
 * Updated PMXML reader to avoid user defined field collisions.
+* Updated PMXML reader to add setProjectID and listProjects methods.
 * Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection
 
 ## 8.2.0 (09/09/2020)
