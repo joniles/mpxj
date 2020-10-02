@@ -115,8 +115,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
+      ProjectFile project = null;
+      
+      // Preserve the requested project ID, this member variable is used when reading all projects
+      Integer targetProjectID = m_projectID;
+      
+      // Using readAll ensures that cross project relations can be included if required
       List<ProjectFile> projects = readAll(is);
-      return projects.isEmpty() ? null : projects.get(0);
+      
+      if (!projects.isEmpty())
+      {
+         if (targetProjectID == null)
+         {
+            // We haven't been asked for a specific project: the first one will be the exported project
+            project = projects.get(0);
+         }
+         else
+         {
+            // We have been asked for a specific project: find it
+            String uniqueID = targetProjectID.toString();
+            project = projects.stream().filter(p -> uniqueID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
+         }
+      }
+
+      return project;
    }
 
    /**
