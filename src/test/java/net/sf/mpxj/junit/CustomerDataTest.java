@@ -476,9 +476,9 @@ public class CustomerDataTest
          return true;
       }
 
-      boolean mspdi = testBaseline(name, project, new File(baselineDirectory, "mspdi"), MSPDIWriter.class);
-      boolean pmxml = testBaseline(name, project, new File(baselineDirectory, "pmxml"), PrimaveraPMFileWriter.class);
-      boolean json = testBaseline(name, project, new File(baselineDirectory, "json"), JsonWriter.class);
+      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", MSPDIWriter.class);
+      boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", PrimaveraPMFileWriter.class);
+      boolean json = testBaseline(name, project, baselineDirectory, "json", JsonWriter.class);
 
       return mspdi && pmxml && json;
    }
@@ -488,12 +488,15 @@ public class CustomerDataTest
     *
     * @param name name of the project under test
     * @param project ProjectFile instance
-    * @param baselineDirectory baseline directory location
+    * @param baselineDir baseline directory location
+    * @param subDir sub directory name
     * @param writerClass file writer class
     * @return true if the baseline test is successful
     */
-   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDirectory, Class<? extends ProjectWriter> writerClass) throws Exception
+   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDir, String subDir, Class<? extends ProjectWriter> writerClass) throws Exception
    {
+      File baselineDirectory = new File(baselineDir, subDir);
+
       boolean success = true;
 
       ProjectWriter writer = writerClass.newInstance();
@@ -526,7 +529,7 @@ public class CustomerDataTest
          }
          else
          {
-            debugFailure(baselineFile, out);
+            debugFailure(baselineFile, subDir, out);
          }
       }
       else
@@ -543,9 +546,10 @@ public class CustomerDataTest
     * it easier to diff multiple files.
     *
     * @param baseline baseline file
+    * @param writerType identifies the writer type which failed the baseline comparison
     * @param test test file
     */
-   private void debugFailure(File baseline, File test) throws IOException
+   private void debugFailure(File baseline, String writerType, File test) throws IOException
    {
       System.out.println();
       System.out.println("Baseline: " + baseline.getPath());
@@ -561,8 +565,13 @@ public class CustomerDataTest
          FileHelper.mkdirs(DIFF_TEST_DIR);
       }
 
-      Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-      Files.copy(test.toPath(), new File(DIFF_TEST_DIR, baseline.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+      int index = baseline.getName().lastIndexOf('.');
+      String name = baseline.getName().substring(0, index);
+      String extension = baseline.getName().substring(index);
+      String newName = name + "." + writerType + extension;
+
+      Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, newName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(test.toPath(), new File(DIFF_TEST_DIR, newName).toPath(), StandardCopyOption.REPLACE_EXISTING);
    }
 
    /**
