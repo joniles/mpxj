@@ -1549,7 +1549,7 @@ final class PrimaveraReader
       CustomFieldContainer fields = m_project.getCustomFields();
       for (Map.Entry<FieldType, String> entry : aliases.entrySet())
       {
-         fields.getCustomField(entry.getKey()).setAlias(entry.getValue());
+         fields.getCustomField(entry.getKey()).setAlias(entry.getValue()).setUserDefined(false);
       }
    }
 

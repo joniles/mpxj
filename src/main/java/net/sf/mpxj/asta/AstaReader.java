@@ -86,8 +86,8 @@ final class AstaReader
       m_project.getProjectProperties().setFileType("PP");
 
       CustomFieldContainer fields = m_project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Code");
-      fields.getCustomField(TaskField.NUMBER1).setAlias("Overall Percent Complete");
+      fields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
+      fields.getCustomField(TaskField.NUMBER1).setAlias("Overall Percent Complete").setUserDefined(false);
    }
 
    /**

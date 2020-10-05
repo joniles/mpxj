@@ -340,7 +340,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private void readResourceCustomPropertyDefinitions(Resources gpResources)
    {
       CustomField field = m_projectFile.getCustomFields().getCustomField(ResourceField.TEXT1);
-      field.setAlias("Phone");
+      field.setAlias("Phone").setUserDefined(false);
 
       for (CustomPropertyDefinition definition : gpResources.getCustomPropertyDefinition())
       {

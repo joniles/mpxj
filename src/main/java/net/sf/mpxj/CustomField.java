@@ -90,11 +90,37 @@ public class CustomField
     * Set the alias for this field.
     *
     * @param alias field alias
+    * @return this to allow method chaining
     */
-   public void setAlias(String alias)
+   public CustomField setAlias(String alias)
    {
       m_alias = alias;
       m_parent.registerAlias(m_field, alias);
+      return this;
+   }
+
+   /**
+    * Sets a flag to indicate if this field is user defined.
+    * 
+    * @param userDefined true if this field is user defined
+    * @return this to allow method chaining
+    */
+   public CustomField setUserDefined(boolean userDefined)
+   {
+      m_userDefined = userDefined;
+      return this;
+   }
+
+   /**
+    * Returns true if this attribute is user defined. False indicates that MPXJ is using
+    * this attribute to represent an attribute from the source application
+    * which MPXJ can't map to a "built in" attribute.
+    * 
+    * @return true if this field is user defined
+    */
+   public boolean getUserDefined()
+   {
+      return m_userDefined;
    }
 
    /**
@@ -111,11 +137,12 @@ public class CustomField
    {
       return "[CustomField field=" + m_field + " alias=" + m_alias + "]";
    }
-   
+
    private final FieldType m_field;
    private final CustomFieldContainer m_parent;
    private final CustomFieldLookupTable m_table;
    private final GraphicalIndicator m_indicator;
    private final List<CustomFieldValueMask> m_masks;
    private String m_alias;
+   private boolean m_userDefined = true;
 }

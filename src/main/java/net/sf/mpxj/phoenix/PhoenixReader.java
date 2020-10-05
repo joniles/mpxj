@@ -118,7 +118,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("PPX");
 
          // Equivalent to Primavera's Activity ID
-         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code");
+         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
 
          addListenersToProject(m_projectFile);
 

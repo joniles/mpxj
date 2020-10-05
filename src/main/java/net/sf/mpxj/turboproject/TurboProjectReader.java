@@ -443,7 +443,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       CustomFieldContainer fields = m_projectFile.getCustomFields();
       for (Map.Entry<FieldType, String> entry : ALIASES.entrySet())
       {
-         fields.getCustomField(entry.getKey()).setAlias(entry.getValue());
+         fields.getCustomField(entry.getKey()).setAlias(entry.getValue()).setUserDefined(false);
       }
    }
 

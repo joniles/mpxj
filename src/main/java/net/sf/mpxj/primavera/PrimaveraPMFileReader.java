@@ -359,7 +359,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
-         TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v));
+         TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
 
          addListenersToProject(m_projectFile);
 

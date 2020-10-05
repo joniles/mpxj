@@ -52,17 +52,17 @@ public final class SDEFReader extends AbstractProjectStreamReader
       ProjectFile project = context.getProject();
 
       CustomFieldContainer fields = project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Activity ID");
-      fields.getCustomField(TaskField.TEXT2).setAlias("Hammock Code");
-      fields.getCustomField(TaskField.NUMBER1).setAlias("Workers Per Day");
-      fields.getCustomField(TaskField.TEXT3).setAlias("Responsibility Code");
-      fields.getCustomField(TaskField.TEXT4).setAlias("Work Area Code");
-      fields.getCustomField(TaskField.TEXT5).setAlias("Mod or Claim No");
-      fields.getCustomField(TaskField.TEXT6).setAlias("Bid Item");
-      fields.getCustomField(TaskField.TEXT7).setAlias("Phase of Work");
-      fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work");
-      fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work");
-      fields.getCustomField(TaskField.COST1).setAlias("Stored Material");
+      fields.getCustomField(TaskField.TEXT1).setAlias("Activity ID").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT2).setAlias("Hammock Code").setUserDefined(false);
+      fields.getCustomField(TaskField.NUMBER1).setAlias("Workers Per Day").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT3).setAlias("Responsibility Code").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT4).setAlias("Work Area Code").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT5).setAlias("Mod or Claim No").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT6).setAlias("Bid Item").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT7).setAlias("Phase of Work").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work").setUserDefined(false);
+      fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work").setUserDefined(false);
+      fields.getCustomField(TaskField.COST1).setAlias("Stored Material").setUserDefined(false);
 
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");

@@ -169,11 +169,11 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
 
          // Activity ID
          CustomFieldContainer customFields = m_projectFile.getCustomFields();
-         customFields.getCustomField(TaskField.TEXT1).setAlias("Code");
-         customFields.getCustomField(TaskField.TEXT2).setAlias("Department");
-         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager");
-         customFields.getCustomField(TaskField.TEXT4).setAlias("Section");
-         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail");
+         customFields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
+         customFields.getCustomField(TaskField.TEXT2).setAlias("Department").setUserDefined(false);
+         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager").setUserDefined(false);
+         customFields.getCustomField(TaskField.TEXT4).setAlias("Section").setUserDefined(false);
+         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail").setUserDefined(false);
 
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");

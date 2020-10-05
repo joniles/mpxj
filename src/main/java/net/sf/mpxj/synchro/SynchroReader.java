@@ -49,6 +49,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DateHelper;
@@ -118,7 +119,9 @@ public final class SynchroReader extends AbstractProjectStreamReader
       m_project.getProjectProperties().setFileType("SP");
 
       CustomFieldContainer fields = m_project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Code");
+      fields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
+      fields.getCustomField(ResourceField.TEXT1).setAlias("Description").setUserDefined(false);
+      fields.getCustomField(ResourceField.TEXT2).setAlias("Supply Reference").setUserDefined(false);
 
       addListenersToProject(m_project);
 
