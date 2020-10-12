@@ -1,5 +1,5 @@
 /*
- * file:       Expensecategory.java
+ * file:       ExpenseCategory.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2020
  * date:       12/10/2020
