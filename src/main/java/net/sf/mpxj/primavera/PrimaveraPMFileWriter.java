@@ -57,6 +57,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -84,6 +85,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrEx
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
 import net.sf.mpxj.primavera.schema.CurrencyType;
+import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -202,6 +204,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          writeCurrency();
          writeUserFieldDefinitions();
+         writeExpenseCategories();
          writeProjectProperties();
          writeCalendars();
          writeResources();
@@ -351,6 +354,21 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write expense categories.
+    */
+   private void writeExpenseCategories()
+   {
+      List<ExpenseCategoryType> expenseCategories = m_apibo.getExpenseCategory();
+      for (ExpenseCategory category : m_projectFile.getExpenseCategories())
+      {
+         ExpenseCategoryType ect = m_factory.createExpenseCategoryType();         
+         ect.setObjectId(category.getUniqueID());
+         ect.setName(category.getName());
+         expenseCategories.add(ect);
+      }
+   }
+   
    /**
     * This method writes project properties data to a PM XML file.
     */

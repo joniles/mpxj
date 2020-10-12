@@ -102,6 +102,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processProjectProperties();
          processActivityCodes();
          processUserDefinedFields();
+         processExpenseCategories();
          processCalendars();
          processResources();
          processResourceRates();
@@ -211,6 +212,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
 
       processSchedulingProjectProperties();
+   }
+
+   /**
+    * Select the expense categories from the database.
+    */
+   private void processExpenseCategories() throws SQLException
+   {
+      m_reader.processExpenseCategories(getRows("select * from " + m_schema + "costtype"));
    }
 
    /**

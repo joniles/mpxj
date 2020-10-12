@@ -56,6 +56,8 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExpenseCategory;
+import net.sf.mpxj.ExpenseCategoryContainer;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -186,7 +188,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ProjectFile project = null;
       // Using readAll ensures that cross project relations can be included if required
       List<ProjectFile> projects = readAll(is);
-      if (!projects.isEmpty()) 
+      if (!projects.isEmpty())
       {
          if (m_projectID == null)
          {
@@ -196,10 +198,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             String uniqueID = m_projectID.toString();
             project = projects.stream().filter(p -> uniqueID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
-         
+
          }
       }
-      
+
       return project;
    }
 
@@ -252,7 +254,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       m_externalRelations = null;
-     
+
       return result;
    }
 
@@ -344,7 +346,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
 
-         
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
 
@@ -364,8 +365,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          addListenersToProject(m_projectFile);
 
          processProjectUDFs(apibo);
+         processExpenseCategories(apibo);
          processProjectProperties(apibo, project);
-         processActivityCodes(apibo, project);
+         processActivityCodes(apibo, project);         
          processCalendars(apibo, project);
          processResources(apibo);
          processTasks(project);
@@ -614,6 +616,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             child.setParent(parent);
          }
+      }
+   }
+
+   /**
+    * Process expense categories.
+    * 
+    * @param apibo top level object
+    */
+   private void processExpenseCategories(APIBusinessObjects apibo)
+   {
+      ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
+      if (apibo.getExpenseCategory() != null)
+      {
+         apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName())));
       }
    }
 

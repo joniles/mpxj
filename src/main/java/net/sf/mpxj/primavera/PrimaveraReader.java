@@ -54,6 +54,8 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExpenseCategory;
+import net.sf.mpxj.ExpenseCategoryContainer;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -173,6 +175,17 @@ final class PrimaveraReader
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
+   }
+
+   /**
+    * Process expense categories.
+    * 
+    * @param categories expense categories
+    */
+   public void processExpenseCategories(List<Row> categories)
+   {
+      ExpenseCategoryContainer container = m_project.getExpenseCategories();
+      categories.forEach(row -> container.add(new ExpenseCategory(row.getInteger("cost_type_id"), row.getString("cost_type"))));
    }
 
    /**

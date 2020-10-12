@@ -116,13 +116,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       ProjectFile project = null;
-      
+
       // Preserve the requested project ID, this member variable is used when reading all projects
       Integer targetProjectID = m_projectID;
-      
+
       // Using readAll ensures that cross project relations can be included if required
       List<ProjectFile> projects = readAll(is);
-      
+
       if (!projects.isEmpty())
       {
          if (targetProjectID == null)
@@ -239,6 +239,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processProjectProperties();
          processActivityCodes();
          processUserDefinedFields();
+         processExpenseCategories();
          processCalendars();
          processResources();
          processResourceRates();
@@ -434,6 +435,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process expesne categories.
+    */
+   private void processExpenseCategories()
+   {
+      m_reader.processExpenseCategories(getRows("costtype", null, null));
+   }
+
+   /**
     * Process activity code data.
     */
    private void processActivityCodes()
@@ -620,7 +629,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean processRecord(XerRecordType type, List<String> record)
    {
       boolean done = false;
-      
+
       switch (type)
       {
          case HEADER:
@@ -1045,6 +1054,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("cost_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
@@ -1140,6 +1150,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("actvtype");
       REQUIRED_TABLES.add("actvcode");
       REQUIRED_TABLES.add("taskactv");
+      REQUIRED_TABLES.add("costtype");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
