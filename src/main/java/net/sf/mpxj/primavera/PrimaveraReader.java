@@ -44,6 +44,8 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostAccount;
+import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
@@ -185,7 +187,19 @@ final class PrimaveraReader
    public void processExpenseCategories(List<Row> categories)
    {
       ExpenseCategoryContainer container = m_project.getExpenseCategories();
-      categories.forEach(row -> container.add(new ExpenseCategory(row.getInteger("cost_type_id"), row.getString("cost_type"))));
+      categories.forEach(row -> container.add(new ExpenseCategory(row.getInteger("cost_type_id"), row.getString("cost_type"), row.getInteger("seq_num"))));
+   }
+
+   /**
+    * Process cost accounts.
+    * 
+    * @param accounts cost accounts
+    */
+   public void processCostAccounts(List<Row> accounts)
+   {
+      CostAccountContainer container = m_project.getCostAccounts();
+      accounts.forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"))));      
+      accounts.forEach(row -> container.getByUniqueID(row.getInteger("acct_id")).setParent(container.getByUniqueID(row.getInteger("parent_acct_id"))));
    }
 
    /**

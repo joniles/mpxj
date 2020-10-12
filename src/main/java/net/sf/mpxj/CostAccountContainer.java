@@ -1,5 +1,5 @@
 /*
- * file:       ExpenseCategoryContainer.java
+ * file:       CostAccountContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2020
  * date:       12/10/2020
@@ -26,25 +26,25 @@ package net.sf.mpxj;
 /**
  * Container for expense categories.
  */
-public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCategory>
+public class CostAccountContainer extends ProjectEntityContainer<CostAccount>
 {
    /**
     * Constructor.
     *
     * @param projectFile parent project
     */
-   public ExpenseCategoryContainer(ProjectFile projectFile)
+   public CostAccountContainer(ProjectFile projectFile)
    {
       super(projectFile);
    }
    
-   @Override public void added(ExpenseCategory category)
+   @Override public void added(CostAccount account)
    {
-      mapUniqueID(category.getUniqueID(), category);
+      mapUniqueID(account.getUniqueID(), account);
    }
    
-   @Override public void removed(ExpenseCategory category)
+   @Override public void removed(CostAccount account)
    {
-      unmapUniqueID(category.getUniqueID());
+      unmapUniqueID(account.getUniqueID());
    }
 }

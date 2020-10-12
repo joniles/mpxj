@@ -1,5 +1,5 @@
 /*
- * file:       ExpenseCategory.java
+ * file:       CostAccount.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2020
  * date:       12/10/2020
@@ -24,21 +24,25 @@
 package net.sf.mpxj;
 
 /**
- * Expense category definition.
+ * Cost account definition.
  */
-public class ExpenseCategory implements ProjectEntityWithUniqueID
+public class CostAccount implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
-    *
-    * @param uniqueID expense category unique ID
-    * @param name expense category name
-    * @param sequence sequence number
+    * 
+    * @param uniqueID unique ID
+    * @param id short name
+    * @param name name
+    * @param description description
+    * @param sequence sequence
     */
-   public ExpenseCategory(Integer uniqueID, String name, Integer sequence)
+   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequence)
    {
       m_uniqueID = uniqueID;
+      m_id = id;
       m_name = name;
+      m_description = description;
       m_sequence = sequence;
    }
 
@@ -53,7 +57,17 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
    }
 
    /**
-    * Retrieve the expense category name.
+    * Retrieve the short name.
+    * 
+    * @return short name
+    */
+   public String getID()
+   {
+      return m_id;
+   }
+
+   /**
+    * Retrieve the name.
     *
     * @return name
     */
@@ -63,21 +77,54 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
    }
 
    /**
-    * Retrieve the sequence number.
+    * Retrieve the description.
     * 
-    * @return sequence number
+    * @return description
+    */
+   public String getDescription()
+   {
+      return m_description;
+   }
+
+   /**
+    * Retrieve the sequence.
+    * 
+    * @return sequence
     */
    public Integer getSequence()
    {
       return m_sequence;
    }
-   
+
+   /**
+    * Retrieve the parent cost account.
+    * 
+    * @return parent cost account
+    */
+   public CostAccount getParent()
+   {
+      return m_parent;
+   }
+
+   /**
+    * Set the parent cost account.
+    * 
+    * @param parent parent cost account
+    */
+   public void setParent(CostAccount parent)
+   {
+      m_parent = parent;
+   }
+
    @Override public String toString()
    {
-      return "[ExpenseCategory uniqueID=" + m_uniqueID + " name=" + m_name + "]";
+      return "[CostAccount uniqueID=" + m_uniqueID + " name=" + m_name + "]";
    }
-   
+
    private final Integer m_uniqueID;
+   private final String m_id;
    private final String m_name;
+   private final String m_description;
    private final Integer m_sequence;
+   private CostAccount m_parent;
 }

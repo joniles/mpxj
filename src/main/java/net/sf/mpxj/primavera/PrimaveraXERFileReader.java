@@ -240,6 +240,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processActivityCodes();
          processUserDefinedFields();
          processExpenseCategories();
+         processCostAccounts();
          processCalendars();
          processResources();
          processResourceRates();
@@ -435,11 +436,19 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Process expesne categories.
+    * Process expense categories.
     */
    private void processExpenseCategories()
    {
       m_reader.processExpenseCategories(getRows("costtype", null, null));
+   }
+
+   /**
+    * Process cost accounts.
+    */
+   private void processCostAccounts()
+   {
+      m_reader.processCostAccounts(getRows("account", null, null));
    }
 
    /**
@@ -1035,6 +1044,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
+      FIELD_TYPE_MAP.put("acct_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);      
       FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
@@ -1080,6 +1091,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
+      FIELD_TYPE_MAP.put("parent_acct_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_actv_code_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
@@ -1151,6 +1163,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("actvcode");
       REQUIRED_TABLES.add("taskactv");
       REQUIRED_TABLES.add("costtype");
+      REQUIRED_TABLES.add("account");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

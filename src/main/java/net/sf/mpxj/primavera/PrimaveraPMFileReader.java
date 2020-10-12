@@ -50,6 +50,8 @@ import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostAccount;
+import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -366,8 +368,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          processProjectUDFs(apibo);
          processExpenseCategories(apibo);
+         processCostAccounts(apibo);
          processProjectProperties(apibo, project);
-         processActivityCodes(apibo, project);         
+         processActivityCodes(apibo, project);
          processCalendars(apibo, project);
          processResources(apibo);
          processTasks(project);
@@ -629,7 +632,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
       if (apibo.getExpenseCategory() != null)
       {
-         apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName())));
+         apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName(), c.getSequenceNumber())));
+      }
+   }
+
+   /**
+    * Process cost accounts.
+    * 
+    * @param apibo top level object
+    */
+   private void processCostAccounts(APIBusinessObjects apibo)
+   {
+      CostAccountContainer container = m_projectFile.getCostAccounts();
+      if (apibo.getCostAccount() != null)
+      {
+         apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
+         apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
       }
    }
 

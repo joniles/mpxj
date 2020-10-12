@@ -103,6 +103,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processActivityCodes();
          processUserDefinedFields();
          processExpenseCategories();
+         processCostAccounts();
          processCalendars();
          processResources();
          processResourceRates();
@@ -222,6 +223,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       m_reader.processExpenseCategories(getRows("select * from " + m_schema + "costtype"));
    }
 
+   /**
+    * Select the cost accounts from the database.
+    */
+   private void processCostAccounts() throws SQLException
+   {
+      m_reader.processCostAccounts(getRows("select * from " + m_schema + "account"));
+   }
+   
    /**
     * Process activity code data.
     */

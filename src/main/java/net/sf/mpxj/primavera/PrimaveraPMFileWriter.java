@@ -50,6 +50,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -84,6 +85,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
+import net.sf.mpxj.primavera.schema.CostAccountType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
@@ -205,6 +207,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          writeCurrency();
          writeUserFieldDefinitions();
          writeExpenseCategories();
+         writeCostAccounts();
          writeProjectProperties();
          writeCalendars();
          writeResources();
@@ -365,10 +368,35 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          ExpenseCategoryType ect = m_factory.createExpenseCategoryType();         
          ect.setObjectId(category.getUniqueID());
          ect.setName(category.getName());
+         ect.setSequenceNumber(category.getSequence());
          expenseCategories.add(ect);
       }
    }
-   
+
+   /**
+    * Write cost accounts.
+    */
+   private void writeCostAccounts()
+   {
+      List<CostAccountType> costAccounts = m_apibo.getCostAccount();
+      for (CostAccount account : m_projectFile.getCostAccounts())
+      {
+         CostAccountType cat = m_factory.createCostAccountType();         
+         cat.setObjectId(account.getUniqueID());
+         cat.setId(account.getID());
+         cat.setName(account.getName());
+         cat.setDescription(account.getDescription());
+         cat.setSequenceNumber(account.getSequence());
+         
+         if (account.getParent() != null)
+         {
+            cat.setParentObjectId(account.getParent().getUniqueID());
+         }
+         
+         costAccounts.add(cat);
+      }
+   }
+
    /**
     * This method writes project properties data to a PM XML file.
     */
