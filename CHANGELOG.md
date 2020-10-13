@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.3.0 (git master)
+## 8.3.1 (git master)
+
+## 8.3.0 (13/10/2020)
 * Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.
 * Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.
 * Add support for writing expense items, expense categories and cost accounts to PMXML files.
