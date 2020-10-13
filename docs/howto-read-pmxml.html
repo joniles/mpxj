@@ -42,7 +42,7 @@
 
       <div id="breadcrumbs">
         <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2020-09-09</li>
+        <li id="publishDate">Last Published: 2020-10-13</li>
         </ul>
       </div>
       <div class="row-fluid">
@@ -134,7 +134,36 @@ reader.setWbsIsFullPath(false);
 </pre></div></div></div>
 <div class="section">
 <h4><a name="Multiple_Projects"></a>Multiple Projects</h4>
-<p>A PMXML file can contain multiple projects. You can ask MPXJ to read all of the projects contained in the file:</p>
+<p>A PMXML file can contain multiple projects. By default MPXJ reads the first non-external project it finds in the file, otehrwise it defaults to the first project it finds. You can however use MPXJ to list the projects contained in a PMXML file, as shown below:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+FileInputStream is = new FileInputStream(&quot;my-sample.xml&quot;);
+Map&lt;Integer, String&gt; projects = reader.listProjects(is);
+System.out.println(&quot;ID\tName&quot;);
+for (Entry&lt;Integer, String&gt; entry : projects.entrySet())
+{
+   System.out.println(entry.getKey()+&quot;\t&quot;+entry.getValue());
+}
+</pre></div></div>
+<p>The call to <tt>listProjects</tt> returns a <tt>Map</tt> whose key is the project ID, and the values are project short names.</p>
+<p>Once you have decided which of these projects you want to work with, you can call <tt>setProjectID</tt> to tell the reader which project to open, as shown below.</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setProjectID(123);
+ProjectFile file = reader.read(&quot;my-sample.xml&quot;);
+</pre></div></div>
+<p>Alternatively you can ask MPXJ to read all of the projects contained in the file:</p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
@@ -146,9 +175,10 @@ PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 InputStream is = new FileInputStream(&quot;my-sample.xml&quot;);
 List&lt;ProjectFile&gt; files = reader.readAll(is);
 </pre></div></div>
-<p>The call to the <tt>readAll</tt> method returns a list of <tt>ProjectFile</tt> instances corresponding to the projects in the PMXML file.</p>
-<p>There is a variant of the <tt>readAll</tt> method taking a Boolean argument which determines if cross-project predecessors and successors are linked together. For example, if we have Project A with Task 1, and Project B with Task 2 and Task 1 is a predecessor of Task 2, when the <tt>linkCrossProjectRelations</tt> argument is set to true, Task 1 will appear as a predecessor of Task 2 despite the two tasks appearing in different projects. If <tt>linkCrossProjectRelations</tt> is set to false (or any of the other methods are used to read data from an PMXML file), Task 1 and Task 2 will no be linked.</p>
-<p>The sample below shows how <tt>readAll</tt> can be called with the <tt>linkCrossProjectRelations</tt> argument set to true:</p>
+<p>The call to the <tt>readAll</tt> method returns a list of <tt>ProjectFile</tt> instances corresponding to the projects in the PMXML file.</p></div>
+<div class="section">
+<h4><a name="Link_Cross-Project_Relations"></a>Link Cross-Project Relations</h4>
+<p>A PMXML file can contain multiple projects with relations between activities which span those projects. By default these cross-project relations are ignored. However, if you set the <tt>linkCrossProjectRelations</tt> reader attribute to <tt>true</tt>, MPXJ will attempt to link these relations across projects: </p>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">import net.sf.mpxj.ProjectFile;
@@ -157,8 +187,9 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setLinkCrossProjectRelations(true);
 InputStream is = new FileInputStream(&quot;my-sample.xml&quot;);
-List&lt;ProjectFile&gt; files = reader.readAll(is, true);
+List&lt;ProjectFile&gt; files = reader.readAll(is);
 </pre></div></div></div></div></div>
         </div>
       </div>
