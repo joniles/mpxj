@@ -492,7 +492,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieves the expense categories available for this schedule.
-    * 
+    *
     * @return expense categories
     */
    public ExpenseCategoryContainer getExpenseCategories()
@@ -502,7 +502,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieves the cost accounts available for this schedule.
-    * 
+    *
     * @return cost accounts
     */
    public CostAccountContainer getCostAccounts()

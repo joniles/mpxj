@@ -628,7 +628,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Process expense categories.
-    * 
+    *
     * @param apibo top level object
     */
    private void processExpenseCategories(APIBusinessObjects apibo)
@@ -639,7 +639,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Process cost accounts.
-    * 
+    *
     * @param apibo top level object
     */
    private void processCostAccounts(APIBusinessObjects apibo)
@@ -651,7 +651,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Process expense items.
-    * 
+    *
     * @param project parent project
     */
    private void processExpenseItems(ProjectType project)

@@ -844,7 +844,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Write expense items for a task.
-    * 
+    *
     * @param task Task instance
     */
    private void writeExpenseItems(Task task)

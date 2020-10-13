@@ -64,19 +64,19 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
 
    /**
     * Retrieve the sequence number.
-    * 
+    *
     * @return sequence number
     */
    public Integer getSequence()
    {
       return m_sequence;
    }
-   
+
    @Override public String toString()
    {
       return "[ExpenseCategory uniqueID=" + m_uniqueID + " name=" + m_name + "]";
    }
-   
+
    private final Integer m_uniqueID;
    private final String m_name;
    private final Integer m_sequence;

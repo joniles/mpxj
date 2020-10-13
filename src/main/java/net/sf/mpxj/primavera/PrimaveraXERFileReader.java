@@ -639,7 +639,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    /**
     * Handles a complete record at a time, stores it in a form ready for
     * further processing.
-    * 
+    *
     * @param type XER record type
     * @param record record to be processed
     * @return flag indicating if this is the last record in the file to be processed
@@ -796,7 +796,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
    /**
     * Given a field name, retrieve its type.
-    * 
+    *
     * @param fieldName field name
     * @return field type
     */
@@ -805,7 +805,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       XerFieldType fieldType;
 
       // This is the only field name collision we've encountered so far
-      // when determining the field type. Ideally we'd perform a lookup 
+      // when determining the field type. Ideally we'd perform a lookup
       // based on table name and field name, but as we only have this one
       // collision, we'll take a simpler approach for now.
       if (m_currentTableName.equals("projcost") && fieldName.equals("target_qty"))

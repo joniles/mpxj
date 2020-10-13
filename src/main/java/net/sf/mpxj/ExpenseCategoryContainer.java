@@ -37,12 +37,12 @@ public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCate
    {
       super(projectFile);
    }
-   
+
    @Override public void added(ExpenseCategory category)
    {
       mapUniqueID(category.getUniqueID(), category);
    }
-   
+
    @Override public void removed(ExpenseCategory category)
    {
       unmapUniqueID(category.getUniqueID());

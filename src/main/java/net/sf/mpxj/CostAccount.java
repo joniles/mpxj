@@ -30,7 +30,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
-    * 
+    *
     * @param uniqueID unique ID
     * @param id short name
     * @param name name
@@ -58,7 +58,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 
    /**
     * Retrieve the short name.
-    * 
+    *
     * @return short name
     */
    public String getID()
@@ -78,7 +78,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 
    /**
     * Retrieve the description.
-    * 
+    *
     * @return description
     */
    public String getDescription()
@@ -88,7 +88,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 
    /**
     * Retrieve the sequence.
-    * 
+    *
     * @return sequence
     */
    public Integer getSequence()
@@ -98,7 +98,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 
    /**
     * Retrieve the parent cost account.
-    * 
+    *
     * @return parent cost account
     */
    public CostAccount getParent()
@@ -108,7 +108,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
 
    /**
     * Set the parent cost account.
-    * 
+    *
     * @param parent parent cost account
     */
    public void setParent(CostAccount parent)

@@ -183,7 +183,7 @@ final class PrimaveraReader
 
    /**
     * Process expense categories.
-    * 
+    *
     * @param categories expense categories
     */
    public void processExpenseCategories(List<Row> categories)
@@ -194,7 +194,7 @@ final class PrimaveraReader
 
    /**
     * Process cost accounts.
-    * 
+    *
     * @param accounts cost accounts
     */
    public void processCostAccounts(List<Row> accounts)

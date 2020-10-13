@@ -101,7 +101,7 @@ public class CustomField
 
    /**
     * Sets a flag to indicate if this field is user defined.
-    * 
+    *
     * @param userDefined true if this field is user defined
     * @return this to allow method chaining
     */
@@ -115,7 +115,7 @@ public class CustomField
     * Returns true if this attribute is user defined. False indicates that MPXJ is using
     * this attribute to represent an attribute from the source application
     * which MPXJ can't map to a "built in" attribute.
-    * 
+    *
     * @return true if this field is user defined
     */
    public boolean getUserDefined()

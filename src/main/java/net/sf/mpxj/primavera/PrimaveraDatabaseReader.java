@@ -111,7 +111,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processPredecessors();
          processAssignments();
          processExpenseItems();
-         
+
          m_reader = null;
          project.updateStructure();
 
@@ -225,7 +225,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Select the expense items from the database. 
+    * Select the expense items from the database.
     */
    private void processExpenseItems() throws SQLException
    {
@@ -239,7 +239,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       m_reader.processCostAccounts(getRows("select * from " + m_schema + "account"));
    }
-   
+
    /**
     * Process activity code data.
     */

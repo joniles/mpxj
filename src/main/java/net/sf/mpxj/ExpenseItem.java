@@ -30,7 +30,7 @@ public final class ExpenseItem
 {
    /**
     * Constructor.
-    * 
+    *
     * @param task parent task
     */
    public ExpenseItem(Task task)
@@ -40,7 +40,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the expense item's unique ID.
-    * 
+    *
     * @return expense item unique ID
     */
    public Integer getUniqueID()
@@ -50,7 +50,7 @@ public final class ExpenseItem
 
    /**
     * Set the expense item's unique ID.
-    * 
+    *
     * @param uniqueID expense item unique ID
     */
    public void setUniqueID(Integer uniqueID)
@@ -60,7 +60,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the expense item's name.
-    * 
+    *
     * @return  expense item name
     */
    public String getName()
@@ -70,7 +70,7 @@ public final class ExpenseItem
 
    /**
     * Set the expense item's name.
-    * 
+    *
     * @param name expense item name
     */
    public void setName(String name)
@@ -80,7 +80,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the cost account associated with this expense item.
-    * 
+    *
     * @return cost account for this expense item
     */
    public CostAccount getAccount()
@@ -90,7 +90,7 @@ public final class ExpenseItem
 
    /**
     * Set the cost account associated with this expense item.
-    * 
+    *
     * @param account cost account for this expense item
     */
    public void setAccount(CostAccount account)
@@ -100,7 +100,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the expense category associated with this expense item.
-    * 
+    *
     * @return expense category for this expense item
     */
    public ExpenseCategory getCategory()
@@ -110,7 +110,7 @@ public final class ExpenseItem
 
    /**
     * Set the expense category associated with this expense item.
-    * 
+    *
     * @param category expense category for this expense item
     */
    public void setCategory(ExpenseCategory category)
@@ -120,7 +120,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the parent task for this expense item.
-    * 
+    *
     * @return parent task
     */
    public Task getTask()
@@ -130,7 +130,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the description for this expense item.
-    * 
+    *
     * @return expense item description
     */
    public String getDescription()
@@ -140,7 +140,7 @@ public final class ExpenseItem
 
    /**
     * Set the description for this expense item.
-    * 
+    *
     * @param description expense item description
     */
    public void setDescription(String description)
@@ -150,7 +150,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the document number for this expense item.
-    * 
+    *
     * @return document number
     */
    public String getDocumentNumber()
@@ -160,7 +160,7 @@ public final class ExpenseItem
 
    /**
     * Set the document number for this expense item.
-    * 
+    *
     * @param documentNumber document number
     */
    public void setDocumentNumber(String documentNumber)
@@ -170,7 +170,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the vendor for this expense item.
-    * 
+    *
     * @return vendor
     */
    public String getVendor()
@@ -180,7 +180,7 @@ public final class ExpenseItem
 
    /**
     * Set the vendor for this expense item.
-    * 
+    *
     * @param vendor vendor
     */
    public void setVendor(String vendor)
@@ -190,7 +190,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the at completion cost for this expense item.
-    * 
+    *
     * @return at completion cost
     */
    public Double getAtCompletionCost()
@@ -200,7 +200,7 @@ public final class ExpenseItem
 
    /**
     * Set the at completion cost for this expense item.
-    * 
+    *
     * @param atCompletionCost at completion cost
     */
    public void setAtCompletionCost(Double atCompletionCost)
@@ -210,7 +210,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the at completion units for this expense item.
-    * 
+    *
     * @return at completion units
     */
    public Double getAtCompletionUnits()
@@ -220,7 +220,7 @@ public final class ExpenseItem
 
    /**
     * Set the at completion units for this expense item.
-    * 
+    *
     * @param atCompletionUnits at completion units
     */
    public void setAtCompletionUnits(Double atCompletionUnits)
@@ -230,7 +230,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the actual cost for this expense item.
-    * 
+    *
     * @return actual cost
     */
    public Double getActualCost()
@@ -240,7 +240,7 @@ public final class ExpenseItem
 
    /**
     * Set the actual cost for this expense item.
-    * 
+    *
     * @param actualCost actual cost
     */
    public void setActualCost(Double actualCost)
@@ -250,7 +250,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the actual units for this expense item.
-    * 
+    *
     * @return set the actual units for this expense item
     */
    public Double getActualUnits()
@@ -260,7 +260,7 @@ public final class ExpenseItem
 
    /**
     * Set the actual units for this expense item.
-    * 
+    *
     * @param actualUnits actual units
     */
    public void setActualUnits(Double actualUnits)
@@ -270,7 +270,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the price per unit for this expense item.
-    * 
+    *
     * @return price per unit
     */
    public Double getPricePerUnit()
@@ -280,7 +280,7 @@ public final class ExpenseItem
 
    /**
     * Set the price per unit for this expense item.
-    * 
+    *
     * @param pricePerUnit price per unit
     */
    public void setPricePerUnit(Double pricePerUnit)
@@ -290,7 +290,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the remaining cost for this expense item.
-    * 
+    *
     * @return remaining cost
     */
    public Double getRemainingCost()
@@ -300,7 +300,7 @@ public final class ExpenseItem
 
    /**
     * Set the remaining cost for this expense item.
-    * 
+    *
     * @param remainingCost remaining cost
     */
    public void setRemainingCost(Double remainingCost)
@@ -310,7 +310,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the remaining units for this expense item.
-    * 
+    *
     * @return remaining units
     */
    public Double getRemainingUnits()
@@ -320,7 +320,7 @@ public final class ExpenseItem
 
    /**
     * Set the remaining units for this expense item.
-    * 
+    *
     * @param remainingUnits remaining units
     */
    public void setRemainingUnits(Double remainingUnits)
@@ -330,7 +330,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the planned cost for this expense item.
-    * 
+    *
     * @return planned cost
     */
    public Double getPlannedCost()
@@ -340,7 +340,7 @@ public final class ExpenseItem
 
    /**
     * Set the planned cost for this expense item.
-    * 
+    *
     * @param plannedCost planned cost
     */
    public void setPlannedCost(Double plannedCost)
@@ -350,7 +350,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the planned units for this expense item.
-    * 
+    *
     * @return planned units
     */
    public Double getPlannedUnits()
@@ -360,7 +360,7 @@ public final class ExpenseItem
 
    /**
     * Set the planned units for this expense item.
-    * 
+    *
     * @param plannedUnits planned units
     */
    public void setPlannedUnits(Double plannedUnits)
@@ -370,7 +370,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the accrue type for this expense item.
-    * 
+    *
     * @return accrue type
     */
    public AccrueType getAccrueType()
@@ -380,7 +380,7 @@ public final class ExpenseItem
 
    /**
     * Set the acrue type for this expense item.
-    * 
+    *
     * @param accrueType accrue type
     */
    public void setAccrueType(AccrueType accrueType)
@@ -390,7 +390,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the auto complete actuals flag for this expense item.
-    * 
+    *
     * @return auto complete actuals flag
     */
    public boolean getAutoComputeActuals()
@@ -400,7 +400,7 @@ public final class ExpenseItem
 
    /**
     * Set the auto complete actuals flag for this expense item.
-    * 
+    *
     * @param autoComputeActuals auto complete actuals flag
     */
    public void setAutoComputeActuals(boolean autoComputeActuals)
@@ -410,7 +410,7 @@ public final class ExpenseItem
 
    /**
     * Retrieve the unit of measure for this expense item.
-    * 
+    *
     * @return unit of measure
     */
    public String getUnitOfMeasure()
@@ -420,7 +420,7 @@ public final class ExpenseItem
 
    /**
     * Set the unit of measure for this expense item.
-    * 
+    *
     * @param unitOfMeasure unit of measure
     */
    public void setUnitOfMeasure(String unitOfMeasure)
