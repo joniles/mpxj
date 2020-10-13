@@ -45,6 +45,7 @@ import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
@@ -60,6 +61,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseCategoryContainer;
+import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -86,6 +88,7 @@ import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
 import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
+import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
@@ -376,6 +379,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processTasks(project);
          processPredecessors(project);
          processAssignments(project);
+         processExpenseItems(project);
 
          m_projectFile.updateStructure();
 
@@ -630,10 +634,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processExpenseCategories(APIBusinessObjects apibo)
    {
       ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
-      if (apibo.getExpenseCategory() != null)
-      {
-         apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName(), c.getSequenceNumber())));
-      }
+      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName(), c.getSequenceNumber())));
    }
 
    /**
@@ -644,10 +645,52 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processCostAccounts(APIBusinessObjects apibo)
    {
       CostAccountContainer container = m_projectFile.getCostAccounts();
-      if (apibo.getCostAccount() != null)
+      apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
+      apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
+   }
+
+   /**
+    * Process expense items.
+    * 
+    * @param project parent project
+    */
+   private void processExpenseItems(ProjectType project)
+   {
+      for (ActivityExpenseType item : project.getActivityExpense())
       {
-         apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
-         apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
+         Task task = m_projectFile.getTaskByUniqueID(item.getActivityObjectId());
+         if (task != null)
+         {
+            List<ExpenseItem> items = task.getExpenseItems();
+            if (items == null)
+            {
+               items = new ArrayList<>();
+               task.setExpenseItems(items);
+            }
+
+            ExpenseItem ei = new ExpenseItem(task);
+            items.add(ei);
+
+            ei.setAccount(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()));
+            ei.setAccrueType(ACCRUE_TYPE_MAP.get(item.getAccrualType()));
+            ei.setActualCost(item.getActualCost());
+            ei.setActualUnits(item.getActualUnits());
+            ei.setAtCompletionCost(item.getAtCompletionCost());
+            ei.setAtCompletionUnits(item.getAtCompletionUnits());
+            ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
+            ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
+            ei.setDescription(item.getExpenseDescription());
+            ei.setDocumentNumber(item.getDocumentNumber());
+            ei.setName(item.getExpenseItem());
+            ei.setPlannedCost(item.getPlannedCost());
+            ei.setPlannedUnits(item.getPlannedUnits());
+            ei.setPricePerUnit(item.getPricePerUnit());
+            ei.setRemainingCost(item.getRemainingCost());
+            ei.setRemainingUnits(item.getRemainingUnits());
+            ei.setUniqueID(item.getObjectId());
+            ei.setUnitOfMeasure(item.getUnitOfMeasure());
+            ei.setVendor(item.getVendor());
+         }
       }
    }
 
@@ -1610,6 +1653,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       TASK_FIELD_ALIASES.put(TaskField.TEXT2, "Activity Type");
       TASK_FIELD_ALIASES.put(TaskField.TEXT3, "Status");
       TASK_FIELD_ALIASES.put(TaskField.NUMBER1, "Primary Resource Unique ID");
+   }
+
+   private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
+      ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
+      ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

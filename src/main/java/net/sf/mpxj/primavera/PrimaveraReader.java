@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
@@ -58,6 +59,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseCategoryContainer;
+import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -198,7 +200,7 @@ final class PrimaveraReader
    public void processCostAccounts(List<Row> accounts)
    {
       CostAccountContainer container = m_project.getCostAccounts();
-      accounts.forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"))));      
+      accounts.forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"))));
       accounts.forEach(row -> container.getByUniqueID(row.getInteger("acct_id")).setParent(container.getByUniqueID(row.getInteger("parent_acct_id"))));
    }
 
@@ -1458,6 +1460,51 @@ final class PrimaveraReader
       properties.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
    }
 
+   public void processExpenseItems(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Task task = m_project.getTaskByUniqueID(row.getInteger("task_id"));
+         if (task != null)
+         {
+            List<ExpenseItem> items = task.getExpenseItems();
+            if (items == null)
+            {
+               items = new ArrayList<>();
+               task.setExpenseItems(items);
+            }
+
+            ExpenseItem ei = new ExpenseItem(task);
+            items.add(ei);
+
+            ei.setAccount(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")));
+            ei.setAccrueType(ACCRUE_TYPE_MAP.get(row.getString("cost_load_type")));
+            ei.setActualCost(row.getDouble("act_cost"));
+            //ei.setAtCompletionCost();
+            //ei.setAtCompletionUnits();
+            ei.setAutoComputeActuals(row.getBoolean("auto_compute_act_flag"));
+            ei.setCategory(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")));
+            ei.setDescription(row.getString("cost_descr"));
+            ei.setDocumentNumber(row.getString("po_number"));
+            ei.setName(row.getString("cost_name"));
+            ei.setPlannedCost(row.getDouble("target_cost"));
+            ei.setPlannedUnits(row.getDouble("target_qty"));
+            ei.setPricePerUnit(row.getDouble("cost_per_qty"));
+            ei.setRemainingCost(row.getDouble("remain_cost"));
+            ei.setUniqueID(row.getInteger("cost_item_id"));
+            ei.setUnitOfMeasure(row.getString("qty_name"));
+            ei.setVendor(row.getString("vendor_name"));
+
+            double pricePerUnit = NumberHelper.getDouble(ei.getPricePerUnit());
+            if (pricePerUnit != 0.0)
+            {
+               ei.setActualUnits(Double.valueOf(NumberHelper.getDouble(ei.getActualCost()) / pricePerUnit));
+               ei.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(ei.getRemainingCost()) / pricePerUnit));
+            }
+         }
+      }
+   }
+
    /**
     * Generic method to extract Primavera fields and assign to MPXJ fields.
     *
@@ -1954,6 +2001,14 @@ final class PrimaveraReader
       FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
       FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
+   }
+
+   private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
+      ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
+      ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

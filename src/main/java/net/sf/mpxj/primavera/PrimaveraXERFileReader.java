@@ -247,6 +247,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processTasks();
          processPredecessors();
          processAssignments();
+         processExpenseItems();
 
          project.updateStructure();
 
@@ -441,6 +442,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processExpenseCategories()
    {
       m_reader.processExpenseCategories(getRows("costtype", null, null));
+   }
+
+   /**
+    * Process expense items.
+    */
+   private void processExpenseItems()
+   {
+      m_reader.processExpenseItems(getRows("projcost", "proj_id", m_projectID));
    }
 
    /**
@@ -695,7 +704,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
                   String fieldName = m_currentFieldNames[loop];
                   String fieldValue = record.get(loop);
-                  XerFieldType fieldType = m_fieldTypes.getOrDefault(fieldName, XerFieldType.STRING);
+                  XerFieldType fieldType = getFieldType(fieldName);
 
                   Object objectValue;
                   if (fieldValue.length() == 0)
@@ -783,6 +792,31 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       }
 
       return done;
+   }
+
+   /**
+    * Given a field name, retrieve its type.
+    * 
+    * @param fieldName field name
+    * @return field type
+    */
+   private XerFieldType getFieldType(String fieldName)
+   {
+      XerFieldType fieldType;
+
+      // This is the only field name collision we've encountered so far
+      // when determining the field type. Ideally we'd perform a lookup 
+      // based on table name and field name, but as we only have this one
+      // collision, we'll take a simpler approach for now.
+      if (m_currentTableName.equals("projcost") && fieldName.equals("target_qty"))
+      {
+         fieldType = XerFieldType.CURRENCY;
+      }
+      else
+      {
+         fieldType = m_fieldTypes.getOrDefault(fieldName, XerFieldType.STRING);
+      }
+      return fieldType;
    }
 
    /**
@@ -1045,7 +1079,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    static
    {
       FIELD_TYPE_MAP.put("acct_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);      
+      FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
@@ -1066,6 +1100,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_type_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
@@ -1117,7 +1152,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("suspend_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("target_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
@@ -1164,6 +1198,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("taskactv");
       REQUIRED_TABLES.add("costtype");
       REQUIRED_TABLES.add("account");
+      REQUIRED_TABLES.add("projcost");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

@@ -49,6 +49,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CurrencySymbolPosition;
@@ -59,6 +60,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
+import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -79,6 +81,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
+import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
@@ -213,6 +216,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          writeResources();
          writeTasks();
          writeAssignments();
+         writeExpenseItems();
 
          marshaller.marshal(m_apibo, handler);
       }
@@ -365,7 +369,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       List<ExpenseCategoryType> expenseCategories = m_apibo.getExpenseCategory();
       for (ExpenseCategory category : m_projectFile.getExpenseCategories())
       {
-         ExpenseCategoryType ect = m_factory.createExpenseCategoryType();         
+         ExpenseCategoryType ect = m_factory.createExpenseCategoryType();
          ect.setObjectId(category.getUniqueID());
          ect.setName(category.getName());
          ect.setSequenceNumber(category.getSequence());
@@ -381,18 +385,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       List<CostAccountType> costAccounts = m_apibo.getCostAccount();
       for (CostAccount account : m_projectFile.getCostAccounts())
       {
-         CostAccountType cat = m_factory.createCostAccountType();         
+         CostAccountType cat = m_factory.createCostAccountType();
          cat.setObjectId(account.getUniqueID());
          cat.setId(account.getID());
          cat.setName(account.getName());
          cat.setDescription(account.getDescription());
          cat.setSequenceNumber(account.getSequence());
-         
+
          if (account.getParent() != null)
          {
             cat.setParentObjectId(account.getParent().getUniqueID());
          }
-         
+
          costAccounts.add(cat);
       }
    }
@@ -827,6 +831,79 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          xml.setPredecessorProjectObjectId(PROJECT_OBJECT_ID);
          xml.setSuccessorProjectObjectId(PROJECT_OBJECT_ID);
          xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
+      }
+   }
+
+   /**
+    * Write all expense items for project.
+    */
+   private void writeExpenseItems()
+   {
+      m_projectFile.getTasks().forEach(t -> writeExpenseItems(t));
+   }
+
+   /**
+    * Write expense items for a task.
+    * 
+    * @param task Task instance
+    */
+   private void writeExpenseItems(Task task)
+   {
+      List<ExpenseItem> items = task.getExpenseItems();
+      if (items != null && !items.isEmpty())
+      {
+         List<ActivityExpenseType> expenses = m_project.getActivityExpense();
+
+         for (ExpenseItem item : items)
+         {
+            ActivityExpenseType expense = m_factory.createActivityExpenseType();
+            expenses.add(expense);
+
+            expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
+            //expense.setActivityId(value);
+            //expense.setActivityName(value);
+            expense.setActivityObjectId(task.getUniqueID());
+            expense.setActualCost(item.getActualCost());
+            expense.setActualUnits(item.getActualUnits());
+            expense.setAtCompletionCost(item.getAtCompletionCost());
+            expense.setAtCompletionUnits(item.getAtCompletionUnits());
+            expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
+            //expense.setCBSCode(value);
+            //expense.setCBSId(value);
+
+            if (item.getAccount() != null)
+            {
+               expense.setCostAccountObjectId(item.getAccount().getUniqueID());
+            }
+
+            //expense.setCreateDate(value);
+            //expense.setCreateUser(value);
+            expense.setDocumentNumber(item.getDocumentNumber());
+
+            if (item.getCategory() != null)
+            {
+               expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
+            }
+
+            expense.setExpenseDescription(item.getDescription());
+
+            expense.setExpenseItem(item.getName());
+            //expense.setExpensePercentComplete(value);
+            //expense.setIsBaseline(value);
+            //expense.setIsTemplate(value);
+            //expense.setLastUpdateDate(value);
+            //expense.setLastUpdateUser(value);
+            expense.setObjectId(item.getUniqueID());
+            expense.setPlannedCost(item.getPlannedCost());
+            expense.setPlannedUnits(item.getPlannedUnits());
+            expense.setPricePerUnit(item.getPricePerUnit());
+            expense.setProjectId(PROJECT_ID);
+            expense.setProjectObjectId(PROJECT_OBJECT_ID);
+            expense.setRemainingCost(item.getRemainingCost());
+            expense.setRemainingUnits(item.getRemainingUnits());
+            expense.setUnitOfMeasure(item.getUnitOfMeasure());
+            expense.setVendor(item.getVendor());
+         }
       }
    }
 
@@ -1270,6 +1347,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
       ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
       ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
+   }
+
+   private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
+      ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
+      ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
    }
 
    private ProjectFile m_projectFile;

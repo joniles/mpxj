@@ -1002,7 +1002,8 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.PATH_DRIVING_PREDECESSOR.getValue()] = "Path Driving Predecessor";
       TASK_COLUMNS_ARRAY[TaskField.PATH_PREDECESSOR.getValue()] = "Path Predecessor";
       TASK_COLUMNS_ARRAY[TaskField.PATH_SUCCESSOR.getValue()] = "Path Successor";
-
+      TASK_COLUMNS_ARRAY[TaskField.EXPENSE_ITEMS.getValue()] = "Expense Items";
+      
       TASK_COLUMNS_ARRAY[TaskField.SPRINT.getValue()] = "Sprint";
       TASK_COLUMNS_ARRAY[TaskField.BOARD_STATUS.getValue()] = "Board Status";
       TASK_COLUMNS_ARRAY[TaskField.TASK_SUMMARY.getValue()] = "Task Summary";

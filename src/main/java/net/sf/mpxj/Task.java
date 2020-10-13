@@ -4584,6 +4584,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve expense items for this task.
+    * 
+    * @return list of expense items
+    */
+   @SuppressWarnings("unchecked") public List<ExpenseItem> getExpenseItems()
+   {
+      return (List<ExpenseItem>) getCachedValue(TaskField.EXPENSE_ITEMS);
+   }
+   
+   /**
+    * Set the expense items for this task.
+    * 
+    * @param items list of expense items
+    */
+   public void setExpenseItems(List<ExpenseItem> items)
+   {
+      set(TaskField.EXPENSE_ITEMS, items);
+   }
+   
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

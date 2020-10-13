@@ -1,7 +1,9 @@
 # Changelog
 
-## 8.2.1 (git master)
+## 8.3.0 (git master)
 * Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.
+* Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.
+* Add support for writing expense items, expense categories and cost accounts to PMXML files.
 * Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6
 * Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.
 * Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.
