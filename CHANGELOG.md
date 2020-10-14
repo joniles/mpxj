@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.3.1 (git master)
+* Minor updates to PlannerReader.
 
 ## 8.3.0 (13/10/2020)
 * Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.

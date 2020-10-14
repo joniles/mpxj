@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.3.1">
+			<action dev="joniles" type="update">Minor updates to PlannerReader.</action>
 		</release>
 	    <release date="13/10/2020" version="8.3.0">
 		    <action dev="joniles" type="add">Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.</action>		    

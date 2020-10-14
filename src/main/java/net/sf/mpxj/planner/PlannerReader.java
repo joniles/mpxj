@@ -561,6 +561,13 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
       mpxjTask.setStart(getDateTime(plannerTask.getWorkStart()));
 
+      // Additional non-standard attribute - useful for generating schedules to be read by MPXJ
+      String wbs = plannerTask.getWbs();
+      if (wbs != null && !wbs.isEmpty())
+      {
+         mpxjTask.setWBS(wbs);
+      }
+
       //
       // Read constraint
       //
@@ -620,7 +627,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
             }
          }
       }
+
       mpxjTask.setEffortDriven(true);
+      mpxjTask.setCritical(false);
 
       m_eventManager.fireTaskReadEvent(mpxjTask);
 
