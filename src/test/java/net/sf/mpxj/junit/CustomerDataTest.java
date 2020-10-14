@@ -479,8 +479,9 @@ public class CustomerDataTest
       boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", MSPDIWriter.class);
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", PrimaveraPMFileWriter.class);
       boolean json = testBaseline(name, project, baselineDirectory, "json", JsonWriter.class);
+      boolean planner = testBaseline(name, project, baselineDirectory, "planner", PlannerWriter.class);
 
-      return mspdi && pmxml && json;
+      return mspdi && pmxml && json && planner;
    }
 
    /**
@@ -637,7 +638,8 @@ public class CustomerDataTest
       // Exercised by baseline test
       //WRITER_CLASSES.add(MSPDIWriter.class);
 
-      WRITER_CLASSES.add(PlannerWriter.class);
+      // Exercised by baseline test
+      //WRITER_CLASSES.add(PlannerWriter.class);
 
       // Exercise by baseline test
       //WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
