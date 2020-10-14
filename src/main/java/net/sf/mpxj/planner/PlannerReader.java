@@ -110,7 +110,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
          config.setAutoResourceUniqueID(false);
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
-         config.setAutoWBS(false);
 
          m_projectFile.getProjectProperties().setFileApplication("Planner");
          m_projectFile.getProjectProperties().setFileType("XML");

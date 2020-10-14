@@ -28,9 +28,7 @@ Note: A mistake in the format design led to this suboptimality. A
                    value            CDATA #IMPLIED>
 
 <!ELEMENT list-item  EMPTY>
-<!ATTLIST list-item  value          CDATA #REQUIRED>
-
-<!ELEMENT phases (phase*)>
+<!ATTLIST list-item  value          CDATA #IMPLIED!ELEMENT phases (phase*)>
 
 <!ELEMENT phase EMPTY>
 <!ATTLIST phase name                CDATA #REQUIRED>
@@ -62,8 +60,9 @@ Note: A mistake in the format design led to this suboptimality. A
                percent-complete     CDATA #IMPLIED
                priority             CDATA #IMPLIED
                type                 (normal|milestone) "normal"
-               scheduling           (fixed-work|
-                                     fixed-duration) "fixed-work">
+               scheduling           (fixed-work|fixed-duration) "fixed-work"
+               wbs                  CDATA #IMPLIED
+>
 
 <!ELEMENT resource-groups (group*)>
 <!ATTLIST resource-groups default_group CDATA #IMPLIED>
