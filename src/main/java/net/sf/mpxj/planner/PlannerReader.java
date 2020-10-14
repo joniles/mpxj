@@ -561,7 +561,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
       mpxjTask.setStart(getDateTime(plannerTask.getWorkStart()));
 
-      // Additional non-standard attribute - useful for generating schedules to be read by MPXJ 
+      // Additional non-standard attribute - useful for generating schedules to be read by MPXJ
       String wbs = plannerTask.getWbs();
       if (wbs != null && !wbs.isEmpty())
       {
@@ -627,10 +627,10 @@ public final class PlannerReader extends AbstractProjectStreamReader
             }
          }
       }
-      
-      mpxjTask.setEffortDriven(true);      
+
+      mpxjTask.setEffortDriven(true);
       mpxjTask.setCritical(false);
-      
+
       m_eventManager.fireTaskReadEvent(mpxjTask);
 
       //
@@ -640,7 +640,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
       {
          readTask(mpxjTask, childTask);
-      }            
+      }
    }
 
    /**
