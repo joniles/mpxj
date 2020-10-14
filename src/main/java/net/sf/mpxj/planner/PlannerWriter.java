@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,6 +56,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -168,7 +170,10 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      for (ProjectCalendar mpxjCalendar : m_projectFile.getCalendars())
+      List<ProjectCalendar> sortedCalendarList = new ArrayList<>(m_projectFile.getCalendars());      
+      sortedCalendarList.sort((a,b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID()));
+           
+      for (ProjectCalendar mpxjCalendar : sortedCalendarList)
       {
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();
          calendar.add(plannerCalendar);
@@ -275,8 +280,10 @@ public final class PlannerWriter extends AbstractProjectWriter
       // Process any derived calendars
       //
       List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
+      List<ProjectCalendar> sortedCalendarList = new ArrayList<>(mpxjCalendar.getDerivedCalendars());      
+      sortedCalendarList.sort((a,b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID()));
 
-      for (ProjectCalendar mpxjDerivedCalendar : mpxjCalendar.getDerivedCalendars())
+      for (ProjectCalendar mpxjDerivedCalendar : sortedCalendarList)
       {
          net.sf.mpxj.planner.schema.Calendar plannerDerivedCalendar = m_factory.createCalendar();
          calendarList.add(plannerDerivedCalendar);
