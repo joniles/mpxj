@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.3.1">
+		<release date="git master" version="8.3.2">
+		</release>
+		<release date="14/10/2020" version="8.3.1">
 			<action dev="joniles" type="update">Minor updates to PlannerReader.</action>
 		</release>
 	    <release date="13/10/2020" version="8.3.0">

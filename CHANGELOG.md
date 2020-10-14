@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.3.1 (git master)
+## 8.3.2 (git master)
+
+## 8.3.1 (14/10/2020)
 * Minor updates to PlannerReader.
 
 ## 8.3.0 (13/10/2020)
