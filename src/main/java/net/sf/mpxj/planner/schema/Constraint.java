@@ -39,11 +39,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getType()
    {
@@ -52,11 +52,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setType(String value)
    {
@@ -65,11 +65,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the time property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTime()
    {
@@ -78,11 +78,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the time property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTime(String value)
    {

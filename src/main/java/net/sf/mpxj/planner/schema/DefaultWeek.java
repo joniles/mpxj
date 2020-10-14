@@ -49,11 +49,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the mon property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getMon()
    {
@@ -62,11 +62,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the mon property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMon(String value)
    {
@@ -75,11 +75,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the tue property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTue()
    {
@@ -88,11 +88,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the tue property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTue(String value)
    {
@@ -101,11 +101,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the wed property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getWed()
    {
@@ -114,11 +114,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the wed property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setWed(String value)
    {
@@ -127,11 +127,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the thu property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getThu()
    {
@@ -140,11 +140,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the thu property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setThu(String value)
    {
@@ -153,11 +153,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the fri property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getFri()
    {
@@ -166,11 +166,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the fri property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFri(String value)
    {
@@ -179,11 +179,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the sat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getSat()
    {
@@ -192,11 +192,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the sat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSat(String value)
    {
@@ -205,11 +205,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the sun property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getSun()
    {
@@ -218,11 +218,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the sun property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSun(String value)
    {

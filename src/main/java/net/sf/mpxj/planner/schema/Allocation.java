@@ -41,11 +41,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the taskId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTaskId()
    {
@@ -54,11 +54,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the taskId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTaskId(String value)
    {
@@ -67,11 +67,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the resourceId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getResourceId()
    {
@@ -80,11 +80,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the resourceId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResourceId(String value)
    {
@@ -93,11 +93,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the units property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getUnits()
    {
@@ -106,11 +106,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the units property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUnits(String value)
    {
