@@ -1098,11 +1098,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("cstr_date2", XerFieldType.DATE);
@@ -1135,7 +1133,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
@@ -1154,11 +1151,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_work_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("task_id", XerFieldType.INTEGER);
