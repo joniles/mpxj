@@ -54,15 +54,22 @@ class MapRow implements Row
    {
       Object value = getObject(name);
       String result;
-      if (value instanceof byte[])
+      if (value == null)
       {
-         result = new String((byte[]) value);
+         result = null;
       }
       else
       {
-         result = (String) value;
+         if (value instanceof byte[])
+         {
+            result = new String((byte[]) value);
+         }
+         else
+         {
+            result = value.toString();
+         }
       }
-      return (result);
+      return result;
    }
 
    /**
