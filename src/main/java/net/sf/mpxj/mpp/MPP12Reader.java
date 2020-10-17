@@ -2005,18 +2005,21 @@ final class MPP12Reader implements MPPVariantReader
    private void processGroupData() throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (dir.hasEntry("FixedMeta"))
+      {
+         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      //      System.out.println(fixedMeta);
-      //      System.out.println(fixedData);
-      //      System.out.println(varMeta);
-      //      System.out.println(varData);
+         //      System.out.println(fixedMeta);
+         //      System.out.println(fixedData);
+         //      System.out.println(varMeta);
+         //      System.out.println(varData);
 
-      GroupReader reader = new GroupReader12();
-      reader.process(m_file, fixedData, varData, m_fontBases);
+         GroupReader reader = new GroupReader12();
+         reader.process(m_file, fixedData, varData, m_fontBases);
+      }
    }
 
    /**
