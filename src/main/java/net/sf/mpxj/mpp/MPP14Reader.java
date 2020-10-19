@@ -1798,30 +1798,33 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
-      VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(dir, "FixedData"));
-
-      int items = fixedMeta.getAdjustedItemCount();
-      View view;
-      ViewFactory factory = new ViewFactory14();
-
-      int lastOffset = -1;
-      for (int loop = 0; loop < items; loop++)
+      if (m_viewDir.hasEntry("CV_iew"))
       {
-         byte[] fm = fixedMeta.getByteArrayValue(loop);
-         int offset = MPPUtility.getShort(fm, 4);
-         if (offset > lastOffset)
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
+         VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(dir, "FixedData"));
+
+         int items = fixedMeta.getAdjustedItemCount();
+         View view;
+         ViewFactory factory = new ViewFactory14();
+
+         int lastOffset = -1;
+         for (int loop = 0; loop < items; loop++)
          {
-            byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));
-            if (fd != null)
+            byte[] fm = fixedMeta.getByteArrayValue(loop);
+            int offset = MPPUtility.getShort(fm, 4);
+            if (offset > lastOffset)
             {
-               view = factory.createView(m_file, fm, fd, viewVarData, m_fontBases);
-               m_file.getViews().add(view);
+               byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));
+               if (fd != null)
+               {
+                  view = factory.createView(m_file, fm, fd, viewVarData, m_fontBases);
+                  m_file.getViews().add(view);
+               }
+               lastOffset = offset;
             }
-            lastOffset = offset;
          }
       }
    }

@@ -1196,17 +1196,20 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
-      FixFix ff = new FixFix(138, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
-      int items = ff.getItemCount();
-      byte[] data;
-      View view;
-
-      for (int loop = 0; loop < items; loop++)
+      if (m_viewDir.hasEntry("CV_iew"))
       {
-         data = ff.getByteArrayValue(loop);
-         view = new View8(m_file, data);
-         m_file.getViews().add(view);
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
+         FixFix ff = new FixFix(138, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
+         int items = ff.getItemCount();
+         byte[] data;
+         View view;
+
+         for (int loop = 0; loop < items; loop++)
+         {
+            data = ff.getByteArrayValue(loop);
+            view = new View8(m_file, data);
+            m_file.getViews().add(view);
+         }
       }
    }
 

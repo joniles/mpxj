@@ -4,6 +4,7 @@
 * Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.
 * Improve handling of some MPP12 MPP file variants.
 * Avoid error when reading timephased data from certain MPP files.
+* Gracefully handle MPP files with missing view data.
 
 ## 8.3.1 (14/10/2020)
 * Minor updates to PlannerReader.
