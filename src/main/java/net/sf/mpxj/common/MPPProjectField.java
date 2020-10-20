@@ -60,6 +60,12 @@ public class MPPProjectField
       return (result);
    }
 
+   /**
+    * Retrieve the ID of a field, as used by MS Project.
+    *
+    * @param value field instance
+    * @return field ID
+    */
    public static int getID(ProjectField value)
    {
       int result;
