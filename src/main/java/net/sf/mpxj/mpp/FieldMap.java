@@ -1110,7 +1110,7 @@ abstract class FieldMap
 
             case BINARY:
             {
-               // Do nothing for binary data
+               result = varData.getByteArray(id, m_varDataKey);
                break;
             }
 

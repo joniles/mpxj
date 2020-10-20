@@ -1822,9 +1822,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * @param index field index
     * @return field value
     */
-   public String getEnterpriseCustomField(int index)
+   public byte[] getEnterpriseCustomField(int index)
    {
-      return ((String) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return ((byte[]) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
    }
 
    /**
@@ -1833,7 +1833,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * @param index field index
     * @param value field value
     */
-   public void setEnterpriseCustomField(int index, String value)
+   public void setEnterpriseCustomField(int index, byte[] value)
    {
       set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
    }

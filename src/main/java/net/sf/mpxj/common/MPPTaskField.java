@@ -24,6 +24,8 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.mpxj.TaskField;
 
@@ -70,7 +72,19 @@ public class MPPTaskField
     */
    public static int getID(TaskField value)
    {
-      return (ID_ARRAY[value.getValue()]);
+      int result;
+
+      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      {
+         int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
+         int id = value.getValue() - baseValue;
+         result = 0x8000 + id;
+      }
+      else
+      {
+         result = ID_ARRAY[value.getValue()];
+      }
+      return result;
    }
 
    private static final int MAX_VALUE = 1336;
@@ -973,4 +987,6 @@ public class MPPTaskField
    }
 
    public static final int TASK_FIELD_BASE = 0x0B400000;
+   
+   public static final Set<TaskField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

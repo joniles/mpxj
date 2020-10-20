@@ -24,6 +24,8 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 
@@ -70,7 +72,19 @@ public final class MPPAssignmentField
     */
    public static int getID(AssignmentField value)
    {
-      return (ID_ARRAY[value.getValue()]);
+      int result;
+
+      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      {
+         int baseValue = AssignmentField.ENTERPRISE_CUSTOM_FIELD1.getValue();
+         int id = value.getValue() - baseValue;
+         result = 0x8000 + id;
+      }
+      else
+      {
+         result = ID_ARRAY[value.getValue()];
+      }
+      return result;
    }
 
    public static final int MAX_VALUE = 715;
@@ -586,4 +600,6 @@ public final class MPPAssignmentField
    }
 
    public static final int ASSIGNMENT_FIELD_BASE = 0x0F400000;
+   
+   public static final Set<AssignmentField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }
