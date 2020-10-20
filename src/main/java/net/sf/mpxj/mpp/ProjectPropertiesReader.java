@@ -162,7 +162,7 @@ public final class ProjectPropertiesReader
          ph.setBaselineDate(8, props.getTimestamp(Props.BASELINE8_DATE));
          ph.setBaselineDate(9, props.getTimestamp(Props.BASELINE9_DATE));
          ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
-         
+
          ph.setNewTasksAreManual(props.getBoolean(Props.NEW_TASKS_ARE_MANUAL));
       }
 

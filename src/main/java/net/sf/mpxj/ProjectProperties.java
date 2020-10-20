@@ -2034,7 +2034,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       set(ProjectField.NEW_TASK_START_IS_PROJECT_START, newTaskStartIsProjectStart);
    }
 
-
    /**
     * Retrieve the flag indicating if new tasks task mode should default to
     * manual (true) or automatic (false).

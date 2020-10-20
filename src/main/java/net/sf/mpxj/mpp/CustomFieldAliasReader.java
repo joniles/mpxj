@@ -65,7 +65,7 @@ class CustomFieldAliasReader
             // Get the Field ID
             int fieldID = MPPUtility.getInt(m_data, offset);
             offset += 4;
-            
+
             // Get the alias offset (offset + 4 for some reason).
             int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
             offset += 4;
