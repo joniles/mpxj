@@ -50,6 +50,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -1487,8 +1488,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx MPXJ task
     */
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
-   {
-      Project.Tasks.Task.ExtendedAttribute attrib;
+   {      
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
       for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
@@ -1500,16 +1500,42 @@ public final class MSPDIWriter extends AbstractProjectWriter
             m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
-
-            attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
+            
+            Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+            
+            setValueGUID(attrib, mpxFieldID, formattedValue);
          }
       }
    }
 
+   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   {
+      // TODO: cache LUT values
+      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+      List<CustomFieldValueItem> items = field.getLookupTable();
+      if (!items.isEmpty())
+      {
+         DataType dataType = fieldType.getDataType();
+         CustomFieldValueItem valueItem = items.stream().filter(v -> valuesMatch(dataType, formattedValue, v.getValue())).findFirst().orElse(null);
+         if (valueItem != null)
+         {
+            // TODO: manage type through xsd
+            attrib.setValueGUID(valueItem.getGUID().toString());
+         }
+      }
+   }
+   
+   private boolean valuesMatch(DataType dataType, String selectedValue, Object value)
+   {
+      String itemValue = DatatypeConverter.printExtendedAttribute(this, value, dataType);
+      return selectedValue.equals(itemValue);
+   }
+   
    /**
     * Converts a duration to duration time units.
     *
