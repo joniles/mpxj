@@ -2037,24 +2037,24 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the flag indicating if new tasks task mode should default to
-    * manual (true) or automatic (false);
+    * manual (true) or automatic (false).
     *
     * @return new task type is manual or auto
     */
-   public boolean isNewTasksAreManual()
+   public boolean getNewTasksAreManual()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASK_ARE_MANUAL));
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_ARE_MANUAL));
    }
 
    /**
     * Set the flag indicating if new tasks task mode should default to
-    * manual (true) or automatic (false);
+    * manual (true) or automatic (false).
     *
     * @param newTasksAreManual new task type is manual or auto
     */
    public void setNewTasksAreManual(boolean newTasksAreManual)
    {
-      set(ProjectField.NEW_TASK_ARE_MANUAL, newTasksAreManual);
+      set(ProjectField.NEW_TASKS_ARE_MANUAL, newTasksAreManual);
    }
 
    /**

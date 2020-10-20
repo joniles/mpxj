@@ -293,6 +293,8 @@ class Props extends MPPComponent
 
    public static final Integer CURRENCY_CODE = Integer.valueOf(37753787);
 
+   public static final Integer NEW_TASKS_ARE_MANUAL = Integer.valueOf(37753800);
+   
    public static final Integer MULTIPLE_CRITICAL_PATHS = Integer.valueOf(37748793);
 
    public static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(1048577);
