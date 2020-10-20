@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.3.2 (git master)
+* Improved handling of enterprise custom fields when reading MPP files
 * Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.
 * Improve handling of some MPP12 MPP file variants.
 * Avoid error when reading timephased data from certain MPP files.

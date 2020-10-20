@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.3.2">
+			<action dev="joniles" type="update">Improved handling of enterprise custom fields when reading MPP files</action>				
 			<action dev="joniles" type="update">Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.</action>
 			<action dev="joniles" type="update">Improve handling of some MPP12 MPP file variants.</action>
 			<action dev="joniles" type="update">Avoid error when reading timephased data from certain MPP files.</action>
