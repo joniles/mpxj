@@ -24,6 +24,8 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.mpxj.ResourceField;
 
@@ -70,7 +72,19 @@ public final class MPPResourceField
     */
    public static int getID(ResourceField value)
    {
-      return (ID_ARRAY[value.getValue()]);
+      int result;
+
+      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      {
+         int baseValue = ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue();
+         int id = value.getValue() - baseValue;
+         result = 0x8000 + id;
+      }
+      else
+      {
+         result = ID_ARRAY[value.getValue()];
+      }
+      return result;
    }
 
    public static final int MAX_VALUE = 809;
@@ -636,4 +650,6 @@ public final class MPPResourceField
    }
 
    public static final int RESOURCE_FIELD_BASE = 0x0C400000;
+
+   public static final Set<ResourceField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

@@ -2125,9 +2125,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param index field index
     * @return field value
     */
-   public String getEnterpriseCustomField(int index)
+   public byte[] getEnterpriseCustomField(int index)
    {
-      return ((String) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return ((byte[]) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
    }
 
    /**
@@ -2136,7 +2136,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param index field index
     * @param value field value
     */
-   public void setEnterpriseCustomField(int index, String value)
+   public void setEnterpriseCustomField(int index, byte[] value)
    {
       set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
    }

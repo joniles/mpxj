@@ -62,12 +62,10 @@ class CustomFieldAliasReader
          // Then the aliases themselves
          while (index < numberOfAliases && offset < length)
          {
-            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-            // offset to the string (4 bytes)
-
             // Get the Field ID
             int fieldID = MPPUtility.getInt(m_data, offset);
             offset += 4;
+            
             // Get the alias offset (offset + 4 for some reason).
             int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
             offset += 4;

@@ -926,10 +926,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
-               UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
-               setUserFieldValue(udf, fieldType.getDataType(), value);
-               out.add(udf);
+               int fieldID = FieldTypeHelper.getFieldID(fieldType);
+               if (fieldID != -1)
+               {
+                  UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+                  udf.setTypeObjectId(fieldID);
+                  setUserFieldValue(udf, fieldType.getDataType(), value);
+                  out.add(udf);
+               }
             }
          }
       }

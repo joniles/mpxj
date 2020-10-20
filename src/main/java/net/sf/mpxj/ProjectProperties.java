@@ -2634,6 +2634,28 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Retrieve an enterprise custom field value.
+    *
+    * @param index field index
+    * @return field value
+    */
+   public byte[] getEnterpriseCustomField(int index)
+   {
+      return ((byte[]) getCachedValue(selectField(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+   }
+
+   /**
+    * Set an enterprise custom field value.
+    *
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCustomField(int index, byte[] value)
+   {
+      set(selectField(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
+   }
+
+   /**
     * Sets the export flag to populate this ProjectFile instance.
     *
     * @param value boolean flag
