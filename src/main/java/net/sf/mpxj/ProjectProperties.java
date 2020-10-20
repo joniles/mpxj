@@ -141,6 +141,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setBaselineForEarnedValue(DEFAULT_BASELINE_FOR_EARNED_VALUE);
       setFiscalYearStartMonth(DEFAULT_FISCAL_YEAR_START_MONTH);
       setNewTaskStartIsProjectStart(true);
+      setNewTasksAreManual(true);
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
    }
 
@@ -2031,6 +2032,29 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    public void setNewTaskStartIsProjectStart(boolean newTaskStartIsProjectStart)
    {
       set(ProjectField.NEW_TASK_START_IS_PROJECT_START, newTaskStartIsProjectStart);
+   }
+
+
+   /**
+    * Retrieve the flag indicating if new tasks task mode should default to
+    * manual (true) or automatic (false);
+    *
+    * @return new task type is manual or auto
+    */
+   public boolean isNewTasksAreManual()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASK_ARE_MANUAL));
+   }
+
+   /**
+    * Set the flag indicating if new tasks task mode should default to
+    * manual (true) or automatic (false);
+    *
+    * @param newTasksAreManual new task type is manual or auto
+    */
+   public void setNewTasksAreManual(boolean newTasksAreManual)
+   {
+      set(ProjectField.NEW_TASK_ARE_MANUAL, newTasksAreManual);
    }
 
    /**

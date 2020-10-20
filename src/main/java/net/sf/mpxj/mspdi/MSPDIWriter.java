@@ -294,6 +294,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
       project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
+      project.setNewTasksAreManual(Boolean.valueOf(properties.isNewTasksAreManual()));
       project.setProjectExternallyEdited(Boolean.valueOf(properties.getProjectExternallyEdited()));
       project.setRemoveFileProperties(Boolean.valueOf(properties.getRemoveFileProperties()));
       project.setRevision(NumberHelper.getBigInteger(properties.getRevision()));

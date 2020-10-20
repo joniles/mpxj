@@ -302,6 +302,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setNewTasksEffortDriven(BooleanHelper.getBoolean(project.isNewTasksEffortDriven()));
       properties.setNewTasksEstimated(BooleanHelper.getBoolean(project.isNewTasksEstimated()));
       properties.setNewTaskStartIsProjectStart(NumberHelper.getInt(project.getNewTaskStartDate()) == 0);
+      properties.setNewTasksAreManual(BooleanHelper.getBoolean(project.isNewTasksAreManual()));
       properties.setProjectExternallyEdited(BooleanHelper.getBoolean(project.isProjectExternallyEdited()));
       properties.setProjectTitle(project.getTitle());
       properties.setRemoveFileProperties(BooleanHelper.getBoolean(project.isRemoveFileProperties()));
