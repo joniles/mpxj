@@ -1424,6 +1424,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private void readTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
+      // TODO: need to read outline codes too
       for (Project.Tasks.Task.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
