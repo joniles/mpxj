@@ -600,6 +600,6 @@ public final class MPPAssignmentField
    }
 
    public static final int ASSIGNMENT_FIELD_BASE = 0x0F400000;
-   
+
    public static final Set<AssignmentField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

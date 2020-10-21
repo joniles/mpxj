@@ -1923,11 +1923,11 @@ final class MPP9Reader implements MPPVariantReader
          Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
          FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
          FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance(dir, "FixedData"));
-   
+
          int items = fixedMeta.getAdjustedItemCount();
          View view;
          ViewFactory factory = new ViewFactory9();
-   
+
          int lastOffset = -1;
          for (int loop = 0; loop < items; loop++)
          {

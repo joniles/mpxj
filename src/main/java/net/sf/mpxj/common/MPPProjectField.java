@@ -69,7 +69,7 @@ public class MPPProjectField
    public static int getID(ProjectField value)
    {
       int result;
-      
+
       if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
       {
          int baseValue = ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue();
@@ -80,11 +80,11 @@ public class MPPProjectField
       {
          result = -1;
       }
-      
+
       return result;
    }
 
    public static final int PROJECT_FIELD_BASE = 0x0B600000;
-   
+
    private static final Set<ProjectField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

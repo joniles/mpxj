@@ -49,6 +49,7 @@
     <ActualsInSync>0</ActualsInSync>
     <RemoveFileProperties>0</RemoveFileProperties>
     <AdminProject>0</AdminProject>
+    <NewTasksAreManual>0</NewTasksAreManual>
     <ExtendedAttributes/>
     <Calendars>
         <Calendar>
