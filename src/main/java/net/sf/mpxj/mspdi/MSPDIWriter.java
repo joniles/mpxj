@@ -1116,7 +1116,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Set the GUID of a value selected from a lookup table.
-    * 
+    *
     * @param attrib parent attribute
     * @param fieldType field type
     * @param formattedValue formatted value
@@ -1126,8 +1126,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
       if (valueItem != null)
       {
-         // TODO fix UUID data type
-         //attrib.setValueGUID(valueItem.getGUID());
+         attrib.setValueGUID(valueItem.getGUID());
       }
    }
 
@@ -1162,7 +1161,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Set the ID of a value selected from a lookup table.
-    * 
+    *
     * @param attrib parent attribute
     * @param fieldType field type
     * @param formattedValue formatted value
@@ -1617,7 +1616,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Set the GUID of a value selected from a lookup table.
-    * 
+    *
     * @param attrib parent attribute
     * @param fieldType field type
     * @param formattedValue formatted value
@@ -1627,13 +1626,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
       if (valueItem != null)
       {
-         attrib.setValueGUID(valueItem.getGUID().toString());
+         attrib.setValueGUID(valueItem.getGUID());
       }
    }
 
    /**
     * Set the ID of a value selected from a lookup table.
-    * 
+    *
     * @param attrib parent attribute
     * @param fieldType field type
     * @param formattedValue formatted value
@@ -1649,7 +1648,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Given a formatted value, retrieve the equivalent lookup table entry.
-    * 
+    *
     * @param fieldType field type
     * @param formattedValue formatted value
     * @return lookup table entry
@@ -1670,7 +1669,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Populate a cache of lookup table entries.
-    * 
+    *
     * @param fieldType field type
     * @param items list of lookup table entries
     * @return cache of lookup table entries

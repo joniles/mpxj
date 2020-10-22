@@ -1496,7 +1496,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
    /**
     * Given a value ID, retrieve the equivalent lookup table entry.
-    * 
+    *
     * @param fieldType field type
     * @param valueID value ID
     * @return lookup table entry
@@ -1517,7 +1517,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
    /**
     * Populate a cache of lookup table entries.
-    * 
+    *
     * @param items list of lookup table entries
     * @return cache of lookup table entries
     */
