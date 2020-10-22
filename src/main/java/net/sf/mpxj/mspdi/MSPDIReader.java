@@ -186,13 +186,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
          readProjectProperties(project);
-         readProjectExtendedAttributes(project);
+         readExtendedAttributeDefinitions(project);
+         readOutlineCodeDefinitions(project);
          readCalendars(project, calendarMap);
          readResources(project, calendarMap);
          readTasks(project);
          readAssignments(project);
-         readOutlineCodes(project);
-
+         
          //
          // Ensure that the unique ID counters are correct
          //
@@ -797,14 +797,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the MSPDI file
     */
-   private void readProjectExtendedAttributes(Project project)
+   private void readExtendedAttributeDefinitions(Project project)
    {
       Project.ExtendedAttributes attributes = project.getExtendedAttributes();
       if (attributes != null)
       {
          for (Project.ExtendedAttributes.ExtendedAttribute ea : attributes.getExtendedAttribute())
          {
-            readFieldAlias(ea);
+            readExtendedAttributeDefinition(ea);
          }
       }
    }
@@ -814,7 +814,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param attribute extended attribute
     */
-   private void readFieldAlias(Project.ExtendedAttributes.ExtendedAttribute attribute)
+   private void readExtendedAttributeDefinition(Project.ExtendedAttributes.ExtendedAttribute attribute)
    {
       FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
       m_lookupTableMap.put(attribute.getLtuid(), field);
@@ -927,7 +927,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
 
       readResourceExtendedAttributes(xml, mpx);
-
+      readResourceOutlineCodes(xml, mpx);
+      
       readResourceBaselines(xml, mpx);
 
       mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
@@ -984,6 +985,33 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          ResourceField mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+      }
+   }
+
+   private void readResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
+   {
+      for (Project.Resources.Resource.OutlineCode attrib : xml.getOutlineCode())
+      {
+         ResourceField mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
+         if (customField != null)
+         {
+            CustomFieldLookupTable table = customField.getLookupTable();
+            // TODO: LUT
+            CustomFieldValueItem item = table.stream().filter(v -> NumberHelper.getInt(v.getUniqueID()) == NumberHelper.getInt(attrib.getValueID())).findFirst().orElse(null);
+            if (item != null)
+            {
+               mpx.set(mpxFieldID, item.getValue());
+            }
+            else
+            {
+               System.out.print("Missed: " + mpxFieldID + " " + attrib.getValueID());
+            }
+         }
+         else
+         {
+            System.out.println("Missing field: " + mpxFieldID);
+         }
       }
    }
 
@@ -1305,6 +1333,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);
+         readTaskOutlineCodes(xml, mpx);
 
          readTaskBaselines(xml, mpx, durationFormat);
 
@@ -1424,13 +1453,39 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private void readTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
-      // TODO: need to read outline codes too
       for (Project.Tasks.Task.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
          TaskField mpxFieldID = MPPTaskField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+      }
+   }
+
+   private void readTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
+   {
+      for (Project.Tasks.Task.OutlineCode attrib : xml.getOutlineCode())
+      {
+         TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
+         if (customField != null)
+         {
+            CustomFieldLookupTable table = customField.getLookupTable();
+            // TODO: LUT
+            CustomFieldValueItem item = table.stream().filter(v -> NumberHelper.getInt(v.getUniqueID()) == NumberHelper.getInt(attrib.getValueID())).findFirst().orElse(null);
+            if (item != null)
+            {
+               mpx.set(mpxFieldID, item.getValue());
+            }
+            else
+            {
+               System.out.println("Missed: " + mpxFieldID + " " + attrib.getValueID());
+            }
+         }
+         else
+         {
+            System.out.println("Missing field: " + mpxFieldID);
+         }
       }
    }
 
@@ -1550,14 +1605,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the MSPDI file
     */
-   private void readOutlineCodes(Project project)
+   private void readOutlineCodeDefinitions(Project project)
    {
       Project.OutlineCodes outlineCodes = project.getOutlineCodes();
       if (outlineCodes != null)
       {
          for (Project.OutlineCodes.OutlineCode outlineCode : outlineCodes.getOutlineCode())
          {
-            readOutlineCode(outlineCode);
+            readOutlineCodeDefinition(outlineCode);
          }
       }
    }
@@ -1567,7 +1622,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param outlineCode outline code data from the MSPDI file
     */
-   private void readOutlineCode(Project.OutlineCodes.OutlineCode outlineCode)
+   private void readOutlineCodeDefinition(Project.OutlineCodes.OutlineCode outlineCode)
    {
       FieldType fieldType;
       String fieldID = outlineCode.getFieldID();

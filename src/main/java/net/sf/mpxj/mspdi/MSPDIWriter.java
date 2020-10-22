@@ -426,6 +426,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Header details
       //
       CustomFieldLookupTable table = field.getLookupTable();
+      outlineCode.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(field.getFieldType())));
       outlineCode.setGuid(table.getGUID());
       outlineCode.setEnterprise(Boolean.valueOf(table.getEnterprise()));
       outlineCode.setShowIndent(Boolean.valueOf(table.getShowIndent()));
@@ -1007,7 +1008,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       writeResourceExtendedAttributes(xml, mpx);
-
+      writeResourceOutlineCodes(xml, mpx);
+      
       writeResourceBaselines(xml, mpx);
 
       writeCostRateTables(xml, mpx);
@@ -1102,6 +1104,38 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
+      }
+   }
+
+   private void writeResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
+   {      
+      List<Project.Resources.Resource.OutlineCode> outlineCodes = xml.getOutlineCode();
+
+      for (ResourceField mpxFieldID : ResourceFieldLists.CUSTOM_OUTLINE_CODE)
+      {
+         Object value = mpx.getCachedValue(mpxFieldID);
+
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
+         {
+            m_extendedAttributesInUse.add(mpxFieldID);
+
+            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
+            
+            Project.Resources.Resource.OutlineCode attrib = m_factory.createProjectResourcesResourceOutlineCode();
+            outlineCodes.add(attrib);
+            attrib.setFieldID(xmlFieldID.toString());            
+            setValueID(attrib, mpxFieldID, formattedValue);
+         }
+      }
+   }
+
+   private void setValueID(Project.Resources.Resource.OutlineCode attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         attrib.setValueID(NumberHelper.getBigInteger(valueItem.getUniqueID()));
       }
    }
 
@@ -2230,7 +2264,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
