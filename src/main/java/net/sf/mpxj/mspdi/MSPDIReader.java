@@ -167,7 +167,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          m_eventManager = m_projectFile.getEventManager();
          m_lookupTableMap = new HashMap<>();
          m_customFieldValueItems = new HashMap<>();
-         
+
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
          config.setAutoTaskUniqueID(false);
@@ -194,7 +194,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          readResources(project, calendarMap);
          readTasks(project);
          readAssignments(project);
-         
+
          //
          // Ensure that the unique ID counters are correct
          //
@@ -931,7 +931,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       readResourceExtendedAttributes(xml, mpx);
       readResourceOutlineCodes(xml, mpx);
-      
+
       readResourceBaselines(xml, mpx);
 
       mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
@@ -1480,7 +1480,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          {
             continue;
          }
-         
+
          TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
@@ -1494,24 +1494,37 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Given a value ID, retrieve the equivalent lookup table entry.
+    * 
+    * @param fieldType field type
+    * @param valueID value ID
+    * @return lookup table entry
+    */
    private CustomFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
    {
       CustomFieldValueItem result = null;
-      
+
       CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
       List<CustomFieldValueItem> items = field.getLookupTable();
       if (!items.isEmpty())
-      {                  
-         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID); 
+      {
+         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
       }
-      
+
       return result;
    }
-   
+
+   /**
+    * Populate a cache of lookup table entries.
+    * 
+    * @param items list of lookup table entries
+    * @return cache of lookup table entries
+    */
    private HashMap<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(List<CustomFieldValueItem> items)
    {
-      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();      
-      items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));      
+      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();
+      items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));
       return result;
    }
 
@@ -2043,7 +2056,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<UUID, FieldType> m_lookupTableMap;
    private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
-   
+
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {
       null,
