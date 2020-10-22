@@ -6,7 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.3.2">
-			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>				
+			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>
+			<action dev="joniles" type="update">Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)</action>				
 			<action dev="joniles" type="update">Improved handling of enterprise custom fields when reading MPP files</action>				
 			<action dev="joniles" type="update">Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.</action>
 			<action dev="joniles" type="update">Improve handling of some MPP12 MPP file variants.</action>

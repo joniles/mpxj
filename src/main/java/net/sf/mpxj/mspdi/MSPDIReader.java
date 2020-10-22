@@ -165,6 +165,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
+         m_lookupTableMap = new HashMap<>();
+         m_customFieldValueItems = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
@@ -186,12 +188,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
          readProjectProperties(project);
-         readProjectExtendedAttributes(project);
+         readExtendedAttributeDefinitions(project);
+         readOutlineCodeDefinitions(project);
          readCalendars(project, calendarMap);
          readResources(project, calendarMap);
          readTasks(project);
          readAssignments(project);
-         readOutlineCodes(project);
 
          //
          // Ensure that the unique ID counters are correct
@@ -233,7 +235,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_lookupTableMap.clear();
+         m_lookupTableMap = null;
+         m_customFieldValueItems = null;
       }
    }
 
@@ -797,14 +800,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the MSPDI file
     */
-   private void readProjectExtendedAttributes(Project project)
+   private void readExtendedAttributeDefinitions(Project project)
    {
       Project.ExtendedAttributes attributes = project.getExtendedAttributes();
       if (attributes != null)
       {
          for (Project.ExtendedAttributes.ExtendedAttribute ea : attributes.getExtendedAttribute())
          {
-            readFieldAlias(ea);
+            readExtendedAttributeDefinition(ea);
          }
       }
    }
@@ -814,7 +817,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param attribute extended attribute
     */
-   private void readFieldAlias(Project.ExtendedAttributes.ExtendedAttribute attribute)
+   private void readExtendedAttributeDefinition(Project.ExtendedAttributes.ExtendedAttribute attribute)
    {
       FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
       m_lookupTableMap.put(attribute.getLtuid(), field);
@@ -927,6 +930,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
 
       readResourceExtendedAttributes(xml, mpx);
+      readResourceOutlineCodes(xml, mpx);
 
       readResourceBaselines(xml, mpx);
 
@@ -984,6 +988,34 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          ResourceField mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+      }
+   }
+
+   /**
+    * This method processes any outline codes associated with a resource.
+    *
+    * @param xml MSPDI resource instance
+    * @param mpx MPX resource instance
+    */
+   private void readResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
+   {
+      for (Project.Resources.Resource.OutlineCode attrib : xml.getOutlineCode())
+      {
+         if (attrib.getFieldID() == null)
+         {
+            continue;
+         }
+
+         ResourceField mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
+         if (customField != null)
+         {
+            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
+            if (item != null)
+            {
+               mpx.set(mpxFieldID, item.getValue());
+            }
+         }
       }
    }
 
@@ -1305,6 +1337,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          mpx.setCritical(BooleanHelper.getBoolean(xml.isCritical()));
 
          readTaskExtendedAttributes(xml, mpx);
+         readTaskOutlineCodes(xml, mpx);
 
          readTaskBaselines(xml, mpx, durationFormat);
 
@@ -1434,6 +1467,68 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    }
 
    /**
+    * This method processes any outline codes associated with a task.
+    *
+    * @param xml MSPDI task instance
+    * @param mpx MPX task instance
+    */
+   private void readTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
+   {
+      for (Project.Tasks.Task.OutlineCode attrib : xml.getOutlineCode())
+      {
+         if (attrib.getFieldID() == null)
+         {
+            continue;
+         }
+
+         TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
+         if (customField != null)
+         {
+            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
+            if (item != null)
+            {
+               mpx.set(mpxFieldID, item.getValue());
+            }
+         }
+      }
+   }
+
+   /**
+    * Given a value ID, retrieve the equivalent lookup table entry.
+    *
+    * @param fieldType field type
+    * @param valueID value ID
+    * @return lookup table entry
+    */
+   private CustomFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
+   {
+      CustomFieldValueItem result = null;
+
+      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+      List<CustomFieldValueItem> items = field.getLookupTable();
+      if (!items.isEmpty())
+      {
+         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
+      }
+
+      return result;
+   }
+
+   /**
+    * Populate a cache of lookup table entries.
+    *
+    * @param items list of lookup table entries
+    * @return cache of lookup table entries
+    */
+   private HashMap<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(List<CustomFieldValueItem> items)
+   {
+      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();
+      items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));
+      return result;
+   }
+
+   /**
     * This method is used to retrieve the calendar associated
     * with a task. If no calendar is associated with a task, this method
     * returns null.
@@ -1549,14 +1644,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the MSPDI file
     */
-   private void readOutlineCodes(Project project)
+   private void readOutlineCodeDefinitions(Project project)
    {
       Project.OutlineCodes outlineCodes = project.getOutlineCodes();
       if (outlineCodes != null)
       {
          for (Project.OutlineCodes.OutlineCode outlineCode : outlineCodes.getOutlineCode())
          {
-            readOutlineCode(outlineCode);
+            readOutlineCodeDefinition(outlineCode);
          }
       }
    }
@@ -1566,7 +1661,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param outlineCode outline code data from the MSPDI file
     */
-   private void readOutlineCode(Project.OutlineCodes.OutlineCode outlineCode)
+   private void readOutlineCodeDefinition(Project.OutlineCodes.OutlineCode outlineCode)
    {
       FieldType fieldType;
       String fieldID = outlineCode.getFieldID();
@@ -1959,7 +2054,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
+   private Map<UUID, FieldType> m_lookupTableMap;
+   private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {

@@ -1,6 +1,8 @@
 # Changelog
 
 ## 8.3.2 (git master)
+* Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)
+* Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)
 * Improved handling of enterprise custom fields when reading MPP files
 * Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.
 * Improve handling of some MPP12 MPP file variants.

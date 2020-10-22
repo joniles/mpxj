@@ -7,20 +7,20 @@
 
 package net.sf.mpxj.mspdi.schema;
 
+import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import net.sf.mpxj.WorkContour;
 
-@SuppressWarnings("all") public class Adapter11 extends XmlAdapter<String, WorkContour>
+@SuppressWarnings("all") public class Adapter25 extends XmlAdapter<String, UUID>
 {
 
-   public WorkContour unmarshal(String value)
+   public UUID unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkContour(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
    }
 
-   public String marshal(WorkContour value)
+   public String marshal(UUID value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkContour(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
    }
 
 }

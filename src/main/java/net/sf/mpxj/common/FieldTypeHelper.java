@@ -49,35 +49,42 @@ public final class FieldTypeHelper
    public static int getFieldID(FieldType type)
    {
       int result;
-      switch (type.getFieldTypeClass())
+      if (type == null)
       {
-         case TASK:
+         result = -1;
+      }
+      else
+      {
+         switch (type.getFieldTypeClass())
          {
-            result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID((TaskField) type);
-            break;
-         }
+            case TASK:
+            {
+               result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID((TaskField) type);
+               break;
+            }
 
-         case RESOURCE:
-         {
-            result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID((ResourceField) type);
-            break;
-         }
+            case RESOURCE:
+            {
+               result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID((ResourceField) type);
+               break;
+            }
 
-         case ASSIGNMENT:
-         {
-            result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID((AssignmentField) type);
-            break;
-         }
+            case ASSIGNMENT:
+            {
+               result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID((AssignmentField) type);
+               break;
+            }
 
-         case PROJECT:
-         {
-            result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID((ProjectField) type);
-            break;
-         }
+            case PROJECT:
+            {
+               result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID((ProjectField) type);
+               break;
+            }
 
-         default:
-         {
-            result = -1;
+            default:
+            {
+               result = -1;
+            }
          }
       }
       return result;

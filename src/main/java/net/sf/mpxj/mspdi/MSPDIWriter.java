@@ -32,8 +32,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -50,6 +52,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -210,6 +213,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          m_extendedAttributesInUse = new HashSet<>();
+         m_customFieldValueItems = new HashMap<>();
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -235,6 +239,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_projectFile = null;
          m_factory = null;
          m_extendedAttributesInUse = null;
+         m_customFieldValueItems = null;
       }
    }
 
@@ -425,6 +430,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Header details
       //
       CustomFieldLookupTable table = field.getLookupTable();
+      outlineCode.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(field.getFieldType())));
       outlineCode.setGuid(table.getGUID());
       outlineCode.setEnterprise(Boolean.valueOf(table.getEnterprise()));
       outlineCode.setShowIndent(Boolean.valueOf(table.getShowIndent()));
@@ -1006,6 +1012,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       writeResourceExtendedAttributes(xml, mpx);
+      writeResourceOutlineCodes(xml, mpx);
 
       writeResourceBaselines(xml, mpx);
 
@@ -1094,13 +1101,77 @@ public final class MSPDIWriter extends AbstractProjectWriter
             m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
             attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+
+            setValueGUID(attrib, mpxFieldID, formattedValue);
          }
+      }
+   }
+
+   /**
+    * Set the GUID of a value selected from a lookup table.
+    *
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
+   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         attrib.setValueGUID(valueItem.getGUID());
+      }
+   }
+
+   /**
+    * This method writes outline codes for a resource.
+    *
+    * @param xml MSPDI resource
+    * @param mpx MPXJ resource
+    */
+   private void writeResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
+   {
+      List<Project.Resources.Resource.OutlineCode> outlineCodes = xml.getOutlineCode();
+
+      for (ResourceField mpxFieldID : ResourceFieldLists.CUSTOM_OUTLINE_CODE)
+      {
+         Object value = mpx.getCachedValue(mpxFieldID);
+
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
+         {
+            m_extendedAttributesInUse.add(mpxFieldID);
+
+            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
+
+            Project.Resources.Resource.OutlineCode attrib = m_factory.createProjectResourcesResourceOutlineCode();
+            outlineCodes.add(attrib);
+            attrib.setFieldID(xmlFieldID.toString());
+            setValueID(attrib, mpxFieldID, formattedValue);
+         }
+      }
+   }
+
+   /**
+    * Set the ID of a value selected from a lookup table.
+    *
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
+   private void setValueID(Project.Resources.Resource.OutlineCode attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         attrib.setValueID(NumberHelper.getBigInteger(valueItem.getUniqueID()));
       }
    }
 
@@ -1373,6 +1444,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       writePredecessors(xml, mpx);
 
       writeTaskExtendedAttributes(xml, mpx);
+      writeTaskOutlineCodes(xml, mpx);
 
       writeTaskBaselines(xml, mpx);
 
@@ -1489,7 +1561,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
-      Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
       for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
@@ -1501,14 +1572,114 @@ public final class MSPDIWriter extends AbstractProjectWriter
             m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
-            attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+            Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+
+            setValueGUID(attrib, mpxFieldID, formattedValue);
          }
       }
+   }
+
+   /**
+    * This method writes outline codes for a task.
+    *
+    * @param xml MSPDI task
+    * @param mpx MPXJ task
+    */
+   private void writeTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
+   {
+      List<Project.Tasks.Task.OutlineCode> outlineCodes = xml.getOutlineCode();
+
+      for (TaskField mpxFieldID : TaskFieldLists.CUSTOM_OUTLINE_CODE)
+      {
+         Object value = mpx.getCachedValue(mpxFieldID);
+
+         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
+         {
+            m_extendedAttributesInUse.add(mpxFieldID);
+
+            Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
+
+            Project.Tasks.Task.OutlineCode attrib = m_factory.createProjectTasksTaskOutlineCode();
+            outlineCodes.add(attrib);
+            attrib.setFieldID(xmlFieldID.toString());
+            setValueID(attrib, mpxFieldID, formattedValue);
+         }
+      }
+   }
+
+   /**
+    * Set the GUID of a value selected from a lookup table.
+    *
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
+   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         attrib.setValueGUID(valueItem.getGUID());
+      }
+   }
+
+   /**
+    * Set the ID of a value selected from a lookup table.
+    *
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
+   private void setValueID(Project.Tasks.Task.OutlineCode attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         attrib.setValueID(NumberHelper.getBigInteger(valueItem.getUniqueID()));
+      }
+   }
+
+   /**
+    * Given a formatted value, retrieve the equivalent lookup table entry.
+    *
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    * @return lookup table entry
+    */
+   private CustomFieldValueItem getValueItem(FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem result = null;
+
+      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+      List<CustomFieldValueItem> items = field.getLookupTable();
+      if (!items.isEmpty())
+      {
+         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue);
+      }
+
+      return result;
+   }
+
+   /**
+    * Populate a cache of lookup table entries.
+    *
+    * @param fieldType field type
+    * @param items list of lookup table entries
+    * @return cache of lookup table entries
+    */
+   private HashMap<String, CustomFieldValueItem> getCustomFieldValueItemMap(FieldType fieldType, List<CustomFieldValueItem> items)
+   {
+      DataType dataType = fieldType.getDataType();
+      HashMap<String, CustomFieldValueItem> result = new HashMap<>();
+      items.forEach(item -> result.put(DatatypeConverter.printExtendedAttribute(this, item.getValue(), dataType), item));
+      return result;
    }
 
    /**
@@ -2139,7 +2310,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
       result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
       result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
@@ -2165,7 +2335,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
       result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
@@ -2238,6 +2407,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private EventManager m_eventManager;
 
    private Set<FieldType> m_extendedAttributesInUse;
+
+   private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
 
    private boolean m_compatibleOutput = true;
 
