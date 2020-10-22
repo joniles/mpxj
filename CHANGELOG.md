@@ -8,6 +8,7 @@
 * Improve handling of some MPP12 MPP file variants.
 * Avoid error when reading timephased data from certain MPP files.
 * Gracefully handle MPP files with missing view data.
+* Update junit to 4.13.1.
 
 ## 8.3.1 (14/10/2020)
 * Minor updates to PlannerReader.

@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Improve handling of some MPP12 MPP file variants.</action>
 			<action dev="joniles" type="update">Avoid error when reading timephased data from certain MPP files.</action>
 			<action dev="joniles" type="update">Gracefully handle MPP files with missing view data.</action>
+			<action dev="joniles" type="update">Update junit to 4.13.1.</action>
 		</release>
 		<release date="14/10/2020" version="8.3.1">
 			<action dev="joniles" type="update">Minor updates to PlannerReader.</action>
