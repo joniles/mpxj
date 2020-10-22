@@ -165,7 +165,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-
+         m_lookupTableMap = new HashMap<>();
+         m_customFieldValueItems = new HashMap<>();
+         
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
          config.setAutoTaskUniqueID(false);
@@ -233,7 +235,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_lookupTableMap.clear();
+         m_lookupTableMap = null;
+         m_customFieldValueItems = null;
       }
    }
 
@@ -988,6 +991,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * This method processes any outline codes associated with a resource.
+    *
+    * @param xml MSPDI resource instance
+    * @param mpx MPX resource instance
+    */
    private void readResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
    {
       for (Project.Resources.Resource.OutlineCode attrib : xml.getOutlineCode())
@@ -1001,21 +1010,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
          {
-            CustomFieldLookupTable table = customField.getLookupTable();
-            // TODO: LUT
-            CustomFieldValueItem item = table.stream().filter(v -> NumberHelper.getInt(v.getUniqueID()) == NumberHelper.getInt(attrib.getValueID())).findFirst().orElse(null);
+            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
             if (item != null)
             {
                mpx.set(mpxFieldID, item.getValue());
             }
-            else
-            {
-               System.out.print("Missed: " + mpxFieldID + " " + attrib.getValueID());
-            }
-         }
-         else
-         {
-            System.out.println("Missing field: " + mpxFieldID);
          }
       }
    }
@@ -1467,6 +1466,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * This method processes any outline codes associated with a task.
+    *
+    * @param xml MSPDI task instance
+    * @param mpx MPX task instance
+    */
    private void readTaskOutlineCodes(Project.Tasks.Task xml, Task mpx)
    {
       for (Project.Tasks.Task.OutlineCode attrib : xml.getOutlineCode())
@@ -1480,23 +1485,34 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
          {
-            CustomFieldLookupTable table = customField.getLookupTable();
-            // TODO: LUT
-            CustomFieldValueItem item = table.stream().filter(v -> NumberHelper.getInt(v.getUniqueID()) == NumberHelper.getInt(attrib.getValueID())).findFirst().orElse(null);
+            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
             if (item != null)
             {
                mpx.set(mpxFieldID, item.getValue());
             }
-            else
-            {
-               System.out.println("Missed: " + mpxFieldID + " " + attrib.getValueID());
-            }
-         }
-         else
-         {
-            System.out.println("Missing field: " + mpxFieldID);
          }
       }
+   }
+
+   private CustomFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
+   {
+      CustomFieldValueItem result = null;
+      
+      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+      List<CustomFieldValueItem> items = field.getLookupTable();
+      if (!items.isEmpty())
+      {                  
+         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID); 
+      }
+      
+      return result;
+   }
+   
+   private HashMap<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(List<CustomFieldValueItem> items)
+   {
+      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();      
+      items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));      
+      return result;
    }
 
    /**
@@ -2025,8 +2041,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private Map<UUID, FieldType> m_lookupTableMap = new HashMap<>();
-
+   private Map<UUID, FieldType> m_lookupTableMap;
+   private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
+   
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {
       null,

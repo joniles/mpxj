@@ -32,8 +32,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -211,7 +213,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          m_extendedAttributesInUse = new HashSet<>();
-
+         m_customFieldValueItems = new HashMap<>();
+         
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
 
@@ -236,6 +239,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_projectFile = null;
          m_factory = null;
          m_extendedAttributesInUse = null;
+         m_customFieldValueItems = null;
       }
    }
 
@@ -1110,6 +1114,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Set the GUID of a value selected from a lookup table.
+    * 
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
    private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
    {
       CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
@@ -1120,6 +1131,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * This method writes outline codes for a resource.
+    *
+    * @param xml MSPDI resource
+    * @param mpx MPXJ resource
+    */
    private void writeResourceOutlineCodes(Project.Resources.Resource xml, Resource mpx)
    {      
       List<Project.Resources.Resource.OutlineCode> outlineCodes = xml.getOutlineCode();
@@ -1143,6 +1160,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Set the ID of a value selected from a lookup table.
+    * 
+    * @param attrib parent attribute
+    * @param fieldType field type
+    * @param formattedValue formatted value
+    */
    private void setValueID(Project.Resources.Resource.OutlineCode attrib, FieldType fieldType, String formattedValue)
    {
       CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
@@ -1607,21 +1631,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       CustomFieldValueItem result = null;
       
-      // TODO: cache LUT values
       CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
       List<CustomFieldValueItem> items = field.getLookupTable();
       if (!items.isEmpty())
-      {
-         DataType dataType = fieldType.getDataType();
-         result = items.stream().filter(v -> valuesMatch(dataType, formattedValue, v.getValue())).findFirst().orElse(null);
+      {                  
+         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue); 
       }
       
       return result;
    }
-
-   private boolean valuesMatch(DataType dataType, String selectedValue, Object value)
+   
+   private HashMap<String, CustomFieldValueItem> getCustomFieldValueItemMap(FieldType fieldType, List<CustomFieldValueItem> items)
    {
-      return selectedValue.equals(DatatypeConverter.printExtendedAttribute(this, value, dataType));
+      DataType dataType = fieldType.getDataType();
+      HashMap<String, CustomFieldValueItem> result = new HashMap<>();      
+      items.forEach(item -> result.put(DatatypeConverter.printExtendedAttribute(this, item.getValue(), dataType), item));      
+      return result;
    }
    
    /**
@@ -2350,6 +2375,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Set<FieldType> m_extendedAttributesInUse;
 
+   private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
+   
    private boolean m_compatibleOutput = true;
 
    private boolean m_splitTimephasedAsDays = true;
