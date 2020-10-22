@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.3.2 (git master)
+## 8.3.3 (git master)
+
+## 8.3.2 (22/10/2020)
 * Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)
 * Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)
 * Improved handling of enterprise custom fields when reading MPP files

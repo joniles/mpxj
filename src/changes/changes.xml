@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.3.2">
+		<release date="git master" version="8.3.3">
+		</release>
+		<release date="22/10/2020" version="8.3.2">
 			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>
 			<action dev="joniles" type="update">Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)</action>				
 			<action dev="joniles" type="update">Improved handling of enterprise custom fields when reading MPP files</action>				
