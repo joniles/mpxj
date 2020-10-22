@@ -426,7 +426,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Header details
       //
       CustomFieldLookupTable table = field.getLookupTable();
-      outlineCode.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(field.getFieldType())));
+      outlineCode.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(field.getFieldType())));         
       outlineCode.setGuid(table.getGUID());
       outlineCode.setEnterprise(Boolean.valueOf(table.getEnterprise()));
       outlineCode.setShowIndent(Boolean.valueOf(table.getShowIndent()));
@@ -1097,13 +1097,26 @@ public final class MSPDIWriter extends AbstractProjectWriter
             m_extendedAttributesInUse.add(mpxFieldID);
 
             Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
-
+            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
+            
             attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+            
+            setValueGUID(attrib, mpxFieldID, formattedValue);
          }
+      }
+   }
+
+   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   {
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      if (valueItem != null)
+      {
+         // TODO fix UUID data type
+         //attrib.setValueGUID(valueItem.getGUID());
       }
    }
 

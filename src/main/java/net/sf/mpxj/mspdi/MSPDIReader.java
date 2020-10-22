@@ -992,6 +992,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       for (Project.Resources.Resource.OutlineCode attrib : xml.getOutlineCode())
       {
+         if (attrib.getFieldID() == null)
+         {
+            continue;
+         }
+
          ResourceField mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
@@ -1466,6 +1471,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       for (Project.Tasks.Task.OutlineCode attrib : xml.getOutlineCode())
       {
+         if (attrib.getFieldID() == null)
+         {
+            continue;
+         }
+         
          TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
