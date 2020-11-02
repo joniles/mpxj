@@ -48,6 +48,11 @@ public enum UserFieldDataType
    {
       "FINISH"
    }),
+   FT_FLOAT(new String[]
+   {
+      "NUMBER",
+      "ENTERPRISE_NUMBER"
+   }),
    FT_FLOAT_2_DECIMALS(new String[]
    {
       "NUMBER",
