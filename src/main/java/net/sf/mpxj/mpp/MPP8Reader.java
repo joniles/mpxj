@@ -166,10 +166,12 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
-
-      ProjectProperties properties = m_file.getProjectProperties();
-      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      if (m_viewDir.hasEntry("Props"))
+      {
+         Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
+         ProjectProperties properties = m_file.getProjectProperties();
+         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      }
    }
 
    /**
@@ -1220,51 +1222,54 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
-      FixFix ff = new FixFix(126, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
-      FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
-      int items = ff.getItemCount();
-      StringBuilder sb = new StringBuilder();
-      TableContainer container = m_file.getTables();
-
-      for (int loop = 0; loop < items; loop++)
+      if (m_viewDir.hasEntry("CTable"))
       {
-         byte[] data = ff.getByteArrayValue(loop);
-         Table table = new Table();
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+         FixFix ff = new FixFix(126, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
+         FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
+         int items = ff.getItemCount();
+         StringBuilder sb = new StringBuilder();
+         TableContainer container = m_file.getTables();
 
-         table.setID(MPPUtility.getInt(data, 0));
-
-         String name = MPPUtility.getUnicodeString(data, 4);
-         if (name.indexOf('&') != -1)
+         for (int loop = 0; loop < items; loop++)
          {
-            sb.setLength(0);
-            int index = 0;
-            char c;
+            byte[] data = ff.getByteArrayValue(loop);
+            Table table = new Table();
 
-            while (index < name.length())
+            table.setID(MPPUtility.getInt(data, 0));
+
+            String name = MPPUtility.getUnicodeString(data, 4);
+            if (name.indexOf('&') != -1)
             {
-               c = name.charAt(index);
-               if (c != '&')
+               sb.setLength(0);
+               int index = 0;
+               char c;
+
+               while (index < name.length())
                {
-                  sb.append(c);
+                  c = name.charAt(index);
+                  if (c != '&')
+                  {
+                     sb.append(c);
+                  }
+                  ++index;
                }
-               ++index;
+
+               name = sb.toString();
             }
 
-            name = sb.toString();
+            table.setName(MPPUtility.removeAmpersands(name));
+            container.add(table);
+
+            byte[] extendedData = fdf.getByteArray(getOffset(data, 122));
+            if (extendedData != null)
+            {
+               byte[] columnData = fdf.getByteArray(getOffset(extendedData, 8));
+               processColumnData(table, columnData);
+            }
+
+            //System.out.println(table);
          }
-
-         table.setName(MPPUtility.removeAmpersands(name));
-         container.add(table);
-
-         byte[] extendedData = fdf.getByteArray(getOffset(data, 122));
-         if (extendedData != null)
-         {
-            byte[] columnData = fdf.getByteArray(getOffset(extendedData, 8));
-            processColumnData(table, columnData);
-         }
-
-         //System.out.println(table);
       }
    }
 

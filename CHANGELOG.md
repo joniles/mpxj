@@ -3,6 +3,7 @@
 ## 8.3.3 (git master)
 * Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
 * Handle Planner files which don't contain an allocations tag.
+* Gracefully handle MPP files with missing view data.
 
 ## 8.3.2 (22/10/2020)
 * Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)

@@ -758,15 +758,18 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props14 props = new Props14(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
-      byte[] data = props.getByteArray(Props.FONT_BASES);
-      if (data != null)
+      if (m_viewDir.hasEntry("Props"))
       {
-         processBaseFonts(data);
-      }
+         Props14 props = new Props14(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
+         byte[] data = props.getByteArray(Props.FONT_BASES);
+         if (data != null)
+         {
+            processBaseFonts(data);
+         }
 
-      ProjectProperties properties = m_file.getProjectProperties();
-      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+         ProjectProperties properties = m_file.getProjectProperties();
+         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      }
    }
 
    /**
@@ -1836,24 +1839,27 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
-
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-      FixedData fixedData = new FixedData(230, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData"))));
-      //System.out.println(varMeta);
-      //System.out.println(varData);
-      //System.out.println(fixedData);
-
-      TableContainer container = m_file.getTables();
-      TableFactory14 factory = new TableFactory14(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
-      int items = fixedData.getItemCount();
-      for (int loop = 0; loop < items; loop++)
+      if (m_viewDir.hasEntry("CTable"))
       {
-         byte[] data = fixedData.getByteArrayValue(loop);
-         Table table = factory.createTable(m_file, data, varMeta, varData);
-         container.add(table);
-         //System.out.println(table);
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+
+         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         FixedData fixedData = new FixedData(230, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData"))));
+         //System.out.println(varMeta);
+         //System.out.println(varData);
+         //System.out.println(fixedData);
+
+         TableContainer container = m_file.getTables();
+         TableFactory14 factory = new TableFactory14(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
+         int items = fixedData.getItemCount();
+         for (int loop = 0; loop < items; loop++)
+         {
+            byte[] data = fixedData.getByteArrayValue(loop);
+            Table table = factory.createTable(m_file, data, varMeta, varData);
+            container.add(table);
+            //System.out.println(table);
+         }
       }
    }
 
@@ -1864,42 +1870,45 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processFilterData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
-
-      FixedMeta fixedMeta;
-      FixedData fixedData;
-      VarMeta varMeta;
-      Var2Data varData;
-
-      try
+      if (m_viewDir.hasEntry("CFilter"))
       {
-         fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-         fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-         varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
+
+         FixedMeta fixedMeta;
+         FixedData fixedData;
+         VarMeta varMeta;
+         Var2Data varData;
+
+         try
+         {
+            fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+            fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+            varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+            varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         }
+
+         catch (IndexOutOfBoundsException ex)
+         {
+            // From a sample file where the stream reports an available number of bytes
+            // but attempting to read that number of bytes raises an exception.
+            return;
+         }
+
+         catch (IOException ex)
+         {
+            // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
+            // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
+            return;
+         }
+
+         //System.out.println(fixedMeta);
+         //System.out.println(fixedData);
+         //System.out.println(varMeta);
+         //System.out.println(varData);
+
+         FilterReader reader = new FilterReader14();
+         reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
       }
-
-      catch (IndexOutOfBoundsException ex)
-      {
-         // From a sample file where the stream reports an available number of bytes
-         // but attempting to read that number of bytes raises an exception.
-         return;
-      }
-
-      catch (IOException ex)
-      {
-         // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
-         // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
-         return;
-      }
-
-      //System.out.println(fixedMeta);
-      //System.out.println(fixedData);
-      //System.out.println(varMeta);
-      //System.out.println(varData);
-
-      FilterReader reader = new FilterReader14();
-      reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
    }
 
    /**
@@ -1909,20 +1918,23 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processSavedViewState() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-      //System.out.println(varMeta);
-      //System.out.println(varData);
+      if (m_viewDir.hasEntry("CEdl"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         //System.out.println(varMeta);
+         //System.out.println(varData);
 
-      InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
-      byte[] fixedData = new byte[is.available()];
-      is.read(fixedData);
-      is.close();
-      //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
+         InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
+         byte[] fixedData = new byte[is.available()];
+         is.read(fixedData);
+         is.close();
+         //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
-      ViewStateReader reader = new ViewStateReader12();
-      reader.process(m_file, varData, fixedData);
+         ViewStateReader reader = new ViewStateReader12();
+         reader.process(m_file, varData, fixedData);
+      }
    }
 
    /**
@@ -1932,19 +1944,22 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processGroupData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (m_viewDir.hasEntry("CGrouping"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
+         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      //System.out.println(fixedMeta);
-      //System.out.println(fixedData);
-      //System.out.println(varMeta);
-      //System.out.println(varData);
+         //System.out.println(fixedMeta);
+         //System.out.println(fixedData);
+         //System.out.println(varMeta);
+         //System.out.println(varData);
 
-      GroupReader14 reader = new GroupReader14();
-      reader.process(m_file, fixedData, varData, m_fontBases);
+         GroupReader14 reader = new GroupReader14();
+         reader.process(m_file, fixedData, varData, m_fontBases);
+      }
    }
 
    /**
@@ -1952,14 +1967,17 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processDataLinks() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (m_viewDir.hasEntry("CEdl"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
-      factory.process();
+         DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
+         factory.process();
+      }
    }
 
    /**
