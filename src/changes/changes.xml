@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="8.3.3">
 			<action dev="joniles" type="update">Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</action>
+			<action dev="joniles" type="update">Align invalid XER record behaviour with P6.</action>
 			<action dev="joniles" type="update">Handle Planner files which don't contain an allocations tag.</action>
 			<action dev="joniles" type="update">Gracefully handle MPP files with missing view data.</action>
 		</release>

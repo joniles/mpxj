@@ -693,88 +693,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          {
             if (!m_skipTable)
             {
-               Map<String, Object> map = new HashMap<>();
-               for (int loop = 1; loop < record.size(); loop++)
-               {
-                  // We have more fields than field names, stop processing
-                  if (loop == m_currentFieldNames.length)
-                  {
-                     break;
-                  }
-
-                  String fieldName = m_currentFieldNames[loop];
-                  String fieldValue = record.get(loop);
-                  XerFieldType fieldType = getFieldType(fieldName);
-
-                  Object objectValue;
-                  if (fieldValue.length() == 0)
-                  {
-                     objectValue = null;
-                  }
-                  else
-                  {
-                     switch (fieldType)
-                     {
-                        case DATE:
-                        {
-                           try
-                           {
-                              objectValue = m_df.parseObject(fieldValue);
-                           }
-
-                           catch (ParseException ex)
-                           {
-                              objectValue = fieldValue;
-                           }
-
-                           break;
-                        }
-
-                        case CURRENCY:
-                        case DOUBLE:
-                        case DURATION:
-                        {
-                           try
-                           {
-                              objectValue = Double.valueOf(m_numberFormat.parse(fieldValue.trim()).doubleValue());
-                           }
-
-                           catch (ParseException ex)
-                           {
-                              objectValue = fieldValue;
-                           }
-                           break;
-                        }
-
-                        case INTEGER:
-                        {
-                           objectValue = Integer.valueOf(fieldValue.trim());
-                           break;
-                        }
-
-                        default:
-                        {
-                           objectValue = fieldValue;
-                           break;
-                        }
-                     }
-                  }
-
-                  map.put(fieldName, objectValue);
-               }
-
-               Row currentRow = new MapRow(map);
-               m_currentTable.add(currentRow);
-
-               //
-               // Special case - we need to know the default currency format
-               // ahead of time, so process each row as we get it so that
-               // we can correctly parse currency values in later tables.
-               //
-               if (m_currentTableName.equals("currtype"))
-               {
-                  processCurrency(currentRow);
-               }
+               processData(record);
             }
             break;
          }
@@ -792,6 +711,105 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       }
 
       return done;
+   }
+
+   /**
+    * Populate a table row from a data record.
+    * 
+    * @param record data record.
+    */
+   private void processData(List<String> record)
+   {
+      Map<String, Object> map = new HashMap<>();
+      for (int loop = 1; loop < record.size(); loop++)
+      {
+         // We have more fields than field names, stop processing
+         if (loop == m_currentFieldNames.length)
+         {
+            break;
+         }
+
+         String fieldName = m_currentFieldNames[loop];
+         String fieldValue = record.get(loop);
+         XerFieldType fieldType = getFieldType(fieldName);
+
+         Object objectValue;
+         if (fieldValue.length() == 0)
+         {
+            objectValue = null;
+         }
+         else
+         {
+            switch (fieldType)
+            {
+               case DATE:
+               {
+                  try
+                  {
+                     objectValue = m_df.parseObject(fieldValue);
+                  }
+
+                  catch (ParseException ex)
+                  {
+                     objectValue = fieldValue;
+                  }
+
+                  break;
+               }
+
+               case CURRENCY:
+               case DOUBLE:
+               case DURATION:
+               {
+                  try
+                  {
+                     objectValue = Double.valueOf(m_numberFormat.parse(fieldValue.trim()).doubleValue());
+                  }
+
+                  catch (ParseException ex)
+                  {
+                     objectValue = fieldValue;
+                  }
+                  break;
+               }
+
+               case INTEGER:
+               {
+                  try
+                  {
+                     objectValue = Integer.valueOf(fieldValue.trim());
+                  }
+
+                  catch (NumberFormatException ex)
+                  {
+                     objectValue = fieldValue;
+                  }
+                  break;
+               }
+
+               default:
+               {
+                  objectValue = fieldValue;
+                  break;
+               }
+            }
+         }
+
+         map.put(fieldName, objectValue);
+      }
+
+      Row currentRow = new MapRow(map);
+      m_currentTable.add(currentRow);
+
+      //
+      // Special case - we need to know the default currency format
+      // ahead of time, so process each row as we get it so that
+      // we can correctly parse currency values in later tables.
+      //
+      if (m_currentTableName.equals("currtype"))
+      {
+         processCurrency(currentRow);
+      }
    }
 
    /**
