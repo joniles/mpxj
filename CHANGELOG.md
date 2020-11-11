@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.3.3 (git master)
+* Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
 * Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
 * Align invalid XER record behaviour with P6.
 * Handle Planner files which don't contain an allocations tag.

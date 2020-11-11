@@ -106,7 +106,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  * This class creates a new MSPDI file from the contents of an ProjectFile
  * instance.
  */
-public final class PrimaveraPMFileWriter extends AbstractProjectWriter
+@SuppressWarnings("deprecation") public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
    /**
     * Set the task field which will be used to populate the Activity ID attribute
@@ -1327,13 +1327,15 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Start On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Finish On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_START, "Mandatory Start");
       CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
    }
