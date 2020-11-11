@@ -1730,7 +1730,7 @@ public final class DatatypeConverter
     * @param value ConstraintType instance
     * @return constraint type value
     */
-   public static final BigInteger printConstraintType(ConstraintType value)
+   @SuppressWarnings("deprecation") public static final BigInteger printConstraintType(ConstraintType value)
    {
       if (value == null)
       {
@@ -1740,12 +1740,14 @@ public final class DatatypeConverter
       switch (value)
       {
          case MANDATORY_START:
+         case START_ON:
          {
             value = ConstraintType.MUST_START_ON;
             break;
          }
 
          case MANDATORY_FINISH:
+         case FINISH_ON:
          {
             value = ConstraintType.MUST_FINISH_ON;
             break;

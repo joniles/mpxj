@@ -1574,15 +1574,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
-      CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.START_ON);
       CONSTRAINT_TYPE_MAP.put("Start On or Before", ConstraintType.START_NO_LATER_THAN);
       CONSTRAINT_TYPE_MAP.put("Start On or After", ConstraintType.START_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("Finish On", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("Finish On", ConstraintType.FINISH_ON);
       CONSTRAINT_TYPE_MAP.put("Finish On or Before", ConstraintType.FINISH_NO_LATER_THAN);
       CONSTRAINT_TYPE_MAP.put("Finish On or After", ConstraintType.FINISH_NO_EARLIER_THAN);
       CONSTRAINT_TYPE_MAP.put("As Late As Possible", ConstraintType.AS_LATE_AS_POSSIBLE);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MANDATORY_START);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MANDATORY_FINISH);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MUST_FINISH_ON);
    }
 
    private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
