@@ -26,8 +26,10 @@ package net.sf.mpxj;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.PopulatedFields;
 
 /**
  * Manages the collection of tasks belonging to a project.
@@ -231,6 +233,16 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
             }
          }
       }
+   }
+
+   /**
+    * Retrieve the set of populated fields for this project.
+    * 
+    * @return set of populated fields
+    */
+   public Set<TaskField> getPopulatedFields()
+   {
+      return new PopulatedFields<>(TaskField.class, this).getPopulatedFields();
    }
 
    @Override protected int firstUniqueID()

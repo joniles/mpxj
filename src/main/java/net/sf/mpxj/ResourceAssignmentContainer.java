@@ -23,6 +23,10 @@
 
 package net.sf.mpxj;
 
+import java.util.Set;
+
+import net.sf.mpxj.common.PopulatedFields;
+
 /**
  * Manages the collection of resource assignments belonging to a project.
  */
@@ -46,5 +50,15 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       {
          resource.removeResourceAssignment(assignment);
       }
+   }
+
+   /**
+    * Retrieve the set of populated fields for this project.
+    * 
+    * @return set of populated fields
+    */
+   public Set<AssignmentField> getPopulatedFields()
+   {
+      return new PopulatedFields<>(AssignmentField.class, this).getPopulatedFields();
    }
 }
