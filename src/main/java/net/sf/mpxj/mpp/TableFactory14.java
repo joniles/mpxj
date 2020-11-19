@@ -101,7 +101,7 @@ final class TableFactory14
       //System.out.println("Table=" + table);
       //System.out.println(ByteArrayHelper.hexdump(data, 12, data.length-12, true, 115, ""));
 
-      if (data != null)
+      if (data != null && data.length > 6)
       {
          int columnCount = MPPUtility.getShort(data, 4) + 1;
          int index = 12;
