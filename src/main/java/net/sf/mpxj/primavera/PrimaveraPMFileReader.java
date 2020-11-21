@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,9 +51,13 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -73,6 +78,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -101,6 +107,7 @@ import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
@@ -380,6 +387,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processPredecessors(project);
          processAssignments(project);
          processExpenseItems(project);
+         processResourceRates(apibo);
 
          m_projectFile.updateStructure();
 
@@ -1361,6 +1369,87 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
+   }
+
+   /**
+    * Process resource rates.
+    * 
+    * @param apibo xml container
+    */
+   private void processResourceRates(APIBusinessObjects apibo)
+   {
+      List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      Collections.sort(rates, new Comparator<ResourceRateType>()
+      {
+         @Override public int compare(ResourceRateType r1, ResourceRateType r2)
+         {
+            Integer id1 = r1.getResourceObjectId();
+            Integer id2 = r2.getResourceObjectId();
+            int cmp = NumberHelper.compare(id1, id2);
+            if (cmp != 0)
+            {
+               return cmp;
+            }
+            Date d1 = r1.getEffectiveDate();
+            Date d2 = r2.getEffectiveDate();
+            return DateHelper.compare(d1, d2);
+         }
+      });
+
+      for (int i = 0; i < rates.size(); ++i)
+      {
+         ResourceRateType row = rates.get(i);
+
+         Integer resourceID = row.getResourceObjectId();
+         Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getEffectiveDate();
+         Date endDate = DateHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            ResourceRateType nextRow = rates.get(i + 1);
+            int nextResourceID = NumberHelper.getInt(nextRow.getResourceObjectId());
+            if (resourceID.intValue() == nextResourceID)
+            {
+               endDate = nextRow.getEffectiveDate();
+            }
+         }
+
+         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+         if (resource != null)
+         {
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
+            costRateTable.add(entry);
+
+            AvailabilityTable availabilityTable = resource.getAvailability();
+            Availability newAvailability = new Availability(startDate, endDate, maxUnits);
+            availabilityTable.add(newAvailability);
+         }
+      }
+
+      //      for (Resource resource : m_projectFile.getResources())
+      //      {
+      //         CostRateTable table = resource.getCostRateTable(0);
+      //         if (table != null)
+      //         {
+      //            System.out.println(resource);
+      //            System.out.println(table);
+      //            System.out.println(resource.getAvailability());
+      //         }                 
+      //      }       
    }
 
    /**
