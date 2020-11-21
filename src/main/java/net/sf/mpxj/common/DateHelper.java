@@ -535,14 +535,22 @@ public final class DateHelper
    }
 
    /**
-    * First date supported by Microsoft Project: January 01 00:00:00 1984.
+    * Date representing NA at the start of a date range: January 01 00:00:00 1984.
     */
-   public static final Date FIRST_DATE = DateHelper.getTimestampFromLong(441763200000L);
+   public static final Date START_DATE_NA = DateHelper.getTimestampFromLong(441763200000L);
 
    /**
-    * Last date supported by Microsoft Project: Friday December 31 23:59:00 2049.
+    * Date representing NA at the end of a date range: Friday December 31 23:59:00 2049.
+    * That's actually the value used by older versions of MS Project. The most recent version
+    * of MS Project uses Friday December 31 23:59:06 2049 (note the six extra seconds).
+    * The problem with using this value to represent NA at the end of a date range is it
+    * isn't interpreted correctly by older versions of MS Project. The compromise here is that
+    * we'll use the value recognised by older versions of MS Project, which will work as expected
+    * and display NA as the end date. For the current version of MS Project this will display a
+    * the end date as 2049, rather than NA, but this should still be interpreted correctly.
+    * TODO: consider making this behaviour configurable.
     */
-   public static final Date LAST_DATE = DateHelper.getTimestampFromLong(2524607946000L);
+   public static final Date END_DATE_NA = DateHelper.getTimestampFromLong(2524607940000L);
 
    /**
     * Number of milliseconds per minute.

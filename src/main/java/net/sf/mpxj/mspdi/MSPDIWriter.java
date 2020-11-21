@@ -1194,7 +1194,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          CostRateTable table = mpx.getCostRateTable(tableIndex);
          if (table != null)
          {
-            Date from = DateHelper.FIRST_DATE;
+            Date from = DateHelper.START_DATE_NA;
             for (CostRateTableEntry entry : table)
             {
                if (costRateTableWriteRequired(entry, from))
@@ -1209,14 +1209,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   Project.Resources.Resource.Rates.Rate rate = m_factory.createProjectResourcesResourceRatesRate();
                   ratesList.add(rate);
 
-                  rate.setCostPerUse(DatatypeConverter.printCurrency(entry.getCostPerUse()));
-                  rate.setOvertimeRate(DatatypeConverter.printRate(entry.getOvertimeRate()));
+                  rate.setCostPerUse(DatatypeConverter.printCurrencyMandatory(entry.getCostPerUse()));
+                  rate.setOvertimeRate(DatatypeConverter.printRateMandatory(entry.getOvertimeRate()));
                   rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRateFormat()));
                   rate.setRatesFrom(from);
                   from = entry.getEndDate();
                   rate.setRatesTo(from);
                   rate.setRateTable(BigInteger.valueOf(tableIndex));
-                  rate.setStandardRate(DatatypeConverter.printRate(entry.getStandardRate()));
+                  rate.setStandardRate(DatatypeConverter.printRateMandatory(entry.getStandardRate()));
                   rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
                }
             }
@@ -1234,8 +1234,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private boolean costRateTableWriteRequired(CostRateTableEntry entry, Date from)
    {
-      boolean fromDate = (DateHelper.compare(from, DateHelper.FIRST_DATE) > 0);
-      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.LAST_DATE) > 0);
+      boolean fromDate = (DateHelper.compare(from, DateHelper.START_DATE_NA) > 0);
+      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean costPerUse = (NumberHelper.getDouble(entry.getCostPerUse()) != 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
@@ -1867,7 +1867,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setBudgetWork(DatatypeConverter.printDuration(this, mpx.getBudgetWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
 
-      if (mpx.getCostRateTableIndex() != 0)
+      if (mpx.getCostRateTableIndex() != 0 && mpx.getCostRateTableIndex() < 5)
       {
          xml.setCostRateTable(BigInteger.valueOf(mpx.getCostRateTableIndex()));
       }

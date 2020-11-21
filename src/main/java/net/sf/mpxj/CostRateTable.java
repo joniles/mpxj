@@ -78,5 +78,4 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       return result;
    }
-
 }

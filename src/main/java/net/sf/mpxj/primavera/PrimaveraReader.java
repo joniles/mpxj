@@ -655,7 +655,7 @@ final class PrimaveraReader
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          Date startDate = row.getDate("start_date");
-         Date endDate = DateHelper.LAST_DATE;
+         Date endDate = DateHelper.END_DATE_NA;
 
          if (i + 1 < rows.size())
          {
@@ -684,6 +684,17 @@ final class PrimaveraReader
             availabilityTable.add(newAvailability);
          }
       }
+      
+//      for (Resource resource : m_project.getResources())
+//      {
+//         CostRateTable table = resource.getCostRateTable(0);
+//         if (table != null)
+//         {
+//            System.out.println(resource);
+//            System.out.println(table);
+//            System.out.println(resource.getAvailability());
+//         }                 
+//      }       
    }
 
    /**

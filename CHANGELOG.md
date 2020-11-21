@@ -8,6 +8,7 @@
 * Handle Planner files which don't contain an allocations tag.
 * Gracefully handle MPP files with missing view data.
 * Gracefully handle MPP files with missing table data.
+* Improve handling of cost rate tables and availability tables when writing to an MSPDI file.
 
 ## 8.3.2 (22/10/2020)
 * Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)

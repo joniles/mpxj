@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Handle Planner files which don't contain an allocations tag.</action>
 			<action dev="joniles" type="update">Gracefully handle MPP files with missing view data.</action>
 			<action dev="joniles" type="update">Gracefully handle MPP files with missing table data.</action>
+			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>
 		</release>
 		<release date="22/10/2020" version="8.3.2">
 			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>
