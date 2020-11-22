@@ -1156,7 +1156,7 @@ public final class DatatypeConverter
 
    /**
     * Print currency.
-    * 
+    *
     * @param value currency value
     * @return currency value
     */

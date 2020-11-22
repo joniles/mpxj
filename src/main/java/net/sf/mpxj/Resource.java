@@ -2250,7 +2250,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public CostRateTable getCostRateTable(int index)
    {
-      return index <0 || index >= CostRateTable.MAX_TABLES ? null : m_costRateTables[index];
+      return index < 0 || index >= CostRateTable.MAX_TABLES ? null : m_costRateTables[index];
    }
 
    /**

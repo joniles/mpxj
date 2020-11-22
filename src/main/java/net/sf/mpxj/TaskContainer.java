@@ -237,7 +237,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
 
    /**
     * Retrieve the set of populated fields for this project.
-    * 
+    *
     * @return set of populated fields
     */
    public Set<TaskField> getPopulatedFields()

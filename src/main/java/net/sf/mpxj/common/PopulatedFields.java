@@ -42,7 +42,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param fieldEnumType enumeration representing the set of fields
     * @param collection collection of objects containing fields
     */
@@ -54,7 +54,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
    /**
     * Retrieve the set of fields populated across the collection of objects.
-    * 
+    *
     * @return populated fields
     */
    public Set<E> getPopulatedFields()

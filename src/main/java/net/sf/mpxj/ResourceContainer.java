@@ -82,7 +82,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
    /**
     * Retrieve the set of populated fields for this project.
-    * 
+    *
     * @return set of populated fields
     */
    public Set<ResourceField> getPopulatedFields()

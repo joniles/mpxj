@@ -1373,7 +1373,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resource rates.
-    * 
+    *
     * @param apibo xml container
     */
    private void processResourceRates(APIBusinessObjects apibo)

@@ -715,7 +715,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
    /**
     * Populate a table row from a data record.
-    * 
+    *
     * @param record data record.
     */
    private void processData(List<String> record)

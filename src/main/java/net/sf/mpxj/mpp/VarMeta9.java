@@ -47,7 +47,7 @@ final class VarMeta9 extends AbstractVarMeta
    VarMeta9(InputStream is)
       throws IOException
    {
-      int magic = readInt(is); 
+      int magic = readInt(is);
       if (magic != MAGIC)
       {
          throw new IOException("Bad magic number: " + magic);

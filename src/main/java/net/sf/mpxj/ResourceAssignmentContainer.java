@@ -54,7 +54,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
 
    /**
     * Retrieve the set of populated fields for this project.
-    * 
+    *
     * @return set of populated fields
     */
    public Set<AssignmentField> getPopulatedFields()

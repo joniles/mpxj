@@ -42,17 +42,19 @@ public enum ConstraintType implements MpxjEnum
    START_NO_LATER_THAN(5),
    FINISH_NO_EARLIER_THAN(6),
    FINISH_NO_LATER_THAN(7),
-   
+
    /*
     * @deprecated use MUST_START_ON instead.
     */
-   @Deprecated MANDATORY_START(8),
-   
+   @Deprecated
+   MANDATORY_START(8),
+
    /*
     * @deprecated use MUST_FINISH_ON instead.
     */
-   @Deprecated MANDATORY_FINISH(9),
-   
+   @Deprecated
+   MANDATORY_FINISH(9),
+
    START_ON(10),
    FINISH_ON(11);
 

@@ -83,7 +83,7 @@ final class FixedMeta extends MPPComponent
       //
       // First 4 bytes
       //
-      int magic = readInt(is); 
+      int magic = readInt(is);
       if (magic != MAGIC)
       {
          throw new IOException("Bad magic number: " + magic);

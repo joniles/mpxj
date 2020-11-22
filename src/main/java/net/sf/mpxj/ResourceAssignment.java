@@ -2578,7 +2578,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public int getCostRateTableIndex()
    {
-      int value = NumberHelper.getInt((Integer)getCachedValue(AssignmentField.COST_RATE_TABLE));
+      int value = NumberHelper.getInt((Integer) getCachedValue(AssignmentField.COST_RATE_TABLE));
       return value < 0 || value >= CostRateTable.MAX_TABLES ? 0 : value;
    }
 
