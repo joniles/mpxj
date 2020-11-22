@@ -684,17 +684,6 @@ final class PrimaveraReader
             availabilityTable.add(newAvailability);
          }
       }
-      
-//      for (Resource resource : m_project.getResources())
-//      {
-//         CostRateTable table = resource.getCostRateTable(0);
-//         if (table != null)
-//         {
-//            System.out.println(resource);
-//            System.out.println(table);
-//            System.out.println(resource.getAvailability());
-//         }                 
-//      }       
    }
 
    /**

@@ -1029,25 +1029,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       if (rates == null)
       {
-         CostRateTable table = new CostRateTable();
-         table.add(CostRateTableEntry.DEFAULT_ENTRY);
-         resource.setCostRateTable(0, table);
-
-         table = new CostRateTable();
-         table.add(CostRateTableEntry.DEFAULT_ENTRY);
-         resource.setCostRateTable(1, table);
-
-         table = new CostRateTable();
-         table.add(CostRateTableEntry.DEFAULT_ENTRY);
-         resource.setCostRateTable(2, table);
-
-         table = new CostRateTable();
-         table.add(CostRateTableEntry.DEFAULT_ENTRY);
-         resource.setCostRateTable(3, table);
-
-         table = new CostRateTable();
-         table.add(CostRateTableEntry.DEFAULT_ENTRY);
-         resource.setCostRateTable(4, table);
+         for (int index=0; index < CostRateTable.MAX_TABLES; index++)
+         {           
+            CostRateTable table = new CostRateTable();
+            table.add(CostRateTableEntry.DEFAULT_ENTRY);
+            resource.setCostRateTable(index, table);
+         }
       }
       else
       {

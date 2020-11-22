@@ -2250,7 +2250,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public CostRateTable getCostRateTable(int index)
    {
-      return m_costRateTables[index];
+      return index <0 || index >= CostRateTable.MAX_TABLES ? null : m_costRateTables[index];
    }
 
    /**
@@ -2556,7 +2556,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private boolean m_null;
    private String m_activeDirectoryGUID;
 
-   private CostRateTable[] m_costRateTables = new CostRateTable[5];
-   private AvailabilityTable m_availability = new AvailabilityTable();
+   private final CostRateTable[] m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
+   private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 }

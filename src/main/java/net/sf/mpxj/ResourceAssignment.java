@@ -1107,7 +1107,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          {
             //
             // If we have multiple rates in the table, see if the same rate
-            // is in force at the start and the end of the aaaignment.
+            // is in force at the start and the end of the assignment.
             //
             CostRateTableEntry startEntry = table.getEntryByDate(getStart());
             CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
@@ -2578,8 +2578,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public int getCostRateTableIndex()
    {
-      Integer value = (Integer) getCachedValue(AssignmentField.COST_RATE_TABLE);
-      return value == null ? 0 : value.intValue();
+      int value = NumberHelper.getInt((Integer)getCachedValue(AssignmentField.COST_RATE_TABLE));
+      return value < 0 || value >= CostRateTable.MAX_TABLES ? 0 : value;
    }
 
    /**

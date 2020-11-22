@@ -1183,13 +1183,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeCostRateTables(Project.Resources.Resource xml, Resource mpx)
    {
-      //Rates rates = m_factory.createProjectResourcesResourceRates();
-      //xml.setRates(rates);
-      //List<Project.Resources.Resource.Rates.Rate> ratesList = rates.getRate();
-
       List<Project.Resources.Resource.Rates.Rate> ratesList = null;
 
-      for (int tableIndex = 0; tableIndex < 5; tableIndex++)
+      for (int tableIndex = 0; tableIndex < CostRateTable.MAX_TABLES; tableIndex++)
       {
          CostRateTable table = mpx.getCostRateTable(tableIndex);
          if (table != null)
@@ -1867,7 +1863,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setBudgetWork(DatatypeConverter.printDuration(this, mpx.getBudgetWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
 
-      if (mpx.getCostRateTableIndex() != 0 && mpx.getCostRateTableIndex() < 5)
+      if (mpx.getCostRateTableIndex() != 0)
       {
          xml.setCostRateTable(BigInteger.valueOf(mpx.getCostRateTableIndex()));
       }

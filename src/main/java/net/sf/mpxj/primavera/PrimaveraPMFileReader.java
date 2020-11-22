@@ -1439,17 +1439,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             availabilityTable.add(newAvailability);
          }
       }
-
-      //      for (Resource resource : m_projectFile.getResources())
-      //      {
-      //         CostRateTable table = resource.getCostRateTable(0);
-      //         if (table != null)
-      //         {
-      //            System.out.println(resource);
-      //            System.out.println(table);
-      //            System.out.println(resource.getAvailability());
-      //         }                 
-      //      }       
    }
 
    /**
