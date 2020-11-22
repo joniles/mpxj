@@ -41,12 +41,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      m_endDate = DateHelper.END_DATE_NA;
-      m_standardRate = new Rate(0, TimeUnit.HOURS);
-      m_standardRateFormat = TimeUnit.HOURS;
-      m_overtimeRate = m_standardRate;
-      m_overtimeRateFormat = TimeUnit.HOURS;
-      m_costPerUse = NumberHelper.getDouble(0);
+      this(new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, NumberHelper.DOUBLE_ZERO, DateHelper.END_DATE_NA); 
    }
 
    /**
