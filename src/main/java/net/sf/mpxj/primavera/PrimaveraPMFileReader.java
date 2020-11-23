@@ -52,7 +52,6 @@ import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
-import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
@@ -1425,6 +1424,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
          if (resource != null)
          {
+            if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+            
+            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
             CostRateTable costRateTable = resource.getCostRateTable(0);
             if (costRateTable == null)
             {
@@ -1434,9 +1443,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
             costRateTable.add(entry);
 
-            AvailabilityTable availabilityTable = resource.getAvailability();
-            Availability newAvailability = new Availability(startDate, endDate, maxUnits);
-            availabilityTable.add(newAvailability);
+            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
          }
       }
    }

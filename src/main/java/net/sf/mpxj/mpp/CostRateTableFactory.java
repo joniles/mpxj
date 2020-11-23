@@ -31,6 +31,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -59,6 +60,12 @@ final class CostRateTableFactory
             TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data, i + 24));
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
             Date endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
+                        
+            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
             result.add(entry);
          }

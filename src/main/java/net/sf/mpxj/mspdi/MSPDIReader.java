@@ -1048,6 +1048,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
             Date endDate = rate.getRatesTo();
+            
+            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
 
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
 
@@ -1086,6 +1091,17 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             Date start = period.getAvailableFrom();
             Date end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
+            
+            if (start.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               start = DateHelper.START_DATE_NA;
+            }
+            
+            if (end.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               end = DateHelper.END_DATE_NA;
+            }
+
             Availability availability = new Availability(start, end, units);
             table.add(availability);
          }
