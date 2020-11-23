@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -1417,7 +1418,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             int nextResourceID = NumberHelper.getInt(nextRow.getResourceObjectId());
             if (resourceID.intValue() == nextResourceID)
             {
-               endDate = nextRow.getEffectiveDate();
+               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
             }
          }
 

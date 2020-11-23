@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -662,7 +663,10 @@ final class PrimaveraReader
             int nextResourceID = nextRow.getInt("rsrc_id");
             if (resourceID.intValue() == nextResourceID)
             {
-               endDate = nextRow.getDate("start_date");
+               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
             }
          }
 
