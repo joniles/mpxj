@@ -50,8 +50,12 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -95,6 +99,7 @@ import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
@@ -217,6 +222,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
          writeTasks();
          writeAssignments();
          writeExpenseItems();
+         writeResourceRates();
 
          marshaller.marshal(m_apibo, handler);
       }
@@ -239,6 +245,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
          m_project = null;
          m_wbsSequence = 0;
          m_relationshipObjectID = 0;
+         m_rateObjectID = 0;
          m_sortedCustomFieldsList = null;
       }
    }
@@ -908,6 +915,83 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
    }
 
    /**
+    * Write rate information for each resource.
+    */
+   private void writeResourceRates()
+   {
+      m_projectFile.getResources().forEach(r -> writeResourceRates(r));
+   }
+
+   /**
+    * Write rate information for a single resource.
+    * 
+    * @param resource Resource instance
+    */
+   private void writeResourceRates(Resource resource)
+   {
+      CostRateTable table = resource.getCostRateTable(0);
+      AvailabilityTable availabilityTable = resource.getAvailability();
+
+      if (table != null)
+      {
+         Date from = DateHelper.START_DATE_NA;
+         Calendar cal = DateHelper.popCalendar();
+
+         for (CostRateTableEntry entry : table)
+         {
+            if (costRateTableWriteRequired(entry, from))
+            {
+               Availability availability = availabilityTable.getEntryByDate(from);
+               Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+
+               ResourceRateType rate = m_factory.createResourceRateType();
+               m_apibo.getResourceRate().add(rate);
+
+               //rate.setCreateDate(value);
+               //rate.setCreateUser(value);
+               rate.setEffectiveDate(from);
+               //rate.setLastUpdateDate(value);
+               //rate.setLastUpdateUser(value);
+               rate.setMaxUnitsPerTime(maxUnits);
+               rate.setObjectId(Integer.valueOf(++m_rateObjectID));
+               rate.setPricePerUnit(Double.valueOf(entry.getStandardRate().getAmount()));
+               //rate.setPricePerUnit2(value);
+               //rate.setPricePerUnit3(value);
+               //rate.setPricePerUnit4(value);
+               //rate.setPricePerUnit5(value);
+               //rate.setResourceId(value);
+               //rate.setResourceName(value);
+               rate.setResourceObjectId(resource.getUniqueID());
+               //rate.setShiftPeriodObjectId(value);
+
+               cal.setTime(entry.getEndDate());
+               cal.add(Calendar.MINUTE, 1);
+               from = cal.getTime();
+            }
+         }
+
+         DateHelper.pushCalendar(cal);
+      }
+   }
+
+   /**
+    * This method determines whether the cost rate table should be written.
+    * A default cost rate table should not be written to the file.
+    *
+    * @param entry cost rate table entry
+    * @param from from date
+    * @return boolean flag
+    */
+   private boolean costRateTableWriteRequired(CostRateTableEntry entry, Date from)
+   {
+      boolean fromDate = (DateHelper.compare(from, DateHelper.START_DATE_NA) > 0);
+      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
+      boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
+      boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
+      return (fromDate || toDate || overtimeRate || standardRate);
+   }
+
+   /**
     * Writes a list of UDF types.
     *
     * @author lsong
@@ -1365,6 +1449,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
    private ProjectType m_project;
    private int m_wbsSequence;
    private int m_relationshipObjectID;
+   private int m_rateObjectID;
    private TaskField m_activityIDField;
    private TaskField m_activityTypeField;
    private List<CustomField> m_sortedCustomFieldsList;

@@ -2,7 +2,7 @@
 
 ## 8.3.3 (git master)
 * Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. 
-* Added support for reading cost rate tables from PMXML files.
+* Added support for reading and writing cost rate tables from PMXML files.
 * Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
 * Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
 * Align invalid XER record behaviour with P6.
