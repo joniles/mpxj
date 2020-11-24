@@ -30,6 +30,7 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1039,6 +1040,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       else
       {
          Set<CostRateTable> tables = new HashSet<>();
+         Calendar cal = DateHelper.popCalendar();
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
          {
@@ -1047,14 +1049,32 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate());
             TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
+            Date startDate = rate.getRatesFrom();
             Date endDate = rate.getRatesTo();
-            
+
+            if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+
             if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
             {
                endDate = DateHelper.END_DATE_NA;
             }
 
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
+            //
+            // See the note in CostRateTableFactory for more details of this heuristic.
+            // 
+            cal.setTime(endDate);
+            int minutes = cal.get(Calendar.MINUTE);
+
+            if ((minutes % 5) == 0)
+            {
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+            }
+
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
 
             int tableIndex = rate.getRateTable().intValue();
             CostRateTable table = resource.getCostRateTable(tableIndex);
@@ -1067,10 +1087,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             tables.add(table);
          }
 
-         for (CostRateTable table : tables)
-         {
-            Collections.sort(table);
-         }
+         DateHelper.pushCalendar(cal);
+         tables.forEach(t -> Collections.sort(t));
       }
    }
 
@@ -1091,12 +1109,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             Date start = period.getAvailableFrom();
             Date end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
-            
+
             if (start.getTime() < DateHelper.START_DATE_NA.getTime())
             {
                start = DateHelper.START_DATE_NA;
             }
-            
+
             if (end.getTime() > DateHelper.END_DATE_NA.getTime())
             {
                end = DateHelper.END_DATE_NA;

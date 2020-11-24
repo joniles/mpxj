@@ -934,14 +934,11 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 
       if (table != null)
       {
-         Date from = DateHelper.START_DATE_NA;
-         Calendar cal = DateHelper.popCalendar();
-
          for (CostRateTableEntry entry : table)
          {
-            if (costRateTableWriteRequired(entry, from))
+            if (costRateTableWriteRequired(entry))
             {
-               Availability availability = availabilityTable.getEntryByDate(from);
+               Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
                Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
 
                ResourceRateType rate = m_factory.createResourceRateType();
@@ -949,7 +946,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 
                //rate.setCreateDate(value);
                //rate.setCreateUser(value);
-               rate.setEffectiveDate(from);
+               rate.setEffectiveDate(entry.getStartDate());
                //rate.setLastUpdateDate(value);
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
@@ -963,14 +960,8 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
                //rate.setResourceName(value);
                rate.setResourceObjectId(resource.getUniqueID());
                //rate.setShiftPeriodObjectId(value);
-
-               cal.setTime(entry.getEndDate());
-               cal.add(Calendar.MINUTE, 1);
-               from = cal.getTime();
             }
          }
-
-         DateHelper.pushCalendar(cal);
       }
    }
 
@@ -979,12 +970,11 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
     * A default cost rate table should not be written to the file.
     *
     * @param entry cost rate table entry
-    * @param from from date
     * @return boolean flag
     */
-   private boolean costRateTableWriteRequired(CostRateTableEntry entry, Date from)
+   private boolean costRateTableWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (DateHelper.compare(from, DateHelper.START_DATE_NA) > 0);
+      boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
       boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);

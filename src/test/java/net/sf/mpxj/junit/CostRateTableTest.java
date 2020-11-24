@@ -136,27 +136,27 @@ public class CostRateTableTest
       // Table A
       CostRateTable table = resource.getCostRateTable(0);
       assertEquals(1, table.size());
-      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "31/12/2049 23:59", table, 0);
+      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table B
       table = resource.getCostRateTable(1);
       assertEquals(1, table.size());
-      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "31/12/2049 23:59", table, 0);
+      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table C
       table = resource.getCostRateTable(2);
       assertEquals(1, table.size());
-      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "31/12/2049 23:59", table, 0);
+      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table D
       table = resource.getCostRateTable(3);
       assertEquals(1, table.size());
-      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "31/12/2049 23:59", table, 0);
+      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table E
       table = resource.getCostRateTable(4);
       assertEquals(1, table.size());
-      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "31/12/2049 23:59", table, 0);
+      assertRateEquals(0, TimeUnit.HOURS, 0, TimeUnit.HOURS, 0, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       //
       // Resource with default tables, but non-default values
@@ -167,27 +167,27 @@ public class CostRateTableTest
       // Table A
       table = resource.getCostRateTable(0);
       assertEquals(1, table.size());
-      assertRateEquals(5, TimeUnit.HOURS, 10, TimeUnit.HOURS, 15, "31/12/2049 23:59", table, 0);
+      assertRateEquals(5, TimeUnit.HOURS, 10, TimeUnit.HOURS, 15, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table B
       table = resource.getCostRateTable(1);
       assertEquals(1, table.size());
-      assertRateEquals(20, TimeUnit.HOURS, 25, TimeUnit.HOURS, 30, "31/12/2049 23:59", table, 0);
+      assertRateEquals(20, TimeUnit.HOURS, 25, TimeUnit.HOURS, 30, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table C
       table = resource.getCostRateTable(2);
       assertEquals(1, table.size());
-      assertRateEquals(35, TimeUnit.HOURS, 40, TimeUnit.HOURS, 45, "31/12/2049 23:59", table, 0);
+      assertRateEquals(35, TimeUnit.HOURS, 40, TimeUnit.HOURS, 45, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table D
       table = resource.getCostRateTable(3);
       assertEquals(1, table.size());
-      assertRateEquals(50, TimeUnit.HOURS, 55, TimeUnit.HOURS, 60, "31/12/2049 23:59", table, 0);
+      assertRateEquals(50, TimeUnit.HOURS, 55, TimeUnit.HOURS, 60, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       // Table E
       table = resource.getCostRateTable(4);
       assertEquals(1, table.size());
-      assertRateEquals(65, TimeUnit.HOURS, 70, TimeUnit.HOURS, 75, "31/12/2049 23:59", table, 0);
+      assertRateEquals(65, TimeUnit.HOURS, 70, TimeUnit.HOURS, 75, "01/01/1984 00:00", "31/12/2049 23:59", table, 0);
 
       //
       // Resource with multiple values
@@ -198,40 +198,40 @@ public class CostRateTableTest
       // Table A
       table = resource.getCostRateTable(0);
       assertEquals(2, table.size());
-      assertRateEquals(5, TimeUnit.HOURS, 10, TimeUnit.HOURS, 15, "15/06/2009 08:00", table, 0);
-      assertRateEquals(1200, TimeUnit.MINUTES, 25, TimeUnit.HOURS, 30, "31/12/2049 23:59", table, 1);
+      assertRateEquals(5, TimeUnit.HOURS, 10, TimeUnit.HOURS, 15, "01/01/1984 00:00", "15/06/2009 07:59", table, 0);
+      assertRateEquals(1200, TimeUnit.MINUTES, 25, TimeUnit.HOURS, 30, "15/06/2009 08:00", "31/12/2049 23:59", table, 1);
 
       // Table B
       table = resource.getCostRateTable(1);
       assertEquals(2, table.size());
-      assertRateEquals(35, TimeUnit.HOURS, 40, TimeUnit.HOURS, 45, "16/06/2009 08:00", table, 0);
-      assertRateEquals(6.25, TimeUnit.DAYS, 1.375, TimeUnit.WEEKS, 60, "31/12/2049 23:59", table, 1);
+      assertRateEquals(35, TimeUnit.HOURS, 40, TimeUnit.HOURS, 45, "01/01/1984 00:00", "16/06/2009 07:59", table, 0);
+      assertRateEquals(6.25, TimeUnit.DAYS, 1.375, TimeUnit.WEEKS, 60, "16/06/2009 08:00", "31/12/2049 23:59", table, 1);
 
       // Table C
       table = resource.getCostRateTable(2);
       assertEquals(2, table.size());
-      assertRateEquals(65, TimeUnit.HOURS, 70, TimeUnit.HOURS, 75, "17/06/2009 08:00", table, 0);
-      assertRateEquals(0.5, TimeUnit.MONTHS, 0.040, TimeUnit.YEARS, 90, "31/12/2049 23:59", table, 1);
+      assertRateEquals(65, TimeUnit.HOURS, 70, TimeUnit.HOURS, 75, "01/01/1984 00:00", "17/06/2009 07:59", table, 0);
+      assertRateEquals(0.5, TimeUnit.MONTHS, 0.040, TimeUnit.YEARS, 90, "17/06/2009 08:00", "31/12/2049 23:59", table, 1);
 
       // Table D
       table = resource.getCostRateTable(3);
       assertEquals(2, table.size());
-      assertRateEquals(95, TimeUnit.HOURS, 100, TimeUnit.HOURS, 105, "18/06/2009 08:00", table, 0);
-      assertRateEquals(110, TimeUnit.HOURS, 115, TimeUnit.HOURS, 120, "31/12/2049 23:59", table, 1);
+      assertRateEquals(95, TimeUnit.HOURS, 100, TimeUnit.HOURS, 105, "01/01/1984 00:00", "18/06/2009 07:59", table, 0);
+      assertRateEquals(110, TimeUnit.HOURS, 115, TimeUnit.HOURS, 120, "18/06/2009 08:00", "31/12/2049 23:59", table, 1);
 
       // Table E
       table = resource.getCostRateTable(4);
       assertEquals(2, table.size());
-      assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "19/06/2009 08:00", table, 0);
-      assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "31/12/2049 23:59", table, 1);
+      assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "01/01/1984 00:00", "19/06/2009 07:59", table, 0);
+      assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "19/06/2009 08:00", "31/12/2049 23:59", table, 1);
 
       //
       // Validate date-based row selection
       //
       CostRateTableEntry entry = table.getEntryByDate(m_df.parse("18/06/2009 07:00"));
-      assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "19/06/2009 08:00", entry);
+      assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "01/01/1984 00:00", "19/06/2009 07:59", entry);
       entry = table.getEntryByDate(m_df.parse("19/06/2009 10:00"));
-      assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "31/12/2049 23:59", entry);
+      assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "19/06/2009 08:00", "31/12/2049 23:59", entry);
    }
 
    /**
@@ -242,14 +242,14 @@ public class CostRateTableTest
     * @param overtimeRate expected overtime rate
     * @param overtimeRateFormat expected overtime rate format
     * @param perUseRate expected per use rate
+    * @param startDate expected start date
     * @param endDate expected end date
     * @param table table instance under test
     * @param index index of table row under test
     */
-   private void assertRateEquals(double standardRate, TimeUnit standardRateFormat, double overtimeRate, TimeUnit overtimeRateFormat, double perUseRate, String endDate, CostRateTable table, int index)
+   private void assertRateEquals(double standardRate, TimeUnit standardRateFormat, double overtimeRate, TimeUnit overtimeRateFormat, double perUseRate, String startDate, String endDate, CostRateTable table, int index)
    {
-      CostRateTableEntry entry = table.get(index);
-      assertRateEquals(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, perUseRate, endDate, entry);
+      assertRateEquals(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, perUseRate, startDate, endDate, table.get(index));
    }
 
    /**
@@ -260,14 +260,16 @@ public class CostRateTableTest
     * @param overtimeRate expected overtime rate
     * @param overtimeRateFormat expected overtime rate format
     * @param costPerUse expected cost per use
+    * @param startDate expected start date
     * @param endDate expected end date
     * @param entry table entry instance under test
     */
-   private void assertRateEquals(double standardRate, TimeUnit standardRateFormat, double overtimeRate, TimeUnit overtimeRateFormat, double costPerUse, String endDate, CostRateTableEntry entry)
+   private void assertRateEquals(double standardRate, TimeUnit standardRateFormat, double overtimeRate, TimeUnit overtimeRateFormat, double costPerUse, String startDate, String endDate, CostRateTableEntry entry)
    {
       assertEquals(standardRate, entry.getStandardRate().getAmount(), 0.009);
       assertEquals(overtimeRate, entry.getOvertimeRate().getAmount(), 0.009);
       assertEquals(costPerUse, entry.getCostPerUse().doubleValue(), 0);
+      assertEquals(startDate, m_df.format(entry.getStartDate()));
       assertEquals(endDate, m_df.format(entry.getEndDate()));
       assertEquals(standardRateFormat, entry.getStandardRateFormat());
       assertEquals(overtimeRateFormat, entry.getOvertimeRateFormat());

@@ -1190,10 +1190,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          CostRateTable table = mpx.getCostRateTable(tableIndex);
          if (table != null)
          {
-            Date from = DateHelper.START_DATE_NA;
             for (CostRateTableEntry entry : table)
             {
-               if (costRateTableWriteRequired(entry, from))
+               if (costRateTableWriteRequired(entry))
                {
                   if (ratesList == null)
                   {
@@ -1208,9 +1207,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   rate.setCostPerUse(DatatypeConverter.printCurrencyMandatory(entry.getCostPerUse()));
                   rate.setOvertimeRate(DatatypeConverter.printRateMandatory(entry.getOvertimeRate()));
                   rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRateFormat()));
-                  rate.setRatesFrom(from);
-                  from = entry.getEndDate();
-                  rate.setRatesTo(from);
+                  rate.setRatesFrom(entry.getStartDate());
+                  rate.setRatesTo(entry.getEndDate());
                   rate.setRateTable(BigInteger.valueOf(tableIndex));
                   rate.setStandardRate(DatatypeConverter.printRateMandatory(entry.getStandardRate()));
                   rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
@@ -1225,12 +1223,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * A default cost rate table should not be written to the file.
     *
     * @param entry cost rate table entry
-    * @param from from date
     * @return boolean flag
     */
-   private boolean costRateTableWriteRequired(CostRateTableEntry entry, Date from)
+   private boolean costRateTableWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (DateHelper.compare(from, DateHelper.START_DATE_NA) > 0);
+      boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
       boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean costPerUse = (NumberHelper.getDouble(entry.getCostPerUse()) != 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
