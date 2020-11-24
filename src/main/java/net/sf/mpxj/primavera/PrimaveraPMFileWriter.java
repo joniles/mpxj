@@ -924,7 +924,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 
    /**
     * Write rate information for a single resource.
-    * 
+    *
     * @param resource Resource instance
     */
    private void writeResourceRates(Resource resource)

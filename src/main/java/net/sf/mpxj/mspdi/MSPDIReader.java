@@ -1064,7 +1064,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
             //
             // See the note in CostRateTableFactory for more details of this heuristic.
-            // 
+            //
             cal.setTime(endDate);
             int minutes = cal.get(Calendar.MINUTE);
 

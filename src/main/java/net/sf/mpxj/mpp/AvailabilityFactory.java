@@ -67,12 +67,12 @@ final class AvailabilityFactory
                {
                   startDate = DateHelper.START_DATE_NA;
                }
-               
+
                if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
                {
                   endDate = DateHelper.END_DATE_NA;
                }
-               
+
                Availability item = new Availability(startDate, endDate, units);
                table.add(item);
             }

@@ -677,7 +677,7 @@ final class PrimaveraReader
             {
                startDate = DateHelper.START_DATE_NA;
             }
-            
+
             if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
             {
                endDate = DateHelper.END_DATE_NA;
@@ -691,7 +691,7 @@ final class PrimaveraReader
             }
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
             costRateTable.add(entry);
-            
+
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
          }
       }

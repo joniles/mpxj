@@ -41,7 +41,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      this(new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, NumberHelper.DOUBLE_ZERO, DateHelper.START_DATE_NA, DateHelper.END_DATE_NA); 
+      this(new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, NumberHelper.DOUBLE_ZERO, DateHelper.START_DATE_NA, DateHelper.END_DATE_NA);
    }
 
    /**
@@ -75,7 +75,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    {
       return m_startDate;
    }
-   
+
    /**
     * Retrieves the end date after which this table entry is not valid.
     *
