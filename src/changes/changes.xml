@@ -5,16 +5,17 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.3.3">
-			<action dev="joniles" type="add">Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </action>			
-			<action dev="joniles" type="add">Added support for reading and writing cost rate tables from PMXML files.</action>			
-			<action dev="joniles" type="update">Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</action>				
+		<release date="git master" version="8.3.4">
+		</release>
+		<release date="24/11/2020" version="8.3.3">
+			<action dev="joniles" type="add">Added cost rate table support when reading from and writing to PMXML files.</action>
+			<action dev="joniles" type="add">Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </action>
+			<action dev="joniles" type="add">Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</action>
+			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>				
 			<action dev="joniles" type="update">Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</action>
 			<action dev="joniles" type="update">Align invalid XER record behaviour with P6.</action>
 			<action dev="joniles" type="update">Handle Planner files which don't contain an allocations tag.</action>
-			<action dev="joniles" type="update">Gracefully handle MPP files with missing view data.</action>
-			<action dev="joniles" type="update">Gracefully handle MPP files with missing table data.</action>
-			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>
+			<action dev="joniles" type="update">Gracefully handle MPP files with missing view or table data.</action>			
 		</release>
 		<release date="22/10/2020" version="8.3.2">
 			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>
