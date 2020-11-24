@@ -111,7 +111,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  * This class creates a new MSPDI file from the contents of an ProjectFile
  * instance.
  */
-@SuppressWarnings("deprecation") public final class PrimaveraPMFileWriter extends AbstractProjectWriter
+public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
    /**
     * Set the task field which will be used to populate the Activity ID attribute
@@ -1398,22 +1398,33 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
       DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
    }
 
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
-   static
+   /**
+    * Temporary, return to static block initialisation once deprecation is removed.
+    * TODO: use static block initialisation
+    * 
+    * @return populated map
+    */
+   @SuppressWarnings("deprecation") private static final Map<ConstraintType, String> createConstraintTypeMap()
    {
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_START, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
+      Map<ConstraintType, String> map = new HashMap<>();
+      
+      map.put(ConstraintType.START_ON, "Start On");
+      map.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
+      map.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
+      map.put(ConstraintType.FINISH_ON, "Finish On");
+      map.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
+      map.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
+      map.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
+      map.put(ConstraintType.MUST_START_ON, "Mandatory Start");
+      map.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
+      map.put(ConstraintType.MANDATORY_START, "Mandatory Start");
+      map.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
+      
+      return map;
    }
 
+   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = createConstraintTypeMap();
+   
    private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
    static
    {
