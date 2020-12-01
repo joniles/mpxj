@@ -16,30 +16,15 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * &lt;p&gt;Java class for ActivityUpdateType complex type.
+ * &lt;p&gt;Java class for StepUserDefinedValueUpdateType complex type.
  *
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  *
  * &lt;pre&gt;
- * &amp;lt;complexType name="ActivityUpdateType"&amp;gt;
+ * &amp;lt;complexType name="StepUserDefinedValueUpdateType"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="ActivityObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="ActivityOwnerUserId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="ActivityType" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
- *               &amp;lt;enumeration value=""/&amp;gt;
- *               &amp;lt;enumeration value="Task Dependent"/&amp;gt;
- *               &amp;lt;enumeration value="Resource Dependent"/&amp;gt;
- *               &amp;lt;enumeration value="Level of Effort"/&amp;gt;
- *               &amp;lt;enumeration value="Start Milestone"/&amp;gt;
- *               &amp;lt;enumeration value="Finish Milestone"/&amp;gt;
- *               &amp;lt;enumeration value="WBS Summary"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
  *         &amp;lt;element name="AllData" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="ApprovalDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="ApprovalUserName" minOccurs="0"&amp;gt;
@@ -50,93 +35,90 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
  *         &amp;lt;element name="ApprovalUserObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="CalendarId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="ChangeSetObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="CreateUser" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="CreateUser" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;maxLength value="255"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
  *         &amp;lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="ForeignObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="HeldDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="OverrideActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="OverrideActualLaborUnits" minOccurs="0"&amp;gt;
+ *         &amp;lt;element name="OverrideUDFRAGType" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;enumeration value=""/&amp;gt;
+ *               &amp;lt;enumeration value="None"/&amp;gt;
+ *               &amp;lt;enumeration value="Red"/&amp;gt;
+ *               &amp;lt;enumeration value="Yellow"/&amp;gt;
+ *               &amp;lt;enumeration value="Green"/&amp;gt;
+ *               &amp;lt;enumeration value="Blue"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="OverrideUdfCodeId" minOccurs="0"&amp;gt;
  *           &amp;lt;simpleType&amp;gt;
  *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
  *               &amp;lt;minInclusive value="0.0"/&amp;gt;
  *             &amp;lt;/restriction&amp;gt;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="OverrideActualNonLaborUnits" minOccurs="0"&amp;gt;
+ *         &amp;lt;element name="OverrideUdfCost" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="OverrideUdfEndDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="OverrideUdfInteger" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="OverrideUdfNumber" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
+ *               &amp;lt;minInclusive value="-1.0E12"/&amp;gt;
+ *               &amp;lt;maxInclusive value="1.0E12"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="OverrideUdfStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="OverrideUdfText" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;maxLength value="255"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="PendingUDFRAGType" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;enumeration value=""/&amp;gt;
+ *               &amp;lt;enumeration value="None"/&amp;gt;
+ *               &amp;lt;enumeration value="Red"/&amp;gt;
+ *               &amp;lt;enumeration value="Yellow"/&amp;gt;
+ *               &amp;lt;enumeration value="Green"/&amp;gt;
+ *               &amp;lt;enumeration value="Blue"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="PendingUdfCodeId" minOccurs="0"&amp;gt;
  *           &amp;lt;simpleType&amp;gt;
  *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
  *               &amp;lt;minInclusive value="0.0"/&amp;gt;
  *             &amp;lt;/restriction&amp;gt;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="OverrideActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="OverrideExpectedFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="OverridePercentComplete" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="OverrideRemainingDuration" minOccurs="0"&amp;gt;
+ *         &amp;lt;element name="PendingUdfCost" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="PendingUdfEndDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="PendingUdfInteger" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="PendingUdfNumber" minOccurs="0"&amp;gt;
  *           &amp;lt;simpleType&amp;gt;
  *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
+ *               &amp;lt;minInclusive value="-1.0E12"/&amp;gt;
+ *               &amp;lt;maxInclusive value="1.0E12"/&amp;gt;
  *             &amp;lt;/restriction&amp;gt;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="OverrideRemainingLaborUnits" minOccurs="0"&amp;gt;
+ *         &amp;lt;element name="PendingUdfStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="PendingUdfText" minOccurs="0"&amp;gt;
  *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="OverrideRemainingNonLaborUnits" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="PendingActualLaborUnits" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingActualNonLaborUnits" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="PendingExpectedFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="PendingPercentComplete" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *               &amp;lt;maxInclusive value="100.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingRemainingDuration" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingRemainingLaborUnits" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
- *             &amp;lt;/restriction&amp;gt;
- *           &amp;lt;/simpleType&amp;gt;
- *         &amp;lt;/element&amp;gt;
- *         &amp;lt;element name="PendingRemainingNonLaborUnits" minOccurs="0"&amp;gt;
- *           &amp;lt;simpleType&amp;gt;
- *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}double"&amp;gt;
- *               &amp;lt;minInclusive value="0.0"/&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;maxLength value="255"/&amp;gt;
  *             &amp;lt;/restriction&amp;gt;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
@@ -168,6 +150,21 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *             &amp;lt;/restriction&amp;gt;
  *           &amp;lt;/simpleType&amp;gt;
  *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="UDFDataType" minOccurs="0"&amp;gt;
+ *           &amp;lt;simpleType&amp;gt;
+ *             &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&amp;gt;
+ *               &amp;lt;enumeration value="Text"/&amp;gt;
+ *               &amp;lt;enumeration value="Start Date"/&amp;gt;
+ *               &amp;lt;enumeration value="Finish Date"/&amp;gt;
+ *               &amp;lt;enumeration value="Cost"/&amp;gt;
+ *               &amp;lt;enumeration value="Double"/&amp;gt;
+ *               &amp;lt;enumeration value="Integer"/&amp;gt;
+ *               &amp;lt;enumeration value="Indicator"/&amp;gt;
+ *               &amp;lt;enumeration value="Code"/&amp;gt;
+ *             &amp;lt;/restriction&amp;gt;
+ *           &amp;lt;/simpleType&amp;gt;
+ *         &amp;lt;/element&amp;gt;
+ *         &amp;lt;element name="UDFTypeObjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -176,78 +173,70 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityUpdateType", propOrder =
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "StepUserDefinedValueUpdateType", propOrder =
 {
-   "activityObjectId",
-   "activityOwnerUserId",
-   "activityType",
    "allData",
    "approvalDate",
    "approvalUserName",
    "approvalUserObjectId",
-   "calendarId",
    "changeSetObjectId",
    "createUser",
    "date",
+   "foreignObjectId",
    "heldDate",
-   "overrideActualFinishDate",
-   "overrideActualLaborUnits",
-   "overrideActualNonLaborUnits",
-   "overrideActualStartDate",
-   "overrideExpectedFinishDate",
-   "overridePercentComplete",
-   "overrideRemainingDuration",
-   "overrideRemainingLaborUnits",
-   "overrideRemainingNonLaborUnits",
-   "pendingActualFinishDate",
-   "pendingActualLaborUnits",
-   "pendingActualNonLaborUnits",
-   "pendingActualStartDate",
-   "pendingExpectedFinishDate",
-   "pendingPercentComplete",
-   "pendingRemainingDuration",
-   "pendingRemainingLaborUnits",
-   "pendingRemainingNonLaborUnits",
+   "overrideUDFRAGType",
+   "overrideUdfCodeId",
+   "overrideUdfCost",
+   "overrideUdfEndDate",
+   "overrideUdfInteger",
+   "overrideUdfNumber",
+   "overrideUdfStartDate",
+   "overrideUdfText",
+   "pendingUDFRAGType",
+   "pendingUdfCodeId",
+   "pendingUdfCost",
+   "pendingUdfEndDate",
+   "pendingUdfInteger",
+   "pendingUdfNumber",
+   "pendingUdfStartDate",
+   "pendingUdfText",
    "projectObjectId",
    "rejectedBy",
    "rejectedDate",
    "requestUserObjectId",
    "resubmittedBy",
    "resubmittedDate",
-   "status"
-}) public class ActivityUpdateType
+   "status",
+   "udfDataType",
+   "udfTypeObjectId"
+}) public class StepUserDefinedValueUpdateType
 {
 
-   @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;
-   @XmlElement(name = "ActivityOwnerUserId", nillable = true) protected Integer activityOwnerUserId;
-   @XmlElement(name = "ActivityType") protected String activityType;
    @XmlElement(name = "AllData") protected String allData;
    @XmlElement(name = "ApprovalDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date approvalDate;
    @XmlElement(name = "ApprovalUserName") protected String approvalUserName;
    @XmlElement(name = "ApprovalUserObjectId", nillable = true) protected Integer approvalUserObjectId;
-   @XmlElement(name = "CalendarId", nillable = true) protected Integer calendarId;
    @XmlElement(name = "ChangeSetObjectId") protected Integer changeSetObjectId;
    @XmlElement(name = "CreateUser") protected String createUser;
    @XmlElement(name = "Date", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date date;
+   @XmlElement(name = "ForeignObjectId") protected Integer foreignObjectId;
    @XmlElement(name = "HeldDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date heldDate;
-   @XmlElement(name = "OverrideActualFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date overrideActualFinishDate;
-   @XmlElement(name = "OverrideActualLaborUnits", nillable = true) protected Double overrideActualLaborUnits;
-   @XmlElement(name = "OverrideActualNonLaborUnits", nillable = true) protected Double overrideActualNonLaborUnits;
-   @XmlElement(name = "OverrideActualStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date overrideActualStartDate;
-   @XmlElement(name = "OverrideExpectedFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date overrideExpectedFinishDate;
-   @XmlElement(name = "OverridePercentComplete", nillable = true) protected Double overridePercentComplete;
-   @XmlElement(name = "OverrideRemainingDuration", nillable = true) protected Double overrideRemainingDuration;
-   @XmlElement(name = "OverrideRemainingLaborUnits", nillable = true) protected Double overrideRemainingLaborUnits;
-   @XmlElement(name = "OverrideRemainingNonLaborUnits", nillable = true) protected Double overrideRemainingNonLaborUnits;
-   @XmlElement(name = "PendingActualFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date pendingActualFinishDate;
-   @XmlElement(name = "PendingActualLaborUnits", nillable = true) protected Double pendingActualLaborUnits;
-   @XmlElement(name = "PendingActualNonLaborUnits", nillable = true) protected Double pendingActualNonLaborUnits;
-   @XmlElement(name = "PendingActualStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date pendingActualStartDate;
-   @XmlElement(name = "PendingExpectedFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date pendingExpectedFinishDate;
-   @XmlElement(name = "PendingPercentComplete", nillable = true) protected Double pendingPercentComplete;
-   @XmlElement(name = "PendingRemainingDuration", nillable = true) protected Double pendingRemainingDuration;
-   @XmlElement(name = "PendingRemainingLaborUnits", nillable = true) protected Double pendingRemainingLaborUnits;
-   @XmlElement(name = "PendingRemainingNonLaborUnits", nillable = true) protected Double pendingRemainingNonLaborUnits;
+   @XmlElement(name = "OverrideUDFRAGType") protected String overrideUDFRAGType;
+   @XmlElement(name = "OverrideUdfCodeId", nillable = true) protected Double overrideUdfCodeId;
+   @XmlElement(name = "OverrideUdfCost", nillable = true) protected Double overrideUdfCost;
+   @XmlElement(name = "OverrideUdfEndDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date overrideUdfEndDate;
+   @XmlElement(name = "OverrideUdfInteger", nillable = true) protected Integer overrideUdfInteger;
+   @XmlElement(name = "OverrideUdfNumber", nillable = true) protected Double overrideUdfNumber;
+   @XmlElement(name = "OverrideUdfStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date overrideUdfStartDate;
+   @XmlElement(name = "OverrideUdfText") protected String overrideUdfText;
+   @XmlElement(name = "PendingUDFRAGType") protected String pendingUDFRAGType;
+   @XmlElement(name = "PendingUdfCodeId", nillable = true) protected Double pendingUdfCodeId;
+   @XmlElement(name = "PendingUdfCost", nillable = true) protected Double pendingUdfCost;
+   @XmlElement(name = "PendingUdfEndDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date pendingUdfEndDate;
+   @XmlElement(name = "PendingUdfInteger", nillable = true) protected Integer pendingUdfInteger;
+   @XmlElement(name = "PendingUdfNumber", nillable = true) protected Double pendingUdfNumber;
+   @XmlElement(name = "PendingUdfStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date pendingUdfStartDate;
+   @XmlElement(name = "PendingUdfText") protected String pendingUdfText;
    @XmlElement(name = "ProjectObjectId") protected Integer projectObjectId;
    @XmlElement(name = "RejectedBy") protected String rejectedBy;
    @XmlElement(name = "RejectedDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date rejectedDate;
@@ -255,84 +244,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    @XmlElement(name = "ResubmittedBy") protected String resubmittedBy;
    @XmlElement(name = "ResubmittedDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date resubmittedDate;
    @XmlElement(name = "Status") protected String status;
-
-   /**
-    * Gets the value of the activityObjectId property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Integer }
-    *
-    */
-   public Integer getActivityObjectId()
-   {
-      return activityObjectId;
-   }
-
-   /**
-    * Sets the value of the activityObjectId property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Integer }
-    *
-    */
-   public void setActivityObjectId(Integer value)
-   {
-      this.activityObjectId = value;
-   }
-
-   /**
-    * Gets the value of the activityOwnerUserId property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Integer }
-    *
-    */
-   public Integer getActivityOwnerUserId()
-   {
-      return activityOwnerUserId;
-   }
-
-   /**
-    * Sets the value of the activityOwnerUserId property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Integer }
-    *
-    */
-   public void setActivityOwnerUserId(Integer value)
-   {
-      this.activityOwnerUserId = value;
-   }
-
-   /**
-    * Gets the value of the activityType property.
-    *
-    * @return
-    *     possible object is
-    *     {@link String }
-    *
-    */
-   public String getActivityType()
-   {
-      return activityType;
-   }
-
-   /**
-    * Sets the value of the activityType property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link String }
-    *
-    */
-   public void setActivityType(String value)
-   {
-      this.activityType = value;
-   }
+   @XmlElement(name = "UDFDataType") protected String udfDataType;
+   @XmlElement(name = "UDFTypeObjectId") protected Integer udfTypeObjectId;
 
    /**
     * Gets the value of the allData property.
@@ -439,32 +352,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    }
 
    /**
-    * Gets the value of the calendarId property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Integer }
-    *
-    */
-   public Integer getCalendarId()
-   {
-      return calendarId;
-   }
-
-   /**
-    * Sets the value of the calendarId property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Integer }
-    *
-    */
-   public void setCalendarId(Integer value)
-   {
-      this.calendarId = value;
-   }
-
-   /**
     * Gets the value of the changeSetObjectId property.
     *
     * @return
@@ -543,6 +430,32 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    }
 
    /**
+    * Gets the value of the foreignObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getForeignObjectId()
+   {
+      return foreignObjectId;
+   }
+
+   /**
+    * Sets the value of the foreignObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setForeignObjectId(Integer value)
+   {
+      this.foreignObjectId = value;
+   }
+
+   /**
     * Gets the value of the heldDate property.
     *
     * @return
@@ -569,471 +482,419 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    }
 
    /**
-    * Gets the value of the overrideActualFinishDate property.
+    * Gets the value of the overrideUDFRAGType property.
     *
     * @return
     *     possible object is
     *     {@link String }
     *
     */
-   public Date getOverrideActualFinishDate()
+   public String getOverrideUDFRAGType()
    {
-      return overrideActualFinishDate;
+      return overrideUDFRAGType;
    }
 
    /**
-    * Sets the value of the overrideActualFinishDate property.
+    * Sets the value of the overrideUDFRAGType property.
     *
     * @param value
     *     allowed object is
     *     {@link String }
     *
     */
-   public void setOverrideActualFinishDate(Date value)
+   public void setOverrideUDFRAGType(String value)
    {
-      this.overrideActualFinishDate = value;
+      this.overrideUDFRAGType = value;
    }
 
    /**
-    * Gets the value of the overrideActualLaborUnits property.
+    * Gets the value of the overrideUdfCodeId property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getOverrideActualLaborUnits()
+   public Double getOverrideUdfCodeId()
    {
-      return overrideActualLaborUnits;
+      return overrideUdfCodeId;
    }
 
    /**
-    * Sets the value of the overrideActualLaborUnits property.
+    * Sets the value of the overrideUdfCodeId property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setOverrideActualLaborUnits(Double value)
+   public void setOverrideUdfCodeId(Double value)
    {
-      this.overrideActualLaborUnits = value;
+      this.overrideUdfCodeId = value;
    }
 
    /**
-    * Gets the value of the overrideActualNonLaborUnits property.
+    * Gets the value of the overrideUdfCost property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getOverrideActualNonLaborUnits()
+   public Double getOverrideUdfCost()
    {
-      return overrideActualNonLaborUnits;
+      return overrideUdfCost;
    }
 
    /**
-    * Sets the value of the overrideActualNonLaborUnits property.
+    * Sets the value of the overrideUdfCost property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setOverrideActualNonLaborUnits(Double value)
+   public void setOverrideUdfCost(Double value)
    {
-      this.overrideActualNonLaborUnits = value;
+      this.overrideUdfCost = value;
    }
 
    /**
-    * Gets the value of the overrideActualStartDate property.
-    *
-    * @return
-    *     possible object is
-    *     {@link String }
-    *
-    */
-   public Date getOverrideActualStartDate()
-   {
-      return overrideActualStartDate;
-   }
-
-   /**
-    * Sets the value of the overrideActualStartDate property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link String }
-    *
-    */
-   public void setOverrideActualStartDate(Date value)
-   {
-      this.overrideActualStartDate = value;
-   }
-
-   /**
-    * Gets the value of the overrideExpectedFinishDate property.
+    * Gets the value of the overrideUdfEndDate property.
     *
     * @return
     *     possible object is
     *     {@link String }
     *
     */
-   public Date getOverrideExpectedFinishDate()
+   public Date getOverrideUdfEndDate()
    {
-      return overrideExpectedFinishDate;
+      return overrideUdfEndDate;
    }
 
    /**
-    * Sets the value of the overrideExpectedFinishDate property.
+    * Sets the value of the overrideUdfEndDate property.
     *
     * @param value
     *     allowed object is
     *     {@link String }
     *
     */
-   public void setOverrideExpectedFinishDate(Date value)
+   public void setOverrideUdfEndDate(Date value)
    {
-      this.overrideExpectedFinishDate = value;
+      this.overrideUdfEndDate = value;
    }
 
    /**
-    * Gets the value of the overridePercentComplete property.
+    * Gets the value of the overrideUdfInteger property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getOverrideUdfInteger()
+   {
+      return overrideUdfInteger;
+   }
+
+   /**
+    * Sets the value of the overrideUdfInteger property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setOverrideUdfInteger(Integer value)
+   {
+      this.overrideUdfInteger = value;
+   }
+
+   /**
+    * Gets the value of the overrideUdfNumber property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getOverridePercentComplete()
+   public Double getOverrideUdfNumber()
    {
-      return overridePercentComplete;
+      return overrideUdfNumber;
    }
 
    /**
-    * Sets the value of the overridePercentComplete property.
+    * Sets the value of the overrideUdfNumber property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setOverridePercentComplete(Double value)
+   public void setOverrideUdfNumber(Double value)
    {
-      this.overridePercentComplete = value;
+      this.overrideUdfNumber = value;
    }
 
    /**
-    * Gets the value of the overrideRemainingDuration property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Double }
-    *
-    */
-   public Double getOverrideRemainingDuration()
-   {
-      return overrideRemainingDuration;
-   }
-
-   /**
-    * Sets the value of the overrideRemainingDuration property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Double }
-    *
-    */
-   public void setOverrideRemainingDuration(Double value)
-   {
-      this.overrideRemainingDuration = value;
-   }
-
-   /**
-    * Gets the value of the overrideRemainingLaborUnits property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Double }
-    *
-    */
-   public Double getOverrideRemainingLaborUnits()
-   {
-      return overrideRemainingLaborUnits;
-   }
-
-   /**
-    * Sets the value of the overrideRemainingLaborUnits property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Double }
-    *
-    */
-   public void setOverrideRemainingLaborUnits(Double value)
-   {
-      this.overrideRemainingLaborUnits = value;
-   }
-
-   /**
-    * Gets the value of the overrideRemainingNonLaborUnits property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Double }
-    *
-    */
-   public Double getOverrideRemainingNonLaborUnits()
-   {
-      return overrideRemainingNonLaborUnits;
-   }
-
-   /**
-    * Sets the value of the overrideRemainingNonLaborUnits property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Double }
-    *
-    */
-   public void setOverrideRemainingNonLaborUnits(Double value)
-   {
-      this.overrideRemainingNonLaborUnits = value;
-   }
-
-   /**
-    * Gets the value of the pendingActualFinishDate property.
+    * Gets the value of the overrideUdfStartDate property.
     *
     * @return
     *     possible object is
     *     {@link String }
     *
     */
-   public Date getPendingActualFinishDate()
+   public Date getOverrideUdfStartDate()
    {
-      return pendingActualFinishDate;
+      return overrideUdfStartDate;
    }
 
    /**
-    * Sets the value of the pendingActualFinishDate property.
+    * Sets the value of the overrideUdfStartDate property.
     *
     * @param value
     *     allowed object is
     *     {@link String }
     *
     */
-   public void setPendingActualFinishDate(Date value)
+   public void setOverrideUdfStartDate(Date value)
    {
-      this.pendingActualFinishDate = value;
+      this.overrideUdfStartDate = value;
    }
 
    /**
-    * Gets the value of the pendingActualLaborUnits property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Double }
-    *
-    */
-   public Double getPendingActualLaborUnits()
-   {
-      return pendingActualLaborUnits;
-   }
-
-   /**
-    * Sets the value of the pendingActualLaborUnits property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Double }
-    *
-    */
-   public void setPendingActualLaborUnits(Double value)
-   {
-      this.pendingActualLaborUnits = value;
-   }
-
-   /**
-    * Gets the value of the pendingActualNonLaborUnits property.
-    *
-    * @return
-    *     possible object is
-    *     {@link Double }
-    *
-    */
-   public Double getPendingActualNonLaborUnits()
-   {
-      return pendingActualNonLaborUnits;
-   }
-
-   /**
-    * Sets the value of the pendingActualNonLaborUnits property.
-    *
-    * @param value
-    *     allowed object is
-    *     {@link Double }
-    *
-    */
-   public void setPendingActualNonLaborUnits(Double value)
-   {
-      this.pendingActualNonLaborUnits = value;
-   }
-
-   /**
-    * Gets the value of the pendingActualStartDate property.
+    * Gets the value of the overrideUdfText property.
     *
     * @return
     *     possible object is
     *     {@link String }
     *
     */
-   public Date getPendingActualStartDate()
+   public String getOverrideUdfText()
    {
-      return pendingActualStartDate;
+      return overrideUdfText;
    }
 
    /**
-    * Sets the value of the pendingActualStartDate property.
+    * Sets the value of the overrideUdfText property.
     *
     * @param value
     *     allowed object is
     *     {@link String }
     *
     */
-   public void setPendingActualStartDate(Date value)
+   public void setOverrideUdfText(String value)
    {
-      this.pendingActualStartDate = value;
+      this.overrideUdfText = value;
    }
 
    /**
-    * Gets the value of the pendingExpectedFinishDate property.
+    * Gets the value of the pendingUDFRAGType property.
     *
     * @return
     *     possible object is
     *     {@link String }
     *
     */
-   public Date getPendingExpectedFinishDate()
+   public String getPendingUDFRAGType()
    {
-      return pendingExpectedFinishDate;
+      return pendingUDFRAGType;
    }
 
    /**
-    * Sets the value of the pendingExpectedFinishDate property.
+    * Sets the value of the pendingUDFRAGType property.
     *
     * @param value
     *     allowed object is
     *     {@link String }
     *
     */
-   public void setPendingExpectedFinishDate(Date value)
+   public void setPendingUDFRAGType(String value)
    {
-      this.pendingExpectedFinishDate = value;
+      this.pendingUDFRAGType = value;
    }
 
    /**
-    * Gets the value of the pendingPercentComplete property.
+    * Gets the value of the pendingUdfCodeId property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getPendingPercentComplete()
+   public Double getPendingUdfCodeId()
    {
-      return pendingPercentComplete;
+      return pendingUdfCodeId;
    }
 
    /**
-    * Sets the value of the pendingPercentComplete property.
+    * Sets the value of the pendingUdfCodeId property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setPendingPercentComplete(Double value)
+   public void setPendingUdfCodeId(Double value)
    {
-      this.pendingPercentComplete = value;
+      this.pendingUdfCodeId = value;
    }
 
    /**
-    * Gets the value of the pendingRemainingDuration property.
+    * Gets the value of the pendingUdfCost property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getPendingRemainingDuration()
+   public Double getPendingUdfCost()
    {
-      return pendingRemainingDuration;
+      return pendingUdfCost;
    }
 
    /**
-    * Sets the value of the pendingRemainingDuration property.
+    * Sets the value of the pendingUdfCost property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setPendingRemainingDuration(Double value)
+   public void setPendingUdfCost(Double value)
    {
-      this.pendingRemainingDuration = value;
+      this.pendingUdfCost = value;
    }
 
    /**
-    * Gets the value of the pendingRemainingLaborUnits property.
+    * Gets the value of the pendingUdfEndDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Date getPendingUdfEndDate()
+   {
+      return pendingUdfEndDate;
+   }
+
+   /**
+    * Sets the value of the pendingUdfEndDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingUdfEndDate(Date value)
+   {
+      this.pendingUdfEndDate = value;
+   }
+
+   /**
+    * Gets the value of the pendingUdfInteger property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getPendingUdfInteger()
+   {
+      return pendingUdfInteger;
+   }
+
+   /**
+    * Sets the value of the pendingUdfInteger property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setPendingUdfInteger(Integer value)
+   {
+      this.pendingUdfInteger = value;
+   }
+
+   /**
+    * Gets the value of the pendingUdfNumber property.
     *
     * @return
     *     possible object is
     *     {@link Double }
     *
     */
-   public Double getPendingRemainingLaborUnits()
+   public Double getPendingUdfNumber()
    {
-      return pendingRemainingLaborUnits;
+      return pendingUdfNumber;
    }
 
    /**
-    * Sets the value of the pendingRemainingLaborUnits property.
+    * Sets the value of the pendingUdfNumber property.
     *
     * @param value
     *     allowed object is
     *     {@link Double }
     *
     */
-   public void setPendingRemainingLaborUnits(Double value)
+   public void setPendingUdfNumber(Double value)
    {
-      this.pendingRemainingLaborUnits = value;
+      this.pendingUdfNumber = value;
    }
 
    /**
-    * Gets the value of the pendingRemainingNonLaborUnits property.
+    * Gets the value of the pendingUdfStartDate property.
     *
     * @return
     *     possible object is
-    *     {@link Double }
+    *     {@link String }
     *
     */
-   public Double getPendingRemainingNonLaborUnits()
+   public Date getPendingUdfStartDate()
    {
-      return pendingRemainingNonLaborUnits;
+      return pendingUdfStartDate;
    }
 
    /**
-    * Sets the value of the pendingRemainingNonLaborUnits property.
+    * Sets the value of the pendingUdfStartDate property.
     *
     * @param value
     *     allowed object is
-    *     {@link Double }
+    *     {@link String }
     *
     */
-   public void setPendingRemainingNonLaborUnits(Double value)
+   public void setPendingUdfStartDate(Date value)
    {
-      this.pendingRemainingNonLaborUnits = value;
+      this.pendingUdfStartDate = value;
+   }
+
+   /**
+    * Gets the value of the pendingUdfText property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPendingUdfText()
+   {
+      return pendingUdfText;
+   }
+
+   /**
+    * Sets the value of the pendingUdfText property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingUdfText(String value)
+   {
+      this.pendingUdfText = value;
    }
 
    /**
@@ -1216,6 +1077,58 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    public void setStatus(String value)
    {
       this.status = value;
+   }
+
+   /**
+    * Gets the value of the udfDataType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getUDFDataType()
+   {
+      return udfDataType;
+   }
+
+   /**
+    * Sets the value of the udfDataType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUDFDataType(String value)
+   {
+      this.udfDataType = value;
+   }
+
+   /**
+    * Gets the value of the udfTypeObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getUDFTypeObjectId()
+   {
+      return udfTypeObjectId;
+   }
+
+   /**
+    * Sets the value of the udfTypeObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setUDFTypeObjectId(Integer value)
+   {
+      this.udfTypeObjectId = value;
    }
 
 }

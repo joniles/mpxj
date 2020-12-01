@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.3.4 (git master)
+* Updated PMXML schema to version 19.12.
 
 ## 8.3.3 (24/11/2020)
 * Added cost rate table support when reading from and writing to PMXML files.

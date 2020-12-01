@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.3.4">
+		<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
 		</release>
 		<release date="24/11/2020" version="8.3.3">
 			<action dev="joniles" type="add">Added cost rate table support when reading from and writing to PMXML files.</action>
