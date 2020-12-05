@@ -411,6 +411,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<>();
    static
    {
+      FILE_CLASS_MAP.put("MSProject.DocFile.4", MPP4Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.GLOBAL9", MPP9Reader.class);
