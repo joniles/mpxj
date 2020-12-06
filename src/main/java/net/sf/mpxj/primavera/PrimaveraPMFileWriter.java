@@ -693,6 +693,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Task parentTask = mpxj.getParentTask();
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
+      // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
+      Date plannedStart = mpxj.getBaselineStart() == null ? mpxj.getStart() : mpxj.getBaselineStart();
+      Date plannedFinish = mpxj.getBaselineFinish() == null ? mpxj.getFinish() : mpxj.getBaselineFinish();
+
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
@@ -709,8 +713,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPlannedDuration(getDuration(mpxj.getDuration()));
-      xml.setPlannedFinishDate(mpxj.getBaselineFinish());
-      xml.setPlannedStartDate(mpxj.getBaselineStart());
+      xml.setPlannedFinishDate(plannedFinish);
+      xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
       xml.setRemainingLateStartDate(mpxj.getLateStart());
@@ -1407,7 +1411,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    @SuppressWarnings("deprecation") private static final Map<ConstraintType, String> createConstraintTypeMap()
    {
       Map<ConstraintType, String> map = new HashMap<>();
-      
+
       map.put(ConstraintType.START_ON, "Start On");
       map.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
       map.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
@@ -1419,12 +1423,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       map.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
       map.put(ConstraintType.MANDATORY_START, "Mandatory Start");
       map.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
-      
+
       return map;
    }
 
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = createConstraintTypeMap();
-   
+
    private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
    static
    {
