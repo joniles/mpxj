@@ -8,6 +8,7 @@
 		<release date="git master" version="8.3.4">
 			<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
 			<action dev="joniles" type="update">Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</action>
+			<action dev="joniles" type="update">Updated the getPopulatedFields methods to ignore fields with default values.</action>			
 		</release>
 		<release date="24/11/2020" version="8.3.3">
 			<action dev="joniles" type="add">Added cost rate table support when reading from and writing to PMXML files.</action>

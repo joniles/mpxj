@@ -242,7 +242,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public Set<TaskField> getPopulatedFields()
    {
-      return new PopulatedFields<>(TaskField.class, this).getPopulatedFields();
+      return new PopulatedFields<>(m_projectFile, TaskField.class, this).getPopulatedFields();
    }
 
    @Override protected int firstUniqueID()

@@ -27,7 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -37,7 +39,9 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.utility.TimephasedUtility;
@@ -109,6 +113,7 @@ public class MpxjQuery
 
       listCalendars(mpx);
 
+      listPopulatedFields(mpx);
    }
 
    /**
@@ -483,5 +488,34 @@ public class MpxjQuery
       {
          System.out.println(cal.toString());
       }
+   }
+
+   /**
+    * List details of all fields with non-default value.
+    * 
+    * @param file ProjectFile instance
+    */
+   private static void listPopulatedFields(ProjectFile file)
+   {
+      Set<TaskField> tasks = file.getTasks().getPopulatedFields();
+      Set<ResourceField> resources = file.getResources().getPopulatedFields();
+      Set<AssignmentField> assignments = file.getResourceAssignments().getPopulatedFields();
+
+      System.out.println("Populated task fields: " + tasks.size() + "/" + TaskField.values().length);
+      System.out.println("Populated resource fields: " + resources.size() + "/" + ResourceField.values().length);
+      System.out.println("Populated assignment fields: " + assignments.size() + "/" + AssignmentField.values().length);
+      System.out.println();
+
+      System.out.println("Populated task fields:");
+      tasks.forEach(x -> System.out.println(x));
+      System.out.println();
+
+      System.out.println("Populated resource fields:");
+      resources.forEach(x -> System.out.println(x));
+      System.out.println();
+
+      System.out.println("Populated assignment fields:");
+      assignments.forEach(x -> System.out.println(x));
+      System.out.println();
    }
 }

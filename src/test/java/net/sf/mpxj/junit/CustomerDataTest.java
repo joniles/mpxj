@@ -350,6 +350,8 @@ public class CustomerDataTest
                continue;
             }
 
+            testPopulatedFields(mpxj);
+
             if (!testHierarchy(mpxj))
             {
                System.err.println("Failed to validate hierarchy " + name);
@@ -430,6 +432,18 @@ public class CustomerDataTest
       }
 
       return mpxj;
+   }
+
+   /**
+    * Ensure that the populated fields methods work for all data.
+    * 
+    * @param file schedule file to test
+    */
+   private void testPopulatedFields(ProjectFile file)
+   {
+      file.getTasks().getPopulatedFields();
+      file.getResources().getPopulatedFields();
+      file.getResourceAssignments().getPopulatedFields();
    }
 
    /**

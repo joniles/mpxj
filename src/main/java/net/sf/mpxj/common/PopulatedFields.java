@@ -28,8 +28,17 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
+import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 
 /**
  * Given a collection of objects containing fields, return a set representing
@@ -43,13 +52,20 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
    /**
     * Constructor.
     *
+    * @param project parent project
     * @param fieldEnumType enumeration representing the set of fields
     * @param collection collection of objects containing fields
     */
-   public PopulatedFields(Class<E> fieldEnumType, Collection<T> collection)
+   public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<T> collection)
    {
       m_fieldEnumType = fieldEnumType;
       m_collection = collection;
+
+      ProjectProperties props = project.getProjectProperties();
+      m_defaultDurationUnits = props.getDefaultDurationUnits();
+      m_defaultTaskType = props.getDefaultTaskType();
+      m_defaultTaskEarnedValueMethod = props.getDefaultTaskEarnedValueMethod();
+      m_defaultFixedCostAccrual = props.getDefaultFixedCostAccrual();
    }
 
    /**
@@ -66,7 +82,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
          Iterator<E> iter = unusedFields.iterator();
          while (iter.hasNext())
          {
-            if (item.getCachedValue((FieldType) iter.next()) != null)
+            if (fieldIsPopulated(item, (FieldType) iter.next()))
             {
                iter.remove();
             }
@@ -79,6 +95,121 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
       return usedFields;
    }
 
+   /**
+    * Returns true if the field is populated with a non-default value.
+    * 
+    * @param item field container
+    * @param type field type
+    * @return true if the field is populated with a non-default value
+    */
+   private boolean fieldIsPopulated(FieldContainer item, FieldType type)
+   {
+      Object value = item.getCachedValue(type);
+      return value == null ? false : fieldIsNotDefaultValue(value, type);
+   }
+
+   /**
+    * Returns true if the value is non-default.
+    * 
+    * @param value field value
+    * @param type field type
+    * @return true if the value is non-default
+    */
+   private boolean fieldIsNotDefaultValue(Object value, FieldType type)
+   {
+      boolean result;
+
+      switch (type.getDataType())
+      {
+         case STRING:
+         case ASCII_STRING:
+         {
+            result = !((String) value).isEmpty();
+            break;
+         }
+
+         case NUMERIC:
+         case CURRENCY:
+         case PERCENTAGE:
+         case UNITS:
+         case INTEGER:
+         case SHORT:
+         {
+            result = ((Number) value).doubleValue() != 0.0;
+            break;
+         }
+
+         case WORK:
+         case DURATION:
+         {
+            // Baseline durations can have string values
+            if (value instanceof String)
+            {
+               result = !((String) value).isEmpty();
+            }
+            else
+            {
+               result = ((Duration) value).getDuration() != 0.0;
+            }
+            break;
+         }
+
+         case RATE:
+         {
+            result = ((Rate) value).getAmount() != 0.0;
+            break;
+         }
+
+         case BOOLEAN:
+         {
+            result = ((Boolean) value).booleanValue();
+            break;
+         }
+
+         case TIME_UNITS:
+         {
+            result = ((TimeUnit) value) != m_defaultDurationUnits;
+            break;
+         }
+
+         case TASK_TYPE:
+         {
+            result = ((TaskType) value) != m_defaultTaskType;
+            break;
+         }
+
+         case PRIORITY:
+         {
+            result = ((Priority) value).getValue() != Priority.MEDIUM;
+            break;
+         }
+
+         case EARNED_VALUE_METHOD:
+         {
+            result = ((EarnedValueMethod) value) != m_defaultTaskEarnedValueMethod;
+            break;
+         }
+
+         case ACCRUE:
+         {
+            result = ((AccrueType) value) != m_defaultFixedCostAccrual;
+            break;
+         }
+
+         default:
+         {
+            result = true;
+            break;
+         }
+      }
+
+      return result;
+   }
+
    private final Class<E> m_fieldEnumType;
    private final Collection<T> m_collection;
+   private final TimeUnit m_defaultDurationUnits;
+   private final TaskType m_defaultTaskType;
+   private final EarnedValueMethod m_defaultTaskEarnedValueMethod;
+   private final AccrueType m_defaultFixedCostAccrual;
 }

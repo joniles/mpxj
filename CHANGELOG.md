@@ -3,6 +3,7 @@
 ## 8.3.4 (git master)
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
+* Updated the getPopulatedFields methods to ignore fields with default values.
 
 ## 8.3.3 (24/11/2020)
 * Added cost rate table support when reading from and writing to PMXML files.
