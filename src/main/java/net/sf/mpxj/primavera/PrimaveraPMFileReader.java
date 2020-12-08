@@ -373,7 +373,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
          TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
-
+         RESOURCE_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
+         
          addListenersToProject(m_projectFile);
 
          processProjectUDFs(apibo);
@@ -512,7 +513,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             case RESOURCE:
             {
-               field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
+               do
+               {
+                  field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
+               }
+               while (RESOURCE_FIELD_ALIASES.containsKey(field));
+               
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
@@ -824,7 +830,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
-
+         resource.setText(1, xml.getId());
+         
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
          {
@@ -1742,6 +1749,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       TASK_FIELD_ALIASES.put(TaskField.TEXT2, "Activity Type");
       TASK_FIELD_ALIASES.put(TaskField.TEXT3, "Status");
       TASK_FIELD_ALIASES.put(TaskField.NUMBER1, "Primary Resource Unique ID");
+   }
+
+   private static final Map<ResourceField, String> RESOURCE_FIELD_ALIASES = new HashMap<>();
+   static
+   {
+      RESOURCE_FIELD_ALIASES.put(ResourceField.TEXT1, "Resource ID");
    }
 
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();

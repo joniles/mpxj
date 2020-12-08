@@ -1767,8 +1767,9 @@ final class PrimaveraReader
       map.put(ResourceField.NOTES, "rsrc_notes");
       map.put(ResourceField.CREATED, "create_date");
       map.put(ResourceField.TYPE, "rsrc_type");
-      map.put(ResourceField.INITIALS, "rsrc_short_name");
+      map.put(ResourceField.INITIALS, "rsrc_short_name"); // TODO - remove, deprecated and replaced by TEXT1
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
+      map.put(ResourceField.TEXT1, "rsrc_short_name");
 
       return map;
    }
@@ -1879,10 +1880,11 @@ final class PrimaveraReader
 
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
-      map.put(TaskField.TEXT1, "Code");
+      map.put(TaskField.TEXT1, "Code"); // TODO this should be renamed Activity ID
       map.put(TaskField.TEXT2, "Activity Type");
       map.put(TaskField.TEXT3, "Status");
       map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
+      map.put(ResourceField.TEXT1, "Resource ID");
 
       return map;
    }

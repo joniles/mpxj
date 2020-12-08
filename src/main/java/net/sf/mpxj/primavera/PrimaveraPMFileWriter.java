@@ -76,6 +76,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -158,6 +159,31 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    public TaskField getActivityTypeField()
    {
       return m_activityTypeField;
+   }
+
+   /**
+    * Set the resource field which will be used to populate the Resource ID attribute
+    * in the PMXML file. If you are
+    * reading in a project from Primavera, typically the original Resource ID will
+    * be in the Text1 field, so calling this method with ResourceField.TEXT1 will write
+    * the original Resource ID values in the PMXML file.
+    *
+    * @param field ResourceField instance
+    */
+   public void setResourceIdField(ResourceField field)
+   {
+      m_resourceIDField = field;
+   }
+
+   /**
+    * Retrieve the resource field which will be used to populate the Resource ID attribute
+    * in the PMXML file.
+    *
+    * @return ResourceField instance
+    */
+   public ResourceField getResourceIdField()
+   {
+      return m_resourceIDField;
    }
 
    /**
@@ -590,7 +616,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(RESOURCE_ID_PREFIX + mpxj.getUniqueID());
+      xml.setId(getResourceID(mpxj));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -1253,6 +1279,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the Activity ID value for this task.
+    * 
     * @param task Task instance
     * @return Activity ID value
     */
@@ -1268,6 +1295,45 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          }
       }
       return result;
+   }
+
+   /**
+    * Retrieve the Resource ID value for this task.
+    * 
+    * @param resource Resource instance
+    * @return Resource ID value
+    */
+   private String getResourceID(Resource resource)
+   {
+      String result = null;
+      if (m_resourceIDField == null)
+      {
+         result = getDefaultResourceID(resource);
+      }
+      else
+      {
+         Object value = resource.getCachedValue(m_resourceIDField);
+         if (value == null || value.toString().isEmpty())
+         {
+            result = getDefaultResourceID(resource);
+         }
+         else
+         {
+            result = value.toString();
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Generate a default Resource ID for a resource.
+    * 
+    * @param resource Resource instance
+    * @return generated Resource ID
+    */
+   private String getDefaultResourceID(Resource resource)
+   {
+      return RESOURCE_ID_PREFIX + resource.getUniqueID();
    }
 
    /**
@@ -1291,6 +1357,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       if (m_activityTypeField == null)
       {
          m_activityTypeField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Activity Type");
+      }
+
+      // If the caller hasn't already supplied a value for this field
+      if (m_resourceIDField == null)
+      {
+         m_resourceIDField = (ResourceField) customFields.getFieldByAlias(FieldTypeClass.RESOURCE, "Resource ID");
       }
    }
 
@@ -1456,6 +1528,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_relationshipObjectID;
    private int m_rateObjectID;
    private TaskField m_activityIDField;
+   private ResourceField m_resourceIDField;
    private TaskField m_activityTypeField;
    private List<CustomField> m_sortedCustomFieldsList;
 }

@@ -4,6 +4,8 @@
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
 * Updated the getPopulatedFields methods to ignore fields with default values.
+* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
+* Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.
 
 ## 8.3.3 (24/11/2020)
 * Added cost rate table support when reading from and writing to PMXML files.
