@@ -366,7 +366,7 @@ final class PrimaveraReader
 
       try
       {
-         calendar.setMinutesPerDay(Integer.valueOf((int) NumberHelper.getDouble(row.getDouble("day_hr_cnt")) * 60));
+         calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("day_hr_cnt")) * 60)));
          calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("week_hr_cnt")) * 60)));
          calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("month_hr_cnt")) * 60)));
          calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("year_hr_cnt")) * 60)));

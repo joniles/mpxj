@@ -374,7 +374,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          CustomFieldContainer fields = m_projectFile.getCustomFields();
          TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
          RESOURCE_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
-         
+
          addListenersToProject(m_projectFile);
 
          processProjectUDFs(apibo);
@@ -518,7 +518,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                }
                while (RESOURCE_FIELD_ALIASES.containsKey(field));
-               
+
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
@@ -759,6 +759,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       calendar.setName(row.getName());
       calendar.setUniqueID(id);
 
+      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerDay()) * 60)));
+      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerWeek()) * 60)));
+      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerMonth()) * 60)));
+      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerYear()) * 60)));
+
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
       {
@@ -831,7 +836,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
          resource.setText(1, xml.getId());
-         
+
          Integer calendarID = xml.getCalendarObjectId();
          if (calendarID != null)
          {

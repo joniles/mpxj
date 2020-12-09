@@ -531,6 +531,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setType(type);
 
+      xml.setHoursPerDay(Double.valueOf(mpxj.getMinutesPerDay() / 60.0));
+      xml.setHoursPerWeek(Double.valueOf(mpxj.getMinutesPerWeek() / 60.0));
+      xml.setHoursPerMonth(Double.valueOf(mpxj.getMinutesPerMonth() / 60.0));
+      xml.setHoursPerYear(Double.valueOf(mpxj.getMinutesPerYear() / 60.0));
+
       StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
       xml.setStandardWorkWeek(xmlStandardWorkWeek);
 
