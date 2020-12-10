@@ -1366,17 +1366,41 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setBaselineStart(row.getPlannedStartDate());
             assignment.setBaselineFinish(row.getPlannedFinishDate());
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
+            assignment.setActualOvertimeCost(row.getActualOvertimeCost());
+            assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
 
-            task.setActualCost(Double.valueOf(NumberHelper.getDouble(task.getActualCost()) + NumberHelper.getDouble(assignment.getActualCost())));
-            task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
-            task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
-
-            populateField(assignment, AssignmentField.WORK, AssignmentField.ACTUAL_WORK, AssignmentField.BASELINE_WORK);
-            populateField(assignment, AssignmentField.COST, AssignmentField.ACTUAL_COST, AssignmentField.BASELINE_COST);
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.BASELINE_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.BASELINE_FINISH);
 
+            // calculate work
+            Duration remainingWork = assignment.getRemainingWork();
+            Duration actualWork = assignment.getActualWork();
+            Duration totalWork = Duration.add(actualWork, remainingWork, m_projectFile.getProjectProperties());
+            assignment.setWork(totalWork);
+
+            // calculate cost
+            Number remainingCost = assignment.getRemainingCost();
+            Number actualCost = assignment.getActualCost();
+            double totalCost = NumberHelper.getDouble(actualCost) + NumberHelper.getDouble(remainingCost);
+            assignment.setCost(NumberHelper.getDouble(totalCost));
+
+            double units;
+            if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
+            {
+               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+            }
+            else // RT_Labor & RT_Equip
+            {
+               units = NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100;
+            }
+            assignment.setUnits(NumberHelper.getDouble(units));
+
             readUDFTypes(assignment, row.getUDF());
+
+            // Update parent task attributes
+            task.setActualCost(Double.valueOf(NumberHelper.getDouble(task.getActualCost()) + NumberHelper.getDouble(assignment.getActualCost())));
+            task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
+            task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
