@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.3.4">
+		<release date="git master" version="8.3.5">
+		</release>		
+		<release date="10/12/2020" version="8.3.4">
 			<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
 			<action dev="joniles" type="update">Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</action>
 			<action dev="joniles" type="update">Updated the getPopulatedFields methods to ignore fields with default values.</action>			

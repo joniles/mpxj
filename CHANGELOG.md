@@ -1,6 +1,8 @@
 # Changelog
 
-## 8.3.4 (git master)
+## 8.3.5 (git master)
+
+## 8.3.4 (10/12/2020)
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
 * Updated the getPopulatedFields methods to ignore fields with default values.
@@ -8,6 +10,8 @@
 * Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.
 * Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.
 * Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.
+* Read assignment actual overtime cost and work attributes from PMXML files.
+* Update calculation of assignment work, cost and units attributes for PMXML files.
 
 ## 8.3.3 (24/11/2020)
 * Added cost rate table support when reading from and writing to PMXML files.
