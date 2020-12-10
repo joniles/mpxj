@@ -4,7 +4,7 @@
 
 	<target name="init" description="Initialize properties">
 		<tstamp />
-		
+
 		<property environment="env"/>
 		<property name="current.version" value="8.3.4" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
@@ -20,7 +20,7 @@
 		<property name="mspdi.xsd" value="mspdi_pj15-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 		<property name="conceptdraw.xsd" value="document.xsd" />
-		
+
 		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
 		<property name="maven.dir" value="c:/java/apache-maven-3.6.0"/>
 
@@ -71,14 +71,14 @@
 		<property name="commons-collections.classpath" refid="commons-collections.path" />
 		<property name="commons-math.classpath" refid="commons-math.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
-		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />	
+		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
 		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.dll" value="${lib.net.dir}\${commons-collections.jar}.dll" />
 		<property name="commons-math.dll" value="${lib.net.dir}\${commons-math.jar}.dll" />
 		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />	
+		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
 		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
 		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
@@ -134,7 +134,7 @@
 	</target>
 
 	<target name="changelog" description="Update changelog">
-		<xslt in="${basedir}/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/> 
+		<xslt in="${basedir}/src/changes/changes.xml" out="${basedir}/CHANGELOG.md" style="${basedir}/doc/changelog.xsl"/>
 	</target>
 
 	<target name="releasenotes" depends="init" description="Create release notes">
@@ -307,7 +307,7 @@
 		<jar destfile="${ikvm.working.dir}\${poi.jar}.stripped.jar">
 		    <zipfileset src="${basedir}\lib\${poi.jar}.jar" excludes="**/GenericRecord.class"/>
 		</jar>
-		
+
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-collections.jar}.jar" />
 		</exec>
@@ -319,7 +319,7 @@
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${ikvm.working.dir}\${poi.jar}.stripped.jar" />
 		</exec>
-		
+
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
 		</exec>
@@ -327,7 +327,7 @@
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
 		</exec>
-		
+
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
@@ -474,12 +474,12 @@
 		<delete dir="${basedir}/src.ruby/mpxj/legal" />
 		<delete dir="${basedir}/src.ruby/mpxj/pkg" />
 		<delete dir="${basedir}/src.ruby/mpxj/Gemfile.lock" />
-		
+
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.ruby/mpxj" defaultexcludes="false">
 				<include name="**/*.jar" />
 			</fileset>
-		</delete>		
+		</delete>
 	</target>
 
 	<target name="clean" depends="init, clean-temp, clean-dot-net, clean-ruby, maven-clean" description="Clean up all files">
@@ -574,7 +574,7 @@
 			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
 		</exec>
 	</target>
-	
+
 	<target name="nuget-package" depends="init" description="Create NuGet packages">
 		<exec executable="${nuget.dir}/nuget.exe">
 			<arg value="update"/>
@@ -592,7 +592,7 @@
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj-common"/>
 		</antcall>
-		
+
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj"/>
 		</antcall>
@@ -604,10 +604,10 @@
 		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj-for-vb"/>
 		</antcall>
-		
+
 		<replace dir="nuget" token="${current.version}" value="0.0.0">
 			<include name="*.nuspec" />
-		</replace>		
+		</replace>
 	</target>
 
 	<target name="nuget-pack">
@@ -632,26 +632,26 @@
 			<arg value="-Timeout"/>
 			<arg value="1200"/>
 			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>									
+			<arg value="Detailed"/>
 			<arg value="-ApiKey"/>
 			<arg value="${env.NUGET_API_KEY}"/>
 			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
-		</exec>		
+		</exec>
 	</target>
-	
+
 	<target name="nuget-deploy" depends="init" description="Deploy NuGet packages">
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-ikvm"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-common"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj"/>
 		</antcall>
-		
+
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj-for-csharp"/>
 		</antcall>
@@ -665,29 +665,29 @@
 	<!-- Experimental - work in progress -->
 	<target name="j2objc">
 		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
-	    <fileset 
-	    	id="source.fileset" 
-	    	dir="src"  
-	    	includes="**/*.java" 
+	    <fileset
+	    	id="source.fileset"
+	    	dir="src"
+	    	includes="**/*.java"
 	    	excludes="net/sf/mpxj/explorer/**,net/sf/mpxj/mspdi/**,net/sf/mpxj/primavera/**,net/sf/mpxj/ikvm/**"
 	    />
 	    <pathconvert property="source.files" refid="source.fileset" pathsep=" "/>
 		<java jar="${j2objc.dir}/lib/j2objc.jar" fork="true">
 			<arg line="-Xbootclasspath:${j2objc.dir}/lib/jre_emul.jar -d src.objc"/>
-			<arg line=" ${source.files}"/>			
+			<arg line=" ${source.files}"/>
 		</java>
 	</target>
-	
+
 	<!-- Run this after xjc to fix incorrectly escaped XML in javadoc comments -->
 	<target name="fix-jaxb-comments" depends="init" description="Fix JAXB generated comments">
-		<replaceregexp 
+		<replaceregexp
 		               match="( \*[ ]+&amp;lt;.+)&gt;"
 		               replace="\1&amp;gt;"
 		               byline="true">
 			<fileset dir="${basedir}/src/main/java" includes="**/schema/*.java" />
 		</replaceregexp>
-		
-		<replaceregexp 
+
+		<replaceregexp
 		               match='(base="&amp;lt;.+)&gt;'
 		               replace="\1&amp;gt;"
 		               byline="true">

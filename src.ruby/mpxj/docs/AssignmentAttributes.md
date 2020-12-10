@@ -19,7 +19,7 @@
 	Assignment#baseline1_finish
 	Assignment#baseline1_start
 	Assignment#baseline1_work
-	...	
+	...
 	Assignment#baseline10_budget_cost
 	Assignment#baseline10_budget_work
 	Assignment#baseline10_cost

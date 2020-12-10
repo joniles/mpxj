@@ -16,13 +16,13 @@ describe MPXJ::Reader do
     it 'will raise an exception when an MPXJ error occurs' do
       expect { MPXJ::Reader.read("idontexist.mpp") }.to raise_error(MPXJ::RuntimeError)
     end
-    
+
     it 'will extract the error message from the Java output' do
       begin
         MPXJ::Reader.read("idontexist.mpp")
       rescue Exception => e
         expect(e.class).to eq(MPXJ::RuntimeError)
-        expect(e.message.split(/\n/).first).to eq("net.sf.mpxj.MPXJException: Invalid file format") 
+        expect(e.message.split(/\n/).first).to eq("net.sf.mpxj.MPXJException: Invalid file format")
       end
     end
 
@@ -31,8 +31,8 @@ describe MPXJ::Reader do
         MPXJ::Reader.read("#{File.dirname(__FILE__)}/reader_spec.rb")
       rescue Exception => e
         expect(e.class).to eq(MPXJ::ArgumentError)
-        expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Unsupported file type") 
+        expect(e.message.split(/\n/).first).to eq("java.lang.IllegalArgumentException: Unsupported file type")
       end
-    end        
+    end
   end
 end
