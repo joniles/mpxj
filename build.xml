@@ -9,7 +9,7 @@
 		<property name="current.version" value="8.3.4" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
-		<property name="ruby.dir" value="C:/Ruby21"/>
+		<property name="ruby.dir" value="C:/Ruby23"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
 		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
 		<property name="junit.jar" value="${basedir}/lib/junit-4.13.1.jar"/>
