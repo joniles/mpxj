@@ -1,6 +1,9 @@
 # Changelog
 
-## 8.3.5 (git master)
+## 8.3.6 (git master)
+
+## 8.3.5 (15/12/2020)
+* Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 
 ## 8.3.4 (10/12/2020)
 * Updated PMXML schema to version 19.12.

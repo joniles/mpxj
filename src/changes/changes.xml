@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.3.5">
+		<release date="git master" version="8.3.6">				
+		</release>		
+		<release date="15/12/2020" version="8.3.5">
+			<action dev="joniles" type="update">Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>				
 		</release>		
 		<release date="10/12/2020" version="8.3.4">
 			<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
