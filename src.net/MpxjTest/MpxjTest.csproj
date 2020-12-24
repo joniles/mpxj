@@ -144,6 +144,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
+    <Reference Include="jsoup-1.13.1">
+      <HintPath>..\..\lib.net\jsoup-1.13.1.dll</HintPath>
+    </Reference>
     <Reference Include="junit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\junit.dll</HintPath>

@@ -584,10 +584,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
-      //List<Row> wbsmemos = getRows("wbsmemo", "proj_id", m_projectID);
-      //List<Row> taskmemos = getRows("taskmemo", "proj_id", m_projectID);
+      Map<Integer, String> topics = m_reader.getNotebookTopics(getRows("memotype", null, null));
+      Map<Integer, String> wbsNotes = m_reader.getNotes(topics, getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
+      Map<Integer, String> taskNotes = m_reader.getNotes(topics, getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
+
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks/*, wbsmemos, taskmemos*/);
+      m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
    }
 
    /**
@@ -1140,6 +1142,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("late_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("loginal_data_type", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("memo_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("parent_acct_id", XerFieldType.INTEGER);
@@ -1212,6 +1215,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("costtype");
       REQUIRED_TABLES.add("account");
       REQUIRED_TABLES.add("projcost");
+      REQUIRED_TABLES.add("memotype");
+      REQUIRED_TABLES.add("wbsmemo");
+      REQUIRED_TABLES.add("taskmemo");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

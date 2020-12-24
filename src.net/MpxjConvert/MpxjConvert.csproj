@@ -145,6 +145,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib.net\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
+    <Reference Include="jsoup-1.13.1">
+      <HintPath>..\..\lib.net\jsoup-1.13.1.dll</HintPath>
+    </Reference>
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\lib.net\mpxj-for-csharp.dll</HintPath>
     </Reference>

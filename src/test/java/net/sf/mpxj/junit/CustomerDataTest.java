@@ -226,6 +226,7 @@ public class CustomerDataTest
       catch (Exception e)
       {
          System.err.println("Failed to read Primavera database project: " + projectName);
+         e.printStackTrace();
          result = Boolean.FALSE;
       }
 
@@ -642,7 +643,7 @@ public class CustomerDataTest
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 
-   private static final boolean DEBUG_FAILURES = false;
+   private static final boolean DEBUG_FAILURES = true;
 
    static
    {

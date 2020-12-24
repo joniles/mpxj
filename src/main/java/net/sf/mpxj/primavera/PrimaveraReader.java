@@ -702,8 +702,10 @@ final class PrimaveraReader
     *
     * @param wbs WBS task data
     * @param tasks task data
+    * @param wbsNotes WBS note data
+    * @param taskNotes task note data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks)
+   public void processTasks(List<Row> wbs, List<Row> tasks, Map<Integer, String> wbsNotes, Map<Integer, String> taskNotes)
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
@@ -734,6 +736,7 @@ final class PrimaveraReader
          task.setSummary(true);
          processFields(m_wbsFields, row, task);
          populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
+         task.setNotes(wbsNotes.get(task.getUniqueID()));
          uniqueIDs.add(task.getUniqueID());
          wbsTasks.add(task);
          m_eventManager.fireTaskReadEvent(task);
@@ -809,6 +812,8 @@ final class PrimaveraReader
          populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, uniqueID);
 
          populateActivityCodes(task);
+
+         task.setNotes(taskNotes.get(uniqueID));
 
          if (uniqueIDs.contains(uniqueID))
          {
@@ -1046,21 +1051,120 @@ final class PrimaveraReader
       }
    }
 
-   /*
-      private String getNotes(List<Row> notes, String keyField, int keyValue, String notesField)
+   /**
+    * Create a map of notebook topics.
+    * 
+    * @param rows notebook topic rows
+    * @return notebook topic map
+    */
+   public Map<Integer, String> getNotebookTopics(List<Row> rows)
+   {
+      Map<Integer, String> topics = new HashMap<>();
+      rows.forEach(row -> topics.put(row.getInteger("memo_type_id"), row.getString("memo_type")));
+      return topics;
+   }
+
+   /**
+    * Convert the P6 notes to plain text.
+    * 
+    * @param topics topic map
+    * @param rows notebook rows
+    * @param idColumn id column name
+    * @param textColumn text column name
+    * @return note text
+    */
+   public Map<Integer, String> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
+   {
+      Map<Integer, String> notes = new HashMap<>();
+
+      Collections.sort(rows, (r1, r2) -> r1.getInteger(idColumn).compareTo(r2.getInteger(idColumn)));
+
+      int currentID = -1;
+      StringBuilder note = new StringBuilder();
+
+      for (Row row : rows)
       {
-         String result = null;
-         for (Row row : notes)
+         int nextID = row.getInt(idColumn);
+         if (currentID != nextID)
          {
-            if (row.getInt(keyField) == keyValue)
+            if (currentID != -1)
             {
-               result = row.getString(notesField);
-               break;
+               notes.put(Integer.valueOf(currentID), note.toString().trim());
+               note.setLength(0);
             }
+            currentID = nextID;
          }
-         return result;
+
+         String noteText = getNoteText(row.getString(textColumn));
+
+         if (noteText != null)
+         {
+            note.append(topics.get(row.getInteger("memo_type_id")));
+            note.append("\n");
+            note.append(noteText);
+            note.append("\n");
+            note.append("\n");
+         }
       }
-   */
+
+      if (currentID != -1)
+      {
+         notes.put(Integer.valueOf(currentID), note.toString().trim());
+      }
+
+      return notes;
+   }
+
+   /**
+    * Extract plaintext from a note.
+    * 
+    * @param text note text
+    * @return plain text
+    */
+   private String getNoteText(String text)
+   {
+      if (text == null)
+      {
+         return null;
+      }
+
+      // Remove BOM and NUL characters
+      String result = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+
+      // Replace newlines
+      result = result.replaceAll("\\x7F\\x7F", "\n");
+
+      // Determine if we have HTML
+      int htmlIndex = result.indexOf("<HTML>");
+      if (htmlIndex == -1)
+      {
+         htmlIndex = result.indexOf("<html>");
+      }
+
+      // Even if the note doesn't contain an HTML tag,
+      // it may contain embedded HTML. We treat all text
+      // as an HTML body fragment and let the parser sort it out.
+      if (htmlIndex == -1)
+      {
+         result = HtmlHelper.getPlainTextFromBodyFragment(result);
+      }
+      else
+      {
+         result = HtmlHelper.getPlainTextFromHtml(result.substring(htmlIndex));
+      }
+
+      // Trim any whitespace (including nbsp)
+      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
+      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
+
+      // Return null if we have an empty string
+      if (result.isEmpty())
+      {
+         result = null;
+      }
+
+      return result;
+   }
 
    /**
     * Populates a field based on baseline and actual values.
