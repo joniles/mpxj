@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -95,6 +96,7 @@ import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
 import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
+import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
@@ -104,6 +106,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHo
 import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
+import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
@@ -357,6 +360,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_resourceUdfCounters = new UserFieldCounters();
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
+         m_notebookTopics = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -380,6 +384,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processProjectUDFs(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
+         processNotebookTopics(apibo);
          processProjectProperties(apibo, project);
          processActivityCodes(apibo, project);
          processCalendars(apibo, project);
@@ -409,6 +414,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_resourceUdfCounters = null;
          m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
+         m_notebookTopics = null;
       }
    }
 
@@ -904,6 +910,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Read WBS entries and create tasks
       //
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
+      Map<Integer, String> wbsNotes = getWbsNotes(project);
 
       for (WBSType row : wbs)
       {
@@ -922,6 +929,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
+         task.setNotes(wbsNotes.get(uniqueID));
       }
 
       //
@@ -955,9 +963,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       int nextID = 1;
       m_clashMap.clear();
+      Map<Integer, String> activityNotes = getActivityNotes(project);
+
       for (ActivityType row : tasks)
       {
          Integer uniqueID = row.getObjectId();
+         String notes = activityNotes.get(uniqueID);
+
          if (uniqueIDs.contains(uniqueID))
          {
             while (uniqueIDs.contains(Integer.valueOf(nextID)))
@@ -985,6 +997,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
+         task.setNotes(notes);
          task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setActualWork(getDuration(zeroIsNull(row.getActualDuration())));
@@ -1489,6 +1502,103 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Create a map of notebook topic names.
+    * 
+    * @param apibo top level object
+    */
+   private void processNotebookTopics(APIBusinessObjects apibo)
+   {
+      apibo.getNotebookTopic().forEach(t -> m_notebookTopics.put(t.getObjectId(), t.getName()));
+   }
+
+   /**
+    * Retrieve notes attached to WBS entries.
+    * 
+    * @param project project object
+    * @return map of WBS notes
+    */
+   private Map<Integer, String> getWbsNotes(ProjectType project)
+   {
+      Map<Integer, Map<Integer, List<String>>> map = project.getProjectNote().stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
+      return getNotes(map);
+   }
+
+   /**
+    * Retrieve notes attached to activity entries.
+    * 
+    * @param project project object
+    * @return map of activity notes
+    */
+   private Map<Integer, String> getActivityNotes(ProjectType project)
+   {
+      Map<Integer, Map<Integer, List<String>>> map = project.getActivityNote().stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
+      return getNotes(map);
+   }
+
+   /**
+    * Create note text from multiple notebook topics and entries.
+    * 
+    * @param map notebook data
+    * @return map of object IDs and note text
+    */
+   private Map<Integer, String> getNotes(Map<Integer, Map<Integer, List<String>>> map)
+   {
+      Map<Integer, String> notes = new HashMap<>();
+      StringBuilder note = new StringBuilder();
+
+      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      {
+         note.setLength(0);
+         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         {
+            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null).collect(Collectors.joining(""));
+            if (noteText != null && !noteText.isEmpty())
+            {
+               note.append(m_notebookTopics.get(topicEntry.getKey()));
+               note.append("\n");
+               note.append(noteText);
+               note.append("\n");
+               note.append("\n");
+            }
+         }
+         notes.put(entry.getKey(), note.toString().trim());
+      }
+
+      return notes;
+   }
+
+   /**
+    * Extract plain text from a notebook entry.
+    * 
+    * @param text notebook entry
+    * @return plain text
+    */
+   private String getNoteText(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return null;
+      }
+
+      // Remove BOM and NUL characters
+      String result = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+
+      result = HtmlHelper.getPlainTextFromHtml(result);
+
+      // Trim any whitespace (including nbsp)
+      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
+      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
+
+      // Return null if we have an empty string
+      if (result.isEmpty())
+      {
+         result = null;
+      }
+
+      return result;
+   }
+
+   /**
     * Render a zero Double as null.
     *
     * @param value double value
@@ -1686,6 +1796,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
+   private Map<Integer, String> m_notebookTopics;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
