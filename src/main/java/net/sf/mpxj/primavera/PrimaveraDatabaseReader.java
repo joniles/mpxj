@@ -35,7 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.sql.DataSource;
 
@@ -46,6 +47,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
@@ -262,14 +264,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Process the scheduling project property from PROJPROP. This table only seems to exist
-    * in P6 databases, not XER files.
-    *
-    * @throws SQLException
+    * Process the scheduling project property from PROJPROP. This is represented
+    * as the schedoptions table in an XER file.
     */
    private void processSchedulingProjectProperties() throws SQLException
    {
-      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);      
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);
@@ -277,16 +277,8 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          if (record != null)
          {
             String[] keyValues = record.getValue().split("\\|");
-            for (int i = 0; i < keyValues.length - 1; ++i)
-            {
-               if ("sched_calendar_on_relationship_lag".equals(keyValues[i]))
-               {
-                  Map<String, Object> customProperties = new TreeMap<>();
-                  customProperties.put("LagCalendar", keyValues[i + 1]);
-                  m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
-                  break;
-               }
-            }
+            MapRow mapRow = new MapRow(IntStream.range(1, keyValues.length).filter(i -> i % 2 != 0).mapToObj(i -> new Pair<>(keyValues[i - 1], keyValues[i])).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)));
+            m_reader.processScheduleOptions(mapRow);
          }
       }
    }

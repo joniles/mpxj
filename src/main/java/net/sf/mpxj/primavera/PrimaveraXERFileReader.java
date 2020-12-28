@@ -38,7 +38,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -478,65 +477,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processScheduleOptions()
    {
       List<Row> rows = getRows("schedoptions", "proj_id", m_projectID);
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
-         Row row = rows.get(0);
-         Map<String, Object> customProperties = new TreeMap<>();
-
-         //
-         // Leveling Options
-         //
-         // Automatically level resources when scheduling
-         customProperties.put("ConsiderAssignmentsInOtherProjects", Boolean.valueOf(row.getBoolean("level_outer_assign_flag")));
-         customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", row.getString("level_outer_assign_priority"));
-         customProperties.put("PreserveScheduledEarlyAndLateDates", Boolean.valueOf(row.getBoolean("level_keep_sched_date_flag")));
-         // Recalculate assignment costs after leveling
-         customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
-         customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
-         customProperties.put("PreserveMinimumFloatWhenLeveling", row.getString("level_float_thrs_cnt"));
-         customProperties.put("MaxPercentToOverallocateResources", row.getString("level_over_alloc_pct"));
-         customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
-
-         //
-         // Schedule
-         //
-         customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
-
-         //
-         // Schedule Options - General
-         //
-         customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
-         customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
-         customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
-         // Schedule automatically when a change affects dates
-         // Level resources during scheduling
-         customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-         customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
-         customProperties.put("ComputeStartToStartLagFromEarlyStart", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
-         // Define critical activities as
-         customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", Boolean.valueOf(row.getBoolean("sched_use_project_end_date_for_float")));
-         customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
-         customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
-
-         //
-         // Schedule Options - Advanced
-         //
-         customProperties.put("CalculateMultipleFloatPaths", Boolean.valueOf(row.getBoolean("enable_multiple_longest_path_calc")));
-         customProperties.put("CalculateMultiplePathsUsingTotalFloat", Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
-         customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", row.getString("key_activity_for_multiple_longest_paths"));
-         customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
-         customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
-
-         //
-         // Backward Compatibility
-         //
-         customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
-         customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-         customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
-         customProperties.put("IgnoreOtherProjectRelationships", row.getString("sched_outer_depend_type"));
-         customProperties.put("StartToStartLagCalculationType", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
-
-         m_reader.getProject().getProjectProperties().setCustomProperties(customProperties);
+         m_reader.processScheduleOptions(rows.get(0));
       }
    }
 
