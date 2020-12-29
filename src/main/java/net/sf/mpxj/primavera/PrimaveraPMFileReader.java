@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1003,17 +1004,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setName(row.getName());
          task.setNotes(notes);
          task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
-         task.setRemainingDuration(getDuration(row.getRemainingDuration()));
-         task.setActualWork(getDuration(zeroIsNull(row.getActualDuration())));
-         task.setRemainingWork(getDuration(row.getRemainingTotalUnits()));
+        
+         task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
+         task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
+         task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
+         
          task.setBaselineDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
+         task.setRemainingDuration(getDuration(row.getRemainingDuration()));         
          task.setDuration(getDuration(row.getAtCompletionDuration()));
 
-         // ActualCost and RemainingCost will be set when we resolve the resource assignments
-         task.setActualCost(NumberHelper.DOUBLE_ZERO);
-         task.setRemainingCost(NumberHelper.DOUBLE_ZERO);
-         task.setBaselineCost(NumberHelper.DOUBLE_ZERO);
+         task.setActualCost(addDoubles(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
+         task.setRemainingCost(addDoubles(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
+         task.setCost(addDoubles(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
+         
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
@@ -1051,7 +1055,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.BASELINE_START);
          populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH);
-         populateField(task, TaskField.WORK, TaskField.ACTUAL_WORK, TaskField.BASELINE_WORK);
 
          //
          // We've tried the finish and actual finish fields... but we still have null.
@@ -1080,8 +1083,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             else
             {
                //
-               // The task has started, let's calculate the finish date using the remaining duration
-               // and the "restart" date, which we've put in the baseline start date.
+               // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
                Date finish = calendar.getDate(task.getBaselineStart(), duration, false);
@@ -1110,6 +1112,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       updateStructure();
       updateDates();
+   }
+
+   private Duration addDurations(Double... values)
+   {
+      return getDuration(addDoubles(values));
+   }
+
+   private Double addDoubles(Double... values)
+   {
+      return Double.valueOf(Arrays.stream(values).mapToDouble(v -> NumberHelper.getDouble(v)).sum());
    }
 
    /**
@@ -1414,11 +1426,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             readUDFTypes(assignment, row.getUDF());
 
-            // Update parent task attributes
-            task.setActualCost(Double.valueOf(NumberHelper.getDouble(task.getActualCost()) + NumberHelper.getDouble(assignment.getActualCost())));
-            task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
-            task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
-
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
@@ -1600,21 +1607,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       return result;
-   }
-
-   /**
-    * Render a zero Double as null.
-    *
-    * @param value double value
-    * @return null if the double value is zero
-    */
-   private Double zeroIsNull(Double value)
-   {
-      if (value != null && value.doubleValue() == 0)
-      {
-         value = null;
-      }
-      return value;
    }
 
    /**

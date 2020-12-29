@@ -7,8 +7,9 @@
 	<body>
 		<release date="git master" version="8.3.6">	
 			<action dev="joniles" type="update">Read activity notepad entries for XER, PMXML files and P6 databases.</action>
-			<action dev="joniles" type="update">Import schedule and leveling options from PMXML files and P6 databases.</action>
-		</release>		
+			<action dev="joniles" type="update">Read import schedule and leveling options from PMXML files and P6 databases.</action>
+			<action dev="joniles" type="update">Improve support for reading activity cost and work from PMXML files.</action>
+		</release>
 		<release date="15/12/2020" version="8.3.5">
 			<action dev="joniles" type="update">Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>				
 		</release>		
