@@ -927,9 +927,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
-         task.setBaselineCost(row.getSummaryBaselineTotalCost());
-         task.setRemainingCost(row.getSummaryRemainingTotalCost());
-         task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
          task.setSummary(true);
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
