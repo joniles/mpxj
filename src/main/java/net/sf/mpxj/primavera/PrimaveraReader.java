@@ -2056,7 +2056,7 @@ final class PrimaveraReader
 
       map.put(TaskField.DATE1, "Suspend Date");
       map.put(TaskField.DATE2, "Resume Date");
-      map.put(TaskField.TEXT1, "Code"); // TODO this should be renamed Activity ID
+      map.put(TaskField.TEXT1, "Code"); // TODO deprecate, this should be renamed Activity ID
       map.put(TaskField.TEXT2, "Activity Type");
       map.put(TaskField.TEXT3, "Status");
       map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
