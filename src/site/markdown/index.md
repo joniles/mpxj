@@ -213,6 +213,8 @@ This product includes functionality provided by [RTF Parser Kit](https://github.
 
 This product includes functionality provided by [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc).
 
-This product includes functionality provided by [ZLIB/CONTRIB](https://github.com/madler/zlib)
+This product includes functionality provided by [ZLIB/CONTRIB](https://github.com/madler/zlib).
 
 This product includes functionality provided by [JWAT](http://jwat.org/).
+
+This product includes functionality provided by [JSOUP](http://jsoup.org/).
