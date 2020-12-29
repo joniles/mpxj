@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -112,6 +113,7 @@ import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
@@ -597,6 +599,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
+      
+      processScheduleOptions(project.getScheduleOptions());
    }
 
    /**
@@ -1734,6 +1738,68 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.addActivityCode(code);
          }
       }
+   }
+
+   /**
+    * Process schedule options.
+    * 
+    * @param list list of schedule options
+    */
+   private void processScheduleOptions(List<ScheduleOptionsType> list)
+   {
+      if (list == null || list.isEmpty())
+      {
+         return;
+      }
+      
+      ScheduleOptionsType options = list.get(0);
+      Map<String, Object> customProperties = new TreeMap<>();
+
+      //
+      // Leveling Options
+      //
+      // Automatically level resources when scheduling
+      customProperties.put("ConsiderAssignmentsInOtherProjects", options.isIncludeExternalResAss());
+      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", options.getExternalProjectPriorityLimit());
+      customProperties.put("PreserveScheduledEarlyAndLateDates", options.isPreserveScheduledEarlyAndLateDates());
+      // Recalculate assignment costs after leveling
+      customProperties.put("LevelAllResources", options.isLevelAllResources());
+      customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", options.isLevelWithinFloat());
+      customProperties.put("PreserveMinimumFloatWhenLeveling", options.getMinFloatToPreserve());
+      customProperties.put("MaxPercentToOverallocateResources", options.getOverAllocationPercentage());
+      customProperties.put("LevelingPriorities", options.getPriorityList());
+
+      //
+      // Schedule
+      //
+      // customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+
+      //
+      // Schedule Options - General
+      //
+      //customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("MakeOpenEndedActivitiesCritical", options.isMakeOpenEndedActivitiesCritical());
+      customProperties.put("UseExpectedFinishDates", options.isUseExpectedFinishDates());
+      // Schedule automatically when a change affects dates
+      // Level resources during scheduling
+      //customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
+      //customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
+      customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
+      // Define critical activities as
+      customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
+      customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
+      customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+
+      //
+      // Schedule Options - Advanced
+      //
+      customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
+      customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
+      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
+      //customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
+      customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
+
+      m_projectFile.getProjectProperties().setCustomProperties(customProperties);
    }
 
    /**

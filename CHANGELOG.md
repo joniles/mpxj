@@ -2,7 +2,7 @@
 
 ## 8.3.6 (git master)
 * Read activity notepad entries for XER, PMXML files and P6 databases.
-* Import all schedule and leveling options from P6 databases.
+* Import schedule and leveling options from PMXML files and P6 databases.
 
 ## 8.3.5 (15/12/2020)
 * Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)

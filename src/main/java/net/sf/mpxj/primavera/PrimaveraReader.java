@@ -1681,6 +1681,7 @@ final class PrimaveraReader
 
       //
       // Backward Compatibility
+      // TODO: deprecate
       //
       customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
       customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
