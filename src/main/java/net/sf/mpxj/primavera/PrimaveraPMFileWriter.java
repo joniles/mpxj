@@ -162,6 +162,50 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
+    * Set the task field which will be used to populate the Planned Start attribute
+    * in the PMXML file.
+    *
+    * @param field TaskField instance
+    */
+   public void setPlannedStartField(TaskField field)
+   {
+      m_plannedStartField = field;
+   }
+
+   /**
+    * Retrieve the task field which will be used to populate the Planned Start attribute
+    * in the PMXML file.
+    *
+    * @return TaskField instance
+    */
+   public TaskField getPlannedStartField()
+   {
+      return m_plannedStartField;
+   }
+
+   /**
+    * Set the task field which will be used to populate the Planned Finish attribute
+    * in the PMXML file.
+    *
+    * @param field TaskField instance
+    */
+   public void setPlannedFinishField(TaskField field)
+   {
+      m_plannedFinishField = field;
+   }
+
+   /**
+    * Retrieve the task field which will be used to populate the Planned Finish attribute
+    * in the PMXML file.
+    *
+    * @return TaskField instance
+    */
+   public TaskField getPlannedFinishField()
+   {
+      return m_plannedFinishField;
+   }
+
+   /**
     * Set the resource field which will be used to populate the Resource ID attribute
     * in the PMXML file. If you are
     * reading in a project from Primavera, typically the original Resource ID will
@@ -725,8 +769,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = mpxj.getBaselineStart() == null ? mpxj.getStart() : mpxj.getBaselineStart();
-      Date plannedFinish = mpxj.getBaselineFinish() == null ? mpxj.getFinish() : mpxj.getBaselineFinish();
+      Date plannedStart = m_plannedStartField == null || mpxj.getCachedValue(m_plannedStartField) == null ? mpxj.getStart() : (Date) mpxj.getCachedValue(m_plannedStartField);
+      Date plannedFinish = m_plannedFinishField == null || mpxj.getCachedValue(m_plannedFinishField) == null ? mpxj.getFinish() : (Date) mpxj.getCachedValue(m_plannedFinishField);
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualFinishDate(mpxj.getActualFinish());
@@ -1369,6 +1413,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          m_resourceIDField = (ResourceField) customFields.getFieldByAlias(FieldTypeClass.RESOURCE, "Resource ID");
       }
+
+      // If the caller hasn't already supplied a value for this field
+      if (m_plannedStartField == null)
+      {
+         m_plannedStartField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Planned Start");
+      }
+
+      // If the caller hasn't already supplied a value for this field
+      if (m_plannedFinishField == null)
+      {
+         m_plannedFinishField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Planned Finish");
+      }
    }
 
    /**
@@ -1535,5 +1591,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private TaskField m_activityIDField;
    private ResourceField m_resourceIDField;
    private TaskField m_activityTypeField;
+   private TaskField m_plannedStartField;
+   private TaskField m_plannedFinishField;
    private List<CustomField> m_sortedCustomFieldsList;
 }

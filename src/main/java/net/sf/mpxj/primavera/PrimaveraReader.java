@@ -1168,19 +1168,19 @@ final class PrimaveraReader
    }
 
    /**
-    * Populates a field based on baseline and actual values.
+    * Populates a field based on planned and actual values.
     *
     * @param container field container
     * @param target target field
-    * @param baseline baseline field
+    * @param planned planned field
     * @param actual actual field
     */
-   private void populateField(FieldContainer container, FieldType target, FieldType baseline, FieldType actual)
+   private void populateField(FieldContainer container, FieldType target, FieldType planned, FieldType actual)
    {
       Object value = container.getCachedValue(actual);
       if (value == null)
       {
-         value = container.getCachedValue(baseline);
+         value = container.getCachedValue(planned);
       }
       container.set(target, value);
    }
@@ -1245,8 +1245,10 @@ final class PrimaveraReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
+         Date startDate = parentTask.getStart();
+         Date finishDate = parentTask.getFinish();
+         Date plannedStartDate = parentTask.getStart(1);
+         Date plannedFinishDate = parentTask.getFinish(1);
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1266,8 +1268,10 @@ final class PrimaveraReader
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            startDate = DateHelper.min(startDate, task.getStart());
+            finishDate = DateHelper.max(finishDate, task.getFinish());
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart(1));
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish(1));
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -1287,8 +1291,10 @@ final class PrimaveraReader
             critical = critical || task.getCritical();
          }
 
-         parentTask.setStart(plannedStartDate);
-         parentTask.setFinish(plannedFinishDate);
+         parentTask.setStart(startDate);
+         parentTask.setFinish(finishDate);
+         parentTask.setStart(1, plannedStartDate);
+         parentTask.setFinish(1, plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1308,39 +1314,39 @@ final class PrimaveraReader
             parentTask.setActualFinish(actualFinishDate);
          }
 
-         Duration baselineDuration = null;
-         if (baselineStartDate != null && baselineFinishDate != null)
+         Duration plannedDuration = null;
+         if (plannedStartDate != null && plannedFinishDate != null)
          {
-            baselineDuration = m_project.getDefaultCalendar().getWork(baselineStartDate, baselineFinishDate, TimeUnit.HOURS);
-            parentTask.setBaselineDuration(baselineDuration);
+            plannedDuration = m_project.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+            parentTask.setDuration(2, plannedDuration);
          }
 
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
-            Date startDate = parentTask.getRemainingEarlyStart();
-            if (startDate == null)
+            Date taskStartDate = parentTask.getRemainingEarlyStart();
+            if (taskStartDate == null)
             {
-               startDate = parentTask.getEarlyStart();
-               if (startDate == null)
+               taskStartDate = parentTask.getEarlyStart();
+               if (taskStartDate == null)
                {
-                  startDate = baselineStartDate;
+                  taskStartDate = plannedStartDate;
                }
             }
 
-            Date finishDate = parentTask.getRemainingEarlyFinish();
-            if (finishDate == null)
+            Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+            if (taskFinishDate == null)
             {
-               finishDate = parentTask.getEarlyFinish();
-               if (finishDate == null)
+               taskFinishDate = parentTask.getEarlyFinish();
+               if (taskFinishDate == null)
                {
-                  finishDate = baselineFinishDate;
+                  taskFinishDate = plannedFinishDate;
                }
             }
 
-            if (startDate != null && finishDate != null)
+            if (taskStartDate != null && taskFinishDate != null)
             {
-               remainingDuration = m_project.getDefaultCalendar().getWork(startDate, finishDate, TimeUnit.HOURS);
+               remainingDuration = m_project.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
             }
          }
          else
@@ -1349,9 +1355,9 @@ final class PrimaveraReader
          }
          parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
+         if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
          {
-            double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            double durationPercentComplete = ((plannedDuration.getDuration() - remainingDuration.getDuration()) / plannedDuration.getDuration()) * 100.0;
             if (durationPercentComplete < 0)
             {
                durationPercentComplete = 0;
@@ -1467,8 +1473,8 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.START, AssignmentField.BASELINE_START, AssignmentField.ACTUAL_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.BASELINE_FINISH, AssignmentField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.START, AssignmentField.START1, AssignmentField.ACTUAL_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.FINISH1, AssignmentField.ACTUAL_FINISH);
 
             // include actual overtime work in work calculations
             Duration remainingWork = row.getDuration("remain_qty");
@@ -1530,6 +1536,7 @@ final class PrimaveraReader
     */
    private void updateTaskCosts(Task parentTask)
    {
+      boolean baselinePresent = false;
       double baselineCost = 0;
       double actualCost = 0;
       double remainingCost = 0;
@@ -1539,6 +1546,7 @@ final class PrimaveraReader
       for (Task child : parentTask.getChildTasks())
       {
          updateTaskCosts(child);
+         baselinePresent = baselinePresent || child.getBaselineCost() != null;
          baselineCost += NumberHelper.getDouble(child.getBaselineCost());
          actualCost += NumberHelper.getDouble(child.getActualCost());
          remainingCost += NumberHelper.getDouble(child.getRemainingCost());
@@ -1548,13 +1556,17 @@ final class PrimaveraReader
       List<ResourceAssignment> resourceAssignments = parentTask.getResourceAssignments();
       for (ResourceAssignment assignment : resourceAssignments)
       {
+         baselinePresent = baselinePresent || assignment.getBaselineCost() != null;
          baselineCost += NumberHelper.getDouble(assignment.getBaselineCost());
          actualCost += NumberHelper.getDouble(assignment.getActualCost());
          remainingCost += NumberHelper.getDouble(assignment.getRemainingCost());
          cost += NumberHelper.getDouble(assignment.getCost());
       }
 
-      parentTask.setBaselineCost(NumberHelper.getDouble(baselineCost));
+      if (baselinePresent)
+      {
+         parentTask.setBaselineCost(NumberHelper.getDouble(baselineCost));
+      }
       parentTask.setActualCost(NumberHelper.getDouble(actualCost));
       parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
       parentTask.setCost(NumberHelper.getDouble(cost));
@@ -1962,7 +1974,6 @@ final class PrimaveraReader
       map.put(TaskField.UNIQUE_ID, "wbs_id");
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "wbs_name");
-      map.put(TaskField.BASELINE_COST, "orig_cost");
       map.put(TaskField.REMAINING_COST, "indep_remain_total_cost");
       map.put(TaskField.REMAINING_WORK, "indep_remain_work_qty");
       map.put(TaskField.DEADLINE, "anticip_end_date");
@@ -1987,8 +1998,8 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskField.BASELINE_WORK, "target_work_qty");
-      map.put(TaskField.BASELINE_DURATION, "target_drtn_hr_cnt");
+      map.put(TaskField.DURATION1, "target_work_qty");
+      map.put(TaskField.DURATION2, "target_drtn_hr_cnt");
       map.put(TaskField.DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
@@ -1999,8 +2010,8 @@ final class PrimaveraReader
       map.put(TaskField.EARLY_FINISH, "early_end_date");
       map.put(TaskField.REMAINING_EARLY_START, "restart_date");
       map.put(TaskField.REMAINING_EARLY_FINISH, "reend_date");
-      map.put(TaskField.BASELINE_START, "target_start_date");
-      map.put(TaskField.BASELINE_FINISH, "target_end_date");
+      map.put(TaskField.START1, "target_start_date");
+      map.put(TaskField.FINISH1, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
       map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
       map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
@@ -2031,15 +2042,15 @@ final class PrimaveraReader
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
-      map.put(AssignmentField.BASELINE_WORK, "target_qty");
+      map.put(AssignmentField.DURATION1, "target_qty");
       map.put(AssignmentField.ACTUAL_OVERTIME_WORK, "act_ot_qty");
-      map.put(AssignmentField.BASELINE_COST, "target_cost");
+      map.put(AssignmentField.COST1, "target_cost");
       map.put(AssignmentField.ACTUAL_OVERTIME_COST, "act_ot_cost");
       map.put(AssignmentField.REMAINING_COST, "remain_cost");
       map.put(AssignmentField.ACTUAL_START, "act_start_date");
       map.put(AssignmentField.ACTUAL_FINISH, "act_end_date");
-      map.put(AssignmentField.BASELINE_START, "target_start_date");
-      map.put(AssignmentField.BASELINE_FINISH, "target_end_date");
+      map.put(AssignmentField.START1, "target_start_date");
+      map.put(AssignmentField.FINISH1, "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
 
       return map;
@@ -2060,7 +2071,15 @@ final class PrimaveraReader
       map.put(TaskField.TEXT2, "Activity Type");
       map.put(TaskField.TEXT3, "Status");
       map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
+      map.put(TaskField.DURATION1, "Planned Work");
+      map.put(TaskField.DURATION2, "Planned Duration");
+      map.put(TaskField.START1, "Planned Start");
+      map.put(TaskField.FINISH1, "Planned Finish");
       map.put(ResourceField.TEXT1, "Resource ID");
+      map.put(AssignmentField.START1, "Planned Start");
+      map.put(AssignmentField.FINISH1, "Planned Finish");
+      map.put(AssignmentField.COST1, "Planned Cost");
+      map.put(AssignmentField.DURATION1, "Planned Work");
 
       return map;
    }

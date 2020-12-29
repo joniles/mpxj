@@ -1,8 +1,9 @@
 # Changelog
 
 ## 8.3.6 (git master)
+* Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.
 * Read activity notepad entries for XER, PMXML files and P6 databases.
-* Read import schedule and leveling options from PMXML files and P6 databases.
+* Read schedule and leveling options from PMXML files and P6 databases.
 * Improve support for reading activity cost and work from PMXML files.
 
 ## 8.3.5 (15/12/2020)
