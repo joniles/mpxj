@@ -108,7 +108,7 @@ public enum AssignmentField implements FieldType
    COST_VARIANCE(DataType.CURRENCY),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    PROJECT(DataType.STRING),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    CONFIRMED(DataType.BOOLEAN),
    RESPONSE_PENDING(DataType.BOOLEAN),
    UPDATE_NEEDED(DataType.BOOLEAN),

@@ -2217,7 +2217,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setNotes(String notes)
    {
-      set(AssignmentField.NOTES, notes);
+      set(AssignmentField.NOTES, notes == null ? null : new TextNotes(notes));
    }
 
    /**
@@ -2228,8 +2228,28 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(AssignmentField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(AssignmentField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Set the Notes instance representing the assignment notes.
+    * 
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
+      set(AssignmentField.NOTES, notes);
+   }
+
+   /**
+    * Retrieve the Notes instance representing the assignment notes.
+    * 
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      return (Notes) getCachedValue(AssignmentField.NOTES);
    }
 
    /**

@@ -51,6 +51,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -63,7 +64,6 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class implements retrieval of data from a project database
@@ -585,11 +585,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("RES_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            resource.setNotes(notes);
+            resource.setNotesObject(new RtfNotes(notes));
          }
 
          resource.setResourceCalendar(m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
@@ -1042,11 +1038,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("TASK_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            task.setNotes(notes);
+            task.setNotesObject(new RtfNotes(notes));
          }
 
          //
@@ -1197,11 +1189,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("ASSN_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            assignment.setNotes(notes);
+            assignment.setNotesObject(new RtfNotes(notes));
          }
 
          m_eventManager.fireAssignmentReadEvent(assignment);
@@ -1324,17 +1312,17 @@ abstract class MPD9AbstractReader
     * is removed.
     *
     * @param preserveNoteFormatting boolean flag
+    * @deprecated Use getNotesObject() to retrieve original formatted notes
     */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
+   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
-      m_preserveNoteFormatting = preserveNoteFormatting;
+      // Deprecated - does nothing
    }
 
    protected Integer m_projectID;
    protected ProjectFile m_project;
    protected EventManager m_eventManager;
 
-   private boolean m_preserveNoteFormatting;
    private boolean m_autoWBS = true;
 
    private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();

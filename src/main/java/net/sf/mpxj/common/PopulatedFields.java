@@ -122,9 +122,9 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
       switch (type.getDataType())
       {
          case STRING:
-         case ASCII_STRING:
+         case NOTES:
          {
-            result = !((String) value).isEmpty();
+            result = !(value.toString()).isEmpty();
             break;
          }
 

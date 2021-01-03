@@ -40,7 +40,6 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.RtfHelper;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedCostNormaliser;
 import net.sf.mpxj.common.TimephasedWorkNormaliser;
@@ -58,7 +57,6 @@ public class ResourceAssignmentFactory
     * @param fieldMap assignment field map
     * @param enterpriseCustomFieldMap enterprise custom field map
     * @param useRawTimephasedData use raw timephased data flag
-    * @param preserveNoteFormatting preserve note formatting flag
     * @param assnVarMeta var meta
     * @param assnVarData var data
     * @param assnFixedMeta fixed meta
@@ -66,7 +64,7 @@ public class ResourceAssignmentFactory
     * @param assnFixedData2 fixed data
     * @param count expected number of assignments
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, boolean preserveNoteFormatting, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
@@ -174,13 +172,6 @@ public class ResourceAssignmentFactory
                assignment.setCreateDate(MPPUtility.getTimestamp(creationData, 24));
             }
          }
-
-         String notes = assignment.getNotes();
-         if (!preserveNoteFormatting)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-         assignment.setNotes(notes);
 
          Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
          if (task != null)

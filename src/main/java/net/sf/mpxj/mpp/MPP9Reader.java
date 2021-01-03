@@ -59,7 +59,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This
@@ -1066,7 +1065,6 @@ final class MPP9Reader implements MPPVariantReader
       boolean autoWBS = true;
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
-      String notes;
 
       for (int loop = 0; loop < uniqueIdArray.length; loop++)
       {
@@ -1242,17 +1240,6 @@ final class MPP9Reader implements MPPVariantReader
             recurringTaskReader.processRecurringTask(task, recurringData);
             task.setRecurring(true);
          }
-
-         //
-         // Retrieve the task notes.
-         //
-         //notes = taskVarData.getString(id, TASK_NOTES);
-         notes = task.getNotes();
-         if (!m_reader.getPreserveNoteFormatting())
-         {
-            notes = RtfHelper.strip(notes);
-         }
-         task.setNotes(notes);
 
          //
          // Set the calendar name
@@ -1764,7 +1751,6 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Resource resource;
-      String notes;
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
@@ -1825,14 +1811,6 @@ final class MPP9Reader implements MPPVariantReader
          resource.setFlag(18, (metaData[30] & 0x40) != 0);
          resource.setFlag(19, (metaData[30] & 0x80) != 0);
          resource.setFlag(20, (metaData[31] & 0x01) != 0);
-
-         notes = resource.getNotes();
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-
-         resource.setNotes(notes);
 
          //
          // Configure the resource calendar
@@ -1898,7 +1876,7 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null, assnFixedMeta.getAdjustedItemCount());
+      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null, assnFixedMeta.getAdjustedItemCount());
    }
 
    /**

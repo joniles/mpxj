@@ -1063,7 +1063,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setNotes(String notes)
    {
-      set(ResourceField.NOTES, notes);
+      set(ResourceField.NOTES, notes == null ? null : new TextNotes(notes));
    }
 
    /**
@@ -1073,8 +1073,28 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(ResourceField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(ResourceField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Set the Notes instance representing the resource notes.
+    * 
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
+      set(ResourceField.NOTES, notes);
+   }
+
+   /**
+    * Retrieve the Notes instance representing the resource notes.
+    * 
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      return (Notes) getCachedValue(ResourceField.NOTES);
    }
 
    /**

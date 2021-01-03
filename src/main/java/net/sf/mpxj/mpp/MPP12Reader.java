@@ -53,7 +53,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP12 file. This
@@ -984,7 +983,6 @@ final class MPP12Reader implements MPPVariantReader
       boolean autoWBS = true;
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
-      String notes;
 
       for (int loop = 0; loop < uniqueIdArray.length; loop++)
       {
@@ -1177,16 +1175,6 @@ final class MPP12Reader implements MPPVariantReader
             recurringTaskReader.processRecurringTask(task, recurringData);
             task.setRecurring(true);
          }
-
-         //
-         // Retrieve the task notes.
-         //
-         notes = task.getNotes();
-         if (!m_reader.getPreserveNoteFormatting())
-         {
-            notes = RtfHelper.strip(notes);
-         }
-         task.setNotes(notes);
 
          //
          // Set the calendar name
@@ -1724,8 +1712,6 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
 
-      String notes;
-
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
@@ -1799,13 +1785,6 @@ final class MPP12Reader implements MPPVariantReader
          resource.setFlag(19, (metaData[30] & 0x80) != 0);
          resource.setFlag(20, (metaData[31] & 0x01) != 0);
 
-         notes = resource.getNotes();
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-         resource.setNotes(notes);
-
          //
          // Configure the resource calendar
          //
@@ -1877,7 +1856,7 @@ final class MPP12Reader implements MPPVariantReader
       FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
       FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getAdjustedItemCount());
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getAdjustedItemCount());
    }
 
    /**

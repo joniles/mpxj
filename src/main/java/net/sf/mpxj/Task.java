@@ -198,6 +198,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setNotes(String notes)
    {
+      set(TaskField.NOTES, notes == null ? null : new TextNotes(notes));
+   }
+
+   /**
+    * Set the Notes instance representing the task notes.
+    * 
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
       set(TaskField.NOTES, notes);
    }
 
@@ -2291,8 +2301,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(TaskField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(TaskField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Retrieve the Notes instance representing the task notes.
+    * 
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      Object notes = getCachedValue(TaskField.NOTES);
+      return notes == null ? null : (Notes) notes;
    }
 
    /**

@@ -55,6 +55,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
@@ -65,7 +66,6 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP8 file. This
@@ -82,14 +82,12 @@ final class MPP8Reader implements MPPVariantReader
     * @param reader parent file reader
     * @param file Parent MPX file
     * @param root Root of the POI file system.
-    * @throws MPXJException
-    * @throws IOException
     */
    @Override public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
    {
       try
       {
-         populateMemberData(reader, file, root);
+         populateMemberData(file, root);
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
@@ -118,13 +116,11 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * Populate member data used by the rest of the reader.
     *
-    * @param reader parent file reader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws IOException
+   private void populateMemberData(ProjectFile file, DirectoryEntry root) throws IOException
    {
-      m_reader = reader;
       m_root = root;
       m_file = file;
       m_eventManager = file.getEventManager();
@@ -141,7 +137,6 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void clearMemberData()
    {
-      m_reader = null;
       m_root = null;
       m_eventManager = null;
       m_file = null;
@@ -763,12 +758,7 @@ final class MPP8Reader implements MPPVariantReader
 
       if (notes != null)
       {
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-
-         task.setNotes(notes);
+         task.setNotesObject(new RtfNotes(notes));
       }
    }
 
@@ -1076,12 +1066,7 @@ final class MPP8Reader implements MPPVariantReader
          notes = rscExtData.getString(RESOURCE_NOTES);
          if (notes != null)
          {
-            if (m_reader.getPreserveNoteFormatting() == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-
-            resource.setNotes(notes);
+            resource.setNotesObject(new RtfNotes(notes));
          }
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -1419,7 +1404,6 @@ final class MPP8Reader implements MPPVariantReader
    //     {162, 42}
    //   };
 
-   private MPPReader m_reader;
    private ProjectFile m_file;
    private EventManager m_eventManager;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
