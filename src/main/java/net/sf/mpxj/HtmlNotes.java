@@ -1,5 +1,5 @@
 /*
- * file:       TextNotes.java
+ * file:       HtmlNotes.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-01-03
@@ -23,35 +23,33 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.common.HtmlHelper;
+
 /**
- * Represents plain text notes.
+ * Represents notes formatted as RTF.
  */
-public class TextNotes implements Notes
+public class HtmlNotes extends TextNotes
 {
    /**
     * Constructor.
     * 
-    * @param text note text
+    * @param html HTML document
     */
-   public TextNotes(String text)
+   public HtmlNotes(String html)
    {
-      m_text = text;
+      super(HtmlHelper.strip(html));
+      m_html = html;
    }
-
+   
    /**
-    * Determine if the note text is empty.
+    * Retrieve the HTML version of the notes.
     * 
-    * @return true if the note text is empty
+    * @return HTML document
     */
-   public boolean isEmpty()
+   public String getHtml()
    {
-      return m_text == null || m_text.isEmpty();
+      return m_html;
    }
-
-   @Override public String toString()
-   {
-      return m_text;
-   }
-
-   private final String m_text;
+      
+   private final String m_html;
 }

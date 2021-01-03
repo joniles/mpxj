@@ -64,6 +64,7 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -1096,9 +1097,8 @@ final class PrimaveraReader
             currentID = nextID;
          }
 
-         String noteText = getNoteText(row.getString(textColumn));
-
-         if (noteText != null)
+         HtmlNotes noteText = getNoteText(row.getString(textColumn));
+         if (noteText != null && !noteText.isEmpty())
          {
             note.append(topics.get(row.getInteger("memo_type_id")));
             note.append("\n");
@@ -1122,7 +1122,7 @@ final class PrimaveraReader
     * @param text note text
     * @return plain text
     */
-   private String getNoteText(String text)
+   private HtmlNotes getNoteText(String text)
    {
       if (text == null)
       {
@@ -1130,41 +1130,12 @@ final class PrimaveraReader
       }
 
       // Remove BOM and NUL characters
-      String result = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+      String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
       // Replace newlines
-      result = result.replaceAll("\\x7F\\x7F", "\n");
+      html = html.replaceAll("\\x7F\\x7F", "\n");
 
-      // Determine if we have HTML
-      int htmlIndex = result.indexOf("<HTML>");
-      if (htmlIndex == -1)
-      {
-         htmlIndex = result.indexOf("<html>");
-      }
-
-      // Even if the note doesn't contain an HTML tag,
-      // it may contain embedded HTML. We treat all text
-      // as an HTML body fragment and let the parser sort it out.
-      if (htmlIndex == -1)
-      {
-         result = HtmlHelper.getPlainTextFromBodyFragment(result);
-      }
-      else
-      {
-         result = HtmlHelper.getPlainTextFromHtml(result.substring(htmlIndex));
-      }
-
-      // Trim any whitespace (including nbsp)
-      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
-      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
-
-      // Return null if we have an empty string
-      if (result.isEmpty())
-      {
-         result = null;
-      }
-
-      return result;
+      return new HtmlNotes(html);
    }
 
    /**

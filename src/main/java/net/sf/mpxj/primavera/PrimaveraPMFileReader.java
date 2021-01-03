@@ -73,6 +73,7 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -1565,7 +1566,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          note.setLength(0);
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null).collect(Collectors.joining(""));
+            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null && !s.isEmpty()).map(s -> s.toString()).collect(Collectors.joining(""));
             if (noteText != null && !noteText.isEmpty())
             {
                note.append(m_notebookTopics.get(topicEntry.getKey()));
@@ -1587,7 +1588,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param text notebook entry
     * @return plain text
     */
-   private String getNoteText(String text)
+   private HtmlNotes getNoteText(String text)
    {
       if (text == null || text.isEmpty())
       {
@@ -1595,21 +1596,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       // Remove BOM and NUL characters
-      String result = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+      String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
-      result = HtmlHelper.getPlainTextFromHtml(result);
-
-      // Trim any whitespace (including nbsp)
-      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
-      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
-
-      // Return null if we have an empty string
-      if (result.isEmpty())
-      {
-         result = null;
-      }
-
-      return result;
+      return new HtmlNotes(html);
    }
 
    /**

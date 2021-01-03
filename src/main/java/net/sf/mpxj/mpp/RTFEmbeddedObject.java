@@ -28,7 +28,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.Notes;
 import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.common.ByteArrayHelper;
 
@@ -147,12 +146,12 @@ public final class RTFEmbeddedObject
     * @param notes Notes instance
     * @return list of lists of RTFEmbeddedObject instances
     */
-   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(Notes notes)
+   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(RtfNotes notes)
    {
       List<List<RTFEmbeddedObject>> objects = null;
       List<RTFEmbeddedObject> objectData;
-      String rtf = ((RtfNotes)notes).getRtf();
-      
+      String rtf = notes.getRtf();
+
       int offset = rtf.indexOf(OBJDATA);
       if (offset != -1)
       {

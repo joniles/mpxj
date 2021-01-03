@@ -31,8 +31,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.RTFEmbeddedObject;
@@ -123,14 +123,14 @@ public class MppEmbeddedTest
    {
       Task task = file.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task.getName());
-      Notes notes = task.getNotesObject();
+      RtfNotes notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       List<List<RTFEmbeddedObject>> list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNull(list);
 
       task = file.getTaskByID(Integer.valueOf(2));
       assertEquals("Task 2", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -142,7 +142,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(3));
       assertEquals("Task 3", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -154,7 +154,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(4));
       assertEquals("Task 4", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -166,7 +166,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(5));
       assertEquals("Task 5", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -178,7 +178,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(6));
       assertEquals("Task 6", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -194,7 +194,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(7));
       assertEquals("Task 7", task.getName());
-      notes = task.getNotesObject();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
