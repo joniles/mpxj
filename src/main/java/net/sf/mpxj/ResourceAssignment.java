@@ -2221,8 +2221,10 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
+    * Retrieve the plain text representation of the assignment notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
     * @return notes
     */
@@ -2243,7 +2245,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Retrieve the Notes instance representing the assignment notes.
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
     * 
     * @return Notes instance
     */

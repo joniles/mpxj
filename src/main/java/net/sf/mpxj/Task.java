@@ -2294,8 +2294,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
+    * Retrieve the plain text representation of the task notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
     * @return notes
     */
@@ -2306,7 +2308,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the Notes instance representing the task notes.
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
     * 
     * @return Notes instance
     */

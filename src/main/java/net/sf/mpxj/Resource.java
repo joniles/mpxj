@@ -1067,9 +1067,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieves the notes text for this resource.
+    * Retrieve the plain text representation of the resource notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
-    * @return notes text
+    * @return notes
     */
    public String getNotes()
    {
@@ -1088,7 +1091,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieve the Notes instance representing the resource notes.
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
     * 
     * @return Notes instance
     */

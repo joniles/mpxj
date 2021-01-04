@@ -61,23 +61,6 @@ reader.setRespectPasswordProtection(false);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 
-#### Preserve Note Formatting
-Microsoft Project stores task and resource notes as Rich Text (RTF), which allows
-a wide variety of formatting to be used. By default MPXJ removes this formatting,
-leaving just plain text. If you need access to the original RTF content, use the
-`setPreserveNoteFormatting` method, as shown below.
-
-```java
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
-
-...
-
-MPPReader reader = new MPPReader();
-reader.setPreserveNoteFormatting(true);
-ProjectFile project = reader.read("my-sample.mpp");
-```
-
 #### Presentation Data
 Alongside the schedule data itself, MPXJ also extracts much of the presentation data
 available in an MPP file, for example table layouts, filters, graphical indicators
