@@ -32,7 +32,7 @@ public class RtfNotes extends Notes
 {
    /**
     * Constructor.
-    * 
+    *
     * @param rtf RTF document
     */
    public RtfNotes(String rtf)
@@ -40,16 +40,16 @@ public class RtfNotes extends Notes
       super(RtfHelper.strip(rtf));
       m_rtf = rtf;
    }
-   
+
    /**
     * Retrieve the RTF version of the notes.
-    * 
+    *
     * @return RTF document
     */
    public String getRtf()
    {
       return m_rtf;
    }
-      
+
    private final String m_rtf;
 }

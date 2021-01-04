@@ -38,7 +38,7 @@ public final class HtmlHelper
 {
    /**
     * Extract plain text from HTML.
-    * 
+    *
     * @param html HTML document
     * @return plain text
     */
@@ -85,7 +85,7 @@ public final class HtmlHelper
 
    /**
     * Extract plain text from a full HTML document.
-    * 
+    *
     * @param html HTML document
     * @return plain text
     */
@@ -96,7 +96,7 @@ public final class HtmlHelper
 
    /**
     * Extract plain text from text which may contain HTML elements.
-    * 
+    *
     * @param body body text
     * @return plain text
     */
@@ -107,7 +107,7 @@ public final class HtmlHelper
 
    /**
     * Traverse an HTML document extracting plain text.
-    * 
+    *
     * @param document HTML document
     * @return plain text
     */
@@ -133,7 +133,7 @@ public final class HtmlHelper
 
       /**
        * Called when the node is first seen.
-       * 
+       *
        * @param node current node
        * @param depth depth in tree
        */
@@ -169,7 +169,7 @@ public final class HtmlHelper
 
       /**
        * Called when all of the node's children have been visited.
-       * 
+       *
        * @param node current node
        * @param depth depth in the tree
        */
@@ -191,7 +191,7 @@ public final class HtmlHelper
 
       /**
        * Append new text to the buffer.
-       * 
+       *
        * @param text text to append
        */
       private void append(String text)

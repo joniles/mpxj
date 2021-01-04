@@ -1328,7 +1328,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the Activity ID value for this task.
-    * 
+    *
     * @param task Task instance
     * @return Activity ID value
     */
@@ -1348,7 +1348,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the Resource ID value for this task.
-    * 
+    *
     * @param resource Resource instance
     * @return Resource ID value
     */
@@ -1376,7 +1376,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Generate a default Resource ID for a resource.
-    * 
+    *
     * @param resource Resource instance
     * @return generated Resource ID
     */
@@ -1538,7 +1538,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    /**
     * Temporary, return to static block initialisation once deprecation is removed.
     * TODO: use static block initialisation
-    * 
+    *
     * @return populated map
     */
    @SuppressWarnings("deprecation") private static final Map<ConstraintType, String> createConstraintTypeMap()

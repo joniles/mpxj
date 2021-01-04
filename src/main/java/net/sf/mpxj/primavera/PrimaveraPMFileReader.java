@@ -1521,7 +1521,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Create a map of notebook topic names.
-    * 
+    *
     * @param apibo top level object
     */
    private void processNotebookTopics(APIBusinessObjects apibo)
@@ -1531,7 +1531,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Retrieve notes attached to WBS entries.
-    * 
+    *
     * @param project project object
     * @return map of WBS notes
     */
@@ -1543,7 +1543,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Retrieve notes attached to activity entries.
-    * 
+    *
     * @param project project object
     * @return map of activity notes
     */
@@ -1555,7 +1555,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Create note text from multiple notebook topics and entries.
-    * 
+    *
     * @param map notebook data
     * @return map of object IDs and note text
     */
@@ -1578,7 +1578,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Create an HtmlNote instance.
-    * 
+    *
     * @param text note text
     * @return HtmlNote instance
     */
@@ -1720,7 +1720,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Process schedule options.
-    * 
+    *
     * @param list list of schedule options
     */
    private void processScheduleOptions(List<ScheduleOptionsType> list)

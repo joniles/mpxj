@@ -265,11 +265,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the beiTripwireTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getBEITripwireTarget()
    {
@@ -278,11 +278,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the beiTripwireTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setBEITripwireTarget(Double value)
    {
@@ -291,11 +291,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkBEITripwire property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckBEITripwire()
    {
@@ -304,11 +304,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkBEITripwire property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckBEITripwire(Boolean value)
    {
@@ -317,11 +317,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkHardConstraints property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckHardConstraints()
    {
@@ -330,11 +330,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkHardConstraints property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckHardConstraints(Boolean value)
    {
@@ -343,11 +343,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkInvalidProgress property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckInvalidProgress()
    {
@@ -356,11 +356,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkInvalidProgress property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckInvalidProgress(Boolean value)
    {
@@ -369,11 +369,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLags property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLags()
    {
@@ -382,11 +382,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLags property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLags(Boolean value)
    {
@@ -395,11 +395,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLargeDurations property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLargeDurations()
    {
@@ -408,11 +408,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLargeDurations property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLargeDurations(Boolean value)
    {
@@ -421,11 +421,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLargeFloat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLargeFloat()
    {
@@ -434,11 +434,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLargeFloat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLargeFloat(Boolean value)
    {
@@ -447,11 +447,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLateActivities property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLateActivities()
    {
@@ -460,11 +460,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLateActivities property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLateActivities(Boolean value)
    {
@@ -473,11 +473,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLogic property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLogic()
    {
@@ -486,11 +486,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLogic property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLogic(Boolean value)
    {
@@ -499,11 +499,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkLongLags property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckLongLags()
    {
@@ -512,11 +512,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkLongLags property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckLongLags(Boolean value)
    {
@@ -525,11 +525,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkNegativeFloat property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckNegativeFloat()
    {
@@ -538,11 +538,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkNegativeFloat property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckNegativeFloat(Boolean value)
    {
@@ -551,11 +551,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkNegativeLags property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckNegativeLags()
    {
@@ -564,11 +564,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkNegativeLags property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckNegativeLags(Boolean value)
    {
@@ -577,11 +577,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkRelationShips property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckRelationShips()
    {
@@ -590,11 +590,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkRelationShips property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckRelationShips(Boolean value)
    {
@@ -603,11 +603,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkResources property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckResources()
    {
@@ -616,11 +616,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkResources property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckResources(Boolean value)
    {
@@ -629,11 +629,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkSoftConstraints property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isCheckSoftConstraints()
    {
@@ -642,11 +642,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkSoftConstraints property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setCheckSoftConstraints(Boolean value)
    {
@@ -655,11 +655,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the hardConstraintTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getHardConstraintTarget()
    {
@@ -668,11 +668,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the hardConstraintTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setHardConstraintTarget(Integer value)
    {
@@ -681,11 +681,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the lagsTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLagsTarget()
    {
@@ -694,11 +694,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the lagsTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLagsTarget(Integer value)
    {
@@ -707,11 +707,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the largeDurationCriteria property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLargeDurationCriteria()
    {
@@ -720,11 +720,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the largeDurationCriteria property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLargeDurationCriteria(Integer value)
    {
@@ -733,11 +733,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the largeDurationTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLargeDurationTarget()
    {
@@ -746,11 +746,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the largeDurationTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLargeDurationTarget(Integer value)
    {
@@ -759,11 +759,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the largeFloatCriteria property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLargeFloatCriteria()
    {
@@ -772,11 +772,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the largeFloatCriteria property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLargeFloatCriteria(Integer value)
    {
@@ -785,11 +785,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the largeFloatTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLargeFloatTarget()
    {
@@ -798,11 +798,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the largeFloatTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLargeFloatTarget(Integer value)
    {
@@ -811,11 +811,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the lateActivitiesTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLateActivitiesTarget()
    {
@@ -824,11 +824,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the lateActivitiesTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLateActivitiesTarget(Integer value)
    {
@@ -837,11 +837,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the logicTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLogicTarget()
    {
@@ -850,11 +850,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the logicTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLogicTarget(Integer value)
    {
@@ -863,11 +863,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the longLagsCriteria property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLongLagsCriteria()
    {
@@ -876,11 +876,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the longLagsCriteria property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLongLagsCriteria(Integer value)
    {
@@ -889,11 +889,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the longLagsTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getLongLagsTarget()
    {
@@ -902,11 +902,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the longLagsTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setLongLagsTarget(Integer value)
    {
@@ -915,11 +915,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the negativeFloatTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getNegativeFloatTarget()
    {
@@ -928,11 +928,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the negativeFloatTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setNegativeFloatTarget(Integer value)
    {
@@ -941,11 +941,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the negativeLagsTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getNegativeLagsTarget()
    {
@@ -954,11 +954,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the negativeLagsTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setNegativeLagsTarget(Integer value)
    {
@@ -967,11 +967,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the progressDateTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProgressDateTarget()
    {
@@ -980,11 +980,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the progressDateTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProgressDateTarget(Integer value)
    {
@@ -993,11 +993,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projPropTypeInt property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjPropTypeInt()
    {
@@ -1006,11 +1006,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projPropTypeInt property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjPropTypeInt(Integer value)
    {
@@ -1019,11 +1019,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -1032,11 +1032,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -1045,11 +1045,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the propValue property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPropValue()
    {
@@ -1058,11 +1058,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the propValue property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPropValue(String value)
    {
@@ -1071,11 +1071,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the relationshipTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getRelationshipTarget()
    {
@@ -1084,11 +1084,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the relationshipTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setRelationshipTarget(Integer value)
    {
@@ -1097,11 +1097,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the resourcesTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getResourcesTarget()
    {
@@ -1110,11 +1110,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the resourcesTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setResourcesTarget(Integer value)
    {
@@ -1123,11 +1123,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the scheduleCheckData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getScheduleCheckData()
    {
@@ -1136,11 +1136,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the scheduleCheckData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setScheduleCheckData(String value)
    {
@@ -1149,11 +1149,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the scheduleCheckOptionsId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getScheduleCheckOptionsId()
    {
@@ -1162,11 +1162,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the scheduleCheckOptionsId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setScheduleCheckOptionsId(Integer value)
    {
@@ -1175,11 +1175,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the softConstraintTarget property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSoftConstraintTarget()
    {
@@ -1188,11 +1188,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the softConstraintTarget property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSoftConstraintTarget(Integer value)
    {

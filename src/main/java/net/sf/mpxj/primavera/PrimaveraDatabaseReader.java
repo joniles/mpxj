@@ -270,7 +270,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processSchedulingProjectProperties() throws SQLException
    {
-      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);      
+      List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);

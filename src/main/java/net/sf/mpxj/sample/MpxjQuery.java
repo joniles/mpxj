@@ -492,7 +492,7 @@ public class MpxjQuery
 
    /**
     * List details of all fields with non-default value.
-    * 
+    *
     * @param file ProjectFile instance
     */
    private static void listPopulatedFields(ProjectFile file)

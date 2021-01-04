@@ -203,7 +203,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the Notes instance representing the task notes.
-    * 
+    *
     * @param notes Notes instance
     */
    public void setNotesObject(Notes notes)
@@ -2310,7 +2310,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Retrieve an object which contains both the plain text notes
     * and, if relevant, the original formatted version of the notes.
-    * 
+    *
     * @return Notes instance
     */
    public Notes getNotesObject()

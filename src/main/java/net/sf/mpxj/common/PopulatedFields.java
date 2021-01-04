@@ -97,7 +97,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
    /**
     * Returns true if the field is populated with a non-default value.
-    * 
+    *
     * @param item field container
     * @param type field type
     * @return true if the field is populated with a non-default value
@@ -110,7 +110,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
    /**
     * Returns true if the value is non-default.
-    * 
+    *
     * @param value field value
     * @param type field type
     * @return true if the value is non-default

@@ -33,7 +33,7 @@ public class ParentNotes extends Notes
 {
    /**
     * Constructor.
-    * 
+    *
     * @param childNotes child notes
     */
    public ParentNotes(List<Notes> childNotes)
@@ -44,13 +44,13 @@ public class ParentNotes extends Notes
 
    /**
     * Retrieve the list of child notes.
-    * 
+    *
     * @return list of child notes
     */
    public List<Notes> getChildNotes()
    {
       return m_childNotes;
    }
-   
+
    private final List<Notes> m_childNotes;
 }

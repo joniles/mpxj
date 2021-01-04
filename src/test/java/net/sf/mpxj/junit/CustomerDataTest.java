@@ -437,7 +437,7 @@ public class CustomerDataTest
 
    /**
     * Ensure that the populated fields methods work for all data.
-    * 
+    *
     * @param file schedule file to test
     */
    private void testPopulatedFields(ProjectFile file)

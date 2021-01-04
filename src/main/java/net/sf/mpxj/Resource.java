@@ -1082,7 +1082,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the Notes instance representing the resource notes.
-    * 
+    *
     * @param notes Notes instance
     */
    public void setNotesObject(Notes notes)
@@ -1093,7 +1093,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieve an object which contains both the plain text notes
     * and, if relevant, the original formatted version of the notes.
-    * 
+    *
     * @return Notes instance
     */
    public Notes getNotesObject()

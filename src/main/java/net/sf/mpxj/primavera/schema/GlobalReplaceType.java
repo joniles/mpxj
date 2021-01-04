@@ -80,11 +80,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the allProjects property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Boolean }
-    *     
+    *
     */
    public Boolean isAllProjects()
    {
@@ -93,11 +93,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the allProjects property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Boolean }
-    *     
+    *
     */
    public void setAllProjects(Boolean value)
    {
@@ -106,11 +106,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the globalReplaceData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getGlobalReplaceData()
    {
@@ -119,11 +119,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the globalReplaceData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setGlobalReplaceData(String value)
    {
@@ -132,11 +132,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the globalReplaceName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getGlobalReplaceName()
    {
@@ -145,11 +145,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the globalReplaceName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setGlobalReplaceName(String value)
    {
@@ -158,11 +158,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the greplaceObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getGreplaceObjectId()
    {
@@ -171,11 +171,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the greplaceObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setGreplaceObjectId(Integer value)
    {
@@ -184,11 +184,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectIdName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectIdName()
    {
@@ -197,11 +197,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectIdName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectIdName(String value)
    {
@@ -210,11 +210,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the projectIds property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectIds()
    {
@@ -223,11 +223,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the projectIds property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectIds(String value)
    {
@@ -236,11 +236,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the replaceFieldNameOne property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getReplaceFieldNameOne()
    {
@@ -249,11 +249,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the replaceFieldNameOne property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setReplaceFieldNameOne(String value)
    {
@@ -262,11 +262,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the searchCriteria property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getSearchCriteria()
    {
@@ -275,11 +275,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the searchCriteria property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSearchCriteria(String value)
    {
@@ -288,11 +288,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the subjectAreaType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getSubjectAreaType()
    {
@@ -301,11 +301,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the subjectAreaType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSubjectAreaType(String value)
    {
@@ -314,11 +314,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the userObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getUserObjectId()
    {
@@ -327,11 +327,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the userObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setUserObjectId(Integer value)
    {

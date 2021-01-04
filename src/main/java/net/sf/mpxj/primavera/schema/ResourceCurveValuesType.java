@@ -248,7 +248,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value0 property.
-    * 
+    *
     */
    public double getValue0()
    {
@@ -257,7 +257,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value0 property.
-    * 
+    *
     */
    public void setValue0(double value)
    {
@@ -266,7 +266,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value5 property.
-    * 
+    *
     */
    public double getValue5()
    {
@@ -275,7 +275,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value5 property.
-    * 
+    *
     */
    public void setValue5(double value)
    {
@@ -284,7 +284,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value10 property.
-    * 
+    *
     */
    public double getValue10()
    {
@@ -293,7 +293,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value10 property.
-    * 
+    *
     */
    public void setValue10(double value)
    {
@@ -302,7 +302,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value15 property.
-    * 
+    *
     */
    public double getValue15()
    {
@@ -311,7 +311,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value15 property.
-    * 
+    *
     */
    public void setValue15(double value)
    {
@@ -320,7 +320,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value20 property.
-    * 
+    *
     */
    public double getValue20()
    {
@@ -329,7 +329,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value20 property.
-    * 
+    *
     */
    public void setValue20(double value)
    {
@@ -338,7 +338,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value25 property.
-    * 
+    *
     */
    public double getValue25()
    {
@@ -347,7 +347,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value25 property.
-    * 
+    *
     */
    public void setValue25(double value)
    {
@@ -356,7 +356,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value30 property.
-    * 
+    *
     */
    public double getValue30()
    {
@@ -365,7 +365,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value30 property.
-    * 
+    *
     */
    public void setValue30(double value)
    {
@@ -374,7 +374,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value35 property.
-    * 
+    *
     */
    public double getValue35()
    {
@@ -383,7 +383,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value35 property.
-    * 
+    *
     */
    public void setValue35(double value)
    {
@@ -392,7 +392,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value40 property.
-    * 
+    *
     */
    public double getValue40()
    {
@@ -401,7 +401,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value40 property.
-    * 
+    *
     */
    public void setValue40(double value)
    {
@@ -410,7 +410,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value45 property.
-    * 
+    *
     */
    public double getValue45()
    {
@@ -419,7 +419,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value45 property.
-    * 
+    *
     */
    public void setValue45(double value)
    {
@@ -428,7 +428,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value50 property.
-    * 
+    *
     */
    public double getValue50()
    {
@@ -437,7 +437,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value50 property.
-    * 
+    *
     */
    public void setValue50(double value)
    {
@@ -446,7 +446,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value55 property.
-    * 
+    *
     */
    public double getValue55()
    {
@@ -455,7 +455,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value55 property.
-    * 
+    *
     */
    public void setValue55(double value)
    {
@@ -464,7 +464,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value60 property.
-    * 
+    *
     */
    public double getValue60()
    {
@@ -473,7 +473,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value60 property.
-    * 
+    *
     */
    public void setValue60(double value)
    {
@@ -482,7 +482,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value65 property.
-    * 
+    *
     */
    public double getValue65()
    {
@@ -491,7 +491,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value65 property.
-    * 
+    *
     */
    public void setValue65(double value)
    {
@@ -500,7 +500,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value70 property.
-    * 
+    *
     */
    public double getValue70()
    {
@@ -509,7 +509,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value70 property.
-    * 
+    *
     */
    public void setValue70(double value)
    {
@@ -518,7 +518,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value75 property.
-    * 
+    *
     */
    public double getValue75()
    {
@@ -527,7 +527,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value75 property.
-    * 
+    *
     */
    public void setValue75(double value)
    {
@@ -536,7 +536,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value80 property.
-    * 
+    *
     */
    public double getValue80()
    {
@@ -545,7 +545,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value80 property.
-    * 
+    *
     */
    public void setValue80(double value)
    {
@@ -554,7 +554,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value85 property.
-    * 
+    *
     */
    public double getValue85()
    {
@@ -563,7 +563,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value85 property.
-    * 
+    *
     */
    public void setValue85(double value)
    {
@@ -572,7 +572,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value90 property.
-    * 
+    *
     */
    public double getValue90()
    {
@@ -581,7 +581,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value90 property.
-    * 
+    *
     */
    public void setValue90(double value)
    {
@@ -590,7 +590,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value95 property.
-    * 
+    *
     */
    public double getValue95()
    {
@@ -599,7 +599,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value95 property.
-    * 
+    *
     */
    public void setValue95(double value)
    {
@@ -608,7 +608,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the value100 property.
-    * 
+    *
     */
    public double getValue100()
    {
@@ -617,7 +617,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the value100 property.
-    * 
+    *
     */
    public void setValue100(double value)
    {

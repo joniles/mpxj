@@ -2236,7 +2236,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the Notes instance representing the assignment notes.
-    * 
+    *
     * @param notes Notes instance
     */
    public void setNotesObject(Notes notes)
@@ -2247,7 +2247,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Retrieve an object which contains both the plain text notes
     * and, if relevant, the original formatted version of the notes.
-    * 
+    *
     * @return Notes instance
     */
    public Notes getNotesObject()

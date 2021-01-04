@@ -30,7 +30,7 @@ public class StructuredNotes extends Notes
 {
    /**
     * Constructor.
-    * 
+    *
     * @param topicID topic ID
     * @param topicName topic name
     * @param note Notes instance
@@ -44,7 +44,7 @@ public class StructuredNotes extends Notes
 
    /**
     * Retrieve this note's topic ID.
-    * 
+    *
     * @return topic ID
     */
    public Integer getTopicID()
@@ -54,7 +54,7 @@ public class StructuredNotes extends Notes
 
    /**
     * Retrieve this note's topic name.
-    * 
+    *
     * @return topic name
     */
    public String getTopicName()
@@ -64,7 +64,7 @@ public class StructuredNotes extends Notes
 
    /**
     * Create a plain text version of this note which includes the topic and the text.
-    * 
+    *
     * @param topicName topic name
     * @param note Notes instance
     * @return plain text note

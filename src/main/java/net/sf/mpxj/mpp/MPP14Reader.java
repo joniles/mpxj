@@ -1609,7 +1609,7 @@ final class MPP14Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Resource resource;
-      
+
       //
       // Select the correct meta data locations depending on
       // which version of Microsoft project generated this file

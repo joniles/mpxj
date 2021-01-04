@@ -1059,7 +1059,7 @@ final class PrimaveraReader
 
    /**
     * Create a map of notebook topics.
-    * 
+    *
     * @param rows notebook topic rows
     * @return notebook topic map
     */
@@ -1072,7 +1072,7 @@ final class PrimaveraReader
 
    /**
     * Convert the P6 notes to plain text.
-    * 
+    *
     * @param topics topic map
     * @param rows notebook rows
     * @param idColumn id column name
@@ -1100,7 +1100,7 @@ final class PrimaveraReader
 
    /**
     * Create an HtmlNote instance.
-    * 
+    *
     * @param text note text
     * @return HtmlNote instance
     */
@@ -1543,7 +1543,7 @@ final class PrimaveraReader
 
    /**
     * Extract expense items and add to a task.
-    * 
+    *
     * @param rows expense item rows
     */
    public void processExpenseItems(List<Row> rows)
@@ -1593,7 +1593,7 @@ final class PrimaveraReader
 
    /**
     * Extract schedule options.
-    * 
+    *
     * @param row schedule options row
     */
    public void processScheduleOptions(Row row)

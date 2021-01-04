@@ -32,7 +32,7 @@ public class HtmlNotes extends Notes
 {
    /**
     * Constructor.
-    * 
+    *
     * @param html HTML document
     */
    public HtmlNotes(String html)
@@ -40,16 +40,16 @@ public class HtmlNotes extends Notes
       super(HtmlHelper.strip(html));
       m_html = html;
    }
-   
+
    /**
     * Retrieve the HTML version of the notes.
-    * 
+    *
     * @return HTML document
     */
    public String getHtml()
    {
       return m_html;
    }
-      
+
    private final String m_html;
 }

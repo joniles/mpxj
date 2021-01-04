@@ -33,7 +33,7 @@ public class Notes
 {
    /**
     * Constructor.
-    * 
+    *
     * @param text note text
     */
    public Notes(String text)
@@ -43,7 +43,7 @@ public class Notes
 
    /**
     * Determine if the note text is empty.
-    * 
+    *
     * @return true if the note text is empty
     */
    public boolean isEmpty()
