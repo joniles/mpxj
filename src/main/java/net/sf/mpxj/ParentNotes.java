@@ -1,5 +1,5 @@
 /*
- * file:       HtmlNote.java
+ * file:       ParentNotes.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-01-03
@@ -23,33 +23,34 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.common.HtmlHelper;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Represents notes formatted as RTF.
+ * Represents a note which is composed from one or more child notes.
  */
-public class HtmlNote extends TextNote
+public class ParentNotes extends TextNotes
 {
    /**
     * Constructor.
     * 
-    * @param html HTML document
+    * @param childNotes child notes
     */
-   public HtmlNote(String html)
+   public ParentNotes(List<Notes> childNotes)
    {
-      super(HtmlHelper.strip(html));
-      m_html = html;
+      super(childNotes.stream().filter(n -> n != null).map(s -> s.toString()).collect(Collectors.joining("\n")).trim());
+      m_childNotes = childNotes;
+   }
+
+   /**
+    * Retrieve the list of child notes.
+    * 
+    * @return list of child notes
+    */
+   public List<Notes> getChildNotes()
+   {
+      return m_childNotes;
    }
    
-   /**
-    * Retrieve the HTML version of the notes.
-    * 
-    * @return HTML document
-    */
-   public String getHtml()
-   {
-      return m_html;
-   }
-      
-   private final String m_html;
+   private final List<Notes> m_childNotes;
 }

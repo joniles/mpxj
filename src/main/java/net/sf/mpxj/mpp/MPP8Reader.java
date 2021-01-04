@@ -55,7 +55,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.RtfNote;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.Task;
@@ -758,7 +758,7 @@ final class MPP8Reader implements MPPVariantReader
 
       if (notes != null)
       {
-         task.setNotesObject(new RtfNote(notes));
+         task.setNotesObject(new RtfNotes(notes));
       }
    }
 
@@ -1066,7 +1066,7 @@ final class MPP8Reader implements MPPVariantReader
          notes = rscExtData.getString(RESOURCE_NOTES);
          if (notes != null)
          {
-            resource.setNotesObject(new RtfNote(notes));
+            resource.setNotesObject(new RtfNotes(notes));
          }
 
          m_eventManager.fireResourceReadEvent(resource);

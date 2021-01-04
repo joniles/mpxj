@@ -45,7 +45,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceRequestType;
-import net.sf.mpxj.RtfNote;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
@@ -1039,7 +1039,7 @@ abstract class FieldMap
             case NOTES:
             {
                String notes = varData.getString(id, m_varDataKey);
-               result = notes == null ? null : new RtfNote(notes);
+               result = notes == null ? null : new RtfNotes(notes);
                break;
             }
 

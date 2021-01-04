@@ -72,7 +72,7 @@ public final class HtmlHelper
 
       // Trim any whitespace (including nbsp)
       // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
-      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
+      result = result.replaceAll("(^\\h*)|(\\h*$)", "").trim();
 
       // Return null if we have an empty string
       if (result.isEmpty())

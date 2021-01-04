@@ -41,6 +41,7 @@ import java.util.Set;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
@@ -528,8 +529,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
       Map<Integer, String> topics = m_reader.getNotebookTopics(getRows("memotype", null, null));
-      Map<Integer, String> wbsNotes = m_reader.getNotes(topics, getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
-      Map<Integer, String> taskNotes = m_reader.getNotes(topics, getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
+      Map<Integer, Notes> wbsNotes = m_reader.getNotes(topics, getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
+      Map<Integer, Notes> taskNotes = m_reader.getNotes(topics, getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
 
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
       m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);

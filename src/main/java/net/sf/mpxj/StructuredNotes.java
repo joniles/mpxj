@@ -23,34 +23,74 @@
 
 package net.sf.mpxj;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
- * Represents a note which is composed from one or more child notes.
+ * Represents a note which belongs to a topic.
  */
-public class StructuredNotes extends TextNote
+public class StructuredNotes extends TextNotes
 {
    /**
     * Constructor.
     * 
-    * @param notes child notes
+    * @param topicID topic ID
+    * @param topicName topic name
+    * @param note Notes instance
     */
-   public StructuredNotes(List<Note> notes)
+   public StructuredNotes(Integer topicID, String topicName, Notes note)
    {
-      super(notes.stream().filter(n -> n != null).map(s -> s.toString()).collect(Collectors.joining("\n")));
-      m_notes = notes;
+      super(StructuredNotes.getStructuredText(topicName, note));
+      m_topicID = topicID;
+      m_topicName = topicName;
    }
 
    /**
-    * Retrieve the list of child notes.
+    * Retrieve this note's topic ID.
     * 
-    * @return list of child notes
+    * @return topic ID
     */
-   public List<Note> getNotes()
+   public Integer getTopicID()
    {
-      return m_notes;
+      return m_topicID;
    }
-   
-   private final List<Note> m_notes;
+
+   /**
+    * Retrieve this note's topic name.
+    * 
+    * @return topic name
+    */
+   public String getTopicName()
+   {
+      return m_topicName;
+   }
+
+   /**
+    * Create a plain text version of this note which includes the topic and the text.
+    * 
+    * @param topicName topic name
+    * @param note Notes instance
+    * @return plain text note
+    */
+   private static String getStructuredText(String topicName, Notes note)
+   {
+      String result;
+
+      String text = note == null ? null : note.toString();
+      if (text == null || text.isEmpty())
+      {
+         result = null;
+      }
+      else
+      {
+         StringBuilder sb = new StringBuilder();
+         sb.append(topicName);
+         sb.append("\n");
+         sb.append(text);
+         sb.append("\n");
+         result = sb.toString();
+      }
+
+      return result;
+   }
+
+   private final Integer m_topicID;
+   private final String m_topicName;
 }

@@ -1,5 +1,5 @@
 /*
- * file:       RtfNote.java
+ * file:       RtfNotes.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-01-03
@@ -28,14 +28,14 @@ import net.sf.mpxj.common.RtfHelper;
 /**
  * Represents notes formatted as RTF.
  */
-public class RtfNote extends TextNote
+public class RtfNotes extends TextNotes
 {
    /**
     * Constructor.
     * 
     * @param rtf RTF document
     */
-   public RtfNote(String rtf)
+   public RtfNotes(String rtf)
    {
       super(RtfHelper.strip(rtf));
       m_rtf = rtf;

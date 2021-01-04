@@ -65,7 +65,8 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.HtmlNote;
+import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Notes;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -81,6 +82,8 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.StructuredNotes;
+import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -708,7 +711,7 @@ final class PrimaveraReader
     * @param wbsNotes WBS note data
     * @param taskNotes task note data
     */
-   public void processTasks(List<Row> wbs, List<Row> tasks, Map<Integer, String> wbsNotes, Map<Integer, String> taskNotes)
+   public void processTasks(List<Row> wbs, List<Row> tasks, Map<Integer, Notes> wbsNotes, Map<Integer, Notes> taskNotes)
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
@@ -739,7 +742,7 @@ final class PrimaveraReader
          task.setSummary(true);
          processFields(m_wbsFields, row, task);
          populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
-         task.setNotes(wbsNotes.get(task.getUniqueID()));
+         task.setNotesObject(wbsNotes.get(task.getUniqueID()));
          uniqueIDs.add(task.getUniqueID());
          wbsTasks.add(task);
          m_eventManager.fireTaskReadEvent(task);
@@ -816,7 +819,7 @@ final class PrimaveraReader
 
          populateActivityCodes(task);
 
-         task.setNotes(taskNotes.get(uniqueID));
+         task.setNotesObject(taskNotes.get(uniqueID));
 
          if (uniqueIDs.contains(uniqueID))
          {
@@ -1076,41 +1079,32 @@ final class PrimaveraReader
     * @param textColumn text column name
     * @return note text
     */
-   public Map<Integer, String> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
+   public Map<Integer, Notes> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
    {
       Map<Integer, Map<Integer, List<String>>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(idColumn), Collectors.groupingBy(r -> r.getInteger("memo_type_id"), Collectors.mapping(r -> r.getString(textColumn), Collectors.toList()))));
 
-      Map<Integer, String> notes = new HashMap<>();
-      StringBuilder note = new StringBuilder();
+      Map<Integer, Notes> result = new HashMap<>();
 
       for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
       {
-         note.setLength(0);
+         List<Notes> list = new ArrayList<>();
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null && !s.isEmpty()).map(s -> s.toString()).collect(Collectors.joining(""));
-            if (noteText != null && !noteText.isEmpty())
-            {
-               note.append(topics.get(topicEntry.getKey()));
-               note.append("\n");
-               note.append(noteText);
-               note.append("\n");
-               note.append("\n");
-            }
+            topicEntry.getValue().stream().map(s -> getHtmlNote(s)).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), topics.get(topicEntry.getKey()), n)));
          }
-         notes.put(entry.getKey(), note.toString().trim());
+         result.put(entry.getKey(), new ParentNotes(list));
       }
 
-      return notes;
+      return result;
    }
 
    /**
-    * Extract plaintext from a note.
+    * Create an HtmlNote instance.
     * 
     * @param text note text
-    * @return plain text
+    * @return HtmlNote instance
     */
-   private HtmlNote getNoteText(String text)
+   private HtmlNotes getHtmlNote(String text)
    {
       if (text == null)
       {
@@ -1123,7 +1117,7 @@ final class PrimaveraReader
       // Replace newlines
       html = html.replaceAll("\\x7F\\x7F", "\n");
 
-      return new HtmlNote(html);
+      return new HtmlNotes(html);
    }
 
    /**
