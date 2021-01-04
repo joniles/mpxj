@@ -73,7 +73,7 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.HtmlNote;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -1588,7 +1588,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param text notebook entry
     * @return plain text
     */
-   private HtmlNotes getNoteText(String text)
+   private HtmlNote getNoteText(String text)
    {
       if (text == null || text.isEmpty())
       {
@@ -1598,7 +1598,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Remove BOM and NUL characters
       String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
-      return new HtmlNotes(html);
+      return new HtmlNote(html);
    }
 
    /**

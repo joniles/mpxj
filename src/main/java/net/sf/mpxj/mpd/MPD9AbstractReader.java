@@ -51,7 +51,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
-import net.sf.mpxj.RtfNotes;
+import net.sf.mpxj.RtfNote;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -585,7 +585,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("RES_RTF_NOTES");
          if (notes != null)
          {
-            resource.setNotesObject(new RtfNotes(notes));
+            resource.setNotesObject(new RtfNote(notes));
          }
 
          resource.setResourceCalendar(m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
@@ -1038,7 +1038,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("TASK_RTF_NOTES");
          if (notes != null)
          {
-            task.setNotesObject(new RtfNotes(notes));
+            task.setNotesObject(new RtfNote(notes));
          }
 
          //
@@ -1189,7 +1189,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("ASSN_RTF_NOTES");
          if (notes != null)
          {
-            assignment.setNotesObject(new RtfNotes(notes));
+            assignment.setNotesObject(new RtfNote(notes));
          }
 
          m_eventManager.fireAssignmentReadEvent(assignment);

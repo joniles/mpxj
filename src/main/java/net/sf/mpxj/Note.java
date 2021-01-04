@@ -1,5 +1,5 @@
 /*
- * file:       HtmlNotes.java
+ * file:       Note.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-01-03
@@ -23,33 +23,18 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.common.HtmlHelper;
-
 /**
- * Represents notes formatted as RTF.
+ * Interface implemented by classes representing notes.
+ * Notes may be in a variety of formats, including plain text,
+ * RTF, HTML, and structured notes organised into topics.
+ * Classes implementing this interface will return a the plain
+ * text version of their contents with the toString method is
+ * called. All other details are implementation specific, but
+ * are expected to include the ability to retrieve the original
+ * formatted version of the notes.
  */
-public class HtmlNotes extends TextNotes
+public interface Note
 {
-   /**
-    * Constructor.
-    * 
-    * @param html HTML document
-    */
-   public HtmlNotes(String html)
-   {
-      super(HtmlHelper.strip(html));
-      m_html = html;
-   }
-   
-   /**
-    * Retrieve the HTML version of the notes.
-    * 
-    * @return HTML document
-    */
-   public String getHtml()
-   {
-      return m_html;
-   }
-      
-   private final String m_html;
+   // Calling toString on a class implementing this interface
+   // will return a plain text version of the notes.
 }

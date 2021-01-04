@@ -1,5 +1,5 @@
 /*
- * file:       TextNotes.java
+ * file:       TextNote.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-01-03
@@ -26,14 +26,14 @@ package net.sf.mpxj;
 /**
  * Represents plain text notes.
  */
-public class TextNotes implements Notes
+public class TextNote implements Note
 {
    /**
     * Constructor.
     * 
     * @param text note text
     */
-   public TextNotes(String text)
+   public TextNote(String text)
    {
       m_text = text;
    }

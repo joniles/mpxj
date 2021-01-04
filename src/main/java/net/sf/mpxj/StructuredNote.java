@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Represents a note which belongs to a topic.
  */
-public class StructuredNote extends TextNotes
+public class StructuredNote extends TextNote
 {
    /**
     * Constructor.
@@ -35,7 +35,7 @@ public class StructuredNote extends TextNotes
     * @param topicName topic name
     * @param note Notes instance
     */
-   public StructuredNote(Integer topicID, String topicName, Notes note)
+   public StructuredNote(Integer topicID, String topicName, Note note)
    {
       super(StructuredNote.getStructuredText(topicName, note));
       m_topicID = topicID;
@@ -69,7 +69,7 @@ public class StructuredNote extends TextNotes
     * @param note Notes instance
     * @return plain text note
     */
-   private static String getStructuredText(String topicName, Notes note)
+   private static String getStructuredText(String topicName, Note note)
    {
       String result;
 

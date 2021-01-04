@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 /**
  * Represents a note which is composed from one or more child notes.
  */
-public class StructuredNotes extends TextNotes
+public class StructuredNotes extends TextNote
 {
    /**
     * Constructor.
     * 
     * @param notes child notes
     */
-   public StructuredNotes(List<Notes> notes)
+   public StructuredNotes(List<Note> notes)
    {
       super(notes.stream().filter(n -> n != null).map(s -> s.toString()).collect(Collectors.joining("\n")));
       m_notes = notes;
@@ -47,10 +47,10 @@ public class StructuredNotes extends TextNotes
     * 
     * @return list of child notes
     */
-   public List<Notes> getNotes()
+   public List<Note> getNotes()
    {
       return m_notes;
    }
    
-   private final List<Notes> m_notes;
+   private final List<Note> m_notes;
 }

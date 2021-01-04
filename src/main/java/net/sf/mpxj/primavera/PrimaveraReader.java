@@ -65,7 +65,7 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.HtmlNote;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -1110,7 +1110,7 @@ final class PrimaveraReader
     * @param text note text
     * @return plain text
     */
-   private HtmlNotes getNoteText(String text)
+   private HtmlNote getNoteText(String text)
    {
       if (text == null)
       {
@@ -1123,7 +1123,7 @@ final class PrimaveraReader
       // Replace newlines
       html = html.replaceAll("\\x7F\\x7F", "\n");
 
-      return new HtmlNotes(html);
+      return new HtmlNote(html);
    }
 
    /**

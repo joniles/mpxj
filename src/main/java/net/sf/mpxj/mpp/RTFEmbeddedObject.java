@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.RtfNotes;
+import net.sf.mpxj.RtfNote;
 import net.sf.mpxj.common.ByteArrayHelper;
 
 /**
@@ -146,7 +146,7 @@ public final class RTFEmbeddedObject
     * @param notes Notes instance
     * @return list of lists of RTFEmbeddedObject instances
     */
-   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(RtfNotes notes)
+   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(RtfNote notes)
    {
       List<List<RTFEmbeddedObject>> objects = null;
       List<RTFEmbeddedObject> objectData;
