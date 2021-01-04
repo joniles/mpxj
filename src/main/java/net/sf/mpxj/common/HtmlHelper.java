@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera;
+package net.sf.mpxj.common;
 
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
@@ -34,8 +34,55 @@ import org.jsoup.select.NodeVisitor;
 /**
  * HTML helper methods.
  */
-final class HtmlHelper
+public final class HtmlHelper
 {
+   /**
+    * Extract plain text from HTML.
+    * 
+    * @param html HTML document
+    * @return plain text
+    */
+   public static String strip(String html)
+   {
+      if (html == null)
+      {
+         return null;
+      }
+
+      String result = html;
+
+      // Determine if we have HTML
+      int htmlIndex = result.indexOf("<HTML>");
+      if (htmlIndex == -1)
+      {
+         htmlIndex = result.indexOf("<html>");
+      }
+
+      // Even if the note doesn't contain an HTML tag,
+      // it may contain embedded HTML. We treat all text
+      // as an HTML body fragment and let the parser sort it out.
+      if (htmlIndex == -1)
+      {
+         result = getPlainTextFromBodyFragment(result);
+      }
+      else
+      {
+         result = getPlainTextFromHtml(result.substring(htmlIndex));
+      }
+
+      // Trim any whitespace (including nbsp)
+      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
+      result = result.replaceAll("(^\\h*)|(\\h*$)", "").trim();
+
+      // Return null if we have an empty string
+      if (result.isEmpty())
+      {
+         result = null;
+      }
+
+      return result;
+   }
+
    /**
     * Extract plain text from a full HTML document.
     * 

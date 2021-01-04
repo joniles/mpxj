@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.common.ByteArrayHelper;
 
 /**
@@ -38,9 +39,8 @@ import net.sf.mpxj.common.ByteArrayHelper;
  * read this data, hence the current implementation.
  *
  * To use this class with note fields in MPXJ, call
- * MPPFile.setPreserveNoteFormatting(true) to allow retrieval of the raw RTF
- * document text from the note fields. You can use the RTFUtility.strip()
- * method to extract plain text from the document for display. If you want
+ * getNotesObject() to allow retrieval of the raw RTF
+ * document and unformatted text from the note fields. If you want
  * to extract any embedded objects from the document, call the
  * RTFEmbeddedObject.getEmbeddedObjects() method, passing in the raw RTF
  * document.
@@ -143,15 +143,16 @@ public final class RTFEmbeddedObject
     * that make up the embedded object. This method will return null
     * if there are no embedded objects in the RTF document.
     *
-    * @param text RTF document
+    * @param notes Notes instance
     * @return list of lists of RTFEmbeddedObject instances
     */
-   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(String text)
+   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects(RtfNotes notes)
    {
       List<List<RTFEmbeddedObject>> objects = null;
       List<RTFEmbeddedObject> objectData;
+      String rtf = notes.getRtf();
 
-      int offset = text.indexOf(OBJDATA);
+      int offset = rtf.indexOf(OBJDATA);
       if (offset != -1)
       {
          objects = new ArrayList<>();
@@ -160,8 +161,8 @@ public final class RTFEmbeddedObject
          {
             objectData = new ArrayList<>();
             objects.add(objectData);
-            offset = readObjectData(offset, text, objectData);
-            offset = text.indexOf(OBJDATA, offset);
+            offset = readObjectData(offset, rtf, objectData);
+            offset = rtf.indexOf(OBJDATA, offset);
          }
       }
 

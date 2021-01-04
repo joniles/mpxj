@@ -71,7 +71,7 @@ public enum ResourceField implements FieldType
    OVERALLOCATED(DataType.BOOLEAN),
    PEAK(DataType.UNITS),
    UNIQUE_ID(DataType.INTEGER),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    TEXT3(DataType.STRING),
    TEXT4(DataType.STRING),

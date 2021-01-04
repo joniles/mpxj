@@ -48,7 +48,7 @@ public enum DataType implements MpxjEnum
    RESOURCE_TYPE(15),
    WORK(16),
    INTEGER(17),
-   ASCII_STRING(18),
+   NOTES(18),
    SHORT(19),
    BINARY(20),
    DELAY(21),

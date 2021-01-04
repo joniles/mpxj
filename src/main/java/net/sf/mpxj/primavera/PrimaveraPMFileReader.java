@@ -73,7 +73,10 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Notes;
+import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -87,6 +90,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
@@ -916,7 +920,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Read WBS entries and create tasks
       //
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      Map<Integer, String> wbsNotes = getWbsNotes(project);
+      Map<Integer, Notes> wbsNotes = getWbsNotes(project);
 
       for (WBSType row : wbs)
       {
@@ -932,7 +936,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
-         task.setNotes(wbsNotes.get(uniqueID));
+         task.setNotesObject(wbsNotes.get(uniqueID));
       }
 
       //
@@ -966,12 +970,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       int nextID = 1;
       m_clashMap.clear();
-      Map<Integer, String> activityNotes = getActivityNotes(project);
+      Map<Integer, Notes> activityNotes = getActivityNotes(project);
 
       for (ActivityType row : tasks)
       {
          Integer uniqueID = row.getObjectId();
-         String notes = activityNotes.get(uniqueID);
+         Notes notes = activityNotes.get(uniqueID);
 
          if (uniqueIDs.contains(uniqueID))
          {
@@ -1000,7 +1004,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
-         task.setNotes(notes);
+         task.setNotesObject(notes);
          task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
 
          task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
@@ -1531,7 +1535,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param project project object
     * @return map of WBS notes
     */
-   private Map<Integer, String> getWbsNotes(ProjectType project)
+   private Map<Integer, Notes> getWbsNotes(ProjectType project)
    {
       Map<Integer, Map<Integer, List<String>>> map = project.getProjectNote().stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
       return getNotes(map);
@@ -1543,7 +1547,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param project project object
     * @return map of activity notes
     */
-   private Map<Integer, String> getActivityNotes(ProjectType project)
+   private Map<Integer, Notes> getActivityNotes(ProjectType project)
    {
       Map<Integer, Map<Integer, List<String>>> map = project.getActivityNote().stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
       return getNotes(map);
@@ -1555,39 +1559,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param map notebook data
     * @return map of object IDs and note text
     */
-   private Map<Integer, String> getNotes(Map<Integer, Map<Integer, List<String>>> map)
+   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<String>>> map)
    {
-      Map<Integer, String> notes = new HashMap<>();
-      StringBuilder note = new StringBuilder();
+      Map<Integer, Notes> result = new HashMap<>();
 
       for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
       {
-         note.setLength(0);
+         List<Notes> list = new ArrayList<>();
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null).collect(Collectors.joining(""));
-            if (noteText != null && !noteText.isEmpty())
-            {
-               note.append(m_notebookTopics.get(topicEntry.getKey()));
-               note.append("\n");
-               note.append(noteText);
-               note.append("\n");
-               note.append("\n");
-            }
+            topicEntry.getValue().stream().map(s -> getHtmlNote(s)).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
          }
-         notes.put(entry.getKey(), note.toString().trim());
+         result.put(entry.getKey(), new ParentNotes(list));
       }
 
-      return notes;
+      return result;
    }
 
    /**
-    * Extract plain text from a notebook entry.
+    * Create an HtmlNote instance.
     * 
-    * @param text notebook entry
-    * @return plain text
+    * @param text note text
+    * @return HtmlNote instance
     */
-   private String getNoteText(String text)
+   private HtmlNotes getHtmlNote(String text)
    {
       if (text == null || text.isEmpty())
       {
@@ -1595,21 +1590,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       // Remove BOM and NUL characters
-      String result = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+      String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
-      result = HtmlHelper.getPlainTextFromHtml(result);
-
-      // Trim any whitespace (including nbsp)
-      // https://stackoverflow.com/questions/28295504/how-to-trim-no-break-space-in-java/28295597
-      result = result.replaceAll("(^\\h*)|(\\h*$)", "");
-
-      // Return null if we have an empty string
-      if (result.isEmpty())
-      {
-         result = null;
-      }
-
-      return result;
+      return new HtmlNotes(html);
    }
 
    /**

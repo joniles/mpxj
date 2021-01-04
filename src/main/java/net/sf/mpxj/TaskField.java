@@ -142,7 +142,7 @@ public enum TaskField implements FieldType
    NUMBER5(DataType.NUMERIC),
    SUMMARY(DataType.BOOLEAN),
    CREATED(DataType.DATE),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    UNIQUE_ID_PREDECESSORS(DataType.STRING),
    UNIQUE_ID_SUCCESSORS(DataType.STRING),
    OBJECTS(DataType.NUMERIC),

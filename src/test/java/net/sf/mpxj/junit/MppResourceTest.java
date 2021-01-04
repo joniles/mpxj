@@ -61,7 +61,6 @@ public class MppResourceTest
    @Test public void testMpp9Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -77,7 +76,6 @@ public class MppResourceTest
    @Test public void testMpp9ResourceFrom12() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -93,7 +91,6 @@ public class MppResourceTest
    @Test public void testMpp9ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -109,7 +106,6 @@ public class MppResourceTest
    @Test public void testMpp12Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -125,7 +121,6 @@ public class MppResourceTest
    @Test public void testMpp12ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -141,7 +136,6 @@ public class MppResourceTest
    @Test public void testMpp14Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -173,7 +167,6 @@ public class MppResourceTest
    {
       assumeJvm();
       MPDDatabaseReader reader = new MPDDatabaseReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpd"));
       testResources(mpp);
       testNotes(mpp);

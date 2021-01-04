@@ -67,7 +67,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    {
       MPD9DatabaseReader reader = getReader();
       reader.setProjectID(m_projectID);
-      reader.setPreserveNoteFormatting(m_preserveNoteFormatting);
       return reader.read();
    }
 
@@ -87,10 +86,11 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
     * is removed.
     *
     * @param preserveNoteFormatting boolean flag
+    * @deprecated Use getNotesObject() to retrieve original formatted notes
     */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
+   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
-      m_preserveNoteFormatting = preserveNoteFormatting;
+      // Deprecated - does nothing
    }
 
    /**
@@ -199,5 +199,4 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
-   private boolean m_preserveNoteFormatting;
 }

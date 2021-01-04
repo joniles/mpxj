@@ -58,7 +58,6 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.View;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP14 file. This
@@ -1004,7 +1003,6 @@ final class MPP14Reader implements MPPVariantReader
       boolean autoWBS = true;
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
-      String notes;
 
       //
       // Select the correct meta data locations depending on
@@ -1199,17 +1197,6 @@ final class MPP14Reader implements MPPVariantReader
             recurringTaskReader.processRecurringTask(task, recurringData);
             task.setRecurring(true);
          }
-
-         //
-         // Retrieve the task notes.
-         //
-         notes = task.getNotes();
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-
-         task.setNotes(notes);
 
          //
          // Set the calendar name
@@ -1622,8 +1609,7 @@ final class MPP14Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Resource resource;
-      String notes;
-
+      
       //
       // Select the correct meta data locations depending on
       // which version of Microsoft project generated this file
@@ -1700,14 +1686,6 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.setUniqueID(id);
 
-         notes = resource.getNotes();
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-
-         resource.setNotes(notes);
-
          //
          // Configure the resource calendar
          //
@@ -1780,7 +1758,7 @@ final class MPP14Reader implements MPPVariantReader
       //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
    }
 
    /**

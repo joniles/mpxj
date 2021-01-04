@@ -1063,18 +1063,42 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setNotes(String notes)
    {
+      set(ResourceField.NOTES, notes == null ? null : new Notes(notes));
+   }
+
+   /**
+    * Retrieve the plain text representation of the resource notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
+    *
+    * @return notes
+    */
+   public String getNotes()
+   {
+      Object notes = getCachedValue(ResourceField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Set the Notes instance representing the resource notes.
+    * 
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
       set(ResourceField.NOTES, notes);
    }
 
    /**
-    * Retrieves the notes text for this resource.
-    *
-    * @return notes text
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
+    * 
+    * @return Notes instance
     */
-   public String getNotes()
+   public Notes getNotesObject()
    {
-      String notes = (String) getCachedValue(ResourceField.NOTES);
-      return (notes == null ? "" : notes);
+      return (Notes) getCachedValue(ResourceField.NOTES);
    }
 
    /**

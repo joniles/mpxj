@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.4.1">
+		<release date="git master" version="8.5.0">
+			<action dev="joniles" type="update">The original formatted notes can now be retrieved via the getNoteObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.</action>
 		</release>	
 		<release date="29/12/2020" version="8.4.0">
 			<action dev="joniles" type="update">Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.</action>

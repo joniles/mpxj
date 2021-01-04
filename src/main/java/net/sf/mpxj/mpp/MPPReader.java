@@ -250,10 +250,11 @@ public final class MPPReader extends AbstractProjectStreamReader
     * This method retrieves the state of the preserve note formatting flag.
     *
     * @return boolean flag
+    * @deprecated Use getNotesObject() to retrieve original formatted notes
     */
-   public boolean getPreserveNoteFormatting()
+   @Deprecated public boolean getPreserveNoteFormatting()
    {
-      return (m_preserveNoteFormatting);
+      return false;
    }
 
    /**
@@ -262,10 +263,11 @@ public final class MPPReader extends AbstractProjectStreamReader
     * is removed.
     *
     * @param preserveNoteFormatting boolean flag
+    * @deprecated Use getNotesObject() to retrieve original formatted notes
     */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
+   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
-      m_preserveNoteFormatting = preserveNoteFormatting;
+      // Deprecated - does nothing
    }
 
    /**
@@ -379,12 +381,6 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       return m_respectPasswordProtection;
    }
-
-   /**
-    * Flag used to indicate whether RTF formatting in notes should
-    * be preserved. The default value for this flag is false.
-    */
-   private boolean m_preserveNoteFormatting;
 
    /**
     * Setting this flag to true allows raw timephased data to be retrieved.

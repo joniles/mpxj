@@ -2217,19 +2217,42 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setNotes(String notes)
    {
-      set(AssignmentField.NOTES, notes);
+      set(AssignmentField.NOTES, notes == null ? null : new Notes(notes));
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
+    * Retrieve the plain text representation of the assignment notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
     * @return notes
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(AssignmentField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(AssignmentField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Set the Notes instance representing the assignment notes.
+    * 
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
+      set(AssignmentField.NOTES, notes);
+   }
+
+   /**
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
+    * 
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      return (Notes) getCachedValue(AssignmentField.NOTES);
    }
 
    /**
