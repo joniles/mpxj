@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
@@ -1077,40 +1078,27 @@ final class PrimaveraReader
     */
    public Map<Integer, String> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
    {
+      Map<Integer, Map<Integer, List<String>>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(idColumn), Collectors.groupingBy(r -> r.getInteger("memo_type_id"), Collectors.mapping(r -> r.getString(textColumn), Collectors.toList()))));
+
       Map<Integer, String> notes = new HashMap<>();
-
-      Collections.sort(rows, (r1, r2) -> r1.getInteger(idColumn).compareTo(r2.getInteger(idColumn)));
-
-      int currentID = -1;
       StringBuilder note = new StringBuilder();
 
-      for (Row row : rows)
+      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
       {
-         int nextID = row.getInt(idColumn);
-         if (currentID != nextID)
+         note.setLength(0);
+         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            if (currentID != -1)
+            String noteText = topicEntry.getValue().stream().map(s -> getNoteText(s)).filter(s -> s != null && !s.isEmpty()).map(s -> s.toString()).collect(Collectors.joining(""));
+            if (noteText != null && !noteText.isEmpty())
             {
-               notes.put(Integer.valueOf(currentID), note.toString().trim());
-               note.setLength(0);
+               note.append(topics.get(topicEntry.getKey()));
+               note.append("\n");
+               note.append(noteText);
+               note.append("\n");
+               note.append("\n");
             }
-            currentID = nextID;
          }
-
-         HtmlNotes noteText = getNoteText(row.getString(textColumn));
-         if (noteText != null && !noteText.isEmpty())
-         {
-            note.append(topics.get(row.getInteger("memo_type_id")));
-            note.append("\n");
-            note.append(noteText);
-            note.append("\n");
-            note.append("\n");
-         }
-      }
-
-      if (currentID != -1)
-      {
-         notes.put(Integer.valueOf(currentID), note.toString().trim());
+         notes.put(entry.getKey(), note.toString().trim());
       }
 
       return notes;
