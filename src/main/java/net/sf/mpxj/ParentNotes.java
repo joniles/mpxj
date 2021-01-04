@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * Represents a note which is composed from one or more child notes.
  */
-public class ParentNotes extends TextNotes
+public class ParentNotes extends Notes
 {
    /**
     * Constructor.

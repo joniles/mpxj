@@ -1063,7 +1063,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setNotes(String notes)
    {
-      set(ResourceField.NOTES, notes == null ? null : new TextNotes(notes));
+      set(ResourceField.NOTES, notes == null ? null : new Notes(notes));
    }
 
    /**

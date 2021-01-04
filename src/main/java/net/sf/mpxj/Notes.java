@@ -24,17 +24,37 @@
 package net.sf.mpxj;
 
 /**
- * Interface implemented by classes representing notes.
- * Notes may be in a variety of formats, including plain text,
- * RTF, HTML, and structured notes organised into topics.
- * Classes implementing this interface will return a the plain
- * text version of their contents with the toString method is
- * called. All other details are implementation specific, but
- * are expected to include the ability to retrieve the original
- * formatted version of the notes.
+ * Represents plain text notes.
+ * Calling toString on this class, or any class
+ * derived from it will return a plain text
+ * representation of the notes.
  */
-public interface Notes
+public class Notes
 {
-   // Calling toString on a class implementing this interface
-   // will return a plain text version of the notes.
+   /**
+    * Constructor.
+    * 
+    * @param text note text
+    */
+   public Notes(String text)
+   {
+      m_text = text;
+   }
+
+   /**
+    * Determine if the note text is empty.
+    * 
+    * @return true if the note text is empty
+    */
+   public boolean isEmpty()
+   {
+      return m_text == null || m_text.isEmpty();
+   }
+
+   @Override public String toString()
+   {
+      return m_text;
+   }
+
+   private final String m_text;
 }

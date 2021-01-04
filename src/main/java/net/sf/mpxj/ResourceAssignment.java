@@ -2217,7 +2217,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setNotes(String notes)
    {
-      set(AssignmentField.NOTES, notes == null ? null : new TextNotes(notes));
+      set(AssignmentField.NOTES, notes == null ? null : new Notes(notes));
    }
 
    /**

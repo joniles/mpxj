@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Represents a note which belongs to a topic.
  */
-public class StructuredNotes extends TextNotes
+public class StructuredNotes extends Notes
 {
    /**
     * Constructor.

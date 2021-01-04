@@ -28,7 +28,7 @@ import net.sf.mpxj.common.RtfHelper;
 /**
  * Represents notes formatted as RTF.
  */
-public class RtfNotes extends TextNotes
+public class RtfNotes extends Notes
 {
    /**
     * Constructor.

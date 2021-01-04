@@ -198,7 +198,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setNotes(String notes)
    {
-      set(TaskField.NOTES, notes == null ? null : new TextNotes(notes));
+      set(TaskField.NOTES, notes == null ? null : new Notes(notes));
    }
 
    /**

@@ -28,7 +28,7 @@ import net.sf.mpxj.common.HtmlHelper;
 /**
  * Represents notes formatted as RTF.
  */
-public class HtmlNotes extends TextNotes
+public class HtmlNotes extends Notes
 {
    /**
     * Constructor.
