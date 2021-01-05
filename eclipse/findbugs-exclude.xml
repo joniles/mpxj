@@ -173,5 +173,19 @@
 		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
 		<Class name="~.*\.MppEmbeddedTest" />	
 		<Method name="testEmbeddedObjects" />
-	</Match> 		
+	</Match>
+	
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMFileWriter" />	
+		<Method name="writeNativeActivityNote" />
+	</Match> 
+		
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMFileWriter" />	
+		<Method name="writeNativeWbsNote" />
+	</Match>
 </FindBugsFilter>

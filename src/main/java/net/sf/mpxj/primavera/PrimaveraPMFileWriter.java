@@ -1127,7 +1127,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private void writeWbsNote(Task task)
    {
       String notes = task.getNotes();
-      if (notes == null || notes.isEmpty())
+      if (notes.isEmpty())
       {
          return;
       }
@@ -1192,7 +1192,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private void writeActivityNote(Task task)
    {
       String notes = task.getNotes();
-      if (notes == null || notes.isEmpty())
+      if (notes.isEmpty())
       {
          return;
       }
