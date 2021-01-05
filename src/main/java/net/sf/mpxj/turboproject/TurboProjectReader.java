@@ -40,6 +40,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -265,6 +266,13 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       {
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
+         
+         String notes = resource.getNotes();
+         if (notes != null)
+         {
+            resource.setNotesObject(new Notes(notes));
+         }
+         
          m_eventManager.fireResourceReadEvent(resource);
          // TODO: Correctly handle calendar
       }

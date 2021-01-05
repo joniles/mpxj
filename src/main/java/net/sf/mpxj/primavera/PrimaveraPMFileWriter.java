@@ -684,9 +684,33 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentID());
-      xml.setResourceNotes(mpxj.getNotes());
+      xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
+   }
+
+   /**
+    * Retrieve the resource notes text. If an HTML representation
+    * is already available, use that, otherwise generate HTML from
+    * the plain text of the note.
+    * 
+    * @param notes notes text
+    * @return Notes instance
+    */
+   private String getResourceNotes(Notes notes)
+   {
+      String result;
+      if (notes == null || notes.isEmpty())
+      {
+         // TODO: switch to null to remove the tag - check import
+         result = "";
+      }
+      else
+      {
+         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
+      }
+
+      return result;
    }
 
    /**
@@ -1118,6 +1142,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Generate a notebook entry from plain text.
+    * 
+    * @param task WBS entry
+    */
    private void writeDefaultWbsNote(Task task)
    {
       ProjectNoteType xml = m_factory.createProjectNoteType();
@@ -1131,6 +1160,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setWBSObjectId(task.getUniqueID());
    }
 
+   /**
+    * Generate notebook entries from structured notes.
+    * 
+    * @param task WBS entry
+    */
    private void writeNativeWbsNote(Task task)
    {
       for (Notes note : ((ParentNotes) task.getNotesObject()).getChildNotes())
@@ -1173,6 +1207,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Generate a notebook entry from plain text.
+    * 
+    * @param task activity entry
+    */
    private void writeDefaultActivityNote(Task task)
    {
       ActivityNoteType xml = m_factory.createActivityNoteType();
@@ -1186,6 +1225,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setActivityObjectId(task.getUniqueID());
    }
 
+   /**
+    * Generate notebook entries from structured notes.
+    * 
+    * @param task activity entry
+    */
    private void writeNativeActivityNote(Task task)
    {
       for (Notes note : ((ParentNotes) task.getNotesObject()).getChildNotes())
