@@ -41,11 +41,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the currency property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link CurrencyType }
-    *     
+    *
     */
    public CurrencyType getCurrency()
    {
@@ -54,11 +54,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the currency property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link CurrencyType }
-    *     
+    *
     */
    public void setCurrency(CurrencyType value)
    {

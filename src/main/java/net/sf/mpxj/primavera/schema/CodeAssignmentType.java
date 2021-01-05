@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the typeObjectId property.
-    * 
+    *
     */
    public int getTypeObjectId()
    {
@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the typeObjectId property.
-    * 
+    *
     */
    public void setTypeObjectId(int value)
    {
@@ -62,7 +62,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the valueObjectId property.
-    * 
+    *
     */
    public int getValueObjectId()
    {
@@ -71,7 +71,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the valueObjectId property.
-    * 
+    *
     */
    public void setValueObjectId(int value)
    {

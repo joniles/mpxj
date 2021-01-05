@@ -203,7 +203,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteRisks property.
-    * 
+    *
     */
    public boolean isAddEditDeleteRisks()
    {
@@ -212,7 +212,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteRisks property.
-    * 
+    *
     */
    public void setAddEditDeleteRisks(boolean value)
    {
@@ -221,7 +221,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEPSActivityCodes property.
-    * 
+    *
     */
    public boolean isAddEPSActivityCodes()
    {
@@ -230,7 +230,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEPSActivityCodes property.
-    * 
+    *
     */
    public void setAddEPSActivityCodes(boolean value)
    {
@@ -239,7 +239,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditActivitiesExceptRelationships property.
-    * 
+    *
     */
    public boolean isAddEditActivitiesExceptRelationships()
    {
@@ -248,7 +248,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditActivitiesExceptRelationships property.
-    * 
+    *
     */
    public void setAddEditActivitiesExceptRelationships(boolean value)
    {
@@ -257,7 +257,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditProjectLevelLayouts property.
-    * 
+    *
     */
    public boolean isAddEditProjectLevelLayouts()
    {
@@ -266,7 +266,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditProjectLevelLayouts property.
-    * 
+    *
     */
    public void setAddEditProjectLevelLayouts(boolean value)
    {
@@ -275,7 +275,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteTemplateDocuments property.
-    * 
+    *
     */
    public boolean isAddEditDeleteTemplateDocuments()
    {
@@ -284,7 +284,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteTemplateDocuments property.
-    * 
+    *
     */
    public void setAddEditDeleteTemplateDocuments(boolean value)
    {
@@ -293,7 +293,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addProjectActivityCodes property.
-    * 
+    *
     */
    public boolean isAddProjectActivityCodes()
    {
@@ -302,7 +302,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addProjectActivityCodes property.
-    * 
+    *
     */
    public void setAddProjectActivityCodes(boolean value)
    {
@@ -311,7 +311,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the administerProjectExternalApplications property.
-    * 
+    *
     */
    public boolean isAdministerProjectExternalApplications()
    {
@@ -320,7 +320,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the administerProjectExternalApplications property.
-    * 
+    *
     */
    public void setAdministerProjectExternalApplications(boolean value)
    {
@@ -329,7 +329,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the applyActuals property.
-    * 
+    *
     */
    public boolean isApplyActuals()
    {
@@ -338,7 +338,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the applyActuals property.
-    * 
+    *
     */
    public void setApplyActuals(boolean value)
    {
@@ -347,7 +347,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the approveTimesheetsAsProjectManager property.
-    * 
+    *
     */
    public boolean isApproveTimesheetsAsProjectManager()
    {
@@ -356,7 +356,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the approveTimesheetsAsProjectManager property.
-    * 
+    *
     */
    public void setApproveTimesheetsAsProjectManager(boolean value)
    {
@@ -365,7 +365,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the assignProjectBaselines property.
-    * 
+    *
     */
    public boolean isAssignProjectBaselines()
    {
@@ -374,7 +374,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the assignProjectBaselines property.
-    * 
+    *
     */
    public void setAssignProjectBaselines(boolean value)
    {
@@ -383,7 +383,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the checkInAndCheckOutProjects property.
-    * 
+    *
     */
    public boolean isCheckInAndCheckOutProjects()
    {
@@ -392,7 +392,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the checkInAndCheckOutProjects property.
-    * 
+    *
     */
    public void setCheckInAndCheckOutProjects(boolean value)
    {
@@ -401,7 +401,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addProjects property.
-    * 
+    *
     */
    public boolean isAddProjects()
    {
@@ -410,7 +410,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addProjects property.
-    * 
+    *
     */
    public void setAddProjects(boolean value)
    {
@@ -419,7 +419,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditWorkgroups property.
-    * 
+    *
     */
    public boolean isAddEditWorkgroups()
    {
@@ -428,7 +428,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditWorkgroups property.
-    * 
+    *
     */
    public void setAddEditWorkgroups(boolean value)
    {
@@ -437,7 +437,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteEPSActivityCodes property.
-    * 
+    *
     */
    public boolean isDeleteEPSActivityCodes()
    {
@@ -446,7 +446,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteEPSActivityCodes property.
-    * 
+    *
     */
    public void setDeleteEPSActivityCodes(boolean value)
    {
@@ -455,7 +455,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteActivities property.
-    * 
+    *
     */
    public boolean isDeleteActivities()
    {
@@ -464,7 +464,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteActivities property.
-    * 
+    *
     */
    public void setDeleteActivities(boolean value)
    {
@@ -473,7 +473,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteProjectActivityCodes property.
-    * 
+    *
     */
    public boolean isDeleteProjectActivityCodes()
    {
@@ -482,7 +482,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteProjectActivityCodes property.
-    * 
+    *
     */
    public void setDeleteProjectActivityCodes(boolean value)
    {
@@ -491,7 +491,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteProjectDataWithTimesheetActuals property.
-    * 
+    *
     */
    public boolean isDeleteProjectDataWithTimesheetActuals()
    {
@@ -500,7 +500,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteProjectDataWithTimesheetActuals property.
-    * 
+    *
     */
    public void setDeleteProjectDataWithTimesheetActuals(boolean value)
    {
@@ -509,7 +509,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteProjects property.
-    * 
+    *
     */
    public boolean isDeleteProjects()
    {
@@ -518,7 +518,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteProjects property.
-    * 
+    *
     */
    public void setDeleteProjects(boolean value)
    {
@@ -527,7 +527,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deleteWorkgroups property.
-    * 
+    *
     */
    public boolean isDeleteWorkgroups()
    {
@@ -536,7 +536,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deleteWorkgroups property.
-    * 
+    *
     */
    public void setDeleteWorkgroups(boolean value)
    {
@@ -545,7 +545,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editActivityId property.
-    * 
+    *
     */
    public boolean isEditActivityId()
    {
@@ -554,7 +554,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editActivityId property.
-    * 
+    *
     */
    public void setEditActivityId(boolean value)
    {
@@ -563,7 +563,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editCommittedFlagForResourcePlanning property.
-    * 
+    *
     */
    public boolean isEditCommittedFlagForResourcePlanning()
    {
@@ -572,7 +572,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editCommittedFlagForResourcePlanning property.
-    * 
+    *
     */
    public void setEditCommittedFlagForResourcePlanning(boolean value)
    {
@@ -581,7 +581,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editEPSActivityCodes property.
-    * 
+    *
     */
    public boolean isEditEPSActivityCodes()
    {
@@ -590,7 +590,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editEPSActivityCodes property.
-    * 
+    *
     */
    public void setEditEPSActivityCodes(boolean value)
    {
@@ -599,7 +599,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteEPSExceptCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isAddEditDeleteEPSExceptCostsAndFinancials()
    {
@@ -608,7 +608,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteEPSExceptCostsAndFinancials property.
-    * 
+    *
     */
    public void setAddEditDeleteEPSExceptCostsAndFinancials(boolean value)
    {
@@ -617,7 +617,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editEPSCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isEditEPSCostsAndFinancials()
    {
@@ -626,7 +626,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editEPSCostsAndFinancials property.
-    * 
+    *
     */
    public void setEditEPSCostsAndFinancials(boolean value)
    {
@@ -635,7 +635,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editFuturePeriods property.
-    * 
+    *
     */
    public boolean isEditFuturePeriods()
    {
@@ -644,7 +644,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editFuturePeriods property.
-    * 
+    *
     */
    public void setEditFuturePeriods(boolean value)
    {
@@ -653,7 +653,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editPeriodPerformance property.
-    * 
+    *
     */
    public boolean isEditPeriodPerformance()
    {
@@ -662,7 +662,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editPeriodPerformance property.
-    * 
+    *
     */
    public void setEditPeriodPerformance(boolean value)
    {
@@ -671,7 +671,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editProjectActivityCodes property.
-    * 
+    *
     */
    public boolean isEditProjectActivityCodes()
    {
@@ -680,7 +680,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editProjectActivityCodes property.
-    * 
+    *
     */
    public void setEditProjectActivityCodes(boolean value)
    {
@@ -689,7 +689,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteActivityRelationships property.
-    * 
+    *
     */
    public boolean isAddEditDeleteActivityRelationships()
    {
@@ -698,7 +698,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteActivityRelationships property.
-    * 
+    *
     */
    public void setAddEditDeleteActivityRelationships(boolean value)
    {
@@ -707,7 +707,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteProjectCalendars property.
-    * 
+    *
     */
    public boolean isAddEditDeleteProjectCalendars()
    {
@@ -716,7 +716,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteProjectCalendars property.
-    * 
+    *
     */
    public void setAddEditDeleteProjectCalendars(boolean value)
    {
@@ -725,7 +725,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editContractManagementProjectLink property.
-    * 
+    *
     */
    public boolean isEditContractManagementProjectLink()
    {
@@ -734,7 +734,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editContractManagementProjectLink property.
-    * 
+    *
     */
    public void setEditContractManagementProjectLink(boolean value)
    {
@@ -743,7 +743,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editProjectDetailsExceptCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isEditProjectDetailsExceptCostsAndFinancials()
    {
@@ -752,7 +752,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editProjectDetailsExceptCostsAndFinancials property.
-    * 
+    *
     */
    public void setEditProjectDetailsExceptCostsAndFinancials(boolean value)
    {
@@ -761,7 +761,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteExpenses property.
-    * 
+    *
     */
    public boolean isAddEditDeleteExpenses()
    {
@@ -770,7 +770,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteExpenses property.
-    * 
+    *
     */
    public void setAddEditDeleteExpenses(boolean value)
    {
@@ -779,7 +779,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editProjectReports property.
-    * 
+    *
     */
    public boolean isEditProjectReports()
    {
@@ -788,7 +788,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editProjectReports property.
-    * 
+    *
     */
    public void setEditProjectReports(boolean value)
    {
@@ -797,7 +797,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteIssuesAndIssueThreshold property.
-    * 
+    *
     */
    public boolean isAddEditDeleteIssuesAndIssueThreshold()
    {
@@ -806,7 +806,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteIssuesAndIssueThreshold property.
-    * 
+    *
     */
    public void setAddEditDeleteIssuesAndIssueThreshold(boolean value)
    {
@@ -815,7 +815,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteWBSExceptCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isAddEditDeleteWBSExceptCostsAndFinancials()
    {
@@ -824,7 +824,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteWBSExceptCostsAndFinancials property.
-    * 
+    *
     */
    public void setAddEditDeleteWBSExceptCostsAndFinancials(boolean value)
    {
@@ -833,7 +833,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editWBSCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isEditWBSCostsAndFinancials()
    {
@@ -842,7 +842,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editWBSCostsAndFinancials property.
-    * 
+    *
     */
    public void setEditWBSCostsAndFinancials(boolean value)
    {
@@ -851,7 +851,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteWorkProductsAndDocuments property.
-    * 
+    *
     */
    public boolean isAddEditDeleteWorkProductsAndDocuments()
    {
@@ -860,7 +860,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteWorkProductsAndDocuments property.
-    * 
+    *
     */
    public void setAddEditDeleteWorkProductsAndDocuments(boolean value)
    {
@@ -869,7 +869,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteResourceAssignmentsForResourcePlanning property.
-    * 
+    *
     */
    public boolean isAddEditDeleteResourceAssignmentsForResourcePlanning()
    {
@@ -878,7 +878,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteResourceAssignmentsForResourcePlanning property.
-    * 
+    *
     */
    public void setAddEditDeleteResourceAssignmentsForResourcePlanning(boolean value)
    {
@@ -887,7 +887,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteRoleAssignmentsForResourcePlanning property.
-    * 
+    *
     */
    public boolean isAddEditDeleteRoleAssignmentsForResourcePlanning()
    {
@@ -896,7 +896,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteRoleAssignmentsForResourcePlanning property.
-    * 
+    *
     */
    public void setAddEditDeleteRoleAssignmentsForResourcePlanning(boolean value)
    {
@@ -905,7 +905,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the importAndViewContractManagerData property.
-    * 
+    *
     */
    public boolean isImportAndViewContractManagerData()
    {
@@ -914,7 +914,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the importAndViewContractManagerData property.
-    * 
+    *
     */
    public void setImportAndViewContractManagerData(boolean value)
    {
@@ -923,7 +923,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the levelResources property.
-    * 
+    *
     */
    public boolean isLevelResources()
    {
@@ -932,7 +932,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the levelResources property.
-    * 
+    *
     */
    public void setLevelResources(boolean value)
    {
@@ -941,7 +941,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteProjectBaselines property.
-    * 
+    *
     */
    public boolean isAddEditDeleteProjectBaselines()
    {
@@ -950,7 +950,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteProjectBaselines property.
-    * 
+    *
     */
    public void setAddEditDeleteProjectBaselines(boolean value)
    {
@@ -959,7 +959,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editWorkspaceAndWorkgroupPreferences property.
-    * 
+    *
     */
    public boolean isEditWorkspaceAndWorkgroupPreferences()
    {
@@ -968,7 +968,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editWorkspaceAndWorkgroupPreferences property.
-    * 
+    *
     */
    public void setEditWorkspaceAndWorkgroupPreferences(boolean value)
    {
@@ -977,7 +977,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the monitorProjectThresholds property.
-    * 
+    *
     */
    public boolean isMonitorProjectThresholds()
    {
@@ -986,7 +986,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the monitorProjectThresholds property.
-    * 
+    *
     */
    public void setMonitorProjectThresholds(boolean value)
    {
@@ -995,7 +995,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditActivityResourceRequests property.
-    * 
+    *
     */
    public boolean isAddEditActivityResourceRequests()
    {
@@ -1004,7 +1004,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditActivityResourceRequests property.
-    * 
+    *
     */
    public void setAddEditActivityResourceRequests(boolean value)
    {
@@ -1013,7 +1013,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the publishProjectWebsite property.
-    * 
+    *
     */
    public boolean isPublishProjectWebsite()
    {
@@ -1022,7 +1022,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the publishProjectWebsite property.
-    * 
+    *
     */
    public void setPublishProjectWebsite(boolean value)
    {
@@ -1031,7 +1031,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the runBaselineUpdate property.
-    * 
+    *
     */
    public boolean isRunBaselineUpdate()
    {
@@ -1040,7 +1040,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the runBaselineUpdate property.
-    * 
+    *
     */
    public void setRunBaselineUpdate(boolean value)
    {
@@ -1049,7 +1049,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the runGlobalChange property.
-    * 
+    *
     */
    public boolean isRunGlobalChange()
    {
@@ -1058,7 +1058,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the runGlobalChange property.
-    * 
+    *
     */
    public void setRunGlobalChange(boolean value)
    {
@@ -1067,7 +1067,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the scheduleProjects property.
-    * 
+    *
     */
    public boolean isScheduleProjects()
    {
@@ -1076,7 +1076,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the scheduleProjects property.
-    * 
+    *
     */
    public void setScheduleProjects(boolean value)
    {
@@ -1085,7 +1085,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the storePeriodPerformance property.
-    * 
+    *
     */
    public boolean isStorePeriodPerformance()
    {
@@ -1094,7 +1094,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the storePeriodPerformance property.
-    * 
+    *
     */
    public void setStorePeriodPerformance(boolean value)
    {
@@ -1103,7 +1103,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the summarizeProjects property.
-    * 
+    *
     */
    public boolean isSummarizeProjects()
    {
@@ -1112,7 +1112,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the summarizeProjects property.
-    * 
+    *
     */
    public void setSummarizeProjects(boolean value)
    {
@@ -1121,7 +1121,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the viewProjectCostsAndFinancials property.
-    * 
+    *
     */
    public boolean isViewProjectCostsAndFinancials()
    {
@@ -1130,7 +1130,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the viewProjectCostsAndFinancials property.
-    * 
+    *
     */
    public void setViewProjectCostsAndFinancials(boolean value)
    {
@@ -1139,7 +1139,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the addEditDeleteIssuesandIssueThresholds property.
-    * 
+    *
     */
    public boolean isAddEditDeleteIssuesandIssueThresholds()
    {
@@ -1148,7 +1148,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the addEditDeleteIssuesandIssueThresholds property.
-    * 
+    *
     */
    public void setAddEditDeleteIssuesandIssueThresholds(boolean value)
    {
@@ -1157,7 +1157,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the allowIntegrationwithERPSystem property.
-    * 
+    *
     */
    public boolean isAllowIntegrationwithERPSystem()
    {
@@ -1166,7 +1166,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the allowIntegrationwithERPSystem property.
-    * 
+    *
     */
    public void setAllowIntegrationwithERPSystem(boolean value)
    {
@@ -1175,7 +1175,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the editPublicationPriority property.
-    * 
+    *
     */
    public boolean isEditPublicationPriority()
    {
@@ -1184,7 +1184,7 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the editPublicationPriority property.
-    * 
+    *
     */
    public void setEditPublicationPriority(boolean value)
    {
