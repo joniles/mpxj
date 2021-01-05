@@ -37,6 +37,21 @@ import org.jsoup.select.NodeVisitor;
 public final class HtmlHelper
 {
    /**
+    * Rudimentary conversion of plain text to HTML, preserving line breaks.
+    * 
+    * @param text plain text
+    * @return HTML document
+    */
+   public static String getHtmlFromPlainText(String text)
+   {
+      StringBuilder html = new StringBuilder();
+      html.append("<html><body>");
+      html.append(text.replace("\n", "<br/>\n"));
+      html.append("</body></html>");
+      return html.toString();
+   }
+
+   /**
     * Extract plain text from HTML.
     *
     * @param html HTML document

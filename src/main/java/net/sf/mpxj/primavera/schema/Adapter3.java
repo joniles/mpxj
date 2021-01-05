@@ -7,19 +7,20 @@
 
 package net.sf.mpxj.primavera.schema;
 
+import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter1 extends XmlAdapter<String, Double>
+public class Adapter3 extends XmlAdapter<String, Date>
 {
 
-   @Override public Double unmarshal(String value)
+   @Override public Date unmarshal(String value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.parseDouble(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.parseTime(value));
    }
 
-   @Override public String marshal(Double value)
+   @Override public String marshal(Date value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.printDouble(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.printTime(value));
    }
 
 }

@@ -24,6 +24,8 @@
 package net.sf.mpxj.primavera;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -167,6 +169,93 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Parse a Boolean represented as an integer.
+    * 
+    * @param value value as text
+    * @return Boolean instance
+    */
+   public static final Boolean parseIntegerBoolean(String value)
+   {
+      Boolean result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         result = Boolean.valueOf(value.equals("1"));
+      }
+      return result;
+   }
+
+   /**
+    * Print a Boolean represented as an integer.
+    * 
+    * @param value Boolean value
+    * @return string representation
+    */
+   public static final String printIntegerBoolean(Boolean value)
+   {
+      String result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         result = value.booleanValue() ? "1" : "0";
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse a double value.
+    * 
+    * @param value Double value as a string
+    * @return Double instance
+    */
+   public static final Double parseDouble(String value)
+   {
+      // We don't need to provide this method, we could just leave it out
+      // of the binding file and fall back on default behaviour, but
+      // having the code here avoids boxing warnings from the adapters.
+      Double result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         // Fall back on the standard behaviour
+         result = Double.valueOf(javax.xml.bind.DatatypeConverter.parseDouble(value));
+      }
+      return result;
+   }
+
+   /**
+    * Print a double value. P6 seems to be fussy about having values
+    * without decimals if they are whole numbers, hence the need for this method.
+    * 
+    * @param value double value
+    * @return string representation
+    */
+   public static final String printDouble(Double value)
+   {
+      String result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         result = DOUBLE_FORMAT.get().format(value.doubleValue());
+      }
+
+      return result;
+   }
+
    private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
    {
       @Override protected DateFormat initialValue()
@@ -184,6 +273,16 @@ public final class DatatypeConverter
          DateFormat df = new SimpleDateFormat("HH:mm:ss");
          df.setLenient(false);
          return df;
+      }
+   };
+
+   private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = new ThreadLocal<NumberFormat>()
+   {
+      @Override protected NumberFormat initialValue()
+      {
+         DecimalFormat format = new DecimalFormat("#.##");
+         format.setGroupingUsed(false);
+         return format;
       }
    };
 }
