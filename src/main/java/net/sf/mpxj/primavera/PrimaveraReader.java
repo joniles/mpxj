@@ -565,8 +565,16 @@ final class PrimaveraReader
          // Add User Defined Fields
          populateUserDefinedFieldValues("RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
+         resource.setNotesObject(getNotes(resource.getNotes()));
+         
          m_eventManager.fireResourceReadEvent(resource);
       }
+   }
+
+   private Notes getNotes(String text)
+   {
+      Notes notes = getHtmlNote(text);
+      return notes == null || notes.isEmpty() ? null : notes;
    }
 
    /**

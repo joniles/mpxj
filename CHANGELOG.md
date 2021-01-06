@@ -1,7 +1,9 @@
 # Changelog
 
 ## 8.5.0 (git master)
-* The original formatted notes can now be retrieved via the getNoteObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.
+* Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.
+* Write WBS and Activity notes to PMXML files.
+* PMXML compatibility improvements to ensure files can be successfully imported into P6.
 
 ## 8.4.0 (29/12/2020)
 * Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.

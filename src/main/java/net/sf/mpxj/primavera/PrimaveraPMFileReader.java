@@ -760,6 +760,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             entry.getKey().setParent(baseCalendar);
          }
       }
+
+      // Ensure that resource calendars we create later have valid unique IDs
+      ProjectConfig config = m_projectFile.getProjectConfig();
+      config.updateCalendarUniqueCounter();
+      config.setAutoCalendarUniqueID(true);
    }
 
    /**
@@ -846,7 +851,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCode(xml.getEmployeeId());
          resource.setEmailAddress(xml.getEmailAddress());
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
-         resource.setNotes(xml.getResourceNotes());
+         resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
@@ -904,6 +909,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   private Notes getNotes(String text)
+   {
+      Notes notes = getHtmlNote(text);
+      return notes == null || notes.isEmpty() ? null : notes;
+   }
+   
    /**
     * Process tasks.
     *

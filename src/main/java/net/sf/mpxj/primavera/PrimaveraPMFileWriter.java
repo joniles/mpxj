@@ -68,6 +68,9 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Notes;
+import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -77,6 +80,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -84,9 +88,11 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
+import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
@@ -96,7 +102,9 @@ import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHo
 import net.sf.mpxj.primavera.schema.CostAccountType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
+import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
+import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
@@ -278,6 +286,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
+         m_topics = new HashMap<>();
 
          configureCustomFields();
          populateSortedCustomFieldsList();
@@ -293,6 +302,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          writeAssignments();
          writeExpenseItems();
          writeResourceRates();
+         writeTopics();
 
          marshaller.marshal(m_apibo, handler);
       }
@@ -316,7 +326,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_wbsSequence = 0;
          m_relationshipObjectID = 0;
          m_rateObjectID = 0;
+         m_wbsNoteObjectID = 0;
+         m_activityNoteObjectID = 0;
          m_sortedCustomFieldsList = null;
+         m_topics = null;
       }
    }
 
@@ -671,9 +684,33 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentID());
-      xml.setResourceNotes(mpxj.getNotes());
+      xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
+   }
+
+   /**
+    * Retrieve the resource notes text. If an HTML representation
+    * is already available, use that, otherwise generate HTML from
+    * the plain text of the note.
+    * 
+    * @param notes notes text
+    * @return Notes instance
+    */
+   private String getResourceNotes(Notes notes)
+   {
+      String result;
+      if (notes == null || notes.isEmpty())
+      {
+         // TODO: switch to null to remove the tag - check import
+         result = "";
+      }
+      else
+      {
+         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
+      }
+
+      return result;
    }
 
    /**
@@ -750,6 +787,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          xml.setSequenceNumber(Integer.valueOf(m_wbsSequence++));
 
          xml.setStatus("Active");
+
+         writeWbsNote(mpxj);
       }
 
       writeChildTasks(mpxj);
@@ -806,6 +845,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
 
+      writeActivityNote(mpxj);
       writePredecessors(mpxj);
    }
 
@@ -1058,6 +1098,167 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
       return (fromDate || toDate || overtimeRate || standardRate);
+   }
+
+   /**
+    * Write any notebook topics used by this schedule.
+    */
+   private void writeTopics()
+   {
+      int sequenceNumber = 1;
+      for (Map.Entry<Integer, String> entry : m_topics.entrySet())
+      {
+         NotebookTopicType topic = m_factory.createNotebookTopicType();
+         m_apibo.getNotebookTopic().add(topic);
+
+         topic.setAvailableForActivity(Boolean.TRUE);
+         topic.setAvailableForWBS(Boolean.TRUE);
+         topic.setName(entry.getValue());
+         topic.setObjectId(entry.getKey());
+         topic.setSequenceNumber(Integer.valueOf(sequenceNumber++));
+      }
+   }
+
+   /**
+    * Write notes for a WBS entry.
+    * 
+    * @param task WBS entry.
+    */
+   private void writeWbsNote(Task task)
+   {
+      String notes = task.getNotes();
+      if (notes.isEmpty())
+      {
+         return;
+      }
+
+      if (notesAreNativeFormat(task.getNotesObject()))
+      {
+         writeNativeWbsNote(task);
+      }
+      else
+      {
+         writeDefaultWbsNote(task);
+      }
+   }
+
+   /**
+    * Generate a notebook entry from plain text.
+    * 
+    * @param task WBS entry
+    */
+   private void writeDefaultWbsNote(Task task)
+   {
+      ProjectNoteType xml = m_factory.createProjectNoteType();
+      m_project.getProjectNote().add(xml);
+
+      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
+      xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
+      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
+      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setWBSObjectId(task.getUniqueID());
+   }
+
+   /**
+    * Generate notebook entries from structured notes.
+    * 
+    * @param task WBS entry
+    */
+   private void writeNativeWbsNote(Task task)
+   {
+      for (Notes note : ((ParentNotes) task.getNotesObject()).getChildNotes())
+      {
+         StructuredNotes structuredNotes = (StructuredNotes) note;
+         HtmlNotes htmlNotes = (HtmlNotes) structuredNotes.getNotes();
+
+         ProjectNoteType xml = m_factory.createProjectNoteType();
+         m_project.getProjectNote().add(xml);
+
+         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
+         xml.setNote(htmlNotes.getHtml());
+         xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
+         xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
+         xml.setProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setWBSObjectId(task.getUniqueID());
+      }
+   }
+
+   /**
+    * Write notes for an Activity entry.
+    * 
+    * @param task activity entry.
+    */
+   private void writeActivityNote(Task task)
+   {
+      String notes = task.getNotes();
+      if (notes.isEmpty())
+      {
+         return;
+      }
+
+      if (notesAreNativeFormat(task.getNotesObject()))
+      {
+         writeNativeActivityNote(task);
+      }
+      else
+      {
+         writeDefaultActivityNote(task);
+      }
+   }
+
+   /**
+    * Generate a notebook entry from plain text.
+    * 
+    * @param task activity entry
+    */
+   private void writeDefaultActivityNote(Task task)
+   {
+      ActivityNoteType xml = m_factory.createActivityNoteType();
+      m_project.getActivityNote().add(xml);
+
+      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
+      xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
+      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
+      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setActivityObjectId(task.getUniqueID());
+   }
+
+   /**
+    * Generate notebook entries from structured notes.
+    * 
+    * @param task activity entry
+    */
+   private void writeNativeActivityNote(Task task)
+   {
+      for (Notes note : ((ParentNotes) task.getNotesObject()).getChildNotes())
+      {
+         StructuredNotes structuredNotes = (StructuredNotes) note;
+         HtmlNotes htmlNotes = (HtmlNotes) structuredNotes.getNotes();
+
+         ActivityNoteType xml = m_factory.createActivityNoteType();
+         m_project.getActivityNote().add(xml);
+
+         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
+         xml.setNote(htmlNotes.getHtml());
+         xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
+         xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
+         xml.setProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setActivityObjectId(task.getUniqueID());
+      }
+   }
+
+   /**
+    * Returns true if the notes are in a form that can be exported
+    * as P6 notepad entries.
+    * 
+    * @param notes Notes instance
+    * @return true if the notes can be exported as notepad entries
+    */
+   private boolean notesAreNativeFormat(Notes notes)
+   {
+      return notes instanceof ParentNotes && ((ParentNotes) notes).getChildNotes().stream().allMatch(n -> n instanceof StructuredNotes && ((StructuredNotes) n).getNotes() instanceof HtmlNotes);
    }
 
    /**
@@ -1502,6 +1703,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    private static final String NILLABLE_STYLESHEET = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><xsl:output method=\"xml\" indent=\"yes\"/><xsl:template match=\"node()[not(@xsi:nil = 'true')]|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template></xsl:stylesheet>";
    private static final Integer PROJECT_OBJECT_ID = Integer.valueOf(1);
+   private static final Integer NOTEBOOK_TOPIC_OBJECT_ID = Integer.valueOf(1);
    private static final String PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
    private static final String DEFAULT_WBS_CODE = "WBS";
@@ -1588,10 +1790,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_wbsSequence;
    private int m_relationshipObjectID;
    private int m_rateObjectID;
+   private int m_wbsNoteObjectID;
+   private int m_activityNoteObjectID;
    private TaskField m_activityIDField;
    private ResourceField m_resourceIDField;
    private TaskField m_activityTypeField;
    private TaskField m_plannedStartField;
    private TaskField m_plannedFinishField;
    private List<CustomField> m_sortedCustomFieldsList;
+   private Map<Integer, String> m_topics;
 }

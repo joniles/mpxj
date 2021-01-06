@@ -163,7 +163,7 @@ public enum UserFieldDataType
       SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
       SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Assignment");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 
