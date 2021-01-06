@@ -6,7 +6,7 @@
 		<tstamp />
 
 		<property environment="env"/>
-		<property name="current.version" value="8.4.0" />
+		<property name="current.version" value="8.5.0" />
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby23"/>
