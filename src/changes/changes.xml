@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.5.1">
+		<release date="git master" version="8.5.2">
+		</release>
+		<release date="07/01/2021" version="8.5.1">
 			<action dev="joniles" type="update">Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.</action>
 		</release>
 		<release date="06/01/2021" version="8.5.0">
