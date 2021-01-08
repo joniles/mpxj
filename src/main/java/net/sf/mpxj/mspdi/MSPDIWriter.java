@@ -86,6 +86,7 @@ import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
@@ -340,6 +341,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       customFields.addAll(m_extendedAttributesInUse);
+
+      // Don't write definitions for enterprise custom fields.
+      // MS Project fails to read MSPDI files with these definitions
+      // if they don't include the data type attribute.
+      // As we don't know the types of these fields presently,
+      // we're just reading the raw bytes for each value, so
+      // we never write them to the MSPDI file anyway.
+      customFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
 
       List<FieldType> customFieldsList = new ArrayList<>();
       customFieldsList.addAll(customFields);
@@ -2416,4 +2425,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);
 
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
+
+   private static final Set<FieldType> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>();
+   static
+   {
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD));
+   }
 }

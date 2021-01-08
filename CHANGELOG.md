@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.5.1 (git master)
+* Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.
 
 ## 8.5.0 (06/01/2021)
 * Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.
