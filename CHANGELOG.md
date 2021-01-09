@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.5.2 (git master)
+* Correctly handle default calendar when reading and writing PMXML files.
 
 ## 8.5.1 (07/01/2021)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.

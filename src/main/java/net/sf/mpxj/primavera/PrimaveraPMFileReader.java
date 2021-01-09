@@ -779,6 +779,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Integer id = row.getObjectId();
       calendar.setName(row.getName());
       calendar.setUniqueID(id);
+      if (BooleanHelper.getBoolean(row.isIsDefault()))
+      {
+         m_projectFile.setDefaultCalendar(calendar);
+      }
 
       calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerDay()) * 60)));
       calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerWeek()) * 60)));

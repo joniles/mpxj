@@ -583,6 +583,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       String type = mpxj.getResource() == null ? "Global" : "Resource";
 
       xml.setBaseCalendarObjectId(getCalendarUniqueID(mpxj.getParent()));
+      xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
       xml.setIsPersonal(mpxj.getResource() == null ? Boolean.FALSE : Boolean.TRUE);
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
