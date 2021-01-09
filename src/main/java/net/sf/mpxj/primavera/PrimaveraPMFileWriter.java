@@ -720,20 +720,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeTasks()
    {
-      for (Task task : m_projectFile.getChildTasks())
-      {
-         writeTask(task);
-      }
-   }
+      List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
+      Collections.sort(tasks, (t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
 
-   /**
-    * Used to write the child tasks of a parent task to the PM XML file.
-    *
-    * @param parent parent Task instance
-    */
-   private void writeChildTasks(Task parent)
-   {
-      for (Task task : parent.getChildTasks())
+      for (Task task : tasks)
       {
          writeTask(task);
       }
@@ -791,8 +781,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          writeWbsNote(mpxj);
       }
-
-      writeChildTasks(mpxj);
    }
 
    /**
