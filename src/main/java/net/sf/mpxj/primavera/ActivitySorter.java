@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Task;
 
 /**
@@ -40,12 +39,10 @@ class ActivitySorter
    /**
     * Constructor.
     *
-    * @param activityIDField field containing the Activity ID attribute
     * @param wbsTasks set of WBS tasks
     */
-   public ActivitySorter(FieldType activityIDField, Set<Task> wbsTasks)
+   public ActivitySorter(Set<Task> wbsTasks)
    {
-      m_activityIDField = activityIDField;
       m_wbsTasks = wbsTasks;
    }
 
@@ -88,8 +85,8 @@ class ActivitySorter
                // Both are activities
                if (!t1IsWbs && !t2IsWbs)
                {
-                  String activityID1 = (String) t1.getCurrentValue(m_activityIDField);
-                  String activityID2 = (String) t2.getCurrentValue(m_activityIDField);
+                  String activityID1 = (String) t1.getCurrentValue(PrimaveraField.ACTIVITY_ID.getType());
+                  String activityID2 = (String) t2.getCurrentValue(PrimaveraField.ACTIVITY_ID.getType());
 
                   if (activityID1 == null || activityID2 == null)
                   {
@@ -106,6 +103,5 @@ class ActivitySorter
       }
    }
 
-   final FieldType m_activityIDField;
    final Set<Task> m_wbsTasks;
 }

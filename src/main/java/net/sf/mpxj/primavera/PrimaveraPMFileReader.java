@@ -41,6 +41,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -383,9 +384,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
          CustomFieldContainer fields = m_projectFile.getCustomFields();
-         TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
-         RESOURCE_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
-         ASSIGNMENT_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
+         Stream.of(PrimaveraField.values()).forEach(f -> fields.getCustomField(f.getType()).setAlias(f.getName()).setUserDefined(false));
 
          addListenersToProject(m_projectFile);
 
@@ -518,7 +517,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
-               while (TASK_FIELD_ALIASES.containsKey(field));
+               while (PrimaveraField.getInstance(field) != null);
 
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
 
@@ -531,7 +530,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                }
-               while (RESOURCE_FIELD_ALIASES.containsKey(field));
+               while (PrimaveraField.getInstance(field) != null);
 
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
@@ -542,8 +541,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                do
                {
                   field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
-               } while (ASSIGNMENT_FIELD_ALIASES.containsKey(field));
-               
+               }
+               while (PrimaveraField.getInstance(field) != null);
+
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
@@ -854,6 +854,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceType xml : resources)
       {
          Resource resource = m_projectFile.addResource();
+
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
@@ -864,59 +865,73 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
-         resource.setText(1, xml.getId());
-
-         Integer calendarID = xml.getCalendarObjectId();
-         if (calendarID != null)
-         {
-            ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
-            if (calendar != null)
-            {
-               if (calendar.isDerived())
-               {
-                  //
-                  // Primavera seems to allow a calendar to be shared between resources
-                  // whereas in the MS Project model there is a one-to-one
-                  // relationship. If we find a calendar is shared between resources,
-                  // take a copy of it so each resource has its own copy.
-                  //
-                  if (calendar.getResource() == null)
-                  {
-                     resource.setResourceCalendar(calendar);
-                  }
-                  else
-                  {
-                     ProjectCalendar copy = m_projectFile.addCalendar();
-                     copy.copy(calendar);
-                     resource.setResourceCalendar(copy);
-                  }
-               }
-               else
-               {
-                  //
-                  // If the resource is linked to a base calendar, derive
-                  // a default calendar from the base calendar.
-                  //
-                  ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
-                  resourceCalendar.setParent(calendar);
-                  resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-                  resource.setResourceCalendar(resourceCalendar);
-               }
-            }
-         }
-
+         resource.set(PrimaveraField.RESOURCE_ID.getType(), xml.getId());
+         setCalendar(resource, xml.getCalendarObjectId());
          readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
 
+   /**
+    * Links a calendar to a resource.
+    * 
+    * @param resource Resource instance
+    * @param calendarID calendar ID
+    */
+   private void setCalendar(Resource resource, Integer calendarID)
+   {
+      if (calendarID != null)
+      {
+         ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
+         if (calendar != null)
+         {
+            if (calendar.isDerived())
+            {
+               //
+               // Primavera seems to allow a calendar to be shared between resources
+               // whereas in the MS Project model there is a one-to-one
+               // relationship. If we find a calendar is shared between resources,
+               // take a copy of it so each resource has its own copy.
+               //
+               if (calendar.getResource() == null)
+               {
+                  resource.setResourceCalendar(calendar);
+               }
+               else
+               {
+                  ProjectCalendar copy = m_projectFile.addCalendar();
+                  copy.copy(calendar);
+                  resource.setResourceCalendar(copy);
+               }
+            }
+            else
+            {
+               //
+               // If the resource is linked to a base calendar, derive
+               // a default calendar from the base calendar.
+               //
+               ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
+               resourceCalendar.setParent(calendar);
+               resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+               resource.setResourceCalendar(resourceCalendar);
+            }
+         }
+      }
+   }
+
+   /**
+    * Create a Notes instance from an HTML document.
+    * 
+    * @param text HTML document
+    * @return Notes instance
+    */
    private Notes getNotes(String text)
    {
       Notes notes = getHtmlNote(text);
@@ -980,7 +995,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                task.setWBS(parentTask.getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS());
             }
 
-            task.setText(1, task.getWBS());
+            task.set(PrimaveraField.ACTIVITY_ID.getType(), task.getWBS());
          }
       }
 
@@ -1030,7 +1045,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
          task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
 
-         task.setDuration(1, getDuration(row.getPlannedDuration()));
+         task.set(PrimaveraField.ACTIVITY_PLANNED_DURATION.getType(), getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setDuration(getDuration(row.getAtCompletionDuration()));
@@ -1049,15 +1064,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setLateFinish(row.getRemainingLateFinishDate());
          task.setEarlyStart(row.getRemainingEarlyStartDate());
          task.setEarlyFinish(row.getRemainingEarlyFinishDate());
-         task.setStart(1, row.getPlannedStartDate());
-         task.setFinish(1, row.getPlannedFinishDate());
+         task.set(PrimaveraField.ACTIVITY_PLANNED_START.getType(), row.getPlannedStartDate());
+         task.set(PrimaveraField.ACTIVITY_PLANNED_FINISH.getType(), row.getPlannedFinishDate());
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
-         task.setText(1, row.getId());
-         task.setText(2, row.getType());
-         task.setText(3, row.getStatus());
-         task.setNumber(1, row.getPrimaryResourceObjectId());
+         task.set(PrimaveraField.ACTIVITY_ID.getType(), row.getId());
+         task.set(PrimaveraField.ACTIVITY_TYPE.getType(), row.getType());
+         task.set(PrimaveraField.ACTIVITY_STATUS.getType(), row.getStatus());
+         task.set(PrimaveraField.ACTIVITY_PRIMARY_RESOURCE_ID.getType(), row.getPrimaryResourceObjectId());
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
@@ -1074,7 +1089,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setStart(row.getStartDate());
          task.setFinish(row.getFinishDate());
 
-         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.START1);
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, PrimaveraField.ACTIVITY_PLANNED_START.getType());
          populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH);
 
          //
@@ -1106,7 +1121,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               Date finish = calendar.getDate(task.getStart(1), duration, false);
+               Date finish = calendar.getDate((Date) task.getCachedValue(PrimaveraField.ACTIVITY_PLANNED_START.getType()), duration, false);
 
                //
                // Deal with an oddity where the finish date shows up as the
@@ -1128,7 +1143,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
-      new ActivitySorter(TaskField.TEXT1, wbsTasks).sort(m_projectFile);
+      new ActivitySorter(wbsTasks).sort(m_projectFile);
 
       updateStructure();
       updateDates();
@@ -1171,8 +1186,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int finished = 0;
          Date startDate = parentTask.getStart();
          Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getStart(1);
-         Date plannedFinishDate = parentTask.getFinish(1);
+         Date plannedStartDate = (Date) parentTask.getCachedValue(PrimaveraField.ACTIVITY_PLANNED_START.getType());
+         Date plannedFinishDate = (Date) parentTask.getCachedValue(PrimaveraField.ACTIVITY_PLANNED_FINISH.getType());
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1194,8 +1209,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             startDate = DateHelper.min(startDate, task.getStart());
             finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart(1));
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish(1));
+            plannedStartDate = DateHelper.min(plannedStartDate, (Date) task.getCachedValue(PrimaveraField.ACTIVITY_PLANNED_START.getType()));
+            plannedFinishDate = DateHelper.max(plannedFinishDate, (Date) task.getCachedValue(PrimaveraField.ACTIVITY_PLANNED_FINISH.getType()));
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -1217,8 +1232,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          parentTask.setStart(startDate);
          parentTask.setFinish(finishDate);
-         parentTask.setStart(1, plannedStartDate);
-         parentTask.setFinish(1, plannedFinishDate);
+         parentTask.set(PrimaveraField.ACTIVITY_PLANNED_START.getType(), plannedStartDate);
+         parentTask.set(PrimaveraField.ACTIVITY_PLANNED_FINISH.getType(), plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1242,7 +1257,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (plannedStartDate != null && plannedFinishDate != null)
          {
             plannedDuration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
-            parentTask.setDuration(1, plannedDuration);
+            parentTask.set(PrimaveraField.ACTIVITY_PLANNED_DURATION.getType(), plannedDuration);
          }
 
          Duration remainingDuration = null;
@@ -1411,15 +1426,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             assignment.setUniqueID(row.getObjectId());
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
-            assignment.setDuration(1, getDuration(row.getPlannedUnits()));
+            assignment.set(PrimaveraField.ASSIGNMENT_PLANNED_WORK.getType(), getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));
             assignment.setRemainingCost(row.getRemainingCost());
-            assignment.setCost(1, row.getPlannedCost());
+            assignment.set(PrimaveraField.ASSIGNMENT_PLANNED_COST.getType(), row.getPlannedCost());
             assignment.setActualCost(row.getActualCost());
             assignment.setActualStart(row.getActualStartDate());
             assignment.setActualFinish(row.getActualFinishDate());
-            assignment.setStart(1, row.getPlannedStartDate());
-            assignment.setFinish(1, row.getPlannedFinishDate());
+            assignment.set(PrimaveraField.ASSIGNMENT_PLANNED_START.getType(), row.getPlannedStartDate());
+            assignment.set(PrimaveraField.ASSIGNMENT_PLANNED_FINISH.getType(), row.getPlannedFinishDate());
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
@@ -1943,33 +1958,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("WBS", FieldTypeClass.TASK);
       FIELD_TYPE_MAP.put("Resource", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
-   }
-
-   private static final Map<TaskField, String> TASK_FIELD_ALIASES = new HashMap<>();
-   static
-   {
-      TASK_FIELD_ALIASES.put(TaskField.TEXT1, "Code");
-      TASK_FIELD_ALIASES.put(TaskField.TEXT2, "Activity Type");
-      TASK_FIELD_ALIASES.put(TaskField.TEXT3, "Status");
-      TASK_FIELD_ALIASES.put(TaskField.NUMBER1, "Primary Resource Unique ID");
-      TASK_FIELD_ALIASES.put(TaskField.START1, "Planned Start");
-      TASK_FIELD_ALIASES.put(TaskField.FINISH1, "Planned Finish");
-      TASK_FIELD_ALIASES.put(TaskField.DURATION1, "Planned Duration");
-   }
-
-   private static final Map<ResourceField, String> RESOURCE_FIELD_ALIASES = new HashMap<>();
-   static
-   {
-      RESOURCE_FIELD_ALIASES.put(ResourceField.TEXT1, "Resource ID");
-   }
-
-   private static final Map<AssignmentField, String> ASSIGNMENT_FIELD_ALIASES = new HashMap<>();
-   static
-   {
-      ASSIGNMENT_FIELD_ALIASES.put(AssignmentField.START1, "Planned Start");
-      ASSIGNMENT_FIELD_ALIASES.put(AssignmentField.FINISH1, "Planned Finish");
-      ASSIGNMENT_FIELD_ALIASES.put(AssignmentField.COST1, "Planned Cost");
-      ASSIGNMENT_FIELD_ALIASES.put(AssignmentField.DURATION1, "Planned Work");
    }
 
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();

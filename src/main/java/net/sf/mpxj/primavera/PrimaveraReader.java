@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
@@ -67,6 +68,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -83,7 +85,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.StructuredNotes;
-import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -857,7 +858,7 @@ final class PrimaveraReader
          m_eventManager.fireTaskReadEvent(task);
       }
 
-      new ActivitySorter(TaskField.TEXT1, wbsTasks).sort(m_project);
+      new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
       updateDates();
@@ -1918,7 +1919,7 @@ final class PrimaveraReader
       map.put(ResourceField.TYPE, "rsrc_type");
       map.put(ResourceField.INITIALS, "rsrc_short_name"); // TODO - remove, deprecated and replaced by TEXT1
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
-      map.put(ResourceField.TEXT1, "rsrc_short_name");
+      map.put(PrimaveraField.RESOURCE_ID.getType(), "rsrc_short_name");
 
       return map;
    }
@@ -1959,8 +1960,8 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskField.DURATION1, "target_work_qty");
-      map.put(TaskField.DURATION2, "target_drtn_hr_cnt");
+      map.put(PrimaveraField.ACTIVITY_PLANNED_WORK.getType(), "target_work_qty");
+      map.put(PrimaveraField.ACTIVITY_PLANNED_DURATION.getType(), "target_drtn_hr_cnt");
       map.put(TaskField.DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
@@ -1971,8 +1972,8 @@ final class PrimaveraReader
       map.put(TaskField.EARLY_FINISH, "early_end_date");
       map.put(TaskField.REMAINING_EARLY_START, "restart_date");
       map.put(TaskField.REMAINING_EARLY_FINISH, "reend_date");
-      map.put(TaskField.START1, "target_start_date");
-      map.put(TaskField.FINISH1, "target_end_date");
+      map.put(PrimaveraField.ACTIVITY_PLANNED_START.getType(), "target_start_date");
+      map.put(PrimaveraField.ACTIVITY_PLANNED_FINISH.getType(), "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
       map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
       map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
@@ -1981,12 +1982,12 @@ final class PrimaveraReader
       map.put(TaskField.TYPE, "duration_type");
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
-      map.put(TaskField.TEXT1, "task_code");
-      map.put(TaskField.TEXT2, "task_type");
-      map.put(TaskField.TEXT3, "status_code");
-      map.put(TaskField.NUMBER1, "rsrc_id");
-      map.put(TaskField.DATE1, "suspend_date");
-      map.put(TaskField.DATE2, "resume_date");
+      map.put(PrimaveraField.ACTIVITY_ID.getType(), "task_code");
+      map.put(PrimaveraField.ACTIVITY_TYPE.getType(), "task_type");
+      map.put(PrimaveraField.ACTIVITY_STATUS.getType(), "status_code");
+      map.put(PrimaveraField.ACTIVITY_PRIMARY_RESOURCE_ID.getType(), "rsrc_id");
+      map.put(PrimaveraField.ACTIVITY_SUSPEND_DATE.getType(), "suspend_date");
+      map.put(PrimaveraField.ACTIVITY_RESUME_DATE.getType(), "resume_date");
 
       return map;
    }
@@ -2003,15 +2004,15 @@ final class PrimaveraReader
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
-      map.put(AssignmentField.DURATION1, "target_qty");
+      map.put(PrimaveraField.ASSIGNMENT_PLANNED_WORK.getType(), "target_qty");
       map.put(AssignmentField.ACTUAL_OVERTIME_WORK, "act_ot_qty");
-      map.put(AssignmentField.COST1, "target_cost");
+      map.put(PrimaveraField.ASSIGNMENT_PLANNED_COST.getType(), "target_cost");
       map.put(AssignmentField.ACTUAL_OVERTIME_COST, "act_ot_cost");
       map.put(AssignmentField.REMAINING_COST, "remain_cost");
       map.put(AssignmentField.ACTUAL_START, "act_start_date");
       map.put(AssignmentField.ACTUAL_FINISH, "act_end_date");
-      map.put(AssignmentField.START1, "target_start_date");
-      map.put(AssignmentField.FINISH1, "target_end_date");
+      map.put(PrimaveraField.ASSIGNMENT_PLANNED_START.getType(), "target_start_date");
+      map.put(PrimaveraField.ASSIGNMENT_PLANNED_FINISH.getType(), "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
 
       return map;
@@ -2024,25 +2025,7 @@ final class PrimaveraReader
     */
    public static Map<FieldType, String> getDefaultAliases()
    {
-      Map<FieldType, String> map = new HashMap<>();
-
-      map.put(TaskField.DATE1, "Suspend Date");
-      map.put(TaskField.DATE2, "Resume Date");
-      map.put(TaskField.TEXT1, "Code"); // TODO deprecate, this should be renamed Activity ID
-      map.put(TaskField.TEXT2, "Activity Type");
-      map.put(TaskField.TEXT3, "Status");
-      map.put(TaskField.NUMBER1, "Primary Resource Unique ID");
-      map.put(TaskField.DURATION1, "Planned Work");
-      map.put(TaskField.DURATION2, "Planned Duration");
-      map.put(TaskField.START1, "Planned Start");
-      map.put(TaskField.FINISH1, "Planned Finish");
-      map.put(ResourceField.TEXT1, "Resource ID");
-      map.put(AssignmentField.START1, "Planned Start");
-      map.put(AssignmentField.FINISH1, "Planned Finish");
-      map.put(AssignmentField.COST1, "Planned Cost");
-      map.put(AssignmentField.DURATION1, "Planned Work");
-
-      return map;
+      return Stream.of(PrimaveraField.values()).collect(Collectors.toMap(PrimaveraField::getType, PrimaveraField::getName));
    }
 
    private ProjectFile m_project;
