@@ -566,7 +566,7 @@ final class PrimaveraReader
          populateUserDefinedFieldValues("RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
          resource.setNotesObject(getNotes(resource.getNotes()));
-         
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
@@ -776,7 +776,7 @@ final class PrimaveraReader
 
             if (m_wbsIsFullPath)
             {
-               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+               task.setWBS(parentTask.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
             }
 
             if (activityIDField != null)
@@ -2179,4 +2179,6 @@ final class PrimaveraReader
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;
+
+   static final String DEFAULT_WBS_SEPARATOR = ".";
 }

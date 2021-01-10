@@ -539,7 +539,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             case ASSIGNMENT:
             {
-               field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
+               do
+               {
+                  field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
+               } while (ASSIGNMENT_FIELD_ALIASES.containsKey(field));
+               
                m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
                break;
             }
@@ -918,7 +922,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Notes notes = getHtmlNote(text);
       return notes == null || notes.isEmpty() ? null : notes;
    }
-   
+
    /**
     * Process tasks.
     *
@@ -973,7 +977,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             if (m_wbsIsFullPath)
             {
-               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
+               task.setWBS(parentTask.getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS());
             }
 
             task.setText(1, task.getWBS());

@@ -556,7 +556,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setSummarizeToWBSLevel(Integer.valueOf(2));
       m_project.setSummaryLevel("Assignment Level");
       m_project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
-      m_project.setWBSCodeSeparator(".");
+      m_project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
       m_project.getUDF().addAll(writeUDFType(FieldTypeClass.PROJECT, mpxj));
    }
 
@@ -762,13 +762,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          WBSType xml = m_factory.createWBSType();
          m_project.getWBS().add(xml);
-         String code = mpxj.getWBS();
-         code = code == null || code.length() == 0 ? DEFAULT_WBS_CODE : code;
 
          Task parentTask = mpxj.getParentTask();
          Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
-         xml.setCode(code);
+         xml.setCode(getWbsCode(mpxj));
          xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
          xml.setName(mpxj.getName());
 
@@ -781,6 +779,38 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          writeWbsNote(mpxj);
       }
+   }
+
+   /**
+    * Retrieve the WBS code attribute.
+    * 
+    * @param task Task instance
+    * @return WBS code attribute
+    */
+   private String getWbsCode(Task task)
+   {
+      // If we don't have a WBS code, use a default value
+      String code = task.getWBS();
+      if (code == null || code.length() == 0)
+      {
+         code = DEFAULT_WBS_CODE;
+      }
+      else
+      {
+         if (task.getParentTask() != null)
+         {
+            // If we have a parent task, and it looks like WBS contains the full path
+            // (including the parent's WBS), remove the parent's WBS. This matches
+            // how P6 exports this value. This test is brittle as it assumes the
+            // the default WBS separator has been used.
+            String parentWbs = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
+            if (code.startsWith(parentWbs))
+            {
+               code = code.substring(parentWbs.length());
+            }
+         }
+      }
+      return code;
    }
 
    /**

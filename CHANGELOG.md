@@ -3,6 +3,7 @@
 ## 8.5.2 (git master)
 * Correctly handle default calendar when reading and writing PMXML files.
 * Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.
+* Match the way P6 exports the WBS code attribute for PMXML files.
 
 ## 8.5.1 (07/01/2021)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.
