@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -130,10 +131,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * the original Activity ID values in the PMXML file.
     *
     * @param field TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public void setActivityIdField(TaskField field)
+   @Deprecated public void setActivityIdField(TaskField field)
    {
-      m_activityIDField = field;
+      // Deprecated
    }
 
    /**
@@ -141,10 +143,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @return TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public TaskField getActivityIdField()
+   @Deprecated public TaskField getActivityIdField()
    {
-      return m_activityIDField;
+      return null;
    }
 
    /**
@@ -152,10 +155,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @param field TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public void setActivityTypeField(TaskField field)
+   @Deprecated public void setActivityTypeField(TaskField field)
    {
-      m_activityTypeField = field;
+      // Deprecated
    }
 
    /**
@@ -163,10 +167,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @return TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public TaskField getActivityTypeField()
+   @Deprecated public TaskField getActivityTypeField()
    {
-      return m_activityTypeField;
+      return null;
    }
 
    /**
@@ -174,10 +179,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @param field TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public void setPlannedStartField(TaskField field)
+   @Deprecated public void setPlannedStartField(TaskField field)
    {
-      m_plannedStartField = field;
+      // Deprecated
    }
 
    /**
@@ -185,10 +191,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @return TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public TaskField getPlannedStartField()
+   @Deprecated public TaskField getPlannedStartField()
    {
-      return m_plannedStartField;
+      return null;
    }
 
    /**
@@ -196,10 +203,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @param field TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public void setPlannedFinishField(TaskField field)
+   @Deprecated public void setPlannedFinishField(TaskField field)
    {
-      m_plannedFinishField = field;
+      // Deprecated
    }
 
    /**
@@ -207,10 +215,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @return TaskField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public TaskField getPlannedFinishField()
+   @Deprecated public TaskField getPlannedFinishField()
    {
-      return m_plannedFinishField;
+      return null;
    }
 
    /**
@@ -221,10 +230,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * the original Resource ID values in the PMXML file.
     *
     * @param field ResourceField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public void setResourceIdField(ResourceField field)
+   @Deprecated public void setResourceIdField(ResourceField field)
    {
-      m_resourceIDField = field;
+      // Deprecated
    }
 
    /**
@@ -232,10 +242,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * in the PMXML file.
     *
     * @return ResourceField instance
+    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
     */
-   public ResourceField getResourceIdField()
+   @Deprecated public ResourceField getResourceIdField()
    {
-      return m_resourceIDField;
+      return null;
    }
 
    /**
@@ -287,8 +298,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
+         m_primaveraFields = new HashMap<>();
 
-         configureCustomFields();
+         configurePrimaveraFields();
          populateSortedCustomFieldsList();
 
          writeCurrency();
@@ -330,6 +342,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_activityNoteObjectID = 0;
          m_sortedCustomFieldsList = null;
          m_topics = null;
+         m_primaveraFields = null;
       }
    }
 
@@ -679,7 +692,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(getResourceID(mpxj));
+      xml.setId((String) get(mpxj, PrimaveraField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -827,8 +840,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = m_plannedStartField == null || mpxj.getCachedValue(m_plannedStartField) == null ? mpxj.getStart() : (Date) mpxj.getCachedValue(m_plannedStartField);
-      Date plannedFinish = m_plannedFinishField == null || mpxj.getCachedValue(m_plannedFinishField) == null ? mpxj.getFinish() : (Date) mpxj.getCachedValue(m_plannedFinishField);
+      Date plannedStart = (Date) get(mpxj, PrimaveraField.ACTIVITY_PLANNED_START, t -> ((Task) t).getStart());
+      Date plannedFinish = (Date) get(mpxj, PrimaveraField.ACTIVITY_PLANNED_FINISH, t -> ((Task) t).getFinish());
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualFinishDate(mpxj.getActualFinish());
@@ -838,7 +851,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(getActivityID(mpxj));
+      xml.setId((String) get(mpxj, PrimaveraField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
@@ -878,7 +891,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private String extractAndConvertTaskType(Task task)
    {
-      String activityType = (String) task.getCachedValue(m_activityTypeField);
+      String activityType = (String) get(task, PrimaveraField.ACTIVITY_TYPE, null);
       if (activityType == null)
       {
          activityType = "Resource Dependent";
@@ -1547,54 +1560,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve the Activity ID value for this task.
-    *
-    * @param task Task instance
-    * @return Activity ID value
-    */
-   private String getActivityID(Task task)
-   {
-      String result = null;
-      if (m_activityIDField != null)
-      {
-         Object value = task.getCachedValue(m_activityIDField);
-         if (value != null)
-         {
-            result = value.toString();
-         }
-      }
-      return result;
-   }
-
-   /**
-    * Retrieve the Resource ID value for this task.
-    *
-    * @param resource Resource instance
-    * @return Resource ID value
-    */
-   private String getResourceID(Resource resource)
-   {
-      String result = null;
-      if (m_resourceIDField == null)
-      {
-         result = getDefaultResourceID(resource);
-      }
-      else
-      {
-         Object value = resource.getCachedValue(m_resourceIDField);
-         if (value == null || value.toString().isEmpty())
-         {
-            result = getDefaultResourceID(resource);
-         }
-         else
-         {
-            result = value.toString();
-         }
-      }
-      return result;
-   }
-
-   /**
     * Generate a default Resource ID for a resource.
     *
     * @param resource Resource instance
@@ -1606,45 +1571,55 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Find the fields in which the Activity ID and Activity Type are stored.
+    * Identify which fields are in use by matching on the alias. This ensures that
+    * we only use fields we expect to be populated with the appropriate values, and
+    * allows some flexibility when reading a schedule from one source and writing
+    * data to a different source (for example, if the original source of a schedule
+    * supports the concept of an Activity ID, providing we have give the column the
+    * same alias we can include it when writing a PMXML file).
     */
-   private void configureCustomFields()
+   private void configurePrimaveraFields()
    {
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
-      // If the caller hasn't already supplied a value for this field
-      if (m_activityIDField == null)
+      for (PrimaveraField field : PrimaveraField.values())
       {
-         m_activityIDField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Code");
-         if (m_activityIDField == null)
+         FieldType type = customFields.getFieldByAlias(field.getType().getFieldTypeClass(), field.getName());
+         if (type != null)
          {
-            m_activityIDField = TaskField.WBS;
+            m_primaveraFields.put(field, type);
          }
       }
+   }
 
-      // If the caller hasn't already supplied a value for this field
-      if (m_activityTypeField == null)
+   /**
+    * Retrieve a field value from a container, with a fallback
+    * if the value is null.
+    * 
+    * @param container field container
+    * @param field field
+    * @param fallback fallback function
+    * @return field value
+    */
+   private Object get(FieldContainer container, PrimaveraField field, Function<FieldContainer, Object> fallback)
+   {
+      Object result;
+      FieldType type = m_primaveraFields.get(field);
+      if (type == null)
       {
-         m_activityTypeField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Activity Type");
+         result = null;
+      }
+      else
+      {
+         result = container.getCachedValue(type);
       }
 
-      // If the caller hasn't already supplied a value for this field
-      if (m_resourceIDField == null)
+      if (result == null && fallback != null)
       {
-         m_resourceIDField = (ResourceField) customFields.getFieldByAlias(FieldTypeClass.RESOURCE, "Resource ID");
+         result = fallback.apply(container);
       }
 
-      // If the caller hasn't already supplied a value for this field
-      if (m_plannedStartField == null)
-      {
-         m_plannedStartField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Planned Start");
-      }
-
-      // If the caller hasn't already supplied a value for this field
-      if (m_plannedFinishField == null)
-      {
-         m_plannedFinishField = (TaskField) customFields.getFieldByAlias(FieldTypeClass.TASK, "Planned Finish");
-      }
+      return result;
    }
 
    /**
@@ -1811,11 +1786,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_rateObjectID;
    private int m_wbsNoteObjectID;
    private int m_activityNoteObjectID;
-   private TaskField m_activityIDField;
-   private ResourceField m_resourceIDField;
-   private TaskField m_activityTypeField;
-   private TaskField m_plannedStartField;
-   private TaskField m_plannedFinishField;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
+   private Map<PrimaveraField, FieldType> m_primaveraFields;
 }
