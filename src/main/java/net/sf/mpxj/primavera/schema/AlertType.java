@@ -31,5 +31,5 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "AlertType") public class AlertType
 {
-
+   //
 }
