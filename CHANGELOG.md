@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.5.2 (git master)
+* Updated PMXML schema to version 20.12.
 * Correctly handle default calendar when reading and writing PMXML files.
 * Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.
 * Match the way P6 exports the WBS code attribute for PMXML files.
