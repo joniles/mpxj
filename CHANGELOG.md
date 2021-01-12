@@ -5,6 +5,7 @@
 * Correctly handle default calendar when reading and writing PMXML files.
 * Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.
 * Match the way P6 exports the WBS code attribute for PMXML files.
+* Update the representation of Boolean values when writing PMXML files to match the form exported by P6.
 * Avoid exporting custom fields to PMXML files which represent attributes read from a Primavera schedule (these attributes should already be written to the file explicitly, writing them as custom fields is unnecessary).
 
 ## 8.5.1 (07/01/2021)

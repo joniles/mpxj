@@ -10,17 +10,17 @@ package net.sf.mpxj.primavera.schema;
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter3 extends XmlAdapter<String, Date>
+public class Adapter4 extends XmlAdapter<String, Date>
 {
 
    @Override public Date unmarshal(String value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.parseDateTime(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.parseTime(value));
    }
 
    @Override public String marshal(Date value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.printDateTime(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.printTime(value));
    }
 
 }

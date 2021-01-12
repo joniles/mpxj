@@ -170,13 +170,16 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse a Boolean represented as an integer.
+    * Parse a Boolean.
     * 
     * @param value value as text
     * @return Boolean instance
     */
-   public static final Boolean parseIntegerBoolean(String value)
+   public static final Boolean parseBoolean(String value)
    {
+      // We don't need to provide this method, we could just leave it out
+      // of the binding file and fall back on default behaviour, but
+      // having the code here avoids boxing warnings from the adapters.
       Boolean result;
       if (value == null)
       {
@@ -184,18 +187,19 @@ public final class DatatypeConverter
       }
       else
       {
-         result = Boolean.valueOf(value.equals("1"));
+         // Fall back on the standard behaviour
+         result = Boolean.valueOf(javax.xml.bind.DatatypeConverter.parseBoolean(value));
       }
       return result;
    }
 
    /**
-    * Print a Boolean represented as an integer.
+    * Print a Boolean.
     * 
     * @param value Boolean value
     * @return string representation
     */
-   public static final String printIntegerBoolean(Boolean value)
+   public static final String printBoolean(Boolean value)
    {
       String result;
       if (value == null)
