@@ -47,11 +47,20 @@ public enum ExtendedFieldType
    ACTIVITY_MANAGER("Manager", TaskField.TEXT5),
    ACTIVITY_SECTION("Section", TaskField.TEXT6),
    ACTIVITY_MAIL("Mail", TaskField.TEXT7),
-
+   ACTIVITY_DESCRIPTION("Description", TaskField.TEXT8),
+   
    RESOURCE_ID("Resource ID", ResourceField.TEXT1),
    RESOURCE_DESCRIPTION("Description", ResourceField.TEXT2),
    RESOURCE_SUPPLY_REFERENCE("Supply Reference", ResourceField.TEXT3),
-   
+   RESOURCE_RATE("Rate", ResourceField.NUMBER1),
+   RESOURCE_POOL("Pool", ResourceField.NUMBER2),
+   RESOURCE_PER_DAY("Per Day", ResourceField.NUMBER3),
+   RESOURCE_PRIORITY("Priority", ResourceField.NUMBER4),
+   RESOURCE_PERIOD_DUR("Period Dur", ResourceField.NUMBER5),
+   RESOURCE_EXPENSES_ONLY("Expenses Only", ResourceField.FLAG1),
+   RESOURCE_MODIFY_ON_INTEGRATE("Modify On Integrate", ResourceField.FLAG2),
+   RESOURCE_UNIT("Unit", ResourceField.TEXT4),
+
    ASSIGNMENT_PLANNED_START("Planned Start", AssignmentField.START1),
    ASSIGNMENT_PLANNED_FINISH("Planned Finish", AssignmentField.FINISH1),
    ASSIGNMENT_PLANNED_COST("Planned Cost", AssignmentField.COST1),
@@ -154,5 +163,20 @@ public enum ExtendedFieldType
       ACTIVITY_ID
    };
 
+   public static final ExtendedFieldType[] TURBOPROJECT =
+   {
+      RESOURCE_RATE,
+      RESOURCE_POOL,
+      RESOURCE_PER_DAY,
+      RESOURCE_PRIORITY,
+      RESOURCE_PERIOD_DUR,
+      RESOURCE_EXPENSES_ONLY,
+      RESOURCE_MODIFY_ON_INTEGRATE,
+      RESOURCE_UNIT,
+      ACTIVITY_DESCRIPTION,
+      ACTIVITY_PLANNED_START,
+      ACTIVITY_PLANNED_FINISH
+   };
+   
    private static final Map<FieldType, ExtendedFieldType> MAP = Stream.of(ExtendedFieldType.values()).collect(Collectors.toMap(ExtendedFieldType::getType, f -> f));
 }
