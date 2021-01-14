@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.Task;
 
 /**
@@ -85,8 +86,8 @@ class ActivitySorter
                // Both are activities
                if (!t1IsWbs && !t2IsWbs)
                {
-                  String activityID1 = (String) t1.getCurrentValue(PrimaveraField.ACTIVITY_ID.getType());
-                  String activityID2 = (String) t2.getCurrentValue(PrimaveraField.ACTIVITY_ID.getType());
+                  String activityID1 = (String) t1.getCachedValue(ExtendedFieldType.ACTIVITY_ID);
+                  String activityID2 = (String) t2.getCachedValue(ExtendedFieldType.ACTIVITY_ID);
 
                   if (activityID1 == null || activityID2 == null)
                   {

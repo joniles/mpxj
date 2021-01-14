@@ -25,7 +25,9 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -569,6 +571,17 @@ public final class ProjectFile implements ChildTaskContainer
       return result;
    }
 
+   public void registerExtendedField(ExtendedFieldType field)
+   {
+      m_extendedFields.add(field);
+      m_customFields.getCustomField(field.getType()).setAlias(field.getName()).setUserDefined(false);
+   }
+   
+   public boolean isExtendedFieldRegistered(ExtendedFieldType field)
+   {
+      return m_extendedFields.contains(field);
+   }
+   
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
@@ -587,4 +600,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
+   private final Set<ExtendedFieldType> m_extendedFields = EnumSet.noneOf(ExtendedFieldType.class);
 }

@@ -33,11 +33,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -159,11 +161,10 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(false);
 
-         // Activity ID
-         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
-
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
+
+         Stream.of(ExtendedFieldType.P3).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -636,7 +637,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
+      defineField(TASK_FIELDS, "ACTIVITY_ID", ExtendedFieldType.ACTIVITY_ID.getType());
       defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);

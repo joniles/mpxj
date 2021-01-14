@@ -35,13 +35,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -49,9 +50,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -118,10 +117,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
 
-      CustomFieldContainer fields = m_project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
-      fields.getCustomField(ResourceField.TEXT1).setAlias("Description").setUserDefined(false);
-      fields.getCustomField(ResourceField.TEXT2).setAlias("Supply Reference").setUserDefined(false);
+      Stream.of(ExtendedFieldType.SYNCHRO).forEach(f -> m_project.registerExtendedField(f));
 
       addListenersToProject(m_project);
 
@@ -273,8 +269,8 @@ public final class SynchroReader extends AbstractProjectStreamReader
       resource.setEmailAddress(row.getString("EMAIL"));
       resource.setHyperlink(row.getString("URL"));
       resource.setNotes(getNotes(row.getRows("COMMENTARY")));
-      resource.setText(1, row.getString("DESCRIPTION"));
-      resource.setText(2, row.getString("SUPPLY_REFERENCE"));
+      resource.set(ExtendedFieldType.RESOURCE_DESCRIPTION, row.getString("DESCRIPTION"));
+      resource.set(ExtendedFieldType.RESOURCE_SUPPLY_REFERENCE, row.getString("SUPPLY_REFERENCE"));
       resource.setActive(true);
 
       List<MapRow> resources = row.getRows("RESOURCES");
@@ -315,7 +311,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task task = parent.addTask();
       task.setName(row.getString("NAME"));
       task.setGUID(row.getUUID("UUID"));
-      task.setText(1, row.getString("ID"));
+      task.set(ExtendedFieldType.ACTIVITY_ID, row.getString("ID"));
       task.setDuration(row.getDuration("PLANNED_DURATION"));
       task.setRemainingDuration(row.getDuration("REMAINING_DURATION"));
       task.setHyperlink(row.getString("URL"));

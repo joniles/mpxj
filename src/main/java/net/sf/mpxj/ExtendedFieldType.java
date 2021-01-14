@@ -1,5 +1,5 @@
 /*
- * file:       PrimaveraField.java
+ * file:       ExtendedFieldType.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       10/01/2021
@@ -21,21 +21,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera;
+package net.sf.mpxj;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.FieldType;
-import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.TaskField;
-
 /**
- * Primavera fields represented as custom fields.
+ * Extended fields used by readers and writers.
  */
-enum PrimaveraField
+public enum ExtendedFieldType
 {
    ACTIVITY_SUSPEND_DATE("Suspend Date", TaskField.DATE1),
    ACTIVITY_RESUME_DATE("Resume Date", TaskField.DATE2),
@@ -47,9 +42,16 @@ enum PrimaveraField
    ACTIVITY_PLANNED_DURATION("Planned Duration", TaskField.DURATION2),
    ACTIVITY_PLANNED_START("Planned Start", TaskField.START1),
    ACTIVITY_PLANNED_FINISH("Planned Finish", TaskField.FINISH1),
+   ACTIVITY_OVERALL_PERCENT_COMPLETE("Overall Percent Complete", TaskField.NUMBER2),
+   ACTIVITY_DEPARTMENT("Department", TaskField.TEXT4),
+   ACTIVITY_MANAGER("Manager", TaskField.TEXT5),
+   ACTIVITY_SECTION("Section", TaskField.TEXT6),
+   ACTIVITY_MAIL("Mail", TaskField.TEXT7),
 
    RESOURCE_ID("Resource ID", ResourceField.TEXT1),
-
+   RESOURCE_DESCRIPTION("Description", ResourceField.TEXT2),
+   RESOURCE_SUPPLY_REFERENCE("Supply Reference", ResourceField.TEXT3),
+   
    ASSIGNMENT_PLANNED_START("Planned Start", AssignmentField.START1),
    ASSIGNMENT_PLANNED_FINISH("Planned Finish", AssignmentField.FINISH1),
    ASSIGNMENT_PLANNED_COST("Planned Cost", AssignmentField.COST1),
@@ -61,7 +63,7 @@ enum PrimaveraField
     * @param name field name
     * @param type field type
     */
-   private PrimaveraField(String name, FieldType type)
+   private ExtendedFieldType(String name, FieldType type)
    {
       m_name = name;
       m_type = type;
@@ -93,7 +95,7 @@ enum PrimaveraField
     * @param type field type
     * @return PrimaveraField instance
     */
-   public static PrimaveraField getInstance(FieldType type)
+   public static ExtendedFieldType getInstance(FieldType type)
    {
       return MAP.get(type);
    }
@@ -101,6 +103,56 @@ enum PrimaveraField
    private final String m_name;
    private final FieldType m_type;
 
-   private static final Map<FieldType, PrimaveraField> MAP = Stream.of(PrimaveraField.values()).collect(Collectors.toMap(PrimaveraField::getType, f -> f));
+   public static final ExtendedFieldType[] PRIMAVERA =
+   {
+      ACTIVITY_SUSPEND_DATE,
+      ACTIVITY_RESUME_DATE,
+      ACTIVITY_ID,
+      ACTIVITY_TYPE,
+      ACTIVITY_STATUS,
+      ACTIVITY_PRIMARY_RESOURCE_ID,
+      ACTIVITY_PLANNED_WORK,
+      ACTIVITY_PLANNED_DURATION,
+      ACTIVITY_PLANNED_START,
+      ACTIVITY_PLANNED_FINISH,
+      RESOURCE_ID,
+      ASSIGNMENT_PLANNED_START,
+      ASSIGNMENT_PLANNED_FINISH,
+      ASSIGNMENT_PLANNED_COST,
+      ASSIGNMENT_PLANNED_WORK
+   };
 
+   public static final ExtendedFieldType[] P3 =
+   {
+      ACTIVITY_ID
+   };
+
+   public static final ExtendedFieldType[] ASTA =
+   {
+      ACTIVITY_ID,
+      ACTIVITY_OVERALL_PERCENT_COMPLETE
+   };
+
+   public static final ExtendedFieldType[] SURETRAK =
+   {
+      ACTIVITY_ID,
+      ACTIVITY_DEPARTMENT,
+      ACTIVITY_MANAGER,
+      ACTIVITY_SECTION,
+      ACTIVITY_MAIL
+   };
+
+   public static final ExtendedFieldType[] SYNCHRO =
+   {
+      ACTIVITY_ID,
+      RESOURCE_DESCRIPTION,
+      RESOURCE_SUPPLY_REFERENCE
+   };
+
+   public static final ExtendedFieldType[] PHOENIX =
+   {
+      ACTIVITY_ID
+   };
+
+   private static final Map<FieldType, ExtendedFieldType> MAP = Stream.of(ExtendedFieldType.values()).collect(Collectors.toMap(ExtendedFieldType::getType, f -> f));
 }
