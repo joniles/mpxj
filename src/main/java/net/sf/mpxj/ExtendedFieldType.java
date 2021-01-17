@@ -48,6 +48,16 @@ public enum ExtendedFieldType
    ACTIVITY_SECTION("Section", TaskField.TEXT6),
    ACTIVITY_MAIL("Mail", TaskField.TEXT7),
    ACTIVITY_DESCRIPTION("Description", TaskField.TEXT8),
+   ACTIVITY_HAMMOCK_CODE("Hammock Code", TaskField.TEXT9),
+   ACTIVITY_WORKERS_PER_DAY("Workers Per Day", TaskField.NUMBER3),
+   ACTIVITY_RESPONSIBILITY_CODE("Responsibility Code", TaskField.TEXT10),
+   ACTIVITY_WORK_AREA_CODE("Work Area Code", TaskField.TEXT11),
+   ACTIVITY_MOD_OR_CLAIM_NO("Mod or Claim No", TaskField.TEXT12),
+   ACTIVITY_BID_ITEM("Bid Item", TaskField.TEXT13),
+   ACTIVITY_PHASE_OF_WORK("Phase of Work", TaskField.TEXT14),
+   ACTIVITY_CATEGORY_OF_WORK("Category of Work", TaskField.TEXT15),
+   ACTIVITY_FEATURE_OF_WORK("Feature of Work", TaskField.TEXT16),
+   ACTIVITY_STORED_MATERIAL("Stored Material", TaskField.COST1),
    
    RESOURCE_ID("Resource ID", ResourceField.TEXT1),
    RESOURCE_DESCRIPTION("Description", ResourceField.TEXT2),
@@ -176,6 +186,21 @@ public enum ExtendedFieldType
       ACTIVITY_DESCRIPTION,
       ACTIVITY_PLANNED_START,
       ACTIVITY_PLANNED_FINISH
+   };
+   
+   public static final ExtendedFieldType[] SDEF =
+   {
+      ACTIVITY_ID,
+      ACTIVITY_HAMMOCK_CODE,
+      ACTIVITY_WORKERS_PER_DAY,
+      ACTIVITY_RESPONSIBILITY_CODE,
+      ACTIVITY_WORK_AREA_CODE,
+      ACTIVITY_MOD_OR_CLAIM_NO,
+      ACTIVITY_BID_ITEM,
+      ACTIVITY_PHASE_OF_WORK,
+      ACTIVITY_CATEGORY_OF_WORK,
+      ACTIVITY_FEATURE_OF_WORK,
+      ACTIVITY_STORED_MATERIAL
    };
    
    private static final Map<FieldType, ExtendedFieldType> MAP = Stream.of(ExtendedFieldType.values()).collect(Collectors.toMap(ExtendedFieldType::getType, f -> f));

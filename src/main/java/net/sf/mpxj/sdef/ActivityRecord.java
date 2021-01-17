@@ -25,6 +25,7 @@ package net.sf.mpxj.sdef;
 
 import java.util.UUID;
 
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.Task;
 
 /**
@@ -41,21 +42,21 @@ class ActivityRecord extends AbstractSDEFRecord
    {
       String activityID = getString(0);
       Task task = context.addTask(activityID);
-      task.setText(1, activityID);
+      task.set(ExtendedFieldType.ACTIVITY_ID, activityID);
       task.setName(getString(1));
       task.setDuration(getDuration(2));
       task.setConstraintDate(getDate(3));
       task.setConstraintType(getConstraintType(4));
       task.setCalendar(context.getCalendar(getString(5)));
-      task.setText(2, getString(6));
-      task.setNumber(1, getInteger(7));
-      task.setText(3, getString(8));
-      task.setText(4, getString(9));
-      task.setText(5, getString(10));
-      task.setText(6, getString(11));
-      task.setText(7, getString(12));
-      task.setText(8, getString(13));
-      task.setText(9, getString(14));
+      task.set(ExtendedFieldType.ACTIVITY_HAMMOCK_CODE, getString(6));
+      task.set(ExtendedFieldType.ACTIVITY_WORKERS_PER_DAY, getInteger(7));
+      task.set(ExtendedFieldType.ACTIVITY_RESPONSIBILITY_CODE, getString(8));
+      task.set(ExtendedFieldType.ACTIVITY_WORK_AREA_CODE, getString(9));
+      task.set(ExtendedFieldType.ACTIVITY_MOD_OR_CLAIM_NO, getString(10));
+      task.set(ExtendedFieldType.ACTIVITY_BID_ITEM, getString(11));
+      task.set(ExtendedFieldType.ACTIVITY_PHASE_OF_WORK, getString(12));
+      task.set(ExtendedFieldType.ACTIVITY_CATEGORY_OF_WORK, getString(13));
+      task.set(ExtendedFieldType.ACTIVITY_FEATURE_OF_WORK, getString(14));
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
       task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
       context.getEventManager().fireTaskReadEvent(task);

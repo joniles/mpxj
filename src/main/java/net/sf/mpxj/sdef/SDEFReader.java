@@ -31,11 +31,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -51,21 +51,10 @@ public final class SDEFReader extends AbstractProjectStreamReader
       Context context = new Context();
       ProjectFile project = context.getProject();
 
-      CustomFieldContainer fields = project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Activity ID").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT2).setAlias("Hammock Code").setUserDefined(false);
-      fields.getCustomField(TaskField.NUMBER1).setAlias("Workers Per Day").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT3).setAlias("Responsibility Code").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT4).setAlias("Work Area Code").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT5).setAlias("Mod or Claim No").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT6).setAlias("Bid Item").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT7).setAlias("Phase of Work").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT8).setAlias("Category of Work").setUserDefined(false);
-      fields.getCustomField(TaskField.TEXT9).setAlias("Feature of Work").setUserDefined(false);
-      fields.getCustomField(TaskField.COST1).setAlias("Stored Material").setUserDefined(false);
-
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");
+
+      Stream.of(ExtendedFieldType.SDEF).forEach(f -> project.registerExtendedField(f));
 
       addListenersToProject(project);
 
