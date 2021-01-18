@@ -912,7 +912,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       List<ResourceAssignment> assignments = new ArrayList<>(m_projectFile.getResourceAssignments());
       assignments.sort((a1, a2) -> NumberHelper.compare(a1.getUniqueID(), a2.getUniqueID()));
-      
+
       for (ResourceAssignment assignment : assignments)
       {
          Resource resource = assignment.getResource();
@@ -1492,6 +1492,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return result;
    }
 
+   /**
+    * Returns the reported percent complete value for this task.
+    * 
+    * @param task task
+    * @return percent complete value
+    */
    private Double getPercentComplete(Task task)
    {
       Number result;
