@@ -35,15 +35,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -56,7 +57,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -85,9 +86,7 @@ final class AstaReader
       m_project.getProjectProperties().setFileApplication("Asta");
       m_project.getProjectProperties().setFileType("PP");
 
-      CustomFieldContainer fields = m_project.getCustomFields();
-      fields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
-      fields.getCustomField(TaskField.NUMBER1).setAlias("Overall Percent Complete").setUserDefined(false);
+      Stream.of(EXTENDED_FIELDS).forEach(f -> m_project.registerExtendedField(f));
    }
 
    /**
@@ -467,7 +466,7 @@ final class AstaReader
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       task.setNotes(getNotes(row));
-      task.setText(1, row.getString("UNIQUE_TASK_ID"));
+      task.set(TaskExtendedField.ACTIVITY_ID, row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
@@ -509,7 +508,7 @@ final class AstaReader
       // Overall Percent Complete
       //
       Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
-      task.setNumber(1, overallPercentComplete);
+      task.set(TaskExtendedField.OVERALL_PERCENT_COMPLETE, overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
 
       //
@@ -628,7 +627,7 @@ final class AstaReader
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NARE"));
       //NOTET
-      task.setText(1, row.getString("UNIQUE_TASK_ID"));
+      task.set(TaskExtendedField.ACTIVITY_ID, row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
@@ -736,7 +735,7 @@ final class AstaReader
             for (Task child : childTasks)
             {
                totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
-               totalOverallPercentComplete += NumberHelper.getDouble(child.getNumber(1));
+               totalOverallPercentComplete += NumberHelper.getDouble((Number)child.getCachedValue(TaskExtendedField.OVERALL_PERCENT_COMPLETE));
                totalWeight += NumberHelper.getDouble(m_weights.get(child));
 
                Duration actualDuration = child.getActualDuration();
@@ -761,7 +760,7 @@ final class AstaReader
             // but for others it's not clear how the percent completes and weights are being
             // combined in Powerproject to determine the value shown.
             double overallPercentComplete = totalOverallPercentComplete / totalWeight;
-            task.setNumber(1, Double.valueOf(overallPercentComplete));
+            task.set(TaskExtendedField.OVERALL_PERCENT_COMPLETE, Double.valueOf(overallPercentComplete));
 
             //
             // Duration percent complete
@@ -1619,4 +1618,11 @@ final class AstaReader
       RelationType.FINISH_FINISH,
       RelationType.START_FINISH
    };
+   
+   private static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID,
+      TaskExtendedField.OVERALL_PERCENT_COMPLETE
+   };
+
 }

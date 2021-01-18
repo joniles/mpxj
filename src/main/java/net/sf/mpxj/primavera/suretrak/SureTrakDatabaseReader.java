@@ -34,13 +34,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -57,6 +58,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
@@ -167,16 +169,10 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(false);
 
-         // Activity ID
-         CustomFieldContainer customFields = m_projectFile.getCustomFields();
-         customFields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT2).setAlias("Department").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT4).setAlias("Section").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail").setUserDefined(false);
-
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");
+
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -774,17 +770,26 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
+   private static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID,
+      TaskExtendedField.DEPARTMENT,
+      TaskExtendedField.MANAGER,
+      TaskExtendedField.SECTION,
+      TaskExtendedField.MAIL
+   };
+
    static
    {
       defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
       defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "NAME", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
-      defineField(TASK_FIELDS, "DEPARTMENT", TaskField.TEXT2);
-      defineField(TASK_FIELDS, "MANAGER", TaskField.TEXT3);
-      defineField(TASK_FIELDS, "SECTION", TaskField.TEXT4);
-      defineField(TASK_FIELDS, "MAIL", TaskField.TEXT5);
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskExtendedField.ACTIVITY_ID.getType());
+      defineField(TASK_FIELDS, "DEPARTMENT", TaskExtendedField.DEPARTMENT.getType());
+      defineField(TASK_FIELDS, "MANAGER", TaskExtendedField.MANAGER.getType());
+      defineField(TASK_FIELDS, "SECTION", TaskExtendedField.SECTION.getType());
+      defineField(TASK_FIELDS, "MAIL", TaskExtendedField.MAIL.getType());
 
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
       defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);

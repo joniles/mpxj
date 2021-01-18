@@ -31,12 +31,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -50,8 +51,10 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -85,9 +88,9 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("TurboProject");
          m_projectFile.getProjectProperties().setFileType("PEP");
 
-         addListenersToProject(m_projectFile);
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
-         applyAliases();
+         addListenersToProject(m_projectFile);
 
          readFile(stream);
          readCalendars();
@@ -382,9 +385,14 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       task.setFinish(task.getEarlyFinish());
       if (task.getName() == null)
       {
-         task.setName(task.getText(1));
+         task.setName(task.getNotes());
+         task.setNotes(null);
       }
-
+      else
+      {
+         task.setNotesObject(new Notes(task.getNotes()));
+      }
+      
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
@@ -439,18 +447,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Configure column aliases.
-    */
-   private void applyAliases()
-   {
-      CustomFieldContainer fields = m_projectFile.getCustomFields();
-      for (Map.Entry<FieldType, String> entry : ALIASES.entrySet())
-      {
-         fields.getCustomField(entry.getKey()).setAlias(entry.getValue()).setUserDefined(false);
-      }
-   }
-
-   /**
     * Set the value of one or more fields based on the contents of a database row.
     *
     * @param map column to field map
@@ -475,27 +471,21 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
     * @param name column name
     * @param type field type
     */
-   private static void defineField(Map<String, FieldType> container, String name, FieldType type)
+   private static void defineField(Map<String, FieldType> container, String name, ExtendedFieldType type)
    {
-      defineField(container, name, type, null);
+      defineField(container, name, type.getType());
    }
 
    /**
-    * Configure the mapping between a database column and a field, including definition of
-    * an alias.
+    * Configure the mapping between a database column and a field.
     *
     * @param container column to field map
     * @param name column name
     * @param type field type
-    * @param alias field alias
     */
-   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
+   private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
       container.put(name, type);
-      if (alias != null)
-      {
-         ALIASES.put(type, alias);
-      }
    }
 
    private ProjectFile m_projectFile;
@@ -520,13 +510,26 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       TABLE_CLASSES.put("WBSTAB", TableWBSTAB.class);
    }
 
-   private static final Map<FieldType, String> ALIASES = new HashMap<>();
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A0TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A1TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A2TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<>();
+
+   public static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      ResourceExtendedField.RATE,
+      ResourceExtendedField.POOL,
+      ResourceExtendedField.PER_DAY,
+      ResourceExtendedField.PRIORITY,
+      ResourceExtendedField.PERIOD_DUR,
+      ResourceExtendedField.EXPENSES_ONLY,
+      ResourceExtendedField.MODIFY_ON_INTEGRATE,
+      ResourceExtendedField.UNIT,
+      TaskExtendedField.PLANNED_START,
+      TaskExtendedField.PLANNED_FINISH
+   };
 
    static
    {
@@ -537,14 +540,14 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(RESOURCE_FIELDS, "DESCRIPTION", ResourceField.NOTES);
       defineField(RESOURCE_FIELDS, "PARENT_ID", ResourceField.PARENT_ID);
 
-      defineField(RESOURCE_FIELDS, "RATE", ResourceField.NUMBER1, "Rate");
-      defineField(RESOURCE_FIELDS, "POOL", ResourceField.NUMBER2, "Pool");
-      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceField.NUMBER3, "Per Day");
-      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceField.NUMBER4, "Priority");
-      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceField.NUMBER5, "Period Dur");
-      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceField.FLAG1, "Expenses Only");
-      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.FLAG2, "Modify On Integrate");
-      defineField(RESOURCE_FIELDS, "UNIT", ResourceField.TEXT1, "Unit");
+      defineField(RESOURCE_FIELDS, "RATE", ResourceExtendedField.RATE);
+      defineField(RESOURCE_FIELDS, "POOL", ResourceExtendedField.POOL);
+      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceExtendedField.PER_DAY);
+      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceExtendedField.PRIORITY);
+      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceExtendedField.PERIOD_DUR);
+      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceExtendedField.EXPENSES_ONLY);
+      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceExtendedField.MODIFY_ON_INTEGRATE);
+      defineField(RESOURCE_FIELDS, "UNIT", ResourceExtendedField.UNIT);
 
       defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
 
@@ -552,7 +555,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
       defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
 
-      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskField.TEXT1, "Description");
+      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskField.NOTES);
 
       defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);
@@ -562,8 +565,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      defineField(A5TAB_FIELDS, "TARGET_START", TaskField.DATE1, "Target Start");
-      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskField.DATE2, "Target Finish");
+      defineField(A5TAB_FIELDS, "TARGET_START", TaskExtendedField.PLANNED_START);
+      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskExtendedField.PLANNED_FINISH);
       defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
       defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }

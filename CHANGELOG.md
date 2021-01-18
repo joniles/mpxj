@@ -1,6 +1,7 @@
 # Changelog
 
 ## 8.5.2 (git master)
+* Introduce enums derived from ExtendedFieldType to allow extended fields to be manipulated symbolically.
 * Updated PMXML schema to version 20.12.
 * Correctly handle default calendar when reading and writing PMXML files.
 * Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.

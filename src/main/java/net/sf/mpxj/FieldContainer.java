@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.function.Function;
+
 import net.sf.mpxj.listener.FieldListener;
 
 /**
@@ -41,6 +43,14 @@ public interface FieldContainer
    public void set(FieldType field, Object value);
 
    /**
+    * Set a field value.
+    *
+    * @param field extended field identifier
+    * @param value field value
+    */
+   public void set(ExtendedFieldType field, Object value);
+
+   /**
     * Retrieve a field value. Use the cached value. Do not attempt to
     * calculate a value if the cached value is null.
     *
@@ -48,6 +58,25 @@ public interface FieldContainer
     * @return field value
     */
    public Object getCachedValue(FieldType field);
+
+   /**
+    * Retrieve a field value. Use the cached value. Do not attempt to
+    * calculate a value if the cached value is null.
+    *
+    * @param field field identifier
+    * @return field value
+    */
+   public Object getCachedValue(ExtendedFieldType field);
+
+   /**
+    * Retrieve a field value. Use the cached value. Optionally provide a lambda
+    * to be called if the cached value is null.
+    * 
+    * @param field field identifier
+    * @param fallback optional lambda
+    * @return field value
+    */
+   public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback);
 
    /**
     * Retrieve a field value. If the cached value is null, attempt to

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -46,6 +47,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -57,7 +59,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
@@ -117,8 +119,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("Phoenix");
          m_projectFile.getProjectProperties().setFileType("PPX");
 
-         // Equivalent to Primavera's Activity ID
-         m_projectFile.getCustomFields().getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -491,7 +492,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    private void processActivity(Activity activity)
    {
       Task task = getParentTask(activity).addTask();
-      task.setText(1, activity.getId());
+      task.set(TaskExtendedField.ACTIVITY_ID, activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
       task.setActualFinish(activity.getActualFinish());
@@ -912,6 +913,11 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
+
+   public static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID
+   };
 
    /**
     * Cached context to minimise construction cost.

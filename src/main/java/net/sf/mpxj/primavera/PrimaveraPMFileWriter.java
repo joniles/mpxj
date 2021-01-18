@@ -35,8 +35,10 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -59,7 +61,6 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -80,9 +81,11 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -298,9 +301,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
-         m_primaveraFields = new HashMap<>();
 
-         configurePrimaveraFields();
          populateSortedCustomFieldsList();
 
          writeCurrency();
@@ -342,7 +343,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_activityNoteObjectID = 0;
          m_sortedCustomFieldsList = null;
          m_topics = null;
-         m_primaveraFields = null;
       }
    }
 
@@ -689,7 +689,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) get(mpxj, PrimaveraField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
+      xml.setId((String) mpxj.getCachedValue(ResourceExtendedField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -837,8 +837,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = (Date) get(mpxj, PrimaveraField.ACTIVITY_PLANNED_START, t -> ((Task) t).getStart());
-      Date plannedFinish = (Date) get(mpxj, PrimaveraField.ACTIVITY_PLANNED_FINISH, t -> ((Task) t).getFinish());
+      Date plannedStart = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_START, t -> ((Task) t).getStart());
+      Date plannedFinish = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_FINISH, t -> ((Task) t).getFinish());
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualFinishDate(mpxj.getActualFinish());
@@ -848,7 +848,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) get(mpxj, PrimaveraField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
+      xml.setId((String) mpxj.getCachedValue(TaskExtendedField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
@@ -888,7 +888,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private String extractAndConvertTaskType(Task task)
    {
-      String activityType = (String) get(task, PrimaveraField.ACTIVITY_TYPE, null);
+      String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
       if (activityType == null)
       {
          activityType = "Resource Dependent";
@@ -1568,73 +1568,19 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Identify which fields are in use by matching on the alias. This ensures that
-    * we only use fields we expect to be populated with the appropriate values, and
-    * allows some flexibility when reading a schedule from one source and writing
-    * data to a different source (for example, if the original source of a schedule
-    * supports the concept of an Activity ID, providing we have give the column the
-    * same alias we can include it when writing a PMXML file).
-    */
-   private void configurePrimaveraFields()
-   {
-      CustomFieldContainer customFields = m_projectFile.getCustomFields();
-
-      for (PrimaveraField field : PrimaveraField.values())
-      {
-         FieldType type = customFields.getFieldByAlias(field.getType().getFieldTypeClass(), field.getName());
-         if (type != null)
-         {
-            m_primaveraFields.put(field, type);
-         }
-      }
-   }
-
-   /**
-    * Retrieve a field value from a container, with a fallback
-    * if the value is null.
-    * 
-    * @param container field container
-    * @param field field
-    * @param fallback fallback function
-    * @return field value
-    */
-   private Object get(FieldContainer container, PrimaveraField field, Function<FieldContainer, Object> fallback)
-   {
-      Object result;
-      FieldType type = m_primaveraFields.get(field);
-      if (type == null)
-      {
-         result = null;
-      }
-      else
-      {
-         result = container.getCachedValue(type);
-      }
-
-      if (result == null && fallback != null)
-      {
-         result = fallback.apply(container);
-      }
-
-      return result;
-   }
-
-   /**
     * Populate a sorted list of custom fields to ensure that these fields
     * are written to the file in a consistent order.
     */
    private void populateSortedCustomFieldsList()
    {
-      boolean scheduleIsNative = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
+      Set<FieldType> nativeFields = Stream.of(PrimaveraReader.EXTENDED_FIELDS).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
+      
       m_sortedCustomFieldsList = new ArrayList<>();
 
       for (CustomField field : m_projectFile.getCustomFields())
       {
          FieldType fieldType = field.getFieldType();
-         // We'll write this field if we have a valid data type, and it's a user defined
-         // field which hasn't been generated by MPXJ when reading another Primavera schedule
-         // (in this case we should already be writing the value to the file explicitly elsewhere).
-         if (fieldType != null && fieldType.getDataType() != null && (field.getUserDefined() || !scheduleIsNative))
+         if (fieldType != null && fieldType.getDataType() != null && !nativeFields.contains(fieldType))
          {
             m_sortedCustomFieldsList.add(field);
          }
@@ -1790,5 +1736,4 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_activityNoteObjectID;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
-   private Map<PrimaveraField, FieldType> m_primaveraFields;
 }
