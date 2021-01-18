@@ -385,9 +385,14 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       task.setFinish(task.getEarlyFinish());
       if (task.getName() == null)
       {
-         task.setName((String)task.getCachedValue(TaskExtendedField.DESCRIPTION));
+         task.setName(task.getNotes());
+         task.setNotes(null);
       }
-
+      else
+      {
+         task.setNotesObject(new Notes(task.getNotes()));
+      }
+      
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
@@ -522,7 +527,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       ResourceExtendedField.EXPENSES_ONLY,
       ResourceExtendedField.MODIFY_ON_INTEGRATE,
       ResourceExtendedField.UNIT,
-      TaskExtendedField.DESCRIPTION,
       TaskExtendedField.PLANNED_START,
       TaskExtendedField.PLANNED_FINISH
    };
@@ -551,7 +555,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
       defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
 
-      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskExtendedField.DESCRIPTION);
+      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskField.NOTES);
 
       defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);
