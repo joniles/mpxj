@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="8.5.2">
+			<action dev="joniles" type="update">Introduce enums derived from ExtendedFieldType to allow extended fields to be manipulated symbolically.</action>
 			<action dev="joniles" type="update">Updated PMXML schema to version 20.12.</action>
 			<action dev="joniles" type="update">Correctly handle default calendar when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.</action>
