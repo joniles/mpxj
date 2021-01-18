@@ -59,6 +59,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
@@ -118,7 +119,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("Phoenix");
          m_projectFile.getProjectProperties().setFileType("PPX");
 
-         Stream.of(ExtendedFieldType.PHOENIX).forEach(f -> m_projectFile.registerExtendedField(f));
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -491,7 +492,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    private void processActivity(Activity activity)
    {
       Task task = getParentTask(activity).addTask();
-      task.set(ExtendedFieldType.ACTIVITY_ID, activity.getId());
+      task.set(TaskExtendedField.ACTIVITY_ID, activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
       task.setActualFinish(activity.getActualFinish());
@@ -912,6 +913,11 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
+
+   public static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID
+   };
 
    /**
     * Cached context to minimise construction cost.

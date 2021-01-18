@@ -51,8 +51,10 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -86,7 +88,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setFileApplication("TurboProject");
          m_projectFile.getProjectProperties().setFileType("PEP");
 
-         Stream.of(ExtendedFieldType.TURBOPROJECT).forEach(f -> m_projectFile.registerExtendedField(f));
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -383,7 +385,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       task.setFinish(task.getEarlyFinish());
       if (task.getName() == null)
       {
-         task.setName((String)task.getCachedValue(ExtendedFieldType.ACTIVITY_DESCRIPTION));
+         task.setName((String)task.getCachedValue(TaskExtendedField.DESCRIPTION));
       }
 
       m_eventManager.fireTaskReadEvent(task);
@@ -510,6 +512,21 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
    private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<>();
 
+   public static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      ResourceExtendedField.RATE,
+      ResourceExtendedField.POOL,
+      ResourceExtendedField.PER_DAY,
+      ResourceExtendedField.PRIORITY,
+      ResourceExtendedField.PERIOD_DUR,
+      ResourceExtendedField.EXPENSES_ONLY,
+      ResourceExtendedField.MODIFY_ON_INTEGRATE,
+      ResourceExtendedField.UNIT,
+      TaskExtendedField.DESCRIPTION,
+      TaskExtendedField.PLANNED_START,
+      TaskExtendedField.PLANNED_FINISH
+   };
+
    static
    {
       defineField(RESOURCE_FIELDS, "ID", ResourceField.ID);
@@ -519,14 +536,14 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(RESOURCE_FIELDS, "DESCRIPTION", ResourceField.NOTES);
       defineField(RESOURCE_FIELDS, "PARENT_ID", ResourceField.PARENT_ID);
 
-      defineField(RESOURCE_FIELDS, "RATE", ExtendedFieldType.RESOURCE_RATE);
-      defineField(RESOURCE_FIELDS, "POOL", ExtendedFieldType.RESOURCE_POOL);
-      defineField(RESOURCE_FIELDS, "PER_DAY", ExtendedFieldType.RESOURCE_PER_DAY);
-      defineField(RESOURCE_FIELDS, "PRIORITY", ExtendedFieldType.RESOURCE_PRIORITY);
-      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ExtendedFieldType.RESOURCE_PERIOD_DUR);
-      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ExtendedFieldType.RESOURCE_EXPENSES_ONLY);
-      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ExtendedFieldType.RESOURCE_MODIFY_ON_INTEGRATE);
-      defineField(RESOURCE_FIELDS, "UNIT", ExtendedFieldType.RESOURCE_UNIT);
+      defineField(RESOURCE_FIELDS, "RATE", ResourceExtendedField.RATE);
+      defineField(RESOURCE_FIELDS, "POOL", ResourceExtendedField.POOL);
+      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceExtendedField.PER_DAY);
+      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceExtendedField.PRIORITY);
+      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceExtendedField.PERIOD_DUR);
+      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceExtendedField.EXPENSES_ONLY);
+      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceExtendedField.MODIFY_ON_INTEGRATE);
+      defineField(RESOURCE_FIELDS, "UNIT", ResourceExtendedField.UNIT);
 
       defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
 
@@ -534,7 +551,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A1TAB_FIELDS, "PLANNED_START", TaskField.BASELINE_START);
       defineField(A1TAB_FIELDS, "PLANNED_FINISH", TaskField.BASELINE_FINISH);
 
-      defineField(A2TAB_FIELDS, "DESCRIPTION", ExtendedFieldType.ACTIVITY_DESCRIPTION);
+      defineField(A2TAB_FIELDS, "DESCRIPTION", TaskExtendedField.DESCRIPTION);
 
       defineField(A3TAB_FIELDS, "EARLY_START", TaskField.EARLY_START);
       defineField(A3TAB_FIELDS, "LATE_START", TaskField.LATE_START);
@@ -544,8 +561,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      defineField(A5TAB_FIELDS, "TARGET_START", ExtendedFieldType.ACTIVITY_PLANNED_START);
-      defineField(A5TAB_FIELDS, "TARGET_FINISH", ExtendedFieldType.ACTIVITY_PLANNED_FINISH);
+      defineField(A5TAB_FIELDS, "TARGET_START", TaskExtendedField.PLANNED_START);
+      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskExtendedField.PLANNED_FINISH);
       defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
       defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }

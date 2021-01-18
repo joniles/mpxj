@@ -68,6 +68,14 @@ public interface FieldContainer
     */
    public Object getCachedValue(ExtendedFieldType field);
 
+   /**
+    * Retrieve a field value. Use the cached value. Optionally provide a lambda
+    * to be called if the cached value is null.
+    * 
+    * @param field field identifier
+    * @param fallback optional lambda
+    * @return field value
+    */
    public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback);
 
    /**

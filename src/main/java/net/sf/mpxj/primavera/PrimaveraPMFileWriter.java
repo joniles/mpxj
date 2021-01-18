@@ -67,7 +67,6 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -82,9 +81,11 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -688,7 +689,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(ExtendedFieldType.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
+      xml.setId((String) mpxj.getCachedValue(ResourceExtendedField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -836,8 +837,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = (Date) mpxj.getCachedValue(ExtendedFieldType.ACTIVITY_PLANNED_START, t -> ((Task) t).getStart());
-      Date plannedFinish = (Date) mpxj.getCachedValue(ExtendedFieldType.ACTIVITY_PLANNED_FINISH, t -> ((Task) t).getFinish());
+      Date plannedStart = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_START, t -> ((Task) t).getStart());
+      Date plannedFinish = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_FINISH, t -> ((Task) t).getFinish());
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualFinishDate(mpxj.getActualFinish());
@@ -847,7 +848,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(ExtendedFieldType.ACTIVITY_ID, t -> ((Task) t).getWBS()));
+      xml.setId((String) mpxj.getCachedValue(TaskExtendedField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
@@ -887,7 +888,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private String extractAndConvertTaskType(Task task)
    {
-      String activityType = (String) task.getCachedValue(ExtendedFieldType.ACTIVITY_TYPE);
+      String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
       if (activityType == null)
       {
          activityType = "Resource Dependent";
@@ -1572,7 +1573,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      Set<FieldType> nativeFields = Stream.of(ExtendedFieldType.PRIMAVERA).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
+      Set<FieldType> nativeFields = Stream.of(PrimaveraReader.EXTENDED_FIELDS).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
       
       m_sortedCustomFieldsList = new ArrayList<>();
 

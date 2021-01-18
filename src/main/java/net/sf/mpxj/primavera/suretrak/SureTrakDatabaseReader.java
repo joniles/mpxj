@@ -58,6 +58,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
@@ -171,7 +172,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");
 
-         Stream.of(ExtendedFieldType.SURETRAK).forEach(f -> m_projectFile.registerExtendedField(f));
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -769,17 +770,26 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
+   private static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID,
+      TaskExtendedField.DEPARTMENT,
+      TaskExtendedField.MANAGER,
+      TaskExtendedField.SECTION,
+      TaskExtendedField.MAIL
+   };
+
    static
    {
       defineField(RESOURCE_FIELDS, "NAME", ResourceField.NAME);
       defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "NAME", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", ExtendedFieldType.ACTIVITY_ID.getType());
-      defineField(TASK_FIELDS, "DEPARTMENT", ExtendedFieldType.ACTIVITY_DEPARTMENT.getType());
-      defineField(TASK_FIELDS, "MANAGER", ExtendedFieldType.ACTIVITY_MANAGER.getType());
-      defineField(TASK_FIELDS, "SECTION", ExtendedFieldType.ACTIVITY_SECTION.getType());
-      defineField(TASK_FIELDS, "MAIL", ExtendedFieldType.ACTIVITY_MAIL.getType());
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskExtendedField.ACTIVITY_ID.getType());
+      defineField(TASK_FIELDS, "DEPARTMENT", TaskExtendedField.DEPARTMENT.getType());
+      defineField(TASK_FIELDS, "MANAGER", TaskExtendedField.MANAGER.getType());
+      defineField(TASK_FIELDS, "SECTION", TaskExtendedField.SECTION.getType());
+      defineField(TASK_FIELDS, "MAIL", TaskExtendedField.MAIL.getType());
 
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
       defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);

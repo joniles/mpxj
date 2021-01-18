@@ -52,6 +52,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
@@ -164,7 +165,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
 
-         Stream.of(ExtendedFieldType.P3).forEach(f -> m_projectFile.registerExtendedField(f));
+         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -625,6 +626,11 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
+   private static final ExtendedFieldType[] EXTENDED_FIELDS =
+   {
+      TaskExtendedField.ACTIVITY_ID
+   };
+
    static
    {
       defineField(PROJECT_FIELDS, "PROJECT_START_DATE", ProjectField.START_DATE);
@@ -637,7 +643,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", ExtendedFieldType.ACTIVITY_ID.getType());
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskExtendedField.ACTIVITY_ID.getType());
       defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
