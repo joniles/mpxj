@@ -5,14 +5,19 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.5.2">
+		<release date="git master" version="8.6.0">
 			<action dev="joniles" type="update">Introduce enums derived from ExtendedFieldType to allow extended fields to be manipulated symbolically.</action>
 			<action dev="joniles" type="update">Updated PMXML schema to version 20.12.</action>
+			<action dev="joniles" type="update">Fix an issue where GUID values were not being read correctly from XER files and P6 databases.</action>
+			<action dev="joniles" type="update">Store percent complete type as an extended field when reading P6 schedules from any source.</action>
+			<action dev="joniles" type="update">Ensure that percent complete values are stored in the appropriate attributes when reading P6 schedules. (NOTE: Previously the "reported" percent complete value was stored as the tasks "percent complete" attribute. Now this holds the schedule percent complete value, and the percent work complete and physical percent complete attributes are also populated. To determine which value should be reported for a task, see the "percent complete type" extended field attribute.)</action>
 			<action dev="joniles" type="update">Correctly handle default calendar when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.</action>
 			<action dev="joniles" type="update">Match the way P6 exports the WBS code attribute for PMXML files.</action>
 			<action dev="joniles" type="update">Update the representation of Boolean values when writing PMXML files to match the form exported by P6.</action>
 			<action dev="joniles" type="update">Avoid exporting custom fields to PMXML files which represent attributes read from a Primavera schedule (these attributes should already be written to the file explicitly, writing them as custom fields is unnecessary).</action>
+			<action dev="joniles" type="update">Set the task type attribute when reading PMXML files.</action>
+			<action dev="joniles" type="update">Improve duration and actual duration calculations when reading XER files and P6 databases..</action>
 		</release>
 		<release date="07/01/2021" version="8.5.1">
 			<action dev="joniles" type="update">Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.</action>

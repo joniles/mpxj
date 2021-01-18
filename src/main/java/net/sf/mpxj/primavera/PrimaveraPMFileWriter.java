@@ -845,7 +845,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
-      xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
