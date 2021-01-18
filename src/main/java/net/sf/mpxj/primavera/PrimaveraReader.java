@@ -819,7 +819,10 @@ final class PrimaveraReader
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.setPercentageComplete(calculatePercentComplete(row));
+         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));        
+         task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
+         task.setPercentageComplete(calculateDurationPercentComplete(row));
+         task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
 
          if (m_matchPrimaveraWBS && parentTask != null)
          {
@@ -859,6 +862,27 @@ final class PrimaveraReader
 
          Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), projectProperties);
          task.setWork(work);
+
+         // Calculate actual duration
+         if (task.getActualStart() != null)
+         {
+            Date finish;
+            if (task.getActualFinish() == null)
+            {
+               finish = m_project.getProjectProperties().getStatusDate();
+            }
+            else
+            {
+               finish = task.getActualFinish();
+            }
+
+            cal = task.getEffectiveCalendar();
+            task.setActualDuration(cal.getWork(task.getActualStart(), finish, TimeUnit.HOURS));
+         }
+
+         // Calculate duration at completion
+         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), projectProperties);
+         task.setDuration(durationAtCompletion);
 
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -1794,49 +1818,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Determine which type of percent complete is used on on this task,
-    * and calculate the required value.
-    *
-    * @param row task data
-    * @return percent complete value
-    */
-   private Number calculatePercentComplete(Row row)
-   {
-      Number result;
-
-      // If we have an actual end date, we must be 100% complete.
-      if (row.getDate("act_end_date") != null)
-      {
-         result = Integer.valueOf(100);
-      }
-      else
-      {
-         switch (PercentCompleteType.getInstance(row.getString("complete_pct_type")))
-         {
-            case UNITS:
-            {
-               result = calculateUnitsPercentComplete(row);
-               break;
-            }
-
-            case DURATION:
-            {
-               result = calculateDurationPercentComplete(row);
-               break;
-            }
-
-            default:
-            {
-               result = calculatePhysicalPercentComplete(row);
-               break;
-            }
-         }
-      }
-
-      return result;
-   }
-
-   /**
     * Calculate the physical percent complete.
     *
     * @param row task data
@@ -1961,13 +1942,11 @@ final class PrimaveraReader
       map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
-      map.put(TaskField.ACTUAL_DURATION, "act_drtn_hr_cnt");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
       map.put(TaskExtendedField.PLANNED_WORK.getType(), "target_work_qty");
       map.put(TaskExtendedField.PLANNED_DURATION.getType(), "target_drtn_hr_cnt");
-      map.put(TaskField.DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
       map.put(TaskField.ACTUAL_FINISH, "act_end_date");
@@ -2166,10 +2145,18 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
    }
 
+   private static final Map<String, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   static
+   {
+      PERCENT_COMPLETE_TYPE.put("CP_Phys", "Physical");
+      PERCENT_COMPLETE_TYPE.put("CP_Drtn", "Duration");
+      PERCENT_COMPLETE_TYPE.put("CP_Units", "Units");
+   }
+
    private static final long EXCEPTION_EPOCH = -2209161599935L;
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
-   
+
    static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
       TaskExtendedField.SUSPEND_DATE,
@@ -2182,6 +2169,7 @@ final class PrimaveraReader
       TaskExtendedField.PLANNED_DURATION,
       TaskExtendedField.PLANNED_START,
       TaskExtendedField.PLANNED_FINISH,
+      TaskExtendedField.PERCENT_COMPLETE_TYPE,
       ResourceExtendedField.RESOURCE_ID,
       AssignmentExtendedField.PLANNED_START,
       AssignmentExtendedField.PLANNED_FINISH,

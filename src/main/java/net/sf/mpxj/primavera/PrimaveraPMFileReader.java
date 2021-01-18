@@ -96,6 +96,7 @@ import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.common.BooleanHelper;
@@ -509,7 +510,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       FieldType field = null;
       CustomFieldContainer container = m_projectFile.getCustomFields();
-      
+
       try
       {
          switch (fieldType)
@@ -1041,7 +1042,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
          task.setNotesObject(notes);
-         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
+
+         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, row.getPercentCompleteType());
+         task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
+         task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
+         task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
          task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
@@ -1062,10 +1067,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         task.setLateStart(row.getRemainingLateStartDate());
-         task.setLateFinish(row.getRemainingLateFinishDate());
-         task.setEarlyStart(row.getRemainingEarlyStartDate());
-         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
          task.set(TaskExtendedField.PLANNED_START, row.getPlannedStartDate());
          task.set(TaskExtendedField.PLANNED_FINISH, row.getPlannedFinishDate());
 
@@ -1075,7 +1076,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
          task.set(TaskExtendedField.STATUS, row.getStatus());
          task.set(TaskExtendedField.PRIMARY_RESOURCE_ID, row.getPrimaryResourceObjectId());
-
+         task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
 
@@ -1968,6 +1969,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
+   }
+
+   private static final Map<String, TaskType> DURATION_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DURATION_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
+      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

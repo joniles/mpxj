@@ -688,6 +688,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
+      xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId((String) mpxj.getCachedValue(ResourceExtendedField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
       xml.setIsActive(Boolean.TRUE);
@@ -841,8 +842,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Date plannedFinish = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_FINISH, t -> ((Task) t).getFinish());
 
       xml.setActualStartDate(mpxj.getActualStart());
+      xml.setActualDuration(getDuration(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
+      xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
@@ -851,19 +854,17 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setId((String) mpxj.getCachedValue(TaskExtendedField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPercentComplete(getPercentage(mpxj.getPercentageComplete()));
-      xml.setPercentCompleteType("Duration");
+      xml.setPercentCompleteType((String) mpxj.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE, t -> "Duration"));
+      xml.setPercentComplete(getPercentComplete(mpxj));
+      xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
-      xml.setPlannedDuration(getDuration(mpxj.getDuration()));
+      xml.setPrimaryResourceObjectId(NumberHelper.getInteger((Number) mpxj.getCachedValue(TaskExtendedField.PRIMARY_RESOURCE_ID)));
+      xml.setPlannedDuration(getDuration((Duration) mpxj.getCachedValue(TaskExtendedField.PLANNED_DURATION, t -> ((Task) t).getDuration())));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
-      xml.setRemainingLateStartDate(mpxj.getLateStart());
-      xml.setRemainingLateFinishDate(mpxj.getLateFinish());
-      xml.setRemainingEarlyStartDate(mpxj.getEarlyStart());
-      xml.setRemainingEarlyFinishDate(mpxj.getEarlyFinish());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
@@ -871,6 +872,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
       xml.setType(extractAndConvertTaskType(mpxj));
+      xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
 
@@ -908,7 +910,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeAssignments()
    {
-      for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
+      List<ResourceAssignment> assignments = new ArrayList<>(m_projectFile.getResourceAssignments());
+      assignments.sort((a1, a2) -> NumberHelper.compare(a1.getUniqueID(), a2.getUniqueID()));
+      
+      for (ResourceAssignment assignment : assignments)
       {
          Resource resource = assignment.getResource();
          if (resource != null)
@@ -1487,6 +1492,42 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return result;
    }
 
+   private Double getPercentComplete(Task task)
+   {
+      Number result;
+      String type = (String) task.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE);
+
+      if (type == null || !m_projectFile.isExtendedFieldRegistered(TaskExtendedField.PERCENT_COMPLETE_TYPE))
+      {
+         type = "Duration";
+      }
+
+      switch (type)
+      {
+         case "Physical":
+         {
+            result = task.getPhysicalPercentComplete();
+            break;
+         }
+
+         case "Units":
+         {
+            result = task.getPercentageWorkComplete();
+            break;
+         }
+
+         case "Duration":
+         case "Scope":
+         default:
+         {
+            result = task.getPercentageComplete();
+            break;
+         }
+      }
+
+      return getPercentage(result);
+   }
+
    /**
     * Formats a double value.
     *
@@ -1574,7 +1615,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private void populateSortedCustomFieldsList()
    {
       Set<FieldType> nativeFields = Stream.of(PrimaveraReader.EXTENDED_FIELDS).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
-      
+
       m_sortedCustomFieldsList = new ArrayList<>();
 
       for (CustomField field : m_projectFile.getCustomFields())

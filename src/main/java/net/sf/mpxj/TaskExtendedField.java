@@ -43,6 +43,7 @@ public enum TaskExtendedField implements ExtendedFieldType
    MANAGER("Manager", TaskField.TEXT5),
    SECTION("Section", TaskField.TEXT6),
    MAIL("Mail", TaskField.TEXT7),
+   PERCENT_COMPLETE_TYPE("Percent Complete Type", TaskField.TEXT8),
    HAMMOCK_CODE("Hammock Code", TaskField.TEXT9),
    WORKERS_PER_DAY("Workers Per Day", TaskField.NUMBER3),
    RESPONSIBILITY_CODE("Responsibility Code", TaskField.TEXT10),
