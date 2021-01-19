@@ -1,13 +1,19 @@
 # Changelog
 
-## 8.5.2 (git master)
+## 8.6.0 (git master)
 * Introduce enums derived from ExtendedFieldType to allow extended fields to be manipulated symbolically.
 * Updated PMXML schema to version 20.12.
+* Fix an issue where GUID values were not being read correctly from XER files and P6 databases.
+* Store percent complete type as an extended field when reading P6 schedules from any source.
+* Ensure that percent complete values are stored in the appropriate attributes when reading P6 schedules. (NOTE: Previously the "reported" percent complete value was stored as the tasks "percent complete" attribute. Now this holds the schedule percent complete value, and the percent work complete and physical percent complete attributes are also populated. To determine which value should be reported for a task, see the "percent complete type" extended field attribute.)
 * Correctly handle default calendar when reading and writing PMXML files.
 * Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.
 * Match the way P6 exports the WBS code attribute for PMXML files.
 * Update the representation of Boolean values when writing PMXML files to match the form exported by P6.
 * Avoid exporting custom fields to PMXML files which represent attributes read from a Primavera schedule (these attributes should already be written to the file explicitly, writing them as custom fields is unnecessary).
+* Set the task type attribute when reading PMXML files.
+* Improve duration and actual duration calculations when reading XER files and P6 databases.
+* Fix an issue where resource assignment costs were not being read correctly from PMXML files.
 
 ## 8.5.1 (07/01/2021)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.

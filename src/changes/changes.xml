@@ -17,7 +17,8 @@
 			<action dev="joniles" type="update">Update the representation of Boolean values when writing PMXML files to match the form exported by P6.</action>
 			<action dev="joniles" type="update">Avoid exporting custom fields to PMXML files which represent attributes read from a Primavera schedule (these attributes should already be written to the file explicitly, writing them as custom fields is unnecessary).</action>
 			<action dev="joniles" type="update">Set the task type attribute when reading PMXML files.</action>
-			<action dev="joniles" type="update">Improve duration and actual duration calculations when reading XER files and P6 databases..</action>
+			<action dev="joniles" type="update">Improve duration and actual duration calculations when reading XER files and P6 databases.</action>
+			<action dev="joniles" type="update">Fix an issue where resource assignment costs were not being read correctly from PMXML files.</action>
 		</release>
 		<release date="07/01/2021" version="8.5.1">
 			<action dev="joniles" type="update">Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.</action>
