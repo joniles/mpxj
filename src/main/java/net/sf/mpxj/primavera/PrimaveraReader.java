@@ -819,7 +819,7 @@ final class PrimaveraReader
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));        
+         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
          task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
@@ -1604,8 +1604,6 @@ final class PrimaveraReader
             ei.setAccount(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")));
             ei.setAccrueType(ACCRUE_TYPE_MAP.get(row.getString("cost_load_type")));
             ei.setActualCost(row.getDouble("act_cost"));
-            //ei.setAtCompletionCost();
-            //ei.setAtCompletionUnits();
             ei.setAutoComputeActuals(row.getBoolean("auto_compute_act_flag"));
             ei.setCategory(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")));
             ei.setDescription(row.getString("cost_descr"));
@@ -1619,12 +1617,20 @@ final class PrimaveraReader
             ei.setUnitOfMeasure(row.getString("qty_name"));
             ei.setVendor(row.getString("vendor_name"));
 
+            ei.setAtCompletionCost(NumberHelper.sumAsDouble(ei.getActualCost(), ei.getRemainingCost()));
+
             double pricePerUnit = NumberHelper.getDouble(ei.getPricePerUnit());
             if (pricePerUnit != 0.0)
             {
                ei.setActualUnits(Double.valueOf(NumberHelper.getDouble(ei.getActualCost()) / pricePerUnit));
                ei.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(ei.getRemainingCost()) / pricePerUnit));
+               ei.setAtCompletionUnits(NumberHelper.sumAsDouble(ei.getActualUnits(), ei.getRemainingUnits()));
             }
+
+            // Roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
       }
    }

@@ -24,6 +24,7 @@
 package net.sf.mpxj.common;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * This class contains utility methods for handling Number objects and
@@ -260,6 +261,17 @@ public final class NumberHelper
    public static boolean equals(double lhs, double rhs, double delta)
    {
       return Math.abs(lhs - rhs) < delta;
+   }
+
+   /**
+    * Calculate the sum of a list of numbers and express the result as a Double instance.
+    * 
+    * @param values list of numbers
+    * @return Double instance
+    */
+   public static Double sumAsDouble(Number... values)
+   {
+      return Double.valueOf(Arrays.stream(values).mapToDouble(v -> NumberHelper.getDouble(v)).sum());
    }
 
    public static final Double DOUBLE_ZERO = Double.valueOf(0);

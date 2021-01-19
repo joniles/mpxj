@@ -27,7 +27,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,6 +54,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -98,7 +98,6 @@ import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -712,7 +711,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setAccrueType(ACCRUE_TYPE_MAP.get(item.getAccrualType()));
             ei.setActualCost(item.getActualCost());
             ei.setActualUnits(item.getActualUnits());
-            ei.setAtCompletionCost(item.getAtCompletionCost());
             ei.setAtCompletionUnits(item.getAtCompletionUnits());
             ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
             ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
@@ -727,6 +725,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setUniqueID(item.getObjectId());
             ei.setUnitOfMeasure(item.getUnitOfMeasure());
             ei.setVendor(item.getVendor());
+
+            ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
+
+            // Roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
       }
    }
@@ -1057,9 +1062,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setDuration(getDuration(row.getAtCompletionDuration()));
 
-         task.setActualCost(addDoubles(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
-         task.setRemainingCost(addDoubles(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
-         task.setCost(addDoubles(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
+         // Tempting as this is, P6 doesn't write all of these values to PMXML,
+         // so we need to roll them up from the resource assignments and expenses.
+         // task.setActualCost(addDoubles(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
+         // task.setRemainingCost(addDoubles(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
+         // task.setCost(addDoubles(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
 
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
@@ -1152,14 +1159,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       updateDates();
    }
 
-   private Duration addDurations(Double... values)
+   private Duration addDurations(Number... values)
    {
-      return getDuration(addDoubles(values));
-   }
-
-   private Double addDoubles(Double... values)
-   {
-      return Double.valueOf(Arrays.stream(values).mapToDouble(v -> NumberHelper.getDouble(v)).sum());
+      return getDuration(NumberHelper.sumAsDouble(values));
    }
 
    /**
@@ -1454,8 +1456,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate cost
             Number remainingCost = assignment.getRemainingCost();
             Number actualCost = assignment.getActualCost();
-            double totalCost = NumberHelper.getDouble(actualCost) + NumberHelper.getDouble(remainingCost);
-            assignment.setCost(NumberHelper.getDouble(totalCost));
+            Number atCompletionCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
+            assignment.setCost(atCompletionCost);
+
+            // roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), actualCost));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
 
             double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)

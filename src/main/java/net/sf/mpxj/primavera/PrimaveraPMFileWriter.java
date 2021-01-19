@@ -53,6 +53,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
@@ -909,8 +910,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeAssignments()
    {
-      List<ResourceAssignment> assignments = new ArrayList<>(m_projectFile.getResourceAssignments());
-      assignments.sort((a1, a2) -> NumberHelper.compare(a1.getUniqueID(), a2.getUniqueID()));
+      List<ResourceAssignment> assignments = new ArrayList<>();
+      m_projectFile.getTasks().forEach(t -> assignments.addAll(t.getResourceAssignments()));
 
       for (ResourceAssignment assignment : assignments)
       {
@@ -942,26 +943,25 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
       xml.setActualCost(getDouble(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
+      xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
       xml.setActualOvertimeUnits(getDuration(mpxj.getActualOvertimeWork()));
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
-      xml.setAtCompletionUnits(getDuration(mpxj.getRemainingWork()));
-      xml.setPlannedCost(getDouble(mpxj.getActualCost()));
+      xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
+      xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), m_projectFile.getProjectProperties())));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPlannedDuration(getDuration(mpxj.getWork()));
-      xml.setPlannedFinishDate(mpxj.getFinish());
-      xml.setPlannedStartDate(mpxj.getStart());
-      xml.setPlannedUnits(getDuration(mpxj.getWork()));
+      xml.setPlannedCost(getDouble((Number) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_COST)));
+      xml.setPlannedFinishDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_FINISH));
+      xml.setPlannedStartDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_START));
+      xml.setPlannedUnits(getDuration((Duration) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_WORK)));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
       xml.setRateSource("Resource");
-      xml.setRemainingCost(getDouble(mpxj.getActualCost()));
+      xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
-      xml.setRemainingFinishDate(mpxj.getFinish());
-      xml.setRemainingStartDate(mpxj.getStart());
       xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setResourceObjectId(mpxj.getResourceUniqueID());
@@ -998,7 +998,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void writeExpenseItems()
    {
-      m_projectFile.getTasks().forEach(t -> writeExpenseItems(t));
+      List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
+      Collections.sort(tasks, (t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
+
+      tasks.forEach(t -> writeExpenseItems(t));
    }
 
    /**
@@ -1011,9 +1014,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       List<ExpenseItem> items = task.getExpenseItems();
       if (items != null && !items.isEmpty())
       {
-         List<ActivityExpenseType> expenses = m_project.getActivityExpense();
+         List<ExpenseItem> expenseItems = new ArrayList<>(items);
+         expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
-         for (ExpenseItem item : items)
+         List<ActivityExpenseType> expenses = m_project.getActivityExpense();
+         Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
+
+         for (ExpenseItem item : expenseItems)
          {
             ActivityExpenseType expense = m_factory.createActivityExpenseType();
             expenses.add(expense);
@@ -1024,8 +1031,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             expense.setActivityObjectId(task.getUniqueID());
             expense.setActualCost(item.getActualCost());
             expense.setActualUnits(item.getActualUnits());
-            expense.setAtCompletionCost(item.getAtCompletionCost());
-            expense.setAtCompletionUnits(item.getAtCompletionUnits());
+            //expense.setAtCompletionCost(item.getAtCompletionCost());
+            //expense.setAtCompletionUnits(item.getAtCompletionUnits());
             expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
             //expense.setCBSCode(value);
             //expense.setCBSId(value);
@@ -1056,12 +1063,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             expense.setPlannedCost(item.getPlannedCost());
             expense.setPlannedUnits(item.getPlannedUnits());
             expense.setPricePerUnit(item.getPricePerUnit());
-            expense.setProjectId(PROJECT_ID);
+            //expense.setProjectId(PROJECT_ID);
             expense.setProjectObjectId(PROJECT_OBJECT_ID);
             expense.setRemainingCost(item.getRemainingCost());
             expense.setRemainingUnits(item.getRemainingUnits());
             expense.setUnitOfMeasure(item.getUnitOfMeasure());
             expense.setVendor(item.getVendor());
+            expense.setWBSObjectId(parentObjectID);
          }
       }
    }
