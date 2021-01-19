@@ -864,20 +864,23 @@ final class PrimaveraReader
          task.setWork(work);
 
          // Calculate actual duration
-         if (task.getActualStart() != null)
+         Date actualStart = task.getActualStart();
+         if (actualStart != null)
          {
-            Date finish;
-            if (task.getActualFinish() == null)
+            Date finish = task.getActualFinish();
+            if (finish == null)
             {
                finish = m_project.getProjectProperties().getStatusDate();
-            }
-            else
-            {
-               finish = task.getActualFinish();
+               
+               // Handle the case where the actual start is after the status date
+               if (finish.getTime() < actualStart.getTime())
+               {
+                  finish = actualStart;
+               }
             }
 
             cal = task.getEffectiveCalendar();
-            task.setActualDuration(cal.getWork(task.getActualStart(), finish, TimeUnit.HOURS));
+            task.setActualDuration(cal.getWork(actualStart, finish, TimeUnit.HOURS));
          }
 
          // Calculate duration at completion
