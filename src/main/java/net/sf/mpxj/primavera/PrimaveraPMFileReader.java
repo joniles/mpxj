@@ -27,7 +27,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,6 +54,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -96,8 +96,8 @@ import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -509,7 +509,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       FieldType field = null;
       CustomFieldContainer container = m_projectFile.getCustomFields();
-      
+
       try
       {
          switch (fieldType)
@@ -711,7 +711,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setAccrueType(ACCRUE_TYPE_MAP.get(item.getAccrualType()));
             ei.setActualCost(item.getActualCost());
             ei.setActualUnits(item.getActualUnits());
-            ei.setAtCompletionCost(item.getAtCompletionCost());
             ei.setAtCompletionUnits(item.getAtCompletionUnits());
             ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
             ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
@@ -726,6 +725,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setUniqueID(item.getObjectId());
             ei.setUnitOfMeasure(item.getUnitOfMeasure());
             ei.setVendor(item.getVendor());
+
+            ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
+
+            // Roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
       }
    }
@@ -1041,7 +1047,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
          task.setNotesObject(notes);
-         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
+
+         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, row.getPercentCompleteType());
+         task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
+         task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
+         task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
          task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
@@ -1052,9 +1062,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setDuration(getDuration(row.getAtCompletionDuration()));
 
-         task.setActualCost(addDoubles(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
-         task.setRemainingCost(addDoubles(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
-         task.setCost(addDoubles(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
+         // Tempting as this is, P6 doesn't write all of these values to PMXML,
+         // so we need to roll them up from the resource assignments and expenses.
+         // task.setActualCost(addDoubles(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
+         // task.setRemainingCost(addDoubles(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
+         // task.setCost(addDoubles(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
 
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
@@ -1062,10 +1074,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         task.setLateStart(row.getRemainingLateStartDate());
-         task.setLateFinish(row.getRemainingLateFinishDate());
-         task.setEarlyStart(row.getRemainingEarlyStartDate());
-         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
          task.set(TaskExtendedField.PLANNED_START, row.getPlannedStartDate());
          task.set(TaskExtendedField.PLANNED_FINISH, row.getPlannedFinishDate());
 
@@ -1075,7 +1083,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
          task.set(TaskExtendedField.STATUS, row.getStatus());
          task.set(TaskExtendedField.PRIMARY_RESOURCE_ID, row.getPrimaryResourceObjectId());
-
+         task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
 
@@ -1151,14 +1159,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       updateDates();
    }
 
-   private Duration addDurations(Double... values)
+   private Duration addDurations(Number... values)
    {
-      return getDuration(addDoubles(values));
-   }
-
-   private Double addDoubles(Double... values)
-   {
-      return Double.valueOf(Arrays.stream(values).mapToDouble(v -> NumberHelper.getDouble(v)).sum());
+      return getDuration(NumberHelper.sumAsDouble(values));
    }
 
    /**
@@ -1453,8 +1456,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate cost
             Number remainingCost = assignment.getRemainingCost();
             Number actualCost = assignment.getActualCost();
-            double totalCost = NumberHelper.getDouble(actualCost) + NumberHelper.getDouble(remainingCost);
-            assignment.setCost(NumberHelper.getDouble(totalCost));
+            Number atCompletionCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
+            assignment.setCost(atCompletionCost);
+
+            // roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), actualCost));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
 
             double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
@@ -1968,6 +1976,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
+   }
+
+   private static final Map<String, TaskType> DURATION_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DURATION_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
+      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

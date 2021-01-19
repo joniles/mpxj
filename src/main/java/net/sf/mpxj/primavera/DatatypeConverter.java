@@ -62,10 +62,14 @@ public final class DatatypeConverter
                long msb = 0;
                long lsb = 0;
 
-               for (int i = 0; i < 8; i++)
-               {
-                  msb = (msb << 8) | (data[i] & 0xff);
-               }
+               msb = (msb << 8) | (data[3] & 0xff);
+               msb = (msb << 8) | (data[2] & 0xff);
+               msb = (msb << 8) | (data[1] & 0xff);
+               msb = (msb << 8) | (data[0] & 0xff);
+               msb = (msb << 8) | (data[5] & 0xff);
+               msb = (msb << 8) | (data[4] & 0xff);
+               msb = (msb << 8) | (data[7] & 0xff);
+               msb = (msb << 8) | (data[6] & 0xff);
 
                for (int i = 8; i < 16; i++)
                {
