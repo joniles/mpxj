@@ -593,6 +593,16 @@ public final class ProjectFile implements ChildTaskContainer
       return m_extendedFields.contains(field);
    }
 
+   /**
+    * Retrieve the set of extended fields present in this project.
+    * 
+    * @return set of extended fields
+    */
+   public Set<ExtendedFieldType> getExtendedFields()
+   {
+      return m_extendedFields;
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
