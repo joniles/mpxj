@@ -175,7 +175,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a Boolean.
-    * 
+    *
     * @param value value as text
     * @return Boolean instance
     */
@@ -199,7 +199,7 @@ public final class DatatypeConverter
 
    /**
     * Print a Boolean.
-    * 
+    *
     * @param value Boolean value
     * @return string representation
     */
@@ -220,7 +220,7 @@ public final class DatatypeConverter
 
    /**
     * Parse a double value.
-    * 
+    *
     * @param value Double value as a string
     * @return Double instance
     */
@@ -245,7 +245,7 @@ public final class DatatypeConverter
    /**
     * Print a double value. P6 seems to be fussy about having values
     * without decimals if they are whole numbers, hence the need for this method.
-    * 
+    *
     * @param value double value
     * @return string representation
     */

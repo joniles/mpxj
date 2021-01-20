@@ -65,7 +65,7 @@ public class StructuredNotes extends Notes
 
    /**
     * Retrieve the notes.
-    * 
+    *
     * @return Notes instance
     */
    public Notes getNotes()

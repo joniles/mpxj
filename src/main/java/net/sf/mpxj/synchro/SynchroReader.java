@@ -642,7 +642,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
    private Map<UUID, Task> m_taskMap;
    private Map<Task, List<MapRow>> m_predecessorMap;
    private Map<UUID, Resource> m_resourceMap;
-   
+
    public static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
       TaskExtendedField.ACTIVITY_ID,

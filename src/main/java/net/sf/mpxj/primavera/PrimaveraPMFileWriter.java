@@ -706,7 +706,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Retrieve the resource notes text. If an HTML representation
     * is already available, use that, otherwise generate HTML from
     * the plain text of the note.
-    * 
+    *
     * @param notes notes text
     * @return Notes instance
     */
@@ -795,7 +795,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Retrieve the WBS code attribute.
-    * 
+    *
     * @param task Task instance
     * @return WBS code attribute
     */
@@ -1164,7 +1164,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Write notes for a WBS entry.
-    * 
+    *
     * @param task WBS entry.
     */
    private void writeWbsNote(Task task)
@@ -1187,7 +1187,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Generate a notebook entry from plain text.
-    * 
+    *
     * @param task WBS entry
     */
    private void writeDefaultWbsNote(Task task)
@@ -1205,7 +1205,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Generate notebook entries from structured notes.
-    * 
+    *
     * @param task WBS entry
     */
    private void writeNativeWbsNote(Task task)
@@ -1229,7 +1229,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Write notes for an Activity entry.
-    * 
+    *
     * @param task activity entry.
     */
    private void writeActivityNote(Task task)
@@ -1252,7 +1252,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Generate a notebook entry from plain text.
-    * 
+    *
     * @param task activity entry
     */
    private void writeDefaultActivityNote(Task task)
@@ -1270,7 +1270,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Generate notebook entries from structured notes.
-    * 
+    *
     * @param task activity entry
     */
    private void writeNativeActivityNote(Task task)
@@ -1295,7 +1295,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    /**
     * Returns true if the notes are in a form that can be exported
     * as P6 notepad entries.
-    * 
+    *
     * @param notes Notes instance
     * @return true if the notes can be exported as notepad entries
     */
@@ -1503,7 +1503,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Returns the reported percent complete value for this task.
-    * 
+    *
     * @param task task
     * @return percent complete value
     */

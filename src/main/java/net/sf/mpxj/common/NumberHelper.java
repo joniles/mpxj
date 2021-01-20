@@ -265,7 +265,7 @@ public final class NumberHelper
 
    /**
     * Calculate the sum of a list of numbers and express the result as a Double instance.
-    * 
+    *
     * @param values list of numbers
     * @return Double instance
     */

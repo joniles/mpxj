@@ -38,7 +38,7 @@ public final class HtmlHelper
 {
    /**
     * Rudimentary conversion of plain text to HTML, preserving line breaks.
-    * 
+    *
     * @param text plain text
     * @return HTML document
     */

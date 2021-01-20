@@ -883,7 +883,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Links a calendar to a resource.
-    * 
+    *
     * @param resource Resource instance
     * @param calendarID calendar ID
     */
@@ -936,7 +936,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Create a Notes instance from an HTML document.
-    * 
+    *
     * @param text HTML document
     * @return Notes instance
     */

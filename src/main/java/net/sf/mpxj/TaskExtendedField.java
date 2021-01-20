@@ -57,7 +57,7 @@ public enum TaskExtendedField implements ExtendedFieldType
 
    /**
     * Constructor.
-    * 
+    *
     * @param name field name
     * @param type field type
     */

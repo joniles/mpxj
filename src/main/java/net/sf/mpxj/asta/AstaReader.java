@@ -735,7 +735,7 @@ final class AstaReader
             for (Task child : childTasks)
             {
                totalPercentComplete += NumberHelper.getDouble(child.getPercentageComplete());
-               totalOverallPercentComplete += NumberHelper.getDouble((Number)child.getCachedValue(TaskExtendedField.OVERALL_PERCENT_COMPLETE));
+               totalOverallPercentComplete += NumberHelper.getDouble((Number) child.getCachedValue(TaskExtendedField.OVERALL_PERCENT_COMPLETE));
                totalWeight += NumberHelper.getDouble(m_weights.get(child));
 
                Duration actualDuration = child.getActualDuration();
@@ -1618,7 +1618,7 @@ final class AstaReader
       RelationType.FINISH_FINISH,
       RelationType.START_FINISH
    };
-   
+
    private static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
       TaskExtendedField.ACTIVITY_ID,

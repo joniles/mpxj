@@ -573,7 +573,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Register that an extended field is in use and configure an appropriate alias.
-    * 
+    *
     * @param field extended field
     */
    public void registerExtendedField(ExtendedFieldType field)
@@ -584,7 +584,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Returns true if the extended field is registered.
-    * 
+    *
     * @param field extended field to test
     * @return true if the extended field is registered
     */
@@ -595,7 +595,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Retrieve the set of extended fields present in this project.
-    * 
+    *
     * @return set of extended fields
     */
    public Set<ExtendedFieldType> getExtendedFields()

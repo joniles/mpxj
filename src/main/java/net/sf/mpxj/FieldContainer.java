@@ -71,7 +71,7 @@ public interface FieldContainer
    /**
     * Retrieve a field value. Use the cached value. Optionally provide a lambda
     * to be called if the cached value is null.
-    * 
+    *
     * @param field field identifier
     * @param fallback optional lambda
     * @return field value

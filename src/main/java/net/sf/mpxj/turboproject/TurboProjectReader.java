@@ -270,7 +270,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
          resource.setNotesObject(new Notes(resource.getNotes()));
-         
+
          m_eventManager.fireResourceReadEvent(resource);
          // TODO: Correctly handle calendar
       }
@@ -392,7 +392,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       {
          task.setNotesObject(new Notes(task.getNotes()));
       }
-      
+
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
