@@ -869,8 +869,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
+      xml.setResumeDate((Date) mpxj.getCachedValue(TaskExtendedField.RESUME_DATE));
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
+      xml.setSuspendDate((Date) mpxj.getCachedValue(TaskExtendedField.SUSPEND_DATE));
       xml.setType(extractAndConvertTaskType(mpxj));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);

@@ -815,6 +815,7 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
+         task.set(TaskExtendedField.STATUS, STATUS_MAP.get(task.getCachedValue(TaskExtendedField.STATUS)));
 
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
@@ -871,7 +872,7 @@ final class PrimaveraReader
             if (finish == null)
             {
                finish = m_project.getProjectProperties().getStatusDate();
-               
+
                // Handle the case where the actual start is after the status date
                if (finish.getTime() < actualStart.getTime())
                {
@@ -2160,6 +2161,14 @@ final class PrimaveraReader
       PERCENT_COMPLETE_TYPE.put("CP_Phys", "Physical");
       PERCENT_COMPLETE_TYPE.put("CP_Drtn", "Duration");
       PERCENT_COMPLETE_TYPE.put("CP_Units", "Units");
+   }
+
+   private static final Map<String, String> STATUS_MAP = new HashMap<>();
+   static
+   {
+      STATUS_MAP.put("TK_NotStart", "Not Started");
+      STATUS_MAP.put("TK_Active", "In Progress");
+      STATUS_MAP.put("TK_Complete", "Completed");
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

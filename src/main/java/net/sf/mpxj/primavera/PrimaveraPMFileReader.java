@@ -1083,6 +1083,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
          task.set(TaskExtendedField.STATUS, row.getStatus());
          task.set(TaskExtendedField.PRIMARY_RESOURCE_ID, row.getPrimaryResourceObjectId());
+         task.set(TaskExtendedField.SUSPEND_DATE, row.getSuspendDate());
+         task.set(TaskExtendedField.RESUME_DATE, row.getResumeDate());
          task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
