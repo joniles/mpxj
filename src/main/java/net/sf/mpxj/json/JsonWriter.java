@@ -26,13 +26,12 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
@@ -134,27 +133,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = new ArrayList<>();
-      for (CustomField field : m_projectFile.getCustomFields())
-      {
-         FieldType fieldType = field.getFieldType();
-         if (fieldType != null)
-         {
-            sortedCustomFieldsList.add(field);
-         }
-      }
+      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).collect(Collectors.toList());
 
       // Sort to ensure consistent order in file
-      Collections.sort(sortedCustomFieldsList, new Comparator<CustomField>()
-      {
-         @Override public int compare(CustomField customField1, CustomField customField2)
-         {
-            FieldType o1 = customField1.getFieldType();
-            FieldType o2 = customField2.getFieldType();
-            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      Collections.sort(sortedCustomFieldsList, (f1, f2) -> {
+         FieldType o1 = f1.getFieldType();
+         FieldType o2 = f2.getFieldType();
+         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + f2.getAlias();
+         return name1.compareTo(name2);
       });
 
       m_writer.writeStartList("custom_fields");

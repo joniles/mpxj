@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
@@ -133,6 +135,16 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
    {
       return m_aliasMap.get(new Pair<>(typeClass, alias));
+   }
+
+   /**
+    * Return a stream of CustomFields.
+    * 
+    * @return Stream instance
+    */
+   public Stream<CustomField> stream()
+   {
+      return StreamSupport.stream(spliterator(), false);
    }
 
    private Map<FieldType, CustomField> m_configMap = new HashMap<>();
