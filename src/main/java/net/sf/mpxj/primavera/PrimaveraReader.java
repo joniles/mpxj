@@ -816,7 +816,8 @@ final class PrimaveraReader
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.set(TaskExtendedField.STATUS, STATUS_MAP.get(task.getCachedValue(TaskExtendedField.STATUS)));
-
+         task.set(TaskExtendedField.ACTIVITY_TYPE, ACTIVITY_TYPE_MAP.get(task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE)));
+         
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
@@ -2105,6 +2106,17 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_Mile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_FinMile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
+   }
+
+   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
+      ACTIVITY_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
+      ACTIVITY_TYPE_MAP.put("TT_LOE", "Level of Effort");
+      ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
+      ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
+      ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
    }
 
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();

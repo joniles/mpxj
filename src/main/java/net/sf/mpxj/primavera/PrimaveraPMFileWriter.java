@@ -884,7 +884,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Attempts to locate the activity type value extracted from an existing P6 schedule.
-    * If necessary converts to the form which can be used in the PMXML file.
+    * If present, we assume the value is valid.
     * Returns "Resource Dependent" as the default value.
     *
     * @param task parent task
@@ -893,18 +893,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private String extractAndConvertTaskType(Task task)
    {
       String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
-      if (activityType == null)
-      {
-         activityType = "Resource Dependent";
-      }
-      else
-      {
-         if (ACTIVITY_TYPE_MAP.containsKey(activityType))
-         {
-            activityType = ACTIVITY_TYPE_MAP.get(activityType);
-         }
-      }
-      return activityType;
+      return activityType == null ? "Resource Dependent" : activityType;
    }
 
    /**
@@ -1761,17 +1750,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = createConstraintTypeMap();
-
-   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_LOE", "Level of Effort");
-      ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
-   }
 
    private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
    static

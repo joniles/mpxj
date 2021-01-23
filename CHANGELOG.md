@@ -14,7 +14,7 @@
 * Set the task type attribute when reading PMXML files.
 * Improve duration and actual duration calculations when reading XER files and P6 databases.
 * Fix an issue where resource assignment costs were not being read correctly from PMXML files.
-* When reading XER files, translate the activity status attribute to its human-readable form to match the values used by PMXML files.
+* When reading XER files, translate the activity status and activity type attributes to its human-readable form to match the values used by PMXML files.
 * Read and write the suspend date and resume date attributes for PMXML files.
 
 ## 8.5.1 (07/01/2021)
