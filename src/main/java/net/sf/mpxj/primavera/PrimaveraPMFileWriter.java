@@ -752,7 +752,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       if (!task.getNull())
       {
-         if (extractAndConvertTaskType(task) == null || task.getSummary())
+         // If it's a summary task... it's a WBS entry
+         // If the task has come from P6, and the activity type is not set, its a WBS entry
+         if (task.getSummary() || (m_projectFile.isExtendedFieldRegistered(TaskExtendedField.ACTIVITY_TYPE) && task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE) == null))
          {
             writeWBS(task);
          }
@@ -873,7 +875,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
       xml.setSuspendDate((Date) mpxj.getCachedValue(TaskExtendedField.SUSPEND_DATE));
-      xml.setType(extractAndConvertTaskType(mpxj));
+      xml.setType(getTaskType(mpxj));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
@@ -890,7 +892,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * @param task parent task
     * @return activity type
     */
-   private String extractAndConvertTaskType(Task task)
+   private String getTaskType(Task task)
    {
       String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
       return activityType == null ? "Resource Dependent" : activityType;
