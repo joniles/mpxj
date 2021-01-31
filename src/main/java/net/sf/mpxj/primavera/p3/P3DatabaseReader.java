@@ -33,13 +33,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -52,7 +50,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
@@ -164,8 +161,6 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
 
          m_projectFile.getProjectProperties().setFileApplication("P3");
          m_projectFile.getProjectProperties().setFileType("BTRIEVE");
-
-         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -626,11 +621,6 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
 
-   private static final ExtendedFieldType[] EXTENDED_FIELDS =
-   {
-      TaskExtendedField.ACTIVITY_ID
-   };
-
    static
    {
       defineField(PROJECT_FIELDS, "PROJECT_START_DATE", ProjectField.START_DATE);
@@ -643,7 +633,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       defineField(RESOURCE_FIELDS, "RES_ID", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "ACTIVITY_TITLE", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskExtendedField.ACTIVITY_ID.getType());
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.ACTIVITY_ID);
       defineField(TASK_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(TASK_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);

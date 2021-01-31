@@ -28,33 +28,10 @@ package net.sf.mpxj;
  */
 public enum TaskExtendedField implements ExtendedFieldType
 {
-   SUSPEND_DATE("Suspend Date", TaskField.DATE1),
-   RESUME_DATE("Resume Date", TaskField.DATE2),
-   ACTIVITY_ID("Code", TaskField.TEXT1), // TODO deprecate, the name should be Activity ID
    ACTIVITY_TYPE("Activity Type", TaskField.TEXT2),
    STATUS("Status", TaskField.TEXT3),
-   PRIMARY_RESOURCE_ID("Primary Resource Unique ID", TaskField.NUMBER1),
-   PLANNED_WORK("Planned Work", TaskField.DURATION1),
-   PLANNED_DURATION("Planned Duration", TaskField.DURATION2),
-   PLANNED_START("Planned Start", TaskField.START1),
-   PLANNED_FINISH("Planned Finish", TaskField.FINISH1),
-   OVERALL_PERCENT_COMPLETE("Overall Percent Complete", TaskField.NUMBER2),
-   DEPARTMENT("Department", TaskField.TEXT4),
-   MANAGER("Manager", TaskField.TEXT5),
-   SECTION("Section", TaskField.TEXT6),
-   MAIL("Mail", TaskField.TEXT7),
-   PERCENT_COMPLETE_TYPE("Percent Complete Type", TaskField.TEXT8),
-   HAMMOCK_CODE("Hammock Code", TaskField.TEXT9),
-   WORKERS_PER_DAY("Workers Per Day", TaskField.NUMBER3),
-   RESPONSIBILITY_CODE("Responsibility Code", TaskField.TEXT10),
-   WORK_AREA_CODE("Work Area Code", TaskField.TEXT11),
-   MOD_OR_CLAIM_NO("Mod or Claim No", TaskField.TEXT12),
-   BID_ITEM("Bid Item", TaskField.TEXT13),
-   PHASE_OF_WORK("Phase of Work", TaskField.TEXT14),
-   CATEGORY_OF_WORK("Category of Work", TaskField.TEXT15),
-   FEATURE_OF_WORK("Feature of Work", TaskField.TEXT16),
-   STORED_MATERIAL("Stored Material", TaskField.COST1);
-
+   PERCENT_COMPLETE_TYPE("Percent Complete Type", TaskField.TEXT8);
+   
    /**
     * Constructor.
     *

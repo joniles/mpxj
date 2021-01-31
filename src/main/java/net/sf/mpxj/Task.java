@@ -4629,6 +4629,236 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the stored material value for this task.
+    * 
+    * @param value stored material value
+    */
+   public void setStoredMaterial(Number value)
+   {
+      set(TaskField.STORED_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the stored material value for this task.
+    * 
+    * @return stored material value
+    */
+   public Number getStoredMaterial()
+   {
+      return (Number) getCachedValue(TaskField.STORED_MATERIAL);
+   }
+
+   public void setFeatureOfWork(String value)
+   {
+      set(TaskField.FEATURE_OF_WORK, value);
+   }
+   
+   public String getFeatureOfWork()
+   {
+      return (String)getCachedValue(TaskField.FEATURE_OF_WORK);
+   }
+
+   public void setCategoryOfWork(String value)
+   {
+      set(TaskField.CATEGORY_OF_WORK, value);
+   }
+   
+   public String getCategoryOfWork()
+   {
+      return (String)getCachedValue(TaskField.CATEGORY_OF_WORK);
+   }
+
+   public void setPhaseOfWork(String value)
+   {
+      set(TaskField.PHASE_OF_WORK, value);
+   }
+   
+   public String getPhaseOfWork()
+   {
+      return (String)getCachedValue(TaskField.PHASE_OF_WORK);
+   }
+
+   public void setBidItem(String value)
+   {
+      set(TaskField.BID_ITEM, value);
+   }
+   
+   public String getBidItem()
+   {
+      return (String)getCachedValue(TaskField.BID_ITEM);
+   }
+
+   public void setModOrClaimNumber(String value)
+   {
+      set(TaskField.MOD_OR_CLAIM_NUMBER, value);
+   }
+   
+   public String getModOrClaimNumber()
+   {
+      return (String)getCachedValue(TaskField.MOD_OR_CLAIM_NUMBER);
+   }
+
+   public void setWorkAreaCode(String value)
+   {
+      set(TaskField.WORK_AREA_CODE, value);
+   }
+   
+   public String getWorkAreaCode()
+   {
+      return (String)getCachedValue(TaskField.WORK_AREA_CODE);
+   }
+
+   public void setResponsibilityCode(String value)
+   {
+      set(TaskField.RESPONSIBILITY_CODE, value);
+   }
+   
+   public String getResponsibilityCode()
+   {
+      return (String)getCachedValue(TaskField.RESPONSIBILITY_CODE);
+   }
+
+   public void setWorkersPerDay(Integer value)
+   {
+      set(TaskField.WORKERS_PER_DAY, value);
+   }
+   
+   public Integer getWorkersPerDay()
+   {
+      return (Integer)getCachedValue(TaskField.WORKERS_PER_DAY);
+   }
+
+   public void setHammockCode(Boolean value)
+   {
+      set(TaskField.HAMMOCK_CODE, value);
+   }
+   
+   public Boolean getHammockCode()
+   {
+      return (Boolean)getCachedValue(TaskField.HAMMOCK_CODE);
+   }
+
+   public void setMail(String value)
+   {
+      set(TaskField.MAIL, value);
+   }
+   
+   public String getMail()
+   {
+      return (String)getCachedValue(TaskField.MAIL);
+   }
+
+   public void setSection(String value)
+   {
+      set(TaskField.SECTION, value);
+   }
+   
+   public String getSection()
+   {
+      return (String)getCachedValue(TaskField.SECTION);
+   }
+
+   public void setManager(String value)
+   {
+      set(TaskField.MANAGER, value);
+   }
+   
+   public String getManager()
+   {
+      return (String)getCachedValue(TaskField.MANAGER);
+   }
+
+   public void setDepartment(String value)
+   {
+      set(TaskField.DEPARTMENT, value);
+   }
+   
+   public String getDepartment()
+   {
+      return (String)getCachedValue(TaskField.DEPARTMENT);
+   }
+
+   public void setOverallPercentComplete(Number value)
+   {
+      set(TaskField.OVERALL_PERCENT_COMPLETE, value);
+   }
+   
+   public Number getOverallPercentComplete()
+   {
+      return (Number)getCachedValue(TaskField.OVERALL_PERCENT_COMPLETE);
+   }
+
+   public void setPlannedFinish(Date value)
+   {
+      set(TaskField.PLANNED_FINISH, value);
+   }
+   
+   public Date getPlannedFinish()
+   {
+      return (Date)getCachedValue(TaskField.PLANNED_FINISH);
+   }
+
+   public void setPlannedStart(Date value)
+   {
+      set(TaskField.PLANNED_START, value);
+   }
+   
+   public Date getPlannedStart()
+   {
+      return (Date)getCachedValue(TaskField.PLANNED_START);
+   }
+
+   public void setPlannedDuration(Duration value)
+   {
+      set(TaskField.PLANNED_DURATION, value);
+   }
+   
+   public Duration getPlannedDuration()
+   {
+      return (Duration)getCachedValue(TaskField.PLANNED_DURATION);
+   }
+
+   public void setPlannedWork(Duration value)
+   {
+      set(TaskField.PLANNED_WORK, value);
+   }
+   
+   public Duration getPlannedWork()
+   {
+      return (Duration)getCachedValue(TaskField.PLANNED_WORK);
+   }
+
+   public void setSuspendDate(Date value)
+   {
+      set(TaskField.SUSPEND_DATE, value);
+   }
+   
+   public Date getSuspendDate()
+   {
+      return (Date)getCachedValue(TaskField.SUSPEND_DATE);
+   }
+
+   public void setPrimaryResourceID(Integer value)
+   {
+      set(TaskField.PRIMARY_RESOURCE_ID, value);
+   }
+   
+   public Integer getPrimaryResourceID()
+   {
+      return (Integer)getCachedValue(TaskField.PRIMARY_RESOURCE_ID);
+   }
+
+   public void setActivityID(String value)
+   {
+      set(TaskField.ACTIVITY_ID, value);
+   }
+   
+   public String getActivityID()
+   {
+      return (String)getCachedValue(TaskField.ACTIVITY_ID);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

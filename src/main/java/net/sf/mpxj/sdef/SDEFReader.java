@@ -31,12 +31,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -54,8 +51,6 @@ public final class SDEFReader extends AbstractProjectStreamReader
 
       project.getProjectProperties().setFileApplication("SDEF");
       project.getProjectProperties().setFileType("SDEF");
-
-      Stream.of(EXTENDED_FIELDS).forEach(f -> project.registerExtendedField(f));
 
       addListenersToProject(project);
 
@@ -123,21 +118,6 @@ public final class SDEFReader extends AbstractProjectStreamReader
 
       return true;
    }
-
-   public static final ExtendedFieldType[] EXTENDED_FIELDS =
-   {
-      TaskExtendedField.ACTIVITY_ID,
-      TaskExtendedField.HAMMOCK_CODE,
-      TaskExtendedField.WORKERS_PER_DAY,
-      TaskExtendedField.RESPONSIBILITY_CODE,
-      TaskExtendedField.WORK_AREA_CODE,
-      TaskExtendedField.MOD_OR_CLAIM_NO,
-      TaskExtendedField.BID_ITEM,
-      TaskExtendedField.PHASE_OF_WORK,
-      TaskExtendedField.CATEGORY_OF_WORK,
-      TaskExtendedField.FEATURE_OF_WORK,
-      TaskExtendedField.STORED_MATERIAL
-   };
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static

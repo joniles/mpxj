@@ -54,7 +54,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -526,9 +525,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       ResourceExtendedField.PERIOD_DUR,
       ResourceExtendedField.EXPENSES_ONLY,
       ResourceExtendedField.MODIFY_ON_INTEGRATE,
-      ResourceExtendedField.UNIT,
-      TaskExtendedField.PLANNED_START,
-      TaskExtendedField.PLANNED_FINISH
+      ResourceExtendedField.UNIT
    };
 
    static
@@ -565,8 +562,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      defineField(A5TAB_FIELDS, "TARGET_START", TaskExtendedField.PLANNED_START);
-      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskExtendedField.PLANNED_FINISH);
+      defineField(A5TAB_FIELDS, "TARGET_START", TaskField.PLANNED_START);
+      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskField.PLANNED_FINISH);
       defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
       defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }

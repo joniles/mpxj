@@ -1956,8 +1956,8 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskExtendedField.PLANNED_WORK.getType(), "target_work_qty");
-      map.put(TaskExtendedField.PLANNED_DURATION.getType(), "target_drtn_hr_cnt");
+      map.put(TaskField.PLANNED_WORK, "target_work_qty");
+      map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
       map.put(TaskField.ACTUAL_FINISH, "act_end_date");
@@ -1967,8 +1967,8 @@ final class PrimaveraReader
       map.put(TaskField.EARLY_FINISH, "early_end_date");
       map.put(TaskField.REMAINING_EARLY_START, "restart_date");
       map.put(TaskField.REMAINING_EARLY_FINISH, "reend_date");
-      map.put(TaskExtendedField.PLANNED_START.getType(), "target_start_date");
-      map.put(TaskExtendedField.PLANNED_FINISH.getType(), "target_end_date");
+      map.put(TaskField.PLANNED_START, "target_start_date");
+      map.put(TaskField.PLANNED_FINISH, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
       map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
       map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
@@ -1977,12 +1977,12 @@ final class PrimaveraReader
       map.put(TaskField.TYPE, "duration_type");
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
-      map.put(TaskExtendedField.ACTIVITY_ID.getType(), "task_code");
+      map.put(TaskField.ACTIVITY_ID, "task_code");
       map.put(TaskExtendedField.ACTIVITY_TYPE.getType(), "task_type");
       map.put(TaskExtendedField.STATUS.getType(), "status_code");
-      map.put(TaskExtendedField.PRIMARY_RESOURCE_ID.getType(), "rsrc_id");
-      map.put(TaskExtendedField.SUSPEND_DATE.getType(), "suspend_date");
-      map.put(TaskExtendedField.RESUME_DATE.getType(), "resume_date");
+      map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
+      map.put(TaskField.SUSPEND_DATE, "suspend_date");
+      map.put(TaskField.RESUME, "resume_date");
 
       return map;
    }
@@ -2189,16 +2189,8 @@ final class PrimaveraReader
 
    static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
-      TaskExtendedField.SUSPEND_DATE,
-      TaskExtendedField.RESUME_DATE,
-      TaskExtendedField.ACTIVITY_ID,
       TaskExtendedField.ACTIVITY_TYPE,
       TaskExtendedField.STATUS,
-      TaskExtendedField.PRIMARY_RESOURCE_ID,
-      TaskExtendedField.PLANNED_WORK,
-      TaskExtendedField.PLANNED_DURATION,
-      TaskExtendedField.PLANNED_START,
-      TaskExtendedField.PLANNED_FINISH,
       TaskExtendedField.PERCENT_COMPLETE_TYPE,
       ResourceExtendedField.RESOURCE_ID,
       AssignmentExtendedField.PLANNED_START,

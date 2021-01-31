@@ -27,7 +27,6 @@ import java.util.Date;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -56,9 +55,10 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setActualStart(getDate(1));
       task.setActualFinish(getDate(2));
       task.setRemainingDuration(getDuration(3));
-      task.setCost(getDouble(4));
+      task.setCost(totalCost);
+      task.setActualCost(costToDate);
       task.setRemainingCost(remainingCost);
-      task.set(TaskExtendedField.STORED_MATERIAL, getDouble(6));
+      task.setStoredMaterial(getDouble(6));
       task.setEarlyStart(getDate(7));
       task.setEarlyFinish(getDate(8));
       task.setLateStart(getDate(9));

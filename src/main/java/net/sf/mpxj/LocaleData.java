@@ -1009,6 +1009,28 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.TASK_SUMMARY.getValue()] = "Task Summary";
       TASK_COLUMNS_ARRAY[TaskField.SHOW_ON_BOARD.getValue()] = "Show On Board";
 
+      TASK_COLUMNS_ARRAY[TaskField.STORED_MATERIAL.getValue()] = "Stored Material";
+      TASK_COLUMNS_ARRAY[TaskField.FEATURE_OF_WORK.getValue()] = "Feature of Work";
+      TASK_COLUMNS_ARRAY[TaskField.CATEGORY_OF_WORK.getValue()] = "Category of Work";
+      TASK_COLUMNS_ARRAY[TaskField.PHASE_OF_WORK.getValue()] = "Phase of Work";
+      TASK_COLUMNS_ARRAY[TaskField.BID_ITEM.getValue()] = "Bid Item";
+      TASK_COLUMNS_ARRAY[TaskField.MOD_OR_CLAIM_NUMBER.getValue()] = "Mod or Claim Number";
+      TASK_COLUMNS_ARRAY[TaskField.WORK_AREA_CODE.getValue()] = "Work Area Code";
+      TASK_COLUMNS_ARRAY[TaskField.RESPONSIBILITY_CODE.getValue()] = "Responsibility Code";
+      TASK_COLUMNS_ARRAY[TaskField.WORKERS_PER_DAY.getValue()] = "Workers per Day";
+      TASK_COLUMNS_ARRAY[TaskField.HAMMOCK_CODE.getValue()] = "Hammock Code";
+      TASK_COLUMNS_ARRAY[TaskField.MAIL.getValue()] = "Mail";
+      TASK_COLUMNS_ARRAY[TaskField.SECTION.getValue()] = "Section";
+      TASK_COLUMNS_ARRAY[TaskField.MANAGER.getValue()] = "Manager";
+      TASK_COLUMNS_ARRAY[TaskField.DEPARTMENT.getValue()] = "Department";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_FINISH.getValue()] = "Planned Finish";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_START.getValue()] = "Planned Start";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_DURATION.getValue()] = "Planned Duration";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK.getValue()] = "Planned Work";
+      TASK_COLUMNS_ARRAY[TaskField.SUSPEND_DATE.getValue()] = "Suspend Date";
+      TASK_COLUMNS_ARRAY[TaskField.PRIMARY_RESOURCE_ID.getValue()] = "Primary Resource Unique ID";
+      TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_ID.getValue()] = "Activity ID";
+      
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";

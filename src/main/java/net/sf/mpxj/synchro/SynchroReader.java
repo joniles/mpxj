@@ -52,7 +52,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -313,7 +312,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task task = parent.addTask();
       task.setName(row.getString("NAME"));
       task.setGUID(row.getUUID("UUID"));
-      task.set(TaskExtendedField.ACTIVITY_ID, row.getString("ID"));
+      task.setActivityID(row.getString("ID"));
       task.setDuration(row.getDuration("PLANNED_DURATION"));
       task.setRemainingDuration(row.getDuration("REMAINING_DURATION"));
       task.setHyperlink(row.getString("URL"));
@@ -645,7 +644,6 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
    public static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
-      TaskExtendedField.ACTIVITY_ID,
       ResourceExtendedField.DESCRIPTION,
       ResourceExtendedField.SUPPLY_REFERENCE
    };

@@ -841,8 +841,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_START, t -> ((Task) t).getStart());
-      Date plannedFinish = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_FINISH, t -> ((Task) t).getFinish());
+      Date plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
+      Date plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
@@ -853,7 +853,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(TaskExtendedField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
+      xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentCompleteType((String) mpxj.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE, t -> "Duration"));
@@ -861,8 +861,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
-      xml.setPrimaryResourceObjectId(NumberHelper.getInteger((Number) mpxj.getCachedValue(TaskExtendedField.PRIMARY_RESOURCE_ID)));
-      xml.setPlannedDuration(getDuration((Duration) mpxj.getCachedValue(TaskExtendedField.PLANNED_DURATION, t -> ((Task) t).getDuration())));
+      xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
+      xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
@@ -871,10 +871,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
-      xml.setResumeDate((Date) mpxj.getCachedValue(TaskExtendedField.RESUME_DATE));
+      xml.setResumeDate(mpxj.getResume());
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
-      xml.setSuspendDate((Date) mpxj.getCachedValue(TaskExtendedField.SUSPEND_DATE));
+      xml.setSuspendDate(mpxj.getSuspendDate());
       xml.setType(getTaskType(mpxj));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);

@@ -1003,7 +1003,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                task.setWBS(parentTask.getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS());
             }
 
-            task.set(TaskExtendedField.ACTIVITY_ID, task.getWBS());
+            task.setActivityID(task.getWBS());
          }
       }
 
@@ -1057,7 +1057,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
          task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
 
-         task.set(TaskExtendedField.PLANNED_DURATION, getDuration(row.getPlannedDuration()));
+         task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
          task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setDuration(getDuration(row.getAtCompletionDuration()));
@@ -1074,17 +1074,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         task.set(TaskExtendedField.PLANNED_START, row.getPlannedStartDate());
-         task.set(TaskExtendedField.PLANNED_FINISH, row.getPlannedFinishDate());
+         task.setPlannedStart(row.getPlannedStartDate());
+         task.setPlannedFinish(row.getPlannedFinishDate());
 
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
-         task.set(TaskExtendedField.ACTIVITY_ID, row.getId());
+         task.setActivityID(row.getId());
          task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
          task.set(TaskExtendedField.STATUS, row.getStatus());
-         task.set(TaskExtendedField.PRIMARY_RESOURCE_ID, row.getPrimaryResourceObjectId());
-         task.set(TaskExtendedField.SUSPEND_DATE, row.getSuspendDate());
-         task.set(TaskExtendedField.RESUME_DATE, row.getResumeDate());
+         task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
+         task.setSuspendDate(row.getSuspendDate());
+         task.setResume(row.getResumeDate());
          task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
@@ -1101,7 +1101,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setStart(row.getStartDate());
          task.setFinish(row.getFinishDate());
 
-         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskExtendedField.PLANNED_START.getType());
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.PLANNED_START);
          populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH);
 
          //
@@ -1133,7 +1133,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               Date finish = calendar.getDate((Date) task.getCachedValue(TaskExtendedField.PLANNED_START), duration, false);
+               Date finish = calendar.getDate(task.getPlannedStart(), duration, false);
 
                //
                // Deal with an oddity where the finish date shows up as the
@@ -1193,8 +1193,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int finished = 0;
          Date startDate = parentTask.getStart();
          Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = (Date) parentTask.getCachedValue(TaskExtendedField.PLANNED_START);
-         Date plannedFinishDate = (Date) parentTask.getCachedValue(TaskExtendedField.PLANNED_FINISH);
+         Date plannedStartDate = parentTask.getPlannedStart();
+         Date plannedFinishDate = parentTask.getPlannedFinish();
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1216,8 +1216,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             startDate = DateHelper.min(startDate, task.getStart());
             finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, (Date) task.getCachedValue(TaskExtendedField.PLANNED_START));
-            plannedFinishDate = DateHelper.max(plannedFinishDate, (Date) task.getCachedValue(TaskExtendedField.PLANNED_FINISH));
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -1239,8 +1239,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          parentTask.setStart(startDate);
          parentTask.setFinish(finishDate);
-         parentTask.set(TaskExtendedField.PLANNED_START, plannedStartDate);
-         parentTask.set(TaskExtendedField.PLANNED_FINISH, plannedFinishDate);
+         parentTask.setPlannedStart(plannedStartDate);
+         parentTask.setPlannedFinish(plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1264,7 +1264,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (plannedStartDate != null && plannedFinishDate != null)
          {
             plannedDuration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
-            parentTask.set(TaskExtendedField.PLANNED_DURATION, plannedDuration);
+            parentTask.setPlannedDuration(plannedDuration);
          }
 
          Duration remainingDuration = null;
