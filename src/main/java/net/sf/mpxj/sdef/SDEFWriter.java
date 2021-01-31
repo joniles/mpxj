@@ -39,9 +39,11 @@ import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -51,8 +53,10 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -61,15 +65,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class SDEFWriter extends AbstractProjectWriter
 {
-   private ProjectFile m_projectFile; // from MPXJ library
-   private EventManager m_eventManager;
-   private PrintStream m_writer; // line out to a text file
-   private StringBuilder m_buffer; // used to accumulate characters
-   private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
-   private double m_minutesPerDay;
-   private double m_minutesPerWeek; // needed to get everything into days
-   private double m_daysPerMonth;
-
    /**
     * Write a project file in SDEF format to an output stream.
     *
@@ -129,7 +124,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    private void writeFileCreationRecord() throws IOException
    {
-      m_writer.println("VOLM 1"); // first line in file
+      m_writer.println("VOLM  1"); // first line in file
    }
 
    /**
@@ -148,17 +143,21 @@ public final class SDEFWriter extends AbstractProjectWriter
       m_minutesPerWeek = record.getMinutesPerWeek().doubleValue();
       m_daysPerMonth = record.getDaysPerMonth().doubleValue();
 
+      Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
+      Date startDate = record.getStartDate() == null ? m_projectFile.getStartDate() : record.getStartDate();
+      Date finishDate = record.getFinishDate() == null ? m_projectFile.getFinishDate() : record.getFinishDate();
+
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);
       m_buffer.append("PROJ ");
-      m_buffer.append(m_formatter.format(record.getStartDate()).toUpperCase() + " "); // DataDate
+      m_buffer.append(formatDate(dataDate) + " "); // DataDate
       m_buffer.append(SDEFmethods.lset(record.getManager(), 4) + " "); // ProjIdent
       m_buffer.append(SDEFmethods.lset(record.getProjectTitle(), 48) + " "); // ProjName
       m_buffer.append(SDEFmethods.lset(record.getSubject(), 36) + " "); // ContrName
       m_buffer.append("P "); // ArrowP
       m_buffer.append(SDEFmethods.lset(record.getKeywords(), 7)); // ContractNum
-      m_buffer.append(m_formatter.format(record.getStartDate()).toUpperCase() + " "); // ProjStart
-      m_buffer.append(m_formatter.format(record.getFinishDate()).toUpperCase()); // ProjEnd
+      m_buffer.append(formatDate(startDate) + " "); // ProjStart
+      m_buffer.append(formatDate(finishDate)); // ProjEnd
       m_writer.println(m_buffer);
    }
 
@@ -199,13 +198,30 @@ public final class SDEFWriter extends AbstractProjectWriter
       {
          if (!record.getCalendarExceptions().isEmpty())
          {
-            // Need to move HOLI up here and get 15 exceptions per line as per USACE spec.
-            // for now, we'll write one line for each calendar exception, hope there aren't too many
-            //
-            // changing this would be a serious upgrade, too much coding to do today....
+            List<String> formattedExceptions = new ArrayList<>();
+            String recordPrefix = "HOLI " + SDEFmethods.lset(record.getUniqueID().toString(), 2);
+
             for (ProjectCalendarException ex : record.getCalendarExceptions())
             {
-               writeCalendarException(record, ex);
+               generateCalendarExceptions(record, ex, formattedExceptions);
+            }
+
+            int startIndex = 0;
+            int endIndex;
+            while (startIndex < formattedExceptions.size())
+            {
+               if (startIndex + MAX_EXCEPTIONS_PER_RECORD <= formattedExceptions.size())
+               {
+                  endIndex = startIndex + MAX_EXCEPTIONS_PER_RECORD;
+               }
+               else
+               {
+                  endIndex = formattedExceptions.size();
+               }
+
+               m_writer.print(recordPrefix);
+               m_writer.println(formattedExceptions.subList(startIndex, endIndex).stream().collect(Collectors.joining(" ")));
+               startIndex = endIndex;
             }
          }
          m_eventManager.fireCalendarWrittenEvent(record); // left here from MPX template, maybe not needed???
@@ -213,27 +229,22 @@ public final class SDEFWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a calendar exception.
+    * Populate a list of formatted exceptions.
     *
     * @param parentCalendar parent calendar instance
     * @param record calendar exception instance
-    * @throws IOException
+    * @param formattedExceptions list of formatted exceptions
     */
-   private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record) throws IOException
+   private void generateCalendarExceptions(ProjectCalendar parentCalendar, ProjectCalendarException record, List<String> formattedExceptions)
    {
-      m_buffer.setLength(0);
       Calendar stepDay = DateHelper.popCalendar(record.getFromDate()); // Start at From Date, then step through days...
       Calendar lastDay = DateHelper.popCalendar(record.getToDate()); // last day in this exception
 
-      m_buffer.append("HOLI ");
-      m_buffer.append(SDEFmethods.lset(parentCalendar.getUniqueID().toString(), 2));
-
       while (stepDay.compareTo(lastDay) <= 0)
       {
-         m_buffer.append(m_formatter.format(stepDay.getTime()).toUpperCase() + " ");
+         formattedExceptions.add(formatDate(stepDay.getTime()));
          stepDay.add(Calendar.DAY_OF_MONTH, 1);
       }
-      m_writer.println(m_buffer.toString());
 
       DateHelper.pushCalendar(stepDay);
       DateHelper.pushCalendar(lastDay);
@@ -251,11 +262,17 @@ public final class SDEFWriter extends AbstractProjectWriter
       if (!record.getSummary())
       {
          m_buffer.append("ACTV ");
-         m_buffer.append(SDEFmethods.rset(record.getUniqueID().toString(), 10) + " ");
+
+         m_buffer.append(getActivityID(record) + " ");
          m_buffer.append(SDEFmethods.lset(record.getName(), 30) + " ");
 
          // Following just makes certain we have days for duration, as per USACE spec.
          Duration dd = record.getDuration();
+         if (dd == null)
+         {
+            dd = Duration.getInstance(0, TimeUnit.DAYS);
+         }
+
          double duration = dd.getDuration();
          if (dd.getUnits() != TimeUnit.DAYS)
          {
@@ -265,16 +282,38 @@ public final class SDEFWriter extends AbstractProjectWriter
          Integer est = Integer.valueOf(days.intValue());
          m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
 
-         String conType = "ES "; // assume early start
-         Date conDate = record.getEarlyStart();
-         int test = record.getConstraintType().getValue(); // test for other types
-         if (test == 1 || test == 3 || test == 6 || test == 7 || test == 9)
+         String conType;
+         String formattedConstraintDate;
+         Date conDate = record.getConstraintDate();
+         if (conDate == null)
          {
-            conType = "LF "; // see ConstraintType enum for definitions
-            conDate = record.getLateFinish();
+            conType = "   ";
+            formattedConstraintDate = "       ";
          }
-         m_buffer.append(m_formatter.format(conDate).toUpperCase() + " "); // Constraint Date
-         m_buffer.append(conType); // Constraint Type
+         else
+         {
+            formattedConstraintDate = m_formatter.format(conDate).toUpperCase();
+
+            switch (record.getConstraintType())
+            {
+               case AS_LATE_AS_POSSIBLE:
+               case MUST_FINISH_ON:
+               case FINISH_NO_EARLIER_THAN:
+               case FINISH_NO_LATER_THAN:
+               {
+                  conType = "LF ";
+                  break;
+               }
+
+               default:
+               {
+                  conType = "ES ";
+               }
+            }
+         }
+
+         m_buffer.append(formattedConstraintDate + " ");
+         m_buffer.append(conType);
          if (record.getCalendar() == null)
          {
             m_buffer.append("1 ");
@@ -283,17 +322,17 @@ public final class SDEFWriter extends AbstractProjectWriter
          {
             m_buffer.append(SDEFmethods.lset(record.getCalendar().getUniqueID().toString(), 1) + " ");
          }
-         // skipping hammock code in here
-         // use of text fields for extra USACE data is suggested at my web site: www.geocomputer.com
-         // not documented on how to do this here, so I need to comment out at present
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText1(), 3) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText2(), 4) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText3(), 4) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText4(), 6) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText5(), 6) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText6(), 2) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText7(), 1) + " ");
-         //	      m_buffer.append(SDEFmethods.Lset(record.getText8(), 30) + " ");
+
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.HAMMOCK_CODE), 1) + " ");
+         m_buffer.append(SDEFmethods.rset(formatNumber((Number) record.getCachedValue(TaskExtendedField.WORKERS_PER_DAY)), 3) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.RESPONSIBILITY_CODE), 4) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.WORK_AREA_CODE), 4) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.MOD_OR_CLAIM_NO), 6) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.BID_ITEM), 6) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.PHASE_OF_WORK), 2) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.CATEGORY_OF_WORK), 1) + " ");
+         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.FEATURE_OF_WORK), 30));
+
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
@@ -339,13 +378,14 @@ public final class SDEFWriter extends AbstractProjectWriter
       //
       if (!record.getSummary() && !record.getPredecessors().isEmpty())
       { // I don't use summary tasks for SDEF
-         m_buffer.append("PRED ");
          List<Relation> predecessors = record.getPredecessors();
 
          for (Relation pred : predecessors)
          {
-            m_buffer.append(SDEFmethods.rset(pred.getSourceTask().getUniqueID().toString(), 10) + " ");
-            m_buffer.append(SDEFmethods.rset(pred.getTargetTask().getUniqueID().toString(), 10) + " ");
+            m_buffer.setLength(0);
+            m_buffer.append("PRED ");
+            m_buffer.append(getActivityID(pred.getSourceTask()) + " ");
+            m_buffer.append(getActivityID(pred.getTargetTask()) + " ");
             String type = "C"; // default finish-to-start
             if (!pred.getType().toString().equals("FS"))
             {
@@ -355,15 +395,26 @@ public final class SDEFWriter extends AbstractProjectWriter
 
             Duration dd = pred.getLag();
             double duration = dd.getDuration();
+
+            // Add 0.5 so half day rounds up upon truncation
+            if (duration < 0)
+            {
+               duration -= 0.5;
+            }
+            else
+            {
+               duration += 0.5;
+            }
+
             if (dd.getUnits() != TimeUnit.DAYS)
             {
                dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
             }
-            Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+            Double days = Double.valueOf(dd.getDuration());
             Integer est = Integer.valueOf(days.intValue());
-            m_buffer.append(SDEFmethods.rset(est.toString(), 4) + " "); // task duration in days required by USACE
+            m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
+            m_writer.println(m_buffer.toString());
          }
-         m_writer.println(m_buffer.toString());
       }
    }
 
@@ -385,7 +436,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       if (!record.getSummary())
       { // I don't use summary tasks for SDEF
          m_buffer.append("PROG ");
-         m_buffer.append(SDEFmethods.rset(record.getUniqueID().toString(), 10) + " ");
+         m_buffer.append(getActivityID(record) + " ");
          Date temp = record.getActualStart();
          if (temp == null)
          {
@@ -405,7 +456,7 @@ public final class SDEFWriter extends AbstractProjectWriter
             m_buffer.append(m_formatter.format(record.getActualFinish()).toUpperCase() + " "); // ACTUAL FINISH DATE
          }
 
-         Duration dd = record.getRemainingDuration();
+         Duration dd = record.getRemainingDuration() == null ? Duration.getInstance(0, TimeUnit.DAYS) : record.getRemainingDuration();
          double duration = dd.getDuration();
          if (dd.getUnits() != TimeUnit.DAYS)
          {
@@ -416,34 +467,46 @@ public final class SDEFWriter extends AbstractProjectWriter
          m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
 
          DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
-         m_buffer.append(SDEFmethods.rset(twoDec.format(record.getCost().floatValue()), 12) + " ");
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getCost())), 12) + " ");
          m_buffer.append(SDEFmethods.rset(twoDec.format(0.00), 12) + " "); // *** assume zero progress on cost
          m_buffer.append(SDEFmethods.rset(twoDec.format(0.00), 12) + " "); // *** assume zero progress on cost
-         m_buffer.append(m_formatter.format(record.getEarlyStart()).toUpperCase() + " ");
-         m_buffer.append(m_formatter.format(record.getEarlyFinish()).toUpperCase() + " ");
-         m_buffer.append(m_formatter.format(record.getLateStart()).toUpperCase() + " ");
-         m_buffer.append(m_formatter.format(record.getLateFinish()).toUpperCase() + " ");
+         m_buffer.append(formatDate(record.getEarlyStart()) + " ");
+         m_buffer.append(formatDate(record.getEarlyFinish()) + " ");
+         m_buffer.append(formatDate(record.getLateStart()) + " ");
+         m_buffer.append(formatDate(record.getLateFinish()) + " ");
 
-         dd = record.getTotalSlack();
-         duration = dd.getDuration();
-         if (dd.getUnits() != TimeUnit.DAYS)
+         char floatSign;
+         String floatValue;
+
+         if (record.getActualFinish() == null)
          {
-            dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
-         }
-         days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-         est = Integer.valueOf(days.intValue());
-         char slack;
-         if (est.intValue() >= 0)
-         {
-            slack = '+'; // USACE likes positive slack, so they separate the sign from the value
+            dd = record.getTotalSlack();
+            duration = dd.getDuration();
+            if (dd.getUnits() != TimeUnit.DAYS)
+            {
+               dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
+            }
+            days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
+            est = Integer.valueOf(days.intValue());
+            if (est.intValue() >= 0)
+            {
+               floatSign = '+'; // USACE likes positive slack, so they separate the sign from the value
+            }
+            else
+            {
+               floatSign = '-'; // only write a negative when it's negative, i.e. can't be done in project management terms!!!
+            }
+            est = Integer.valueOf(Math.abs(days.intValue()));
+            floatValue = est.toString();
          }
          else
          {
-            slack = '-'; // only write a negative when it's negative, i.e. can't be done in project management terms!!!
+            floatSign = ' ';
+            floatValue = "";
          }
-         m_buffer.append(slack + " ");
-         est = Integer.valueOf(Math.abs(days.intValue()));
-         m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
+
+         m_buffer.append(floatSign + " ");
+         m_buffer.append(SDEFmethods.rset(floatValue, 3)); // task duration in days required by USACE
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
@@ -462,4 +525,61 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
    }
 
+   private String formatDate(Date date)
+   {
+      String result;
+      if (date == null)
+      {
+         result = "       ";
+      }
+      else
+      {
+         result = m_formatter.format(date).toUpperCase();
+      }
+      return result;
+   }
+
+   private String formatNumber(Number value)
+   {
+      String result;
+      if (value == null)
+      {
+         result = "";
+      }
+      else
+      {
+         result = value.toString();
+      }
+      return result;
+   }
+
+   private String getActivityID(Task task)
+   {
+      // Example SDEF files I've seen include an alphanumeric Activity ID
+      // field, left justified, rather than the number right justified field
+      // as defined by the spec. We'll use the Activity ID if it is present
+      // and left justify it, otherwise we'll follow the spec with a numeric identifier.
+      String activityID = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_ID);
+      if (activityID == null)
+      {
+         activityID = SDEFmethods.rset(String.valueOf(NumberHelper.getInt(task.getUniqueID())), 10);
+      }
+      else
+      {
+         activityID = SDEFmethods.lset(activityID, 10);
+      }
+
+      return activityID;
+   }
+
+   private ProjectFile m_projectFile; // from MPXJ library
+   private EventManager m_eventManager;
+   private PrintStream m_writer; // line out to a text file
+   private StringBuilder m_buffer; // used to accumulate characters
+   private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
+   private double m_minutesPerDay;
+   private double m_minutesPerWeek; // needed to get everything into days
+   private double m_daysPerMonth;
+
+   private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }

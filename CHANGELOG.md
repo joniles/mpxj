@@ -16,6 +16,7 @@
 * Fix an issue where resource assignment costs were not being read correctly from PMXML files.
 * When reading XER files, translate the activity status and activity type attributes to its human-readable form to match the values used by PMXML files.
 * Read and write the suspend date and resume date attributes for PMXML files.
+* General improvements to the SDEF writer.
 
 ## 8.5.1 (07/01/2021)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.
