@@ -53,6 +53,7 @@ import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
+import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.writer.ProjectWriter;
 
 /**
@@ -495,8 +496,9 @@ public class CustomerDataTest
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", PrimaveraPMFileWriter.class);
       boolean json = testBaseline(name, project, baselineDirectory, "json", JsonWriter.class);
       boolean planner = testBaseline(name, project, baselineDirectory, "planner", PlannerWriter.class);
+      boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", SDEFWriter.class);
 
-      return mspdi && pmxml && json && planner;
+      return mspdi && pmxml && json && planner && sdef;
    }
 
    /**
@@ -526,9 +528,15 @@ public class CustomerDataTest
       }
       else
       {
-         suffix = ".xml";
+         if (writer instanceof SDEFWriter)
+         {
+            suffix = ".sdef";
+         }
+         else
+         {
+            suffix = ".xml";
+         }
       }
-
       File baselineFile = new File(baselineDirectory, name + suffix);
 
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
@@ -659,7 +667,7 @@ public class CustomerDataTest
       // Exercise by baseline test
       //WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
 
-      // Not reliable enough results to include
+      // Exercise by baseline test
       // WRITER_CLASSES.add(SDEFWriter.class);
 
       // Write MPX last as applying locale settings will change some project values
