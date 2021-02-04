@@ -520,6 +520,10 @@ public enum AssignmentField implements FieldType
    HYPERLINK_DATA(DataType.BINARY),
    RESUME(DataType.DATE),
    STOP(DataType.DATE),
+   PLANNED_WORK(DataType.WORK),
+   PLANNED_COST(DataType.CURRENCY),
+   PLANNED_START(DataType.DATE),
+   PLANNED_FINISH(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),

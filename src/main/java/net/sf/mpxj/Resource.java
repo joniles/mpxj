@@ -2240,6 +2240,116 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (UUID) getCachedValue(ResourceField.GUID);
    }
 
+   public void setUnit(String value)
+   {
+      set(ResourceField.UNIT, value);
+   }
+
+   public String getUnit()
+   {
+      return (String) getCachedValue(ResourceField.UNIT);
+   }
+
+   public void setSupplyReference(String value)
+   {
+      set(ResourceField.SUPPLY_REFERENCE, value);
+   }
+
+   public String getSupplyReference()
+   {
+      return (String) getCachedValue(ResourceField.SUPPLY_REFERENCE);
+   }
+
+   public void setDescription(String value)
+   {
+      set(ResourceField.DESCRIPTION, value);
+   }
+
+   public String getDescription()
+   {
+      return (String) getCachedValue(ResourceField.DESCRIPTION);
+   }
+
+   public void setResourceID(String value)
+   {
+      set(ResourceField.RESOURCE_ID, value);
+   }
+
+   public String getResourceID()
+   {
+      return (String) getCachedValue(ResourceField.RESOURCE_ID);
+   }
+
+   public void setModifyOnIntegrate(Boolean value)
+   {
+      set(ResourceField.MODIFY_ON_INTEGRATE, value);
+   }
+
+   public Boolean getModifyOnIntegrate()
+   {
+      return (Boolean) getCachedValue(ResourceField.MODIFY_ON_INTEGRATE);
+   }
+
+   public void setExpensesOnly(Boolean value)
+   {
+      set(ResourceField.EXPENSES_ONLY, value);
+   }
+
+   public Boolean getExpensesOnly()
+   {
+      return (Boolean) getCachedValue(ResourceField.EXPENSES_ONLY);
+   }
+
+   public void setPeriodDur(Number value)
+   {
+      set(ResourceField.PERIOD_DUR, value);
+   }
+
+   public Number getPeriodDur()
+   {
+      return (Number) getCachedValue(ResourceField.PERIOD_DUR);
+   }
+
+   public void setPriority(Number value)
+   {
+      set(ResourceField.PRIORITY, value);
+   }
+
+   public Number getPriority()
+   {
+      return (Number) getCachedValue(ResourceField.PRIORITY);
+   }
+
+   public void setRate(Number value)
+   {
+      set(ResourceField.RATE, value);
+   }
+
+   public Number getRate()
+   {
+      return (Number) getCachedValue(ResourceField.RATE);
+   }
+
+   public void setPool(Number value)
+   {
+      set(ResourceField.POOL, value);
+   }
+
+   public Number getPool()
+   {
+      return (Number) getCachedValue(ResourceField.POOL);
+   }
+
+   public void setPerDay(Number value)
+   {
+      set(ResourceField.PER_DAY, value);
+   }
+
+   public Number getPerDay()
+   {
+      return (Number) getCachedValue(ResourceField.PER_DAY);
+   }
+
    /**
     * Sets the resource GUID.
     *

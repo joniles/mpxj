@@ -83,7 +83,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.StructuredNotes;
@@ -92,7 +91,6 @@ import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -1916,7 +1914,7 @@ final class PrimaveraReader
       map.put(ResourceField.TYPE, "rsrc_type");
       map.put(ResourceField.INITIALS, "rsrc_short_name"); // TODO - remove, deprecated and replaced by TEXT1
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
-      map.put(ResourceExtendedField.RESOURCE_ID.getType(), "rsrc_short_name");
+      map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
 
       return map;
    }
@@ -1999,15 +1997,15 @@ final class PrimaveraReader
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
-      map.put(AssignmentExtendedField.PLANNED_WORK.getType(), "target_qty");
+      map.put(AssignmentField.PLANNED_WORK, "target_qty");
       map.put(AssignmentField.ACTUAL_OVERTIME_WORK, "act_ot_qty");
-      map.put(AssignmentExtendedField.PLANNED_COST.getType(), "target_cost");
+      map.put(AssignmentField.PLANNED_COST, "target_cost");
       map.put(AssignmentField.ACTUAL_OVERTIME_COST, "act_ot_cost");
       map.put(AssignmentField.REMAINING_COST, "remain_cost");
       map.put(AssignmentField.ACTUAL_START, "act_start_date");
       map.put(AssignmentField.ACTUAL_FINISH, "act_end_date");
-      map.put(AssignmentExtendedField.PLANNED_START.getType(), "target_start_date");
-      map.put(AssignmentExtendedField.PLANNED_FINISH.getType(), "target_end_date");
+      map.put(AssignmentField.PLANNED_START, "target_start_date");
+      map.put(AssignmentField.PLANNED_FINISH, "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
 
       return map;
@@ -2191,12 +2189,7 @@ final class PrimaveraReader
    {
       TaskExtendedField.ACTIVITY_TYPE,
       TaskExtendedField.STATUS,
-      TaskExtendedField.PERCENT_COMPLETE_TYPE,
-      ResourceExtendedField.RESOURCE_ID,
-      AssignmentExtendedField.PLANNED_START,
-      AssignmentExtendedField.PLANNED_FINISH,
-      AssignmentExtendedField.PLANNED_COST,
-      AssignmentExtendedField.PLANNED_WORK
+      TaskExtendedField.PERCENT_COMPLETE_TYPE
    };
 
 }

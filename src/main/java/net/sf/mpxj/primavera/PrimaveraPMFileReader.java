@@ -54,7 +54,6 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -90,7 +89,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -873,7 +871,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
-         resource.set(ResourceExtendedField.RESOURCE_ID, xml.getId());
+         resource.setResourceID(xml.getId());
          setCalendar(resource, xml.getCalendarObjectId());
          readUDFTypes(resource, xml.getUDF());
 
@@ -1433,15 +1431,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             assignment.setUniqueID(row.getObjectId());
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
-            assignment.set(AssignmentExtendedField.PLANNED_WORK, getDuration(row.getPlannedUnits()));
+            assignment.setPlannedWork(getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));
             assignment.setRemainingCost(row.getRemainingCost());
-            assignment.set(AssignmentExtendedField.PLANNED_COST, row.getPlannedCost());
+            assignment.setPlannedCost(row.getPlannedCost());
             assignment.setActualCost(row.getActualCost());
             assignment.setActualStart(row.getActualStartDate());
             assignment.setActualFinish(row.getActualFinishDate());
-            assignment.set(AssignmentExtendedField.PLANNED_START, row.getPlannedStartDate());
-            assignment.set(AssignmentExtendedField.PLANNED_FINISH, row.getPlannedFinishDate());
+            assignment.setPlannedStart(row.getPlannedStartDate());
+            assignment.setPlannedFinish(row.getPlannedFinishDate());
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));

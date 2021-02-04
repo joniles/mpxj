@@ -1770,6 +1770,17 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.PROPOSED_FINISH.getValue()] = "Proposed Finish";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PROPOSED_MAX_UNITS.getValue()] = "Proposed Max Units";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENGAGEMENT_STATUS.getValue()] = "Engagement Status";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.UNIT.getValue()] = "Unit";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.SUPPLY_REFERENCE.getValue()] = "Supply Reference";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.DESCRIPTION.getValue()] = "Description";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.RESOURCE_ID.getValue()] = "Resource ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.MODIFY_ON_INTEGRATE.getValue()] = "Modify On Integrate";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.EXPENSES_ONLY.getValue()] = "Expenses Only";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PERIOD_DUR.getValue()] = "Period Dur";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PRIORITY.getValue()] = "Priority";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.RATE.getValue()] = "Rate";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.POOL.getValue()] = "Pool";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PER_DAY.getValue()] = "Per Day";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
@@ -1943,6 +1954,10 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_DATA.getValue()] = "Hyperlink Data";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESUME.getValue()] = "Resume";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.STOP.getValue()] = "Stop";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_WORK.getValue()] = "Planned Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_COST.getValue()] = "Planned Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_START.getValue()] = "Planned Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_FINISH.getValue()] = "Planned Finish";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";

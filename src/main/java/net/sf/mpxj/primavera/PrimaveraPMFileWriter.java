@@ -53,7 +53,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
@@ -82,7 +81,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -691,7 +689,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(ResourceExtendedField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
+      xml.setId(getResourceID(mpxj));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -946,10 +944,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPlannedCost(getDouble((Number) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_COST)));
-      xml.setPlannedFinishDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_FINISH));
-      xml.setPlannedStartDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_START));
-      xml.setPlannedUnits(getDuration((Duration) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_WORK)));
+      xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
+      xml.setPlannedFinishDate(mpxj.getPlannedFinish());
+      xml.setPlannedStartDate(mpxj.getPlannedStart());
+      xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
       xml.setRateSource("Resource");
@@ -1609,9 +1607,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * @param resource Resource instance
     * @return generated Resource ID
     */
-   private String getDefaultResourceID(Resource resource)
+   private String getResourceID(Resource resource)
    {
-      return RESOURCE_ID_PREFIX + resource.getUniqueID();
+      String result = resource.getResourceID();
+      if (result == null)
+      {
+         result = RESOURCE_ID_PREFIX + resource.getUniqueID();
+      }
+      return result;
    }
 
    /**

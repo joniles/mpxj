@@ -2696,6 +2696,46 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       set(AssignmentField.RESUME, resume);
    }
 
+   public Duration getPlannedWork()
+   {
+      return (Duration) getCachedValue(AssignmentField.PLANNED_WORK);
+   }
+
+   public void setPlannedWork(Duration value)
+   {
+      set(AssignmentField.PLANNED_WORK, value);
+   }
+
+   public Number getPlannedCost()
+   {
+      return (Number) getCachedValue(AssignmentField.PLANNED_COST);
+   }
+
+   public void setPlannedCost(Number value)
+   {
+      set(AssignmentField.PLANNED_COST, value);
+   }
+
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_START);
+   }
+
+   public void setPlannedStart(Date value)
+   {
+      set(AssignmentField.PLANNED_START, value);
+   }
+
+   public Date getPlannedFinish()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_FINISH);
+   }
+
+   public void setPlannedFinish(Date value)
+   {
+      set(AssignmentField.PLANNED_FINISH, value);
+   }
+
    /**
     * Maps a field index to an AssignmentField instance.
     *
