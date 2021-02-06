@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -2422,17 +2421,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   @Override public Object getCachedValue(ExtendedFieldType field)
-   {
-      return getCachedValue(field, null);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback)
-   {
-      Object result = getParentFile().isExtendedFieldRegistered(field) ? m_array[field.getType().getValue()] : null;
-      return result == null && fallback != null ? fallback.apply(this) : result;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -2500,14 +2488,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
             fireFieldChangeEvent((ResourceField) field, m_array[index], value);
          }
          m_array[index] = value;
-      }
-   }
-
-   @Override public void set(ExtendedFieldType field, Object value)
-   {
-      if (field != null)
-      {
-         set(field.getType(), value);
       }
    }
 

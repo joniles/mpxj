@@ -39,13 +39,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -54,7 +54,6 @@ import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -64,7 +63,6 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseCategoryContainer;
 import net.sf.mpxj.ExpenseItem;
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -89,7 +87,6 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -113,11 +110,10 @@ final class PrimaveraReader
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
     * @param assignmentFields assignment field mapping
-    * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -132,9 +128,6 @@ final class PrimaveraReader
       m_wbsFields = wbsFields;
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
-
-      Stream.of(EXTENDED_FIELDS).forEach(f -> m_project.registerExtendedField(f));
-      applyAliases(aliases);
 
       m_taskUdfCounters = taskUdfCounters;
       m_taskUdfCounters.reset();
@@ -816,7 +809,7 @@ final class PrimaveraReader
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
-         task.set(TaskExtendedField.ACTIVITY_TYPE, ACTIVITY_TYPE_MAP.get(task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE)));
+         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getString("task_type")));
          
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
@@ -1815,20 +1808,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Apply aliases to task and resource fields.
-    *
-    * @param aliases map of aliases
-    */
-   private void applyAliases(Map<FieldType, String> aliases)
-   {
-      CustomFieldContainer fields = m_project.getCustomFields();
-      for (Map.Entry<FieldType, String> entry : aliases.entrySet())
-      {
-         fields.getCustomField(entry.getKey()).setAlias(entry.getValue()).setUserDefined(false);
-      }
-   }
-
-   /**
     * Calculate the physical percent complete.
     *
     * @param row task data
@@ -1978,7 +1957,6 @@ final class PrimaveraReader
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
       map.put(TaskField.ACTIVITY_ID, "task_code");
-      map.put(TaskExtendedField.ACTIVITY_TYPE.getType(), "task_type");
       map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
       map.put(TaskField.SUSPEND_DATE, "suspend_date");
       map.put(TaskField.RESUME, "resume_date");
@@ -2010,16 +1988,6 @@ final class PrimaveraReader
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
 
       return map;
-   }
-
-   /**
-    * Retrieve the default aliases to be applied to MPXJ task and resource fields.
-    *
-    * @return map of aliases
-    */
-   public static Map<FieldType, String> getDefaultAliases()
-   {
-      return Stream.of(EXTENDED_FIELDS).collect(Collectors.toMap(ExtendedFieldType::getType, ExtendedFieldType::getName));
    }
 
    private ProjectFile m_project;
@@ -2107,15 +2075,15 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
    }
 
-   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
+   private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
    static
    {
-      ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_LOE", "Level of Effort");
-      ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
+      ACTIVITY_TYPE_MAP.put("TT_Task", ActivityType.TASK_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("TT_Rsrc", ActivityType.RESOURCE_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("TT_LOE", ActivityType.LEVEL_OF_EFFORT);
+      ACTIVITY_TYPE_MAP.put("TT_Mile", ActivityType.START_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("TT_FinMile", ActivityType.FINISH_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
@@ -2185,10 +2153,4 @@ final class PrimaveraReader
    private static final long EXCEPTION_EPOCH = -2209161599935L;
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
-
-   static final ExtendedFieldType[] EXTENDED_FIELDS =
-   {
-      TaskExtendedField.ACTIVITY_TYPE
-   };
-
 }

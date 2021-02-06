@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -4863,6 +4862,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       set(TaskField.PERCENT_COMPLETE_TYPE, value);
    }
    
+   
+   public PercentCompleteType getPercentCompleteType()
+   {
+      return (PercentCompleteType)getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
+   }
+
    public ActivityStatus getActivityStatus()
    {
       return (ActivityStatus)getCachedValue(TaskField.ACTIVITY_STATUS);
@@ -4872,10 +4877,15 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       set(TaskField.ACTIVITY_STATUS, value);
    }
-   
-   public PercentCompleteType getPercentCompleteType()
+
+   public ActivityType getActivityType()
    {
-      return (PercentCompleteType)getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
+      return (ActivityType)getCachedValue(TaskField.ACTIVITY_TYPE);
+   }
+
+   public void setActivityType(ActivityType value)
+   {
+      set(TaskField.ACTIVITY_TYPE, value);
    }
 
    /**
@@ -5003,17 +5013,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   @Override public Object getCachedValue(ExtendedFieldType field)
-   {
-      return getCachedValue(field, null);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback)
-   {
-      Object result = getParentFile().isExtendedFieldRegistered(field) ? m_array[field.getType().getValue()] : null;
-      return result == null && fallback != null ? fallback.apply(this) : result;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -5127,14 +5126,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             fireFieldChangeEvent((TaskField) field, m_array[index], value);
          }
          m_array[index] = value;
-      }
-   }
-
-   @Override public void set(ExtendedFieldType field, Object value)
-   {
-      if (field != null)
-      {
-         set(field.getType(), value);
       }
    }
 

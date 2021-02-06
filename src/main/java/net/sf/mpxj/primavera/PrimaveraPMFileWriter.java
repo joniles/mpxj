@@ -35,10 +35,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -85,7 +82,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -301,7 +297,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
-
+         m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
+         
          populateSortedCustomFieldsList();
 
          writeCurrency();
@@ -753,7 +750,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          // If it's a summary task... it's a WBS entry
          // If the task has come from P6, and the activity type is not set, its a WBS entry
-         if (task.getSummary() || (m_projectFile.isExtendedFieldRegistered(TaskExtendedField.ACTIVITY_TYPE) && task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE) == null))
+         if (task.getSummary() || (m_activityTypePopulated && task.getActivityType() == null))
          {
             writeWBS(task);
          }
@@ -893,8 +890,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private String getTaskType(Task task)
    {
-      String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
-      return activityType == null ? "Resource Dependent" : activityType;
+      return task.getActivityType() == null ? "Resource Dependent" : ACTIVITY_TYPE_MAP.get(task.getActivityType());
    }
 
    /**
@@ -1629,14 +1625,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      Set<FieldType> nativeFields = Stream.of(PrimaveraReader.EXTENDED_FIELDS).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
-
       m_sortedCustomFieldsList = new ArrayList<>();
 
       for (CustomField field : m_projectFile.getCustomFields())
       {
          FieldType fieldType = field.getFieldType();
-         if (fieldType != null && fieldType.getDataType() != null && !nativeFields.contains(fieldType))
+         if (fieldType != null && fieldType.getDataType() != null)
          {
             m_sortedCustomFieldsList.add(field);
          }
@@ -1779,6 +1773,17 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
    }
 
+   private static final Map<net.sf.mpxj.ActivityType, String> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.TASK_DEPENDENT, "Task Dependent");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT, "Resource Dependent");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT, "Level of Effort");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
+   }
+
    private ProjectFile m_projectFile;
    private ObjectFactory m_factory;
    private APIBusinessObjects m_apibo;
@@ -1790,4 +1795,5 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_activityNoteObjectID;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
+   boolean m_activityTypePopulated;
 }

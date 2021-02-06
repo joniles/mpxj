@@ -97,7 +97,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
 
@@ -668,16 +668,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
-    *
-    * @return Primavera field name to MPXJ field type map
-    */
-   public Map<FieldType, String> getAliases()
-   {
-      return m_aliases;
-   }
-
-   /**
     * If set to true, the WBS for each task read from Primavera will exactly match the WBS value shown in Primavera.
     * If set to false, each task will be given a unique WBS based on the WBS present in Primavera.
     * Defaults to true.
@@ -742,5 +732,4 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
 }

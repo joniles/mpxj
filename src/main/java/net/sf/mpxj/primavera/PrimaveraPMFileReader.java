@@ -40,7 +40,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -94,7 +93,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -385,8 +383,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
-
-         Stream.of(PrimaveraReader.EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -1080,7 +1076,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
-         task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
+         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getType()));
          task.setActivityStatus(STATUS_MAP.get(row.getStatus()));
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
@@ -2004,6 +2000,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       STATUS_MAP.put("Not Started", ActivityStatus.NOT_STARTED);
       STATUS_MAP.put("In Progress", ActivityStatus.IN_PROGRESS);
       STATUS_MAP.put("Completed", ActivityStatus.COMPLETED);
+   }
+
+   private static final Map<String, net.sf.mpxj.ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put("Task Dependent", net.sf.mpxj.ActivityType.TASK_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("Resource Dependent", net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("Level of Effort", net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT);
+      ACTIVITY_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

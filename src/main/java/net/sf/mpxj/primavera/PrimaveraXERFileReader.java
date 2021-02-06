@@ -164,7 +164,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_aliases, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -877,16 +877,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Customise the MPXJ field name aliases applied by this reader by modifying the contents of this map.
-    *
-    * @return Primavera field name to MPXJ field type map
-    */
-   public Map<FieldType, String> getAliases()
-   {
-      return m_aliases;
-   }
-
-   /**
     * Filters a list of rows from the named table. If a column name and a value
     * are supplied, then use this to filter the rows. If no column name is
     * supplied, then return all rows.
@@ -1004,7 +994,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private Map<FieldType, String> m_aliases = PrimaveraReader.getDefaultAliases();
    private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
