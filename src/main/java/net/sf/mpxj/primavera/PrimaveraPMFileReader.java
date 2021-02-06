@@ -54,6 +54,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -1080,7 +1081,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
          task.set(TaskExtendedField.ACTIVITY_TYPE, row.getType());
-         task.set(TaskExtendedField.STATUS, row.getStatus());
+         task.setActivityStatus(STATUS_MAP.get(row.getStatus()));
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
          task.setResume(row.getResumeDate());
@@ -1995,6 +1996,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       PERCENT_COMPLETE_TYPE.put("Duration", PercentCompleteType.DURATION);
       PERCENT_COMPLETE_TYPE.put("Units", PercentCompleteType.UNITS);
       PERCENT_COMPLETE_TYPE.put("Scope", PercentCompleteType.SCOPE);
+   }
+
+   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
+   static
+   {
+      STATUS_MAP.put("Not Started", ActivityStatus.NOT_STARTED);
+      STATUS_MAP.put("In Progress", ActivityStatus.IN_PROGRESS);
+      STATUS_MAP.put("Completed", ActivityStatus.COMPLETED);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

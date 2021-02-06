@@ -28,8 +28,7 @@ package net.sf.mpxj;
  */
 public enum TaskExtendedField implements ExtendedFieldType
 {
-   ACTIVITY_TYPE("Activity Type", TaskField.TEXT2),
-   STATUS("Status", TaskField.TEXT3);
+   ACTIVITY_TYPE("Activity Type", TaskField.TEXT2);
    
    /**
     * Constructor.

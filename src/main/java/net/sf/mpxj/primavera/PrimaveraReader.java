@@ -45,6 +45,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -814,7 +815,7 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
-         task.set(TaskExtendedField.STATUS, STATUS_MAP.get(task.getCachedValue(TaskExtendedField.STATUS)));
+         task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
          task.set(TaskExtendedField.ACTIVITY_TYPE, ACTIVITY_TYPE_MAP.get(task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE)));
          
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
@@ -1978,7 +1979,6 @@ final class PrimaveraReader
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
       map.put(TaskField.ACTIVITY_ID, "task_code");
       map.put(TaskExtendedField.ACTIVITY_TYPE.getType(), "task_type");
-      map.put(TaskExtendedField.STATUS.getType(), "status_code");
       map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
       map.put(TaskField.SUSPEND_DATE, "suspend_date");
       map.put(TaskField.RESUME, "resume_date");
@@ -2174,12 +2174,12 @@ final class PrimaveraReader
       PERCENT_COMPLETE_TYPE.put("CP_Units", PercentCompleteType.UNITS);
    }
 
-   private static final Map<String, String> STATUS_MAP = new HashMap<>();
+   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
    static
    {
-      STATUS_MAP.put("TK_NotStart", "Not Started");
-      STATUS_MAP.put("TK_Active", "In Progress");
-      STATUS_MAP.put("TK_Complete", "Completed");
+      STATUS_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
+      STATUS_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
+      STATUS_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;
@@ -2188,8 +2188,7 @@ final class PrimaveraReader
 
    static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
-      TaskExtendedField.ACTIVITY_TYPE,
-      TaskExtendedField.STATUS
+      TaskExtendedField.ACTIVITY_TYPE
    };
 
 }

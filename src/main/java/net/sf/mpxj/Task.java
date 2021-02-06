@@ -4863,6 +4863,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       set(TaskField.PERCENT_COMPLETE_TYPE, value);
    }
    
+   public ActivityStatus getActivityStatus()
+   {
+      return (ActivityStatus)getCachedValue(TaskField.ACTIVITY_STATUS);
+   }
+
+   public void setActivityStatus(ActivityStatus value)
+   {
+      set(TaskField.ACTIVITY_STATUS, value);
+   }
+   
    public PercentCompleteType getPercentCompleteType()
    {
       return (PercentCompleteType)getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
