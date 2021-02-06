@@ -70,6 +70,7 @@ import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -819,7 +820,7 @@ final class PrimaveraReader
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
+         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
          task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
@@ -2165,12 +2166,12 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
    }
 
-   private static final Map<String, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
    static
    {
-      PERCENT_COMPLETE_TYPE.put("CP_Phys", "Physical");
-      PERCENT_COMPLETE_TYPE.put("CP_Drtn", "Duration");
-      PERCENT_COMPLETE_TYPE.put("CP_Units", "Units");
+      PERCENT_COMPLETE_TYPE.put("CP_Phys", PercentCompleteType.PHYSICAL);
+      PERCENT_COMPLETE_TYPE.put("CP_Drtn", PercentCompleteType.DURATION);
+      PERCENT_COMPLETE_TYPE.put("CP_Units", PercentCompleteType.UNITS);
    }
 
    private static final Map<String, String> STATUS_MAP = new HashMap<>();
@@ -2188,8 +2189,7 @@ final class PrimaveraReader
    static final ExtendedFieldType[] EXTENDED_FIELDS =
    {
       TaskExtendedField.ACTIVITY_TYPE,
-      TaskExtendedField.STATUS,
-      TaskExtendedField.PERCENT_COMPLETE_TYPE
+      TaskExtendedField.STATUS
    };
 
 }

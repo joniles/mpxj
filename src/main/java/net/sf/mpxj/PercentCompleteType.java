@@ -1,8 +1,8 @@
 /*
- * file:       TaskExtendedField.java
+ * file:       PercentCompleteType.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
- * date:       10/01/2021
+ * date:       04/02/2021
  */
 
 /*
@@ -23,36 +23,10 @@
 
 package net.sf.mpxj;
 
-/**
- * Task extended fields used by readers and writers.
- */
-public enum TaskExtendedField implements ExtendedFieldType
+public enum PercentCompleteType
 {
-   ACTIVITY_TYPE("Activity Type", TaskField.TEXT2),
-   STATUS("Status", TaskField.TEXT3);
-   
-   /**
-    * Constructor.
-    *
-    * @param name field name
-    * @param type field type
-    */
-   private TaskExtendedField(String name, FieldType type)
-   {
-      m_name = name;
-      m_type = type;
-   }
-
-   @Override public String getName()
-   {
-      return m_name;
-   }
-
-   @Override public FieldType getType()
-   {
-      return m_type;
-   }
-
-   private final String m_name;
-   private final FieldType m_type;
+   DURATION,
+   PHYSICAL,
+   UNITS,
+   SCOPE;
 }

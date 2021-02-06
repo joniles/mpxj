@@ -4858,6 +4858,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (String)getCachedValue(TaskField.ACTIVITY_ID);
    }
 
+   public void setPercentCompleteType(PercentCompleteType value)
+   {
+      set(TaskField.PERCENT_COMPLETE_TYPE, value);
+   }
+   
+   public PercentCompleteType getPercentCompleteType()
+   {
+      return (PercentCompleteType)getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
+   }
+
    /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar

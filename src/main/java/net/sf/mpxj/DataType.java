@@ -73,7 +73,8 @@ public enum DataType implements MpxjEnum
    DATE_RANGE_LIST(40),
    SUBPROJECT(41),
    WORK_CONTOUR(42),
-   EXPENSE_ITEM_LIST(43);
+   EXPENSE_ITEM_LIST(43),
+   PERCENT_COMPLETE_TYPE(44);
 
    /**
     * Private constructor.

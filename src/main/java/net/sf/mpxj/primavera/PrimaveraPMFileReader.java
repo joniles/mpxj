@@ -77,6 +77,7 @@ import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -1046,7 +1047,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setName(row.getName());
          task.setNotesObject(notes);
 
-         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, row.getPercentCompleteType());
+         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getPercentCompleteType()));
          task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
          task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
@@ -1985,6 +1986,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
       DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
       DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
+   }
+
+   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   static
+   {
+      PERCENT_COMPLETE_TYPE.put("Physical", PercentCompleteType.PHYSICAL);
+      PERCENT_COMPLETE_TYPE.put("Duration", PercentCompleteType.DURATION);
+      PERCENT_COMPLETE_TYPE.put("Units", PercentCompleteType.UNITS);
+      PERCENT_COMPLETE_TYPE.put("Scope", PercentCompleteType.SCOPE);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

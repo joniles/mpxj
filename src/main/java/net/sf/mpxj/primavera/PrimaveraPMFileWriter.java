@@ -73,6 +73,7 @@ import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -854,7 +855,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPercentCompleteType((String) mpxj.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE, t -> "Duration"));
+      xml.setPercentCompleteType(getPercentCompleteType(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
@@ -1490,6 +1491,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return result;
    }
 
+   private String getPercentCompleteType(PercentCompleteType value)
+   {
+      return PERCENT_COMPLETE_TYPE.get(value == null ? PercentCompleteType.DURATION : value);
+   }
+   
    /**
     * Returns the reported percent complete value for this task.
     *
@@ -1499,30 +1505,30 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private Double getPercentComplete(Task task)
    {
       Number result;
-      String type = (String) task.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE);
+      PercentCompleteType type = task.getPercentCompleteType();
 
-      if (type == null || !m_projectFile.isExtendedFieldRegistered(TaskExtendedField.PERCENT_COMPLETE_TYPE))
+      if (type == null)
       {
-         type = "Duration";
+         type = PercentCompleteType.DURATION;
       }
 
       switch (type)
       {
-         case "Physical":
+         case PHYSICAL:
          {
             result = task.getPhysicalPercentComplete();
             break;
          }
 
-         case "Units":
+         case UNITS:
          {
             result = task.getPercentageWorkComplete();
             break;
          }
 
-         case "Duration":
-         case "Scope":
-         default:
+         case DURATION:
+         case SCOPE:
+            default:
          {
             result = task.getPercentageComplete();
             break;
@@ -1762,6 +1768,15 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
+   }
+
+   private static final Map<PercentCompleteType, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   static
+   {
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.PHYSICAL, "Physical");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.DURATION, "Duration");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.UNITS, "Units");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
    }
 
    private ProjectFile m_projectFile;
