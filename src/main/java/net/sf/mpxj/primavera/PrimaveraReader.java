@@ -1282,8 +1282,8 @@ final class PrimaveraReader
 
          parentTask.setStart(startDate);
          parentTask.setFinish(finishDate);
-         parentTask.setStart(1, plannedStartDate);
-         parentTask.setFinish(1, plannedFinishDate);
+         parentTask.setPlannedStart(plannedStartDate);
+         parentTask.setPlannedFinish(plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1462,8 +1462,8 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.START, AssignmentField.START1, AssignmentField.ACTUAL_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.FINISH1, AssignmentField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.START, AssignmentField.PLANNED_START, AssignmentField.ACTUAL_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.PLANNED_FINISH, AssignmentField.ACTUAL_FINISH);
 
             // include actual overtime work in work calculations
             Duration remainingWork = row.getDuration("remain_qty");

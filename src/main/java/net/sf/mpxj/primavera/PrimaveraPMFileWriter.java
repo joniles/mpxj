@@ -298,7 +298,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
-         
+
          populateSortedCustomFieldsList();
 
          writeCurrency();
@@ -867,7 +867,15 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
-      xml.setResumeDate(mpxj.getResume());
+
+      // Trying to ensure data from other scheduling applications makes sense in P6.
+      // We won't populate the resume date unless we have a suspend date,
+      // i.e. the activity has been suspended. 
+      if (mpxj.getSuspendDate() != null)
+      {
+         xml.setResumeDate(mpxj.getResume());
+      }
+
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
       xml.setSuspendDate(mpxj.getSuspendDate());
@@ -1491,7 +1499,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       return PERCENT_COMPLETE_TYPE.get(value == null ? PercentCompleteType.DURATION : value);
    }
-   
+
    /**
     * Returns the reported percent complete value for this task.
     *
@@ -1524,7 +1532,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          case DURATION:
          case SCOPE:
-            default:
+         default:
          {
             result = task.getPercentageComplete();
             break;
