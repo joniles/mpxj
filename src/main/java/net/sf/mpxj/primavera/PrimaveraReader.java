@@ -1236,8 +1236,8 @@ final class PrimaveraReader
          int finished = 0;
          Date startDate = parentTask.getStart();
          Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getStart(1);
-         Date plannedFinishDate = parentTask.getFinish(1);
+         Date plannedStartDate = parentTask.getPlannedStart();
+         Date plannedFinishDate = parentTask.getPlannedFinish();
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1259,8 +1259,8 @@ final class PrimaveraReader
 
             startDate = DateHelper.min(startDate, task.getStart());
             finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart(1));
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish(1));
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());

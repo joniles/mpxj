@@ -1121,7 +1121,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             //
             if (task.getActualStart() == null || duration == null)
             {
-               task.setFinish(task.getFinish(1));
+               task.setFinish(task.getPlannedFinish());
             }
             else
             {
