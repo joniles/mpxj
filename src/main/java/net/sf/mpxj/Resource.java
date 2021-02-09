@@ -2239,51 +2239,101 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (UUID) getCachedValue(ResourceField.GUID);
    }
 
+   /**
+    * Set the unit field.
+    * 
+    * @param value unit value
+    */
    public void setUnit(String value)
    {
       set(ResourceField.UNIT, value);
    }
 
+   /**
+    * Retrieve the unit field.
+    * 
+    * @return unit value
+    */
    public String getUnit()
    {
       return (String) getCachedValue(ResourceField.UNIT);
    }
 
+   /**
+    * Set the supply reference field.
+    * 
+    * @param value supply reference value
+    */
    public void setSupplyReference(String value)
    {
       set(ResourceField.SUPPLY_REFERENCE, value);
    }
 
+   /**
+    * Retrieve the supply reference field.
+    * 
+    * @return supply reference value
+    */
    public String getSupplyReference()
    {
       return (String) getCachedValue(ResourceField.SUPPLY_REFERENCE);
    }
 
+   /**
+    * Set the description field.
+    * 
+    * @param value description field
+    */
    public void setDescription(String value)
    {
       set(ResourceField.DESCRIPTION, value);
    }
 
+   /**
+    * Retrieve the description field.
+    * 
+    * @return description value
+    */
    public String getDescription()
    {
       return (String) getCachedValue(ResourceField.DESCRIPTION);
    }
 
+   /**
+    * Set the resource ID field.
+    * 
+    * @param value resource ID value
+    */
    public void setResourceID(String value)
    {
       set(ResourceField.RESOURCE_ID, value);
    }
 
+   /**
+    * Retrieve the resource ID field.
+    * 
+    * @return resource ID value
+    */
    public String getResourceID()
    {
       return (String) getCachedValue(ResourceField.RESOURCE_ID);
    }
 
+   /**
+    * Set the modify on integrate field.
+    * 
+    * @param value modify on integrate value
+    */
    public void setModifyOnIntegrate(Boolean value)
    {
       set(ResourceField.MODIFY_ON_INTEGRATE, value);
    }
 
+   /**
+    * Retrieve the modify on integrate value.
+    * 
+    * @return modify on integrate value
+    */
    public Boolean getModifyOnIntegrate()
    {
       return (Boolean) getCachedValue(ResourceField.MODIFY_ON_INTEGRATE);
