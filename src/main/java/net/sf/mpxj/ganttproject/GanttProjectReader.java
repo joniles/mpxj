@@ -62,7 +62,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
@@ -339,9 +338,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
     */
    private void readResourceCustomPropertyDefinitions(Resources gpResources)
    {
-      CustomField field = m_projectFile.getCustomFields().getCustomField(ResourceField.TEXT1);
-      field.setAlias("Phone").setUserDefined(false);
-
       for (CustomPropertyDefinition definition : gpResources.getCustomPropertyDefinition())
       {
          //
@@ -364,7 +360,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          //
          if (fieldType != null)
          {
-            field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
             field.setAlias(definition.getName());
             String defaultValue = definition.getDefaultValue();
             if (defaultValue != null && defaultValue.isEmpty())
@@ -459,7 +455,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       mpxjResource.setUniqueID(Integer.valueOf(NumberHelper.getInt(gpResource.getId()) + 1));
       mpxjResource.setName(gpResource.getName());
       mpxjResource.setEmailAddress(gpResource.getContacts());
-      mpxjResource.setText(1, gpResource.getPhone());
+      mpxjResource.setPhone(gpResource.getPhone());
       mpxjResource.setGroup(m_roleDefinitions.get(gpResource.getFunction()));
 
       net.sf.mpxj.ganttproject.schema.Rate gpRate = gpResource.getRate();

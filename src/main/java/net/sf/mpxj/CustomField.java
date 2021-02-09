@@ -100,30 +100,6 @@ public class CustomField
    }
 
    /**
-    * Sets a flag to indicate if this field is user defined.
-    *
-    * @param userDefined true if this field is user defined
-    * @return this to allow method chaining
-    */
-   public CustomField setUserDefined(boolean userDefined)
-   {
-      m_userDefined = userDefined;
-      return this;
-   }
-
-   /**
-    * Returns true if this attribute is user defined. False indicates that MPXJ is using
-    * this attribute to represent an attribute from the source application
-    * which MPXJ can't map to a "built in" attribute.
-    *
-    * @return true if this field is user defined
-    */
-   public boolean getUserDefined()
-   {
-      return m_userDefined;
-   }
-
-   /**
     * Retrieve the mask definitions for this field.
     *
     * @return list of mask definitions
@@ -144,5 +120,4 @@ public class CustomField
    private final GraphicalIndicator m_indicator;
    private final List<CustomFieldValueMask> m_masks;
    private String m_alias;
-   private boolean m_userDefined = true;
 }
