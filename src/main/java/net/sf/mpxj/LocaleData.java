@@ -1785,6 +1785,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.RATE.getValue()] = "Rate";
       RESOURCE_COLUMNS_ARRAY[ResourceField.POOL.getValue()] = "Pool";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PER_DAY.getValue()] = "Per Day";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PHONE.getValue()] = "Phone";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";

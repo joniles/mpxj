@@ -2399,6 +2399,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (Number) getCachedValue(ResourceField.PER_DAY);
    }
 
+   public void setPhone(String value)
+   {
+      set(ResourceField.PHONE, value);
+   }
+
+   public String getPhone()
+   {
+      return (String) getCachedValue(ResourceField.PHONE);
+   }
+
    /**
     * Sets the resource GUID.
     *
