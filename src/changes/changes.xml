@@ -5,21 +5,20 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="8.6.0">
-			<action dev="joniles" type="update">Introduce enums derived from ExtendedFieldType to allow extended fields to be manipulated symbolically.</action>
+		<release date="git master" version="9.0.0">
+			<action dev="joniles" type="update">NOTE: this release introduces breaking changes!</action>
+			<action dev="joniles" type="update">All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.</action>
 			<action dev="joniles" type="update">Updated PMXML schema to version 20.12.</action>
 			<action dev="joniles" type="update">Fix an issue where GUID values were not being read correctly from XER files and P6 databases.</action>
-			<action dev="joniles" type="update">Store percent complete type as an extended field when reading P6 schedules from any source.</action>
+			<action dev="joniles" type="update">Percent complete type is now available as a task attribute for P6 schedules from any source.</action>
 			<action dev="joniles" type="update">Ensure that percent complete values are stored in the appropriate attributes when reading P6 schedules. (NOTE: Previously the "reported" percent complete value was stored as the tasks "percent complete" attribute. Now this holds the schedule percent complete value, and the percent work complete and physical percent complete attributes are also populated. To determine which value should be reported for a task, see the "percent complete type" extended field attribute.)</action>
 			<action dev="joniles" type="update">Correctly handle default calendar when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.</action>
 			<action dev="joniles" type="update">Match the way P6 exports the WBS code attribute for PMXML files.</action>
 			<action dev="joniles" type="update">Update the representation of Boolean values when writing PMXML files to match the form exported by P6.</action>
-			<action dev="joniles" type="update">Avoid exporting custom fields to PMXML files which represent attributes read from a Primavera schedule (these attributes should already be written to the file explicitly, writing them as custom fields is unnecessary).</action>
 			<action dev="joniles" type="update">Set the task type attribute when reading PMXML files.</action>
 			<action dev="joniles" type="update">Improve duration and actual duration calculations when reading XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Fix an issue where resource assignment costs were not being read correctly from PMXML files.</action>
-			<action dev="joniles" type="update">When reading XER files, translate the activity status and activity type attributes to its human-readable form to match the values used by PMXML files.</action>
 			<action dev="joniles" type="update">Read and write the suspend date and resume date attributes for PMXML files.</action>
 			<action dev="joniles" type="update">General improvements to the SDEF writer.</action>
 		</release>
