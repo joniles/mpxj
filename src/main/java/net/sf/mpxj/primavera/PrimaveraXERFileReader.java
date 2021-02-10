@@ -207,21 +207,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * This is a convenience method which allows all projects in an
-    * XER file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
-    */
-   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
-   {
-      m_linkCrossProjectRelations = linkCrossProjectRelations;
-      return readAll(is);
-   }
-
-   /**
     * Common project read functionality.
     *
     * @return ProjectFile instance

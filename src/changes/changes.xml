@@ -8,6 +8,8 @@
 		<release date="git master" version="9.0.0">
 			<action dev="joniles" type="update">NOTE: this release introduces breaking changes!</action>
 			<action dev="joniles" type="update">All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.</action>
+			<action dev="joniles" type="update">All code previously marked as deprecated has been removed.</action>
+			<action dev="joniles" type="update">When reading an XER file or a P6 database, some custom project property names have been updated. LagCalendar is now CalendarForSchedulingRelationshipLag, RetainedLogic is now WhenSchedulingProgressedActivitiesUseRetainedLogic, ProgressOverride is now WhenSchedulingProgressedActivitiesUseProgressOverride, IgnoreOtherProjectRelationships is now WhenSchedulingProgressedActivitiesUseProgressOverride, and StartToStartLagCalculationType is now ComputeStartToStartLagFromEarlyStart.</action>
 			<action dev="joniles" type="update">Updated PMXML schema to version 20.12.</action>
 			<action dev="joniles" type="update">Fix an issue where GUID values were not being read correctly from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Percent complete type is now available as a task attribute for P6 schedules from any source.</action>

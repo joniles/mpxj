@@ -79,7 +79,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -122,132 +121,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
-   /**
-    * Set the task field which will be used to populate the Activity ID attribute
-    * in the PMXML file. Currently this defaults to TaskField.WBS. If you are
-    * reading in a project from Primavera, typically the original Activity ID will
-    * be in the Text1 field, so calling this method with TaskField.TEXT1 will write
-    * the original Activity ID values in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setActivityIdField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Activity ID attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getActivityIdField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Activity Type attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setActivityTypeField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Activity Type attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getActivityTypeField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Planned Start attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setPlannedStartField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Planned Start attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getPlannedStartField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Planned Finish attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setPlannedFinishField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Planned Finish attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getPlannedFinishField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the resource field which will be used to populate the Resource ID attribute
-    * in the PMXML file. If you are
-    * reading in a project from Primavera, typically the original Resource ID will
-    * be in the Text1 field, so calling this method with ResourceField.TEXT1 will write
-    * the original Resource ID values in the PMXML file.
-    *
-    * @param field ResourceField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setResourceIdField(ResourceField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the resource field which will be used to populate the Resource ID attribute
-    * in the PMXML file.
-    *
-    * @return ResourceField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public ResourceField getResourceIdField()
-   {
-      return null;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -1737,32 +1610,19 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
    }
 
-   /**
-    * Temporary, return to static block initialisation once deprecation is removed.
-    * TODO: use static block initialisation
-    *
-    * @return populated map
-    */
-   @SuppressWarnings("deprecation") private static final Map<ConstraintType, String> createConstraintTypeMap()
+   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
+   static
    {
-      Map<ConstraintType, String> map = new HashMap<>();
-
-      map.put(ConstraintType.START_ON, "Start On");
-      map.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
-      map.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      map.put(ConstraintType.FINISH_ON, "Finish On");
-      map.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
-      map.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      map.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      map.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      map.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
-      map.put(ConstraintType.MANDATORY_START, "Mandatory Start");
-      map.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
-
-      return map;
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
    }
-
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = createConstraintTypeMap();
 
    private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
    static

@@ -1306,19 +1306,6 @@ abstract class MPD9AbstractReader
       m_projectID = projectID;
    }
 
-   /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    * @deprecated Use getNotesObject() to retrieve original formatted notes
-    */
-   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      // Deprecated - does nothing
-   }
-
    protected Integer m_projectID;
    protected ProjectFile m_project;
    protected EventManager m_eventManager;
@@ -1330,14 +1317,3 @@ abstract class MPD9AbstractReader
    private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
    private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
 }
-
-/*
-TASK_VAC = 0.0 ( java.lang.Double)
-EXT_EDIT_REF_DATA = null ( )
-TASK_IS_SUBPROJ = false ( java.lang.Boolean)
-TASK_IS_FROM_FINISH_SUBPROJ = false ( java.lang.Boolean)
-TASK_IS_RECURRING_SUMMARY = false ( java.lang.Boolean)
-TASK_IS_READONLY_SUBPROJ = false ( java.lang.Boolean)
-TASK_BASE_DUR_FMT = 39 ( java.lang.Short)
-TASK_WBS_RIGHTMOST_LEVEL = null ( )
-*/

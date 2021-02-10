@@ -247,30 +247,6 @@ public final class MPPReader extends AbstractProjectStreamReader
    }
 
    /**
-    * This method retrieves the state of the preserve note formatting flag.
-    *
-    * @return boolean flag
-    * @deprecated Use getNotesObject() to retrieve original formatted notes
-    */
-   @Deprecated public boolean getPreserveNoteFormatting()
-   {
-      return false;
-   }
-
-   /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    * @deprecated Use getNotesObject() to retrieve original formatted notes
-    */
-   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      // Deprecated - does nothing
-   }
-
-   /**
     * If this flag is true, raw timephased data will be retrieved
     * from MS Project: no normalisation will take place.
     *

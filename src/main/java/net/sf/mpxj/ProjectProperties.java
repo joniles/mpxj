@@ -2077,28 +2077,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
-    * Sets the calculate multiple critical paths flag.
-    *
-    * @param flag boolean flag
-    * @deprecated use setMultipleCriticalPaths
-    */
-   @Deprecated public void setCalculateMultipleCriticalPaths(boolean flag)
-   {
-      set(ProjectField.MULTIPLE_CRITICAL_PATHS, flag);
-   }
-
-   /**
-    * Retrieves the calculate multiple critical paths flag.
-    *
-    * @return boolean flag
-    * @deprecated use getMultipleCriticalPaths
-    */
-   @Deprecated public boolean getCalculateMultipleCriticalPaths()
-   {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MULTIPLE_CRITICAL_PATHS));
-   }
-
-   /**
     * Retrieve the currency code for this project.
     *
     * @return currency code

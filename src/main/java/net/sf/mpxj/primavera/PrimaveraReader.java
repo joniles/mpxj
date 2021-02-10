@@ -1686,16 +1686,6 @@ final class PrimaveraReader
       customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
       customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
 
-      //
-      // Backward Compatibility
-      // TODO: deprecate
-      //
-      customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
-      customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-      customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
-      customProperties.put("IgnoreOtherProjectRelationships", row.getString("sched_outer_depend_type"));
-      customProperties.put("StartToStartLagCalculationType", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
-
       m_project.getProjectProperties().setCustomProperties(customProperties);
    }
 
@@ -1893,7 +1883,6 @@ final class PrimaveraReader
       map.put(ResourceField.NOTES, "rsrc_notes");
       map.put(ResourceField.CREATED, "create_date");
       map.put(ResourceField.TYPE, "rsrc_type");
-      map.put(ResourceField.INITIALS, "rsrc_short_name"); // TODO - remove, deprecated and replaced by TEXT1
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
       map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
 
