@@ -81,19 +81,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    }
 
    /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    * @deprecated Use getNotesObject() to retrieve original formatted notes
-    */
-   @Deprecated public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      // Deprecated - does nothing
-   }
-
-   /**
     * Set the data source. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
     *

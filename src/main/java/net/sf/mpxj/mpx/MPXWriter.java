@@ -1121,7 +1121,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param type constraint type
     * @return formatted constraint type
     */
-   @SuppressWarnings("deprecation") private String formatConstraintType(ConstraintType type)
+   private String formatConstraintType(ConstraintType type)
    {
       if (type == null)
       {
@@ -1130,14 +1130,12 @@ public final class MPXWriter extends AbstractProjectWriter
 
       switch (type)
       {
-         case MANDATORY_START:
          case START_ON:
          {
             type = ConstraintType.MUST_START_ON;
             break;
          }
 
-         case MANDATORY_FINISH:
          case FINISH_ON:
          {
             type = ConstraintType.MUST_FINISH_ON;

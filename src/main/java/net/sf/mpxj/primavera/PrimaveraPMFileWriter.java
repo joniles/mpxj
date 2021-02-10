@@ -35,10 +35,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -53,7 +50,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
@@ -74,6 +70,7 @@ import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -82,11 +79,8 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -127,132 +121,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
-   /**
-    * Set the task field which will be used to populate the Activity ID attribute
-    * in the PMXML file. Currently this defaults to TaskField.WBS. If you are
-    * reading in a project from Primavera, typically the original Activity ID will
-    * be in the Text1 field, so calling this method with TaskField.TEXT1 will write
-    * the original Activity ID values in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setActivityIdField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Activity ID attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getActivityIdField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Activity Type attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setActivityTypeField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Activity Type attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getActivityTypeField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Planned Start attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setPlannedStartField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Planned Start attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getPlannedStartField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the task field which will be used to populate the Planned Finish attribute
-    * in the PMXML file.
-    *
-    * @param field TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setPlannedFinishField(TaskField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the task field which will be used to populate the Planned Finish attribute
-    * in the PMXML file.
-    *
-    * @return TaskField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public TaskField getPlannedFinishField()
-   {
-      return null;
-   }
-
-   /**
-    * Set the resource field which will be used to populate the Resource ID attribute
-    * in the PMXML file. If you are
-    * reading in a project from Primavera, typically the original Resource ID will
-    * be in the Text1 field, so calling this method with ResourceField.TEXT1 will write
-    * the original Resource ID values in the PMXML file.
-    *
-    * @param field ResourceField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public void setResourceIdField(ResourceField field)
-   {
-      // Deprecated
-   }
-
-   /**
-    * Retrieve the resource field which will be used to populate the Resource ID attribute
-    * in the PMXML file.
-    *
-    * @return ResourceField instance
-    * @deprecated configure custom field aliases using the values defined in the PrimaveraFields enum
-    */
-   @Deprecated public ResourceField getResourceIdField()
-   {
-      return null;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -302,6 +170,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_factory = new ObjectFactory();
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
+         m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
 
          populateSortedCustomFieldsList();
 
@@ -691,7 +560,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(ResourceExtendedField.RESOURCE_ID, r -> getDefaultResourceID((Resource) r)));
+      xml.setId(getResourceID(mpxj));
       xml.setIsActive(Boolean.TRUE);
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(mpxj.getName());
@@ -754,7 +623,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          // If it's a summary task... it's a WBS entry
          // If the task has come from P6, and the activity type is not set, its a WBS entry
-         if (task.getSummary() || (m_projectFile.isExtendedFieldRegistered(TaskExtendedField.ACTIVITY_TYPE) && task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE) == null))
+         if (task.getSummary() || (m_activityTypePopulated && task.getActivityType() == null))
          {
             writeWBS(task);
          }
@@ -841,8 +710,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_START, t -> ((Task) t).getStart());
-      Date plannedFinish = (Date) mpxj.getCachedValue(TaskExtendedField.PLANNED_FINISH, t -> ((Task) t).getFinish());
+      Date plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
+      Date plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
@@ -853,16 +722,16 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId((String) mpxj.getCachedValue(TaskExtendedField.ACTIVITY_ID, t -> ((Task) t).getWBS()));
+      xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPercentCompleteType((String) mpxj.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE, t -> "Duration"));
+      xml.setPercentCompleteType(getPercentCompleteType(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
-      xml.setPrimaryResourceObjectId(NumberHelper.getInteger((Number) mpxj.getCachedValue(TaskExtendedField.PRIMARY_RESOURCE_ID)));
-      xml.setPlannedDuration(getDuration((Duration) mpxj.getCachedValue(TaskExtendedField.PLANNED_DURATION, t -> ((Task) t).getDuration())));
+      xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
+      xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
@@ -871,10 +740,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
-      xml.setResumeDate((Date) mpxj.getCachedValue(TaskExtendedField.RESUME_DATE));
+
+      // Trying to ensure data from other scheduling applications makes sense in P6.
+      // We won't populate the resume date unless we have a suspend date,
+      // i.e. the activity has been suspended. 
+      if (mpxj.getSuspendDate() != null)
+      {
+         xml.setResumeDate(mpxj.getResume());
+      }
+
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
-      xml.setSuspendDate((Date) mpxj.getCachedValue(TaskExtendedField.SUSPEND_DATE));
+      xml.setSuspendDate(mpxj.getSuspendDate());
       xml.setType(getTaskType(mpxj));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
@@ -894,8 +771,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private String getTaskType(Task task)
    {
-      String activityType = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE);
-      return activityType == null ? "Resource Dependent" : activityType;
+      return task.getActivityType() == null ? "Resource Dependent" : ACTIVITY_TYPE_MAP.get(task.getActivityType());
    }
 
    /**
@@ -946,10 +822,10 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPlannedCost(getDouble((Number) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_COST)));
-      xml.setPlannedFinishDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_FINISH));
-      xml.setPlannedStartDate((Date) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_START));
-      xml.setPlannedUnits(getDuration((Duration) mpxj.getCachedValue(AssignmentExtendedField.PLANNED_WORK)));
+      xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
+      xml.setPlannedFinishDate(mpxj.getPlannedFinish());
+      xml.setPlannedStartDate(mpxj.getPlannedStart());
+      xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(PROJECT_OBJECT_ID);
       xml.setRateSource("Resource");
@@ -1492,6 +1368,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return result;
    }
 
+   private String getPercentCompleteType(PercentCompleteType value)
+   {
+      return PERCENT_COMPLETE_TYPE.get(value == null ? PercentCompleteType.DURATION : value);
+   }
+
    /**
     * Returns the reported percent complete value for this task.
     *
@@ -1501,29 +1382,29 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private Double getPercentComplete(Task task)
    {
       Number result;
-      String type = (String) task.getCachedValue(TaskExtendedField.PERCENT_COMPLETE_TYPE);
+      PercentCompleteType type = task.getPercentCompleteType();
 
-      if (type == null || !m_projectFile.isExtendedFieldRegistered(TaskExtendedField.PERCENT_COMPLETE_TYPE))
+      if (type == null)
       {
-         type = "Duration";
+         type = PercentCompleteType.DURATION;
       }
 
       switch (type)
       {
-         case "Physical":
+         case PHYSICAL:
          {
             result = task.getPhysicalPercentComplete();
             break;
          }
 
-         case "Units":
+         case UNITS:
          {
             result = task.getPercentageWorkComplete();
             break;
          }
 
-         case "Duration":
-         case "Scope":
+         case DURATION:
+         case SCOPE:
          default:
          {
             result = task.getPercentageComplete();
@@ -1609,9 +1490,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * @param resource Resource instance
     * @return generated Resource ID
     */
-   private String getDefaultResourceID(Resource resource)
+   private String getResourceID(Resource resource)
    {
-      return RESOURCE_ID_PREFIX + resource.getUniqueID();
+      String result = resource.getResourceID();
+      if (result == null)
+      {
+         result = RESOURCE_ID_PREFIX + resource.getUniqueID();
+      }
+      return result;
    }
 
    /**
@@ -1620,14 +1506,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      Set<FieldType> nativeFields = Stream.of(PrimaveraReader.EXTENDED_FIELDS).filter(f -> m_projectFile.isExtendedFieldRegistered(f)).map(f -> f.getType()).collect(Collectors.toSet());
-
       m_sortedCustomFieldsList = new ArrayList<>();
 
       for (CustomField field : m_projectFile.getCustomFields())
       {
          FieldType fieldType = field.getFieldType();
-         if (fieldType != null && fieldType.getDataType() != null && !nativeFields.contains(fieldType))
+         if (fieldType != null && fieldType.getDataType() != null)
          {
             m_sortedCustomFieldsList.add(field);
          }
@@ -1726,32 +1610,19 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
    }
 
-   /**
-    * Temporary, return to static block initialisation once deprecation is removed.
-    * TODO: use static block initialisation
-    *
-    * @return populated map
-    */
-   @SuppressWarnings("deprecation") private static final Map<ConstraintType, String> createConstraintTypeMap()
+   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
+   static
    {
-      Map<ConstraintType, String> map = new HashMap<>();
-
-      map.put(ConstraintType.START_ON, "Start On");
-      map.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
-      map.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      map.put(ConstraintType.FINISH_ON, "Finish On");
-      map.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
-      map.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      map.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      map.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      map.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
-      map.put(ConstraintType.MANDATORY_START, "Mandatory Start");
-      map.put(ConstraintType.MANDATORY_FINISH, "Mandatory Finish");
-
-      return map;
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
+      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
    }
-
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = createConstraintTypeMap();
 
    private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
    static
@@ -1759,6 +1630,26 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
+   }
+
+   private static final Map<PercentCompleteType, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   static
+   {
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.PHYSICAL, "Physical");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.DURATION, "Duration");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.UNITS, "Units");
+      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
+   }
+
+   private static final Map<net.sf.mpxj.ActivityType, String> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.TASK_DEPENDENT, "Task Dependent");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT, "Resource Dependent");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT, "Level of Effort");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
    }
 
    private ProjectFile m_projectFile;
@@ -1772,4 +1663,5 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_activityNoteObjectID;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
+   boolean m_activityTypePopulated;
 }

@@ -53,8 +53,8 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -323,15 +323,15 @@ public final class SDEFWriter extends AbstractProjectWriter
             m_buffer.append(SDEFmethods.lset(record.getCalendar().getUniqueID().toString(), 1) + " ");
          }
 
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.HAMMOCK_CODE), 1) + " ");
-         m_buffer.append(SDEFmethods.rset(formatNumber((Number) record.getCachedValue(TaskExtendedField.WORKERS_PER_DAY)), 3) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.RESPONSIBILITY_CODE), 4) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.WORK_AREA_CODE), 4) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.MOD_OR_CLAIM_NO), 6) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.BID_ITEM), 6) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.PHASE_OF_WORK), 2) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.CATEGORY_OF_WORK), 1) + " ");
-         m_buffer.append(SDEFmethods.lset((String) record.getCachedValue(TaskExtendedField.FEATURE_OF_WORK), 30));
+         m_buffer.append(BooleanHelper.getBoolean(record.getHammockCode()) ? "Y " : "  ");
+         m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getWorkAreaCode(), 4) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getModOrClaimNumber(), 6) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getBidItem(), 6) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getPhaseOfWork(), 2) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getCategoryOfWork(), 1) + " ");
+         m_buffer.append(SDEFmethods.lset(record.getFeatureOfWork(), 30));
 
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
@@ -468,8 +468,8 @@ public final class SDEFWriter extends AbstractProjectWriter
 
          DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
          m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getCost())), 12) + " ");
-         m_buffer.append(SDEFmethods.rset(twoDec.format(0.00), 12) + " "); // *** assume zero progress on cost
-         m_buffer.append(SDEFmethods.rset(twoDec.format(0.00), 12) + " "); // *** assume zero progress on cost
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getActualCost())), 12) + " ");
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getStoredMaterial())), 12) + " ");
          m_buffer.append(formatDate(record.getEarlyStart()) + " ");
          m_buffer.append(formatDate(record.getEarlyFinish()) + " ");
          m_buffer.append(formatDate(record.getLateStart()) + " ");
@@ -559,7 +559,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       // field, left justified, rather than the number right justified field
       // as defined by the spec. We'll use the Activity ID if it is present
       // and left justify it, otherwise we'll follow the spec with a numeric identifier.
-      String activityID = (String) task.getCachedValue(TaskExtendedField.ACTIVITY_ID);
+      String activityID = task.getActivityID();
       if (activityID == null)
       {
          activityID = SDEFmethods.rset(String.valueOf(NumberHelper.getInt(task.getUniqueID())), 10);

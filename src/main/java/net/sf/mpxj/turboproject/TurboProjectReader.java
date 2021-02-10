@@ -31,13 +31,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -51,10 +49,8 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -87,8 +83,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
          m_projectFile.getProjectProperties().setFileApplication("TurboProject");
          m_projectFile.getProjectProperties().setFileType("PEP");
-
-         Stream.of(EXTENDED_FIELDS).forEach(f -> m_projectFile.registerExtendedField(f));
 
          addListenersToProject(m_projectFile);
 
@@ -471,18 +465,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
     * @param name column name
     * @param type field type
     */
-   private static void defineField(Map<String, FieldType> container, String name, ExtendedFieldType type)
-   {
-      defineField(container, name, type.getType());
-   }
-
-   /**
-    * Configure the mapping between a database column and a field.
-    *
-    * @param container column to field map
-    * @param name column name
-    * @param type field type
-    */
    private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
       container.put(name, type);
@@ -517,20 +499,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
    private static final Map<String, FieldType> A3TAB_FIELDS = new HashMap<>();
    private static final Map<String, FieldType> A5TAB_FIELDS = new HashMap<>();
 
-   public static final ExtendedFieldType[] EXTENDED_FIELDS =
-   {
-      ResourceExtendedField.RATE,
-      ResourceExtendedField.POOL,
-      ResourceExtendedField.PER_DAY,
-      ResourceExtendedField.PRIORITY,
-      ResourceExtendedField.PERIOD_DUR,
-      ResourceExtendedField.EXPENSES_ONLY,
-      ResourceExtendedField.MODIFY_ON_INTEGRATE,
-      ResourceExtendedField.UNIT,
-      TaskExtendedField.PLANNED_START,
-      TaskExtendedField.PLANNED_FINISH
-   };
-
    static
    {
       defineField(RESOURCE_FIELDS, "ID", ResourceField.ID);
@@ -540,14 +508,14 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(RESOURCE_FIELDS, "DESCRIPTION", ResourceField.NOTES);
       defineField(RESOURCE_FIELDS, "PARENT_ID", ResourceField.PARENT_ID);
 
-      defineField(RESOURCE_FIELDS, "RATE", ResourceExtendedField.RATE);
-      defineField(RESOURCE_FIELDS, "POOL", ResourceExtendedField.POOL);
-      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceExtendedField.PER_DAY);
-      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceExtendedField.PRIORITY);
-      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceExtendedField.PERIOD_DUR);
-      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceExtendedField.EXPENSES_ONLY);
-      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceExtendedField.MODIFY_ON_INTEGRATE);
-      defineField(RESOURCE_FIELDS, "UNIT", ResourceExtendedField.UNIT);
+      defineField(RESOURCE_FIELDS, "RATE", ResourceField.RATE);
+      defineField(RESOURCE_FIELDS, "POOL", ResourceField.POOL);
+      defineField(RESOURCE_FIELDS, "PER_DAY", ResourceField.PER_DAY);
+      defineField(RESOURCE_FIELDS, "PRIORITY", ResourceField.PRIORITY);
+      defineField(RESOURCE_FIELDS, "PERIOD_DUR", ResourceField.PERIOD_DUR);
+      defineField(RESOURCE_FIELDS, "EXPENSES_ONLY", ResourceField.EXPENSES_ONLY);
+      defineField(RESOURCE_FIELDS, "MODIFY_ON_INTEGRATE", ResourceField.MODIFY_ON_INTEGRATE);
+      defineField(RESOURCE_FIELDS, "UNIT", ResourceField.UNIT);
 
       defineField(A0TAB_FIELDS, "UNIQUE_ID", TaskField.UNIQUE_ID);
 
@@ -565,8 +533,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       defineField(A5TAB_FIELDS, "ORIGINAL_DURATION", TaskField.DURATION);
       defineField(A5TAB_FIELDS, "REMAINING_DURATION", TaskField.REMAINING_DURATION);
       defineField(A5TAB_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
-      defineField(A5TAB_FIELDS, "TARGET_START", TaskExtendedField.PLANNED_START);
-      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskExtendedField.PLANNED_FINISH);
+      defineField(A5TAB_FIELDS, "TARGET_START", TaskField.PLANNED_START);
+      defineField(A5TAB_FIELDS, "TARGET_FINISH", TaskField.PLANNED_FINISH);
       defineField(A5TAB_FIELDS, "ACTUAL_START", TaskField.ACTUAL_START);
       defineField(A5TAB_FIELDS, "ACTUAL_FINISH", TaskField.ACTUAL_FINISH);
    }

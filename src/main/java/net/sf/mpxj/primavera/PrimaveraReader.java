@@ -39,12 +39,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -53,7 +54,6 @@ import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -63,13 +63,13 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseCategoryContainer;
 import net.sf.mpxj.ExpenseItem;
-import net.sf.mpxj.ExtendedFieldType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
@@ -83,16 +83,13 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceExtendedField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskExtendedField;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.AssignmentExtendedField;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -113,11 +110,10 @@ final class PrimaveraReader
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
     * @param assignmentFields assignment field mapping
-    * @param aliases alias mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, Map<FieldType, String> aliases, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -132,9 +128,6 @@ final class PrimaveraReader
       m_wbsFields = wbsFields;
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
-
-      Stream.of(EXTENDED_FIELDS).forEach(f -> m_project.registerExtendedField(f));
-      applyAliases(aliases);
 
       m_taskUdfCounters = taskUdfCounters;
       m_taskUdfCounters.reset();
@@ -815,13 +808,13 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
-         task.set(TaskExtendedField.STATUS, STATUS_MAP.get(task.getCachedValue(TaskExtendedField.STATUS)));
-         task.set(TaskExtendedField.ACTIVITY_TYPE, ACTIVITY_TYPE_MAP.get(task.getCachedValue(TaskExtendedField.ACTIVITY_TYPE)));
+         task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
+         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getString("task_type")));
          
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.set(TaskExtendedField.PERCENT_COMPLETE_TYPE, PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
+         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
          task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
@@ -1243,8 +1236,8 @@ final class PrimaveraReader
          int finished = 0;
          Date startDate = parentTask.getStart();
          Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getStart(1);
-         Date plannedFinishDate = parentTask.getFinish(1);
+         Date plannedStartDate = parentTask.getPlannedStart();
+         Date plannedFinishDate = parentTask.getPlannedFinish();
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1266,8 +1259,8 @@ final class PrimaveraReader
 
             startDate = DateHelper.min(startDate, task.getStart());
             finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart(1));
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish(1));
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -1289,8 +1282,8 @@ final class PrimaveraReader
 
          parentTask.setStart(startDate);
          parentTask.setFinish(finishDate);
-         parentTask.setStart(1, plannedStartDate);
-         parentTask.setFinish(1, plannedFinishDate);
+         parentTask.setPlannedStart(plannedStartDate);
+         parentTask.setPlannedFinish(plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1469,8 +1462,8 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.START, AssignmentField.START1, AssignmentField.ACTUAL_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.FINISH1, AssignmentField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.START, AssignmentField.PLANNED_START, AssignmentField.ACTUAL_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.PLANNED_FINISH, AssignmentField.ACTUAL_FINISH);
 
             // include actual overtime work in work calculations
             Duration remainingWork = row.getDuration("remain_qty");
@@ -1693,16 +1686,6 @@ final class PrimaveraReader
       customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
       customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
 
-      //
-      // Backward Compatibility
-      // TODO: deprecate
-      //
-      customProperties.put("LagCalendar", row.getString("sched_calendar_on_relationship_lag"));
-      customProperties.put("RetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-      customProperties.put("ProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
-      customProperties.put("IgnoreOtherProjectRelationships", row.getString("sched_outer_depend_type"));
-      customProperties.put("StartToStartLagCalculationType", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
-
       m_project.getProjectProperties().setCustomProperties(customProperties);
    }
 
@@ -1815,20 +1798,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Apply aliases to task and resource fields.
-    *
-    * @param aliases map of aliases
-    */
-   private void applyAliases(Map<FieldType, String> aliases)
-   {
-      CustomFieldContainer fields = m_project.getCustomFields();
-      for (Map.Entry<FieldType, String> entry : aliases.entrySet())
-      {
-         fields.getCustomField(entry.getKey()).setAlias(entry.getValue()).setUserDefined(false);
-      }
-   }
-
-   /**
     * Calculate the physical percent complete.
     *
     * @param row task data
@@ -1914,9 +1883,8 @@ final class PrimaveraReader
       map.put(ResourceField.NOTES, "rsrc_notes");
       map.put(ResourceField.CREATED, "create_date");
       map.put(ResourceField.TYPE, "rsrc_type");
-      map.put(ResourceField.INITIALS, "rsrc_short_name"); // TODO - remove, deprecated and replaced by TEXT1
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
-      map.put(ResourceExtendedField.RESOURCE_ID.getType(), "rsrc_short_name");
+      map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
 
       return map;
    }
@@ -1956,8 +1924,8 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
       map.put(TaskField.ACTUAL_WORK, "act_work_qty");
       map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskExtendedField.PLANNED_WORK.getType(), "target_work_qty");
-      map.put(TaskExtendedField.PLANNED_DURATION.getType(), "target_drtn_hr_cnt");
+      map.put(TaskField.PLANNED_WORK, "target_work_qty");
+      map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
       map.put(TaskField.ACTUAL_FINISH, "act_end_date");
@@ -1967,8 +1935,8 @@ final class PrimaveraReader
       map.put(TaskField.EARLY_FINISH, "early_end_date");
       map.put(TaskField.REMAINING_EARLY_START, "restart_date");
       map.put(TaskField.REMAINING_EARLY_FINISH, "reend_date");
-      map.put(TaskExtendedField.PLANNED_START.getType(), "target_start_date");
-      map.put(TaskExtendedField.PLANNED_FINISH.getType(), "target_end_date");
+      map.put(TaskField.PLANNED_START, "target_start_date");
+      map.put(TaskField.PLANNED_FINISH, "target_end_date");
       map.put(TaskField.CONSTRAINT_TYPE, "cstr_type");
       map.put(TaskField.SECONDARY_CONSTRAINT_DATE, "cstr_date2");
       map.put(TaskField.SECONDARY_CONSTRAINT_TYPE, "cstr_type2");
@@ -1977,12 +1945,10 @@ final class PrimaveraReader
       map.put(TaskField.TYPE, "duration_type");
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
-      map.put(TaskExtendedField.ACTIVITY_ID.getType(), "task_code");
-      map.put(TaskExtendedField.ACTIVITY_TYPE.getType(), "task_type");
-      map.put(TaskExtendedField.STATUS.getType(), "status_code");
-      map.put(TaskExtendedField.PRIMARY_RESOURCE_ID.getType(), "rsrc_id");
-      map.put(TaskExtendedField.SUSPEND_DATE.getType(), "suspend_date");
-      map.put(TaskExtendedField.RESUME_DATE.getType(), "resume_date");
+      map.put(TaskField.ACTIVITY_ID, "task_code");
+      map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
+      map.put(TaskField.SUSPEND_DATE, "suspend_date");
+      map.put(TaskField.RESUME, "resume_date");
 
       return map;
    }
@@ -1999,28 +1965,18 @@ final class PrimaveraReader
       map.put(AssignmentField.UNIQUE_ID, "taskrsrc_id");
       map.put(AssignmentField.GUID, "guid");
       map.put(AssignmentField.REMAINING_WORK, "remain_qty");
-      map.put(AssignmentExtendedField.PLANNED_WORK.getType(), "target_qty");
+      map.put(AssignmentField.PLANNED_WORK, "target_qty");
       map.put(AssignmentField.ACTUAL_OVERTIME_WORK, "act_ot_qty");
-      map.put(AssignmentExtendedField.PLANNED_COST.getType(), "target_cost");
+      map.put(AssignmentField.PLANNED_COST, "target_cost");
       map.put(AssignmentField.ACTUAL_OVERTIME_COST, "act_ot_cost");
       map.put(AssignmentField.REMAINING_COST, "remain_cost");
       map.put(AssignmentField.ACTUAL_START, "act_start_date");
       map.put(AssignmentField.ACTUAL_FINISH, "act_end_date");
-      map.put(AssignmentExtendedField.PLANNED_START.getType(), "target_start_date");
-      map.put(AssignmentExtendedField.PLANNED_FINISH.getType(), "target_end_date");
+      map.put(AssignmentField.PLANNED_START, "target_start_date");
+      map.put(AssignmentField.PLANNED_FINISH, "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
 
       return map;
-   }
-
-   /**
-    * Retrieve the default aliases to be applied to MPXJ task and resource fields.
-    *
-    * @return map of aliases
-    */
-   public static Map<FieldType, String> getDefaultAliases()
-   {
-      return Stream.of(EXTENDED_FIELDS).collect(Collectors.toMap(ExtendedFieldType::getType, ExtendedFieldType::getName));
    }
 
    private ProjectFile m_project;
@@ -2108,15 +2064,15 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
    }
 
-   private static final Map<String, String> ACTIVITY_TYPE_MAP = new HashMap<>();
+   private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
    static
    {
-      ACTIVITY_TYPE_MAP.put("TT_Task", "Task Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_Rsrc", "Resource Dependent");
-      ACTIVITY_TYPE_MAP.put("TT_LOE", "Level of Effort");
-      ACTIVITY_TYPE_MAP.put("TT_Mile", "Start Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_FinMile", "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put("TT_WBS", "WBS Summary");
+      ACTIVITY_TYPE_MAP.put("TT_Task", ActivityType.TASK_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("TT_Rsrc", ActivityType.RESOURCE_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("TT_LOE", ActivityType.LEVEL_OF_EFFORT);
+      ACTIVITY_TYPE_MAP.put("TT_Mile", ActivityType.START_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("TT_FinMile", ActivityType.FINISH_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
@@ -2167,44 +2123,23 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
    }
 
-   private static final Map<String, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
    static
    {
-      PERCENT_COMPLETE_TYPE.put("CP_Phys", "Physical");
-      PERCENT_COMPLETE_TYPE.put("CP_Drtn", "Duration");
-      PERCENT_COMPLETE_TYPE.put("CP_Units", "Units");
+      PERCENT_COMPLETE_TYPE.put("CP_Phys", PercentCompleteType.PHYSICAL);
+      PERCENT_COMPLETE_TYPE.put("CP_Drtn", PercentCompleteType.DURATION);
+      PERCENT_COMPLETE_TYPE.put("CP_Units", PercentCompleteType.UNITS);
    }
 
-   private static final Map<String, String> STATUS_MAP = new HashMap<>();
+   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
    static
    {
-      STATUS_MAP.put("TK_NotStart", "Not Started");
-      STATUS_MAP.put("TK_Active", "In Progress");
-      STATUS_MAP.put("TK_Complete", "Completed");
+      STATUS_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
+      STATUS_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
+      STATUS_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
-
-   static final ExtendedFieldType[] EXTENDED_FIELDS =
-   {
-      TaskExtendedField.SUSPEND_DATE,
-      TaskExtendedField.RESUME_DATE,
-      TaskExtendedField.ACTIVITY_ID,
-      TaskExtendedField.ACTIVITY_TYPE,
-      TaskExtendedField.STATUS,
-      TaskExtendedField.PRIMARY_RESOURCE_ID,
-      TaskExtendedField.PLANNED_WORK,
-      TaskExtendedField.PLANNED_DURATION,
-      TaskExtendedField.PLANNED_START,
-      TaskExtendedField.PLANNED_FINISH,
-      TaskExtendedField.PERCENT_COMPLETE_TYPE,
-      ResourceExtendedField.RESOURCE_ID,
-      AssignmentExtendedField.PLANNED_START,
-      AssignmentExtendedField.PLANNED_FINISH,
-      AssignmentExtendedField.PLANNED_COST,
-      AssignmentExtendedField.PLANNED_WORK
-   };
-
 }

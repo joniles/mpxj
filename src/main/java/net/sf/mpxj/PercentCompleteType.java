@@ -1,8 +1,8 @@
 /*
- * file:       ExtendedFieldType.java
+ * file:       PercentCompleteType.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
- * date:       10/01/2021
+ * date:       04/02/2021
  */
 
 /*
@@ -23,22 +23,10 @@
 
 package net.sf.mpxj;
 
-/**
- * Interface to be implemented by enums representing extended fields.
- */
-public interface ExtendedFieldType
+public enum PercentCompleteType
 {
-   /**
-    * Retrieve the field name.
-    *
-    * @return field name
-    */
-   String getName();
-
-   /**
-    * Retrieve the field type.
-    *
-    * @return field type
-    */
-   FieldType getType();
+   DURATION,
+   PHYSICAL,
+   UNITS,
+   SCOPE;
 }

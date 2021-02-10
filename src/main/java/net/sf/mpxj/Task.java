@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -4629,6 +4628,506 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the stored material value for this task.
+    * 
+    * @param value stored material value
+    */
+   public void setStoredMaterial(Number value)
+   {
+      set(TaskField.STORED_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the stored material value for this task.
+    * 
+    * @return stored material value
+    */
+   public Number getStoredMaterial()
+   {
+      return (Number) getCachedValue(TaskField.STORED_MATERIAL);
+   }
+
+   /**
+    * Set the feature of work field.
+    * 
+    * @param value feature of work value
+    */
+   public void setFeatureOfWork(String value)
+   {
+      set(TaskField.FEATURE_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the feature of work field.
+    * 
+    * @return feature of work value
+    */
+   public String getFeatureOfWork()
+   {
+      return (String) getCachedValue(TaskField.FEATURE_OF_WORK);
+   }
+
+   /**
+    * Set the category of work field.
+    * 
+    * @param value category of work value
+    */
+   public void setCategoryOfWork(String value)
+   {
+      set(TaskField.CATEGORY_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the category of work field.
+    * 
+    * @return category of work value
+    */
+   public String getCategoryOfWork()
+   {
+      return (String) getCachedValue(TaskField.CATEGORY_OF_WORK);
+   }
+
+   /**
+    * Set the phase of work field.
+    * 
+    * @param value phase of work value
+    */
+   public void setPhaseOfWork(String value)
+   {
+      set(TaskField.PHASE_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the phase of work field.
+    * 
+    * @return phase of work value
+    */
+   public String getPhaseOfWork()
+   {
+      return (String) getCachedValue(TaskField.PHASE_OF_WORK);
+   }
+
+   /**
+    * Retrieve the bid item field.
+    * 
+    * @param value bid item value
+    */
+   public void setBidItem(String value)
+   {
+      set(TaskField.BID_ITEM, value);
+   }
+
+   /**
+    * Set the bid item field.
+    * 
+    * @return bid item value
+    */
+   public String getBidItem()
+   {
+      return (String) getCachedValue(TaskField.BID_ITEM);
+   }
+
+   /**
+    * Retrieve the mod or claim number field.
+    * 
+    * @param value mod or claim number value
+    */
+   public void setModOrClaimNumber(String value)
+   {
+      set(TaskField.MOD_OR_CLAIM_NUMBER, value);
+   }
+
+   /**
+    * Retrieve the mod or claim number field.
+    * 
+    * @return mod or claim number value
+    */
+   public String getModOrClaimNumber()
+   {
+      return (String) getCachedValue(TaskField.MOD_OR_CLAIM_NUMBER);
+   }
+
+   /**
+    * Set the work area code field.
+    * 
+    * @param value work area code value
+    */
+   public void setWorkAreaCode(String value)
+   {
+      set(TaskField.WORK_AREA_CODE, value);
+   }
+
+   /**
+    * Retrieve the work area code field.
+    * 
+    * @return work area code value
+    */
+   public String getWorkAreaCode()
+   {
+      return (String) getCachedValue(TaskField.WORK_AREA_CODE);
+   }
+
+   /**
+    * Set the responsibility code field.
+    * 
+    * @param value responsibility code value
+    */
+   public void setResponsibilityCode(String value)
+   {
+      set(TaskField.RESPONSIBILITY_CODE, value);
+   }
+
+   /**
+    * Retrieve the responsibility code field.
+    * 
+    * @return responsibility code value
+    */
+   public String getResponsibilityCode()
+   {
+      return (String) getCachedValue(TaskField.RESPONSIBILITY_CODE);
+   }
+
+   /**
+    * Set the workers per day field.
+    * 
+    * @param value workers per day value
+    */
+   public void setWorkersPerDay(Integer value)
+   {
+      set(TaskField.WORKERS_PER_DAY, value);
+   }
+
+   /**
+    * Retrieve the workers per day field.
+    * 
+    * @return workers per day value
+    */
+   public Integer getWorkersPerDay()
+   {
+      return (Integer) getCachedValue(TaskField.WORKERS_PER_DAY);
+   }
+
+   /**
+    * Set the hammock code field.
+    * 
+    * @param value hammock code value
+    */
+   public void setHammockCode(Boolean value)
+   {
+      set(TaskField.HAMMOCK_CODE, value);
+   }
+
+   /**
+    * Retrieve the hammock code field.
+    * 
+    * @return hammock code value
+    */
+   public Boolean getHammockCode()
+   {
+      return (Boolean) getCachedValue(TaskField.HAMMOCK_CODE);
+   }
+
+   /**
+    * Set the mail field.
+    * 
+    * @param value mail value
+    */
+   public void setMail(String value)
+   {
+      set(TaskField.MAIL, value);
+   }
+
+   /**
+    * Retrieve the mail field.
+    * 
+    * @return mail value
+    */
+   public String getMail()
+   {
+      return (String) getCachedValue(TaskField.MAIL);
+   }
+
+   /**
+    * Set the section field.
+    * 
+    * @param value section value
+    */
+   public void setSection(String value)
+   {
+      set(TaskField.SECTION, value);
+   }
+
+   /**
+    * Retrieve the section field.
+    * 
+    * @return section value
+    */
+   public String getSection()
+   {
+      return (String) getCachedValue(TaskField.SECTION);
+   }
+
+   /**
+    * Set the manager field.
+    * 
+    * @param value manager value
+    */
+   public void setManager(String value)
+   {
+      set(TaskField.MANAGER, value);
+   }
+
+   /**
+    * Retrieve the manager field.
+    * 
+    * @return manager value
+    */
+   public String getManager()
+   {
+      return (String) getCachedValue(TaskField.MANAGER);
+   }
+
+   /**
+    * Set the department field.
+    * 
+    * @param value department value
+    */
+   public void setDepartment(String value)
+   {
+      set(TaskField.DEPARTMENT, value);
+   }
+
+   /**
+    * Retrieve the department field.
+    * 
+    * @return department value
+    */
+   public String getDepartment()
+   {
+      return (String) getCachedValue(TaskField.DEPARTMENT);
+   }
+
+   /**
+    * Set the overall percent complete field.
+    * 
+    * @param value overall percent complete value
+    */
+   public void setOverallPercentComplete(Number value)
+   {
+      set(TaskField.OVERALL_PERCENT_COMPLETE, value);
+   }
+
+   /**
+    * Retrieve the overall percent complete field.
+    * 
+    * @return overall percent complete value
+    */
+   public Number getOverallPercentComplete()
+   {
+      return (Number) getCachedValue(TaskField.OVERALL_PERCENT_COMPLETE);
+   }
+
+   /**
+    * Set the planned finish field.
+    * 
+    * @param value planned finish value
+    */
+   public void setPlannedFinish(Date value)
+   {
+      set(TaskField.PLANNED_FINISH, value);
+   }
+
+   /**
+    * Retrieve the planned finish field.
+    * 
+    * @return planned finish value
+    */
+   public Date getPlannedFinish()
+   {
+      return (Date) getCachedValue(TaskField.PLANNED_FINISH);
+   }
+
+   /**
+    * Set the planned start field.
+    * 
+    * @param value planned start value
+    */
+   public void setPlannedStart(Date value)
+   {
+      set(TaskField.PLANNED_START, value);
+   }
+
+   /**
+    * Retrieve the planned start field.
+    * 
+    * @return planned start value
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(TaskField.PLANNED_START);
+   }
+
+   /**
+    * Set the planned duration field.
+    * 
+    * @param value planned duration value
+    */
+   public void setPlannedDuration(Duration value)
+   {
+      set(TaskField.PLANNED_DURATION, value);
+   }
+
+   /**
+    * Retrieve the planned duration field.
+    * 
+    * @return planned duration value
+    */
+   public Duration getPlannedDuration()
+   {
+      return (Duration) getCachedValue(TaskField.PLANNED_DURATION);
+   }
+
+   /**
+    * Set the planned work field.
+    * 
+    * @param value planned work value
+    */
+   public void setPlannedWork(Duration value)
+   {
+      set(TaskField.PLANNED_WORK, value);
+   }
+
+   /**
+    * Retrieve the planned work field.
+    * 
+    * @return planned work value
+    */
+   public Duration getPlannedWork()
+   {
+      return (Duration) getCachedValue(TaskField.PLANNED_WORK);
+   }
+
+   /**
+    * Set the suspend date field.
+    * 
+    * @param value suspend date value
+    */
+   public void setSuspendDate(Date value)
+   {
+      set(TaskField.SUSPEND_DATE, value);
+   }
+
+   /**
+    * Retrieve the suspend date field.
+    * 
+    * @return suspend date value
+    */
+   public Date getSuspendDate()
+   {
+      return (Date) getCachedValue(TaskField.SUSPEND_DATE);
+   }
+
+   /**
+    * Set the primary resource ID.
+    * 
+    * @param value primary resource ID
+    */
+   public void setPrimaryResourceID(Integer value)
+   {
+      set(TaskField.PRIMARY_RESOURCE_ID, value);
+   }
+
+   /**
+    * Retrieve the primary resource ID.
+    * 
+    * @return primary resource ID
+    */
+   public Integer getPrimaryResourceID()
+   {
+      return (Integer) getCachedValue(TaskField.PRIMARY_RESOURCE_ID);
+   }
+
+   /**
+    * Set the activity ID.
+    * 
+    * @param value activity ID value
+    */
+   public void setActivityID(String value)
+   {
+      set(TaskField.ACTIVITY_ID, value);
+   }
+
+   /**
+    * Retrieve the activity ID.
+    * 
+    * @return activity ID value
+    */
+   public String getActivityID()
+   {
+      return (String) getCachedValue(TaskField.ACTIVITY_ID);
+   }
+
+   /**
+    * Set the percent complete type.
+    * 
+    * @param value percent complete type
+    */
+   public void setPercentCompleteType(PercentCompleteType value)
+   {
+      set(TaskField.PERCENT_COMPLETE_TYPE, value);
+   }
+
+   /**
+    * Retrieve the percent complete type.
+    * 
+    * @return percent complete type
+    */
+   public PercentCompleteType getPercentCompleteType()
+   {
+      return (PercentCompleteType) getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
+   }
+
+   /**
+    * Retrieve the activity status.
+    * 
+    * @return activity status
+    */
+   public ActivityStatus getActivityStatus()
+   {
+      return (ActivityStatus) getCachedValue(TaskField.ACTIVITY_STATUS);
+   }
+
+   /**
+    * Set the activity status.
+    * 
+    * @param value activity status
+    */
+   public void setActivityStatus(ActivityStatus value)
+   {
+      set(TaskField.ACTIVITY_STATUS, value);
+   }
+
+   /**
+    * Retrieve the activity type.
+    * 
+    * @return activity type
+    */
+   public ActivityType getActivityType()
+   {
+      return (ActivityType) getCachedValue(TaskField.ACTIVITY_TYPE);
+   }
+
+   /**
+    * Set the activity type.
+    * 
+    * @param value activity type
+    */
+   public void setActivityType(ActivityType value)
+   {
+      set(TaskField.ACTIVITY_TYPE, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -4753,17 +5252,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   @Override public Object getCachedValue(ExtendedFieldType field)
-   {
-      return getCachedValue(field, null);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback)
-   {
-      Object result = getParentFile().isExtendedFieldRegistered(field) ? m_array[field.getType().getValue()] : null;
-      return result == null && fallback != null ? fallback.apply(this) : result;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -4877,14 +5365,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             fireFieldChangeEvent((TaskField) field, m_array[index], value);
          }
          m_array[index] = value;
-      }
-   }
-
-   @Override public void set(ExtendedFieldType field, Object value)
-   {
-      if (field != null)
-      {
-         set(field.getType(), value);
       }
    }
 

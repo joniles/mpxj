@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -2241,6 +2240,246 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Set the unit field.
+    * 
+    * @param value unit value
+    */
+   public void setUnit(String value)
+   {
+      set(ResourceField.UNIT, value);
+   }
+
+   /**
+    * Retrieve the unit field.
+    * 
+    * @return unit value
+    */
+   public String getUnit()
+   {
+      return (String) getCachedValue(ResourceField.UNIT);
+   }
+
+   /**
+    * Set the supply reference field.
+    * 
+    * @param value supply reference value
+    */
+   public void setSupplyReference(String value)
+   {
+      set(ResourceField.SUPPLY_REFERENCE, value);
+   }
+
+   /**
+    * Retrieve the supply reference field.
+    * 
+    * @return supply reference value
+    */
+   public String getSupplyReference()
+   {
+      return (String) getCachedValue(ResourceField.SUPPLY_REFERENCE);
+   }
+
+   /**
+    * Set the description field.
+    * 
+    * @param value description field
+    */
+   public void setDescription(String value)
+   {
+      set(ResourceField.DESCRIPTION, value);
+   }
+
+   /**
+    * Retrieve the description field.
+    * 
+    * @return description value
+    */
+   public String getDescription()
+   {
+      return (String) getCachedValue(ResourceField.DESCRIPTION);
+   }
+
+   /**
+    * Set the resource ID field.
+    * 
+    * @param value resource ID value
+    */
+   public void setResourceID(String value)
+   {
+      set(ResourceField.RESOURCE_ID, value);
+   }
+
+   /**
+    * Retrieve the resource ID field.
+    * 
+    * @return resource ID value
+    */
+   public String getResourceID()
+   {
+      return (String) getCachedValue(ResourceField.RESOURCE_ID);
+   }
+
+   /**
+    * Set the modify on integrate field.
+    * 
+    * @param value modify on integrate value
+    */
+   public void setModifyOnIntegrate(Boolean value)
+   {
+      set(ResourceField.MODIFY_ON_INTEGRATE, value);
+   }
+
+   /**
+    * Retrieve the modify on integrate value.
+    * 
+    * @return modify on integrate value
+    */
+   public Boolean getModifyOnIntegrate()
+   {
+      return (Boolean) getCachedValue(ResourceField.MODIFY_ON_INTEGRATE);
+   }
+
+   /**
+    * Set the expenses only field.
+    * 
+    * @param value expenses only value
+    */
+   public void setExpensesOnly(Boolean value)
+   {
+      set(ResourceField.EXPENSES_ONLY, value);
+   }
+
+   /**
+    * Retrieve the expenses only field.
+    * 
+    * @return expenses only value
+    */
+   public Boolean getExpensesOnly()
+   {
+      return (Boolean) getCachedValue(ResourceField.EXPENSES_ONLY);
+   }
+
+   /**
+    * Set the period dur field.
+    * 
+    * @param value period dur value
+    */
+   public void setPeriodDur(Number value)
+   {
+      set(ResourceField.PERIOD_DUR, value);
+   }
+
+   /**
+    * Retrieve the period dur field.
+    * 
+    * @return period dur value
+    */
+   public Number getPeriodDur()
+   {
+      return (Number) getCachedValue(ResourceField.PERIOD_DUR);
+   }
+
+   /**
+    * Set the priority field.
+    * 
+    * @param value priority value
+    */
+   public void setPriority(Number value)
+   {
+      set(ResourceField.PRIORITY, value);
+   }
+
+   /**
+    * Retrieve the priority field.
+    * 
+    * @return priority value
+    */
+   public Number getPriority()
+   {
+      return (Number) getCachedValue(ResourceField.PRIORITY);
+   }
+
+   /**
+    * Set the rate field.
+    * 
+    * @param value rate value
+    */
+   public void setRate(Number value)
+   {
+      set(ResourceField.RATE, value);
+   }
+
+   /**
+    * Retrieve the rate field.
+    * 
+    * @return rate value
+    */
+   public Number getRate()
+   {
+      return (Number) getCachedValue(ResourceField.RATE);
+   }
+
+   /**
+    * Set the pool field.
+    * 
+    * @param value pool value
+    */
+   public void setPool(Number value)
+   {
+      set(ResourceField.POOL, value);
+   }
+
+   /**
+    * Retrieve the pool field.
+    * 
+    * @return pool value
+    */
+   public Number getPool()
+   {
+      return (Number) getCachedValue(ResourceField.POOL);
+   }
+
+   /**
+    * Set the per day field.
+    * 
+    * @param value per day value
+    */
+   public void setPerDay(Number value)
+   {
+      set(ResourceField.PER_DAY, value);
+   }
+
+   /**
+    * Retrieve the per day field.
+    * 
+    * @return per day value
+    */
+   public Number getPerDay()
+   {
+      return (Number) getCachedValue(ResourceField.PER_DAY);
+   }
+
+   /**
+    * Set the phone field.
+    * 
+    * @param value phone value
+    */
+   public void setPhone(String value)
+   {
+      set(ResourceField.PHONE, value);
+   }
+
+   /**
+    * Retrieve the phone field.
+    * 
+    * @return phone value
+    */
+   public String getPhone()
+   {
+      return (String) getCachedValue(ResourceField.PHONE);
+   }
+
+   /**
     * Sets the resource GUID.
     *
     * @param value resource GUID
@@ -2312,17 +2551,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   @Override public Object getCachedValue(ExtendedFieldType field)
-   {
-      return getCachedValue(field, null);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback)
-   {
-      Object result = getParentFile().isExtendedFieldRegistered(field) ? m_array[field.getType().getValue()] : null;
-      return result == null && fallback != null ? fallback.apply(this) : result;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -2390,14 +2618,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
             fireFieldChangeEvent((ResourceField) field, m_array[index], value);
          }
          m_array[index] = value;
-      }
-   }
-
-   @Override public void set(ExtendedFieldType field, Object value)
-   {
-      if (field != null)
-      {
-         set(field.getType(), value);
       }
    }
 

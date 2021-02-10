@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
@@ -2697,6 +2696,86 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the planned work field.
+    * 
+    * @return planned work value
+    */
+   public Duration getPlannedWork()
+   {
+      return (Duration) getCachedValue(AssignmentField.PLANNED_WORK);
+   }
+
+   /**
+    * Set the planned work field.
+    * 
+    * @param value planned work value
+    */
+   public void setPlannedWork(Duration value)
+   {
+      set(AssignmentField.PLANNED_WORK, value);
+   }
+
+   /**
+    * Retrieve the planned cost field.
+    * 
+    * @return planned cost value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) getCachedValue(AssignmentField.PLANNED_COST);
+   }
+
+   /**
+    * Set the planned cost field.
+    * 
+    * @param value planned cost value
+    */
+   public void setPlannedCost(Number value)
+   {
+      set(AssignmentField.PLANNED_COST, value);
+   }
+
+   /**
+    * Set the planned start field.
+    * 
+    * @return planned start value
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_START);
+   }
+
+   /**
+    * Retrieve the planned start field.
+    * 
+    * @param value planned start value
+    */
+   public void setPlannedStart(Date value)
+   {
+      set(AssignmentField.PLANNED_START, value);
+   }
+
+   /**
+    * Retrieve the planned finish value.
+    * 
+    * @return planed finish value
+    */
+   public Date getPlannedFinish()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_FINISH);
+   }
+
+   /**
+    * Set the planned finish value.
+    * 
+    * @param value planned finish value
+    */
+   public void setPlannedFinish(Date value)
+   {
+      set(AssignmentField.PLANNED_FINISH, value);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2733,14 +2812,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
             fireFieldChangeEvent((AssignmentField) field, m_array[index], value);
          }
          m_array[index] = value;
-      }
-   }
-
-   @Override public void set(ExtendedFieldType field, Object value)
-   {
-      if (field != null)
-      {
-         set(field.getType(), value);
       }
    }
 
@@ -2861,17 +2932,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field)
-   {
-      return getCachedValue(field, null);
-   }
-
-   @Override public Object getCachedValue(ExtendedFieldType field, Function<FieldContainer, Object> fallback)
-   {
-      Object result = getParentFile().isExtendedFieldRegistered(field) ? m_array[field.getType().getValue()] : null;
-      return result == null && fallback != null ? fallback.apply(this) : result;
    }
 
    /**
