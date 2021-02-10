@@ -53,7 +53,7 @@
 			<pathelement location="${lib.dir}/${commons-math.jar}.jar" />
 		</path>
 
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.15.0" />
+		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
 		<path id="rtfparserkit.path">
 			<pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" />
 		</path>

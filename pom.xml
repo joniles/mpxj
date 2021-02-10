@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.github.joniles</groupId>
 			<artifactId>rtfparserkit</artifactId>
-			<version>1.15.0</version>
+			<version>1.16.0</version>
 		</dependency>
 
 		<!-- Make JAXB an explicit dependency to avoid issues across different Java versions -->
