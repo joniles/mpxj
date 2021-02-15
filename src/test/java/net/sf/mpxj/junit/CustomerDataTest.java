@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -202,6 +204,53 @@ public class CustomerDataTest
    }
 
    /**
+    * Populate field report from JUnit test data.
+    */
+   @Test public void testFieldCoverage() throws Exception
+   {
+      List<File> files = new ArrayList<>();
+      listFiles(files, new File(MpxjTestData.DATA_DIR));
+      for (File file : files)
+      {
+         ProjectFile project = null;
+         try
+         {
+            project = m_universalReader.read(file);
+         }
+         
+         catch (Exception ex)
+         {
+            // we're reading our JUnit test data which we've 
+            // already validated... we're just improving field report coverage.
+            // This will throw expected errors (password protected etc)
+            // which we'll ignore.
+            project = null;
+         }
+         
+         if (project != null)
+         {
+            FIELD_REPORTER.process(project);
+         }
+      }
+   }
+
+   /**
+    * Clear the field reporter ready to begin collecting data.
+    */
+   @BeforeClass public static void initializeFieldReport()
+   {
+      FIELD_REPORTER.clear();
+   }
+
+   /**
+    * Report on the data collected by the field reporter.
+    */
+   @AfterClass public static void generateFieldReport() throws Exception
+   {
+      FIELD_REPORTER.report("src/site/markdown/field-guide.md");
+   }
+
+   /**
     * Test a project from a Primavera SQLite database.
     *
     * @param file database file
@@ -223,6 +272,7 @@ public class CustomerDataTest
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
             result = Boolean.FALSE;
          }
+         FIELD_REPORTER.process(project);
       }
       catch (Exception e)
       {
@@ -352,8 +402,6 @@ public class CustomerDataTest
                continue;
             }
 
-            testPopulatedFields(mpxj);
-
             if (!testHierarchy(mpxj))
             {
                System.err.println("Failed to validate hierarchy " + name);
@@ -369,6 +417,8 @@ public class CustomerDataTest
             }
 
             testWriters(mpxj);
+
+            FIELD_REPORTER.process(mpxj);
          }
 
          catch (Exception ex)
@@ -434,18 +484,6 @@ public class CustomerDataTest
       }
 
       return mpxj;
-   }
-
-   /**
-    * Ensure that the populated fields methods work for all data.
-    *
-    * @param file schedule file to test
-    */
-   private void testPopulatedFields(ProjectFile file)
-   {
-      file.getTasks().getPopulatedFields();
-      file.getResources().getPopulatedFields();
-      file.getResourceAssignments().getPopulatedFields();
    }
 
    /**
@@ -646,6 +684,8 @@ public class CustomerDataTest
    private PrimaveraXERFileReader m_xerReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
+
+   private static final FieldReporter FIELD_REPORTER = new FieldReporter();
 
    private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
 

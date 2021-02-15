@@ -34,7 +34,7 @@ import java.io.IOException;
  */
 public class MpxjTestData
 {
-   private static final String DATA_DIR;
+   public static final String DATA_DIR;
    static
    {
       String dataDirValue = null;

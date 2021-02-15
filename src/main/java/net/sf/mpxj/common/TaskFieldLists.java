@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.sf.mpxj.TaskField;
 
 /**
@@ -714,4 +717,24 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FIXED_COST_ACCRUAL
    };
 
+   public static final TaskField[] EXTENDED_FIELDS;
+   static
+   {
+      ArrayList<TaskField> result = new ArrayList<>();
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS = result.toArray(new TaskField[result.size()]);
+   }
 }

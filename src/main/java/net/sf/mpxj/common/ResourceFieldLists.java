@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.sf.mpxj.ResourceField;
 
 /**
@@ -452,4 +455,24 @@ public final class ResourceFieldLists
       ResourceField.OUTLINE_CODE10
    };
 
+   public static final ResourceField[] EXTENDED_FIELDS;
+   static
+   {
+      ArrayList<ResourceField> result = new ArrayList<>();
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_TEXT));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS = result.toArray(new ResourceField[result.size()]);
+   }
 }

@@ -1,0 +1,1229 @@
+# Field Guide
+The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.
+The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.
+
+## Task
+### Core Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|% Complete|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓||✓|✓||
+|% Work Complete|||||||✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|ACWP|||||||✓|||✓||||||||||||||
+|Active|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Activity ID|✓||||||||||✓|✓||✓|✓|✓|||✓||✓|✓||
+|Activity Status||||||||||||||✓|✓|✓||||||||
+|Activity Type||||||||||||||✓|✓|✓||||||||
+|Actual Cost|||||||✓|✓|✓|✓||||✓|✓|✓|||✓|||||
+|Actual Duration|✓||✓||||✓|✓|✓|✓||✓|✓|✓|✓|✓|||||✓|||
+|Actual Duration Units||||||||✓||✓||||||||||||||
+|Actual Finish|✓||✓||||✓|✓|✓|✓|✓|✓||✓|✓|✓|||✓||✓|✓||
+|Actual Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Actual Overtime Work|||||||✓|✓||✓||||||||||||||
+|Actual Start|✓||✓||||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓||✓|✓||
+|Actual Work|||||||✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|Actual Work Protected||||||||✓||||||||||||||||
+|Baseline1 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline1 Duration|||✓||||✓|✓||✓||||||||||||||
+|Baseline1 Duration Units||||||||✓||||||||||||||||
+|Baseline1 Estimated Duration||||||||✓||||||||||||||||
+|Baseline1 Estimated Finish||||||||✓||||||||||||||||
+|Baseline1 Estimated Start||||||||✓||||||||||||||||
+|Baseline1 Finish|||✓||||✓|✓||✓||||||||||||||
+|Baseline1 Fixed Cost||||||||✓||||||||||||||||
+|Baseline1 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline1 Start|||✓||||✓|✓||✓||||||||||||||
+|Baseline1 Work|||✓||||✓|✓||✓||||||||||||||
+|Baseline2 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline2 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline2 Duration Units||||||||✓||||||||||||||||
+|Baseline2 Estimated Duration||||||||✓||||||||||||||||
+|Baseline2 Estimated Finish||||||||✓||||||||||||||||
+|Baseline2 Estimated Start||||||||✓||||||||||||||||
+|Baseline2 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline2 Fixed Cost||||||||✓||||||||||||||||
+|Baseline2 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline2 Start|||||||✓|✓||✓||||||||||||||
+|Baseline2 Work|||||||✓|✓||✓||||||||||||||
+|Baseline3 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline3 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline3 Duration Units||||||||✓||||||||||||||||
+|Baseline3 Estimated Duration||||||||✓||||||||||||||||
+|Baseline3 Estimated Finish||||||||✓||||||||||||||||
+|Baseline3 Estimated Start||||||||✓||||||||||||||||
+|Baseline3 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline3 Fixed Cost||||||||✓||||||||||||||||
+|Baseline3 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline3 Start|||||||✓|✓||✓||||||||||||||
+|Baseline3 Work|||||||✓|✓||✓||||||||||||||
+|Baseline4 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline4 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline4 Duration Units||||||||✓||||||||||||||||
+|Baseline4 Estimated Duration||||||||✓||||||||||||||||
+|Baseline4 Estimated Finish||||||||✓||||||||||||||||
+|Baseline4 Estimated Start||||||||✓||||||||||||||||
+|Baseline4 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline4 Fixed Cost||||||||✓||||||||||||||||
+|Baseline4 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline4 Start|||||||✓|✓||✓||||||||||||||
+|Baseline4 Work|||||||✓|✓||✓||||||||||||||
+|Baseline5 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline5 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline5 Duration Units||||||||✓||||||||||||||||
+|Baseline5 Estimated Duration||||||||✓||||||||||||||||
+|Baseline5 Estimated Finish||||||||✓||||||||||||||||
+|Baseline5 Estimated Start||||||||✓||||||||||||||||
+|Baseline5 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline5 Fixed Cost||||||||✓||||||||||||||||
+|Baseline5 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline5 Start|||||||✓|✓||✓||||||||||||||
+|Baseline5 Work|||||||✓|✓||✓||||||||||||||
+|Baseline6 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline6 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline6 Duration Units||||||||✓||||||||||||||||
+|Baseline6 Estimated Duration||||||||✓||||||||||||||||
+|Baseline6 Estimated Finish||||||||✓||||||||||||||||
+|Baseline6 Estimated Start||||||||✓||||||||||||||||
+|Baseline6 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline6 Fixed Cost||||||||✓||||||||||||||||
+|Baseline6 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline6 Start|||||||✓|✓||✓||||||||||||||
+|Baseline6 Work|||||||✓|✓||✓||||||||||||||
+|Baseline7 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline7 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline7 Duration Units||||||||✓||||||||||||||||
+|Baseline7 Estimated Duration||||||||✓||||||||||||||||
+|Baseline7 Estimated Finish||||||||✓||||||||||||||||
+|Baseline7 Estimated Start||||||||✓||||||||||||||||
+|Baseline7 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline7 Fixed Cost||||||||✓||||||||||||||||
+|Baseline7 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline7 Start|||||||✓|✓||✓||||||||||||||
+|Baseline7 Work|||||||✓|✓||✓||||||||||||||
+|Baseline8 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline8 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline8 Duration Units||||||||✓||||||||||||||||
+|Baseline8 Estimated Duration||||||||✓||||||||||||||||
+|Baseline8 Estimated Finish||||||||✓||||||||||||||||
+|Baseline8 Estimated Start||||||||✓||||||||||||||||
+|Baseline8 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline8 Fixed Cost||||||||✓||||||||||||||||
+|Baseline8 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline8 Start|||||||✓|✓||✓||||||||||||||
+|Baseline8 Work|||||||✓|✓||✓||||||||||||||
+|Baseline9 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline9 Duration|||||||✓|✓||✓||||||||||||||
+|Baseline9 Duration Units||||||||✓||||||||||||||||
+|Baseline9 Estimated Duration||||||||✓||||||||||||||||
+|Baseline9 Estimated Finish||||||||✓||||||||||||||||
+|Baseline9 Estimated Start||||||||✓||||||||||||||||
+|Baseline9 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline9 Fixed Cost||||||||✓||||||||||||||||
+|Baseline9 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline9 Start|||||||✓|✓||✓||||||||||||||
+|Baseline9 Work|||||||✓|✓||✓||||||||||||||
+|Baseline10 Cost|||✓||||✓|✓||✓||||||||||||||
+|Baseline10 Deliverable Finish||||||||✓||||||||||||||||
+|Baseline10 Duration|||✓||||✓|✓||✓||||||||||||||
+|Baseline10 Duration Units||||||||✓||||||||||||||||
+|Baseline10 Estimated Duration||||||||✓||||||||||||||||
+|Baseline10 Estimated Finish||||||||✓||||||||||||||||
+|Baseline10 Estimated Start||||||||✓||||||||||||||||
+|Baseline10 Finish|||✓||||✓|✓||✓||||||||||||||
+|Baseline10 Fixed Cost||||||||✓||||||||||||||||
+|Baseline10 Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline10 Start|||✓||||✓|✓||✓||||||||||||||
+|Baseline10 Work|||✓||||✓|✓||✓||||||||||||||
+|Baseline Budget Cost||||||||✓||||||||||||||||
+|Baseline Budget Work||||||||✓||||||||||||||||
+|Baseline Cost||✓|||||✓|✓|✓|✓||||||||||||||
+|Baseline Deliverable Finish||||||||✓||||||||||||||||
+|Baseline Deliverable Start||||||||✓||||||||||||||||
+|Baseline Duration||✓|✓||||✓|✓|✓|✓||✓||||||||||||
+|Baseline Duration Units||||||||✓||||||||||||||||
+|Baseline Estimated Duration||||||||✓||||||||||||||||
+|Baseline Estimated Finish||||||||✓||||||||||||||||
+|Baseline Estimated Start||||||||✓||||||||||||||||
+|Baseline Finish||✓|✓||||✓|✓|✓|✓||||||||||||||
+|Baseline Fixed Cost||||||||✓||||||||||||||||
+|Baseline Fixed Cost Accrual||||||||✓||||||||||||||||
+|Baseline Start||✓|✓||||✓|✓|✓|✓||||||||||||||
+|Baseline Work|||||||✓|✓|✓|✓||||||||||||||
+|Bid Item|||||||||||||||||||✓|||||
+|Budget Cost||||||||✓||||||||||||||||
+|Budget Work||||||||✓||||||||||||||||
+|CV||||||||||✓||||||||||||||
+|Calendar Unique ID|✓|||||||✓||✓||||✓|✓|✓|||✓|||✓||
+|Category of Work|||||||||||||||||||✓|||||
+|Complete Through|✓||✓|||||✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓||✓|✓||
+|Constraint Date|✓||✓||✓|✓|✓|✓|✓|✓|✓||✓|✓|✓|✓||✓|✓|✓||✓||
+|Constraint Type|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Contact|||||||✓|✓|✓|✓||||||||||||||
+|Cost||✓||✓|||✓|✓|✓|✓||✓||✓|✓|✓|||✓|||||
+|Cost Variance||✓|||||✓|✓|✓|||||||||||||||
+|Created|||||||✓|✓|✓|✓||✓|||✓|✓||✓||||||
+|Critical|✓|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Deadline|✓|✓||✓|||✓|✓||✓|||||✓|✓||||||||
+|Deliverable GUID||||||||✓||||||||||||||||
+|Department|||||||||||||||||||||✓|||
+|Duration|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||
+|Duration1 Units||||||||✓||||||||||||||||
+|Duration2 Units||||||||✓||||||||||||||||
+|Duration3 Units||||||||✓||||||||||||||||
+|Duration4 Units||||||||✓||||||||||||||||
+|Duration5 Units||||||||✓||||||||||||||||
+|Duration6 Units||||||||✓||||||||||||||||
+|Duration7 Units||||||||✓||||||||||||||||
+|Duration8 Units||||||||✓||||||||||||||||
+|Duration9 Units||||||||✓||||||||||||||||
+|Duration10 Units||||||||✓||||||||||||||||
+|Duration Units||||||||✓||||||||||||||||
+|Duration Variance||✓|✓||||✓|✓|✓|✓||✓||||||||||||
+|Early Finish|✓||✓||||✓|✓|✓|✓|✓|✓|||✓|✓|||✓||✓||✓|
+|Early Start|✓||✓||||✓|✓|✓|✓|✓|✓|||✓|✓|||✓||✓||✓|
+|Earned Value Method||||||||✓||||||||||||||||
+|Effort Driven|||✓||||✓|✓||✓|||✓|||||✓||||||
+|Enterprise Data||||||||✓||||||||||||||||
+|Enterprise Duration1 Units||||||||✓||||||||||||||||
+|Enterprise Duration2 Units||||||||✓||||||||||||||||
+|Enterprise Duration3 Units||||||||✓||||||||||||||||
+|Enterprise Duration4 Units||||||||✓||||||||||||||||
+|Enterprise Duration5 Units||||||||✓||||||||||||||||
+|Enterprise Duration6 Units||||||||✓||||||||||||||||
+|Enterprise Duration7 Units||||||||✓||||||||||||||||
+|Enterprise Duration8 Units||||||||✓||||||||||||||||
+|Enterprise Duration9 Units||||||||✓||||||||||||||||
+|Enterprise Duration10 Units||||||||✓||||||||||||||||
+|Enterprise Project Date1||||||||✓||||||||||||||||
+|Enterprise Project Date2||||||||✓||||||||||||||||
+|Enterprise Project Date3||||||||✓||||||||||||||||
+|Enterprise Project Date4||||||||✓||||||||||||||||
+|Enterprise Project Number2||||||||✓||||||||||||||||
+|Enterprise Project Number4||||||||✓||||||||||||||||
+|Enterprise Project Number5||||||||✓||||||||||||||||
+|Enterprise Project Number22||||||||✓||||||||||||||||
+|Enterprise Project Text1||||||||✓||✓||||||||||||||
+|Enterprise Project Text2||||||||✓||||||||||||||||
+|Enterprise Project Text3||||||||✓||||||||||||||||
+|Enterprise Project Text4||||||||✓||||||||||||||||
+|Enterprise Project Text5||||||||✓||||||||||||||||
+|Enterprise Project Text6||||||||✓||||||||||||||||
+|Enterprise Project Text8||||||||✓||||||||||||||||
+|Enterprise Project Text9||||||||✓||||||||||||||||
+|Enterprise Project Text10||||||||✓||||||||||||||||
+|Enterprise Project Text11||||||||✓||||||||||||||||
+|Enterprise Project Text12||||||||✓||||||||||||||||
+|Enterprise Project Text13||||||||✓||||||||||||||||
+|Enterprise Project Text14||||||||✓||||||||||||||||
+|Enterprise Project Text15||||||||✓||||||||||||||||
+|Enterprise Project Text16||||||||✓||||||||||||||||
+|Enterprise Project Text17||||||||✓||||||||||||||||
+|Enterprise Project Text18||||||||✓||||||||||||||||
+|Enterprise Project Text19||||||||✓||||||||||||||||
+|Enterprise Project Text21||||||||✓||||||||||||||||
+|Enterprise Project Text40||||||||✓||✓||||||||||||||
+|Estimated|||||||✓|✓||✓||||||||✓||||||
+|Expense Items||||||||||||||✓|✓|✓||||||||
+|External Task||||||||✓||||||||||||||||
+|Feature of Work|||||||||||||||||||✓|||||
+|Finish|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Finish Slack|✓||✓|||||✓|✓|✓|✓|✓|||✓|✓|||✓||✓|||
+|Finish Variance||✓|✓|||||✓|✓|✓||||||||||||||
+|Fixed Cost|||✓||||✓|✓||||||||||||||||
+|Fixed Cost Accrual|||||||✓|✓||✓||||||||||||||
+|Free Slack|||✓||||✓|✓|✓|✓|✓|✓|||✓|✓||||||||
+|GUID||✓|✓|||✓||✓||✓||✓||✓|✓|✓|||✓|||✓||
+|Hammock Code|||||||||||||||||||✓|||||
+|Hide Bar|||||||✓|✓||✓||||||||||||||
+|Hyperlink|||||✓||✓|✓||||||||||||||✓||
+|Hyperlink Address|||||||✓|✓||||||||||||||||
+|Hyperlink Data||||||||✓||||||||||||||||
+|Hyperlink SubAddress||||||||✓||||||||||||||||
+|ID|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Ignore Resource Calendar|||✓|||||✓||✓|||||✓|✓||||||||
+|Late Finish|✓||✓||||✓|✓|✓|✓|✓|✓|||✓|✓|||✓|✓|✓||✓|
+|Late Start|✓||✓||||✓|✓|✓|✓|✓|✓|||✓|✓|||✓|✓|✓||✓|
+|Level Assignments|||||||✓|✓||✓||||||||||||||
+|Leveling Can Split|||||||✓|✓||✓||||||||||||||
+|Leveling Delay||||||||✓|✓|✓||||||||||||||
+|Leveling Delay Units|||||||✓|✓||✓||||||||||||||
+|Mail|||||||||||||||||||||✓|||
+|Manager|||||||||||||||||||||✓|||
+|Manual Duration||||||||✓||✓||||||||||||||
+|Manual Duration Units||||||||✓||||||||||||||||
+|Marked|||||||✓|✓||||||||||||||||
+|Milestone|✓|✓|||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||✓||✓|✓||
+|Notes|✓|✓|✓|✓|||✓|✓|✓|✓|||✓|✓|✓|✓||||✓||✓||
+|Outline Code1|||||||✓|✓||✓||||||||||||||
+|Outline Code1 Index||||||||✓||||||||||||||||
+|Outline Code2|||||||✓|✓||✓||||||||||||||
+|Outline Code2 Index||||||||✓||||||||||||||||
+|Outline Code3|||||||✓|✓||✓||||||||||||||
+|Outline Code3 Index||||||||✓||||||||||||||||
+|Outline Code4|||||||✓|✓||✓||||||||||||||
+|Outline Code4 Index||||||||✓||||||||||||||||
+|Outline Code5|||||||✓|✓||✓||||||||||||||
+|Outline Code5 Index||||||||✓||||||||||||||||
+|Outline Code6|||||||✓|✓||✓||||||||||||||
+|Outline Code6 Index||||||||✓||||||||||||||||
+|Outline Code7|||||||✓|✓||✓||||||||||||||
+|Outline Code7 Index||||||||✓||||||||||||||||
+|Outline Code8|||||||✓|✓||||||||||||||||
+|Outline Code8 Index||||||||✓||||||||||||||||
+|Outline Code9|||||||✓|✓||||||||||||||||
+|Outline Code9 Index||||||||✓||||||||||||||||
+|Outline Code10|||||||✓|✓||||||||||||||||
+|Outline Code10 Index||||||||✓||||||||||||||||
+|Outline Level|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Outline Number|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Overall Percent Complete|✓|||||||||||||||||||||||
+|Overallocated||||||||||✓||||||||||||||
+|Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Overtime Work||||||||||✓||||||||||||||
+|Parent Task Unique ID||||||||✓||||||||||||||||
+|Percent Complete Type||||||||||||||✓|✓|✓||||||||
+|Phase of Work|||||||||||||||||||✓|||||
+|Physical % Complete||||||||✓||✓||||✓|✓|✓||||||||
+|Planned Duration||||||||||||||✓|✓|✓||||||||
+|Planned Finish||||||||||||||✓|✓|✓||||||||
+|Planned Start||||||||||||||✓|✓|✓||||||||
+|Planned Work|||||||||||||||✓|✓||||||||
+|Predecessors|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Preleveled Finish|||||||✓|✓||✓||||||||||||||
+|Preleveled Start|||||||✓|✓||✓||||||||||||||
+|Primary Resource Unique ID||||||||||||||✓|✓|✓||||||||
+|Priority||✓|||✓||✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|Project||||||||✓|✓||||||✓|✓||||||||
+|Recalc Outline Codes||||||||✓||||||||||||||||
+|Recurring||||||||✓|✓|✓||||||||||||||
+|Recurring Data||||||||✓||||||||||||||||
+|Regular Work|||||||✓|||✓||||||||||||||
+|Remaining Cost|||||||✓|✓|✓|✓||||✓|✓|✓|||✓|||||
+|Remaining Duration|✓||||||✓|✓|✓|✓|✓|✓||✓|✓|✓||✓|✓||✓|✓||
+|Remaining Early Finish|||||||||||||||✓|✓||||||||
+|Remaining Early Start|||||||||||||||✓|✓||||||||
+|Remaining Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Remaining Overtime Work|||||||✓|✓||✓||||||||||||||
+|Remaining Work|||||||✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|Resource Names|||✓||||||✓|||||||||||||||
+|Responsibility Code|||||||||||||||||||✓|||||
+|Resume|✓||||||✓|✓|✓|✓||||||✓||||||||
+|Resume No Earlier Than||||||||✓||||||||||||||||
+|Rollup|||||||✓|✓|✓|✓||||||||||||||
+|Scheduled Duration||||||||✓||||||||||||||||
+|Scheduled Finish||||||||✓||||||||||||||||
+|Scheduled Start||||||||✓||||||||||||||||
+|Secondary Constraint Date||||||||||||||||✓||||||||
+|Secondary Constraint Type||||||||||||||||✓||||||||
+|Section|||||||||||||||||||||✓|||
+|Splits||||||||✓||✓||||||||||||||
+|Splits Complete||||||||✓||✓||||||||||||||
+|Start|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Start Slack|✓||✓|||||✓|✓|✓|✓|✓|||✓|✓|||✓||✓|||
+|Start Variance||✓|✓|||||✓|✓|✓||||||||||||||
+|Stop|||||||✓|✓|✓|✓||||||||||||||
+|Subproject|||||||✓|✓||||||||||||||||
+|Subproject File|||||||✓|✓||||||||||||||||
+|Subproject Task ID||||||||✓||||||||||||||||
+|Subproject Tasks Unique ID Offset||||||||✓||||||||||||||||
+|Subproject Unique Task ID||||||||✓||||||||||||||||
+|Successors|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Summary|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||✓|✓|✓|✓|✓|✓|||||✓|✓|
+|Summary Progress||||||||✓||||||||||||||||
+|Suspend Date||||||||||||||||✓||||||||
+|Task Calendar|✓|||||||✓||✓||||✓|✓|✓|||✓|||✓||
+|Task Calendar GUID||||||||✓||||||||||||||||
+|Task Mode||||||||✓||✓||||||||||||||
+|Task Name|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Total Slack|✓||✓|||||✓|✓|✓|✓|✓|||✓|✓|||✓||✓|||
+|Type||✓|||||✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|Unique ID|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|
+|Unique ID Successors|||||||||✓|||||||||||||||
+|WBS|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|✓|✓||✓|✓||✓|✓|
+|Work|||✓|||✓|✓|✓|✓|✓|||✓|✓|✓|✓|✓|||||||
+|Work Variance||||||||✓|✓|✓||||||||||||||
+### Extended Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|Cost1|||✓||||✓|✓|✓|✓||||✓||✓||||||||
+|Cost2|||✓||||✓|✓|✓|✓||||||||||||||
+|Cost3|||||||✓|✓|✓|✓||||||||||||||
+|Cost4|||||||✓|✓||✓||||||||||||||
+|Cost5|||||||✓|✓||✓||||||||||||||
+|Cost6|||||||✓|✓||✓||||||||||||||
+|Cost7|||||||✓|✓||✓||||||||||||||
+|Cost8|||||||✓|✓||✓||||||||||||||
+|Cost9|||||||✓|✓||✓||||||||||||||
+|Cost10|||||||✓|✓||✓||||||||||||||
+|Date1|||||✓||✓|✓||✓||||||||||||||
+|Date2|||||||✓|✓||✓||||||||||||||
+|Date3|||||||✓|✓||✓||||||||||||||
+|Date4|||||||✓|✓||✓||||||||||||||
+|Date5|||||||✓|✓||✓||||||||||||||
+|Date6|||||||✓|✓||✓||||||||||||||
+|Date7|||||||✓|✓||✓||||||||||||||
+|Date8|||||||✓|✓||✓||||||||||||||
+|Date9|||||||✓|✓||✓||||||||||||||
+|Date10|||||||✓|✓||✓||||||||||||||
+|Duration1|||||||✓|✓|✓|✓||||||||||||||
+|Duration2|||||||✓|✓|✓|✓|||||✓|✓||||||||
+|Duration3|||||||✓|✓|✓|✓||||||||||||||
+|Duration4|||||||✓|✓||✓||||||||||||||
+|Duration5|||||||✓|✓||✓||||||||||||||
+|Duration6|||||||✓|✓||✓||||||||||||||
+|Duration7|||||||✓|✓||✓||||||||||||||
+|Duration8|||||||✓|✓||✓||||||||||||||
+|Duration9|||||||✓|✓||✓||||||||||||||
+|Duration10|||||||✓|✓||✓||||||||||||||
+|Enterprise Cost1||||||||✓||✓||||||||||||||
+|Enterprise Cost2||||||||✓||✓||||||||||||||
+|Enterprise Cost3||||||||✓||✓||||||||||||||
+|Enterprise Cost4||||||||✓||✓||||||||||||||
+|Enterprise Cost5||||||||✓||✓||||||||||||||
+|Enterprise Cost6||||||||✓||✓||||||||||||||
+|Enterprise Cost7||||||||✓||✓||||||||||||||
+|Enterprise Cost8||||||||✓||✓||||||||||||||
+|Enterprise Cost9||||||||✓||✓||||||||||||||
+|Enterprise Cost10||||||||✓||✓||||||||||||||
+|Enterprise Custom Field 2||||||||✓||||||||||||||||
+|Enterprise Custom Field 3||||||||✓||||||||||||||||
+|Enterprise Custom Field 4||||||||✓||||||||||||||||
+|Enterprise Custom Field 5||||||||✓||||||||||||||||
+|Enterprise Custom Field 6||||||||✓||||||||||||||||
+|Enterprise Custom Field 9||||||||✓||||||||||||||||
+|Enterprise Custom Field 10||||||||✓||||||||||||||||
+|Enterprise Custom Field 20||||||||✓||||||||||||||||
+|Enterprise Custom Field 21||||||||✓||||||||||||||||
+|Enterprise Custom Field 22||||||||✓||||||||||||||||
+|Enterprise Custom Field 23||||||||✓||||||||||||||||
+|Enterprise Custom Field 24||||||||✓||||||||||||||||
+|Enterprise Custom Field 44||||||||✓||||||||||||||||
+|Enterprise Custom Field 47||||||||✓||||||||||||||||
+|Enterprise Custom Field 53||||||||✓||||||||||||||||
+|Enterprise Custom Field 58||||||||✓||||||||||||||||
+|Enterprise Custom Field 59||||||||✓||||||||||||||||
+|Enterprise Custom Field 60||||||||✓||||||||||||||||
+|Enterprise Custom Field 61||||||||✓||||||||||||||||
+|Enterprise Custom Field 62||||||||✓||||||||||||||||
+|Enterprise Custom Field 83||||||||✓||||||||||||||||
+|Enterprise Custom Field 93||||||||✓||||||||||||||||
+|Enterprise Custom Field 100||||||||✓||||||||||||||||
+|Enterprise Custom Field 105||||||||✓||||||||||||||||
+|Enterprise Custom Field 111||||||||✓||||||||||||||||
+|Enterprise Custom Field 116||||||||✓||||||||||||||||
+|Enterprise Custom Field 117||||||||✓||||||||||||||||
+|Enterprise Custom Field 137||||||||✓||||||||||||||||
+|Enterprise Custom Field 145||||||||✓||||||||||||||||
+|Enterprise Date1||||||||✓||✓||||||||||||||
+|Enterprise Date2||||||||✓||✓||||||||||||||
+|Enterprise Date3||||||||✓||✓||||||||||||||
+|Enterprise Date4||||||||✓||✓||||||||||||||
+|Enterprise Date5||||||||✓||✓||||||||||||||
+|Enterprise Date6||||||||✓||✓||||||||||||||
+|Enterprise Date7||||||||✓||✓||||||||||||||
+|Enterprise Date8||||||||✓||✓||||||||||||||
+|Enterprise Date9||||||||✓||✓||||||||||||||
+|Enterprise Date10||||||||✓||✓||||||||||||||
+|Enterprise Date11||||||||✓||✓||||||||||||||
+|Enterprise Date12||||||||✓||✓||||||||||||||
+|Enterprise Date13||||||||✓||✓||||||||||||||
+|Enterprise Date14||||||||✓||✓||||||||||||||
+|Enterprise Date15||||||||✓||✓||||||||||||||
+|Enterprise Date16||||||||✓||✓||||||||||||||
+|Enterprise Date17||||||||✓||✓||||||||||||||
+|Enterprise Date18||||||||✓||✓||||||||||||||
+|Enterprise Date19||||||||✓||✓||||||||||||||
+|Enterprise Date20||||||||✓||✓||||||||||||||
+|Enterprise Date21||||||||✓||✓||||||||||||||
+|Enterprise Date22||||||||✓||✓||||||||||||||
+|Enterprise Date23||||||||✓||✓||||||||||||||
+|Enterprise Date24||||||||✓||✓||||||||||||||
+|Enterprise Date25||||||||✓||✓||||||||||||||
+|Enterprise Date26||||||||✓||✓||||||||||||||
+|Enterprise Date27||||||||✓||✓||||||||||||||
+|Enterprise Date28||||||||✓||✓||||||||||||||
+|Enterprise Date29||||||||✓||✓||||||||||||||
+|Enterprise Date30||||||||✓||✓||||||||||||||
+|Enterprise Duration1||||||||✓||✓||||||||||||||
+|Enterprise Duration2||||||||✓||✓||||||||||||||
+|Enterprise Duration3||||||||✓||✓||||||||||||||
+|Enterprise Duration4||||||||✓||✓||||||||||||||
+|Enterprise Duration5||||||||✓||✓||||||||||||||
+|Enterprise Duration6||||||||✓||✓||||||||||||||
+|Enterprise Duration7||||||||✓||✓||||||||||||||
+|Enterprise Duration8||||||||✓||✓||||||||||||||
+|Enterprise Duration9||||||||✓||✓||||||||||||||
+|Enterprise Duration10||||||||✓||✓||||||||||||||
+|Enterprise Flag1||||||||✓||✓||||||||||||||
+|Enterprise Flag3||||||||✓||✓||||||||||||||
+|Enterprise Flag4||||||||✓||||||||||||||||
+|Enterprise Flag5||||||||✓||✓||||||||||||||
+|Enterprise Flag7||||||||✓||✓||||||||||||||
+|Enterprise Flag8||||||||✓||||||||||||||||
+|Enterprise Flag9||||||||✓||✓||||||||||||||
+|Enterprise Flag10||||||||✓||||||||||||||||
+|Enterprise Flag11||||||||✓||✓||||||||||||||
+|Enterprise Flag13||||||||✓||✓||||||||||||||
+|Enterprise Flag15||||||||✓||✓||||||||||||||
+|Enterprise Flag17||||||||✓||✓||||||||||||||
+|Enterprise Flag19||||||||✓||✓||||||||||||||
+|Enterprise Number1||||||||✓||✓||||||||||||||
+|Enterprise Number2||||||||✓||✓||||||||||||||
+|Enterprise Number3||||||||✓||✓||||||||||||||
+|Enterprise Number4||||||||✓||✓||||||||||||||
+|Enterprise Number5||||||||✓||✓||||||||||||||
+|Enterprise Number6||||||||✓||✓||||||||||||||
+|Enterprise Number7||||||||✓||✓||||||||||||||
+|Enterprise Number8||||||||✓||✓||||||||||||||
+|Enterprise Number9||||||||✓||✓||||||||||||||
+|Enterprise Number10||||||||✓||✓||||||||||||||
+|Enterprise Number11||||||||✓||✓||||||||||||||
+|Enterprise Number12||||||||✓||✓||||||||||||||
+|Enterprise Number13||||||||✓||✓||||||||||||||
+|Enterprise Number14||||||||✓||✓||||||||||||||
+|Enterprise Number15||||||||✓||✓||||||||||||||
+|Enterprise Number16||||||||✓||✓||||||||||||||
+|Enterprise Number17||||||||✓||✓||||||||||||||
+|Enterprise Number18||||||||✓||✓||||||||||||||
+|Enterprise Number19||||||||✓||✓||||||||||||||
+|Enterprise Number20||||||||✓||✓||||||||||||||
+|Enterprise Number21||||||||✓||✓||||||||||||||
+|Enterprise Number22||||||||✓||✓||||||||||||||
+|Enterprise Number23||||||||✓||✓||||||||||||||
+|Enterprise Number24||||||||✓||✓||||||||||||||
+|Enterprise Number25||||||||✓||✓||||||||||||||
+|Enterprise Number26||||||||✓||✓||||||||||||||
+|Enterprise Number27||||||||✓||✓||||||||||||||
+|Enterprise Number28||||||||✓||✓||||||||||||||
+|Enterprise Number29||||||||✓||✓||||||||||||||
+|Enterprise Number30||||||||✓||✓||||||||||||||
+|Enterprise Number31||||||||✓||✓||||||||||||||
+|Enterprise Number32||||||||✓||✓||||||||||||||
+|Enterprise Number33||||||||✓||✓||||||||||||||
+|Enterprise Number34||||||||✓||✓||||||||||||||
+|Enterprise Number35||||||||✓||✓||||||||||||||
+|Enterprise Number36||||||||✓||✓||||||||||||||
+|Enterprise Number37||||||||✓||✓||||||||||||||
+|Enterprise Number38||||||||✓||✓||||||||||||||
+|Enterprise Number39||||||||✓||✓||||||||||||||
+|Enterprise Number40||||||||✓||✓||||||||||||||
+|Enterprise Text1||||||||✓||✓||||||✓||||||||
+|Enterprise Text2||||||||✓||✓||||||||||||||
+|Enterprise Text3||||||||✓||✓||||||||||||||
+|Enterprise Text4||||||||✓||✓||||||||||||||
+|Enterprise Text5||||||||✓||✓||||||||||||||
+|Enterprise Text6||||||||✓||✓||||||||||||||
+|Enterprise Text7||||||||✓||✓||||||||||||||
+|Enterprise Text8||||||||✓||✓||||||||||||||
+|Enterprise Text9||||||||✓||✓||||||||||||||
+|Enterprise Text10||||||||✓||✓||||||||||||||
+|Enterprise Text11||||||||✓||✓||||||||||||||
+|Enterprise Text12||||||||✓||✓||||||||||||||
+|Enterprise Text13||||||||✓||✓||||||||||||||
+|Enterprise Text14||||||||✓||✓||||||||||||||
+|Enterprise Text15||||||||✓||✓||||||||||||||
+|Enterprise Text16||||||||✓||✓||||||||||||||
+|Enterprise Text17||||||||✓||✓||||||||||||||
+|Enterprise Text18||||||||✓||✓||||||||||||||
+|Enterprise Text19||||||||✓||✓||||||||||||||
+|Enterprise Text20||||||||✓||✓||||||||||||||
+|Enterprise Text21||||||||✓||✓||||||||||||||
+|Enterprise Text22||||||||✓||✓||||||||||||||
+|Enterprise Text23||||||||✓||✓||||||||||||||
+|Enterprise Text24||||||||✓||✓||||||||||||||
+|Enterprise Text25||||||||✓||✓||||||||||||||
+|Enterprise Text26||||||||✓||✓||||||||||||||
+|Enterprise Text27||||||||✓||✓||||||||||||||
+|Enterprise Text28||||||||✓||✓||||||||||||||
+|Enterprise Text29||||||||✓||✓||||||||||||||
+|Enterprise Text30||||||||✓||✓||||||||||||||
+|Enterprise Text31||||||||✓||✓||||||||||||||
+|Enterprise Text32||||||||✓||✓||||||||||||||
+|Enterprise Text33||||||||✓||✓||||||||||||||
+|Enterprise Text34||||||||✓||✓||||||||||||||
+|Enterprise Text35||||||||✓||✓||||||||||||||
+|Enterprise Text36||||||||✓||✓||||||||||||||
+|Enterprise Text37||||||||✓||✓||||||||||||||
+|Enterprise Text38||||||||✓||✓||||||||||||||
+|Enterprise Text39||||||||✓||✓||||||||||||||
+|Enterprise Text40||||||||✓||✓||||||||||||||
+|Finish1|||||||✓|✓|✓|✓||||✓||||||||||
+|Finish2|||||||✓|✓|✓|✓||||||||||||||
+|Finish3|||||||✓|✓|✓|✓|||||✓|||||||||
+|Finish4|||||||✓|✓|✓|✓||||||||||||||
+|Finish5|||||||✓|✓|✓|✓||||||||||||||
+|Finish6|||||||✓|✓||✓||||||||||||||
+|Finish7|||||||✓|✓||✓||||||||||||||
+|Finish8|||||||✓|✓||✓||||||||||||||
+|Finish9|||||||✓|✓||✓||||||||||||||
+|Finish10|||||||✓|✓||✓||||||||||||||
+|Flag1|||✓||✓||✓|✓|✓|✓||||||||||||||
+|Flag2|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag3|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag4|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag5|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag6|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag7|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag8|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag9|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag10|||✓||||✓|✓|✓|✓||||||||||||||
+|Flag11|||✓||||✓|✓||✓||||||||||||||
+|Flag12|||✓||||✓|✓||✓||||||||||||||
+|Flag13|||✓||||✓|✓||✓||||||||||||||
+|Flag14|||✓||||✓|✓||✓||||||||||||||
+|Flag15|||✓||||✓|✓||✓||||||||||||||
+|Flag16|||✓||||✓|✓||✓||||||||||||||
+|Flag17|||✓||||✓|✓||✓||||||||||||||
+|Flag18|||✓||||✓|✓||✓||||||||||||||
+|Flag19|||✓||||✓|✓||✓||||||||||||||
+|Flag20|||✓||||✓|✓||✓||||||||||||||
+|Number1|||✓||✓||✓|✓|✓|✓||||✓||✓||||||||
+|Number2|||✓||✓||✓|✓|✓|✓||||✓||||||||||
+|Number3|||✓||||✓|✓|✓|✓||||||||||||||
+|Number4|||✓||||✓|✓|✓|✓||||||||||||||
+|Number5|||✓||||✓|✓|✓|✓||||||||||||||
+|Number6|||✓||||✓|✓||✓||||||||||||||
+|Number7|||||||✓|✓||✓||||||||||||||
+|Number8|||||||✓|✓||✓||||||||||||||
+|Number9|||||||✓|✓||✓||||||||||||||
+|Number10|||✓||||✓|✓||✓||||||||||||||
+|Number11|||||||✓|✓||✓||||||||||||||
+|Number12|||||||✓|✓||✓||||||||||||||
+|Number13|||||||✓|✓||✓||||||||||||||
+|Number14|||||||✓|✓||✓||||||||||||||
+|Number15|||||||✓|✓||✓||||||||||||||
+|Number16|||||||✓|✓||✓||||||||||||||
+|Number17|||||||✓|✓||✓||||||||||||||
+|Number18|||||||✓|✓||✓||||||||||||||
+|Number19|||||||✓|✓||✓||||||||||||||
+|Number20|||||||✓|✓||✓||||||||||||||
+|Start1|||||||✓|✓|✓|✓||||✓||||||||||
+|Start2|||||||✓|✓|✓|✓||||||||||||||
+|Start3|||||||✓|✓|✓|✓||||||||||||||
+|Start4|||||||✓|✓|✓|✓|||||✓|||||||||
+|Start5|||||||✓|✓|✓|✓||||||||||||||
+|Start6|||||||✓|✓||✓||||||||||||||
+|Start7|||||||✓|✓||✓||||||||||||||
+|Start8|||||||✓|✓||✓||||||||||||||
+|Start9|||||||✓|✓||✓||||||||||||||
+|Start10|||||||✓|✓||✓||||||||||||||
+|Text1|||✓||✓||✓|✓|✓|✓||||✓||✓||||✓||||
+|Text2|||✓||||✓|✓|✓|✓||||✓||✓||||||||
+|Text3|||✓||||✓|✓|✓|✓||||✓||✓||||||||
+|Text4|||✓||||✓|✓|✓|✓||||✓||✓||||||||
+|Text5|||✓||||✓|✓|✓|✓||||||✓||||||||
+|Text6|||✓||||✓|✓|✓|✓|||||✓|✓||||||||
+|Text7|||✓||||✓|✓|✓|✓|||||✓|✓||||||||
+|Text8|||✓||||✓|✓|✓|✓|||||✓|✓||||||||
+|Text9|||✓||||✓|✓|✓|✓||||||✓||||||||
+|Text10|||||||✓|✓|✓|✓||||||✓||||||||
+|Text11|||||||✓|✓||✓||||||✓||||||||
+|Text12|||||||✓|✓||✓||||||✓||||||||
+|Text13|||||||✓|✓||✓||||||✓||||||||
+|Text14|||||||✓|✓||✓||||||✓||||||||
+|Text15|||||||✓|✓||✓||||||✓||||||||
+|Text16|||||||✓|✓||✓||||||✓||||||||
+|Text17|||||||✓|✓||✓||||||✓||||||||
+|Text18|||||||✓|✓||✓||||||✓||||||||
+|Text19|||||||✓|✓||✓||||||✓||||||||
+|Text20|||||||✓|✓||✓||||||✓||||||||
+|Text21|||||||✓|✓||✓||||||✓||||||||
+|Text22|||||||✓|✓||✓||||||✓||||||||
+|Text23|||||||✓|✓||✓||||||✓||||||||
+|Text24|||||||✓|✓||✓||||||✓||||||||
+|Text25|||||||✓|✓||✓||||||✓||||||||
+|Text26|||||||✓|✓||✓||||||✓||||||||
+|Text27|||||||✓|✓||✓||||||✓||||||||
+|Text28|||||||✓|✓||✓||||||✓||||||||
+|Text29|||||||✓|✓||✓||||||✓||||||||
+|Text30|||||||✓|✓||✓||||||✓||||||||
+## Resource
+### Core Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|% Work Complete||||||||||✓||||||||||||||
+|ACWP|||||||✓|||✓||||||||||||||
+|Accrue At|||||||✓|✓|✓|✓||||||||✓||||||
+|Active||||||||||✓||||||||✓||||✓||
+|Actual Cost|||||||✓|✓|✓|✓||||||||||||||
+|Actual Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Actual Overtime Work|||||||✓|✓||✓||||||||||||||
+|Actual Work|||||||✓|✓|✓|✓||||||||||||||
+|Actual Work Protected||||||||✓||||||||||||||||
+|Availability Data||||||||✓||||||||||||||||
+|Available From||||||||✓||✓||||||||||||||
+|Available To||||||||✓||✓||||||||||||||
+|Base Calendar|||||||||✓|||||||||||||||
+|Baseline1 Cost||||||||✓||✓||||||||||||||
+|Baseline1 Work||||||||✓||✓||||||||||||||
+|Baseline2 Cost||||||||✓||✓||||||||||||||
+|Baseline2 Work||||||||✓||✓||||||||||||||
+|Baseline3 Cost||||||||✓||✓||||||||||||||
+|Baseline3 Work||||||||✓||✓||||||||||||||
+|Baseline4 Cost||||||||✓||✓||||||||||||||
+|Baseline4 Work||||||||✓||✓||||||||||||||
+|Baseline5 Cost||||||||✓||✓||||||||||||||
+|Baseline5 Work||||||||✓||✓||||||||||||||
+|Baseline6 Cost||||||||✓||✓||||||||||||||
+|Baseline6 Work||||||||✓||✓||||||||||||||
+|Baseline7 Cost||||||||✓||✓||||||||||||||
+|Baseline7 Work||||||||✓||✓||||||||||||||
+|Baseline8 Cost||||||||✓||✓||||||||||||||
+|Baseline8 Work||||||||✓||✓||||||||||||||
+|Baseline9 Cost||||||||✓||✓||||||||||||||
+|Baseline9 Work||||||||✓||✓||||||||||||||
+|Baseline10 Cost||||||||✓||✓||||||||||||||
+|Baseline10 Work||||||||✓||✓||||||||||||||
+|Baseline Cost||||||||✓|✓|||||||||||||||
+|Baseline Work|||||||✓|✓|✓|||||||||||||||
+|Booking Type||||||||✓||✓||||||||||||||
+|Budget||||||||✓||✓||||||||||||||
+|Budget Cost||||||||✓||||||||||||||||
+|Budget Work||||||||✓||||||||||||||||
+|CV||||||||||✓||||||||||||||
+|Calendar|✓|✓||||✓|✓|✓|✓|✓|||✓|✓|✓|✓|||||✓|||
+|Calendar GUID||||||||✓||||||||||||||||
+|Calendar Unique ID|✓|✓||||✓|✓|✓|✓|✓|||✓|✓|✓|✓|||||✓|||
+|Can Level|||||||✓|||✓||||||||||||||
+|Code|||✓||||✓|✓|✓|✓|✓||||||||||✓|||
+|Cost|||||||✓|✓|✓|✓||||||||||||||
+|Cost Per Use|✓||✓||||✓|✓|✓|✓||||||||||||||
+|Cost Rate A||||||||✓||||||||||||||||
+|Cost Rate B||||||||✓||||||||||||||||
+|Cost Rate C||||||||✓||||||||||||||||
+|Cost Rate D||||||||✓||||||||||||||||
+|Cost Rate E||||||||✓||||||||||||||||
+|Cost Variance|||||||✓|✓|✓|✓||||||||||||||
+|Created||||||||✓||✓|||||✓|||||||||
+|Description||||||||||||||||||||||✓||
+|Duration1 Units||||||||✓||||||||||||||||
+|Duration2 Units||||||||✓||||||||||||||||
+|Duration3 Units||||||||✓||||||||||||||||
+|Duration4 Units||||||||✓||||||||||||||||
+|Duration5 Units||||||||✓||||||||||||||||
+|Duration6 Units||||||||✓||||||||||||||||
+|Duration7 Units||||||||✓||||||||||||||||
+|Duration8 Units||||||||✓||||||||||||||||
+|Duration9 Units||||||||✓||||||||||||||||
+|Duration10 Units||||||||✓||||||||||||||||
+|Email Address|✓|✓|✓||✓||✓|✓|✓|✓|||✓|||✓||||||✓||
+|Enterprise||||||||✓||||||||||||||||
+|Enterprise Data||||||||✓||||||||||||||||
+|Enterprise Duration1 Units||||||||✓||||||||||||||||
+|Enterprise Duration2 Units||||||||✓||||||||||||||||
+|Enterprise Duration3 Units||||||||✓||||||||||||||||
+|Enterprise Duration4 Units||||||||✓||||||||||||||||
+|Enterprise Duration5 Units||||||||✓||||||||||||||||
+|Enterprise Duration6 Units||||||||✓||||||||||||||||
+|Enterprise Duration7 Units||||||||✓||||||||||||||||
+|Enterprise Duration8 Units||||||||✓||||||||||||||||
+|Enterprise Duration9 Units||||||||✓||||||||||||||||
+|Enterprise Duration10 Units||||||||✓||||||||||||||||
+|Enterprise Unique ID||||||||✓||||||||||||||||
+|GUID|||✓|||✓||✓||✓||✓||✓|✓|✓||||||✓||
+|Generic|✓|||||||✓||||||||||||||||
+|Group||✓|✓||✓||✓|✓|✓|✓|||||||||||||✓|
+|Hyperlink||||||||✓||||||||||||||✓||
+|Hyperlink Address||||||||✓||||||||||||||||
+|Hyperlink Data||||||||✓||||||||||||||||
+|ID|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||||✓|✓|✓|
+|Initials|✓||✓||||✓|✓|✓|✓|||✓|||||✓||||||
+|Material Label|✓||||||✓|✓||✓||✓||||||||||||
+|Max Units|✓|||||✓|✓|✓|✓|✓||||✓||||✓||||||
+|Name|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|
+|Notes||✓|✓||||✓|✓|✓|✓||||||✓||||||✓|✓|
+|Outline Code1|||||||✓|✓||✓||||||||||||||
+|Outline Code1 Index||||||||✓||||||||||||||||
+|Outline Code2|||||||✓|✓||✓||||||||||||||
+|Outline Code2 Index||||||||✓||||||||||||||||
+|Outline Code3|||||||✓|✓||✓||||||||||||||
+|Outline Code3 Index||||||||✓||||||||||||||||
+|Outline Code4|||||||✓|✓||✓||||||||||||||
+|Outline Code4 Index||||||||✓||||||||||||||||
+|Outline Code5|||||||✓|✓||✓||||||||||||||
+|Outline Code5 Index||||||||✓||||||||||||||||
+|Outline Code6|||||||✓|✓||✓||||||||||||||
+|Outline Code6 Index||||||||✓||||||||||||||||
+|Outline Code7|||||||✓|✓||✓||||||||||||||
+|Outline Code7 Index||||||||✓||||||||||||||||
+|Outline Code8|||||||✓|✓||✓||||||||||||||
+|Outline Code8 Index||||||||✓||||||||||||||||
+|Outline Code9|||||||✓|✓||✓||||||||||||||
+|Outline Code9 Index||||||||✓||||||||||||||||
+|Outline Code10|||||||✓|✓||✓||||||||||||||
+|Outline Code10 Index||||||||✓||||||||||||||||
+|Overallocated|✓||||||✓|✓|✓|✓||||||||||||||
+|Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Overtime Rate|||||||✓|✓|✓|✓||||||||||||||
+|Overtime Rate Units|||||||✓|✓||✓|||||✓|✓||✓||||||
+|Overtime Work|||||||✓|✓||✓||||||||||||||
+|Parent ID||||||||||||||✓|✓|✓|||||||✓|
+|Peak|✓||||||✓|✓|✓|✓||||||||✓||||||
+|Per Day|||||||||||||||||||||||✓|
+|Phone|||||✓|||||||||||||||||||
+|Phonetics||||||||✓||||||||||||||||
+|Pool|||||||||||||||||||||||✓|
+|Rate|||||||||||||||||||||||✓|
+|Regular Work|||||||✓|✓||✓||||||||||||||
+|Remaining Cost|||||||✓|✓|✓|✓||||||||||||||
+|Remaining Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Remaining Overtime Work|||||||✓|✓||✓||||||||||||||
+|Remaining Work|||||||✓|✓|✓|✓||||||||||||||
+|Resource ID||||||||||||||✓|✓|✓||||||||
+|Standard Rate||✓|||✓||✓|✓|✓|✓||✓||||||||||||
+|Standard Rate Units|||||||✓|✓||✓||✓|||✓|✓||✓||||||
+|Subproject Unique Resource ID||||||||✓||||||||||||||||
+|Supply Reference||||||||||||||||||||||✓||
+|Type|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|
+|Unique ID|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||||✓|✓|✓|
+|Unit|||||||||||||||||||||||✓|
+|Windows User Account||||||||✓||||||||||||||||
+|Work|||||||✓|✓|✓|✓||||||||||||||
+|Work Variance|||||||✓|✓|✓|✓||||||||||||||
+|Workgroup|||||||✓|✓||✓||||||||||||||
+### Extended Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|Cost1|||||||✓|✓||✓||||||||||||||
+|Cost2|||||||✓|✓||✓||||||||||||||
+|Cost3|||||||✓|✓||✓||||||||||||||
+|Cost4|||||||✓|✓||✓||||||||||||||
+|Cost5|||||||✓|✓||✓||||||||||||||
+|Cost6|||||||✓|✓||✓||||||||||||||
+|Cost7|||||||✓|✓||✓||||||||||||||
+|Cost8|||||||✓|✓||✓||||||||||||||
+|Cost9|||||||✓|✓||✓||||||||||||||
+|Cost10|||||||✓|✓||✓||||||||||||||
+|Date1|||||✓||✓|✓||✓||||||||||||||
+|Date2|||||||✓|✓||✓||||||||||||||
+|Date3|||||||✓|✓||✓||||||||||||||
+|Date4|||||||✓|✓||✓||||||||||||||
+|Date5|||||||✓|✓||✓||||||||||||||
+|Date6|||||||✓|✓||✓||||||||||||||
+|Date7|||||||✓|✓||✓||||||||||||||
+|Date8|||||||✓|✓||✓||||||||||||||
+|Date9|||||||✓|✓||✓||||||||||||||
+|Date10|||||||✓|✓||✓||||||||||||||
+|Duration1|||||||✓|✓||✓||||||||||||||
+|Duration2|||||||✓|✓||✓||||||||||||||
+|Duration3|||||||✓|✓||✓||||||||||||||
+|Duration4|||||||✓|✓||✓||||||||||||||
+|Duration5|||||||✓|✓||✓||||||||||||||
+|Duration6|||||||✓|✓||✓||||||||||||||
+|Duration7|||||||✓|✓||✓||||||||||||||
+|Duration8|||||||✓|✓||✓||||||||||||||
+|Duration9|||||||✓|✓||✓||||||||||||||
+|Duration10|||||||✓|✓||✓||||||||||||||
+|Enterprise Cost1||||||||✓||✓||||||||||||||
+|Enterprise Cost10||||||||✓||✓||||||||||||||
+|Enterprise Custom Field 3||||||||✓||||||||||||||||
+|Enterprise Custom Field 4||||||||✓||||||||||||||||
+|Enterprise Custom Field 5||||||||✓||||||||||||||||
+|Enterprise Custom Field 6||||||||✓||||||||||||||||
+|Enterprise Custom Field 7||||||||✓||||||||||||||||
+|Enterprise Custom Field 8||||||||✓||||||||||||||||
+|Enterprise Custom Field 9||||||||✓||||||||||||||||
+|Enterprise Custom Field 10||||||||✓||||||||||||||||
+|Enterprise Custom Field 11||||||||✓||||||||||||||||
+|Enterprise Custom Field 12||||||||✓||||||||||||||||
+|Enterprise Date1||||||||✓||✓||||||||||||||
+|Enterprise Date10||||||||✓||✓||||||||||||||
+|Enterprise Date20||||||||✓||✓||||||||||||||
+|Enterprise Date30||||||||✓||✓||||||||||||||
+|Enterprise Duration1||||||||✓||✓||||||||||||||
+|Enterprise Duration10||||||||✓||✓||||||||||||||
+|Enterprise Flag1||||||||✓||||||||||||||||
+|Enterprise Flag2||||||||✓||✓||||||||||||||
+|Enterprise Flag4||||||||✓||||||||||||||||
+|Enterprise Flag20||||||||✓||✓||||||||||||||
+|Enterprise Number1||||||||✓||✓||||||||||||||
+|Enterprise Number3||||||||✓||||||||||||||||
+|Enterprise Number40||||||||✓||✓||||||||||||||
+|Enterprise Text1||||||||✓||✓||||||||||||||
+|Enterprise Text2||||||||✓||||||||||||||||
+|Enterprise Text3||||||||✓||||||||||||||||
+|Enterprise Text4||||||||✓||||||||||||||||
+|Enterprise Text5||||||||✓||||||||||||||||
+|Enterprise Text6||||||||✓||||||||||||||||
+|Enterprise Text7||||||||✓||||||||||||||||
+|Enterprise Text8||||||||✓||||||||||||||||
+|Enterprise Text9||||||||✓||||||||||||||||
+|Enterprise Text10||||||||✓||✓||||||||||||||
+|Enterprise Text20||||||||✓||✓||||||||||||||
+|Enterprise Text30||||||||✓||✓||||||||||||||
+|Enterprise Text40||||||||✓||✓||||||||||||||
+|Finish1|||||||✓|✓||✓||||||||||||||
+|Finish2|||||||✓|✓||✓||||||||||||||
+|Finish3|||||||✓|✓||✓||||||||||||||
+|Finish4|||||||✓|✓||✓||||||||||||||
+|Finish5|||||||✓|✓||✓||||||||||||||
+|Finish6|||||||✓|✓||✓||||||||||||||
+|Finish7|||||||✓|✓||✓||||||||||||||
+|Finish8|||||||✓|✓||✓||||||||||||||
+|Finish9|||||||✓|✓||✓||||||||||||||
+|Finish10|||||||✓|✓||✓||||||||||||||
+|Flag1|||✓||✓||✓|✓||✓||||||||||||||
+|Flag2|||✓||||✓|✓||✓||||||||||||||
+|Flag3|||✓||||✓|✓||✓||||||||||||||
+|Flag4|||✓||||✓|✓||✓||||||||||||||
+|Flag5|||✓||||✓|✓||✓||||||||||||||
+|Flag6|||✓||||✓|✓||✓||||||||||||||
+|Flag7|||✓||||✓|✓||✓||||||||||||||
+|Flag8|||✓||||✓|✓||✓||||||||||||||
+|Flag9|||✓||||✓|✓||✓||||||||||||||
+|Flag10|||✓||||✓|✓||✓||||||||||||||
+|Flag11|||✓||||✓|✓||✓||||||||||||||
+|Flag12|||✓||||✓|✓||✓||||||||||||||
+|Flag13|||✓||||✓|✓||✓||||||||||||||
+|Flag14|||✓||||✓|✓||✓||||||||||||||
+|Flag15|||✓||||✓|✓||✓||||||||||||||
+|Flag16|||✓||||✓|✓||✓||||||||||||||
+|Flag17|||✓||||✓|✓||✓||||||||||||||
+|Flag18|||✓||||✓|✓||✓||||||||||||||
+|Flag19|||✓||||✓|✓||✓||||||||||||||
+|Flag20|||✓||||✓|✓||✓||||||||||||||
+|Number1|||||✓||✓|✓||✓||||||||||||||
+|Number2|||||✓||✓|✓||✓||||||||||||||
+|Number3|||||||✓|✓||✓||||||||||||||
+|Number4|||||||✓|✓||✓||||||||||||||
+|Number5|||||||✓|✓||✓||||||||||||||
+|Number6|||||||✓|✓||✓||||||||||||||
+|Number7|||||||✓|✓||✓||||||||||||||
+|Number8|||||||✓|✓||✓||||||||||||||
+|Number9|||||||✓|✓||✓||||||||||||||
+|Number10|||||||✓|✓||✓||||||||||||||
+|Number11|||||||✓|✓||✓||||||||||||||
+|Number12|||||||✓|✓||✓||||||||||||||
+|Number13|||||||✓|✓||✓||||||||||||||
+|Number14|||||||✓|✓||✓||||||||||||||
+|Number15|||||||✓|✓||✓||||||||||||||
+|Number16|||||||✓|✓||✓||||||||||||||
+|Number17|||||||✓|✓||✓||||||||||||||
+|Number18|||||||✓|✓||✓||||||||||||||
+|Number19|||||||✓|✓||✓||||||||||||||
+|Number20|||||||✓|✓||✓||||||||||||||
+|Start1|||||||✓|✓||✓||||||||||||||
+|Start2|||||||✓|✓||✓||||||||||||||
+|Start3|||||||✓|✓||✓||||||||||||||
+|Start4|||||||✓|✓||✓||||||||||||||
+|Start5|||||||✓|✓||✓||||||||||||||
+|Start6|||||||✓|✓||✓||||||||||||||
+|Start7|||||||✓|✓||✓||||||||||||||
+|Start8|||||||✓|✓||✓||||||||||||||
+|Start9|||||||✓|✓||✓||||||||||||||
+|Start10|||||||✓|✓||✓||||||||||||||
+|Text1|||✓||||✓|✓|✓|✓||||✓||✓||||||||
+|Text2|||✓||✓||✓|✓||✓||||||✓||||||||
+|Text3|||✓||||✓|✓||✓||||||✓||||||||
+|Text4|||✓||||✓|✓||✓||||||||||||||
+|Text5|||||||✓|✓||✓||||||||||||||
+|Text6|||||||✓|✓||✓||||||||||||||
+|Text7|||||||✓|✓||✓||||||||||||||
+|Text8|||||||✓|✓||✓||||||||||||||
+|Text9|||||||✓|✓||✓||||||||||||||
+|Text10|||||||✓|✓||✓||||||||||||||
+|Text11|||||||✓|✓||✓||||||||||||||
+|Text12|||||||✓|✓||✓||||||||||||||
+|Text13|||||||✓|✓||✓||||||||||||||
+|Text14|||||||✓|✓||✓||||||||||||||
+|Text15|||||||✓|✓||✓||||||||||||||
+|Text16|||||||✓|✓||✓||||||||||||||
+|Text17|||||||✓|✓||✓||||||||||||||
+|Text18|||||||✓|✓||✓||||||||||||||
+|Text19|||||||✓|✓||✓||||||||||||||
+|Text20|||||||✓|✓||✓||||||||||||||
+|Text21|||||||✓|✓||✓||||||||||||||
+|Text22|||||||✓|✓||✓||||||||||||||
+|Text23|||||||✓|✓||✓||||||||||||||
+|Text24|||||||✓|✓||✓||||||||||||||
+|Text25|||||||✓|✓||✓||||||||||||||
+|Text26|||||||✓|✓||✓||||||||||||||
+|Text27|||||||✓|✓||✓||||||||||||||
+|Text28|||||||✓|✓||✓||||||||||||||
+|Text29|||||||✓|✓||✓||||||||||||||
+|Text30|||||||✓|✓||✓||||||||||||||
+## Resource Assignment
+### Core Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|ACWP|||||||✓|||✓||||||||||||||
+|Actual Cost|||||||✓|✓|✓|✓||||✓|✓|✓||||||||
+|Actual Finish||||||✓|✓|✓||✓||||✓|✓|✓||||||||
+|Actual Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Actual Overtime Work|||||||✓|✓||✓||||||||||||||
+|Actual Start||||||✓|✓|✓||✓||||✓|✓|✓||||||||
+|Actual Work||||||✓|✓|✓|✓|✓|||✓|✓|✓|✓||||||||
+|Actual Work Protected||||||||✓||||||||||||||||
+|Assignment Delay|✓||||||✓|✓|✓|✓|||||✓|✓||||||||
+|Assignment GUID||||||✓||✓||✓||||✓|✓|✓||||||||
+|Assignment Resource GUID||||||||✓||||||||||||||||
+|Assignment Task GUID||||||||✓||||||||||||||||
+|Assignment Units|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|
+|Baseline1 Budget Cost||||||||✓||||||||||||||||
+|Baseline1 Budget Work||||||||✓||||||||||||||||
+|Baseline1 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline1 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline1 Start|||||||✓|✓||✓||||||||||||||
+|Baseline1 Work|||||||✓|✓||✓||||||||||||||
+|Baseline2 Budget Cost||||||||✓||||||||||||||||
+|Baseline2 Budget Work||||||||✓||||||||||||||||
+|Baseline2 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline2 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline2 Start|||||||✓|✓||✓||||||||||||||
+|Baseline2 Work|||||||✓|✓||✓||||||||||||||
+|Baseline3 Budget Cost||||||||✓||||||||||||||||
+|Baseline3 Budget Work||||||||✓||||||||||||||||
+|Baseline3 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline3 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline3 Start|||||||✓|✓||✓||||||||||||||
+|Baseline3 Work|||||||✓|✓||✓||||||||||||||
+|Baseline4 Budget Cost||||||||✓||||||||||||||||
+|Baseline4 Budget Work||||||||✓||||||||||||||||
+|Baseline4 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline4 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline4 Start|||||||✓|✓||✓||||||||||||||
+|Baseline4 Work|||||||✓|✓||✓||||||||||||||
+|Baseline5 Budget Cost||||||||✓||||||||||||||||
+|Baseline5 Budget Work||||||||✓||||||||||||||||
+|Baseline5 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline5 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline5 Start|||||||✓|✓||✓||||||||||||||
+|Baseline5 Work|||||||✓|✓||✓||||||||||||||
+|Baseline6 Budget Cost||||||||✓||||||||||||||||
+|Baseline6 Budget Work||||||||✓||||||||||||||||
+|Baseline6 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline6 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline6 Start|||||||✓|✓||✓||||||||||||||
+|Baseline6 Work|||||||✓|✓||✓||||||||||||||
+|Baseline7 Budget Cost||||||||✓||||||||||||||||
+|Baseline7 Budget Work||||||||✓||||||||||||||||
+|Baseline7 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline7 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline7 Start|||||||✓|✓||✓||||||||||||||
+|Baseline7 Work|||||||✓|✓||✓||||||||||||||
+|Baseline8 Budget Cost||||||||✓||||||||||||||||
+|Baseline8 Budget Work||||||||✓||||||||||||||||
+|Baseline8 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline8 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline8 Start|||||||✓|✓||✓||||||||||||||
+|Baseline8 Work|||||||✓|✓||✓||||||||||||||
+|Baseline9 Budget Cost||||||||✓||||||||||||||||
+|Baseline9 Budget Work||||||||✓||||||||||||||||
+|Baseline9 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline9 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline9 Start|||||||✓|✓||✓||||||||||||||
+|Baseline9 Work|||||||✓|✓||✓||||||||||||||
+|Baseline10 Budget Cost||||||||✓||||||||||||||||
+|Baseline10 Budget Work||||||||✓||||||||||||||||
+|Baseline10 Cost|||||||✓|✓||✓||||||||||||||
+|Baseline10 Finish|||||||✓|✓||✓||||||||||||||
+|Baseline10 Start|||||||✓|✓||✓||||||||||||||
+|Baseline10 Work|||||||✓|✓||✓||||||||||||||
+|Baseline Budget Cost||||||||✓||||||||||||||||
+|Baseline Budget Work||||||||✓||||||||||||||||
+|Baseline Cost|||||||✓|✓|✓|✓||||||||||||||
+|Baseline Finish|||||||✓|✓||✓||||||||||||||
+|Baseline Start|||||||✓|✓||✓||||||||||||||
+|Baseline Work|||||||✓|✓|✓|✓||||||||||||||
+|Budget Cost||||||||✓||✓||||||||||||||
+|Budget Work||||||||✓||✓||||||||||||||
+|CV||||||||||✓||||||||||||||
+|Confirmed||||||||✓||||||||||||||||
+|Cost|||||||✓|✓|✓|✓||||✓|✓|✓||||||||
+|Cost Rate Table|||||||✓|✓||✓||||||||||||||
+|Cost Variance||||||||✓|✓|✓||||||||||||||
+|Created||||||||✓||✓||||||||||||||
+|Duration1 Units||||||||✓||||||||||||||||
+|Duration2 Units||||||||✓||||||||||||||||
+|Duration3 Units||||||||✓||||||||||||||||
+|Duration4 Units||||||||✓||||||||||||||||
+|Duration5 Units||||||||✓||||||||||||||||
+|Duration6 Units||||||||✓||||||||||||||||
+|Duration7 Units||||||||✓||||||||||||||||
+|Duration8 Units||||||||✓||||||||||||||||
+|Duration9 Units||||||||✓||||||||||||||||
+|Duration10 Units||||||||✓||||||||||||||||
+|Finish|✓||||||✓|✓|✓|✓|||✓|✓|✓|✓||✓||||||
+|Finish Variance|||||||✓|✓||✓||||||||||||||
+|Hyperlink|||||||✓|✓||✓||||||||||||||
+|Hyperlink Address|||||||✓|✓||✓||||||||||||||
+|Hyperlink Data||||||||✓||||||||||||||||
+|Hyperlink Screen Tip||||||||✓||||||||||||||||
+|Hyperlink Subaddress|||||||✓|✓||✓||||||||||||||
+|Leveling Delay||||||||✓||||||||||||||||
+|Leveling Delay Units||||||||✓||||||||||||||||
+|Notes|||||||✓|✓||✓||||||||||||||
+|Overtime Work|||||||✓|✓||✓||||||||||||||
+|Owner||||||||✓||||||||||||||||
+|Percent Work Complete||||||✓||✓|✓|✓|||✓|✓|✓|✓||||||||
+|Planned Cost||||||||||||||✓|✓|✓||||||||
+|Planned Finish||||||||||||||✓|✓|✓||||||||
+|Planned Start||||||||||||||✓|✓|✓||||||||
+|Planned Work||||||||||||||✓|✓|✓||||||||
+|Regular Work|||||||✓|✓||✓||||||||||||||
+|Remaining Cost|||||||✓|✓||✓||||✓|✓|✓||||||||
+|Remaining Overtime Cost|||||||✓|✓||✓||||||||||||||
+|Remaining Overtime Work|||||||✓|✓||✓||||||||||||||
+|Remaining Work|✓|||||✓|✓|✓|✓|✓|||✓|✓|✓|✓|✓|✓||||||
+|Resource Request Type||||||||✓||||||||||||||||
+|Resource Unique ID|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓||||✓|✓|✓|
+|Response Pending|||||||✓|✓||||||||||||||||
+|Resume||||||||✓||✓||||||||✓||||||
+|Start|✓||||||✓|✓|✓|✓|||✓|✓|✓|✓||✓||||||
+|Start Variance|||||||✓|✓||✓||||||||||||||
+|Stop||||||||✓||✓||||||||✓||||||
+|Task Unique ID|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|
+|Team Status Pending|||||||✓|✓||||||||||||||||
+|Timephased Actual Overtime Work||||||||✓||||||||||||||||
+|Timephased Actual Work||||||||✓||||||||||||||||
+|Timephased Baseline1 Cost||||||||✓||||||||||||||||
+|Timephased Baseline1 Work||||||||✓||||||||||||||||
+|Timephased Baseline2 Cost||||||||✓||||||||||||||||
+|Timephased Baseline2 Work||||||||✓||||||||||||||||
+|Timephased Baseline3 Cost||||||||✓||||||||||||||||
+|Timephased Baseline3 Work||||||||✓||||||||||||||||
+|Timephased Baseline4 Cost||||||||✓||||||||||||||||
+|Timephased Baseline4 Work||||||||✓||||||||||||||||
+|Timephased Baseline5 Cost||||||||✓||||||||||||||||
+|Timephased Baseline5 Work||||||||✓||||||||||||||||
+|Timephased Baseline6 Cost||||||||✓||||||||||||||||
+|Timephased Baseline6 Work||||||||✓||||||||||||||||
+|Timephased Baseline7 Cost||||||||✓||||||||||||||||
+|Timephased Baseline7 Work||||||||✓||||||||||||||||
+|Timephased Baseline8 Cost||||||||✓||||||||||||||||
+|Timephased Baseline8 Work||||||||✓||||||||||||||||
+|Timephased Baseline9 Cost||||||||✓||||||||||||||||
+|Timephased Baseline9 Work||||||||✓||||||||||||||||
+|Timephased Baseline10 Cost||||||||✓||||||||||||||||
+|Timephased Baseline10 Work||||||||✓||||||||||||||||
+|Timephased Baseline Cost||||||||✓||||||||||||||||
+|Timephased Baseline Work||||||||✓||||||||||||||||
+|Timephased Work||||||||✓||||||||||||||||
+|Unique ID|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓|✓|
+|Variable Rate Units||||||||✓||✓||||||||||||||
+|Work|✓|✓|✓||✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|||✓|✓||
+|Work Contour|||||||✓|✓||✓||||||||✓||||||
+|Work Variance||||||||✓|✓|✓||||||||||||||
+### Extended Fields
+||Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|Cost1|||||||✓|✓||✓||||||||||||||
+|Cost2|||||||✓|✓||✓||||||||||||||
+|Cost3|||||||✓|✓||✓||||||||||||||
+|Cost4|||||||✓|✓||✓||||||||||||||
+|Cost5|||||||✓|✓||✓||||||||||||||
+|Cost6|||||||✓|✓||✓||||||||||||||
+|Cost7|||||||✓|✓||✓||||||||||||||
+|Cost8|||||||✓|✓||✓||||||||||||||
+|Cost9|||||||✓|✓||✓||||||||||||||
+|Cost10|||||||✓|✓||✓||||||||||||||
+|Date1|||||||✓|✓||✓||||||||||||||
+|Date2|||||||✓|✓||✓||||||||||||||
+|Date3|||||||✓|✓||✓||||||||||||||
+|Date4|||||||✓|✓||✓||||||||||||||
+|Date5|||||||✓|✓||✓||||||||||||||
+|Date6|||||||✓|✓||✓||||||||||||||
+|Date7|||||||✓|✓||✓||||||||||||||
+|Date8|||||||✓|✓||✓||||||||||||||
+|Date9|||||||✓|✓||✓||||||||||||||
+|Date10|||||||✓|✓||✓||||||||||||||
+|Duration1|||||||✓|✓||✓||||||||||||||
+|Duration2|||||||✓|✓||✓||||||||||||||
+|Duration3|||||||✓|✓||✓||||||||||||||
+|Duration4|||||||✓|✓||✓||||||||||||||
+|Duration5|||||||✓|✓||✓||||||||||||||
+|Duration6|||||||✓|✓||✓||||||||||||||
+|Duration7|||||||✓|✓||✓||||||||||||||
+|Duration8|||||||✓|✓||✓||||||||||||||
+|Duration9|||||||✓|✓||✓||||||||||||||
+|Duration10|||||||✓|✓||✓||||||||||||||
+|Enterprise Flag1||||||||||✓||||||||||||||
+|Finish1|||||||✓|✓||✓||||||||||||||
+|Finish2|||||||✓|✓||✓||||||||||||||
+|Finish3|||||||✓|✓||✓||||||||||||||
+|Finish4|||||||✓|✓||✓||||||||||||||
+|Finish5|||||||✓|✓||✓||||||||||||||
+|Finish6|||||||✓|✓||✓||||||||||||||
+|Finish7|||||||✓|✓||✓||||||||||||||
+|Finish8|||||||✓|✓||✓||||||||||||||
+|Finish9|||||||✓|✓||✓||||||||||||||
+|Finish10|||||||✓|✓||✓||||||||||||||
+|Flag1|||||||✓|✓||✓||||||||||||||
+|Flag2|||||||✓|✓||✓||||||||||||||
+|Flag3|||||||✓|✓||✓||||||||||||||
+|Flag4|||||||✓|✓||✓||||||||||||||
+|Flag5|||||||✓|✓||✓||||||||||||||
+|Flag6|||||||✓|✓||✓||||||||||||||
+|Flag7|||||||✓|✓||✓||||||||||||||
+|Flag8|||||||✓|✓||✓||||||||||||||
+|Flag9|||||||✓|✓||✓||||||||||||||
+|Flag10|||||||✓|✓||✓||||||||||||||
+|Flag11|||||||✓|✓||✓||||||||||||||
+|Flag12|||||||✓|✓||✓||||||||||||||
+|Flag13|||||||✓|✓||✓||||||||||||||
+|Flag14|||||||✓|✓||✓||||||||||||||
+|Flag15|||||||✓|✓||✓||||||||||||||
+|Flag16|||||||✓|✓||✓||||||||||||||
+|Flag17|||||||✓|✓||✓||||||||||||||
+|Flag18|||||||✓|✓||✓||||||||||||||
+|Flag19|||||||✓|✓||✓||||||||||||||
+|Flag20|||||||✓|✓||✓||||||||||||||
+|Number1|||||||✓|✓||✓||||||||||||||
+|Number2|||||||✓|✓||✓||||||||||||||
+|Number3|||||||✓|✓||✓||||||||||||||
+|Number4|||||||✓|✓||✓||||||||||||||
+|Number5|||||||✓|✓||✓||||||||||||||
+|Number6|||||||✓|✓||✓||||||||||||||
+|Number7|||||||✓|✓||✓||||||||||||||
+|Number8|||||||✓|✓||✓||||||||||||||
+|Number9|||||||✓|✓||✓||||||||||||||
+|Number10|||||||✓|✓||✓||||||||||||||
+|Number11|||||||✓|✓||✓||||||||||||||
+|Number12|||||||✓|✓||✓||||||||||||||
+|Number13|||||||✓|✓||✓||||||||||||||
+|Number14|||||||✓|✓||✓||||||||||||||
+|Number15|||||||✓|✓||✓||||||||||||||
+|Number16|||||||✓|✓||✓||||||||||||||
+|Number17|||||||✓|✓||✓||||||||||||||
+|Number18|||||||✓|✓||✓||||||||||||||
+|Number19|||||||✓|✓||✓||||||||||||||
+|Number20|||||||✓|✓||✓||||||||||||||
+|Start1|||||||✓|✓||✓||||||||||||||
+|Start2|||||||✓|✓||✓||||||||||||||
+|Start3|||||||✓|✓||✓||||||||||||||
+|Start4|||||||✓|✓||✓||||||||||||||
+|Start5|||||||✓|✓||✓||||||||||||||
+|Start6|||||||✓|✓||✓||||||||||||||
+|Start7|||||||✓|✓||✓||||||||||||||
+|Start8|||||||✓|✓||✓||||||||||||||
+|Start9|||||||✓|✓||✓||||||||||||||
+|Start10|||||||✓|✓||✓||||||||||||||
+|Text1|||||||✓|✓||✓||||✓||||||||||
+|Text2|||||||✓|✓||✓||||||||||||||
+|Text3|||||||✓|✓||✓||||||||||||||
+|Text4|||||||✓|✓||✓||||||||||||||
+|Text5|||||||✓|✓||✓||||||||||||||
+|Text6|||||||✓|✓||✓||||||||||||||
+|Text7|||||||✓|✓||✓||||||||||||||
+|Text8|||||||✓|✓||✓||||||||||||||
+|Text9|||||||✓|✓||✓||||||||||||||
+|Text10|||||||✓|✓||✓||||||||||||||
+|Text11|||||||✓|✓||✓||||||||||||||
+|Text12|||||||✓|✓||✓||||||||||||||
+|Text13|||||||✓|✓||✓||||||||||||||
+|Text14|||||||✓|✓||✓||||||||||||||
+|Text15|||||||✓|✓||✓||||||||||||||
+|Text16|||||||✓|✓||✓||||||||||||||
+|Text17|||||||✓|✓||✓||||||||||||||
+|Text18|||||||✓|✓||✓||||||||||||||
+|Text19|||||||✓|✓||✓||||||||||||||
+|Text20|||||||✓|✓||✓||||||||||||||
+|Text21|||||||✓|✓||✓||||||||||||||
+|Text22|||||||✓|✓||✓||||||||||||||
+|Text23|||||||✓|✓||✓||||||||||||||
+|Text24|||||||✓|✓||✓||||||||||||||
+|Text25|||||||✓|✓||✓||||||||||||||
+|Text26|||||||✓|✓||✓||||||||||||||
+|Text27|||||||✓|✓||✓||||||||||||||
+|Text28|||||||✓|✓||✓||||||||||||||
+|Text29|||||||✓|✓||✓||||||||||||||
+|Text30|||||||✓|✓||✓||||||||||||||
