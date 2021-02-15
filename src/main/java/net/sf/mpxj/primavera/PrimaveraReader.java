@@ -1359,6 +1359,7 @@ final class PrimaveraReader
                }
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+            parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
          parentTask.setCritical(critical);
