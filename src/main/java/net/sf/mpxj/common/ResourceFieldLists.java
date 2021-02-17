@@ -469,6 +469,20 @@ public final class ResourceFieldLists
       ResourceField.OUTLINE_CODE10
    };
 
+   public static final ResourceField[] CUSTOM_OUTLINE_CODE_INDEX =
+   {
+      ResourceField.OUTLINE_CODE1_INDEX,
+      ResourceField.OUTLINE_CODE2_INDEX,
+      ResourceField.OUTLINE_CODE3_INDEX,
+      ResourceField.OUTLINE_CODE4_INDEX,
+      ResourceField.OUTLINE_CODE5_INDEX,
+      ResourceField.OUTLINE_CODE6_INDEX,
+      ResourceField.OUTLINE_CODE7_INDEX,
+      ResourceField.OUTLINE_CODE8_INDEX,
+      ResourceField.OUTLINE_CODE9_INDEX,
+      ResourceField.OUTLINE_CODE10_INDEX
+   };
+
    public static final ResourceField[] EXTENDED_FIELDS;
    static
    {

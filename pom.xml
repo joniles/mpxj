@@ -299,7 +299,7 @@
 			<!-- Use our own site template -->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.7</version>
+				<version>3.9.1</version>
 				<configuration>
 					<outputDirectory>./docs</outputDirectory>
 					<inputEncoding>UTF-8</inputEncoding>

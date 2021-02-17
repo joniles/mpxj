@@ -213,6 +213,20 @@ public final class TaskFieldLists
       TaskField.OUTLINE_CODE10
    };
 
+   public static final TaskField[] CUSTOM_OUTLINE_CODE_INDEX =
+   {
+      TaskField.OUTLINE_CODE1_INDEX,
+      TaskField.OUTLINE_CODE2_INDEX,
+      TaskField.OUTLINE_CODE3_INDEX,
+      TaskField.OUTLINE_CODE4_INDEX,
+      TaskField.OUTLINE_CODE5_INDEX,
+      TaskField.OUTLINE_CODE6_INDEX,
+      TaskField.OUTLINE_CODE7_INDEX,
+      TaskField.OUTLINE_CODE8_INDEX,
+      TaskField.OUTLINE_CODE9_INDEX,
+      TaskField.OUTLINE_CODE10_INDEX
+   };
+
    public static final TaskField[] ENTERPRISE_COST =
    {
       TaskField.ENTERPRISE_COST1,
