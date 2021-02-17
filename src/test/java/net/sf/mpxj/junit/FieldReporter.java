@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.FieldType;
@@ -82,87 +83,102 @@ public class FieldReporter
     */
    public void report(String file) throws IOException
    {
-      PrintWriter pw = new PrintWriter(file);
-      String tableHeader = populateTableHeader();
+      PrintWriter pw = new PrintWriter(file, "UTF-8");
 
       pw.println("# Field Guide");
       pw.println("The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.");
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
       pw.println();
 
-      //
-      // Task
-      //
-      Set<FieldType> taskExtendedFields = new HashSet<>(Arrays.asList(TaskFieldLists.EXTENDED_FIELDS));
-      taskExtendedFields.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
       pw.println("## Task");
+      writeTables(pw, e -> isTaskField(e.getKey()));
 
-      pw.println("### Core Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> e.getKey().getFieldTypeClass() == FieldTypeClass.TASK && !taskExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
-
-      pw.println("### Extended Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> taskExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
-
-      //
-      // Resource
-      //
-      Set<FieldType> resourceExtendedFields = new HashSet<>(Arrays.asList(ResourceFieldLists.EXTENDED_FIELDS));
-      resourceExtendedFields.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
       pw.println("## Resource");
+      writeTables(pw, e -> isResourceField(e.getKey()));
 
-      pw.println("### Core Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> e.getKey().getFieldTypeClass() == FieldTypeClass.RESOURCE && !resourceExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
-
-      pw.println("### Extended Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> resourceExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
-
-      //
-      // Resource Assignment
-      //
-      Set<FieldType> assignmentExtendedFields = new HashSet<>(Arrays.asList(AssignmentFieldLists.EXTENDED_FIELDS));
-      assignmentExtendedFields.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
       pw.println("## Resource Assignment");
-
-      pw.println("### Core Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> e.getKey().getFieldTypeClass() == FieldTypeClass.ASSIGNMENT && !assignmentExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
-
-      pw.println("### Extended Fields");
-      pw.println(tableHeader);
-      m_map.entrySet().stream().filter(e -> assignmentExtendedFields.contains(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      writeTables(pw, e -> isAssignmentField(e.getKey()));
 
       pw.flush();
       pw.close();
    }
 
+   private boolean isTaskField(FieldType type)
+   {
+      return type.getFieldTypeClass() == FieldTypeClass.TASK;
+   }
+
+   private boolean isResourceField(FieldType type)
+   {
+      return type.getFieldTypeClass() == FieldTypeClass.RESOURCE;
+   }
+
+   private boolean isAssignmentField(FieldType type)
+   {
+      return type.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT;
+   }
+
+   private boolean isExtendedField(FieldType type)
+   {
+      return EXTENDED_FIELDS.contains(type);
+   }
+
+   private boolean isBaselineField(FieldType type)
+   {
+      return type.toString().contains("Baseline");
+   }
+
+   private boolean isEnterpriseField(FieldType type)
+   {
+      return type.toString().contains("Enterprise");
+   }
+
+   private void writeTables(PrintWriter pw, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
+   {
+      String tableHeader = populateTableHeader();
+
+      pw.println("### Core Fields");
+      pw.println(tableHeader);
+      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      pw.println();
+
+      pw.println("### Baseline Fields");
+      pw.println(tableHeader);
+      m_map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      pw.println();
+
+      pw.println("### Extended Fields");
+      pw.println(tableHeader);
+      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      pw.println();
+
+      pw.println("### Enterprise Fields");
+      pw.println(tableHeader);
+      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      pw.println();
+   }
+
    private String populateTableHeader()
    {
       StringBuilder sb = new StringBuilder();
-      sb.append("||");
+      sb.append("Field|");
       sb.append(m_keys.stream().collect(Collectors.joining("|")));
-      sb.append("|\n");
+      sb.append("\n");
 
-      sb.append("|---|");
+      sb.append("---|");
       sb.append(m_keys.stream().map(v -> "---").collect(Collectors.joining("|")));
-      sb.append("|");
 
       return sb.toString();
    }
 
    private void writeTableRow(PrintWriter pw, Entry<FieldType, Set<String>> entry)
    {
-      pw.print("|");
       pw.print(entry.getKey());
-      pw.print("|");
 
       Set<String> set = entry.getValue();
       for (String key : m_keys)
       {
-         pw.print(set.contains(key) ? "\u2713|" : "|");
+         pw.print(set.contains(key) ? "|\u2713" : "|\u00A0");
       }
       pw.println();
    }
@@ -180,4 +196,15 @@ public class FieldReporter
    private final Set<String> m_keys = new TreeSet<>();
    private final Map<FieldType, Set<String>> m_map = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();
+
+   private static final Set<FieldType> EXTENDED_FIELDS = new HashSet<>();
+   static
+   {
+      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.EXTENDED_FIELDS));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.EXTENDED_FIELDS));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.EXTENDED_FIELDS));
+      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));
+   }
 }

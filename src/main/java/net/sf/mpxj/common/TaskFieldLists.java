@@ -75,6 +75,20 @@ public final class TaskFieldLists
       TaskField.DURATION10
    };
 
+   public static final TaskField[] CUSTOM_DURATION_UNITS =
+   {
+      TaskField.DURATION1_UNITS,
+      TaskField.DURATION2_UNITS,
+      TaskField.DURATION3_UNITS,
+      TaskField.DURATION4_UNITS,
+      TaskField.DURATION5_UNITS,
+      TaskField.DURATION6_UNITS,
+      TaskField.DURATION7_UNITS,
+      TaskField.DURATION8_UNITS,
+      TaskField.DURATION9_UNITS,
+      TaskField.DURATION10_UNITS
+   };
+
    public static final TaskField[] CUSTOM_FLAG =
    {
       TaskField.FLAG1,

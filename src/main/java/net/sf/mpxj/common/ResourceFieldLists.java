@@ -75,6 +75,20 @@ public final class ResourceFieldLists
       ResourceField.DURATION10
    };
 
+   public static final ResourceField[] CUSTOM_DURATION_UNITS =
+   {
+      ResourceField.DURATION1_UNITS,
+      ResourceField.DURATION2_UNITS,
+      ResourceField.DURATION3_UNITS,
+      ResourceField.DURATION4_UNITS,
+      ResourceField.DURATION5_UNITS,
+      ResourceField.DURATION6_UNITS,
+      ResourceField.DURATION7_UNITS,
+      ResourceField.DURATION8_UNITS,
+      ResourceField.DURATION9_UNITS,
+      ResourceField.DURATION10_UNITS
+   };
+
    public static final ResourceField[] CUSTOM_FINISH =
    {
       ResourceField.FINISH1,
