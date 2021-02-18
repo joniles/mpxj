@@ -23,31 +23,31 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType name="task">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;sequence>
- *           &lt;element name="depend" type="{}depend" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;/sequence>
- *         &lt;element name="customproperty" type="{}custom-task-property" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="task" type="{}task" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="meeting" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}date" />
- *       &lt;attribute name="duration" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="complete" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="expand" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="thirdDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *       &lt;attribute name="thirdDate-constraint" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="priority" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="webLink" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="task"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element name="depend" type="{}depend" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;/sequence&gt;
+ *         &lt;element name="customproperty" type="{}custom-task-property" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="task" type="{}task" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="color" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="meeting" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *       &lt;attribute name="duration" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="complete" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="expand" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="thirdDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *       &lt;attribute name="thirdDate-constraint" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="priority" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="webLink" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *

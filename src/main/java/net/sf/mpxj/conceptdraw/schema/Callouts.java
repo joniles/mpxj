@@ -23,29 +23,29 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="Callout" maxOccurs="unbounded" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;all>
- *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="OffsetX" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="OffsetY" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="SizeDX" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="SizeDY" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                 &lt;/all>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="Callout" maxOccurs="unbounded" minOccurs="0"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;all&gt;
+ *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="OffsetX" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="OffsetY" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="SizeDX" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="SizeDY" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                 &lt;/all&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *
@@ -95,19 +95,19 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;all>
-    *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="OffsetX" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="OffsetY" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="SizeDX" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="SizeDY" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *       &lt;/all>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;all&gt;
+    *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="OffsetX" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="OffsetY" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="SizeDX" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="SizeDY" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *       &lt;/all&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *

@@ -25,32 +25,32 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="view" type="{}view" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="calendars" type="{}calendars"/>
- *         &lt;element name="tasks" type="{}tasks"/>
- *         &lt;element name="resources" type="{}resources"/>
- *         &lt;element name="allocations" type="{}allocations"/>
- *         &lt;element name="vacations" type="{}vacations"/>
- *         &lt;element name="previous" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="roles" type="{}roles" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="company" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="webLink" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;attribute name="view-date" type="{http://www.w3.org/2001/XMLSchema}date" />
- *       &lt;attribute name="view-index" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="gantt-divider-location" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="resource-divider-location" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="version" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="locale" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="view" type="{}view" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="calendars" type="{}calendars"/&gt;
+ *         &lt;element name="tasks" type="{}tasks"/&gt;
+ *         &lt;element name="resources" type="{}resources"/&gt;
+ *         &lt;element name="allocations" type="{}allocations"/&gt;
+ *         &lt;element name="vacations" type="{}vacations"/&gt;
+ *         &lt;element name="previous" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="roles" type="{}roles" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="company" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="webLink" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
+ *       &lt;attribute name="view-date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *       &lt;attribute name="view-index" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="gantt-divider-location" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="resource-divider-location" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="version" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="locale" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *

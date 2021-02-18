@@ -350,7 +350,7 @@ public class BasicTest
    }
 
    /**
-    * This method tests two stages of conversion, MPP->MPX->MSPDI. This
+    * This method tests two stages of conversion, MPP to MPX to MSPDI. This
     * has been designed to exercise bug 896189, which was exhibited
     * when an MSPDI file was generated from an MPX file which did not
     * have the same set of attributes as a native MPP file.

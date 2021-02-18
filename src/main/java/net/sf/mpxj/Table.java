@@ -63,7 +63,7 @@ public final class Table
 
    /**
     * This method is used to retrieve the table name. Note that internally
-    * in MS Project the table name will contain an ampersand (&) used to
+    * in MS Project the table name will contain an ampersand (&amp;) used to
     * flag the letter that can be used as a shortcut for this table. The
     * ampersand is stripped out by MPXJ.
     *

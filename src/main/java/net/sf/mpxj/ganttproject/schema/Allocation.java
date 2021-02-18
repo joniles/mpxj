@@ -19,17 +19,17 @@ import javax.xml.bind.annotation.XmlValue;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType name="allocation">
- *   &lt;simpleContent>
- *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="task-id" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="resource-id" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="function" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="responsible" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="load" type="{http://www.w3.org/2001/XMLSchema}float" />
- *     &lt;/extension>
- *   &lt;/simpleContent>
- * &lt;/complexType>
+ * &lt;complexType name="allocation"&gt;
+ *   &lt;simpleContent&gt;
+ *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+ *       &lt;attribute name="task-id" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="resource-id" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="function" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="responsible" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="load" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/simpleContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *

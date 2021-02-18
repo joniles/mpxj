@@ -99,7 +99,6 @@ public enum UserFieldDataType
     * Infers the Primavera user defined field data type from the MPXJ data type.
     *
     * @author kmahan
-    * @date 2014-09-24
     * @param dataType MPXJ data type
     * @return string representation of data type
     */
@@ -130,7 +129,6 @@ public enum UserFieldDataType
     * Infers the Primavera entity type based on the MPXJ field type.
     *
     * @author lsong
-    * @date 2015-7-24
     * @param fieldType MPXJ field type
     * @return UDF subject area
     */

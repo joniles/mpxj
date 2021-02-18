@@ -54,7 +54,7 @@ public final class SemVer implements Comparable<SemVer>
     * Comparator.
     *
     * @param otherVersion version to compare
-    * @return true if  this version is >= the other version
+    * @return true if  this version is greater than or equal to the other version
     */
    public boolean atLeast(SemVer otherVersion)
    {
@@ -65,7 +65,7 @@ public final class SemVer implements Comparable<SemVer>
     * Comparator.
     *
     * @param otherVersion version to compare
-    * @return true if  this version is < the other version
+    * @return true if  this version is less than the other version
     */
    public boolean before(SemVer otherVersion)
    {

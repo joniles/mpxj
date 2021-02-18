@@ -1992,7 +1992,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * in the parent project. To retrieve the value of the resource unique ID in
     * the child project, remove the top two bytes:
     *
-    * resourceID = (subprojectUniqueID & 0xFFFF)
+    * resourceID = (subprojectUniqueID &amp; 0xFFFF)
     *
     * @return sub project unique resource ID
     */

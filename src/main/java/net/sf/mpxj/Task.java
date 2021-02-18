@@ -3037,7 +3037,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * value shown in the parent project. To retrieve the value of the
     * task unique ID in the child project, remove the top two bytes:
     *
-    * taskID = (subprojectUniqueID & 0xFFFF)
+    * taskID = (subprojectUniqueID &amp; 0xFFFF)
     *
     * @return sub project unique task ID
     */
