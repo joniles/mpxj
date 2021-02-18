@@ -247,7 +247,12 @@ public class CustomerDataTest
     */
    @AfterClass public static void generateFieldReport() throws Exception
    {
-      FIELD_REPORTER.report("src/site/markdown/field-guide.md");
+      String runtime = System.getProperty("java.runtime.name");
+      boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
+      if (!isIKVM)
+      {
+         FIELD_REPORTER.report("src/site/markdown/field-guide.md");
+      }
    }
 
    /**
