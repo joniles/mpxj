@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.0.0 (git master)
+## 9.0.1 (git master)
+
+## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!
 * All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.
 * All code previously marked as deprecated has been removed.
@@ -18,6 +20,7 @@
 * Fix an issue where resource assignment costs were not being read correctly from PMXML files.
 * Read and write the suspend date and resume date attributes for PMXML files.
 * General improvements to the SDEF writer.
+* Updated to rtfparserkit 1.16.0.
 
 ## 8.5.1 (07/01/2021)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.

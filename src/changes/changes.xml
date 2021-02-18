@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.0.0">
+		<release date="git master" version="9.0.1">
+		</release>
+		<release date="18/02/2020" version="9.0.0">
 			<action dev="joniles" type="update">NOTE: this release introduces breaking changes!</action>
 			<action dev="joniles" type="update">All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.</action>
 			<action dev="joniles" type="update">All code previously marked as deprecated has been removed.</action>
