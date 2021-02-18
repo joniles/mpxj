@@ -2241,7 +2241,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the unit field.
-    * 
+    *
     * @param value unit value
     */
    public void setUnit(String value)
@@ -2251,7 +2251,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the unit field.
-    * 
+    *
     * @return unit value
     */
    public String getUnit()
@@ -2261,7 +2261,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the supply reference field.
-    * 
+    *
     * @param value supply reference value
     */
    public void setSupplyReference(String value)
@@ -2271,7 +2271,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the supply reference field.
-    * 
+    *
     * @return supply reference value
     */
    public String getSupplyReference()
@@ -2281,7 +2281,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the description field.
-    * 
+    *
     * @param value description field
     */
    public void setDescription(String value)
@@ -2291,7 +2291,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the description field.
-    * 
+    *
     * @return description value
     */
    public String getDescription()
@@ -2301,7 +2301,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the resource ID field.
-    * 
+    *
     * @param value resource ID value
     */
    public void setResourceID(String value)
@@ -2311,7 +2311,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the resource ID field.
-    * 
+    *
     * @return resource ID value
     */
    public String getResourceID()
@@ -2321,7 +2321,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the modify on integrate field.
-    * 
+    *
     * @param value modify on integrate value
     */
    public void setModifyOnIntegrate(Boolean value)
@@ -2331,7 +2331,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the modify on integrate value.
-    * 
+    *
     * @return modify on integrate value
     */
    public Boolean getModifyOnIntegrate()
@@ -2341,7 +2341,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the expenses only field.
-    * 
+    *
     * @param value expenses only value
     */
    public void setExpensesOnly(Boolean value)
@@ -2351,7 +2351,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the expenses only field.
-    * 
+    *
     * @return expenses only value
     */
    public Boolean getExpensesOnly()
@@ -2361,7 +2361,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the period dur field.
-    * 
+    *
     * @param value period dur value
     */
    public void setPeriodDur(Number value)
@@ -2371,7 +2371,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the period dur field.
-    * 
+    *
     * @return period dur value
     */
    public Number getPeriodDur()
@@ -2381,7 +2381,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the priority field.
-    * 
+    *
     * @param value priority value
     */
    public void setPriority(Number value)
@@ -2391,7 +2391,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the priority field.
-    * 
+    *
     * @return priority value
     */
    public Number getPriority()
@@ -2401,7 +2401,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the rate field.
-    * 
+    *
     * @param value rate value
     */
    public void setRate(Number value)
@@ -2411,7 +2411,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the rate field.
-    * 
+    *
     * @return rate value
     */
    public Number getRate()
@@ -2421,7 +2421,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the pool field.
-    * 
+    *
     * @param value pool value
     */
    public void setPool(Number value)
@@ -2431,7 +2431,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the pool field.
-    * 
+    *
     * @return pool value
     */
    public Number getPool()
@@ -2441,7 +2441,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the per day field.
-    * 
+    *
     * @param value per day value
     */
    public void setPerDay(Number value)
@@ -2451,7 +2451,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the per day field.
-    * 
+    *
     * @return per day value
     */
    public Number getPerDay()
@@ -2461,7 +2461,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Set the phone field.
-    * 
+    *
     * @param value phone value
     */
    public void setPhone(String value)
@@ -2471,7 +2471,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the phone field.
-    * 
+    *
     * @return phone value
     */
    public String getPhone()

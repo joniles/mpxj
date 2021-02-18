@@ -61,7 +61,7 @@ public class FieldReporter
 
    /**
     * Extract data from a project.
-    * 
+    *
     * @param project ProjectFile instance
     */
    public void process(ProjectFile project)
@@ -78,7 +78,7 @@ public class FieldReporter
 
    /**
     * Write a report to a file.
-    * 
+    *
     * @param file file name
     */
    public void report(String file) throws IOException

@@ -2697,7 +2697,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the planned work field.
-    * 
+    *
     * @return planned work value
     */
    public Duration getPlannedWork()
@@ -2707,7 +2707,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the planned work field.
-    * 
+    *
     * @param value planned work value
     */
    public void setPlannedWork(Duration value)
@@ -2717,7 +2717,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the planned cost field.
-    * 
+    *
     * @return planned cost value
     */
    public Number getPlannedCost()
@@ -2727,7 +2727,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the planned cost field.
-    * 
+    *
     * @param value planned cost value
     */
    public void setPlannedCost(Number value)
@@ -2737,7 +2737,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the planned start field.
-    * 
+    *
     * @return planned start value
     */
    public Date getPlannedStart()
@@ -2747,7 +2747,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the planned start field.
-    * 
+    *
     * @param value planned start value
     */
    public void setPlannedStart(Date value)
@@ -2757,7 +2757,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Retrieve the planned finish value.
-    * 
+    *
     * @return planed finish value
     */
    public Date getPlannedFinish()
@@ -2767,7 +2767,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    /**
     * Set the planned finish value.
-    * 
+    *
     * @param value planned finish value
     */
    public void setPlannedFinish(Date value)

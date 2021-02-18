@@ -139,7 +139,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Return a stream of CustomFields.
-    * 
+    *
     * @return Stream instance
     */
    public Stream<CustomField> stream()

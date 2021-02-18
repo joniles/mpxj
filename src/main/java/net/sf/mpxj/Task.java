@@ -4629,7 +4629,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the stored material value for this task.
-    * 
+    *
     * @param value stored material value
     */
    public void setStoredMaterial(Number value)
@@ -4639,7 +4639,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the stored material value for this task.
-    * 
+    *
     * @return stored material value
     */
    public Number getStoredMaterial()
@@ -4649,7 +4649,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the feature of work field.
-    * 
+    *
     * @param value feature of work value
     */
    public void setFeatureOfWork(String value)
@@ -4659,7 +4659,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the feature of work field.
-    * 
+    *
     * @return feature of work value
     */
    public String getFeatureOfWork()
@@ -4669,7 +4669,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the category of work field.
-    * 
+    *
     * @param value category of work value
     */
    public void setCategoryOfWork(String value)
@@ -4679,7 +4679,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the category of work field.
-    * 
+    *
     * @return category of work value
     */
    public String getCategoryOfWork()
@@ -4689,7 +4689,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the phase of work field.
-    * 
+    *
     * @param value phase of work value
     */
    public void setPhaseOfWork(String value)
@@ -4699,7 +4699,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the phase of work field.
-    * 
+    *
     * @return phase of work value
     */
    public String getPhaseOfWork()
@@ -4709,7 +4709,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the bid item field.
-    * 
+    *
     * @param value bid item value
     */
    public void setBidItem(String value)
@@ -4719,7 +4719,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the bid item field.
-    * 
+    *
     * @return bid item value
     */
    public String getBidItem()
@@ -4729,7 +4729,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the mod or claim number field.
-    * 
+    *
     * @param value mod or claim number value
     */
    public void setModOrClaimNumber(String value)
@@ -4739,7 +4739,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the mod or claim number field.
-    * 
+    *
     * @return mod or claim number value
     */
    public String getModOrClaimNumber()
@@ -4749,7 +4749,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the work area code field.
-    * 
+    *
     * @param value work area code value
     */
    public void setWorkAreaCode(String value)
@@ -4759,7 +4759,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the work area code field.
-    * 
+    *
     * @return work area code value
     */
    public String getWorkAreaCode()
@@ -4769,7 +4769,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the responsibility code field.
-    * 
+    *
     * @param value responsibility code value
     */
    public void setResponsibilityCode(String value)
@@ -4779,7 +4779,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the responsibility code field.
-    * 
+    *
     * @return responsibility code value
     */
    public String getResponsibilityCode()
@@ -4789,7 +4789,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the workers per day field.
-    * 
+    *
     * @param value workers per day value
     */
    public void setWorkersPerDay(Integer value)
@@ -4799,7 +4799,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the workers per day field.
-    * 
+    *
     * @return workers per day value
     */
    public Integer getWorkersPerDay()
@@ -4809,7 +4809,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the hammock code field.
-    * 
+    *
     * @param value hammock code value
     */
    public void setHammockCode(Boolean value)
@@ -4819,7 +4819,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the hammock code field.
-    * 
+    *
     * @return hammock code value
     */
    public Boolean getHammockCode()
@@ -4829,7 +4829,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the mail field.
-    * 
+    *
     * @param value mail value
     */
    public void setMail(String value)
@@ -4839,7 +4839,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the mail field.
-    * 
+    *
     * @return mail value
     */
    public String getMail()
@@ -4849,7 +4849,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the section field.
-    * 
+    *
     * @param value section value
     */
    public void setSection(String value)
@@ -4859,7 +4859,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the section field.
-    * 
+    *
     * @return section value
     */
    public String getSection()
@@ -4869,7 +4869,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the manager field.
-    * 
+    *
     * @param value manager value
     */
    public void setManager(String value)
@@ -4879,7 +4879,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the manager field.
-    * 
+    *
     * @return manager value
     */
    public String getManager()
@@ -4889,7 +4889,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the department field.
-    * 
+    *
     * @param value department value
     */
    public void setDepartment(String value)
@@ -4899,7 +4899,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the department field.
-    * 
+    *
     * @return department value
     */
    public String getDepartment()
@@ -4909,7 +4909,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the overall percent complete field.
-    * 
+    *
     * @param value overall percent complete value
     */
    public void setOverallPercentComplete(Number value)
@@ -4919,7 +4919,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the overall percent complete field.
-    * 
+    *
     * @return overall percent complete value
     */
    public Number getOverallPercentComplete()
@@ -4929,7 +4929,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the planned finish field.
-    * 
+    *
     * @param value planned finish value
     */
    public void setPlannedFinish(Date value)
@@ -4939,7 +4939,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the planned finish field.
-    * 
+    *
     * @return planned finish value
     */
    public Date getPlannedFinish()
@@ -4949,7 +4949,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the planned start field.
-    * 
+    *
     * @param value planned start value
     */
    public void setPlannedStart(Date value)
@@ -4959,7 +4959,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the planned start field.
-    * 
+    *
     * @return planned start value
     */
    public Date getPlannedStart()
@@ -4969,7 +4969,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the planned duration field.
-    * 
+    *
     * @param value planned duration value
     */
    public void setPlannedDuration(Duration value)
@@ -4979,7 +4979,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the planned duration field.
-    * 
+    *
     * @return planned duration value
     */
    public Duration getPlannedDuration()
@@ -4989,7 +4989,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the planned work field.
-    * 
+    *
     * @param value planned work value
     */
    public void setPlannedWork(Duration value)
@@ -4999,7 +4999,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the planned work field.
-    * 
+    *
     * @return planned work value
     */
    public Duration getPlannedWork()
@@ -5009,7 +5009,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the suspend date field.
-    * 
+    *
     * @param value suspend date value
     */
    public void setSuspendDate(Date value)
@@ -5019,7 +5019,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the suspend date field.
-    * 
+    *
     * @return suspend date value
     */
    public Date getSuspendDate()
@@ -5029,7 +5029,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the primary resource ID.
-    * 
+    *
     * @param value primary resource ID
     */
    public void setPrimaryResourceID(Integer value)
@@ -5039,7 +5039,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the primary resource ID.
-    * 
+    *
     * @return primary resource ID
     */
    public Integer getPrimaryResourceID()
@@ -5049,7 +5049,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the activity ID.
-    * 
+    *
     * @param value activity ID value
     */
    public void setActivityID(String value)
@@ -5059,7 +5059,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the activity ID.
-    * 
+    *
     * @return activity ID value
     */
    public String getActivityID()
@@ -5069,7 +5069,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the percent complete type.
-    * 
+    *
     * @param value percent complete type
     */
    public void setPercentCompleteType(PercentCompleteType value)
@@ -5079,7 +5079,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the percent complete type.
-    * 
+    *
     * @return percent complete type
     */
    public PercentCompleteType getPercentCompleteType()
@@ -5089,7 +5089,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the activity status.
-    * 
+    *
     * @return activity status
     */
    public ActivityStatus getActivityStatus()
@@ -5099,7 +5099,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the activity status.
-    * 
+    *
     * @param value activity status
     */
    public void setActivityStatus(ActivityStatus value)
@@ -5109,7 +5109,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the activity type.
-    * 
+    *
     * @return activity type
     */
    public ActivityType getActivityType()
@@ -5119,7 +5119,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the activity type.
-    * 
+    *
     * @param value activity type
     */
    public void setActivityType(ActivityType value)

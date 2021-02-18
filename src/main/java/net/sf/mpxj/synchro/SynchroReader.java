@@ -114,7 +114,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
       m_project.getProjectProperties().setFileApplication("Synchro");
       m_project.getProjectProperties().setFileType("SP");
-      
+
       addListenersToProject(m_project);
 
       processCalendars();

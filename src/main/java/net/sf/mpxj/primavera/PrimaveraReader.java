@@ -810,7 +810,7 @@ final class PrimaveraReader
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
          task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getString("task_type")));
-         
+
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 

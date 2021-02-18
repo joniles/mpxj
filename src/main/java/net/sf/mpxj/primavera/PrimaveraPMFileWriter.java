@@ -743,7 +743,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       // Trying to ensure data from other scheduling applications makes sense in P6.
       // We won't populate the resume date unless we have a suspend date,
-      // i.e. the activity has been suspended. 
+      // i.e. the activity has been suspended.
       if (mpxj.getSuspendDate() != null)
       {
          xml.setResumeDate(mpxj.getResume());

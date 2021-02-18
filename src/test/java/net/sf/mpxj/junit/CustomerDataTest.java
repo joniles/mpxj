@@ -217,16 +217,16 @@ public class CustomerDataTest
          {
             project = m_universalReader.read(file);
          }
-         
+
          catch (Exception ex)
          {
-            // we're reading our JUnit test data which we've 
+            // we're reading our JUnit test data which we've
             // already validated... we're just improving field report coverage.
             // This will throw expected errors (password protected etc)
             // which we'll ignore.
             project = null;
          }
-         
+
          if (project != null)
          {
             FIELD_REPORTER.process(project);
