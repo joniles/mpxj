@@ -140,7 +140,7 @@ dependency of your project:
 <dependency>
   <groupId>net.sf.mpxj</groupId>
   <artifactId>mpxj</artifactId>
-  <version>8.0.8</version>
+  <version>9.0.0</version>
 </dependency>
 ```
 
