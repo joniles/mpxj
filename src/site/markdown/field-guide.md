@@ -2,6 +2,129 @@
 The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.
 The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.
 
+## Project
+### Core Fields
+Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
+AM Text|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Actual Cost| | | | | | | | |✓| | | | | | | | | | | | | | 
+Actual Duration| | | | | | | | |✓| | | | | | | | | | | | | | 
+Actual Start| | | | | | | | |✓| | | | | | | | | | | | | | 
+Actual Work| | | | | | | | |✓| | | | | | | | | | | | | | 
+Actuals In Sync| | | | | | | | | |✓| | | | | | | | | | | | | 
+Application Version| | | | | | | |✓| |✓| | | | | | | |✓| | | | | 
+Author|✓| | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
+Auto Add New Resources and Tasks|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Auto Filter| | | | | | | |✓| | | | | | | | | | | | | | | 
+Auto Link|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Bar Text Date Format|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Category| | | | | | |✓|✓| | | | | | | | | | | | | | | 
+Comments| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
+Company| | | | |✓| |✓|✓|✓|✓|✓| |✓| | | | | | | | | | 
+Content Status| | | | | | | |✓| | | | | | | | | | | | | | | 
+Content Type| | | | | | | |✓| | | | | | | | | | | | | | | 
+Cost| | | | | | | | |✓| | | | | | | | | | | | | | 
+Creation Date| | | |✓| | |✓|✓| |✓| | | |✓| | | | | | | | | 
+Critical Slack Limit| | | | | | | |✓| | | | | | | | | | | | | | | 
+Currency Code| | | | | | | |✓| |✓| | | | | | | | | | | | | 
+Currency Digits|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Currency Symbol|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Currency Symbol Position|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Current Date|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Custom Properties| | | | | | | |✓| | | | | |✓|✓|✓| | | | | | | 
+Date Format|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Date Order|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Date Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Days per Month|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Decimal Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Default Calendar Name|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Default Duration Is Fixed| | | | | | | | |✓| | | | | | | | | | | | | | 
+Default End Time| | | | | | |✓|✓| |✓| | | | | | | |✓| | | | | 
+Default Overtime Rate|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Default Standard Rate|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Default Start Time|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Default Work Units|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Document Version| | | | | | | |✓| | | | | | | | | | | | | | | 
+Duration|✓| | | | | | | |✓| | | | | | | | | | | | | | 
+Earned Value Method| | | | | | | | | |✓| | | | | | | | | | | | | 
+Editable Actual Costs| | | | | | | |✓| |✓| | | | | | | | | | | | | 
+Editing Time| | | | | | | |✓| | | | | | | | | | | | | | | 
+Export Flag| | | | | | | | | | | | | |✓| |✓| | | | | | | 
+Extended Creation Date| | | | | | | | | |✓| | | | | | | | | | | | | 
+File Application|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+File Type|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Finish Date|✓| | | | | |✓|✓|✓|✓|✓| | | | |✓| |✓|✓| | | | 
+Fiscal Year Start| | | | | | | |✓| | | | | | | | | | | | | | | 
+Fiscal Year Start Month|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Full Application Name| | | | | | | |✓| | | | | | | | | | | | | | | 
+Honor Constraints| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
+Hyperlink Base| | | | | | | |✓| | | | | | | | | | | | | | | 
+Inserted Projects Like Summary| | | | | | | | | |✓| | | | | | | | | | | | | 
+Keywords| | | | | | |✓|✓|✓| | | | | | | | | | | | | | 
+Language| | | | | | | |✓| | | | | | | | | | | | | | | 
+Last Author| | | | | | | |✓| | | | | | | | | | | | | | | 
+Last Printed| | | | | | | |✓| | | | | | | | | | | | | | | 
+Last Saved|✓| | |✓| | |✓|✓| |✓| | | | |✓| | | | | | | | 
+MPP File Type| | | | | | | |✓| | | | | | | | | | | | | | | 
+MPX Code Page|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+MPX Delimiter|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+MPX File Version|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+MPX Program Name|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Manager| | | | | | |✓|✓|✓|✓| | |✓| | | | |✓|✓| | | | 
+Microsoft Project Server URL|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Minutes per Day|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Minutes per Week|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Multiple Critical Paths| | | | | | |✓|✓| | | | | | | | | | | | | | | 
+Name|✓| | |✓|✓|✓|✓| | |✓|✓|✓|✓|✓|✓|✓| |✓| | | | | 
+New Tasj Start Is Project Start|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+New Tasks Are Effort Driven| | | | | | |✓| | |✓| | | | | | | | | | | | | 
+New Tasks Are Manual|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓
+New Tasks Estimated|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+PM Text|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Percentage Complete| | | | | | | | |✓| | | | | | | | | | | | | | 
+Presentation Format| | | | | | | |✓| | | | | | | | | | | | | | | 
+Project Externally Edited| | | | | | | | | |✓| | | | | | | | | | | | | 
+Project File Path| | | | | | | |✓| | | | | | | | | | | | | | | 
+Project Title|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Revision| | | | | | | |✓| |✓| | | | | | | | | | | | | 
+Schedule From|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Short Application Name| | | | | | | |✓| | | | | | | | | | | | | | | 
+Show Project Summary Task| | | | | | | |✓| | | | | | | | | | | | | | | 
+Split In Progress Tasks| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
+Start Date|✓| | | | | |✓|✓|✓|✓|✓| |✓|✓|✓|✓| |✓|✓| | | | 
+Start Variance| | | | | | | | |✓| | | | | | | | | | | | | | 
+Status Date|✓| | | | | |✓|✓| |✓|✓|✓| |✓|✓|✓| | |✓| | | | 
+Subject| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
+Template| | | | | | | |✓| | | | | | | | | | | | | | | 
+Thousands Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Time Format|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Time Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Unique ID| | | | | |✓| | | | | | | |✓|✓|✓| | | | | | | 
+Updating Task Status Updates Resource Status|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Week Start Day|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Work| | | | | | | | |✓| | | | | | | | | | | | | | 
+Work 2| | | | | | | | |✓| | | | | | | | | | | | | | 
+
+### Baseline Fields
+Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
+Baseline1 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline2 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline3 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline4 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline5 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline6 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline7 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline8 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline9 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline10 Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline Cost| | | | | | | | |✓| | | | | | | | | | | | | | 
+Baseline Date| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline Duration| | | | | | | | |✓| | | | | | | | | | | | | | 
+Baseline Finish| | | | | | | | |✓| | | | | | | | | | | | | | 
+Baseline Start| | | | | | | | |✓| | | | | | | | | | | | | | 
+Baseline Work| | | | | | | | |✓| | | | | | | | | | | | | | 
+
 ## Task
 ### Core Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)

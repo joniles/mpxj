@@ -25,13 +25,16 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.PopulatedFields;
 import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
@@ -2744,6 +2747,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
          int index = field.getValue();
          m_array[index] = value;
       }
+   }
+
+   /**
+    * Retrieve the set of populated fields for this project.
+    *
+    * @return set of populated fields
+    */
+   public Set<ProjectField> getPopulatedFields()
+   {
+      return new PopulatedFields<>(getParentFile(), ProjectField.class, Arrays.asList(this)).getPopulatedFields();
    }
 
    /**

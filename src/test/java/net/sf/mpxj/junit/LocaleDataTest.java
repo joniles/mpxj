@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
@@ -41,6 +42,11 @@ public class LocaleDataTest
     */
    @Test public void testLocaleData() throws Exception
    {
+      for (ProjectField field : ProjectField.values())
+      {
+         assertNotNull("ProjectField." + field.name() + " name is null", field.getName());
+      }
+
       for (TaskField field : TaskField.values())
       {
          assertNotNull("TaskField." + field.name() + " name is null", field.getName());

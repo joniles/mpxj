@@ -71,6 +71,7 @@ public class FieldReporter
       String fileApplication = fileType.equals("MSPDI") || fileType.equals("MPP") ? "Microsoft" : props.getFileApplication();
       String key = fileApplication + " (" + fileType + ")";
       m_keys.add(key);
+      populate(project.getProjectProperties().getPopulatedFields(), key);
       populate(project.getTasks().getPopulatedFields(), key);
       populate(project.getResources().getPopulatedFields(), key);
       populate(project.getResourceAssignments().getPopulatedFields(), key);
@@ -90,6 +91,9 @@ public class FieldReporter
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
       pw.println();
 
+      pw.println("## Project");
+      writeTables(pw, e -> isProjectField(e.getKey()));
+
       pw.println("## Task");
       writeTables(pw, e -> isTaskField(e.getKey()));
 
@@ -101,6 +105,11 @@ public class FieldReporter
 
       pw.flush();
       pw.close();
+   }
+
+   private boolean isProjectField(FieldType type)
+   {
+      return type.getFieldTypeClass() == FieldTypeClass.PROJECT;
    }
 
    private boolean isTaskField(FieldType type)
