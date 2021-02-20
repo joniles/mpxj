@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.0.1 (git master)
+* When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
 
 ## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!

@@ -106,6 +106,7 @@ import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityType;
+import net.sf.mpxj.primavera.schema.BaselineProjectType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
@@ -243,18 +244,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       APIBusinessObjects apibo = processFile(is);
 
       List<ProjectType> projects = apibo.getProject();
-      List<ProjectFile> result = new ArrayList<>(projects.size());
+      List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
+      List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
       m_externalRelations = new ArrayList<>();
+
       projects.forEach(project -> result.add(read(apibo, project)));
+      baselineProjects.forEach(project -> result.add(read(apibo, project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
+      linkCrossProjectRelations(result);
+
+      m_externalRelations = null;
+
+      return result;
+   }
+
+   private void linkCrossProjectRelations(List<ProjectFile> projects)
+   {
       if (m_linkCrossProjectRelations)
       {
          for (ExternalRelation externalRelation : m_externalRelations)
          {
-            Task externalTask = findTaskInProjects(result, externalRelation.externalTaskUniqueID());
+            Task externalTask = findTaskInProjects(projects, externalRelation.externalTaskUniqueID());
             if (externalTask != null)
             {
                Task successor;
@@ -276,10 +289,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
-
-      m_externalRelations = null;
-
-      return result;
    }
 
    /**
@@ -344,7 +353,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private ProjectFile read(APIBusinessObjects apibo, ProjectType project)
+   private ProjectFile read(APIBusinessObjects apibo, Object projectObject)
    {
       try
       {
@@ -371,18 +380,60 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          addListenersToProject(m_projectFile);
 
+         List<ActivityCodeTypeType> activityCodeTypes;
+         List<ActivityCodeType> activityCodes;
+         List<CalendarType> calendars;
+         List<WBSType> wbs;
+         List<ProjectNoteType> projectNotes;
+         List<ActivityType> activities;
+         List<ActivityNoteType> activityNotes;
+         List<RelationshipType> relationships;
+         List<ResourceAssignmentType> assignments;
+         List<ActivityExpenseType> activityExpenseType;
+
+         if (projectObject instanceof ProjectType)
+         {
+            ProjectType project = (ProjectType) projectObject;
+            processProjectProperties(project);
+            activityCodeTypes = project.getActivityCodeType();
+            activityCodes = project.getActivityCode();
+            calendars = project.getCalendar();
+            wbs = project.getWBS();
+            projectNotes = project.getProjectNote();
+            activities = project.getActivity();
+            activityNotes = project.getActivityNote();
+            relationships = project.getRelationship();
+            assignments = project.getResourceAssignment();
+            activityExpenseType = project.getActivityExpense();
+         }
+         else
+         {
+            BaselineProjectType project = (BaselineProjectType) projectObject;
+            processProjectProperties(project);
+            activityCodeTypes = project.getActivityCodeType();
+            activityCodes = project.getActivityCode();
+            calendars = project.getCalendar();
+            wbs = project.getWBS();
+            projectNotes = project.getProjectNote();
+            activities = project.getActivity();
+            activityNotes = project.getActivityNote();
+            relationships = project.getRelationship();
+            assignments = project.getResourceAssignment();
+            activityExpenseType = project.getActivityExpense();
+         }
+
+         processGlobalProperties(apibo);
          processProjectUDFs(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processNotebookTopics(apibo);
-         processProjectProperties(apibo, project);
-         processActivityCodes(apibo, project);
-         processCalendars(apibo, project);
+         processActivityCodes(apibo, activityCodeTypes, activityCodes);
+         processCalendars(apibo, calendars);
          processResources(apibo);
-         processTasks(project);
-         processPredecessors(project);
-         processAssignments(project);
-         processExpenseItems(project);
+         processTasks(wbs, getWbsNotes(projectNotes), activities, getActivityNotes(activityNotes));
+         processPredecessors(relationships);
+         processAssignments(assignments);
+         processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
 
          m_projectFile.updateStructure();
@@ -552,29 +603,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       return field;
    }
 
-   /**
-    * Process project properties.
-    *
-    * @param apibo top level object
-    * @param project xml container
-    */
-   private void processProjectProperties(APIBusinessObjects apibo, ProjectType project)
+   private void processGlobalProperties(APIBusinessObjects apibo)
    {
-      ProjectProperties properties = m_projectFile.getProjectProperties();
-
-      properties.setCreationDate(project.getCreateDate());
-      properties.setFinishDate(project.getFinishDate());
-      properties.setName(project.getName());
-      properties.setStartDate(project.getPlannedStartDate());
-      properties.setStatusDate(project.getDataDate());
-      properties.setProjectTitle(project.getId());
-      properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
-      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
          GlobalPreferencesType prefs = list.get(0);
+         ProjectProperties properties = m_projectFile.getProjectProperties();
 
          properties.setCreationDate(prefs.getCreateDate());
          properties.setLastSaved(prefs.getLastUpdateDate());
@@ -592,24 +627,57 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
+   }
 
+   /**
+    * Process project properties.
+    *
+    * @param project xml container
+    */
+   private void processProjectProperties(ProjectType project)
+   {
+      ProjectProperties properties = m_projectFile.getProjectProperties();
+
+      properties.setCreationDate(project.getCreateDate());
+      properties.setFinishDate(project.getFinishDate());
+      properties.setName(project.getName());
+      properties.setStartDate(project.getPlannedStartDate());
+      properties.setStatusDate(project.getDataDate());
+      properties.setProjectTitle(project.getId());
+      properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
+      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
       processScheduleOptions(project.getScheduleOptions());
+   }
+
+   private void processProjectProperties(BaselineProjectType project)
+   {
+      ProjectProperties properties = m_projectFile.getProjectProperties();
+
+      properties.setCreationDate(project.getCreateDate());
+      properties.setFinishDate(project.getFinishDate());
+      properties.setName(project.getName());
+      properties.setStartDate(project.getPlannedStartDate());
+      properties.setStatusDate(project.getDataDate());
+      properties.setProjectTitle(project.getId());
+      properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
+      properties.setExportFlag(false);
    }
 
    /**
     * Process activity code data.
     *
     * @param apibo global activity code data
-    * @param project project-specific activity code data
+    * @param activityCodeTypes project-specific activity code types
+    * @param activityCodes project-specific activity codes
     */
-   private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
+   private void processActivityCodes(APIBusinessObjects apibo, List<ActivityCodeTypeType> activityCodeTypes, List<ActivityCodeType> activityCodes)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       List<ActivityCodeTypeType> types = new ArrayList<>();
       types.addAll(apibo.getActivityCodeType());
-      types.addAll(project.getActivityCodeType());
+      types.addAll(activityCodeTypes);
 
       for (ActivityCodeTypeType type : types)
       {
@@ -620,7 +688,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       List<ActivityCodeType> typeValues = new ArrayList<>();
       typeValues.addAll(apibo.getActivityCode());
-      typeValues.addAll(project.getActivityCode());
+      typeValues.addAll(activityCodes);
 
       for (ActivityCodeType typeValue : typeValues)
       {
@@ -669,11 +737,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process expense items.
     *
-    * @param project parent project
+    * @param expenseItems expense items
     */
-   private void processExpenseItems(ProjectType project)
+   private void processExpenseItems(List<ActivityExpenseType> expenseItems)
    {
-      for (ActivityExpenseType item : project.getActivityExpense())
+      for (ActivityExpenseType item : expenseItems)
       {
          Task task = m_projectFile.getTaskByUniqueID(item.getActivityObjectId());
          if (task != null)
@@ -721,12 +789,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * Process project calendars.
     *
     * @param apibo file data
-    * @param project current project data
+    * @param projectCalendars project-specific calendars
     */
-   private void processCalendars(APIBusinessObjects apibo, ProjectType project)
+   private void processCalendars(APIBusinessObjects apibo, List<CalendarType> projectCalendars)
    {
       List<CalendarType> calendars = new ArrayList<>(apibo.getCalendar());
-      calendars.addAll(project.getCalendar());
+      calendars.addAll(projectCalendars);
 
       //
       // First pass: read calendar definitions
@@ -930,12 +998,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process tasks.
     *
-    * @param project xml container
+    * @param wbs project wbs entries
+    * @param wbsNotes ebs entry notes
+    * @param activities project activities
+    * @param activityNotes activity notes
     */
-   private void processTasks(ProjectType project)
+   private void processTasks(List<WBSType> wbs, Map<Integer, Notes> wbsNotes, List<ActivityType> activities, Map<Integer, Notes> activityNotes)
    {
-      List<WBSType> wbs = project.getWBS();
-      List<ActivityType> tasks = project.getActivity();
       Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
 
@@ -943,7 +1012,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Read WBS entries and create tasks
       //
       Collections.sort(wbs, WBS_ROW_COMPARATOR);
-      Map<Integer, Notes> wbsNotes = getWbsNotes(project);
 
       for (WBSType row : wbs)
       {
@@ -993,9 +1061,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       int nextID = 1;
       m_clashMap.clear();
-      Map<Integer, Notes> activityNotes = getActivityNotes(project);
 
-      for (ActivityType row : tasks)
+      for (ActivityType row : activities)
       {
          Integer uniqueID = row.getObjectId();
          Notes notes = activityNotes.get(uniqueID);
@@ -1354,11 +1421,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process predecessors.
     *
-    * @param project xml container
+    * @param relationships activity relationships
     */
-   private void processPredecessors(ProjectType project)
+   private void processPredecessors(List<RelationshipType> relationships)
    {
-      for (RelationshipType row : project.getRelationship())
+      for (RelationshipType row : relationships)
       {
          Integer predecessorID = row.getPredecessorActivityObjectId();
          Integer successorID = row.getSuccessorActivityObjectId();
@@ -1400,11 +1467,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process resource assignments.
     *
-    * @param project xml container
+    * @param assignments project resource assignments
     */
-   private void processAssignments(ProjectType project)
+   private void processAssignments(List<ResourceAssignmentType> assignments)
    {
-      List<ResourceAssignmentType> assignments = project.getResourceAssignment();
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(mapTaskID(row.getActivityObjectId()));
@@ -1560,24 +1626,24 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Retrieve notes attached to WBS entries.
     *
-    * @param project project object
+    * @param notes wbs notes
     * @return map of WBS notes
     */
-   private Map<Integer, Notes> getWbsNotes(ProjectType project)
+   private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = project.getProjectNote().stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
+      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
       return getNotes(map);
    }
 
    /**
     * Retrieve notes attached to activity entries.
     *
-    * @param project project object
+    * @param notes activity notes
     * @return map of activity notes
     */
-   private Map<Integer, Notes> getActivityNotes(ProjectType project)
+   private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = project.getActivityNote().stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
+      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
       return getNotes(map);
    }
 
