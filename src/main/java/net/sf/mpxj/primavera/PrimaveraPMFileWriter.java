@@ -35,7 +35,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -380,9 +379,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_apibo.getProject().add(m_project);
 
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      Task rootTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(0));
-      UUID guid = rootTask == null ? null : rootTask.getGUID();
-
       m_project.setActivityDefaultActivityType("Task Dependent");
       m_project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
       m_project.setActivityDefaultDurationType("Fixed Duration and Units");
@@ -412,7 +408,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setEnableSummarization(Boolean.TRUE);
       m_project.setFiscalYearStartMonth(Integer.valueOf(1));
       m_project.setFinishDate(mpxj.getFinishDate());
-      m_project.setGUID(DatatypeConverter.printUUID(guid));
+      m_project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       m_project.setId(PROJECT_ID);
       m_project.setLastUpdateDate(mpxj.getLastSaved());
       m_project.setLevelingPriority(Integer.valueOf(10));

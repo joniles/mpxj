@@ -164,9 +164,8 @@ final class PrimaveraReader
     * Process project properties.
     *
     * @param rows project properties data.
-    * @param projectID project ID
     */
-   public void processProjectProperties(List<Row> rows, Integer projectID)
+   public void processProjectProperties(List<Row> rows)
    {
       if (rows.isEmpty() == false)
       {
@@ -174,12 +173,13 @@ final class PrimaveraReader
          ProjectProperties properties = m_project.getProjectProperties();
          properties.setCreationDate(row.getDate("create_date"));
          properties.setFinishDate(row.getDate("plan_end_date"));
+         properties.setGUID(row.getUUID("guid"));
          properties.setName(row.getString("proj_short_name"));
          properties.setStartDate(row.getDate("plan_start_date")); // data_date?
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
-         properties.setUniqueID(projectID == null ? null : projectID.toString());
+         properties.setUniqueID(row.getInteger("proj_id"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");

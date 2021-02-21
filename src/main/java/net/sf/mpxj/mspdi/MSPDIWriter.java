@@ -284,6 +284,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setFinishDate(properties.getFinishDate());
       project.setFiscalYearStart(Boolean.valueOf(properties.getFiscalYearStart()));
       project.setFYStartDate(NumberHelper.getBigInteger(properties.getFiscalYearStartMonth()));
+      project.setGUID(properties.getGUID());
       project.setHonorConstraints(Boolean.valueOf(properties.getHonorConstraints()));
       project.setInsertedProjectsLikeSummary(Boolean.valueOf(properties.getInsertedProjectsLikeSummary()));
       project.setLastSaved(properties.getLastSaved());
@@ -314,7 +315,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setSubject(properties.getSubject());
       project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
       project.setTitle(properties.getProjectTitle());
-      project.setUID(properties.getUniqueID());
       project.setWeekStartDay(DatatypeConverter.printDay(properties.getWeekStartDay()));
       project.setWorkFormat(DatatypeConverter.printWorkUnits(properties.getDefaultWorkUnits()));
    }

@@ -2,6 +2,8 @@
 
 ## 9.0.1 (git master)
 * When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
+* The Project Unique ID property is now an integer rather than a string.
+* Added the Project GUID attribute.
 
 ## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!

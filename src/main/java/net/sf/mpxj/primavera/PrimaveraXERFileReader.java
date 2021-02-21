@@ -133,8 +133,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          else
          {
             // We have been asked for a specific project: find it
-            String uniqueID = targetProjectID.toString();
-            project = projects.stream().filter(p -> uniqueID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
+            project = projects.stream().filter(p -> targetProjectID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
          }
       }
 
@@ -408,7 +407,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       // Process common attributes
       //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectProperties(rows, m_projectID);
+      m_reader.processProjectProperties(rows);
 
       //
       // Process XER-specific attributes

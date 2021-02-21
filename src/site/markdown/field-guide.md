@@ -57,6 +57,7 @@ Finish Date|✓| | | | | |✓|✓|✓|✓|✓| | | | |✓| |✓|✓| 
 Fiscal Year Start| | | | | | | |✓| | | | | | | | | | | | | | | 
 Fiscal Year Start Month|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Full Application Name| | | | | | | |✓| | | | | | | | | | | | | | | 
+GUID| | | | | |✓| | | |✓| | | |✓|✓|✓| | | | | | | 
 Honor Constraints| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Hyperlink Base| | | | | | | |✓| | | | | | | | | | | | | | | 
 Inserted Projects Like Summary| | | | | | | | | |✓| | | | | | | | | | | | | 
@@ -99,7 +100,7 @@ Template| | | | | | | |✓| | | | | | | | | | | | | | | 
 Thousands Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Time Format|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
-Unique ID| | | | | |✓| | | | | | | |✓|✓|✓| | | | | | | 
+Unique ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Updating Task Status Updates Resource Status|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Work| | | | | | | | |✓| | | | | | | | | | | | | | 
@@ -124,6 +125,14 @@ Baseline Duration| | | | | | | | |✓| | | | | | | | | | | |�
 Baseline Finish| | | | | | | | |✓| | | | | | | | | | | | | | 
 Baseline Start| | | | | | | | |✓| | | | | | | | | | | | | | 
 Baseline Work| | | | | | | | |✓| | | | | | | | | | | | | | 
+
+### Extended Fields
+Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
+
+### Enterprise Fields
+Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 
 ## Task
 ### Core Fields

@@ -290,6 +290,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setFinishDate(project.getFinishDate());
       properties.setFiscalYearStart(BooleanHelper.getBoolean(project.isFiscalYearStart()));
       properties.setFiscalYearStartMonth(NumberHelper.getInteger(project.getFYStartDate()));
+      properties.setGUID(project.getGUID());
       properties.setHonorConstraints(BooleanHelper.getBoolean(project.isHonorConstraints()));
       properties.setInsertedProjectsLikeSummary(BooleanHelper.getBoolean(project.isInsertedProjectsLikeSummary()));
       properties.setLastSaved(project.getLastSaved());
@@ -319,7 +320,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setStartDate(project.getStartDate());
       properties.setStatusDate(project.getStatusDate());
       properties.setSymbolPosition(project.getCurrencySymbolPosition());
-      properties.setUniqueID(project.getUID());
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
       updateScheduleSource(properties);

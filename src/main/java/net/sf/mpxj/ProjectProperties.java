@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -1758,9 +1759,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return unique ID
     */
-   public String getUniqueID()
+   public Integer getUniqueID()
    {
-      return (String) getCachedValue(ProjectField.UNIQUE_ID);
+      return (Integer) getCachedValue(ProjectField.UNIQUE_ID);
    }
 
    /**
@@ -1768,9 +1769,29 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param uniqueID unique ID
     */
-   public void setUniqueID(String uniqueID)
+   public void setUniqueID(Integer uniqueID)
    {
       set(ProjectField.UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieve the GUID for this project.
+    *
+    * @return unique ID
+    */
+   public UUID getGUID()
+   {
+      return (UUID) getCachedValue(ProjectField.GUID);
+   }
+
+   /**
+    * Set the GUID for this project.
+    *
+    * @param guid GUID
+    */
+   public void setGUID(UUID guid)
+   {
+      set(ProjectField.GUID, guid);
    }
 
    /**

@@ -207,7 +207,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       props.setStatusDate(row.getTimestamp("ZGIVENSTATUSDATE"));
       props.setCurrencySymbol(row.getString("ZCURRENCYSYMBOL"));
       props.setName(row.getString("ZTITLE"));
-      props.setUniqueID(row.getUUID("ZUNIQUEID").toString());
+      props.setGUID(row.getUUID("ZUNIQUEID"));
    }
 
    /**
