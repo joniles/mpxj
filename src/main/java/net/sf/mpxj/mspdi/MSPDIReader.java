@@ -1110,12 +1110,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             Date end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
 
-            if (start.getTime() < DateHelper.START_DATE_NA.getTime())
+            if (start == null || start.getTime() < DateHelper.START_DATE_NA.getTime())
             {
                start = DateHelper.START_DATE_NA;
             }
 
-            if (end.getTime() > DateHelper.END_DATE_NA.getTime())
+            if (end == null || end.getTime() > DateHelper.END_DATE_NA.getTime())
             {
                end = DateHelper.END_DATE_NA;
             }

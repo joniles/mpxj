@@ -4,6 +4,8 @@
 * When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
 * The Project Unique ID property is now an integer rather than a string.
 * Added the Project GUID attribute.
+* Handle Primavera resource rates which don't have a start or finish date.
+* Handle MSPDI files with resource availability tables which don't have a start or finish date.
 
 ## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!

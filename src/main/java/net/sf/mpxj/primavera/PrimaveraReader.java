@@ -686,12 +686,12 @@ final class PrimaveraReader
          Resource resource = m_project.getResourceByUniqueID(resourceID);
          if (resource != null)
          {
-            if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
             {
                startDate = DateHelper.START_DATE_NA;
             }
 
-            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
             {
                endDate = DateHelper.END_DATE_NA;
             }
