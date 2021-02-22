@@ -170,6 +170,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          m_apibo = m_factory.createAPIBusinessObjects();
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
+         m_projectObjectID = m_projectFile.getProjectProperties().getUniqueID() == null ? DEFAULT_PROJECT_OBJECT_ID : m_projectFile.getProjectProperties().getUniqueID();
 
          populateSortedCustomFieldsList();
 
@@ -377,8 +378,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       m_project = m_factory.createProjectType();
       m_apibo.getProject().add(m_project);
-
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
+      String projectID = mpxj.getProjectID() == null ? DEFAULT_PROJECT_ID : mpxj.getProjectID();
+
       m_project.setActivityDefaultActivityType("Task Dependent");
       m_project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
       m_project.setActivityDefaultDurationType("Fixed Duration and Units");
@@ -398,6 +400,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setCreateDate(mpxj.getCreationDate());
       m_project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
       m_project.setCriticalActivityPathType("Critical Float");
+      m_project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
       m_project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       m_project.setDefaultPriceTimeUnits("Hour");
       m_project.setDiscountApplicationPeriod("Month");
@@ -409,14 +412,14 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       m_project.setFiscalYearStartMonth(Integer.valueOf(1));
       m_project.setFinishDate(mpxj.getFinishDate());
       m_project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      m_project.setId(PROJECT_ID);
+      m_project.setId(projectID);
       m_project.setLastUpdateDate(mpxj.getLastSaved());
       m_project.setLevelingPriority(Integer.valueOf(10));
       m_project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       m_project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       m_project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
-      m_project.setName(mpxj.getName() == null ? PROJECT_ID : mpxj.getName());
-      m_project.setObjectId(PROJECT_OBJECT_ID);
+      m_project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
+      m_project.setObjectId(m_projectObjectID);
       m_project.setPlannedStartDate(mpxj.getStartDate());
       m_project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       m_project.setResetPlannedToRemainingFlag(Boolean.FALSE);
@@ -651,7 +654,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          xml.setObjectId(mpxj.getUniqueID());
          xml.setParentObjectId(parentObjectID);
-         xml.setProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setProjectObjectId(m_projectObjectID);
          xml.setSequenceNumber(Integer.valueOf(m_wbsSequence++));
 
          xml.setStatus("Active");
@@ -730,7 +733,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
-      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
@@ -823,7 +826,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setPlannedStartDate(mpxj.getPlannedStart());
       xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
-      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setProjectObjectId(m_projectObjectID);
       xml.setRateSource("Resource");
       xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
@@ -852,8 +855,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          xml.setObjectId(Integer.valueOf(++m_relationshipObjectID));
          xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
-         xml.setPredecessorProjectObjectId(PROJECT_OBJECT_ID);
-         xml.setSuccessorProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setPredecessorProjectObjectId(m_projectObjectID);
+         xml.setSuccessorProjectObjectId(m_projectObjectID);
          xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
       }
    }
@@ -929,7 +932,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             expense.setPlannedUnits(item.getPlannedUnits());
             expense.setPricePerUnit(item.getPricePerUnit());
             //expense.setProjectId(PROJECT_ID);
-            expense.setProjectObjectId(PROJECT_OBJECT_ID);
+            expense.setProjectObjectId(m_projectObjectID);
             expense.setRemainingCost(item.getRemainingCost());
             expense.setRemainingUnits(item.getRemainingUnits());
             expense.setUnitOfMeasure(item.getUnitOfMeasure());
@@ -1062,7 +1065,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
       xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
       xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
-      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setProjectObjectId(m_projectObjectID);
       xml.setWBSObjectId(task.getUniqueID());
    }
 
@@ -1085,7 +1088,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
          xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
-         xml.setProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setProjectObjectId(m_projectObjectID);
          xml.setWBSObjectId(task.getUniqueID());
       }
    }
@@ -1127,7 +1130,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
       xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
       xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
-      xml.setProjectObjectId(PROJECT_OBJECT_ID);
+      xml.setProjectObjectId(m_projectObjectID);
       xml.setActivityObjectId(task.getUniqueID());
    }
 
@@ -1150,7 +1153,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
          xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
-         xml.setProjectObjectId(PROJECT_OBJECT_ID);
+         xml.setProjectObjectId(m_projectObjectID);
          xml.setActivityObjectId(task.getUniqueID());
       }
    }
@@ -1571,9 +1574,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    private static final String NILLABLE_STYLESHEET = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><xsl:output method=\"xml\" indent=\"yes\"/><xsl:template match=\"node()[not(@xsi:nil = 'true')]|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template></xsl:stylesheet>";
-   private static final Integer PROJECT_OBJECT_ID = Integer.valueOf(1);
+   private static final Integer DEFAULT_PROJECT_OBJECT_ID = Integer.valueOf(1);
    private static final Integer NOTEBOOK_TOPIC_OBJECT_ID = Integer.valueOf(1);
-   private static final String PROJECT_ID = "PROJECT";
+   private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
    private static final String DEFAULT_WBS_CODE = "WBS";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
@@ -1659,5 +1662,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    private int m_activityNoteObjectID;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
-   boolean m_activityTypePopulated;
+   private boolean m_activityTypePopulated;
+   private Integer m_projectObjectID;
 }

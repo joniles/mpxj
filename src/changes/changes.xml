@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.</action>
 			<action dev="joniles" type="update">The Project Unique ID property is now an integer rather than a string.</action>
 			<action dev="joniles" type="update">Added the Project GUID attribute.</action>
+			<action dev="joniles" type="update">When reading Primavera schedules, populate the project properties Project ID and Baseline Project Unique ID.</action>
 			<action dev="joniles" type="update">Handle Primavera resource rates which don't have a start or finish date.</action>
 			<action dev="joniles" type="update">Handle MSPDI files with resource availability tables which don't have a start or finish date.</action>
 		</release>

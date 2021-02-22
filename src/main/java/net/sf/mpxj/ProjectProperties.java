@@ -2691,6 +2691,46 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Retrieve the baseline project unique ID for this project.
+    *
+    * @return baseline project unique ID
+    */
+   public Integer getBaselineProjectUniqueID()
+   {
+      return (Integer) getCachedValue(ProjectField.BASELINE_PROJECT_UNIQUE_ID);
+   }
+
+   /**
+    * Set the baseline project unique ID for this project.
+    *
+    * @param uniqueID baseline project unique ID
+    */
+   public void setBaselineProjectUniqueID(Integer uniqueID)
+   {
+      set(ProjectField.BASELINE_PROJECT_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieve the project ID for this project.
+    *
+    * @return baseline project unique ID
+    */
+   public String getProjectID()
+   {
+      return (String) getCachedValue(ProjectField.PROJECT_ID);
+   }
+
+   /**
+    * Set the project ID for this project.
+    *
+    * @param id project ID
+    */
+   public void setProjectID(String id)
+   {
+      set(ProjectField.PROJECT_ID, id);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)

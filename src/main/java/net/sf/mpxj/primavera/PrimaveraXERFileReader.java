@@ -1083,6 +1083,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("seq_num", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("sum_base_proj_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("super_flag", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("suspend_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
