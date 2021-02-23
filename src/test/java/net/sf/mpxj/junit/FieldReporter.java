@@ -84,7 +84,13 @@ public class FieldReporter
     */
    public void report(String file) throws IOException
    {
-      PrintWriter pw = new PrintWriter(file, "UTF-8");
+      PrintWriter pw = new PrintWriter(file, "UTF-8")
+      {
+         @Override public void println()
+         {
+            write('\n');
+         }
+      };
 
       pw.println("# Field Guide");
       pw.println("The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.");
