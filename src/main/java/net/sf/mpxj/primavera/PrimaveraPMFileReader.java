@@ -254,6 +254,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
       linkCrossProjectRelations(result);
+      populateBaselines(result);
 
       m_externalRelations = null;
 
@@ -286,6 +287,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                Relation relation = successor.addPredecessor(predecessor, externalRelation.getType(), externalRelation.getLag());
                relation.setUniqueID(externalRelation.getUniqueID());
             }
+         }
+      }
+   }
+
+   private void populateBaselines(List<ProjectFile> projects)
+   {
+      Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
+      for (ProjectFile project : projects)
+      {
+         ProjectFile baseline = map.get(project.getProjectProperties().getBaselineProjectUniqueID());
+         if (baseline != null)
+         {
+            project.setBaseline(baseline, TaskField.ACTIVITY_ID);
          }
       }
    }

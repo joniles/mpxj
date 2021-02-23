@@ -86,6 +86,7 @@ Percentage Complete| | | | | | | | |✓| | | | | | | | | | | 
 Presentation Format| | | | | | | |✓| | | | | | | | | | | | | | | 
 Project Externally Edited| | | | | | | | | |✓| | | | | | | | | | | | | 
 Project File Path| | | | | | | |✓| | | | | | | | | | | | | | | 
+Project ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Project Title|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Revision| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Schedule From|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
@@ -123,6 +124,7 @@ Baseline Cost| | | | | | | | |✓| | | | | | | | | | | | | 
 Baseline Date| | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Duration| | | | | | | | |✓| | | | | | | | | | | | | | 
 Baseline Finish| | | | | | | | |✓| | | | | | | | | | | | | | 
+Baseline Project Unique ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Baseline Start| | | | | | | | |✓| | | | | | | | | | | | | | 
 Baseline Work| | | | | | | | |✓| | | | | | | | | | | | | | 
 

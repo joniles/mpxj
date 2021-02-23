@@ -569,6 +569,37 @@ public final class ProjectFile implements ChildTaskContainer
       return result;
    }
 
+   /**
+    * Use the supplied project to set the baseline cost, duration, finish,
+    * fixed cost accrual, fixed cost, start and work attributes for the tasks
+    * in the current project. The supplied TaskField instance is the key used
+    * to match tasks in the current project with tasks in the baseline project.
+    * 
+    * @param baseline baseline project
+    * @param key field used to match tasks
+    */
+   public void setBaseline(ProjectFile baseline, TaskField key)
+   {
+      setBaseline(baseline, key, 0);
+   }
+
+   /**
+    * Use the supplied project to set the baselineN cost, duration, finish,
+    * fixed cost accrual, fixed cost, start and work attributes for the tasks
+    * in the current project. The supplied TaskField instance is the key used
+    * to match tasks in the current project with tasks in the baseline project.
+    * The index argument selects which of the 10 baselines to populate. Passing
+    * an index of 0 populates the main baseline.
+    * 
+    * @param baseline baseline project
+    * @param key field used to match tasks
+    * @param index baseline to populate (0-10)
+    */
+   public void setBaseline(ProjectFile baseline, TaskField key, int index)
+   {
+      new BaselineManager().setBaseline(this, baseline, key, index);
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
