@@ -84,14 +84,7 @@ public class FieldReporter
     */
    public void report(String file) throws IOException
    {
-      PrintWriter pw = new PrintWriter(file, "UTF-8")
-      {
-         @Override public void println()
-         {
-            write('\n');
-         }
-      };
-
+      PrintWriter pw = new PrintWriter(file, "UTF-8");
       pw.println("# Field Guide");
       pw.println("The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.");
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
@@ -178,7 +171,7 @@ public class FieldReporter
       StringBuilder sb = new StringBuilder();
       sb.append("Field|");
       sb.append(m_keys.stream().collect(Collectors.joining("|")));
-      sb.append("\n");
+      sb.append("\r\n");
 
       sb.append("---|");
       sb.append(m_keys.stream().map(v -> "---").collect(Collectors.joining("|")));
