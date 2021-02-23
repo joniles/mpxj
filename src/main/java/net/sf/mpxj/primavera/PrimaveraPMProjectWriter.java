@@ -76,19 +76,25 @@ import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 
-final class PrimaveraProjectWriter
+final class PrimaveraPMProjectWriter
 {
-   public void write(APIBusinessObjects apibo, ProjectFile projectFile, Integer projectObjectID)
+   public PrimaveraPMProjectWriter(APIBusinessObjects apibo, ProjectFile projectFile, Integer projectObjectID, PrimaveraPMObjectSequences sequences)
+   {
+      m_projectFile = projectFile;
+      m_apibo = apibo;
+      m_projectObjectID = projectObjectID;
+      m_sequences = sequences;
+   }
+   
+   public void write()
    {
       try
       {
-         m_projectFile = projectFile;
          m_factory = new ObjectFactory();
-         m_apibo = apibo;
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
-         m_projectObjectID = projectObjectID;
-
+         m_wbsSequence = new ObjectSequence(0);
+         
          ProjectType project = m_factory.createProjectType();
          m_apibo.getProject().add(project);
 
@@ -118,14 +124,8 @@ final class PrimaveraProjectWriter
 
       finally
       {
-         m_projectFile = null;
          m_factory = null;
-         m_apibo = null;
-         m_wbsSequence = 0;
-         m_relationshipObjectID = 0;
-         m_rateObjectID = 0;
-         m_wbsNoteObjectID = 0;
-         m_activityNoteObjectID = 0;
+         m_wbsSequence = null;
          m_sortedCustomFieldsList = null;
          m_topics = null;
       }
@@ -570,7 +570,7 @@ final class PrimaveraProjectWriter
          xml.setObjectId(mpxj.getUniqueID());
          xml.setParentObjectId(parentObjectID);
          xml.setProjectObjectId(m_projectObjectID);
-         xml.setSequenceNumber(Integer.valueOf(m_wbsSequence++));
+         xml.setSequenceNumber(m_wbsSequence.getNext());
 
          xml.setStatus("Active");
 
@@ -768,7 +768,7 @@ final class PrimaveraProjectWriter
          m_relationships.add(xml);
 
          xml.setLag(getDuration(mpxj.getLag()));
-         xml.setObjectId(Integer.valueOf(++m_relationshipObjectID));
+         xml.setObjectId(m_sequences.getRelationshipObjectID());
          xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
          xml.setPredecessorProjectObjectId(m_projectObjectID);
@@ -893,7 +893,7 @@ final class PrimaveraProjectWriter
                //rate.setLastUpdateDate(value);
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
-               rate.setObjectId(Integer.valueOf(++m_rateObjectID));
+               rate.setObjectId(m_sequences.getRateObjectID());
                rate.setPricePerUnit(Double.valueOf(entry.getStandardRate().getAmount()));
                //rate.setPricePerUnit2(value);
                //rate.setPricePerUnit3(value);
@@ -979,7 +979,7 @@ final class PrimaveraProjectWriter
       m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
       xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
-      xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
+      xml.setObjectId(m_sequences.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setWBSObjectId(task.getUniqueID());
    }
@@ -1002,7 +1002,7 @@ final class PrimaveraProjectWriter
          m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(Integer.valueOf(++m_wbsNoteObjectID));
+         xml.setObjectId(m_sequences.getWbsNoteObjectID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setWBSObjectId(task.getUniqueID());
       }
@@ -1044,7 +1044,7 @@ final class PrimaveraProjectWriter
       m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
       xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
-      xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
+      xml.setObjectId(m_sequences.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setActivityObjectId(task.getUniqueID());
    }
@@ -1067,7 +1067,7 @@ final class PrimaveraProjectWriter
          m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(Integer.valueOf(++m_activityNoteObjectID));
+         xml.setObjectId(m_sequences.getActivityNoteObjectID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setActivityObjectId(task.getUniqueID());
       }
@@ -1532,9 +1532,12 @@ final class PrimaveraProjectWriter
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
    }
 
-   private ProjectFile m_projectFile;
+   private final ProjectFile m_projectFile;
+   private final APIBusinessObjects m_apibo;
+   private final Integer m_projectObjectID;
+   private final PrimaveraPMObjectSequences m_sequences;
+   
    private ObjectFactory m_factory;
-   private APIBusinessObjects m_apibo;
    private List<WBSType> m_wbs;
    private List<ActivityType> m_activities;
    private List<ResourceAssignmentType> m_assignments;
@@ -1543,13 +1546,8 @@ final class PrimaveraProjectWriter
    private List<ProjectNoteType> m_projectNotes;
    private List<ActivityNoteType> m_activityNotes;
    
-   private int m_wbsSequence;
-   private int m_relationshipObjectID;
-   private int m_rateObjectID;
-   private int m_wbsNoteObjectID;
-   private int m_activityNoteObjectID;
+   private ObjectSequence m_wbsSequence;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
-   private boolean m_activityTypePopulated;
-   private Integer m_projectObjectID;
+   private boolean m_activityTypePopulated;   
 }

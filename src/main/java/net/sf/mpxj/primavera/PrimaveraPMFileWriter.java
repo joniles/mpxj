@@ -95,13 +95,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
          
-         PrimaveraProjectWriter writer = new PrimaveraProjectWriter();
          
          APIBusinessObjects apibo = new ObjectFactory().createAPIBusinessObjects();
+         PrimaveraPMObjectSequences sequences = new PrimaveraPMObjectSequences();
          Integer projectObjectID = projectFile.getProjectProperties().getUniqueID() == null ? DEFAULT_PROJECT_OBJECT_ID : projectFile.getProjectProperties().getUniqueID();
-         writer.write(apibo, projectFile, projectObjectID);
+         new PrimaveraPMProjectWriter(apibo, projectFile, projectObjectID, sequences).write();
          
-
          marshaller.marshal(apibo, handler);
       }
 
