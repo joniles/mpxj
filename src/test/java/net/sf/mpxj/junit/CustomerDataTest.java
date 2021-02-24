@@ -587,6 +587,11 @@ public class CustomerDataTest
          else
          {
             suffix = ".xml";
+
+            if (writer instanceof PrimaveraPMFileWriter)
+            {
+               ((PrimaveraPMFileWriter) writer).setWriteBaselines(true);
+            }
          }
       }
       File baselineFile = new File(baselineDirectory, name + suffix);
