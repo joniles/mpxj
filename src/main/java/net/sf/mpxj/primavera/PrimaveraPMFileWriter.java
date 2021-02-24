@@ -45,11 +45,34 @@ import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
- * This class creates a new MSPDI file from the contents of an ProjectFile
+ * This class creates a new PMXML file from the contents of an ProjectFile
  * instance.
  */
 public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 {
+   /**
+    * Determines if baseline projects linked to the current project
+    * should be written as baseline projects in the PMXML file.
+    * 
+    * @param value true if baseline projects should be written
+    */
+   public void setWriteBaselines(boolean value)
+   {
+      m_writeBaselines = value;
+   }
+
+   /**
+    * Returns true if baseline projects linked to the current
+    * project should be written as baseline projects to the
+    * PMXML file.
+    * 
+    * @return true if baseline projects should be written
+    */
+   public boolean getWriteBaselines()
+   {
+      return m_writeBaselines;
+   }
+
    /**
     * {@inheritDoc}
     */
@@ -90,17 +113,23 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             // support it, swallow any errors raised trying to configure it.
          }
 
-
          Marshaller marshaller = CONTEXT.createMarshaller();
 
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
-         
-         
+
          APIBusinessObjects apibo = new ObjectFactory().createAPIBusinessObjects();
          PrimaveraPMObjectSequences sequences = new PrimaveraPMObjectSequences();
-         Integer projectObjectID = projectFile.getProjectProperties().getUniqueID() == null ? DEFAULT_PROJECT_OBJECT_ID : projectFile.getProjectProperties().getUniqueID();
-         new PrimaveraPMProjectWriter(apibo, projectFile, projectObjectID, sequences).write();
-         
+         Integer projectObjectID = projectFile.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : projectFile.getProjectProperties().getUniqueID();
+         new PrimaveraPMProjectWriter(apibo, projectFile, projectObjectID, sequences).writeProject();
+
+         if (m_writeBaselines)
+         {
+            projectFile.getBaselines().stream().filter(f -> f != null).forEach(baseline -> {
+               Integer baselineProjectObjectID = baseline.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : baseline.getProjectProperties().getUniqueID();
+               new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline();
+            });
+         }
+
          marshaller.marshal(apibo, handler);
       }
 
@@ -114,6 +143,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          throw new IOException(ex.toString());
       }
    }
+
+   private boolean m_writeBaselines;
 
    /**
     * Cached context to minimise construction cost.
@@ -148,5 +179,4 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    private static final String NILLABLE_STYLESHEET = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><xsl:output method=\"xml\" indent=\"yes\"/><xsl:template match=\"node()[not(@xsi:nil = 'true')]|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template></xsl:stylesheet>";
-   private static final Integer DEFAULT_PROJECT_OBJECT_ID = Integer.valueOf(1);
 }

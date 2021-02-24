@@ -24,8 +24,10 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -570,34 +572,74 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Use the supplied project to set the baseline cost, duration, finish,
-    * fixed cost accrual, fixed cost, start and work attributes for the tasks
-    * in the current project. The supplied TaskField instance is the key used
-    * to match tasks in the current project with tasks in the baseline project.
+    * Retrieve the baselines linked to this project.
+    * The baseline at index zero is the default baseline,
+    * the values at the remaining indexes (1-10) are the
+    * numbered baselines. The list will contain null
+    * if a particular baseline has not been set.
     * 
-    * @param baseline baseline project
-    * @param key field used to match tasks
+    * @return list of baselines
     */
-   public void setBaseline(ProjectFile baseline, TaskField key)
+   public List<ProjectFile> getBaselines()
    {
-      setBaseline(baseline, key, 0);
+      return Arrays.asList(m_baselines);
    }
 
    /**
-    * Use the supplied project to set the baselineN cost, duration, finish,
-    * fixed cost accrual, fixed cost, start and work attributes for the tasks
-    * in the current project. The supplied TaskField instance is the key used
-    * to match tasks in the current project with tasks in the baseline project.
+    * Store the supplied project as the default baseline, and use it to set the
+    * baseline cost, duration, finish, fixed cost accrual, fixed cost, start and
+    * work attributes for the tasks in the current project. The supplied
+    * key function generates a key which can be used to match tasks in the current
+    * project with tasks in the baseline project.
+    *
+    * @param baseline baseline project
+    * @param key generates a key used to match tasks across projects
+    */
+   public void setBaseline(ProjectFile baseline, Function<Task, Object> key)
+   {
+      setBaseline(baseline, 0, key);
+   }
+
+   /**
+    * Store the supplied project as baselineN, and use it to set the
+    * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
+    * work attributes for the tasks in the current project. The supplied
+    * key function generates a key which can be used to match tasks in the current
+    * project with tasks in the baseline project.
     * The index argument selects which of the 10 baselines to populate. Passing
-    * an index of 0 populates the main baseline.
+    * an index of 0 populates the default baseline.
     * 
     * @param baseline baseline project
-    * @param key field used to match tasks
     * @param index baseline to populate (0-10)
+    * @param key generates a key used to match tasks across projects
     */
-   public void setBaseline(ProjectFile baseline, TaskField key, int index)
+   public void setBaseline(ProjectFile baseline, int index, Function<Task, Object> key)
    {
-      new BaselineManager().setBaseline(this, baseline, key, index);
+      if (index < 0 || index >= m_baselines.length)
+      {
+         throw new IllegalArgumentException(index + " is not a valid baseline index");
+      }
+
+      m_baselines[index] = baseline;
+      new BaselineManager().populateBaseline(this, baseline, index, key);
+   }
+
+   /**
+    * Clear the default baseline for this project.
+    */
+   public void clearBaseline()
+   {
+      clearBaseline(0);
+   }
+
+   /**
+    * Clear baselineN (1-10) for this project.
+    * 
+    * @param index baseline index
+    */
+   public void clearBaseline(int index)
+   {
+      new BaselineManager().clearBaseline(this, index);
    }
 
    private final ProjectConfig m_config = new ProjectConfig(this);
@@ -618,4 +660,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
+   private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

@@ -24,6 +24,7 @@
 package net.sf.mpxj;
 
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,6 +36,18 @@ import net.sf.mpxj.common.TaskFieldLists;
 class BaselineManager
 {
    /**
+    * Clear the requested baseline for the supplied project.
+    * 
+    * @param project target project
+    * @param index baseline to populate (0-10)
+    */
+   public void clearBaseline(ProjectFile project, int index)
+   {
+      TaskField[] baselineFields = getBaselineFields(index);
+      project.getTasks().forEach(t -> populateBaseline(t, null, baselineFields));
+   }
+
+   /**
     * Use the supplied baseline project to set the baselineN cost, duration, finish,
     * fixed cost accrual, fixed cost, start and work attributes for the tasks
     * in the supplied project. The supplied TaskField instance is the key used
@@ -44,13 +57,14 @@ class BaselineManager
     * 
     * @param project target project
     * @param baseline baseline project
-    * @param key field used to match tasks
     * @param index baseline to populate (0-10)
+    * @param keyFunction generate a key used to match tasks
     */
-   public void setBaseline(ProjectFile project, ProjectFile baseline, TaskField key, int index)
+   public void populateBaseline(ProjectFile project, ProjectFile baseline, int index, Function<Task, Object> keyFunction)
    {
-      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> t.getCachedValue(key) != null).collect(Collectors.toMap(t -> t.getCachedValue(key), t -> t));
-      project.getTasks().forEach(t -> setBaseline(t, map.get(t.getCachedValue(key)), getBaselineFields(index)));
+      TaskField[] baselineFields = getBaselineFields(index);
+      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> keyFunction.apply(t) != null).collect(Collectors.toMap(t -> keyFunction.apply(t), t -> t));
+      project.getTasks().forEach(t -> populateBaseline(t, map.get(keyFunction.apply(t)), baselineFields));
    }
 
    /**
@@ -60,7 +74,7 @@ class BaselineManager
     * @param baseline source task
     * @param baselineFields set of baseline fields to populate
     */
-   private void setBaseline(Task task, Task baseline, TaskField[] baselineFields)
+   private void populateBaseline(Task task, Task baseline, TaskField[] baselineFields)
    {
       IntStream.range(0, SOURCE_FIELDS.length).forEach(i -> task.set(baselineFields[i], baseline == null ? null : baseline.getCachedValue(SOURCE_FIELDS[i])));
    }

@@ -272,6 +272,15 @@ public class CustomerDataTest
          PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
          reader.setProjectID(projectID);
          ProjectFile project = reader.read(file);
+
+         Integer baselineProjectID = project.getProjectProperties().getBaselineProjectUniqueID();
+         if (baselineProjectID != null)
+         {
+            PrimaveraDatabaseFileReader baselineReader = new PrimaveraDatabaseFileReader();
+            baselineReader.setProjectID(baselineProjectID.intValue());
+            project.setBaseline(baselineReader.read(file), t -> t.getCanonicalActivityID());
+         }
+
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))
          {
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
@@ -696,7 +705,7 @@ public class CustomerDataTest
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 
-   private static final boolean DEBUG_FAILURES = true;
+   private static final boolean DEBUG_FAILURES = false;
 
    static
    {

@@ -55,6 +55,7 @@ import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityType;
+import net.sf.mpxj.primavera.schema.BaselineProjectType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
@@ -85,8 +86,18 @@ final class PrimaveraPMProjectWriter
       m_projectObjectID = projectObjectID;
       m_sequences = sequences;
    }
-   
-   public void write()
+
+   public void writeProject()
+   {
+      write(false);
+   }
+
+   public void writeBaseline()
+   {
+      write(true);
+   }
+
+   private void write(boolean baseline)
    {
       try
       {
@@ -94,32 +105,57 @@ final class PrimaveraPMProjectWriter
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         
-         ProjectType project = m_factory.createProjectType();
-         m_apibo.getProject().add(project);
 
-         m_wbs = project.getWBS();
-         m_activities = project.getActivity();
-         m_assignments = project.getResourceAssignment();
-         m_relationships = project.getRelationship();
-         m_expenses = project.getActivityExpense();
-         m_projectNotes = project.getProjectNote();
-         m_activityNotes = project.getActivityNote();
-         
-         populateSortedCustomFieldsList();
+         if (baseline)
+         {
+            BaselineProjectType project = m_factory.createBaselineProjectType();
+            m_apibo.getBaselineProject().add(project);
 
-         writeCurrency();
-         writeUserFieldDefinitions();
-         writeExpenseCategories();
-         writeCostAccounts();
-         writeProjectProperties(project);
-         writeCalendars();
-         writeResources();
-         writeTasks();
-         writeAssignments();
-         writeExpenseItems();
-         writeResourceRates();
-         writeTopics();
+            m_wbs = project.getWBS();
+            m_activities = project.getActivity();
+            m_assignments = project.getResourceAssignment();
+            m_relationships = project.getRelationship();
+            m_expenses = project.getActivityExpense();
+            m_projectNotes = project.getProjectNote();
+            m_activityNotes = project.getActivityNote();
+            m_udf = project.getUDF();
+
+            writeProjectProperties(project);
+            populateSortedCustomFieldsList();
+            writeTasks();
+            writeAssignments();
+            writeExpenseItems();
+         }
+         else
+         {
+            ProjectType project = m_factory.createProjectType();
+            m_apibo.getProject().add(project);
+
+            m_wbs = project.getWBS();
+            m_activities = project.getActivity();
+            m_assignments = project.getResourceAssignment();
+            m_relationships = project.getRelationship();
+            m_expenses = project.getActivityExpense();
+            m_projectNotes = project.getProjectNote();
+            m_activityNotes = project.getActivityNote();
+            m_udf = project.getUDF();
+
+            writeProjectProperties(project);
+            populateSortedCustomFieldsList();
+
+            writeUDF();
+            writeCurrency();
+            writeUserFieldDefinitions();
+            writeExpenseCategories();
+            writeCostAccounts();
+            writeCalendars();
+            writeResources();
+            writeResourceRates();
+            writeTasks();
+            writeAssignments();
+            writeExpenseItems();
+            writeTopics();
+         }
       }
 
       finally
@@ -129,6 +165,11 @@ final class PrimaveraPMProjectWriter
          m_sortedCustomFieldsList = null;
          m_topics = null;
       }
+   }
+
+   private void writeUDF()
+   {
+      m_udf.addAll(writeUDFType(FieldTypeClass.PROJECT, m_projectFile.getProjectProperties()));
    }
 
    /**
@@ -287,7 +328,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes project properties data to a PM XML file.
+    * This method writes project properties data to a PMXML file.
     * 
     * @param project project
     */
@@ -351,7 +392,58 @@ final class PrimaveraPMProjectWriter
       project.setSummaryLevel("Assignment Level");
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
-      project.getUDF().addAll(writeUDFType(FieldTypeClass.PROJECT, mpxj));
+   }
+
+   private void writeProjectProperties(BaselineProjectType project)
+   {
+      ProjectProperties mpxj = m_projectFile.getProjectProperties();
+      String projectID = mpxj.getProjectID() == null ? DEFAULT_PROJECT_ID : mpxj.getProjectID();
+
+      project.setActivityDefaultActivityType("Task Dependent");
+      project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
+      project.setActivityDefaultDurationType("Fixed Duration and Units");
+      project.setActivityDefaultPercentCompleteType("Duration");
+      project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
+      project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
+      project.setActivityIdIncrement(Integer.valueOf(10));
+      project.setActivityIdPrefix("A");
+      project.setActivityIdSuffix(Integer.valueOf(1000));
+      project.setActivityPercentCompleteBasedOnActivitySteps(Boolean.FALSE);
+      project.setAddActualToRemaining(Boolean.FALSE);
+      project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
+      project.setAssignmentDefaultRateType("Price / Unit");
+      project.setCheckOutStatus(Boolean.FALSE);
+      project.setCostQuantityRecalculateFlag(Boolean.FALSE);
+      project.setCreateDate(mpxj.getCreationDate());
+      project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
+      project.setCriticalActivityPathType("Critical Float");
+      project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
+      project.setDefaultPriceTimeUnits("Hour");
+      project.setDiscountApplicationPeriod("Month");
+      project.setEnableSummarization(Boolean.TRUE);
+      project.setFiscalYearStartMonth(Integer.valueOf(1));
+      project.setFinishDate(mpxj.getFinishDate());
+      project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
+      project.setId(projectID);
+      project.setLastUpdateDate(mpxj.getLastSaved());
+      project.setLevelingPriority(Integer.valueOf(10));
+      project.setLinkActualToActualThisPeriod(Boolean.TRUE);
+      project.setLinkPercentCompleteWithActual(Boolean.TRUE);
+      project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
+      project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
+      project.setObjectId(m_projectObjectID);
+      project.setPlannedStartDate(mpxj.getStartDate());
+      project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
+      project.setResetPlannedToRemainingFlag(Boolean.FALSE);
+      project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
+      project.setResourcesCanAssignThemselvesToActivities(Boolean.TRUE);
+      project.setResourcesCanEditAssignmentPercentComplete(Boolean.FALSE);
+      project.setRiskLevel("Medium");
+      project.setStartDate(mpxj.getStartDate());
+      project.setStatus("Active");
+      project.setStrategicPriority(Integer.valueOf(500));
+      project.setSummarizeToWBSLevel(Integer.valueOf(2));
+      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
    }
 
    /**
@@ -594,17 +686,27 @@ final class PrimaveraPMProjectWriter
       }
       else
       {
-         if (task.getParentTask() != null)
+         String prefix = null;
+         
+         if (task.getParentTask() == null && m_projectFile.getProjectProperties().getProjectID() != null)
          {
-            // If we have a parent task, and it looks like WBS contains the full path
-            // (including the parent's WBS), remove the parent's WBS. This matches
-            // how P6 exports this value. This test is brittle as it assumes the
-            // the default WBS separator has been used.
-            String parentWbs = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
-            if (code.startsWith(parentWbs))
+            prefix = m_projectFile.getProjectProperties().getProjectID() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
+         }
+         else
+         {
+            if (task.getParentTask() != null)
             {
-               code = code.substring(parentWbs.length());
+               prefix = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
             }
+         }
+
+         // If we have a parent task, and it looks like WBS contains the full path
+         // (including the parent's WBS), remove the parent's WBS. This matches
+         // how P6 exports this value. This test is brittle as it assumes the
+         // the default WBS separator has been used.
+         if (prefix != null && code.startsWith(prefix))
+         {
+            code = code.substring(prefix.length());
          }
       }
       return code;
@@ -719,7 +821,7 @@ final class PrimaveraPMProjectWriter
    {
       ResourceAssignmentType xml = m_factory.createResourceAssignmentType();
       m_assignments.add(xml);
-      
+
       Task task = mpxj.getTask();
       Task parentTask = task.getParentTask();
       Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
@@ -1536,7 +1638,7 @@ final class PrimaveraPMProjectWriter
    private final APIBusinessObjects m_apibo;
    private final Integer m_projectObjectID;
    private final PrimaveraPMObjectSequences m_sequences;
-   
+
    private ObjectFactory m_factory;
    private List<WBSType> m_wbs;
    private List<ActivityType> m_activities;
@@ -1545,9 +1647,10 @@ final class PrimaveraPMProjectWriter
    private List<ActivityExpenseType> m_expenses;
    private List<ProjectNoteType> m_projectNotes;
    private List<ActivityNoteType> m_activityNotes;
-   
+   private List<UDFAssignmentType> m_udf;
+
    private ObjectSequence m_wbsSequence;
    private List<CustomField> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
-   private boolean m_activityTypePopulated;   
+   private boolean m_activityTypePopulated;
 }

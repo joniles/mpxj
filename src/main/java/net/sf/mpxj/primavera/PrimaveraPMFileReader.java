@@ -56,6 +56,7 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
@@ -292,14 +293,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    private void populateBaselines(List<ProjectFile> projects)
-   {
+   {      
       Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
       for (ProjectFile project : projects)
       {
          ProjectFile baseline = map.get(project.getProjectProperties().getBaselineProjectUniqueID());
          if (baseline != null)
          {
-            project.setBaseline(baseline, TaskField.ACTIVITY_ID);
+            project.setBaseline(baseline, t -> t.getCanonicalActivityID());
          }
       }
    }
@@ -670,10 +671,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       properties.setCreationDate(project.getCreateDate());
       properties.setFinishDate(project.getFinishDate());
+      properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
       properties.setStartDate(project.getPlannedStartDate());
       properties.setStatusDate(project.getDataDate());
-      properties.setProjectTitle(project.getId());
+      properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(false);
    }
@@ -1046,9 +1048,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       //
-      // Create hierarchical structure
+      // Create rough hierarchical structure (note parent tasks not populated yet)
       //
       m_projectFile.getChildTasks().clear();
+
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.getTaskByUniqueID(row.getObjectId());
@@ -1061,16 +1064,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             m_projectFile.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-
-            if (m_wbsIsFullPath)
-            {
-               task.setWBS(parentTask.getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS());
-            }
-
-            task.setActivityID(task.getWBS());
          }
       }
 
+      //
+      // Set the WBS and the Activity ID
+      //
+      populateWBS(m_projectFile.getProjectProperties().getProjectID(), m_projectFile);
+      
       //
       // Read Task entries and create tasks
       //
@@ -1224,6 +1225,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       updateDates();
    }
 
+   private void populateWBS(String prefix, ChildTaskContainer container)
+   {
+      for (Task task : container.getChildTasks())
+      {
+         String wbs = prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS(); 
+         task.setWBS(wbs);
+         task.setActivityID(wbs);
+         populateWBS(wbs, task);
+      }
+   }
+   
    private Duration addDurations(Number... values)
    {
       return getDuration(NumberHelper.sumAsDouble(values));
