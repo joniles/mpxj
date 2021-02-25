@@ -1,12 +1,16 @@
 # Changelog
 
-## 9.0.1 (git master)
-* When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
-* The Project Unique ID property is now an integer rather than a string.
+## 9.1.0 (git master)
+* Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.
+* Added experimental support for writing baseline projects to PMXML files. 
 * Added the Project GUID attribute.
+* When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
+* When reading PMXML files which include the current baseline project, use this to populate the relevant baseline attributes in the main schedule.
+* The Project Unique ID property is now an integer rather than a string.
 * When reading Primavera schedules, populate the project properties Project ID and Baseline Project Unique ID.
 * Handle Primavera resource rates which don't have a start or finish date.
 * Handle MSPDI files with resource availability tables which don't have a start or finish date.
+* Ensure that the Activity ID field is populated consistently for WBS entries in PMXML files compared to the same schedule read from an XER file or P6 database.
 
 ## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!

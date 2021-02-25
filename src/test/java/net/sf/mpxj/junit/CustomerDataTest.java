@@ -272,6 +272,15 @@ public class CustomerDataTest
          PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
          reader.setProjectID(projectID);
          ProjectFile project = reader.read(file);
+
+         Integer baselineProjectID = project.getProjectProperties().getBaselineProjectUniqueID();
+         if (baselineProjectID != null)
+         {
+            PrimaveraDatabaseFileReader baselineReader = new PrimaveraDatabaseFileReader();
+            baselineReader.setProjectID(baselineProjectID.intValue());
+            project.setBaseline(baselineReader.read(file), t -> t.getCanonicalActivityID());
+         }
+
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))
          {
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
@@ -578,6 +587,11 @@ public class CustomerDataTest
          else
          {
             suffix = ".xml";
+
+            if (writer instanceof PrimaveraPMFileWriter)
+            {
+               ((PrimaveraPMFileWriter) writer).setWriteBaselines(true);
+            }
          }
       }
       File baselineFile = new File(baselineDirectory, name + suffix);
