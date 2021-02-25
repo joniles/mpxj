@@ -25,9 +25,11 @@ package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
@@ -114,6 +116,8 @@ public class MpxjQuery
       listCalendars(mpx);
 
       listPopulatedFields(mpx);
+
+      listTasksPercentComplete(mpx);
    }
 
    /**
@@ -190,6 +194,22 @@ public class MpxjQuery
          }
 
          System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Actual Duration" + actualDuration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
+      }
+      System.out.println();
+   }
+
+   /**
+    * List different percent complete types for the tasks.
+    * 
+    * @param file project file
+    */
+   private static void listTasksPercentComplete(ProjectFile file)
+   {
+      System.out.println("ID\tUniqueID\tActivity ID\tName\t%Complete Type\tDuration % Complete\tWork % Complete\tPhysical % Complete");
+      for (Task task : file.getTasks())
+      {
+         List<Object> values = Arrays.asList(task.getID(), task.getUniqueID(), task.getActivityID(), task.getName(), task.getPercentCompleteType(), task.getPercentageComplete(), task.getPercentageWorkComplete(), task.getPhysicalPercentComplete());
+         System.out.println(values.stream().map(v -> String.valueOf(v)).collect(Collectors.joining("\t")));
       }
       System.out.println();
    }
