@@ -11,6 +11,7 @@
 * Handle Primavera resource rates which don't have a start or finish date.
 * Handle MSPDI files with resource availability tables which don't have a start or finish date.
 * Ensure that the Activity ID field is populated consistently for WBS entries in PMXML files compared to the same schedule read from an XER file or P6 database.
+* Ensure duration of manually scheduled tasks in MPP files is represented correctly.
 
 ## 9.0.0 (18/02/2020)
 * NOTE: this release introduces breaking changes!

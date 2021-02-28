@@ -1240,7 +1240,11 @@ final class MPP14Reader implements MPPVariantReader
          //
          // If this is a manually scheduled task, read the manual duration
          //
-         if (task.getTaskMode() != TaskMode.MANUALLY_SCHEDULED)
+         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            task.setDuration(task.getManualDuration());
+         }
+         else
          {
             task.setManualDuration(null);
          }
