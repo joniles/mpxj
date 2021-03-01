@@ -1237,15 +1237,18 @@ final class MPP14Reader implements MPPVariantReader
             autoWBS = false;
          }
 
-         //
-         // If this is a manually scheduled task, read the manual duration
-         //
          if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
          {
+            // The duration attribute for manual tasks seems to be inaccurate
+            // occasionally. The duration as seen in MS Project appears
+            // to be the value present in the manual duration attribute
+            // so we'll use this instead.
             task.setDuration(task.getManualDuration());
          }
          else
          {
+            // If we're not a manually scheduled task, we'll ignore the
+            // manual duration attribute.
             task.setManualDuration(null);
          }
 
