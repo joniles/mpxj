@@ -57,6 +57,9 @@ public class FieldReporter
    {
       m_keys.clear();
       m_map.clear();
+
+      m_mppKeys.clear();
+      m_mppMap.clear();
    }
 
    /**
@@ -69,12 +72,17 @@ public class FieldReporter
       ProjectProperties props = project.getProjectProperties();
       String fileType = props.getFileType();
       String fileApplication = fileType.equals("MSPDI") || fileType.equals("MPP") ? "Microsoft" : props.getFileApplication();
+
       String key = fileApplication + " (" + fileType + ")";
       m_keys.add(key);
-      populate(project.getProjectProperties().getPopulatedFields(), key);
-      populate(project.getTasks().getPopulatedFields(), key);
-      populate(project.getResources().getPopulatedFields(), key);
-      populate(project.getResourceAssignments().getPopulatedFields(), key);
+      populate(m_map, project, key);
+
+      if (fileType.equals("MPP"))
+      {
+         key = "MPP" + props.getMppFileType();
+         m_mppKeys.add(key);
+         populate(m_mppMap, project, key);
+      }
    }
 
    /**
@@ -84,23 +92,38 @@ public class FieldReporter
     */
    public void report(String file) throws IOException
    {
+      report(file, m_keys, m_map, "Field Guide", "The tables below provide an indication of which fields are populated when files of different types are read using MPXJ");
+   }
+
+   /**
+    * Write a report to a file.
+    *
+    * @param file file name
+    */
+   public void reportMpp(String file) throws IOException
+   {
+      report(file, m_mppKeys, m_mppMap, "MPP Field Guide", "The tables below provide an indication of which fields are populated when different MPP file versions are read using MPXJ");
+   }
+
+   private void report(String file, Set<String> keys, Map<FieldType, Set<String>> map, String title, String text) throws IOException
+   {
       PrintWriter pw = new PrintWriter(file, "UTF-8");
-      pw.println("# Field Guide");
-      pw.println("The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.");
+      pw.println("# " + title);
+      pw.println(text);
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
       pw.println();
 
       pw.println("## Project");
-      writeTables(pw, e -> isProjectField(e.getKey()));
+      writeTables(pw, keys, map, e -> isProjectField(e.getKey()));
 
       pw.println("## Task");
-      writeTables(pw, e -> isTaskField(e.getKey()));
+      writeTables(pw, keys, map, e -> isTaskField(e.getKey()));
 
       pw.println("## Resource");
-      writeTables(pw, e -> isResourceField(e.getKey()));
+      writeTables(pw, keys, map, e -> isResourceField(e.getKey()));
 
       pw.println("## Resource Assignment");
-      writeTables(pw, e -> isAssignmentField(e.getKey()));
+      writeTables(pw, keys, map, e -> isAssignmentField(e.getKey()));
 
       pw.flush();
       pw.close();
@@ -141,59 +164,67 @@ public class FieldReporter
       return type.toString().contains("Enterprise");
    }
 
-   private void writeTables(PrintWriter pw, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
+   private void writeTables(PrintWriter pw, Set<String> keys, Map<FieldType, Set<String>> map, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
    {
-      String tableHeader = populateTableHeader();
+      String tableHeader = populateTableHeader(keys);
 
       pw.println("### Core Fields");
       pw.println(tableHeader);
-      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
       pw.println();
 
       pw.println("### Baseline Fields");
       pw.println(tableHeader);
-      m_map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
       pw.println();
 
       pw.println("### Extended Fields");
       pw.println(tableHeader);
-      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
       pw.println();
 
       pw.println("### Enterprise Fields");
       pw.println(tableHeader);
-      m_map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, e));
+      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
       pw.println();
    }
 
-   private String populateTableHeader()
+   private String populateTableHeader(Set<String> keys)
    {
       StringBuilder sb = new StringBuilder();
       sb.append("Field|");
-      sb.append(m_keys.stream().collect(Collectors.joining("|")));
+      sb.append(keys.stream().collect(Collectors.joining("|")));
       sb.append("\r\n");
 
       sb.append("---|");
-      sb.append(m_keys.stream().map(v -> "---").collect(Collectors.joining("|")));
+      sb.append(keys.stream().map(v -> "---").collect(Collectors.joining("|")));
 
       return sb.toString();
    }
 
-   private void writeTableRow(PrintWriter pw, Entry<FieldType, Set<String>> entry)
+   private void writeTableRow(PrintWriter pw, Set<String> keys, Entry<FieldType, Set<String>> entry)
    {
       pw.print(entry.getKey());
 
       Set<String> set = entry.getValue();
-      for (String key : m_keys)
+      for (String key : keys)
       {
          pw.print(set.contains(key) ? "|\u2713" : "|\u00A0");
       }
       pw.println();
    }
 
-   private void populate(Set<? extends FieldType> fields, String key)
+   private void populate(Map<FieldType, Set<String>> map, ProjectFile project, String key)
    {
-      fields.forEach(f -> m_map.computeIfAbsent(f, k -> new HashSet<>()).add(key));
+      populate(map, project.getProjectProperties().getPopulatedFields(), key);
+      populate(map, project.getTasks().getPopulatedFields(), key);
+      populate(map, project.getResources().getPopulatedFields(), key);
+      populate(map, project.getResourceAssignments().getPopulatedFields(), key);
+   }
+
+   private void populate(Map<FieldType, Set<String>> map, Set<? extends FieldType> fields, String key)
+   {
+      fields.forEach(f -> map.computeIfAbsent(f, k -> new HashSet<>()).add(key));
    }
 
    private String getTypeFullName(FieldType field)
@@ -203,6 +234,10 @@ public class FieldReporter
 
    private final Set<String> m_keys = new TreeSet<>();
    private final Map<FieldType, Set<String>> m_map = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
+
+   private final Set<String> m_mppKeys = new TreeSet<>((k1, k2) -> COMPARATOR.compare(k1, k2));
+   private final Map<FieldType, Set<String>> m_mppMap = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
+
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();
 
    private static final Set<FieldType> EXTENDED_FIELDS = new HashSet<>();

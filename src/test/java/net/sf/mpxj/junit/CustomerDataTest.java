@@ -252,6 +252,7 @@ public class CustomerDataTest
       if (!isIKVM)
       {
          FIELD_REPORTER.report("src/site/markdown/field-guide.md");
+         FIELD_REPORTER.reportMpp("src/site/markdown/mpp-field-guide.md");
       }
    }
 

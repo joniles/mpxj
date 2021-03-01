@@ -1,5 +1,5 @@
 # Field Guide
-The tables below provide an indication of which fields are populated when files of different types are read using MPXJ.
+The tables below provide an indication of which fields are populated when files of different types are read using MPXJ
 The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.
 
 ## Project

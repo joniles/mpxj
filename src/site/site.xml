@@ -67,7 +67,8 @@
 	      <item name="MPX files" href="/howto-write-mpx.html" />
 	      <item name="MSPDI files" href="/howto-write-mspdi.html" />
       </item>
-      <item name="Field Guide" href="/field-guide.html" />              
+      <item name="Field Guide" href="/field-guide.html" /> 
+      <item name="MPP Field Guide" href="/mpp-field-guide.html" />
       <item name="FAQ" href="/faq.html" />              
       <item name="Users" href="/users.html" />
       <item name="Roadmap" href="/roadmap.html" />
