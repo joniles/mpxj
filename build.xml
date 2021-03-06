@@ -524,7 +524,8 @@
 		</delete>
 	</target>
 
-	<target name="clean-python" depends="init" description="Clean up Ruby files">
+	<target name="clean-python" depends="init" description="Clean up python files">
+		<delete dir="${basedir}/src.python/mpxj/build" />
 		<delete dir="${basedir}/src.python/mpxj/dist" />
 		<delete dir="${basedir}/src.python/mpxj/mpxj.egg-info" />
 		<delete dir="${basedir}/src.python/mpxj/legal" />
