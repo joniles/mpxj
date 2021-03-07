@@ -132,10 +132,10 @@ tests to ensure that their behaviour is identical. Both the Java and .Net
 versions of the library are used in production commercial applications - so
 you can confident that the code will work for you!
 
-There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj)
-which provides native Ruby access to read from schedule files using MPXJ,
-and a Python package which wraps the Java library to provide full read/write
-access to schedule files.
+There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
+native Ruby access to read from schedule files using MPXJ, and a [Python
+package](https://pypi.org/project/mpxj/) which wraps the Java library to
+provide full read/write access to schedule files.
 
 You may be able to leverage MPXJ from other languages too, for example the 
 [PHP/Java Bridge](http://php-java-bridge.sourceforge.net)
@@ -186,6 +186,14 @@ or included in you Gemfile and installed using `bundler`. Note that the
 Ruby version of MPXJ is just a wrapper around the Java library, and provides
 read-only access to schedule data. You can find some documentation for the
 Gem [here](https://rubygems.org/gems/mpxj)
+
+## Getting started with MPXJ and Python
+MPXJ is available as a Python Package, which can be installed using
+```
+pip install mpxj
+```
+You can find some documentation for the
+Package [here](https://pypi.org/project/mpxj/)
 
 ## Keep in touch
 I'm keen to hear from you about how you are using MPXJ,

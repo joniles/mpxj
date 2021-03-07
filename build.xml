@@ -210,9 +210,15 @@
 		</copy>
 	</target>
 
-	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
+	<target name="python-deploy-test" depends="python-build" description="Deploy python package to PyPI">
 		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m twine upload -r pypitest dist/*" />
+		</exec>
+	</target>
+
+	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
+		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
+			<arg line="-m twine upload -r pypi dist/*" />
 		</exec>
 	</target>
 
