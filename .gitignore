@@ -22,3 +22,8 @@
 /src.ruby/mpxj/Gemfile.lock
 /src.ruby/mpxj/.yardoc
 /src.ruby/mpxj/lib/mpxj/*.jar
+/src.python/mpxj/build
+/src.python/mpxj/dist
+/src.python/mpxj/legal
+/src.python/mpxj/mpxj/lib
+/src.python/mpxj/mpxj.egg-info

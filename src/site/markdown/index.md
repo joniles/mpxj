@@ -1,50 +1,54 @@
 ## Introduction
-Welcome to MPXJ! This library provides a set of facilities to
-allow project information to be manipulated from a number of different programming languages. MPXJ supports
-a range of data formats: Microsoft Project Exchange (MPX), Microsoft
-Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft 
-Project Database (MPD), Planner (XML), Primavera P6 (PM XML, XER, and database), 
-Primavera P3 (PRX and database), SureTrak (STX and database), 
-Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager (PPX),
-FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
-ConceptDraw PROJECT (CDPX, CPDZ and CPDTZ), Synchro Scheduler (SP)
-and the Standard Data Exchange Format (SDEF).
+Welcome to MPXJ! This library provides a set of facilities to allow project
+information to be manipulated from a number of different programming
+languages. MPXJ supports a range of data formats: Microsoft Project Exchange
+(MPX), Microsoft Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI
+XML), Microsoft  Project Database (MPD), Planner (XML), Primavera P6 (PMXML,
+XER, and database),  Primavera P3 (PRX and database), SureTrak (STX and
+database),  Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager
+(PPX), FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
+ConceptDraw PROJECT (CDPX, CPDZ and CPDTZ), Synchro Scheduler (SP) and the
+Standard Data Exchange Format (SDEF).
 
-The library is based around a set of data structures which
-follow the way schedule data is represented by Microsoft Project. All
-manipulation of project data takes place using these data
-structures, which can be read from or written to the various
-supported file formats. The notes in the following paragraphs explain the
-facilities MPXJ offers for each file format.
+The library is based around a set of data structures which follow the way
+schedule data is represented by Microsoft Project. All manipulation of project
+data takes place using these data structures, which can be read from or
+written to the various supported file formats. The notes in the following
+paragraphs explain the facilities MPXJ offers for each file format.
 
 * **MPX:** The MPX file format can be read by versions of Microsoft
-Project up to and including Microsoft Project 2010, and written by versions up to Microsoft Project 98.
-MPXJ allows MPX files to be created, read and written. See [this Microsoft support article](https://support.microsoft.com/en-gb/help/270139) for a definition of the file format.
+Project up to and including Microsoft Project 2010, and written by versions up
+to Microsoft Project 98. MPXJ allows MPX files to be created, read and
+written. See [this Microsoft support
+article](https://support.microsoft.com/en-gb/help/270139) for a definition of
+the file format.
 
 * **MPP:** The MPP file format is Microsoft's proprietary way of storing
-project data. MPXJ supports read only access to MPP files produced
-by Microsoft Project 98, Microsoft Project 2000, Microsoft 
-Project 2002, Microsoft Project 2003, Microsoft Project 2007, Microsoft Project 2010,
+project data. MPXJ supports read only access to MPP files produced by
+Microsoft Project 98, Microsoft Project 2000, Microsoft  Project 2002,
+Microsoft Project 2003, Microsoft Project 2007, Microsoft Project 2010,
 Microsoft Project 2013, Microsoft Project 2016, and Microsoft Project 2019.
 MPP template files, with the suffix MPT are also supported.
 
 * **MSPDI:** The MSPDI file format is Microsoft's XML file format for
-storing project data. Versions of Microsoft Project from 2002 onwards can read and write MSPDI files. 
-MPXJ allows MSPDI files to be created, read, and written. The MSDPI file format has remained
-broadly unchanged since it was introduced, although several versions of Microsoft Project have tweaked
-the file format slightly, and have their own updated documentation. Documentation is [available 
-online here](https://docs.microsoft.com/en-us/office-project/xml-data-interchange/project-xml-data-interchange-schema-reference). 
-Documentation for the Project 2003 MSPDI file format can be downloaded as part of the
-[Office 2003 XML Reference Schemas]
+storing project data. Versions of Microsoft Project from 2002 onwards can read
+and write MSPDI files.  MPXJ allows MSPDI files to be created, read, and
+written. The MSDPI file format has remained broadly unchanged since it was
+introduced, although several versions of Microsoft Project have tweaked the
+file format slightly, and have their own updated documentation. Documentation
+is [available  online
+here](https://docs.microsoft.com/en-us/office-project/xml-data-interchange/project-xml-data-interchange-schema-reference).
+ Documentation for the Project 2003 MSPDI file format can be downloaded as
+part of the [Office 2003 XML Reference Schemas]
 (https://www.microsoft.com/en-us/download/details.aspx?id=101) package.
-Documentation for the Project 2007 MSPDI file format can be downloaded as part of the
-[Project 2007 SDK]
-(https://www.microsoft.com/en-us/download/details.aspx?id=2432).
-Documentation for the Project 2010 MSPDI file format can be downloaded as part of the
+Documentation for the Project 2007 MSPDI file format can be downloaded as part
+of the [Project 2007 SDK]
+(https://www.microsoft.com/en-us/download/details.aspx?id=2432). Documentation
+for the Project 2010 MSPDI file format can be downloaded as part of the
 [Project 2010 Reference: Software Development Kit]
 (https://www.microsoft.com/en-us/download/details.aspx?id=15511).
-Documentation for the Project 2013 MSPDI file format can be downloaded as part of the
-[Project 2013 SDK]
+Documentation for the Project 2013 MSPDI file format can be downloaded as part
+of the [Project 2013 SDK]
 (https://www.microsoft.com/en-us/download/details.aspx?id=30435).
 
 * **MPD:** The MPD file format is an Access database used to
@@ -59,72 +63,79 @@ an XML file format to store project data. MPXJ can read and write the Planner
 file format.
 
 * **PRIMAVERA P6:** Primavera P6 is an industry-leading tool favoured
-by users with complex planning requirements. It can export project data in the 
-form of XER or PMXML files, both of which MPXJ can read. It is also possible for MPXJ to connect
-directly to the P6 database via JDBC to read project data. MPXJ can also write PMXML files 
-to allow data to be exported in a form which can be consumed by P6. The PMXML schema forms
-part of the P6 distribution media, which can be downloaded from the Oracle e-Delivery site.
+by users with complex planning requirements. It can export project data in the
+ form of XER or PMXML files, both of which MPXJ can read. It is also possible
+for MPXJ to connect directly to the P6 database via JDBC to read project data.
+MPXJ can also write PMXML files  to allow data to be exported in a form which
+can be consumed by P6. The PMXML schema forms part of the P6 distribution
+media, which can be downloaded from the Oracle e-Delivery site.
 
-* **PRIMAVERA P3:** Primavera P3 (Primavera Project Planner) is the forerunner of P6.
-It holds projects in Btrieve database files which MPXJ can read from a directory or from a zip archive.
-MPXJ can also read P3 data from PRX backup files.
+* **PRIMAVERA P3:** Primavera P3 (Primavera Project Planner) is the forerunner
+of P6. It holds projects in Btrieve database files which MPXJ can read from a
+directory or from a zip archive. MPXJ can also read P3 data from PRX backup
+files.
 
-* **PRIMAVERA SURETRAK:** SureTrak holds projects in Btrieve database files which MPXJ
-can read from a directory or from a zip archive. MPXJ can also read SureTrak data from STX backup files.
+* **PRIMAVERA SURETRAK:** SureTrak holds projects in Btrieve database files which
+MPXJ can read from a directory or from a zip archive. MPXJ can also read
+SureTrak data from STX backup files.
 
-* **POWERPROJECT:** Asta Powerproject is a planning tool used in a number of industries, 
-particularly construction. Powerproject can save data to PP files or to MDB database files, 
-and MPXJ can read both of these formats.
+* **POWERPROJECT:** Asta Powerproject is a planning tool used in a number of
+industries,  particularly construction. Powerproject can save data to PP files
+or to MDB database files,  and MPXJ can read both of these formats.
 
-* **PHOENIX:** Phoenix Project Manager is an easy-to-use critical path method scheduling
-tool aimed primarily at the construction industry. Phoenix writes PPX files which MPXJ can read. 
+* **PHOENIX:** Phoenix Project Manager is an easy-to-use critical path method
+scheduling tool aimed primarily at the construction industry. Phoenix writes
+PPX files which MPXJ can read. 
 
-* **FASTTRACK:** Fasttrack Schedule is general purpose planning tool. FastTrack writes FTS files
-which MPXJ can read.
+* **FASTTRACK:** Fasttrack Schedule is general purpose planning tool. FastTrack
+writes FTS files which MPXJ can read.
 
-* **GANTTPROJECT:** GanttProject is an open source general purpose planning tool. GanttProject writes GAN files
-which MPXJ can read.
+* **GANTTPROJECT:** GanttProject is an open source general purpose planning tool.
+GanttProject writes GAN files which MPXJ can read.
 
-* **TURBOPROJECT:** TurboProject is general purpose planning tool. TurboProject writes PEP files
-which MPXJ can read.
+* **TURBOPROJECT:** TurboProject is general purpose planning tool. TurboProject
+writes PEP files which MPXJ can read.
 
-* **CONECPTDRAW PROJECT:** ConceptDraw PROJECT is general purpose planning tool. ConceptDraw PROJECT
-writes CDPX, CPDZ and CPDTZ files which MPXJ can read.
+* **CONECPTDRAW PROJECT:** ConceptDraw PROJECT is general purpose planning tool.
+ConceptDraw PROJECT writes CDPX, CPDZ and CPDTZ files which MPXJ can read.
 
-* **SYNCHRO SCHEDULER:** Synchro Scheduler is general purpose planning tool. Synchro Scheduler writes SP files
-which MPXJ can read.
+* **SYNCHRO SCHEDULER:** Synchro Scheduler is general purpose planning tool.
+Synchro Scheduler writes SP files which MPXJ can read.
 
-* **GANTT DESIGNER:** Gantt Designer is a simple Gantt chart drawing tool. Gantt Designer writes GNT files
-which MPXJ can read.
+* **GANTT DESIGNER:** Gantt Designer is a simple Gantt chart drawing tool. Gantt
+Designer writes GNT files which MPXJ can read.
 
-* **SDEF:** SDEF is the Standard Data Exchange Format, as defined by the USACE (United States
-Army Corps of Engineers). SDEF is a fixed column format text file, used to import
-a project schedule up into the QCS (Quality Control System) software from USACE.
-MPXJ can read and write SDEF files. The specification for the file format can be found [here](https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf).
+* **SDEF:** SDEF is the Standard Data Exchange Format, as defined by the USACE
+(United States Army Corps of Engineers). SDEF is a fixed column format text
+file, used to import a project schedule up into the QCS (Quality Control
+System) software from USACE. MPXJ can read and write SDEF files. The
+specification for the file format can be found
+[here](https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf).
 
-* **SCHEDULE_GRID:** Schedule grid files are produced when a schedule is exported from
-Sage 100 Contractor. MPXJ can read schedule grid files.
+* **SCHEDULE_GRID:** Schedule grid files are produced when a schedule is exported
+from Sage 100 Contractor. MPXJ can read schedule grid files.
 
-* **PROJECT COMMANDER:** Project Commander files are are the native file format used by the
-Project Commander application. MPXJ can read Project Commander files.
+* **PROJECT COMMANDER:** Project Commander files are are the native file format used
+by the Project Commander application. MPXJ can read Project Commander files.
 
-## Java, .Net, Ruby, PHP...
-MPXJ is written and maintained in Java, however this is no barrier to
-using its functionality in other languages.
+## Java, .Net, Ruby, Python, PHP...
+MPXJ is written and maintained in Java, however this is no barrier to using
+its functionality in other languages.
 
-Thanks to the facilities 
-provided by IKVM, the MPXJ distribution also contains a native .Net DLL version
-of MPXJ and its library dependencies. This allows MPXJ to be used 
-from any .Net programming language (for example, C#, Visual Basic 
-and so on), without normally having to be aware that the original code was written 
-in Java. As part of the MPXJ release process the Java and .Net libraries
-are both exercised using the same set of regression tests to ensure that their
-behaviour is identical. Both the Java and .Net versions of the library
-are used in production commercial applications - so you can confident
-that the code will work for you!
+Thanks to the facilities  provided by IKVM, the MPXJ distribution also
+contains a native .Net DLL version of MPXJ and its library dependencies. This
+allows MPXJ to be used  from any .Net programming language (for example, C#,
+Visual Basic  and so on), without normally having to be aware that the
+original code was written  in Java. As part of the MPXJ release process the
+Java and .Net libraries are both exercised using the same set of regression
+tests to ensure that their behaviour is identical. Both the Java and .Net
+versions of the library are used in production commercial applications - so
+you can confident that the code will work for you!
 
-There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj)
-which provides native Ruby access to read from schedule files using MPXJ.
+There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
+native Ruby access to read from schedule files using MPXJ, and a [Python
+package](https://pypi.org/project/mpxj/) which wraps the Java library to
+provide full read/write access to schedule files.
 
 You may be able to leverage MPXJ from other languages too, for example the 
 [PHP/Java Bridge](http://php-java-bridge.sourceforge.net)
@@ -175,6 +186,14 @@ or included in you Gemfile and installed using `bundler`. Note that the
 Ruby version of MPXJ is just a wrapper around the Java library, and provides
 read-only access to schedule data. You can find some documentation for the
 Gem [here](https://rubygems.org/gems/mpxj)
+
+## Getting started with MPXJ and Python
+MPXJ is available as a Python Package, which can be installed using
+```
+pip install mpxj
+```
+You can find some documentation for the
+Package [here](https://pypi.org/project/mpxj/)
 
 ## Keep in touch
 I'm keen to hear from you about how you are using MPXJ,
