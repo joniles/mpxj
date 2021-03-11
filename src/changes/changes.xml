@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.1.0">
+		<release date="git master" version="9.2.0">
+		</release>
+		<release date="11/03/2021" version="9.1.0">
 			<action dev="joniles" type="add">Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.</action>
 			<action dev="joniles" type="add">Added experimental support for writing baseline projects to PMXML files. </action>
 			<action dev="joniles" type="add">Added the Project GUID attribute.</action>

@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.1.0 (git master)
+## 9.2.0 (git master)
+
+## 9.1.0 (11/03/2021)
 * Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.
 * Added experimental support for writing baseline projects to PMXML files. 
 * Added the Project GUID attribute.
