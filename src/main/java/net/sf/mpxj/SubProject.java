@@ -190,7 +190,7 @@ public final class SubProject
     */
    @Override public String toString()
    {
-      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + "]");
+      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + " externalTaskUniqueIDs=" + m_externalTaskUniqueIDs + "]");
    }
 
    private Integer m_taskUniqueID;
