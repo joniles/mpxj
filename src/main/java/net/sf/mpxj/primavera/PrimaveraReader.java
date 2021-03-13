@@ -731,7 +731,7 @@ final class PrimaveraReader
       // We set the project name when we read the project properties, but that's just
       // the short name. The full project name lives on the first WBS item. Rather than
       // querying twice, we'll just set it here where we have access to the WBS items.
-      // We'll leave the short name in place if there is no WBS. 
+      // We'll leave the short name in place if there is no WBS.
       //
       if (!wbs.isEmpty())
       {

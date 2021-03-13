@@ -32,11 +32,11 @@ final class ObjectSequence
    {
       m_id = id;
    }
-   
+
    public Integer getNext()
    {
       return Integer.valueOf(m_id++);
    }
-   
+
    private int m_id;
 }

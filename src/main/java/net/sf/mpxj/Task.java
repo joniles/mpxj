@@ -5062,9 +5062,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This method handles the case where the Activity ID for
     * a WBS entry will be prefixed with the Project ID.
     * This method replaces the Project ID with the text "PROJECT",
-    * which allows WBS entries to be matched by Activity ID 
+    * which allows WBS entries to be matched by Activity ID
     * across projects.
-    * 
+    *
     * @return canonical Activity ID value
     */
    public String getCanonicalActivityID()

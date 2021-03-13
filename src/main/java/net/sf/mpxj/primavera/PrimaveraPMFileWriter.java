@@ -53,7 +53,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    /**
     * Determines if baseline projects linked to the current project
     * should be written as baseline projects in the PMXML file.
-    * 
+    *
     * @param value true if baseline projects should be written
     */
    public void setWriteBaselines(boolean value)
@@ -65,7 +65,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Returns true if baseline projects linked to the current
     * project should be written as baseline projects to the
     * PMXML file.
-    * 
+    *
     * @return true if baseline projects should be written
     */
    public boolean getWriteBaselines()

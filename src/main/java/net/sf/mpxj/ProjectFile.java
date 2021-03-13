@@ -577,7 +577,7 @@ public final class ProjectFile implements ChildTaskContainer
     * the values at the remaining indexes (1-10) are the
     * numbered baselines. The list will contain null
     * if a particular baseline has not been set.
-    * 
+    *
     * @return list of baselines
     */
    public List<ProjectFile> getBaselines()
@@ -608,7 +608,7 @@ public final class ProjectFile implements ChildTaskContainer
     * project with tasks in the baseline project.
     * The index argument selects which of the 10 baselines to populate. Passing
     * an index of 0 populates the default baseline.
-    * 
+    *
     * @param baseline baseline project
     * @param index baseline to populate (0-10)
     * @param key generates a key used to match tasks across projects
@@ -634,7 +634,7 @@ public final class ProjectFile implements ChildTaskContainer
 
    /**
     * Clear baselineN (1-10) for this project.
-    * 
+    *
     * @param index baseline index
     */
    public void clearBaseline(int index)

@@ -37,7 +37,7 @@ class BaselineManager
 {
    /**
     * Clear the requested baseline for the supplied project.
-    * 
+    *
     * @param project target project
     * @param index baseline to populate (0-10)
     */
@@ -54,7 +54,7 @@ class BaselineManager
     * to match tasks in the current project with tasks in the baseline project.
     * The index argument selects which of the 10 baselines to populate. Passing
     * an index of 0 populates the main baseline.
-    * 
+    *
     * @param project target project
     * @param baseline baseline project
     * @param index baseline to populate (0-10)
@@ -69,7 +69,7 @@ class BaselineManager
 
    /**
     * Populates baseline fields in one task with values from another task.
-    * 
+    *
     * @param task target task
     * @param baseline source task
     * @param baselineFields set of baseline fields to populate
@@ -82,7 +82,7 @@ class BaselineManager
    /**
     * Determines the set of baseline fields to populate. This is either the
     * main baseline fields (when index is 0), or the baseline 1-10 fields.
-    * 
+    *
     * @param index index of the baseline to populate (0-10)
     * @return array of baseline fields
     */

@@ -293,7 +293,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    private void populateBaselines(List<ProjectFile> projects)
-   {      
+   {
       Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
       for (ProjectFile project : projects)
       {
@@ -1071,7 +1071,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Set the WBS and the Activity ID
       //
       populateWBS(m_projectFile.getProjectProperties().getProjectID(), m_projectFile);
-      
+
       //
       // Read Task entries and create tasks
       //
@@ -1229,13 +1229,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (Task task : container.getChildTasks())
       {
-         String wbs = prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS(); 
+         String wbs = prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
          task.setWBS(wbs);
          task.setActivityID(wbs);
          populateWBS(wbs, task);
       }
    }
-   
+
    private Duration addDurations(Number... values)
    {
       return getDuration(NumberHelper.sumAsDouble(values));

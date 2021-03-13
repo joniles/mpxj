@@ -329,7 +329,7 @@ final class PrimaveraPMProjectWriter
 
    /**
     * This method writes project properties data to a PMXML file.
-    * 
+    *
     * @param project project
     */
    private void writeProjectProperties(ProjectType project)
@@ -687,7 +687,7 @@ final class PrimaveraPMProjectWriter
       else
       {
          String prefix = null;
-         
+
          if (task.getParentTask() == null && m_projectFile.getProjectProperties().getProjectID() != null)
          {
             prefix = m_projectFile.getProjectProperties().getProjectID() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;

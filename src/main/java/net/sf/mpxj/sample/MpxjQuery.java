@@ -200,7 +200,7 @@ public class MpxjQuery
 
    /**
     * List different percent complete types for the tasks.
-    * 
+    *
     * @param file project file
     */
    private static void listTasksPercentComplete(ProjectFile file)
