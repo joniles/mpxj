@@ -44,6 +44,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectEntityContainer;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
@@ -280,16 +281,16 @@ final class MPP14Reader implements MPPVariantReader
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
             byte subProjectType = itemHeader[16];
 
-            //            System.out.println();
-            //            System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
-            //            System.out.println(ByteArrayHelper.hexdump(subProjData, offset, 16, false));
-            //            System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
-            //            System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
-            //            System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
-            //            System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
-            //            System.out.println ("Offset: " + offset);
-            //            System.out.println ("Item Header Offset: " + itemHeaderOffset);
-            //            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
+            //System.out.println();
+            //System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
+            //System.out.println(ByteArrayHelper.hexdump(subProjData, offset, 16, false));
+            //System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
+            //System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
+            //System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
+            //System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
+            //System.out.println ("Offset: " + offset);
+            //System.out.println ("Item Header Offset: " + itemHeaderOffset);
+            //System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
                //
@@ -309,6 +310,7 @@ final class MPP14Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
+               case 0x0b:
                case (byte) 0x99:
                case 0x09:
                case 0x0D:
@@ -480,6 +482,7 @@ final class MPP14Reader implements MPPVariantReader
                //
                // task unique ID, 4 bytes, path, 4 bytes, file name
                //
+               case (byte) 0x89:
                case (byte) 0x8D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -589,37 +592,42 @@ final class MPP14Reader implements MPPVariantReader
          {
             int value = MPPUtility.getInt(data, uniqueIDOffset);
             type = MPPUtility.getInt(data, uniqueIDOffset + 4);
-            switch (type)
+
+            Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
+            if (taskUniqueID != null)
             {
-               case SUBPROJECT_TASKUNIQUEID0:
-               case SUBPROJECT_TASKUNIQUEID1:
-               case SUBPROJECT_TASKUNIQUEID2:
-               case SUBPROJECT_TASKUNIQUEID3:
-               case SUBPROJECT_TASKUNIQUEID4:
-               case SUBPROJECT_TASKUNIQUEID5:
-               case SUBPROJECT_TASKUNIQUEID6:
-               case SUBPROJECT_TASKUNIQUEID7:
-               case SUBPROJECT_TASKUNIQUEID8:
+               switch (type)
                {
-                  sp.setTaskUniqueID(Integer.valueOf(value));
-                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-                  break;
-               }
-
-               default:
-               {
-                  if (value != 0)
+                  case SUBPROJECT_TASKUNIQUEID0:
+                  case SUBPROJECT_TASKUNIQUEID1:
+                  case SUBPROJECT_TASKUNIQUEID2:
+                  case SUBPROJECT_TASKUNIQUEID3:
+                  case SUBPROJECT_TASKUNIQUEID4:
+                  case SUBPROJECT_TASKUNIQUEID5:
+                  case SUBPROJECT_TASKUNIQUEID6:
+                  case SUBPROJECT_TASKUNIQUEID7:
+                  case SUBPROJECT_TASKUNIQUEID8:
                   {
-                     sp.addExternalTaskUniqueID(Integer.valueOf(value));
-                     m_taskSubProjects.put(Integer.valueOf(value), sp);
+                     sp.setTaskUniqueID(taskUniqueID);
+                     m_taskSubProjects.put(taskUniqueID, sp);
+                     break;
                   }
-                  break;
-               }
-            }
 
-            // Now get the unique id offset for this subproject
-            value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-            sp.setUniqueIDOffset(Integer.valueOf(value));
+                  default:
+                  {
+                     if (value != 0)
+                     {
+                        sp.addExternalTaskUniqueID(taskUniqueID);
+                        m_taskSubProjects.put(taskUniqueID, sp);
+                     }
+                     break;
+                  }
+               }
+
+               // Now get the unique id offset for this subproject
+               value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+               sp.setUniqueIDOffset(Integer.valueOf(value));
+            }
          }
 
          if (type == SUBPROJECT_TASKUNIQUEID4)

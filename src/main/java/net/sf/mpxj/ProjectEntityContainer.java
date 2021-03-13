@@ -124,5 +124,5 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    /**
     * Maximum unique ID value MS Project will accept.
     */
-   private static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
+   public static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }
