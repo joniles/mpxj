@@ -1156,7 +1156,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Set the remaining late start vale.
+    * Set the remaining late start value.
     * 
     * @param date remaining late start
     */
