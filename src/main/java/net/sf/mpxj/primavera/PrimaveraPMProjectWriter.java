@@ -752,6 +752,10 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
+      xml.setRemainingEarlyFinishDate(mpxj.getRemainingEarlyFinish());
+      xml.setRemainingEarlyStartDate(mpxj.getRemainingEarlyStart());
+      xml.setRemainingLateFinishDate(mpxj.getRemainingLateFinish());
+      xml.setRemainingLateStartDate(mpxj.getRemainingLateStart());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);

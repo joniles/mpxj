@@ -7,6 +7,9 @@
 	<body>
 		<release date="git master" version="9.2.0">
 			<action dev="joniles" type="update">Improve accuracy when reading subprojects from MPP files.</action>
+			<action dev="joniles" type="update">Add Task Remaining Late Start and Remaining Late Finish attributes.</action>
+			<action dev="joniles" type="update">Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.</action>
+			<action dev="joniles" type="update">Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.</action>
 		</release>
 		<release date="11/03/2021" version="9.1.0">
 			<action dev="joniles" type="add">Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.</action>

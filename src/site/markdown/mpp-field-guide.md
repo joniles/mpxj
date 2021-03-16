@@ -145,7 +145,7 @@ Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
-External Task| |✓|✓| 
+External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
 Finish Variance|✓|✓|✓|✓
@@ -180,7 +180,7 @@ Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
 Priority|✓|✓|✓|✓
-Project| |✓|✓| 
+Project| |✓|✓|✓
 Recalc Outline Codes| | |✓|✓
 Recurring|✓|✓|✓|✓
 Recurring Data| |✓|✓|✓
@@ -203,9 +203,9 @@ Start Variance|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
 Subproject File| |✓| | 
-Subproject Task ID| |✓|✓| 
+Subproject Task ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
-Subproject Unique Task ID| |✓|✓| 
+Subproject Unique Task ID| |✓|✓|✓
 Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
 Summary Progress| |✓|✓|✓
