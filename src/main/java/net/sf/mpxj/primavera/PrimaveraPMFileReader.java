@@ -1140,7 +1140,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setActualFinish(row.getActualFinishDate());
          task.setPlannedStart(row.getPlannedStartDate());
          task.setPlannedFinish(row.getPlannedFinishDate());
-
+         task.setRemainingEarlyStart(row.getRemainingEarlyStartDate());
+         task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
+         task.setRemainingLateStart(row.getRemainingLateStartDate());
+         task.setRemainingLateFinish(row.getRemainingLateFinishDate());
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
@@ -1280,6 +1283,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Date baselineFinishDate = parentTask.getBaselineFinish();
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         Date remainingLateStartDate = parentTask.getRemainingLateStart();
+         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())
@@ -1301,6 +1307,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
             lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
             lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = DateHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = DateHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
             baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
             baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
 
@@ -1323,6 +1331,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          parentTask.setRemainingEarlyFinish(remainingEarlyFinishDate);
          parentTask.setLateStart(lateStartDate);
          parentTask.setLateFinish(lateFinishDate);
+         parentTask.setRemainingLateStart(remainingLateStartDate);
+         parentTask.setRemainingLateFinish(remainingLateFinishDate);
          parentTask.setBaselineStart(baselineStartDate);
          parentTask.setBaselineFinish(baselineFinishDate);
 

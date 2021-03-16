@@ -87,6 +87,8 @@ public enum TaskField implements FieldType
    EARLY_FINISH(DataType.DATE),
    REMAINING_EARLY_START(DataType.DATE),
    REMAINING_EARLY_FINISH(DataType.DATE),
+   REMAINING_LATE_START(DataType.DATE),
+   REMAINING_LATE_FINISH(DataType.DATE),
    LATE_START(DataType.DATE),
    LATE_FINISH(DataType.DATE),
    ACTUAL_START(DataType.DATE),

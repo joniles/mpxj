@@ -1133,6 +1133,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the remaining late finish value.
+    * 
+    * @param date remaining late finish
+    */
+   public void setRemainingLateFinish(Date date)
+   {
+      set(TaskField.REMAINING_LATE_FINISH, date);
+   }
+
+   /**
     * The Late Start field contains the latest date that a task can start
     * without delaying the finish of the project. This date is based on the
     * task's start date, as well as the late start and late finish dates of
@@ -1143,6 +1153,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setLateStart(Date date)
    {
       set(TaskField.LATE_START, date);
+   }
+
+   /**
+    * Set the remaining late start vale.
+    * 
+    * @param date remaining late start
+    */
+   public void setRemainingLateStart(Date date)
+   {
+      set(TaskField.REMAINING_LATE_START, date);
    }
 
    /**
@@ -2237,6 +2257,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the remaining late finish value.
+    * 
+    * @return remaining late finish
+    */
+   public Date getRemainingLateFinish()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_LATE_FINISH));
+   }
+
+   /**
     * The Late Start field contains the latest date that a task can start
     * without delaying the finish of the project. This date is based on
     * the task's start date, as well as the late start and late finish
@@ -2247,6 +2277,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getLateStart()
    {
       return ((Date) getCachedValue(TaskField.LATE_START));
+   }
+
+   /**
+    * Retrieve the remaining late start value.
+    * 
+    * @return remaining late start
+    */
+   public Date getRemainingLateStart()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_LATE_START));
    }
 
    /**
