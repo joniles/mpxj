@@ -2,6 +2,9 @@
 
 ## 9.2.0 (git master)
 * Improve accuracy when reading subprojects from MPP files.
+* Add Task Remaining Late Start and Remaining Late Finish attributes.
+* Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.
+* Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.
 
 ## 9.1.0 (11/03/2021)
 * Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.
