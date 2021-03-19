@@ -18,6 +18,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
@@ -355,7 +356,7 @@ final class PrimaveraPMProjectWriter
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
-      project.setCriticalActivityPathType("Critical Float");
+      project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
@@ -1636,6 +1637,13 @@ final class PrimaveraPMProjectWriter
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
+   }
+
+   private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
+   static
+   {
+      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "Critical Float");
+      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "Longest Path");
    }
 
    private final ProjectFile m_projectFile;

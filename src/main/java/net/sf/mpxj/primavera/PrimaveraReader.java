@@ -53,6 +53,7 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
@@ -173,6 +174,7 @@ final class PrimaveraReader
          ProjectProperties properties = m_project.getProjectProperties();
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
+         properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
          properties.setFinishDate(row.getDate("plan_end_date"));
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
@@ -184,6 +186,7 @@ final class PrimaveraReader
          properties.setUniqueID(row.getInteger("proj_id"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          // cannot assign actual calendar yet as it has not been read yet
+
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
    }
@@ -2127,6 +2130,13 @@ final class PrimaveraReader
       STATUS_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
       STATUS_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
       STATUS_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
+   }
+
+   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
+   static
+   {
+      CRITICAL_ACTIVITY_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
+      CRITICAL_ACTIVITY_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

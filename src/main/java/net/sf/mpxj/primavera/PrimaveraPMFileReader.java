@@ -62,6 +62,7 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -654,6 +655,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
       properties.setCreationDate(project.getCreateDate());
+      properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(project.getCriticalActivityPathType(), CriticalActivityType.TOTAL_FLOAT));
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
@@ -662,6 +664,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
+
       processScheduleOptions(project.getScheduleOptions());
    }
 
@@ -2105,6 +2108,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACTIVITY_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
       ACTIVITY_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
       ACTIVITY_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
+   }
+
+   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
+   static
+   {
+      CRITICAL_ACTIVITY_MAP.put("Critical Float", CriticalActivityType.TOTAL_FLOAT);
+      CRITICAL_ACTIVITY_MAP.put("Longest Path", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

@@ -19,6 +19,7 @@ Company|✓|✓|✓|✓
 Content Status| |✓|✓|✓
 Content Type| |✓|✓|✓
 Creation Date|✓|✓|✓|✓
+Critical Activity Type|✓|✓|✓|✓
 Critical Slack Limit| |✓|✓| 
 Currency Code| |✓|✓|✓
 Currency Digits|✓|✓|✓|✓

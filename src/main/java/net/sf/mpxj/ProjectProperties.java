@@ -147,6 +147,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setNewTaskStartIsProjectStart(true);
       setNewTasksAreManual(true);
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
+      setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
    }
 
    /**
@@ -2728,6 +2729,26 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    public void setProjectID(String id)
    {
       set(ProjectField.PROJECT_ID, id);
+   }
+
+   /**
+    * Retrieve the critical activity type for this project.
+    * 
+    * @return critical activity type
+    */
+   public CriticalActivityType getCriticalActivityType()
+   {
+      return (CriticalActivityType) getCachedValue(ProjectField.CRITICAL_ACTIVITY_TYPE);
+   }
+
+   /**
+    * Set the critical activity type for this project.
+    * 
+    * @param value critical activity type
+    */
+   public void setCriticalActivityType(CriticalActivityType value)
+   {
+      set(ProjectField.CRITICAL_ACTIVITY_TYPE, value);
    }
 
    /**

@@ -2,7 +2,8 @@
 
 ## 9.2.0 (git master)
 * Improve accuracy when reading subprojects from MPP files.
-* Add Task Remaining Late Start and Remaining Late Finish attributes.
+* Add Remaining Late Start and Remaining Late Finish attributes to Task.
+* Add Critical Activity Type attribute to Project Properties
 * Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.
 * Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.
 * Ensure that WBS entries without child activities are not marked as critical.
