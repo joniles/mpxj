@@ -755,7 +755,7 @@ final class PrimaveraReader
          task.setNotesObject(wbsNotes.get(task.getUniqueID()));
          // WBS entries will be critical if any child activities are critical.
          // Set an explicit value here to deal with WBS entries without child activities.
-         // If we don't do this the logic in Tsk.getCritical will mark WBS entries without
+         // If we don't do this, the logic in Task.getCritical will mark WBS entries without
          // child activities as critical.
          task.setCritical(false);
          uniqueIDs.add(task.getUniqueID());
@@ -854,10 +854,8 @@ final class PrimaveraReader
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
-         Date startDate = row.getDate("act_start_date") == null ? row.getDate("restart_date") : row.getDate("act_start_date");
-         task.setStart(startDate);
-         Date endDate = row.getDate("act_end_date") == null ? row.getDate("reend_date") : row.getDate("act_end_date");
-         task.setFinish(endDate);
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
+         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
 
          Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), projectProperties);
          task.setWork(work);
@@ -1145,17 +1143,19 @@ final class PrimaveraReader
     *
     * @param container field container
     * @param target target field
-    * @param planned planned field
-    * @param actual actual field
+    * @param types fields to test for not-null values
     */
-   private void populateField(FieldContainer container, FieldType target, FieldType planned, FieldType actual)
+   private void populateField(FieldContainer container, FieldType target, FieldType... types)
    {
-      Object value = container.getCachedValue(actual);
-      if (value == null)
+      for (FieldType type : types)
       {
-         value = container.getCachedValue(planned);
+         Object value = container.getCachedValue(type);
+         if (value != null)
+         {
+            container.set(target, value);
+            break;
+         }
       }
-      container.set(target, value);
    }
 
    /**
@@ -1453,8 +1453,8 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.START, AssignmentField.PLANNED_START, AssignmentField.ACTUAL_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.PLANNED_FINISH, AssignmentField.ACTUAL_FINISH);
+            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 
             // include actual overtime work in work calculations
             Duration remainingWork = row.getDuration("remain_qty");
