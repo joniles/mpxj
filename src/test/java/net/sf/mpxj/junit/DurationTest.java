@@ -42,8 +42,6 @@ public class DurationTest
 {
    /**
     * Test duration data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9() throws Exception
    {
@@ -53,8 +51,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
    {
@@ -64,8 +60,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
    {
@@ -75,8 +69,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12() throws Exception
    {
@@ -86,8 +78,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
    {
@@ -97,8 +87,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14() throws Exception
    {
@@ -108,8 +96,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdi() throws Exception
    {
@@ -119,8 +105,6 @@ public class DurationTest
 
    /**
     * Test duration data read from an MPD file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd() throws Exception
    {

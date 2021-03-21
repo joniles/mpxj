@@ -122,8 +122,6 @@ public class BasicTest
    /**
     * Test to ensure that files without tasks or resources generate
     * correct MPX files.
-    *
-    * @throws Exception
     */
    @Test public void testRewrite4() throws Exception
    {
@@ -141,8 +139,6 @@ public class BasicTest
 
    /**
     * Exercise PlannerWriter.
-    *
-    * @throws Exception
     */
    @Test public void testRewrite5() throws Exception
    {
@@ -245,8 +241,6 @@ public class BasicTest
    /**
     * Test to ensure that the basic task hierarchy is
     * represented correctly.
-    *
-    * @throws Exception
     */
    @Test public void testStructure() throws Exception
    {
@@ -354,8 +348,6 @@ public class BasicTest
     * has been designed to exercise bug 896189, which was exhibited
     * when an MSPDI file was generated from an MPX file which did not
     * have the same set of attributes as a native MPP file.
-    *
-    * @throws Exception
     */
    @Test public void testConversion4() throws Exception
    {
@@ -373,8 +365,6 @@ public class BasicTest
 
    /**
     * Simple test to exercise iterating through the task predecessors.
-    *
-    * @throws Exception
     */
    @Test public void testRelationList() throws Exception
    {
@@ -397,8 +387,6 @@ public class BasicTest
    /**
     * This method exercises task notes, ensuring that
     * embedded commas and quotes are handled correctly.
-    *
-    * @throws Exception
     */
    @Test public void testTaskNotes() throws Exception
    {
@@ -471,8 +459,6 @@ public class BasicTest
    /**
     * This method exercises resource notes, ensuring that
     * embedded commas and quotes are handled correctly.
-    *
-    * @throws Exception
     */
    @Test public void testResourceNotes() throws Exception
    {
@@ -607,8 +593,6 @@ public class BasicTest
     * Ensure that we are reading MPP8 flags correctly. This test reads a
     * file where the tasks alternately have values of either all true, or
     * all false. Each pair of tasks increases by one in outline level.
-    *
-    * @throws Exception
     */
    @Test public void testMPP8Flags1() throws Exception
    {
@@ -672,8 +656,6 @@ public class BasicTest
     * This test reads flags from an MPP8 file where each set of 20 tasks has
     * a single flag from 1-20 set. The next set of 20 tasks increases by
     * one outline level.
-    *
-    * @throws Exception
     */
    @Test public void testMPP8Flags2() throws Exception
    {
@@ -701,8 +683,6 @@ public class BasicTest
     * Ensure that we are reading MPP9 flags correctly. This test reads a
     * file where the tasks alternately have values of either all true, or
     * all false. Each pair of tasks increases by one in outline level.
-    *
-    * @throws Exception
     */
    @Test public void testMPP9Flags1() throws Exception
    {
@@ -768,8 +748,6 @@ public class BasicTest
     * This test reads flags from an MPP9 file where each set of 20 tasks has
     * a single flag from 1-20 set. The next set of 20 tasks increases by
     * one outline level.
-    *
-    * @throws Exception
     */
    @Test public void testMPP9Flags2() throws Exception
    {
@@ -855,8 +833,6 @@ public class BasicTest
 
    /**
     * Test retrieval of view information.
-    *
-    * @throws Exception
     */
    @Test public void testViews() throws Exception
    {
@@ -871,8 +847,6 @@ public class BasicTest
 
    /**
     * Test retrieval of table information.
-    *
-    * @throws Exception
     */
    @Test public void testTables() throws Exception
    {
@@ -899,8 +873,6 @@ public class BasicTest
 
    /**
     * Test use of task calendars.
-    *
-    * @throws Exception
     */
    @Test public void testTaskCalendars() throws Exception
    {
@@ -945,8 +917,6 @@ public class BasicTest
 
    /**
     * Exercise field alias code for MSPDI files.
-    *
-    * @throws Exception
     */
    @Test public void testMSPDIAliases() throws Exception
    {
@@ -967,8 +937,6 @@ public class BasicTest
 
    /**
     * Exercise field alias code for MPP9 files.
-    *
-    * @throws Exception
     */
    @Test public void testMPP9Aliases() throws Exception
    {
@@ -1254,8 +1222,6 @@ public class BasicTest
     * Write a file with embedded line break (\r and \n) characters in
     * various text fields. Ensure that a valid file is written,
     * and that it can be read successfully.
-    *
-    * @throws Exception
     */
    @Test public void testEmbeddedLineBreaks() throws Exception
    {
@@ -1306,8 +1272,6 @@ public class BasicTest
 
    /**
     * Exercise the code which handles password protected files.
-    *
-    * @throws Exception
     */
    @Test public void testPasswordProtection() throws Exception
    {
@@ -1365,8 +1329,6 @@ public class BasicTest
    /**
     * This test ensures that the task and resource extended attributes are
     * read and written correctly for MSPDI files.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiExtendedAttributes() throws Exception
    {
@@ -1425,8 +1387,6 @@ public class BasicTest
    /**
     * This ensures that values in the project properties are read and written
     * as expected.
-    *
-    * @throws Exception
     */
    @Test public void testProjectProperties() throws Exception
    {
@@ -1521,8 +1481,6 @@ public class BasicTest
 
    /**
     * Test retrieval of WBS information.
-    *
-    * @throws Exception
     */
    @Test public void testWBS() throws Exception
    {
@@ -1539,8 +1497,6 @@ public class BasicTest
 
    /**
     * Test read and write of priority information.
-    *
-    * @throws Exception
     */
    @Test public void testPriority() throws Exception
    {
@@ -1590,8 +1546,6 @@ public class BasicTest
 
    /**
     * Tests to exercise calendar functionality.
-    *
-    * @throws Exception
     */
    @Test public void testCalendars() throws Exception
    {
@@ -1672,8 +1626,6 @@ public class BasicTest
 
    /**
     * Test to exercise task, resource, and assignment removal code.
-    *
-    * @throws Exception
     */
    @Test public void testRemoval() throws Exception
    {
@@ -1780,8 +1732,6 @@ public class BasicTest
 
    /**
     * Basic rewrite test to exercise the MPX calendar exception read/write code.
-    *
-    * @throws Exception
     */
    @Test public void testProjectCalendarExceptions() throws Exception
    {

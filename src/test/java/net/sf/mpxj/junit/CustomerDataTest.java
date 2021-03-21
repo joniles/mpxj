@@ -81,8 +81,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData1() throws Exception
    {
@@ -91,8 +89,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData2() throws Exception
    {
@@ -101,8 +97,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData3() throws Exception
    {
@@ -111,8 +105,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData4() throws Exception
    {
@@ -121,8 +113,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData5() throws Exception
    {
@@ -131,8 +121,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData6() throws Exception
    {
@@ -141,8 +129,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData7() throws Exception
    {
@@ -151,8 +137,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData8() throws Exception
    {
@@ -161,8 +145,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData9() throws Exception
    {
@@ -171,8 +153,6 @@ public class CustomerDataTest
 
    /**
     * Test customer data.
-    *
-    * @throws Exception
     */
    @Test public void testCustomerData10() throws Exception
    {
@@ -330,7 +310,6 @@ public class CustomerDataTest
     *
     * @param index current chunk
     * @param max maximum number of chunks
-    * @throws Exception
     */
    private void testCustomerData(int index, int max) throws Exception
    {
@@ -681,7 +660,6 @@ public class CustomerDataTest
     *
     * @param name file name
     * @param mpp MPP file data structure
-    * @throws Exception
     */
    private void validateMpp(String name, ProjectFile mpp) throws Exception
    {
