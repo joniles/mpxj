@@ -1086,6 +1086,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       int nextID = 1;
       m_clashMap.clear();
 
+      // If the schedule is using longest path to determine critical activities
+      // we currently don't have enough information to correctly set this attribute.
+      // In this case we'll force the critical flag to false to avoid activities
+      // being incorrectly marked as critical.
+      boolean forceCriticalToFalse = m_projectFile.getProjectProperties().getCriticalActivityType() == CriticalActivityType.LONGEST_PATH;
+
       for (ActivityType row : activities)
       {
          Integer uniqueID = row.getObjectId();
@@ -1227,6 +1233,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          readUDFTypes(task, row.getUDF());
          readActivityCodes(task, row.getCode());
+
+         if (forceCriticalToFalse)
+         {
+            task.setCritical(false);
+         }
 
          m_eventManager.fireTaskReadEvent(task);
       }

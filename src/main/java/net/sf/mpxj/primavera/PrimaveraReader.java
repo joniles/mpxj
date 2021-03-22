@@ -794,6 +794,13 @@ final class PrimaveraReader
       //
       int nextID = 1;
       m_clashMap.clear();
+
+      // If the schedule is using longest path to determine critical activities
+      // we currently don't have enough information to correctly set this attribute.
+      // In this case we'll force the critical flag to false to avoid activities
+      // being incorrectly marked as critical.
+      boolean forceCriticalToFalse = projectProperties.getCriticalActivityType() == CriticalActivityType.LONGEST_PATH;
+
       for (Row row : tasks)
       {
          Task task;
@@ -883,6 +890,11 @@ final class PrimaveraReader
          // Calculate duration at completion
          Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), projectProperties);
          task.setDuration(durationAtCompletion);
+
+         if (forceCriticalToFalse)
+         {
+            task.setCritical(false);
+         }
 
          m_eventManager.fireTaskReadEvent(task);
       }
