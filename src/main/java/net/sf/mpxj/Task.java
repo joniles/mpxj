@@ -5048,6 +5048,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the planned cost field.
+    *
+    * @param value planned cost value
+    */
+   public void setPlannedCost(Number value)
+   {
+      set(TaskField.PLANNED_COST, value);
+   }
+
+   /**
+    * Retrieve the planned cost field.
+    *
+    * @return planned cost value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) getCachedValue(TaskField.PLANNED_COST);
+   }
+
+   /**
     * Set the suspend date field.
     *
     * @param value suspend date value

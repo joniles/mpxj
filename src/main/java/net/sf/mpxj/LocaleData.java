@@ -1029,6 +1029,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_START.getValue()] = "Planned Start";
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_DURATION.getValue()] = "Planned Duration";
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK.getValue()] = "Planned Work";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_COST.getValue()] = "Planned Cost";
       TASK_COLUMNS_ARRAY[TaskField.SUSPEND_DATE.getValue()] = "Suspend Date";
       TASK_COLUMNS_ARRAY[TaskField.PRIMARY_RESOURCE_ID.getValue()] = "Primary Resource Unique ID";
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_ID.getValue()] = "Activity ID";
