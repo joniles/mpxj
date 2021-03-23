@@ -1478,13 +1478,13 @@ final class PrimaveraReader
             assignment.setWork(totalWork);
 
             // include actual overtime cost in cost calculations
-            Double remainingCost = row.getDouble("remain_cost");
-            Double actualOvertimeCost = row.getDouble("act_ot_cost");
-            Double actualRegularCost = row.getDouble("act_reg_cost");
-            double actualCost = NumberHelper.getDouble(actualOvertimeCost) + NumberHelper.getDouble(actualRegularCost);
-            double totalCost = actualCost + NumberHelper.getDouble(remainingCost);
-            assignment.setActualCost(NumberHelper.getDouble(actualCost));
-            assignment.setCost(NumberHelper.getDouble(totalCost));
+            assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
+            assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));
+
+            // roll up to parent task
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
 
             double units;
             if (resource.getType() == ResourceType.MATERIAL)
@@ -1528,30 +1528,25 @@ final class PrimaveraReader
     */
    private void updateTaskCosts(Task parentTask)
    {
-      double actualCost = 0;
-      double remainingCost = 0;
-      double cost = 0;
-
-      //process children first before adding their costs
-      for (Task child : parentTask.getChildTasks())
+      if (parentTask.hasChildTasks())
       {
-         updateTaskCosts(child);
-         actualCost += NumberHelper.getDouble(child.getActualCost());
-         remainingCost += NumberHelper.getDouble(child.getRemainingCost());
-         cost += NumberHelper.getDouble(child.getCost());
-      }
+         double actualCost = 0;
+         double remainingCost = 0;
+         double cost = 0;
 
-      List<ResourceAssignment> resourceAssignments = parentTask.getResourceAssignments();
-      for (ResourceAssignment assignment : resourceAssignments)
-      {
-         actualCost += NumberHelper.getDouble(assignment.getActualCost());
-         remainingCost += NumberHelper.getDouble(assignment.getRemainingCost());
-         cost += NumberHelper.getDouble(assignment.getCost());
-      }
+         //process children first before adding their costs
+         for (Task child : parentTask.getChildTasks())
+         {
+            updateTaskCosts(child);
+            actualCost += NumberHelper.getDouble(child.getActualCost());
+            remainingCost += NumberHelper.getDouble(child.getRemainingCost());
+            cost += NumberHelper.getDouble(child.getCost());
+         }
 
-      parentTask.setActualCost(NumberHelper.getDouble(actualCost));
-      parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
-      parentTask.setCost(NumberHelper.getDouble(cost));
+         parentTask.setActualCost(NumberHelper.getDouble(actualCost));
+         parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
+         parentTask.setCost(NumberHelper.getDouble(cost));
+      }
    }
 
    /**
