@@ -1528,8 +1528,6 @@ final class PrimaveraReader
     */
    private void updateTaskCosts(Task parentTask)
    {
-      boolean baselinePresent = false;
-      double baselineCost = 0;
       double actualCost = 0;
       double remainingCost = 0;
       double cost = 0;
@@ -1538,8 +1536,6 @@ final class PrimaveraReader
       for (Task child : parentTask.getChildTasks())
       {
          updateTaskCosts(child);
-         baselinePresent = baselinePresent || child.getBaselineCost() != null;
-         baselineCost += NumberHelper.getDouble(child.getBaselineCost());
          actualCost += NumberHelper.getDouble(child.getActualCost());
          remainingCost += NumberHelper.getDouble(child.getRemainingCost());
          cost += NumberHelper.getDouble(child.getCost());
@@ -1548,17 +1544,11 @@ final class PrimaveraReader
       List<ResourceAssignment> resourceAssignments = parentTask.getResourceAssignments();
       for (ResourceAssignment assignment : resourceAssignments)
       {
-         baselinePresent = baselinePresent || assignment.getBaselineCost() != null;
-         baselineCost += NumberHelper.getDouble(assignment.getBaselineCost());
          actualCost += NumberHelper.getDouble(assignment.getActualCost());
          remainingCost += NumberHelper.getDouble(assignment.getRemainingCost());
          cost += NumberHelper.getDouble(assignment.getCost());
       }
 
-      if (baselinePresent)
-      {
-         parentTask.setBaselineCost(NumberHelper.getDouble(baselineCost));
-      }
       parentTask.setActualCost(NumberHelper.getDouble(actualCost));
       parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
       parentTask.setCost(NumberHelper.getDouble(cost));
