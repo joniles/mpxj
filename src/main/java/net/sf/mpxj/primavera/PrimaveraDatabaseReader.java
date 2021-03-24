@@ -114,6 +114,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processPredecessors();
          processAssignments();
          processExpenseItems();
+         m_reader.rollupCosts();
 
          m_reader = null;
          project.updateStructure();

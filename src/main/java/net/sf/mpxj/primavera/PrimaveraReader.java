@@ -1503,8 +1503,6 @@ final class PrimaveraReader
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
-
-      updateTaskCosts();
    }
 
    /**
@@ -1513,12 +1511,9 @@ final class PrimaveraReader
     * the summary tasks constructed from Primavera WBS entries are calculated by recursively
     * summing child costs.
     */
-   private void updateTaskCosts()
+   public void rollupCosts()
    {
-      for (Task task : m_project.getChildTasks())
-      {
-         updateTaskCosts(task);
-      }
+      m_project.getChildTasks().forEach(t -> updateTaskCosts(t));
    }
 
    /**
@@ -1618,7 +1613,7 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
-      }
+      }      
    }
 
    /**
