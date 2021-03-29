@@ -902,8 +902,6 @@ final class PrimaveraReader
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
-      updateDates();
-      updateWork();
    }
 
    /**
@@ -1211,21 +1209,10 @@ final class PrimaveraReader
     * to compensate for this by using these user-entered dates as baseline dates, and
     * deriving the planned start, actual start, planned finish and actual finish from
     * the child tasks. This method recursively descends through the tasks to do this.
-    */
-   private void updateDates()
-   {
-      for (Task task : m_project.getChildTasks())
-      {
-         updateDates(task);
-      }
-   }
-
-   /**
-    * See the notes above.
     *
     * @param parentTask parent task.
     */
-   private void updateDates(Task parentTask)
+   private void rollupDates(Task parentTask)
    {
       if (parentTask.hasChildTasks())
       {
@@ -1250,7 +1237,7 @@ final class PrimaveraReader
 
          for (Task task : parentTask.getChildTasks())
          {
-            updateDates(task);
+            rollupDates(task);
 
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
@@ -1372,40 +1359,32 @@ final class PrimaveraReader
     * The Primavera WBS entries we read in as tasks don't have work entered. We try
     * to compensate for this by summing the child tasks' work. This method recursively
     * descends through the tasks to do this.
-    */
-   private void updateWork()
-   {
-      for (Task task : m_project.getChildTasks())
-      {
-         updateWork(task);
-      }
-   }
-
-   /**
-    * See the notes above.
     *
     * @param parentTask parent task.
     */
-   private void updateWork(Task parentTask)
+   private void rollupWork(Task parentTask)
    {
       if (parentTask.hasChildTasks())
       {
          ProjectProperties properties = m_project.getProjectProperties();
 
          Duration actualWork = null;
+         Duration plannedWork = null;
          Duration remainingWork = null;
          Duration work = null;
 
          for (Task task : parentTask.getChildTasks())
          {
-            updateWork(task);
+            rollupWork(task);
 
             actualWork = Duration.add(actualWork, task.getActualWork(), properties);
+            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), properties);
             remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
             work = Duration.add(work, task.getWork(), properties);
          }
 
          parentTask.setActualWork(actualWork);
+         parentTask.setPlannedWork(plannedWork);
          parentTask.setRemainingWork(remainingWork);
          parentTask.setWork(work);
       }
@@ -1509,8 +1488,10 @@ final class PrimaveraReader
     * the summary tasks constructed from Primavera WBS entries are calculated by recursively
     * summing child costs.
     */
-   public void rollupCosts()
+   public void rollupValues()
    {
+      m_project.getChildTasks().forEach(t -> rollupDates(t));
+      m_project.getChildTasks().forEach(t -> rollupWork(t));
       m_project.getChildTasks().forEach(t -> rollupCosts(t));
    }
 

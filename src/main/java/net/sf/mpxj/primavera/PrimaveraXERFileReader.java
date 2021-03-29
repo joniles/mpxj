@@ -232,7 +232,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processPredecessors();
          processAssignments();
          processExpenseItems();
-         m_reader.rollupCosts();
+         m_reader.rollupValues();
 
          project.updateStructure();
 
