@@ -8,6 +8,7 @@
 * Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.
 * Ensure that WBS entries without child activities are not marked as critical.
 * Don't attempt to set the critical flag when reading XER and PMXML files where the schedule is using "longest path" to determine critical activities. (MPXJ currently doesn't have enough information to be able to determine the correct value for the critical flag in this situation).
+* Ensure cost attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.
 
 ## 9.1.0 (11/03/2021)
 * Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.

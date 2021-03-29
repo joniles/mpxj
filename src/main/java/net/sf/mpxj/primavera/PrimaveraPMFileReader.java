@@ -450,7 +450,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processAssignments(assignments);
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
-
+         rollupCosts();
+         
          m_projectFile.updateStructure();
 
          //
@@ -798,6 +799,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
 
             // Roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
@@ -1146,7 +1148,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // task.setPlannedCost(NumberHelper.sumAsDouble(row.getPlannedLaborCost(), row.getPlannedNonLaborCost(), row.getPlannedMaterialCost(), row.getPlannedExpenseCost()));
          // task.setRemainingCost(NumberHelper.sumAsDouble(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
          // task.setCost(NumberHelper.sumAsDouble(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
-         
+
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
@@ -1568,6 +1570,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setCost(atCompletionCost);
 
             // roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), actualCost));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
@@ -1930,6 +1933,42 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
 
       m_projectFile.getProjectProperties().setCustomProperties(customProperties);
+   }
+
+   private void rollupCosts()
+   {
+      m_projectFile.getChildTasks().forEach(t -> rollupCosts(t));
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task
+    */
+   private void rollupCosts(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         double plannedCost = 0;
+         double actualCost = 0;
+         double remainingCost = 0;
+         double cost = 0;
+
+         //process children first before adding their costs
+         for (Task child : parentTask.getChildTasks())
+         {
+            rollupCosts(child);
+            plannedCost += NumberHelper.getDouble(child.getPlannedCost());
+            actualCost += NumberHelper.getDouble(child.getActualCost());
+            remainingCost += NumberHelper.getDouble(child.getRemainingCost());
+            cost += NumberHelper.getDouble(child.getCost());
+         }
+
+         parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
+         parentTask.setActualCost(NumberHelper.getDouble(actualCost));
+         parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
+         parentTask.setCost(NumberHelper.getDouble(cost));
+      }
    }
 
    /**

@@ -1482,6 +1482,7 @@ final class PrimaveraReader
             assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));
 
             // roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
@@ -1513,7 +1514,7 @@ final class PrimaveraReader
     */
    public void rollupCosts()
    {
-      m_project.getChildTasks().forEach(t -> updateTaskCosts(t));
+      m_project.getChildTasks().forEach(t -> rollupCosts(t));
    }
 
    /**
@@ -1521,10 +1522,11 @@ final class PrimaveraReader
     *
     * @param parentTask parent task
     */
-   private void updateTaskCosts(Task parentTask)
+   private void rollupCosts(Task parentTask)
    {
       if (parentTask.hasChildTasks())
       {
+         double plannedCost = 0;
          double actualCost = 0;
          double remainingCost = 0;
          double cost = 0;
@@ -1532,12 +1534,14 @@ final class PrimaveraReader
          //process children first before adding their costs
          for (Task child : parentTask.getChildTasks())
          {
-            updateTaskCosts(child);
+            rollupCosts(child);
+            plannedCost += NumberHelper.getDouble(child.getPlannedCost());
             actualCost += NumberHelper.getDouble(child.getActualCost());
             remainingCost += NumberHelper.getDouble(child.getRemainingCost());
             cost += NumberHelper.getDouble(child.getCost());
          }
 
+         parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
          parentTask.setActualCost(NumberHelper.getDouble(actualCost));
          parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
          parentTask.setCost(NumberHelper.getDouble(cost));
@@ -1609,6 +1613,7 @@ final class PrimaveraReader
             }
 
             // Roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));

@@ -223,6 +223,7 @@ Parent Task Unique ID| | | | | | | |✓| | | | | | | | | | | |
 Percent Complete Type| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Phase of Work| | | | | | | | | | | | | | | | | | |✓| | | | 
 Physical % Complete| | | | | | | |✓| |✓| | | |✓|✓|✓| | | | | | | 
+Planned Cost| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Duration| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Finish| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Start| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
