@@ -1393,7 +1393,6 @@ final class PrimaveraReader
          ProjectProperties properties = m_project.getProjectProperties();
 
          Duration actualWork = null;
-         Duration baselineWork = null;
          Duration remainingWork = null;
          Duration work = null;
 
@@ -1402,13 +1401,11 @@ final class PrimaveraReader
             updateWork(task);
 
             actualWork = Duration.add(actualWork, task.getActualWork(), properties);
-            baselineWork = Duration.add(baselineWork, task.getBaselineWork(), properties);
             remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
             work = Duration.add(work, task.getWork(), properties);
          }
 
          parentTask.setActualWork(actualWork);
-         parentTask.setBaselineWork(baselineWork);
          parentTask.setRemainingWork(remainingWork);
          parentTask.setWork(work);
       }
