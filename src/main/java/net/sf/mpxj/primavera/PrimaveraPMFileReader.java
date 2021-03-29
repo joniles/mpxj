@@ -450,7 +450,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processAssignments(assignments);
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
-         rollupCosts();
+         rollupValues();
          
          m_projectFile.updateStructure();
 
@@ -1134,6 +1134,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
          task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
+         task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
          task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
 
@@ -1248,7 +1249,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       new ActivitySorter(wbsTasks).sort(m_projectFile);
 
       updateStructure();
-      updateDates();
    }
 
    private void populateWBS(String prefix, ChildTaskContainer container)
@@ -1273,17 +1273,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * to compensate for this by using these user-entered dates as baseline dates, and
     * deriving the planned start, actual start, planned finish and actual finish from
     * the child tasks. This method recursively descends through the tasks to do this.
-    */
-   private void updateDates()
-   {
-      for (Task task : m_projectFile.getChildTasks())
-      {
-         updateDates(task);
-      }
-   }
-
-   /**
-    * See the notes above.
     *
     * @param parentTask parent task.
     */
@@ -1935,8 +1924,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       m_projectFile.getProjectProperties().setCustomProperties(customProperties);
    }
 
-   private void rollupCosts()
+   private void rollupValues()
    {
+      m_projectFile.getChildTasks().forEach(t -> updateDates(t));
+      m_projectFile.getChildTasks().forEach(t -> rollupWork(t));
       m_projectFile.getChildTasks().forEach(t -> rollupCosts(t));
    }
 
@@ -1968,6 +1959,41 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          parentTask.setActualCost(NumberHelper.getDouble(actualCost));
          parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
          parentTask.setCost(NumberHelper.getDouble(cost));
+      }
+   }
+
+   /**
+    * The Primavera WBS entries we read in as tasks don't have work entered. We try
+    * to compensate for this by summing the child tasks' work. This method recursively
+    * descends through the tasks to do this.
+    *
+    * @param parentTask parent task.
+    */
+   private void rollupWork(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         ProjectProperties properties = m_projectFile.getProjectProperties();
+
+         Duration actualWork = null;
+         Duration plannedWork = null;
+         Duration remainingWork = null;
+         Duration work = null;
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            rollupWork(task);
+
+            actualWork = Duration.add(actualWork, task.getActualWork(), properties);
+            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), properties);
+            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
+            work = Duration.add(work, task.getWork(), properties);
+         }
+
+         parentTask.setActualWork(actualWork);
+         parentTask.setPlannedWork(plannedWork);
+         parentTask.setRemainingWork(remainingWork);
+         parentTask.setWork(work);
       }
    }
 
