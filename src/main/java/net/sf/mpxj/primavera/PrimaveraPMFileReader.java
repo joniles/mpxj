@@ -451,7 +451,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
          rollupValues();
-         
+
          m_projectFile.updateStructure();
 
          //
@@ -1029,6 +1029,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
+      boolean baselineFromCurrentProject = m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null;
 
       //
       // Read WBS entries and create tasks
@@ -1243,12 +1244,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.setCritical(false);
          }
 
+         if (baselineFromCurrentProject)
+         {
+            populateBaselineFromCurrentProject(task);
+         }
+
          m_eventManager.fireTaskReadEvent(task);
       }
 
       new ActivitySorter(wbsTasks).sort(m_projectFile);
 
       updateStructure();
+   }
+
+   private void populateBaselineFromCurrentProject(Task task)
+   {
+      task.setBaselineCost(task.getPlannedCost());
+      task.setBaselineDuration(task.getPlannedDuration());
+      task.setBaselineFinish(task.getPlannedFinish());
+      task.setBaselineStart(task.getPlannedStart());
+      task.setBaselineWork(task.getPlannedWork());
    }
 
    private void populateWBS(String prefix, ChildTaskContainer container)
@@ -1276,7 +1291,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param parentTask parent task.
     */
-   private void updateDates(Task parentTask)
+   private void rollupDates(Task parentTask)
    {
       if (parentTask.hasChildTasks())
       {
@@ -1302,7 +1317,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          for (Task task : parentTask.getChildTasks())
          {
-            updateDates(task);
+            rollupDates(task);
 
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
@@ -1926,9 +1941,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void rollupValues()
    {
-      m_projectFile.getChildTasks().forEach(t -> updateDates(t));
+      m_projectFile.getChildTasks().forEach(t -> rollupDates(t));
       m_projectFile.getChildTasks().forEach(t -> rollupWork(t));
       m_projectFile.getChildTasks().forEach(t -> rollupCosts(t));
+
+      if (m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null)
+      {
+         m_projectFile.getTasks().stream().filter(t -> t.getSummary()).forEach(t -> populateBaselineFromCurrentProject(t));
+      }
    }
 
    /**

@@ -729,6 +729,7 @@ final class PrimaveraReader
       String projectName = projectProperties.getName();
       Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
+      boolean baselineFromCurrentProject = m_project.getProjectProperties().getBaselineProjectUniqueID() == null;
 
       //
       // We set the project name when we read the project properties, but that's just
@@ -896,12 +897,26 @@ final class PrimaveraReader
             task.setCritical(false);
          }
 
+         if (baselineFromCurrentProject)
+         {
+            populateBaselineFromCurrentProject(task);
+         }
+
          m_eventManager.fireTaskReadEvent(task);
       }
 
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
+   }
+
+   private void populateBaselineFromCurrentProject(Task task)
+   {
+      task.setBaselineCost(task.getPlannedCost());
+      task.setBaselineDuration(task.getPlannedDuration());
+      task.setBaselineFinish(task.getPlannedFinish());
+      task.setBaselineStart(task.getPlannedStart());
+      task.setBaselineWork(task.getPlannedWork());
    }
 
    /**
@@ -1493,6 +1508,11 @@ final class PrimaveraReader
       m_project.getChildTasks().forEach(t -> rollupDates(t));
       m_project.getChildTasks().forEach(t -> rollupWork(t));
       m_project.getChildTasks().forEach(t -> rollupCosts(t));
+
+      if (m_project.getProjectProperties().getBaselineProjectUniqueID() == null)
+      {
+         m_project.getTasks().stream().filter(t -> t.getSummary()).forEach(t -> populateBaselineFromCurrentProject(t));
+      }
    }
 
    /**
@@ -1596,7 +1616,7 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
-      }      
+      }
    }
 
    /**
