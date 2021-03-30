@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.2.0 (git master)
+## 9.3.0 (git master)
+
+## 9.2.0 (30/03/2021)
 * Improve accuracy when reading subprojects from MPP files.
 * Add Remaining Late Start and Remaining Late Finish attributes to Task.
 * Add Critical Activity Type attribute to Project Properties
