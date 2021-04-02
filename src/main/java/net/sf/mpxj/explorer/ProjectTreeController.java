@@ -555,6 +555,11 @@ public class ProjectTreeController
          }
 
          ProjectWriter writer = fileClass.newInstance();
+         if (fileClass == JsonWriter.class)
+         {
+            ((JsonWriter) writer).setPretty(true);
+         }
+
          writer.write(m_projectFile, file);
       }
 
