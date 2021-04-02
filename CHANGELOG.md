@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.3.0 (git master)
+* Improve Task critical flag calculation when reading PMXML files.
 
 ## 9.2.0 (30/03/2021)
 * Improve accuracy when reading subprojects from MPP files.
