@@ -43,9 +43,9 @@ class ResourceAssignmentReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      int unknown8Size = stream.getVersion().atLeast(Synchro.VERSION_6_2_0) ? 29 : 13;
+      int unknown1BlockSize = stream.getVersion().atLeast(Synchro.VERSION_6_3_0) ? 69 : 57;
 
-      map.put("UNKNOWN1", stream.readBytes(57));
+      map.put("UNKNOWN1", stream.readBytes(unknown1BlockSize));
       map.put("UNKNOWN2", stream.readDouble());
       map.put("UNKNOWN3", stream.readBytes(10));
       map.put("UNKNOWN4", stream.readUUID());
@@ -58,8 +58,15 @@ class ResourceAssignmentReader extends TableReader
       map.put("UNKNOWN6", stream.readDouble());
       map.put("DRIVING", stream.readBoolean());
       map.put("UNKNOWN7", stream.readByte());
-      map.put("FIXED_UNITS", Boolean.valueOf(!stream.readBoolean().booleanValue()));
-      map.put("UNKNOWN8", stream.readBytes(unknown8Size));
+      
+      boolean fixedUnits = stream.readBoolean().booleanValue();
+      if (stream.getVersion().before(Synchro.VERSION_6_3_0))
+      {
+         fixedUnits = !fixedUnits;
+      }
+      map.put("FIXED_UNITS", Boolean.valueOf(fixedUnits));
+      
+      skipToRowEnd(0);
    }
 
    @Override protected int rowMagicNumber()
