@@ -97,6 +97,6 @@ public final class SemVer implements Comparable<SemVer>
    {
       return IntStream.of(m_version).mapToObj(Integer::toString).collect(Collectors.joining("."));
    }
-   
+
    private final int[] m_version;
 }

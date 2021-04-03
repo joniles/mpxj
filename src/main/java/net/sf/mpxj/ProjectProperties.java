@@ -2733,7 +2733,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieve the critical activity type for this project.
-    * 
+    *
     * @return critical activity type
     */
    public CriticalActivityType getCriticalActivityType()
@@ -2743,7 +2743,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the critical activity type for this project.
-    * 
+    *
     * @param value critical activity type
     */
    public void setCriticalActivityType(CriticalActivityType value)

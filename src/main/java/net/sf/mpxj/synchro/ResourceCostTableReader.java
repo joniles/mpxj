@@ -59,5 +59,5 @@ class ResourceCostTableReader extends TableReader
    @Override protected int rowMagicNumber()
    {
       return 0x04E30E9C;
-   }   
+   }
 }

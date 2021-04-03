@@ -1134,7 +1134,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the remaining late finish value.
-    * 
+    *
     * @param date remaining late finish
     */
    public void setRemainingLateFinish(Date date)
@@ -1157,7 +1157,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Set the remaining late start value.
-    * 
+    *
     * @param date remaining late start
     */
    public void setRemainingLateStart(Date date)
@@ -2258,7 +2258,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the remaining late finish value.
-    * 
+    *
     * @return remaining late finish
     */
    public Date getRemainingLateFinish()
@@ -2281,7 +2281,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * Retrieve the remaining late start value.
-    * 
+    *
     * @return remaining late start
     */
    public Date getRemainingLateStart()

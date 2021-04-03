@@ -101,7 +101,7 @@ public class ProjectTreeController
    /**
     * Command to load a file.
     *
-    * @param file original file 
+    * @param file original file
     * @param projectFile parsed project file
     */
    public void loadFile(File file, ProjectFile projectFile)
@@ -567,7 +567,7 @@ public class ProjectTreeController
 
    /**
     * Create an anonymized version of the orignal file.
-    * 
+    *
     * @param file output file
     */
    public void cleanFile(File file)

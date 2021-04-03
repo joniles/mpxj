@@ -1177,7 +1177,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          //
          // This is an approximation. If the critical flag is being determined by total
          // then we need ES, EF, LS and LF set... but we only have the RES, REF, RLS and RLF
-         // attributes. We'll use these values to set ES, EF, LS and LF temporarily, and 
+         // attributes. We'll use these values to set ES, EF, LS and LF temporarily, and
          // ensure that the critical flag is calculated, then we'll reset these values
          // back to null. This will also have the side effect of calculating the float/slack values.
          // Ideally we need to correctly calculate ES, EF, LS and LF for ourselves using CPM.

@@ -114,7 +114,7 @@ public class ProjectFilePanel extends JPanel
 
    /**
     * Saves an anonymized version of the project file displayed in this panel.
-    * 
+    *
     * @param file target file
     */
    public void cleanFile(File file)

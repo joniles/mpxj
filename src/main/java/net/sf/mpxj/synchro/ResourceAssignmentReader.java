@@ -58,14 +58,14 @@ class ResourceAssignmentReader extends TableReader
       map.put("UNKNOWN6", stream.readDouble());
       map.put("DRIVING", stream.readBoolean());
       map.put("UNKNOWN7", stream.readByte());
-      
+
       boolean fixedUnits = stream.readBoolean().booleanValue();
       if (stream.getVersion().before(Synchro.VERSION_6_3_0))
       {
          fixedUnits = !fixedUnits;
       }
       map.put("FIXED_UNITS", Boolean.valueOf(fixedUnits));
-      
+
       skipToRowEnd(0);
    }
 
