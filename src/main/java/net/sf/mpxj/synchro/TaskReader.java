@@ -73,7 +73,9 @@ class TaskReader extends TableReader
       map.put("CONSTRAINT_EARLY_DATE_EXTRA", stream.readBytes(4));
       map.put("CONSTRAINT_LATE_DATE", stream.readDate());
       map.put("CONSTRAINT_LATE_DATE_EXTRA", stream.readBytes(4));
-      map.put("UNKNOWN8", stream.readBytes(78));
+      map.put("UNKNOWN8A", stream.readBytes(40));
+      map.put("UNKNOWN8B", stream.readUnknownBlocks(20));
+      map.put("UNKNOWN8C", stream.readBytes(26));
       map.put("URL", stream.readString());
       map.put("PROGRESS_TYPE", stream.readInteger());
       map.put("PERCENT_COMPLETE", stream.readDouble());
