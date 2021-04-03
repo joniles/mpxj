@@ -24,6 +24,8 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Simple semantic version representation, with comparison methods.
@@ -91,5 +93,10 @@ public final class SemVer implements Comparable<SemVer>
       return 0;
    }
 
+   @Override public String toString()
+   {
+      return IntStream.of(m_version).mapToObj(Integer::toString).collect(Collectors.joining("."));
+   }
+   
    private final int[] m_version;
 }
