@@ -108,7 +108,7 @@ public class ProjectCleanUtility
     * @param input input file name
     * @param output output file name
     */
-   private void process(String input, String output) throws MPXJException, IOException
+   public void process(String input, String output) throws MPXJException, IOException
    {
       //
       // Extract the project data

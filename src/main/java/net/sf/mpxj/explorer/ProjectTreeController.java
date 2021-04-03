@@ -56,6 +56,7 @@ import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.sdef.SDEFWriter;
+import net.sf.mpxj.utility.ProjectCleanUtility;
 import net.sf.mpxj.writer.ProjectWriter;
 
 /**
@@ -85,6 +86,7 @@ public class ProjectTreeController
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
+   private File m_file;
 
    /**
     * Constructor.
@@ -99,19 +101,13 @@ public class ProjectTreeController
    /**
     * Command to load a file.
     *
-    * @param file file to load
+    * @param file original file 
+    * @param projectFile parsed project file
     */
-   public void loadFile(ProjectFile file)
+   public void loadFile(File file, ProjectFile projectFile)
    {
-      try
-      {
-         m_projectFile = file;
-      }
-
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      }
+      m_file = file;
+      m_projectFile = projectFile;
 
       MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile, FILE_EXCLUDED_METHODS)
       {
@@ -561,6 +557,24 @@ public class ProjectTreeController
          }
 
          writer.write(m_projectFile, file);
+      }
+
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      }
+   }
+
+   /**
+    * Create an anonymized version of the orignal file.
+    * 
+    * @param file output file
+    */
+   public void cleanFile(File file)
+   {
+      try
+      {
+         new ProjectCleanUtility().process(m_file.getCanonicalPath(), file.getCanonicalPath());
       }
 
       catch (Exception ex)

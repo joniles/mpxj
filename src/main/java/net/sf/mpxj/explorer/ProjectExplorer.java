@@ -122,6 +122,14 @@ public class ProjectExplorer
       FileSaverView fileSaverView = new FileSaverView(m_frame, fileSaverModel);
       fileSaverModel.setExtensions(WRITE_EXTENSIONS);
 
+      //
+      // Clean
+      //
+      final FileCleanerModel fileCleanerModel = new FileCleanerModel();
+      final FileCleanerController fileCleanerController = new FileCleanerController(fileCleanerModel);
+      @SuppressWarnings("unused")
+      FileCleanerView fileCleanerView = new FileCleanerView(m_frame, fileCleanerModel);
+
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
 
@@ -137,6 +145,10 @@ public class ProjectExplorer
       final JMenuItem mntmSave = new JMenuItem("Save As...");
       mntmSave.setEnabled(false);
       mnFile.add(mntmSave);
+
+      final JMenuItem mntmClean = new JMenuItem("Clean...");
+      mntmClean.setEnabled(false);
+      mnFile.add(mntmClean);
 
       //
       // Open
@@ -171,6 +183,17 @@ public class ProjectExplorer
          }
       });
 
+      //
+      // Clean
+      //
+      mntmClean.addActionListener(new ActionListener()
+      {
+         @Override public void actionPerformed(ActionEvent e)
+         {
+            fileCleanerController.openFileCleaner();
+         }
+      });
+
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
@@ -187,8 +210,9 @@ public class ProjectExplorer
                {
                   throw new IllegalArgumentException("Unsupported file type");
                }
-               tabbedPane.add(file.getName(), new ProjectFilePanel(projectFile));
+               tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
                mntmSave.setEnabled(true);
+               mntmClean.setEnabled(true);
             }
 
             catch (MPXJException ex)
@@ -216,9 +240,10 @@ public class ProjectExplorer
                for (ProjectFile projectFile : projectFiles)
                {
                   String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
-                  tabbedPane.add(name, new ProjectFilePanel(projectFile));
+                  tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
                }
                mntmSave.setEnabled(true);
+               mntmClean.setEnabled(true);
             }
 
             catch (MPXJException ex)
@@ -235,6 +260,16 @@ public class ProjectExplorer
          {
             ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
             panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
+         }
+      });
+
+      PropertyAdapter<FileCleanerModel> cleanAdapter = new PropertyAdapter<>(fileCleanerModel, "file", true);
+      cleanAdapter.addValueChangeListener(new PropertyChangeListener()
+      {
+         @Override public void propertyChange(PropertyChangeEvent evt)
+         {
+            ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+            panel.cleanFile(fileCleanerModel.getFile());
          }
       });
    }

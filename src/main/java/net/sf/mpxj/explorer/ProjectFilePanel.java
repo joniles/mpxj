@@ -52,9 +52,10 @@ public class ProjectFilePanel extends JPanel
    /**
     * Constructor.
     *
-    * @param file MPP file to be displayed in this view.
+    * @param file original file
+    * @param projectFile MPP file to be displayed in this view.
     */
-   public ProjectFilePanel(ProjectFile file)
+   public ProjectFilePanel(File file, ProjectFile projectFile)
    {
       m_treeModel = new ProjectTreeModel();
       m_treeController = new ProjectTreeController(m_treeModel);
@@ -94,7 +95,7 @@ public class ProjectFilePanel extends JPanel
          }
       });
 
-      m_treeController.loadFile(file);
+      m_treeController.loadFile(file, projectFile);
    }
 
    /**
@@ -108,6 +109,19 @@ public class ProjectFilePanel extends JPanel
       if (file != null)
       {
          m_treeController.saveFile(file, type);
+      }
+   }
+
+   /**
+    * Saves an anonymized version of the project file displayed in this panel.
+    * 
+    * @param file target file
+    */
+   public void cleanFile(File file)
+   {
+      if (file != null)
+      {
+         m_treeController.cleanFile(file);
       }
    }
 }
