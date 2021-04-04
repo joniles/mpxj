@@ -160,7 +160,8 @@
 		</xslt>
 	</target>
 
-	<target name="gem-setup" depends="package" description="Build jars required by ruby gem and copy to correct location">
+	<!-- For deploy efficiency, assumes that the package target has been run -->
+	<target name="gem-setup" depends="init" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
 			<fileset dir="${basedir}/lib" includes="*.jar" />
