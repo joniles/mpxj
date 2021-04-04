@@ -189,7 +189,8 @@
 		</copy>
 	</target>
 
-	<target name="python-setup" depends="package" description="Build jars required by python package and copy to correct location">
+	<!-- For deploy efficiency, assumes that the package target has been run -->
+	<target name="python-setup" depends="init" description="Build jars required by python package and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.python/mpxj/mpxj/lib"/>
 		<copy todir="${basedir}/src.python/mpxj/mpxj/lib">
 			<fileset dir="${basedir}/lib" includes="*.jar" />
@@ -199,6 +200,7 @@
 		</copy>
 	</target>
 
+	<!-- Ensure build is installed: py -m pip install - -upgrade build -->
 	<target name="python-build" depends="python-setup" description="Build python package">
 		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m build" />
