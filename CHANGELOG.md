@@ -1,6 +1,8 @@
 # Changelog
 
 ## 9.3.0 (git master)
+
+## 9.2.1 (04/04/2021)
 * Improve Task critical flag calculation when reading PMXML files.
 * Improve support for Synchro 6.3 SP files.
 

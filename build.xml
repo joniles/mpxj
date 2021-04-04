@@ -6,7 +6,8 @@
 		<tstamp />
 
 		<property environment="env"/>
-		<property name="current.version" value="9.2.0" />
+		<property name="current.version" value="9.2.1" />
+		<property name="maven.dir" value="c:/java/apache-maven-3.6.3"/>
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby23"/>
@@ -21,9 +22,6 @@
 		<property name="mspdi.xsd" value="mspdi_pj15-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 		<property name="conceptdraw.xsd" value="document.xsd" />
-
-		<!-- This property is only required if you want to publish the site to SourceForge or build Maven artifacts -->
-		<property name="maven.dir" value="c:/java/apache-maven-3.6.3"/>
 
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="lib.net.dir" value="${basedir}/lib.net" />

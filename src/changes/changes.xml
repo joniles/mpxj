@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.3.0">
+		</release>
+		<release date="04/04/2021" version="9.2.1">
 			<action dev="joniles" type="update">Improve Task critical flag calculation when reading PMXML files.</action>
 			<action dev="joniles" type="update">Improve support for Synchro 6.3 SP files.</action>
 		</release>
