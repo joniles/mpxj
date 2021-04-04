@@ -217,6 +217,7 @@
 		</exec>
 	</target>
 
+	<!-- Ensure twine is installed py -m pip install twine -->
 	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
 		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m twine upload -r pypi dist/*" />
@@ -638,12 +639,17 @@
 	</target>
 
 	<target name="github-deploy" depends="init" description="Deploy to GitHub">
+		<echo message="Tagging"/>
 		<exec executable="hub">
 			<arg line="tag v${current.version}" />
 		</exec>
+<!--
+		<echo message="Pushing"/>
 		<exec executable="hub">
 			<arg line="push origin v${current.version}" />
 		</exec>
+-->
+		<echo message="Releasing"/>
 		<exec executable="hub">
 			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
 		</exec>
