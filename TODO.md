@@ -7,4 +7,4 @@ It is possible to add non-recurring tasks as children of the parent recurring ta
 and hence you can see a mixture of true and false values for the flag underneath the
 parent recurring task.
 
-For other MPP file types the recurring flag is easily identifiable.    
+For other MPP file types the recurring flag is easily identifiable.
