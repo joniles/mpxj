@@ -60,7 +60,7 @@
 			<action dev="joniles" type="update">Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.</action>
 			<action dev="joniles" type="update">Write WBS and Activity notes to PMXML files.</action>
 			<action dev="joniles" type="update">PMXML compatibility improvements to ensure files can be successfully imported into P6.</action>
-		</release>	
+		</release>
 		<release date="29/12/2020" version="8.4.0">
 			<action dev="joniles" type="update">Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.</action>
 			<action dev="joniles" type="update">Read activity notepad entries for XER, PMXML files and P6 databases.</action>
@@ -68,16 +68,16 @@
 			<action dev="joniles" type="update">Improve support for reading activity cost and work from PMXML files.</action>
 		</release>
 		<release date="15/12/2020" version="8.3.5">
-			<action dev="joniles" type="update">Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>				
-		</release>		
+			<action dev="joniles" type="update">Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
+		</release>
 		<release date="10/12/2020" version="8.3.4">
 			<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
 			<action dev="joniles" type="update">Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</action>
-			<action dev="joniles" type="update">Updated the getPopulatedFields methods to ignore fields with default values.</action>			
+			<action dev="joniles" type="update">Updated the getPopulatedFields methods to ignore fields with default values.</action>
 			<action dev="joniles" type="update">Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</action>
-			<action dev="joniles" type="update">Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.</action>			
+			<action dev="joniles" type="update">Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.</action>
 			<action dev="joniles" type="update">Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.</action>
-			<action dev="joniles" type="update">Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.</action>			
+			<action dev="joniles" type="update">Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Read assignment actual overtime cost and work attributes from PMXML files.</action>
 			<action dev="joniles" type="update">Update calculation of assignment work, cost and units attributes for PMXML files.</action>
 		</release>
@@ -85,16 +85,16 @@
 			<action dev="joniles" type="add">Added cost rate table support when reading from and writing to PMXML files.</action>
 			<action dev="joniles" type="add">Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </action>
 			<action dev="joniles" type="add">Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</action>
-			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>				
+			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>
 			<action dev="joniles" type="update">Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</action>
 			<action dev="joniles" type="update">Align invalid XER record behaviour with P6.</action>
 			<action dev="joniles" type="update">Handle Planner files which don't contain an allocations tag.</action>
-			<action dev="joniles" type="update">Gracefully handle MPP files with missing view or table data.</action>			
+			<action dev="joniles" type="update">Gracefully handle MPP files with missing view or table data.</action>
 		</release>
 		<release date="22/10/2020" version="8.3.2">
 			<action dev="joniles" type="add">Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</action>
-			<action dev="joniles" type="update">Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)</action>				
-			<action dev="joniles" type="update">Improved handling of enterprise custom fields when reading MPP files</action>				
+			<action dev="joniles" type="update">Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)</action>
+			<action dev="joniles" type="update">Improved handling of enterprise custom fields when reading MPP files</action>
 			<action dev="joniles" type="update">Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.</action>
 			<action dev="joniles" type="update">Improve handling of some MPP12 MPP file variants.</action>
 			<action dev="joniles" type="update">Avoid error when reading timephased data from certain MPP files.</action>
@@ -105,26 +105,26 @@
 			<action dev="joniles" type="update">Minor updates to PlannerReader.</action>
 		</release>
 	    <release date="13/10/2020" version="8.3.0">
-		    <action dev="joniles" type="add">Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.</action>		    
+		    <action dev="joniles" type="add">Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.</action>
 		    <action dev="joniles" type="add">Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.</action>
-			<action dev="joniles" type="add">Add support for writing expense items, expense categories and cost accounts to PMXML files.</action>		    
+			<action dev="joniles" type="add">Add support for writing expense items, expense categories and cost accounts to PMXML files.</action>
 	    	<action dev="joniles" type="update">Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6</action>
-	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.</action>	    	
+	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.</action>
 	    	<action dev="joniles" type="update">Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.</action>
 	    	<action dev="joniles" type="update">Updated PMXML reader to avoid user defined field collisions.</action>
 	    	<action dev="joniles" type="update">Updated PMXML reader to add setProjectID and listProjects methods.</action>
 	    	<action dev="joniles" type="update">Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection</action>
 	    </release>
 		<release date="09/09/2020" version="8.2.0">
-			<action dev="joniles" type="add">All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.</action>			
-			<action dev="joniles" type="add">Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.</action>						
+			<action dev="joniles" type="add">All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.</action>
+			<action dev="joniles" type="add">Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.</action>
 			<action dev="joniles" type="update">Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.</action>
 			<action dev="joniles" type="update">Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.</action>
 			<action dev="joniles" type="update">Set export flag property when reading projects from a PMXML file.</action>
 			<action dev="joniles" type="update">Corrected data type of resource assignment Work Contour field.</action>
 			<action dev="joniles" type="update">Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.</action>
 			<action dev="joniles" type="update">Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.</action>
-		</release>	
+		</release>
 		<release date="31/08/2020" version="8.1.4">
 			<action dev="joniles" type="update">Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
 			<action dev="joniles" type="update">Import milestone constraints from Asta schedules (Contributed by Dave McKay)</action>
@@ -132,8 +132,8 @@
 			<action dev="joniles" type="update">Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Gracefully handle a missing table name when reading an XER file.</action>
 			<action dev="joniles" type="update">Gracefully handle a unexpected calendar data when reading an XER file.</action>
-			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>			
-			<action dev="joniles" type="update">Import all schedule and leveling options from XER files.</action>			
+			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>
+			<action dev="joniles" type="update">Import all schedule and leveling options from XER files.</action>
 			<action dev="joniles" type="update">Ensure project calendars are read from PMXML files.</action>
 			<action dev="joniles" type="add">Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.</action>
 		</release>
@@ -158,10 +158,10 @@
 			<action dev="joniles" type="add">Experimental support for reading Project Commander schedules.</action>
 			<action dev="joniles" type="update">Update to use JAXB 2.3.2.</action>
 			<action dev="joniles" type="update">Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.</action>
-			<action dev="joniles" type="update">Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.</action>			
+			<action dev="joniles" type="update">Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.</action>
 			<action dev="joniles" type="update">Improve accuracy of task order when reading Phoenix files.</action>
 			<action dev="joniles" type="update">Improve accuracy of task data when reading some MPP file variants.</action>
-			<action dev="joniles" type="update">Improve reliability when reading certain SureTrak files.</action>			
+			<action dev="joniles" type="update">Improve reliability when reading certain SureTrak files.</action>
 		</release>
 		<release date="20/04/2020" version="8.0.8">
 			<action dev="joniles" type="update">Improve handling of numeric character references invalid for XML 1.0 in PMXML files.</action>
@@ -179,8 +179,8 @@
 			<action dev="joniles" type="update">Improve handling of some XER file variants.</action>
 		</release>
 		<release date="07/02/2020" version="8.0.5">
-			<action dev="joniles" type="update">Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.</action>			
-			<action dev="joniles" type="update">Ensure summary task start and finish dates are populated when reading PMXML files.</action>			
+			<action dev="joniles" type="update">Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.</action>
+			<action dev="joniles" type="update">Ensure summary task start and finish dates are populated when reading PMXML files.</action>
 			<action dev="joniles" type="update">Use baseline start and finish dates as planned start and finish dates when writing PMXML files.</action>
 			<action dev="joniles" type="update">Late start and late finish dates are now written to PMXML files.</action>
 		</release>
@@ -204,16 +204,16 @@
 		<release date="02/01/2020" version="8.0.0">
 			<action dev="joniles" type="update">MPXJ now requires Java 8 or later.</action>
 			<action dev="joniles" type="update">Removed deprecated methods.</action>
-			<action dev="joniles" type="update">Updated to use POI 4.1.1.</action>			
-			<action dev="joniles" type="update">Updated to use IKVM 8.1.5717.0.</action>			
+			<action dev="joniles" type="update">Updated to use POI 4.1.1.</action>
+			<action dev="joniles" type="update">Updated to use IKVM 8.1.5717.0.</action>
 		</release>
 		<release date="27/12/2019" version="7.9.8">
 			<action dev="joniles" type="add">Added support for reading and writing outline code/custom field lookup tables for MSPDI files.</action>
 			<action dev="joniles" type="add">Added sample code to demonstrate creation of timephased work.</action>
 			<action dev="joniles" type="update">Populate project status date attribute when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Populate parent attribute when reading activity code values from Primavera schedules.</action>
-			<action dev="joniles" type="update">Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.</action>			
-			<action dev="joniles" type="update">Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.</action>			
+			<action dev="joniles" type="update">Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.</action>
+			<action dev="joniles" type="update">Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.</action>
 		</release>
 		<release date="25/11/2019" version="7.9.7">
 			<action dev="joniles" type="update">Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.</action>
@@ -234,7 +234,7 @@
 		</release>
 		<release date="10/09/2019" version="7.9.3">
 			<action dev="joniles" type="add">Add support for reading task early finish and late finish attributes from Asta PP files.</action>
-			<action dev="joniles" type="update">Ensure XER files containing secondary constraints can be read correctly.</action>			
+			<action dev="joniles" type="update">Ensure XER files containing secondary constraints can be read correctly.</action>
 			<action dev="joniles" type="update">Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).</action>
 			<action dev="joniles" type="update">Ensure base calendars are read correctly for P6 schedules.</action>
 			<action dev="joniles" type="update">Ensure MPP files with unexpected auto filter definition data are handled gracefully.</action>
@@ -243,8 +243,8 @@
 		</release>
 		<release date="19/08/2019" version="7.9.2">
 			<action dev="joniles" type="add">Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)</action>
-			<action dev="joniles" type="update">Improve support for Synchro SP files containing blank tasks.</action>						
-			<action dev="joniles" type="update">Make constraint type mapping consistent when reading and writing PMXML files.</action>			
+			<action dev="joniles" type="update">Improve support for Synchro SP files containing blank tasks.</action>
+			<action dev="joniles" type="update">Make constraint type mapping consistent when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).</action>
 			<action dev="joniles" type="update">Improve handling of certain types of malformed MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of certain types of malformed SDEF files.</action>
@@ -280,9 +280,9 @@
 			<action dev="joniles" type="update">More accurately read predecessors and successors from Asta PP files (Based on a contribution by Dave McKay)</action>
 			<action dev="joniles" type="update">When a schedule is read from P6, P3, or SureTrak, Task.getSummary will return true only if a task is part of the WBS</action>
 			<action dev="joniles" type="update">Improve support for reading the Synchro Scheduler 2018 SP files.</action>
-			<action dev="joniles" type="add">Added Task.hasChildTasks() method.</action>			
+			<action dev="joniles" type="add">Added Task.hasChildTasks() method.</action>
 			<action dev="joniles" issue="330" type="fix">Splits data coming in as null for all tasks</action>
-		</release>	
+		</release>
 		<release date="13/02/2019" version="7.8.1">
 			<action dev="joniles" type="add">Improve support for reading the Synchro Scheduler 2018 SP files.</action>
 			<action dev="joniles" type="add">Add support for reading Gantt Designer GNT files.</action>
@@ -296,7 +296,7 @@
 			<action dev="joniles" type="add">Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.</action>
 			<action dev="joniles" type="update">Updated Java build to use Maven</action>
 			<action dev="joniles" type="update">Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)</action>
-			<action dev="joniles" type="update">Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005</action>			
+			<action dev="joniles" type="update">Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005</action>
 			<action dev="joniles" issue="332" type="fix">Asta lag sign incorrect (Based on a contribution by Dave McKay)</action>
 			<action dev="joniles" issue="333" type="fix">Asta constraints lost (Contributed by Dave McKay)</action>
 			<action dev="joniles" issue="335" type="fix">MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)</action>
