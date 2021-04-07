@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Availability;
@@ -603,36 +604,43 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes task data to a PM XML file.
-    *
+    * This method writes task data to a PMXML file.
     */
    private void writeTasks()
    {
+      // We're jumping through hoops here to try and ensure that the PMXML
+      // we generate is close to what P6 would generate. Makes for easier comparison...
+      // Anyhow, it looks like P6 exports WBS and tasks in unique ID order, so we'll sort
+      // to match this... but, we also need to generate a sequence number for the WBS entries before
+      // we do this to ensure that they are ordered correctly on import.
+
+      // Filter out WBS entries and generate a sequence number.
+      // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, its a WBS entry
+      Map<Task, Integer> wbsSequence = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> m_wbsSequence.getNext()));
+
+      // Sort the tasks into unique ID order
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
       Collections.sort(tasks, (t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
 
-      for (Task task : tasks)
-      {
-         writeTask(task);
-      }
+      // Write the tasks
+      tasks.forEach(t -> writeTask(t, wbsSequence.get(t)));
    }
 
    /**
     * Given a Task instance, this task determines if it should be written to the
-    * PM XML file as an activity or as a WBS item, and calls the appropriate
+    * PMXML file as an activity or as a WBS item, and calls the appropriate
     * method.
     *
     * @param task Task instance
+    * @param wbsSequence null if this is an activity, wbs sequence otherwise
     */
-   private void writeTask(Task task)
+   private void writeTask(Task task, Integer wbsSequence)
    {
       if (!task.getNull())
       {
-         // If it's a summary task... it's a WBS entry
-         // If the task has come from P6, and the activity type is not set, its a WBS entry
-         if (task.getSummary() || (m_activityTypePopulated && task.getActivityType() == null))
+         if (wbsSequence != null)
          {
-            writeWBS(task);
+            writeWBS(task, wbsSequence);
          }
          else
          {
@@ -645,8 +653,9 @@ final class PrimaveraPMProjectWriter
     * Writes a WBS entity to the PM XML file.
     *
     * @param mpxj MPXJ Task entity
+    * @param sequence number for this WBS entry
     */
-   private void writeWBS(Task mpxj)
+   private void writeWBS(Task mpxj, Integer sequence)
    {
       if (mpxj.getUniqueID().intValue() != 0)
       {
@@ -663,7 +672,7 @@ final class PrimaveraPMProjectWriter
          xml.setObjectId(mpxj.getUniqueID());
          xml.setParentObjectId(parentObjectID);
          xml.setProjectObjectId(m_projectObjectID);
-         xml.setSequenceNumber(m_wbsSequence.getNext());
+         xml.setSequenceNumber(sequence);
 
          xml.setStatus("Active");
 
