@@ -1311,9 +1311,10 @@ final class PrimaveraReader
          if (plannedStartDate != null && plannedFinishDate != null)
          {
             plannedDuration = m_project.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
-            parentTask.setDuration(2, plannedDuration);
+            parentTask.setPlannedDuration(plannedDuration);
          }
 
+         Duration actualDuration = null;
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
@@ -1337,16 +1338,39 @@ final class PrimaveraReader
                }
             }
 
-            if (taskStartDate != null && taskFinishDate != null)
+            if (taskStartDate != null)                     
             {
-               remainingDuration = m_project.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+               if (parentTask.getActualStart() != null)
+               {
+                  actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);                  
+               }
+               
+               if (taskFinishDate != null)
+               {
+                  remainingDuration = m_project.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+               }
             }
          }
          else
          {
+            actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);            
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
+         
+         if (actualDuration != null && actualDuration.getDuration() < 0)
+         {
+            actualDuration = null;
+         }
+         
+         if (remainingDuration != null && remainingDuration.getDuration() < 0)
+         {
+            remainingDuration = null;
+         }
+
+         parentTask.setActualDuration(actualDuration);
          parentTask.setRemainingDuration(remainingDuration);
+         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, m_project.getProjectProperties()));
+         
 
          if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
          {
