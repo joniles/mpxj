@@ -1338,13 +1338,13 @@ final class PrimaveraReader
                }
             }
 
-            if (taskStartDate != null)                     
+            if (taskStartDate != null)
             {
                if (parentTask.getActualStart() != null)
                {
-                  actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);                  
+                  actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
                }
-               
+
                if (taskFinishDate != null)
                {
                   remainingDuration = m_project.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
@@ -1353,15 +1353,15 @@ final class PrimaveraReader
          }
          else
          {
-            actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);            
+            actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
-         
+
          if (actualDuration != null && actualDuration.getDuration() < 0)
          {
             actualDuration = null;
          }
-         
+
          if (remainingDuration != null && remainingDuration.getDuration() < 0)
          {
             remainingDuration = null;
@@ -1370,7 +1370,6 @@ final class PrimaveraReader
          parentTask.setActualDuration(actualDuration);
          parentTask.setRemainingDuration(remainingDuration);
          parentTask.setDuration(Duration.add(actualDuration, remainingDuration, m_project.getProjectProperties()));
-         
 
          if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
          {
