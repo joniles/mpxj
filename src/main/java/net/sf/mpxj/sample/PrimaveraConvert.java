@@ -81,8 +81,6 @@ public final class PrimaveraConvert
     */
    public void process(String driverClass, String connectionString, String projectID, String outputFile) throws Exception
    {
-      System.out.println("Reading Primavera database started.");
-
       Class.forName(driverClass);
       Properties props = new Properties();
 
@@ -101,23 +99,41 @@ public final class PrimaveraConvert
       PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       reader.setConnection(c);
 
-      processProject(reader, Integer.parseInt(projectID), outputFile);
+      PrimaveraDatabaseReader baselineReader = new PrimaveraDatabaseReader();
+      baselineReader.setConnection(c);
+
+      processProject(reader, baselineReader, Integer.parseInt(projectID), outputFile);
    }
 
    /**
     * Process a single project.
     *
     * @param reader Primavera reader
+    * @param baselineReader Primavera reader
     * @param projectID required project ID
     * @param outputFile output file name
     */
-   private void processProject(PrimaveraDatabaseReader reader, int projectID, String outputFile) throws Exception
+   private void processProject(PrimaveraDatabaseReader reader, PrimaveraDatabaseReader baselineReader, int projectID, String outputFile) throws Exception
    {
+      System.out.println("Reading Primavera database started.");
       long start = System.currentTimeMillis();
       reader.setProjectID(projectID);
       ProjectFile projectFile = reader.read();
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading database completed in " + elapsed + "ms.");
+
+      Integer baselineProjectID = projectFile.getProjectProperties().getBaselineProjectUniqueID();
+      if (baselineProjectID != null)
+      {
+         System.out.println("Reading baseline started.");
+         start = System.currentTimeMillis();
+
+         baselineReader.setProjectID(baselineProjectID.intValue());
+         ProjectFile baselineProjectFile = baselineReader.read();
+         projectFile.setBaseline(baselineProjectFile, t -> t.getCanonicalActivityID());
+         elapsed = System.currentTimeMillis() - start;
+         System.out.println("Reading baseline completed in " + elapsed + "ms.");
+      }
 
       System.out.println("Writing output file started.");
       start = System.currentTimeMillis();
