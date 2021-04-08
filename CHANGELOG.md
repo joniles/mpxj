@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.2.3 (git master)
+## 9.3.0 (git master)
+
+## 9.2.3 (08/04/2021)
 * Fix an issue reading Planned Duration from P6 databases and XER files.
 * Ensure Duration and Actual Duration are populated for WBS entries when reading P6 schedules.
 

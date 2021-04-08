@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.2.3">
+		<release date="git master" version="9.3.0">
+		</release>
+		<release date="08/04/2021" version="9.2.3">
 			<action dev="joniles" type="update">Fix an issue reading Planned Duration from P6 databases and XER files.</action>
 			<action dev="joniles" type="update">Ensure Duration and Actual Duration are populated for WBS entries when reading P6 schedules.</action>			
 		</release>
