@@ -151,9 +151,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @return true if WBS attribute is a hierarchy
     */
-   public boolean getWbsIsFullPath()
+   @Deprecated public boolean getWbsIsFullPath()
    {
-      return m_wbsIsFullPath;
+      return false;
    }
 
    /**
@@ -162,9 +162,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param wbsIsFullPath true if WBS attribute is a hierarchy
     */
-   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   @Deprecated public void setWbsIsFullPath(boolean wbsIsFullPath)
    {
-      m_wbsIsFullPath = wbsIsFullPath;
+      // Empty block
    }
 
    /**
@@ -1081,7 +1081,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       // Set the WBS and the Activity ID
       //
-      populateWBS(m_projectFile.getProjectProperties().getProjectID(), m_projectFile);
+      String prefix = m_projectFile.getProjectProperties().getProjectID();
+      if (prefix != null && m_projectFile.getChildTasks().size() == 1)
+      {
+         String activityID = m_projectFile.getChildTasks().get(0).getWBS();
+         if (activityID != null && activityID.equals(prefix))
+         {
+            prefix = "";
+         }
+      }
+      populateWBS(prefix, m_projectFile);
 
       //
       // Read Task entries and create tasks
@@ -1289,7 +1298,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (Task task : container.getChildTasks())
       {
-         String wbs = prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
+         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
          task.setWBS(wbs);
          task.setActivityID(wbs);
          populateWBS(wbs, task);
@@ -1426,9 +1435,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (parentTask.getActualStart() != null)
                {
-                  actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);                  
+                  actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
                }
-               
+
                if (taskFinishDate != null)
                {
                   remainingDuration = m_projectFile.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
@@ -1437,7 +1446,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
          else
          {
-            actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);            
+            actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
 
@@ -1445,12 +1454,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             actualDuration = null;
          }
-         
+
          if (remainingDuration != null && remainingDuration.getDuration() < 0)
          {
             remainingDuration = null;
          }
-         
+
          parentTask.setActualDuration(actualDuration);
          parentTask.setRemainingDuration(remainingDuration);
          parentTask.setDuration(Duration.add(actualDuration, remainingDuration, m_projectFile.getProjectProperties()));
@@ -2125,7 +2134,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private UserFieldCounters m_assignmentUdfCounters;
    private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
-   private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
 
