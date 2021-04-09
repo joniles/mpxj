@@ -131,11 +131,11 @@ final class MPP9Reader implements MPPVariantReader
       //
       // Retrieve the high level document properties (never encoded)
       //
-      Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
-      //System.out.println(props9);
+      Props props = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
+      //System.out.println(props);
 
-      file.getProjectProperties().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
-      m_inputStreamFactory = new DocumentInputStreamFactory(props9);
+      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(Props.PROJECT_FILE_PATH));
+      m_inputStreamFactory = new DocumentInputStreamFactory(props);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -144,7 +144,8 @@ final class MPP9Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      byte passwordProtectionFlag = props9.getByte(Props.PASSWORD_FLAG);
+      //
+      byte passwordProtectionFlag = props.getByte(Props.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
 
@@ -152,7 +153,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          // File is password protected for reading, let's read the password
          // and see if the correct read password was given to us.
-         String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), m_inputStreamFactory.getEncryptionCode());
+         String readPassword = MPPUtility.decodePassword(props.getByteArray(Props.PROTECTION_PASSWORD_HASH), m_inputStreamFactory.getEncryptionCode());
          // It looks like it is possible for a project file to have the password protection flag on without a password. In
          // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
          // correct the problem if the file is re-saved (at least it did for me).
@@ -183,7 +184,7 @@ final class MPP9Reader implements MPPVariantReader
       m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
-      m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setAutoFilter(props.getBoolean(Props.AUTO_FILTER));
    }
 
    /**
@@ -246,8 +247,6 @@ final class MPP9Reader implements MPPVariantReader
          int uniqueIDOffset;
          int filePathOffset;
          int fileNameOffset;
-         SubProject sp;
-
          byte[] itemHeader = new byte[20];
 
          /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
@@ -266,15 +265,8 @@ final class MPP9Reader implements MPPVariantReader
             offset += 4;
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-
-            //            System.out.println ();
-            //            System.out.println ();
-            //            System.out.println ("offset=" + offset);
-            //            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
-            //            System.out.println ("type=" + ByteArrayHelper.hexdump(itemHeader, 16, 1, false));
-            //            System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
-
             byte subProjectType = itemHeader[16];
+
             switch (subProjectType)
             {
                //
@@ -306,7 +298,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -327,7 +319,7 @@ final class MPP9Reader implements MPPVariantReader
                   // Unknown offset
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -349,7 +341,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -371,7 +363,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -391,7 +383,7 @@ final class MPP9Reader implements MPPVariantReader
                   // unknown offset
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -409,7 +401,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -426,7 +418,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   offset += 4;
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -443,7 +435,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   // 0x02 looks to be the link FROM the resource pool to a project that uses it
                   if (subProjectType == 0x04)
                   {
@@ -466,7 +458,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -497,7 +489,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -707,7 +699,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       if (m_viewDir.hasEntry("Props"))
       {
-         Props9 props = new Props9(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
+         Props props = new Props9(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
          byte[] data = props.getByteArray(Props.FONT_BASES);
          if (data != null)
          {
