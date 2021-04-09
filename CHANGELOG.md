@@ -2,7 +2,7 @@
 
 ## 9.3.0 (git master)
 
-## 9.2.4 (08/04/2021)
+## 9.2.4 (09/04/2021)
 * Fix an issue reading resource rate information GanttProject files.
 
 ## 9.2.3 (08/04/2021)
