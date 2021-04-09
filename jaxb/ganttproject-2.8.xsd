@@ -153,7 +153,7 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="xs:string" name="name"/>
-        <xs:attribute type="xs:int" name="value"/>
+        <xs:attribute type="xs:float" name="value"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
