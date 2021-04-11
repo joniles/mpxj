@@ -167,14 +167,12 @@ final class MPP14Reader implements MPPVariantReader
       m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props14(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
-      //FieldMap fm = new FieldMap14(m_file);
-      //fm.dumpKnownFieldMaps(m_projectProps);
 
       m_fontBases = new HashMap<>();
       m_taskSubProjects = new HashMap<>();
-      m_parentTasks = new HashMap<>();
       m_taskOrder = new TreeMap<>();
       m_nullTaskOrder = new TreeMap<>();
+      m_parentTasks = new HashMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
       m_file.getProjectProperties().setAutoFilter(props.getBoolean(Props.AUTO_FILTER));
@@ -199,13 +197,13 @@ final class MPP14Reader implements MPPVariantReader
       m_taskSubProjects = null;
       m_outlineCodeVarMeta = null;
       m_projectProps = null;
+      m_inputStreamFactory = null;
       m_parentTasks = null;
    }
 
    /**
     * This method extracts and collates the value list information
     * for custom column value lists.
-    * @throws IOException
     */
    private void processCustomValueLists() throws IOException
    {

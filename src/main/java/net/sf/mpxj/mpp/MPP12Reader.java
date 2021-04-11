@@ -161,7 +161,6 @@ final class MPP12Reader implements MPPVariantReader
       m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
       m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
-
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<>();
@@ -894,16 +893,18 @@ final class MPP12Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<>();
       int itemCount = rscFixedMeta.getAdjustedItemCount();
+      int maxFixedDataSize = fieldMap.getMaxFixedDataSize(0);
+      int uniqueIdOffset = 0;
 
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] data = rscFixedData.getByteArrayValue(loop);
-         if (data == null || data.length < fieldMap.getMaxFixedDataSize(0))
+         if (data == null || data.length < maxFixedDataSize)
          {
             continue;
          }
 
-         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, 0));
+         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, uniqueIdOffset));
          if (resourceMap.containsKey(uniqueID) == false)
          {
             resourceMap.put(uniqueID, Integer.valueOf(loop));
