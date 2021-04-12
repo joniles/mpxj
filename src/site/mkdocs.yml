@@ -1,0 +1,5 @@
+site_name: MPXJ
+docs_dir: markdown
+site_dir: mkdocs-site
+theme:
+  name: material
