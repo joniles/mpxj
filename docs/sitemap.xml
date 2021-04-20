@@ -28,9 +28,6 @@
         <loc>http://mpxj.org/howto-dotnet.html</loc>
     </url>
     <url>
-        <loc>http://mpxj.org/howto-maven.html</loc>
-    </url>
-    <url>
         <loc>http://mpxj.org/howto-read-asta.html</loc>
     </url>
     <url>
@@ -121,9 +118,6 @@
         <loc>http://mpxj.org/issue-management.html</loc>
     </url>
     <url>
-        <loc>http://mpxj.org/issue-tracking.html</loc>
-    </url>
-    <url>
         <loc>http://mpxj.org/java-versions.html</loc>
     </url>
     <url>
@@ -140,9 +134,6 @@
     </url>
     <url>
         <loc>http://mpxj.org/project-reports.html</loc>
-    </url>
-    <url>
-        <loc>http://mpxj.org/roadmap.html</loc>
     </url>
     <url>
         <loc>http://mpxj.org/scm.html</loc>
