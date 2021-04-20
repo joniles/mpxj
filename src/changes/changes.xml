@@ -7,6 +7,7 @@
 	<body>
 		<release date="git master" version="9.3.0">
 			<action dev="joniles" type="update">Add launcher batch file and shell script.</action>
+			<action dev="joniles" type="update">Improve handling of calculated task attributes when writing a project to a different format.</action>
 		</release>
 		<release date="09/04/2021" version="9.2.4">
 			<action dev="joniles" type="update">Fix an issue reading resource rate information GanttProject files.</action>

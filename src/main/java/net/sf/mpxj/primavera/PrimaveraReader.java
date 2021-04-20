@@ -892,11 +892,19 @@ final class PrimaveraReader
          Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), projectProperties);
          task.setDuration(durationAtCompletion);
 
+         // Force calculation here to avoid later issues
+         task.getStartSlack();
+         task.getFinishSlack();
+
          if (forceCriticalToFalse)
          {
             task.setCritical(false);
          }
-
+         else
+         {
+            task.getCritical();
+         }
+         
          if (baselineFromCurrentProject)
          {
             populateBaselineFromCurrentProject(task);
@@ -1389,6 +1397,9 @@ final class PrimaveraReader
             parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
+         // Force calculation here to avoid later issues
+         parentTask.getStartSlack();
+         parentTask.getFinishSlack();
          parentTask.setCritical(critical);
       }
    }

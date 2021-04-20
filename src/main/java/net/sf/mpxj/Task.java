@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -5482,88 +5483,81 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          case START:
          case BASELINE_START:
          {
-            m_array[TaskField.START_VARIANCE.getValue()] = null;
+            reset(TaskField.START_VARIANCE);
             break;
          }
 
          case FINISH:
          case BASELINE_FINISH:
          {
-            m_array[TaskField.FINISH_VARIANCE.getValue()] = null;
+            reset(TaskField.FINISH_VARIANCE);
             break;
          }
 
          case COST:
          case BASELINE_COST:
          {
-            m_array[TaskField.COST_VARIANCE.getValue()] = null;
+            reset(TaskField.COST_VARIANCE);
             break;
          }
 
          case DURATION:
          {
-            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
-            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
+            reset(TaskField.DURATION_VARIANCE, TaskField.COMPLETE_THROUGH);
             break;
          }
 
          case BASELINE_DURATION:
          {
-            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
+            reset(TaskField.DURATION_VARIANCE);
             break;
          }
 
          case WORK:
          case BASELINE_WORK:
          {
-            m_array[TaskField.WORK_VARIANCE.getValue()] = null;
+            reset(TaskField.WORK_VARIANCE);
             break;
          }
 
          case BCWP:
          case ACWP:
          {
-            m_array[TaskField.CV.getValue()] = null;
-            m_array[TaskField.SV.getValue()] = null;
+            reset(TaskField.CV, TaskField.SV);
             break;
          }
 
          case BCWS:
          {
-            m_array[TaskField.SV.getValue()] = null;
+            reset(TaskField.SV);
             break;
          }
 
          case START_SLACK:
          case FINISH_SLACK:
          {
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case EARLY_FINISH:
          case LATE_FINISH:
          {
-            m_array[TaskField.FINISH_SLACK.getValue()] = null;
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.FINISH_SLACK,TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case EARLY_START:
          case LATE_START:
          {
-            m_array[TaskField.START_SLACK.getValue()] = null;
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.START_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case ACTUAL_START:
          case PERCENT_COMPLETE:
          {
-            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
+            reset(TaskField.COMPLETE_THROUGH);
             break;
          }
 
@@ -5585,6 +5579,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       }
    }
 
+   private void reset(TaskField... fields)
+   {
+      Stream.of(fields).forEach(f -> m_array[f.getValue()] = null);
+   }
+   
    /**
     * {@inheritDoc}
     */

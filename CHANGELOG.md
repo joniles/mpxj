@@ -1,6 +1,8 @@
 # Changelog
 
 ## 9.3.0 (git master)
+* Add launcher batch file and shell script.
+* Improve handling of calculated task attributes when writing a project to a different format.
 
 ## 9.2.4 (09/04/2021)
 * Fix an issue reading resource rate information GanttProject files.
