@@ -430,6 +430,12 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
       map.put(task.getOutlineNumber(), mpxjTask);
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      mpxjTask.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      mpxjTask.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      mpxjTask.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(mpxjTask);
 
       for (Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment assignment : task.getResourceAssignments().getResourceAssignment())

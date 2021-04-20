@@ -416,6 +416,12 @@ public final class MerlinReader extends AbstractProjectFileReader
 
       // Percent complete is calculated bottom up from assignments and actual work vs. planned work
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(task);
    }
 

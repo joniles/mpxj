@@ -324,7 +324,12 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          m_childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setCritical(false);
+            
       m_eventManager.fireTaskReadEvent(task);
    }
 
@@ -440,7 +445,12 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          }
       }
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
