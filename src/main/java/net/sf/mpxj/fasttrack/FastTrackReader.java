@@ -701,10 +701,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
          }
 
          parentTask.setCritical(critical);
-         if (critical)
-         {
-            System.out.println(parentTask);
-         }
       }
    }
 
