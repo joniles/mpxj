@@ -4,6 +4,7 @@
 * Add launcher batch file and shell script.
 * Improve handling of calculated task attributes when writing a project to a different format.
 * Ensure that dates are rolled up to summary tasks when reading FastTrack files.
+* Improve support for Synchro 6.3 SP files.
 
 ## 9.2.4 (09/04/2021)
 * Fix an issue reading resource rate information GanttProject files.
