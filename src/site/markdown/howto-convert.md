@@ -4,10 +4,10 @@ To convert project data between different formats you read the source
 data using an appropriate Reader class, the write the data using a Writer
 class which matches the format you want to convert to.
 
-MPXJ can do a lot of the work for you, as the example below illustrates.
-The `UniversalProjectReader` will detect the type of schedule being read
-and handle it accordingly. The extension of the output file is used to 
-determine the file type used.
+MPXJ can do a lot of the work for you, as the example below illustrates. The
+`UniversalProjectReader` will detect the type of schedule being read and handle
+it accordingly. The `ProjectWriterUtility` will use the extension of the output
+file to determine the type of file written.
 
 The extensions recognised by the `ProjectWriterUtility` class are:
 

@@ -21,7 +21,7 @@
 					attributes that MPXJ supports back into the MPP file - simply
 					because we don't understand the format well enough. You are
 					therefore probably better off using MSPDI which does support
-					the full range of data items present in an MPP file. 
+					the full range of data items present in an MPP file.
             </p>
 			</answer>
 		</faq>
@@ -41,7 +41,7 @@
 					the project opens, the filtering applied to the view, the table
 					data visible, the columns in the table, bar styles, text styles
 					and so on. While MPXJ can read this information from an MPP file,
-					none of the supported output file formats contain these attributes. 
+					none of the supported output file formats contain these attributes.
             </p>
 			</answer>
 		</faq>
@@ -67,11 +67,11 @@
 					"Use DDE" check box is not checked, and you can now finish by
 					clicking OK on each of the open dialogs to dismiss them. You
 					should now find that double clicking on an MPX file will now
-					only open one copy of the file in Microsoft Project.  
+					only open one copy of the file in Microsoft Project.
             </p>
 			</answer>
 		</faq>
-		
+
 		<faq id="java8">
 			<question>
 				I use a version of Java older than Java 8, can I use MPXJ?
@@ -84,14 +84,14 @@
 
 		<faq id="retroweaver">
 			<question>
-				I use a Java 1.4 JVM, but MPXJ is built with a later version of 
+				I use a Java 1.4 JVM, but MPXJ is built with a later version of
 				Java, is there anything I can do which will allow me to use it?
 			</question>
 			<answer>
-				Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0, 
+				Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0,
 				try using <a href="http://retroweaver.sourceforge.net/" target="_blank">Retroweaver</a>.
 			</answer>
-		</faq>		
+		</faq>
 	</part>
 
 	<part id="known-issues">
@@ -162,7 +162,7 @@
 					value as its name. The attributes of this resource should
 					actually be a summary of all of the resource combined,
 					e.g. utilisation, actual work, remaining work and so on for
-					the complete set of "real" resources. 
+					the complete set of "real" resources.
             </p>
 				<p>
 					You can ignore the first task if it has an outline level
