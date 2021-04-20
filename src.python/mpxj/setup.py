@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="mpxj",
-    version="9.2.4",
+    version="9.2.5",
     author="Jon Iles",
     author_email="jon.iles@bcs.org.uk",
     description="Python wrapper for the MPXJ Java library for manipulating project files",

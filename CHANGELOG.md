@@ -1,6 +1,8 @@
 # Changelog
 
 ## 9.3.0 (git master)
+
+## 9.2.5 (20/04/2021)
 * Add launcher batch file and shell script.
 * Improve handling of calculated task attributes when writing a project to a different format.
 * Ensure that dates are rolled up to summary tasks when reading FastTrack files.
