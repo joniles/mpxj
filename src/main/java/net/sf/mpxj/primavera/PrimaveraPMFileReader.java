@@ -1482,6 +1482,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
+         // Force calculation here to avoid later issues
+         parentTask.getStartSlack();
+         parentTask.getFinishSlack();
          parentTask.setCritical(critical);
       }
    }
