@@ -1444,6 +1444,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       for (Project.Tasks.Task.Baseline baseline : xmlTask.getBaseline())
       {
          int number = NumberHelper.getInt(baseline.getNumber());
+         if (number < 0 || number > 10)
+         {
+            continue;
+         }
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
          Duration duration = DatatypeConverter.parseDuration(m_projectFile, durationFormat, baseline.getDuration());

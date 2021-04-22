@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.3.0">
+			<action dev="joniles" type="update">Handle invalid baseline numbers when reading MSPDI files.</action>
 		</release>
 		<release date="20/04/2021" version="9.2.5">
 			<action dev="joniles" type="update">Add launcher batch file and shell script.</action>

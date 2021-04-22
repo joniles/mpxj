@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.3.0 (git master)
+* Handle invalid baseline numbers when reading MSPDI files.
 
 ## 9.2.5 (20/04/2021)
 * Add launcher batch file and shell script.
