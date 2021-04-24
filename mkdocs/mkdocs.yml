@@ -8,6 +8,10 @@ theme:
   logo: images/mpxj-white.svg
   favicon: images/favicon.png
 
+google_analytics:
+  - UA-7202224-1
+  - auto
+
 markdown_extensions:
   - attr_list
   - pymdownx.highlight
