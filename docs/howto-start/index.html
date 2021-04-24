@@ -1,0 +1,1264 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+    
+    
+      
+        <title>Getting Started - MPXJ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-7202224-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-get-started" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MPXJ" class="md-header__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MPXJ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting Started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/joniles/mpxj/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MPXJ" class="md-nav__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    MPXJ
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/joniles/mpxj/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        Changes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Getting Started
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Getting Started
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-get-started" class="md-nav__link">
+    How To: Get Started
+  </a>
+  
+    <nav class="md-nav" aria-label="How To: Get Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tasks-and-resources" class="md-nav__link">
+    Tasks and Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-assignments" class="md-nav__link">
+    Resource Assignments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendars" class="md-nav__link">
+    Calendars
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timephased-resource-assignments" class="md-nav__link">
+    Timephased Resource Assignments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-build/" class="md-nav__link">
+        Building MPXJ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-dotnet/" class="md-nav__link">
+        MPXJ and .Net
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-com/" class="md-nav__link">
+        MPXJ and COM
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-convert/" class="md-nav__link">
+        Converting Files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        How to Read...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="How to Read..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          How to Read...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpx/" class="md-nav__link">
+        MPX Files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpp/" class="md-nav__link">
+        MPP files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mspdi/" class="md-nav__link">
+        MSPDI files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd/" class="md-nav__link">
+        MPD files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-planner/" class="md-nav__link">
+        Planner files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-asta/" class="md-nav__link">
+        Asta files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-p3/" class="md-nav__link">
+        P3 files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-suretrak/" class="md-nav__link">
+        SureTrak files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-turboproject/" class="md-nav__link">
+        TurboProject files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectlibre/" class="md-nav__link">
+        ProjectLibre files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-fasttrack/" class="md-nav__link">
+        FastTrack files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttproject/" class="md-nav__link">
+        GanttProject files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-phoenix/" class="md-nav__link">
+        Phoenix files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-pmxml/" class="md-nav__link">
+        PMXML files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-primavera/" class="md-nav__link">
+        P6 databases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-xer/" class="md-nav__link">
+        XER files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-merlin/" class="md-nav__link">
+        Merlin files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-conceptdraw/" class="md-nav__link">
+        ConceptDraw PROJECT files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-synchro/" class="md-nav__link">
+        Synchro Scheduler files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttdesigner/" class="md-nav__link">
+        Gantt Designer files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-sdef/" class="md-nav__link">
+        SDEF files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-schedule-grid/" class="md-nav__link">
+        Schedule Grid files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectcommander/" class="md-nav__link">
+        Project Commander files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        How to Write...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="How to Write..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          How to Write...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mpx/" class="md-nav__link">
+        MPX files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mspdi/" class="md-nav__link">
+        MSPDI files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        Field Guides...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Field Guides..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Field Guides...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field-guide/" class="md-nav__link">
+        Field Guide
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpp-field-guide/" class="md-nav__link">
+        MPP Field Guide
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        Users
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-get-started" class="md-nav__link">
+    How To: Get Started
+  </a>
+  
+    <nav class="md-nav" aria-label="How To: Get Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tasks-and-resources" class="md-nav__link">
+    Tasks and Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-assignments" class="md-nav__link">
+    Resource Assignments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendars" class="md-nav__link">
+    Calendars
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timephased-resource-assignments" class="md-nav__link">
+    Timephased Resource Assignments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/joniles/mpxj/edit/master/docs/howto-start.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Getting Started</h1>
+                
+                <h2 id="how-to-get-started">How To: Get Started</h2>
+<p>The MPXJ library allows various formats of Microsoft Project file formats, and
+file formats from other project planning applications
+to be read and written using a single consistent API in Java, .Net, Python or any other 
+related languages, and provides read-only access as a Ruby gem.</p>
+<p>MPXJ is based around a "neutral" data structure which is used to represent
+project data, coupled with a set of format-specific reader and writer classes
+which understand how to read from and write to the various supported file 
+formats.</p>
+<p>The diagram below illustrates the key entities represented by the MPXJ
+data structure.</p>
+<p><img alt="Diagram of key MPXJ entities" src="../images/mpxj-entities.png" /></p>
+<p>MPXJ currently allows project data to be read from a wide variety
+of schedule file formats and databases. You can find details of the 
+individual file formats supported elsewhere in the documentation.
+By far the easiest way to read schedule data is to use the "universal project reader"
+which can determine for itself the type of file you have passed to it.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span> <span class="p">();</span>
+<span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>A similar arrangement exists for the writer classes, although there is not a
+"universal project writer" as such:</p>
+<ul>
+<li><code>net.sf.mpxj.mpx.MPXWriter</code>: writes Microsoft MPX files</li>
+<li><code>net.sf.mpxj.mspdi.MSPDIWriter</code>: writes Microsoft MSPDI (XML) files</li>
+<li><code>net.sf.mpxj.primavera.PrimaveraPMFileWriter</code>: writes Primavera PMXML (XML) files</li>
+<li><code>net.sf.mpxj.planner.PlannerWriter</code>: writes Planner (XML) files</li>
+<li><code>net.sf.mpxj.json.JsonWriter</code>: writes JSON files (primarily used to support the Ruby version of MPXJ)</li>
+</ul>
+<p>All of these classes implement the ProjectWriter interface. If you know which 
+type of file you are working with, you can use these writers directly, 
+for example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPXWriter</span><span class="p">();</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="s">&quot;example.mpx&quot;</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="tasks-and-resources">Tasks and Resources</h3>
+<p>Once you've read your project file, what next? The first things of interest 
+are the tasks and resources which are present in the file.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span> <span class="p">();</span>
+<span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">Resource</span> <span class="n">resource</span> <span class="p">:</span> <span class="n">project</span><span class="p">.</span><span class="na">getAllResources</span><span class="p">())</span>
+<span class="p">{</span>
+   <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Resource: &quot;</span> <span class="o">+</span> <span class="n">resource</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; (Unique ID=&quot;</span> <span class="o">+</span> <span class="n">resource</span><span class="p">.</span><span class="na">getUniqueID</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;)&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The code fragment above shows how we can retrieve a collection containing
+all of the resources present in the file, and iterate through them printing
+the resource name, ID and unique ID.</p>
+<p>Many of the entities represented in 
+MPXJ have some concept of a unique ID. Tasks and resources have two ID fields,
+the unique ID, which as its name suggests never changes and uniquely identifies
+a task or a resource, and the ID. The ID of a task or a resource is the 
+sequential number which typically appears next to the task or resource when 
+displayed in Microsoft Project. If the task or resource is moved up or down 
+the list, this number will change depending on the position in the list.
+The unique ID never changes.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span> <span class="p">();</span>
+<span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">Task</span> <span class="n">task</span> <span class="p">:</span> <span class="n">project</span><span class="p">.</span><span class="na">getAllTasks</span><span class="p">())</span>
+<span class="p">{</span>
+   <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task: &quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; ID=&quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getID</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; Unique ID=&quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getUniqueID</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The code fragment above retrieves all tasks present in the file and prints
+details of their names, IDs, and unique IDs. </p>
+<p>Methods are provided on the project to locate both tasks and resource using
+either their ID or their Unique ID, as the examples below illustrate.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Resource</span> <span class="n">r</span> <span class="o">=</span> <span class="n">project</span><span class="p">.</span><span class="na">getResourceByUniqueID</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">99</span><span class="p">));</span>
+<span class="n">Task</span> <span class="n">t</span> <span class="o">=</span> <span class="n">project</span><span class="p">.</span><span class="na">getTaskByUniqueID</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">99</span><span class="p">));</span>
+</code></pre></div>
+<p>The methods shown above for retrieving all tasks present in a project file
+ignores the hierarchical task structure which Microsoft Project allows users
+to create. To understand the hierarchical task structure, the following methods
+are used to descend through the hierarchy, starting from the top.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">Task</span><span class="o">&gt;</span> <span class="n">tasks</span> <span class="o">=</span> <span class="n">project</span><span class="p">.</span><span class="na">getChildTasks</span><span class="p">();</span>
+<span class="n">Task</span> <span class="n">task</span> <span class="o">=</span> <span class="n">tasks</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="na">getChildTasks</span><span class="p">();</span>
+</code></pre></div>
+<p>These methods are used in the following code fragment to print out an indented
+list representing the task hierarchy in the file.  </p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">listHierarchy</span><span class="p">(</span><span class="n">ProjectFile</span> <span class="n">file</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">for</span> <span class="p">(</span><span class="n">Task</span> <span class="n">task</span> <span class="p">:</span> <span class="n">file</span><span class="p">.</span><span class="na">getChildTasks</span><span class="p">())</span>
+   <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task: &quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+      <span class="n">listHierarchy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">);</span>
+   <span class="p">}</span>
+
+   <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">listHierarchy</span><span class="p">(</span><span class="n">Task</span> <span class="n">task</span><span class="p">,</span> <span class="n">String</span> <span class="n">indent</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">for</span> <span class="p">(</span><span class="n">Task</span> <span class="n">child</span> <span class="p">:</span> <span class="n">task</span><span class="p">.</span><span class="na">getChildTasks</span><span class="p">())</span>
+   <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">indent</span> <span class="o">+</span> <span class="s">&quot;Task: &quot;</span> <span class="o">+</span> <span class="n">child</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+      <span class="n">listHierarchy</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">indent</span> <span class="o">+</span> <span class="s">&quot; &quot;</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As well as the hierarchical relationships between tasks, there is also
+a temporal relationship between them: this is typically used to indicate
+when a task can start in relation to the completion of an earlier task. The 
+code fragment below shows the predecessor relationships between tasks. </p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">Task</span> <span class="n">task</span> <span class="p">:</span> <span class="n">file</span><span class="p">.</span><span class="na">getAllTasks</span><span class="p">())</span>
+<span class="p">{</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">Relation</span><span class="o">&gt;</span> <span class="n">predecessors</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="na">getPredecessors</span><span class="p">();</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">predecessors</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">predecessors</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+   <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; predecessors:&quot;</span><span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">Relation</span> <span class="n">relation</span> <span class="p">:</span> <span class="n">predecessors</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;   Task: &quot;</span> <span class="o">+</span> <span class="n">file</span><span class="p">.</span><span class="na">getTaskByUniqueID</span><span class="p">(</span><span class="n">relation</span><span class="p">.</span><span class="na">getTaskUniqueID</span><span class="p">()).</span><span class="na">getName</span><span class="p">());</span>
+         <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;   Type: &quot;</span> <span class="o">+</span> <span class="n">relation</span><span class="p">.</span><span class="na">getType</span><span class="p">());</span>
+         <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;   Lag: &quot;</span> <span class="o">+</span> <span class="n">relation</span><span class="p">.</span><span class="na">getDuration</span><span class="p">());</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="resource-assignments">Resource Assignments</h3>
+<p>Tasks and resources are related by resource assignments. There is a method 
+available on the ProjectFile class which will retrieve all resource assignments
+in the file. This is used by the code fragment below to provide an overview
+of all assignments.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">ResourceAssignment</span> <span class="n">assignment</span> <span class="p">:</span> <span class="n">file</span><span class="p">.</span><span class="na">getAllResourceAssignments</span><span class="p">())</span>
+<span class="p">{</span>
+   <span class="n">Task</span> <span class="n">task</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getTask</span><span class="p">();</span>
+   <span class="n">String</span> <span class="n">taskName</span><span class="p">;</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">taskName</span> <span class="o">=</span> <span class="s">&quot;(null task)&quot;</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">else</span>
+   <span class="p">{</span>
+      <span class="n">taskName</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span>
+   <span class="p">}</span>
+
+   <span class="n">Resource</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getResource</span><span class="p">();</span>
+   <span class="n">String</span> <span class="n">resourceName</span><span class="p">;</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">resource</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">resourceName</span> <span class="o">=</span> <span class="s">&quot;(null resource)&quot;</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">else</span>
+   <span class="p">{</span>
+      <span class="n">resourceName</span> <span class="o">=</span> <span class="n">resource</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span>
+   <span class="p">}</span>
+
+   <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Assignment: Task=&quot;</span> <span class="o">+</span> <span class="n">taskName</span> <span class="o">+</span> <span class="s">&quot; Resource=&quot;</span> <span class="o">+</span> <span class="n">resourceName</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Resource assignments can also be retrieved on a task-by-task basis, as the
+code fragment below illustrates.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">Task</span> <span class="n">task</span> <span class="p">:</span> <span class="n">file</span><span class="p">.</span><span class="na">getAllTasks</span><span class="p">())</span>
+<span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Assignments for task &quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">ResourceAssignment</span> <span class="n">assignment</span> <span class="p">:</span> <span class="n">task</span><span class="p">.</span><span class="na">getResourceAssignments</span><span class="p">())</span>
+  <span class="p">{</span>
+     <span class="n">Resource</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getResource</span><span class="p">();</span>
+     <span class="n">String</span> <span class="n">resourceName</span><span class="p">;</span>
+
+     <span class="k">if</span> <span class="p">(</span><span class="n">resource</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span>
+     <span class="p">{</span>
+        <span class="n">resourceName</span> <span class="o">=</span> <span class="s">&quot;(null resource)&quot;</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">else</span>
+     <span class="p">{</span>
+        <span class="n">resourceName</span> <span class="o">=</span> <span class="n">resource</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span>
+     <span class="p">}</span>
+
+     <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;   &quot;</span> <span class="o">+</span> <span class="n">resourceName</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, resource assignments can be viewed on a resource-by-resource basis,
+as the following code fragment shows. </p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">Resource</span> <span class="n">resource</span> <span class="p">:</span> <span class="n">file</span><span class="p">.</span><span class="na">getAllResources</span><span class="p">())</span>
+<span class="p">{</span>
+   <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Assignments for resource &quot;</span> <span class="o">+</span> <span class="n">resource</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span><span class="p">);</span>
+
+   <span class="k">for</span> <span class="p">(</span><span class="n">ResourceAssignment</span> <span class="n">assignment</span> <span class="p">:</span> <span class="n">resource</span><span class="p">.</span><span class="na">getTaskAssignments</span><span class="p">())</span>
+   <span class="p">{</span>
+      <span class="n">Task</span> <span class="n">task</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getTask</span><span class="p">();</span>
+      <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;   &quot;</span> <span class="o">+</span> <span class="n">task</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="calendars">Calendars</h3>
+<p>Calendars are used to define working and non-working time, and are one of the more
+complex structures defined as part of a project. They are in turn used to define
+the time period over which a task is scheduled. There are two types of calendar: 
+base calendars and resource calendars. Each base calendar provides a complete 
+definition of the working and non working time for each day of the week. 
+Resource calendars are associated with individual resources. Each resource 
+calendar is derived from a base calendar; resource calendars may be unmodified
+in which case it will appear to be identical to the underlying base calendar, 
+or the resource calendar may modify the working and non-working days. In this
+case these changes are "overlaid" on top of the working and non-working times
+defined by the base calendar. The calendars defined in a project can be retrieved
+using the method call shown below.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectCalendar</span><span class="o">&gt;</span> <span class="n">calendars</span> <span class="o">=</span> <span class="n">file</span><span class="p">.</span><span class="na">getCalendars</span><span class="p">();</span>
+</code></pre></div>
+<p>Normally a task without resource assignments will be scheduled with reference 
+to the "Standard" (default) calendar defined as part of the project. This is
+retrieved using the method calls shown below.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectCalendar</span> <span class="n">defaultCalendar</span> <span class="o">=</span> <span class="n">file</span><span class="p">.</span><span class="na">getDefaultCalendar</span><span class="p">();</span>
+</code></pre></div>
+<p>It is also possible to associate a specific calendar with an individual task.
+The method call below shows the calendar associated with a task being retrieved.  </p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectCalendar</span> <span class="n">taskCalendar</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="na">getCalendar</span><span class="p">();</span>
+</code></pre></div>
+<p>Bearing in mind that one calendar may be derived from another, care must be 
+taken when choosing the methods called on a calendar instance: some methods
+are used to retrieve attributes defined as part of that specific calendar only,
+while others are used to descend through the hierarchy of calendars until an
+"actual" value is retrieved. For example the getDays method will retrieve an
+array of flags indicating the working/non-working/default state of each day
+of the week as defined by the current calendar. The getDay method however will
+test the current calendar to see if it is a working or non-working day. If the 
+flag in the current calendar is set to "default", the method will use the
+base calendar from which the current calendar is derived to determine if the
+day is working or non-working.   </p>
+<p>As noted above a calendar contains a set of flags which represent  each day of
+the week, these  indicate the day of the week is working non-working, or
+"default". Where a day is set as "default", the working time for that day is
+taken from the underlying  base calendar, if it is a resource calendar, or uses
+the default values provided by Microsoft Project if it is a base calendar. </p>
+<p>If a particular day is defined as a working day, then the calendar will also
+contain a set of working hours for that day. The working hours for a day are
+defined by an instance of the ProjectCalendarHours class. This contains a 
+collection of DateRange instances which defined the start and end times
+of each working period during the day.</p>
+<p>Alongside the flags which control whether a day is working or non-working,  and
+the working hours for each day, each calendar defines a set of exceptions which
+are used to "override" the default working or non-working hours for individual
+days or entire date ranges. Methods are provided to allow a list of  all
+exceptions defined by a calendar can be retrieved, or to retrieve the exception
+which covers an individual date. Calendar exceptions are are represented by 
+instances of the ProjectCalendarException class. </p>
+<h3 id="timephased-resource-assignments">Timephased Resource Assignments</h3>
+<p>Although resource assignments on their own describe which resources are
+assigned to which tasks, and how much work they are going to do, this does not
+necessarily tell us how much work a resource will be doing on any particular 
+date. In order to find this information, you will need to consult the timephased
+resource assignment data.</p>
+<p>Each resource assignment has a pair of methods allowing you to retrieve 
+timephased data, as shown by the example code below.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">TimephasedResourceAssignment</span><span class="o">&gt;</span> <span class="n">planned</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getTimephasedPlanned</span><span class="p">();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">TimephasedResourceAssignment</span><span class="o">&gt;</span> <span class="n">complete</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">.</span><span class="na">getTimephasedComplete</span><span class="p">();</span>
+</code></pre></div>
+<p>Timephased resource assignment data is represented by instances of the 
+TimephasedResourceAssignment class. This class is designed to provide a compact
+representation of the work carried out over ranges of days, rather than having
+to represent the work carried out on each individual day using a single class 
+instance per day. Each TimephasedResourceAssignment defines four attributes: a start
+date, an end date, a total amount of work, and an amount of work per day.</p>
+<p>For example, you may retrieve an instance of the TimephasedResourceAssignment
+class whose start and end date defines a five day period. The total work for the
+period is  40 hours, and the work per day is defined as 8 hours. This indicates 
+that for the period in question, on each working day within the date range,
+8 hours of work will be carried out. It is important to remember that 
+non-working days are ignored, so for example if we have a 7 day period which 
+spans a weekend, the total work could still be 40 hours, and the work per day
+8 hours: only the 5 working days are allocated work, the non-working weekend
+days have zero hours of work performed.   </p>
+<p>The two lists defined above will contain multiple 
+TimephasedResourceAssignment instances where different numbers of hours are 
+worked on different days. Each contiguous range of dates where the same number
+of hours are worked in a day will be represented by one TimephasedResourceAssignment
+instance.  </p>
+<p>The two lists of timephased data represent completed (actual) work, and planned
+work respectively. These lists may overlap by a single day if they are being
+used to show a partially completed day's work. For example, during a normal 8
+hour working day, if 4 hours of work has been completed, and 4 hours remains,
+then the list of completed timephased data will end with 4 hours of work which
+have been completed,  and the planned work list will start with the 4 hours
+remaining on the same day.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../CHANGELOG/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Changes
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../howto-build/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Building MPXJ
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>

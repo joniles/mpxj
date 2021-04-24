@@ -26,51 +26,16 @@
   	</custom>
 
 	<body>
-    <menu name="MPXJ">
-      <item name="Overview" href="/index.html" />
-      <item name="Changes" href="/changes-report.html" />
-      <item name="Getting started..." href="/getting-started.html" collapse="true">
-	      <item name="Get started" href="/howto-start.html" />
-	      <item name="Java versions" href="/java-versions.html" />
-	      <item name="Build MPXJ" href="/howto-build.html" />
-	      <item name="Use MPXJ with .Net" href="/howto-dotnet.html" />
-	      <item name="Use MPXJ with COM" href="/howto-com.html" />
-	      <item name="Convert files" href="/howto-convert.html" />
-      </item>
-      <item name="How to read..." href="/howto-read.html" collapse="true">
-	      <item name="MPX files" href="/howto-read-mpx.html" />
-	      <item name="MPP files" href="/howto-read-mpp.html" />
-	      <item name="MSPDI files" href="/howto-read-mspdi.html" />
-	      <item name="MPD files" href="/howto-read-mpd.html" />
-	      <item name="Planner files" href="/howto-read-planner.html" />
-	      <item name="Asta files" href="/howto-read-asta.html" />
-	      <item name="P3 files" href="/howto-read-p3.html" />
-	      <item name="SureTrak files" href="/howto-read-suretrak.html" />
-	      <item name="TurboProject files" href="/howto-read-turboproject.html" />
-	      <item name="ProjectLibre files" href="/howto-read-projectlibre.html" />
-	      <item name="FastTrack files" href="/howto-read-fasttrack.html" />
-	      <item name="GanttProject files" href="/howto-read-ganttproject.html" />
-	      <item name="Phoenix files" href="/howto-read-phoenix.html" />
-	      <item name="PMXML files" href="/howto-read-pmxml.html" />
-	      <item name="P6 databases" href="/howto-read-primavera.html" />
-	      <item name="XER files" href="/howto-read-xer.html" />
-	      <item name="Merlin files" href="/howto-read-merlin.html" />
-	      <item name="ConceptDraw PROJECT files" href="/howto-read-conceptdraw.html" />
-	      <item name="Synchro Scheduler files" href="/howto-read-synchro.html" />
-	      <item name="Gantt Designer files" href="/howto-read-ganttdesigner.html" />
-	      <item name="SDEF files" href="/howto-read-sdef.html" />
-	      <item name="Schedule Grid files" href="/howto-read-schedule-grid.html" />
-	      <item name="Project Commander files" href="/howto-read-projectcommander.html" />
-      </item>
-      <item name="How to write..." href="/howto-write.html" collapse="true">
-	      <item name="MPX files" href="/howto-write-mpx.html" />
-	      <item name="MSPDI files" href="/howto-write-mspdi.html" />
-      </item>
-      <item name="Field Guide" href="/field-guide.html" />
-      <item name="MPP Field Guide" href="/mpp-field-guide.html" />
-      <item name="FAQ" href="/faq.html" />
-      <item name="Users" href="/users.html" />
-    </menu>
-    <menu ref="reports" />
+		<menu name="MPXJ">
+			<item name="Summary" href="summary.html" />
+			<item name="Changes" href="changes-report.html" />
+			<item name="Team" href="team.html" />
+			<item name="Mailing List" href="mailing-lists.html" />
+			<item name="Issues" href="issue-management.html" />
+			<item name="Source" href="scm.html" />
+			<item name="Javadoc" href="apidocs/index.html" />
+			<item name="Dependencies" href="dependency-updates-report.html" />
+			<item name="Plugins" href="plugin-updates-report.html" />
+	    </menu>
 	</body>
 </project>
