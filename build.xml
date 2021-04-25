@@ -616,6 +616,8 @@
 		<exec executable="${python}" dir="${basedir}/mkdocs">
 			<arg line="-m mkdocs build -d ${docs.dir}" />
 		</exec>
+		<delete file="${basedir}/docs/sitemap.xml" />
+		<delete file="${basedir}/docs/sitemap.xml.gz" />
 	</target>
 
 	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
