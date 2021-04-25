@@ -526,6 +526,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           XER files
@@ -541,6 +543,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -549,21 +553,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-xer-files" class="md-nav__link">
-    How To: Read XER files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read XER files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-xer-files" class="md-nav__link">
     Reading XER files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-primaveraxerfilereader" class="md-nav__link">
     Using PrimaveraXERFileReader
   </a>
@@ -617,11 +613,6 @@
   <a href="#reading-additional-attributes" class="md-nav__link">
     Reading Additional Attributes
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -897,6 +888,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -905,21 +898,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-xer-files" class="md-nav__link">
-    How To: Read XER files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read XER files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-xer-files" class="md-nav__link">
     Reading XER files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-primaveraxerfilereader" class="md-nav__link">
     Using PrimaveraXERFileReader
   </a>
@@ -980,11 +965,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -1003,12 +983,11 @@
                   </a>
                 
                 
-                  <h1>XER files</h1>
-                
-                <h2 id="how-to-read-xer-files">How To: Read XER files</h2>
-<p>The XER file format has long been read and written by Primavera P6. Although an XML file format (PMXML)
-is now also supported, the XER file format is still widely used.</p>
-<h3 id="reading-xer-files">Reading XER files</h3>
+                <h1 id="how-to-read-xer-files">How To: Read XER files</h1>
+<p>The XER file format has long been read and written by Primavera P6. Although an
+XML file format (PMXML) is now also supported, the XER file format is still
+widely used.</p>
+<h2 id="reading-xer-files">Reading XER files</h2>
 <p>The simplest way to read an XER file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -1018,17 +997,19 @@ is now also supported, the XER file format is still widely used.</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="using-primaveraxerfilereader">Using PrimaveraXERFileReader</h3>
-<p>You can work directly with the <code>PrimaveraXERFileReader</code> class by replacing <code>UniversalProjectReader</code>
-with <code>PrimaveraXERFileReader</code>. This provides access to additional options, as described below.</p>
-<h4 id="encoding">Encoding</h4>
-<p>By default MPXJ assumes that XER files are encoded using Windows-1252. The <code>UniversalProjectReader</code>
-understands Unicode Byte Order Marks (BOM) and will adjust the encoding appropriately if a
-BOM is present. If you have an XER file with an unusual encoding, you can manually
-set the encoding used by the reader.</p>
-<p>Two methods are provided to do this: <code>setCharset</code> and <code>setEncoding</code>. The <code>setCharset</code> method
-takes an instance of the <code>Charset</code> class, while the <code>setEncoding</code> method takes the name of
-an encoding. Examples of these methods are shown below:</p>
+<h2 id="using-primaveraxerfilereader">Using PrimaveraXERFileReader</h2>
+<p>You can work directly with the <code>PrimaveraXERFileReader</code> class by replacing
+<code>UniversalProjectReader</code> with <code>PrimaveraXERFileReader</code>. This provides access to
+additional options, as described below.</p>
+<h3 id="encoding">Encoding</h3>
+<p>By default MPXJ assumes that XER files are encoded using Windows-1252. The
+<code>UniversalProjectReader</code> understands Unicode Byte Order Marks (BOM) and will
+adjust the encoding appropriately if a BOM is present. If you have an XER file
+with an unusual encoding, you can manually set the encoding used by the reader.</p>
+<p>Two methods are provided to do this: <code>setCharset</code> and <code>setEncoding</code>. The
+<code>setCharset</code> method takes an instance of the <code>Charset</code> class, while the
+<code>setEncoding</code> method takes the name of an encoding. Examples of these methods
+are shown below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
@@ -1044,11 +1025,11 @@ an encoding. Examples of these methods are shown below:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setEncoding</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">);</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="multiple-projects">Multiple Projects</h4>
-<p>An XER file can contain multiple projects. By default MPXJ reads the first project
-it finds in the file which has been marked as the "exported" project, otherwise it will simply read the first project it finds.
-You can however use MPXJ to list the projects contained in
-an XER file, as shown below:</p>
+<h3 id="multiple-projects">Multiple Projects</h3>
+<p>An XER file can contain multiple projects. By default MPXJ reads the first
+project it finds in the file which has been marked as the "exported" project,
+otherwise it will simply read the first project it finds. You can however use
+MPXJ to list the projects contained in an XER file, as shown below:</p>
 <p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="p">...</span>
@@ -1087,11 +1068,11 @@ call <code>setProjectID</code> to tell the reader which project to open, as show
 </code></pre></div>
 <p>The call to the <code>readAll</code> method returns a list of <code>ProjectFile</code> instances corresponding
 to the projects in the XER file.</p>
-<h4 id="link-cross-project-relations">Link Cross-Project Relations</h4>
-<p>An XER file can contain multiple projects with relations between activities which span
-those projects. By default these cross-project relations are ignored. However, if you set the
-<code>linkCrossProjectRelations</code> reader attribute to <code>true</code>, MPXJ will attempt to
-link these relations across projects: </p>
+<h3 id="link-cross-project-relations">Link Cross-Project Relations</h3>
+<p>An XER file can contain multiple projects with relations between activities
+which span those projects. By default these cross-project relations are ignored.
+However, if you set the <code>linkCrossProjectRelations</code> reader attribute to <code>true</code>,
+MPXJ will attempt to link these relations across projects: </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
@@ -1102,12 +1083,13 @@ link these relations across projects: </p>
 <span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectFile</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">readAll</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="activity-wbs">Activity WBS</h4>
-<p>In the original implementation of the XER file handling code, MPXJ would assign each task representing
-a Primavera Activity its own distinct WBS value. This does not match Primavera's behaviour where
-all of a WBS element's child activities will have the same WBS value as the parent WBS element.
-MPXJ's default behaviour now matches Primavera, but should you wish to you can revert to the original
-behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
+<h3 id="activity-wbs">Activity WBS</h3>
+<p>In the original implementation of the XER file handling code, MPXJ would assign
+each task representing a Primavera Activity its own distinct WBS value. This
+does not match Primavera's behaviour where all of a WBS element's child
+activities will have the same WBS value as the parent WBS element. MPXJ's
+default behaviour now matches Primavera, but should you wish to you can revert
+to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
@@ -1117,13 +1099,13 @@ behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">file</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="wbs-is-full-path">WBS is Full Path</h4>
+<h3 id="wbs-is-full-path">WBS is Full Path</h3>
 <p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
-separated hierarchy of all of the parent WBS attributes.
-In this example, <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has
-the parents <code>root</code> and <code>wbs1</code>. To disabled this behaviour, and simply record
-the code for the current WBS entry (in the example above <code>wbs2</code>) call the
-<code>setWbsIsFullPath</code> method, passing in <code>false</code>, as illustrated below.  </p>
+separated hierarchy of all of the parent WBS attributes. In this example,
+<code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has the parents <code>root</code>
+and <code>wbs1</code>. To disabled this behaviour, and simply record the code for the
+current WBS entry (in the example above <code>wbs2</code>) call the <code>setWbsIsFullPath</code>
+method, passing in <code>false</code>, as illustrated below.  </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
@@ -1132,7 +1114,7 @@ the code for the current WBS entry (in the example above <code>wbs2</code>) call
 <span class="n">PrimaveraXERFileReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="user-defined-fields">User Defined Fields</h4>
+<h3 id="user-defined-fields">User Defined Fields</h3>
 <p>MPXJ attempts to map user defined fields from P6 to the custom fields.
 When MPXJ reads user defined fields from the XER file, it will assign
 each new user defined field to a new custom attribute. For example when
@@ -1143,9 +1125,9 @@ than there are custom attributes of a specific type in the MPXJ data model.
 For example the task entity only has TEXT to TEXT30 attributes, so if the XER
 file has more than 30 text user defined attributes, the default mapping
 switches to using ENTERPRISE_TEXT fields.</p>
-<p>The list below shows the default mappings used by MPXJ. Where there is more than one item
-shown for each user defined type, this indicates how MPXJ "overflows" from one
-custom type to another.</p>
+<p>The list below shows the default mappings used by MPXJ. Where there is more than
+one item shown for each user defined type, this indicates how MPXJ "overflows"
+from one custom type to another.</p>
 <ul>
 <li>FT_TEXT: TEXT, ENTERPRISE_TEXT</li>
 <li>FT_START_DATE: START</li>
@@ -1168,25 +1150,28 @@ custom fields using the the methods shown in the code sample below:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForAssignmentUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_END_DATE</span><span class="p">,</span> <span class="s">&quot;DATE&quot;</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">file</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>As the sample shows, a method is provided for the three main entity types: tasks, resources
-and resource assignments. The first argument you pass to these methods is the P6 user defined
-field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ,
-you would pass in <code>"DATE"</code>. To allow values to overflow from one custom field type
-to another, you can simply pass additional values (see the <code>setFieldNamesForTaskUdfType</code> example above).</p>
-<h4 id="reading-additional-attributes">Reading Additional Attributes</h4>
-<p>A data-driven approach is used to extract the attributes used by MPXJ from the XER file.
-You can if you wish change the way attributes are read from the file, or add support
-for additional attributes. This assumes that you know the column name of the attributes
-you want to work with in the XER file. To make changes you will need to retrieve the maps
-which define which MPXJ attributes are used to store which columns from the XER file:</p>
+<p>As the sample shows, a method is provided for the three main entity types:
+tasks, resources and resource assignments. The first argument you pass to these
+methods is the P6 user defined field type, followed by a list of names, for
+example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in
+<code>"DATE"</code>. To allow values to overflow from one custom field type to another, you
+can simply pass additional values (see the <code>setFieldNamesForTaskUdfType</code> example
+above).</p>
+<h3 id="reading-additional-attributes">Reading Additional Attributes</h3>
+<p>A data-driven approach is used to extract the attributes used by MPXJ from the
+XER file. You can if you wish change the way attributes are read from the file,
+or add support for additional attributes. This assumes that you know the column
+name of the attributes you want to work with in the XER file. To make changes
+you will need to retrieve the maps which define which MPXJ attributes are used
+to store which columns from the XER file:</p>
 <div class="highlight"><pre><span></span><code><span class="n">PrimaveraXERFileReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">resourceFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">wbsFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">activityFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">assignmentFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
 </code></pre></div>
-<p>These maps will contain the default mapping between columns and MPXJ attributes. You can modify
-these existing mappings, or add new ones, for example:</p>
+<p>These maps will contain the default mapping between columns and MPXJ attributes.
+You can modify these existing mappings, or add new ones, for example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//</span>
 <span class="c1">// Change the field used to store rsrc_id</span>
 <span class="c1">//</span>
@@ -1198,13 +1183,14 @@ these existing mappings, or add new ones, for example:</p>
 <span class="c1">//</span>
 <span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span> <span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>When reading new columns from the XER file, if these columns have a type other than String,
-it is important to register the type of the column to ensure that it is converted correctly.
-You will also need to ensure that the MPXJ attribute you are writing this new value to
-can receive the data type you are assigning to it (for example, you must store a date in a
-date attribute, you can't store a date in an integer attribute).</p>
-<p>For example, if we are reading an integer column called <code>an_example_id</code> and store it in
-the <code>NUMBER2</code> attribute, we will need to take the following steps:</p>
+<p>When reading new columns from the XER file, if these columns have a type other
+than String, it is important to register the type of the column to ensure that
+it is converted correctly. You will also need to ensure that the MPXJ attribute
+you are writing this new value to can receive the data type you are assigning to
+it (for example, you must store a date in a date attribute, you can't store a
+date in an integer attribute).</p>
+<p>For example, if we are reading an integer column called <code>an_example_id</code> and
+store it in the <code>NUMBER2</code> attribute, we will need to take the following steps:</p>
 <div class="highlight"><pre><span></span><code><span class="n">PrimaveraXERFileReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">XerFieldType</span><span class="o">&gt;</span> <span class="n">fieldTypeMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getFieldTypeMap</span><span class="p">();</span>
 <span class="n">fieldTypeMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;an_example_id&quot;</span><span class="p">,</span> <span class="n">XerFieldType</span><span class="p">.</span><span class="na">INTEGER</span><span class="p">);</span>

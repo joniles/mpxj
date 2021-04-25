@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-build-mpxj" class="md-skip">
+        <a href="#building-mpxj" class="md-skip">
           Skip to content
         </a>
       
@@ -268,6 +268,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Building MPXJ
@@ -283,6 +285,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -291,43 +295,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-build-mpxj" class="md-nav__link">
-    How To: Build MPXJ
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Build MPXJ">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#obtaining-the-source" class="md-nav__link">
     Obtaining the source
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#building-the-java-jar" class="md-nav__link">
     Building the Java JAR
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#building-the-net-dlls" class="md-nav__link">
     Building the .NET DLLs
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#generating-the-jaxb-code" class="md-nav__link">
     Generating the JAXB code
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -856,6 +847,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -864,43 +857,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-build-mpxj" class="md-nav__link">
-    How To: Build MPXJ
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Build MPXJ">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#obtaining-the-source" class="md-nav__link">
     Obtaining the source
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#building-the-java-jar" class="md-nav__link">
     Building the Java JAR
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#building-the-net-dlls" class="md-nav__link">
     Building the .NET DLLs
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#generating-the-jaxb-code" class="md-nav__link">
     Generating the JAXB code
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -921,9 +901,7 @@
                   </a>
                 
                 
-                  <h1>Building MPXJ</h1>
-                
-                <h2 id="how-to-build-mpxj">How To: Build MPXJ</h2>
+                <h1 id="building-mpxj">Building MPXJ</h1>
 <p>Although MPXJ can be downloaded as a complete package from Maven, GitHub and
 SourceForge, the development of the library continues between releases and is
 driven by user requests for new functionality and bug fixes being applied to
@@ -937,11 +915,11 @@ can normally be guaranteed  to be as good as that in an official release.</p>
 <p>In order to take advantage of MPXJ functionality from GitHub, you will need to 
 understand how to build the library, whether you are using it in the form
 of a Java JAR or a .NET DLL. The following sections explain how to do this.</p>
-<h3 id="obtaining-the-source">Obtaining the source</h3>
+<h2 id="obtaining-the-source">Obtaining the source</h2>
 <p>The first step in the process of building your own version of MPXJ is to obtain 
 the latest source from <a href="https://github.com/joniles/mpxj">GitHub</a>.
 Instructions for cloning the repository can be found on this page.</p>
-<h3 id="building-the-java-jar">Building the Java JAR</h3>
+<h2 id="building-the-java-jar">Building the Java JAR</h2>
 <p>MPXJ is built using Maven. Once you have a cloned copy of the MPXJ repository,
 you may wish to update the <code>groupId</code>, <code>artifactId</code> or <code>version</code> attributes in
 <code>pom.xml</code>. This will ensure that there is no confusion between the version of
@@ -957,7 +935,7 @@ this skips running the unit tests, javadoc generation and source packaging. </p>
 install your newly built version of MPXJ in a local Maven repository:</p>
 <div class="highlight"><pre><span></span><code>mvn -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install
 </code></pre></div>
-<h3 id="building-the-net-dlls">Building the .NET DLLs</h3>
+<h2 id="building-the-net-dlls">Building the .NET DLLs</h2>
 <p>Building the .NET DLL version of MPXJ uses an Ant script to first
 run Maven to create the Java version, then run IKVM to create a .Net version.</p>
 <ul>
@@ -971,7 +949,7 @@ run Maven to create the Java version, then run IKVM to create a .Net version.</p
 </code></pre></div>
 <p>The Ant script will recognise that IKVM is present and build the .NET DLL 
 in the lib.net folder.</p>
-<h3 id="generating-the-jaxb-code">Generating the JAXB code</h3>
+<h2 id="generating-the-jaxb-code">Generating the JAXB code</h2>
 <p>In order to read and write various XML file formats, MPXJ relies on code
 generated by the JAXB tool <code>xjc</code> from the XML schema for each file format.
 Normally you will not need to regenerate this source, but if you are changing 

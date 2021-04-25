@@ -394,6 +394,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Planner files
@@ -409,6 +411,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -417,22 +421,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-planner-files" class="md-nav__link">
-    How To: Read Planner files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Planner files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-planner-files" class="md-nav__link">
     Reading Planner files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -835,6 +826,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -843,22 +836,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-planner-files" class="md-nav__link">
-    How To: Read Planner files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Planner files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-planner-files" class="md-nav__link">
     Reading Planner files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -879,12 +859,10 @@
                   </a>
                 
                 
-                  <h1>Planner files</h1>
-                
-                <h2 id="how-to-read-planner-files">How To: Read Planner files</h2>
+                <h1 id="how-to-read-planner-files">How To: Read Planner files</h1>
 <p>Gnome Planner is a popular open source planning tool which writes its own
 XML files.</p>
-<h3 id="reading-planner-files">Reading Planner files</h3>
+<h2 id="reading-planner-files">Reading Planner files</h2>
 <p>The simplest way to read a Planner file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -894,7 +872,10 @@ XML files.</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>You can work directly with the <code>PlannerReader</code> by replacing <code>UniversalProjectReader</code> with <code>PlannerReader</code>, although this offers no particular advantage as there are no additional configuration settings available on the <code>PlannerReader</code> class.</p>
+<p>You can work directly with the <code>PlannerReader</code> by replacing
+<code>UniversalProjectReader</code> with <code>PlannerReader</code>, although this offers no
+particular advantage as there are no additional configuration settings available
+on the <code>PlannerReader</code> class.</p>
                 
               
               

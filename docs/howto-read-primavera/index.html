@@ -514,6 +514,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           P6 databases
@@ -529,6 +531,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -537,28 +541,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-a-primavera-p6-database" class="md-nav__link">
-    How To: Read a Primavera P6 database
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read a Primavera P6 database">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#java" class="md-nav__link">
     Java
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net" class="md-nav__link">
     .Net
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-primaveradatabasereader" class="md-nav__link">
     Using PrimaveraDatabaseReader
   </a>
@@ -591,11 +587,6 @@
   <a href="#reading-additional-attributes" class="md-nav__link">
     Reading Additional Attributes
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -883,6 +874,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -891,28 +884,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-a-primavera-p6-database" class="md-nav__link">
-    How To: Read a Primavera P6 database
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read a Primavera P6 database">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#java" class="md-nav__link">
     Java
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net" class="md-nav__link">
     .Net
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-primaveradatabasereader" class="md-nav__link">
     Using PrimaveraDatabaseReader
   </a>
@@ -952,11 +937,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -975,54 +955,52 @@
                   </a>
                 
                 
-                  <h1>P6 databases</h1>
-                
-                <h2 id="how-to-read-a-primavera-p6-database">How To: Read a Primavera P6 database</h2>
+                <h1 id="how-to-read-a-primavera-p6-database">How To: Read a Primavera P6 database</h1>
 <p>Reading from a Primavera database is a slightly different proposition
 to reading file-based project data, as a database connection is required.</p>
-<h3 id="java">Java</h3>
+<h2 id="java">Java</h2>
 <p>The example below illustrates how to do this for a Primavera database
 hosted in SQL Server, using the open source JTDS JDBC driver. 
 The only difference when reading from an Oracle
 database will be the JDBC driver and connection string used.</p>
-<div class="highlight"><pre><span></span><code>import java.sql.Connection;
-import java.sql.DriverManager;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
 
-...
+<span class="p">...</span>
 
-//
-// Load the JDBC driver
-//
-String driverClass=&quot;net.sourceforge.jtds.jdbc.Driver&quot;;
-Class.forName(driverClass);
+<span class="c1">//</span>
+<span class="c1">// Load the JDBC driver</span>
+<span class="c1">//</span>
+<span class="n">String</span> <span class="n">driverClass</span><span class="o">=</span><span class="s">&quot;net.sourceforge.jtds.jdbc.Driver&quot;</span><span class="p">;</span>
+<span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="n">driverClass</span><span class="p">);</span>
 
-//
-// Open a database connection. You will need to change
-// these details to match the name of your server, database, user and password.
-//
-String connectionString=&quot;jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb&quot;;
-Connection c = DriverManager.getConnection(connectionString);
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setConnection(c);
+<span class="c1">//</span>
+<span class="c1">// Open a database connection. You will need to change</span>
+<span class="c1">// these details to match the name of your server, database, user and password.</span>
+<span class="c1">//</span>
+<span class="n">String</span> <span class="n">connectionString</span><span class="o">=</span><span class="s">&quot;jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb&quot;</span><span class="p">;</span>
+<span class="n">Connection</span> <span class="n">c</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">connectionString</span><span class="p">);</span>
+<span class="n">PrimaveraDatabaseReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="n">reader</span><span class="p">.</span><span class="na">setConnection</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
 
-//
-// Retrieve a list of the projects available in the database
-//
-Map&lt;Integer,String&gt; projects = reader.listProjects();
+<span class="c1">//</span>
+<span class="c1">// Retrieve a list of the projects available in the database</span>
+<span class="c1">//</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">projects</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">();</span>
 
-//
-// At this point you&#39;ll select the project
-// you want to work with.
-//
+<span class="c1">//</span>
+<span class="c1">// At this point you&#39;ll select the project</span>
+<span class="c1">// you want to work with.</span>
+<span class="c1">//</span>
 
-//
-// Now open the selected project using its ID
-//
-int selectedProjectID = 1;
-reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read();
+<span class="c1">//</span>
+<span class="c1">// Now open the selected project using its ID</span>
+<span class="c1">//</span>
+<span class="kt">int</span> <span class="n">selectedProjectID</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
+<span class="n">ProjectFile</span> <span class="n">projectFile</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
 </code></pre></div>
 <p>You can also connect to a standalone SQLite P6 database. This
 is easier to achieve as a specific reader class has bee created
@@ -1051,40 +1029,43 @@ which manages the database connection for you:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">projectFile</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;PPMDBSQLite.db&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="net">.Net</h3>
+<h2 id="net">.Net</h2>
 <p>The situation is a little more complicated when using the .Net version of MPXJ.
 In this case you are still actually running Java code, so you need to use a JDBC
 driver to establish a database connection.</p>
-<p>Your first step will be to convert your JDBC driver to a .Net assembly using IKVM. For example
-the command line below converts a version of Microsoft's SQL Server JDBC driver to a .Net
-assembly:</p>
+<p>Your first step will be to convert your JDBC driver to a .Net assembly using
+IKVM. For example the command line below converts a version of Microsoft's SQL
+Server JDBC driver to a .Net assembly:</p>
 <div class="highlight"><pre><span></span><code>c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
 </code></pre></div>
-<p>You can then add a reference to this assembly to your project. Configuring the JDBC driver
-needs to be done in a slightly different way than you would using Java. Here we need to
-create an instance of the JDBC driver class directly, rather than referencing it by name as we would in Java.</p>
-<div class="highlight"><pre><span></span><code>//
-// Configure the connection
-//
-var driver = new SQLServerDriver();
-var connectionProperties = new Properties();
-var connection = driver.connect(connectionString, connectionProperties);
+<p>You can then add a reference to this assembly to your project. Configuring the
+JDBC driver needs to be done in a slightly different way than you would using
+Java. Here we need to create an instance of the JDBC driver class directly,
+rather than referencing it by name as we would in Java.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//</span>
+<span class="c1">// Configure the connection</span>
+<span class="c1">//</span>
+<span class="kt">var</span> <span class="n">driver</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SQLServerDriver</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">connectionProperties</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">connection</span> <span class="p">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connectionString</span><span class="p">,</span> <span class="n">connectionProperties</span><span class="p">);</span>
 
-//
-// Configure the reader
-//
-var reader = new PrimaveraDatabaseReader();
-reader.Connection = connection;
+<span class="c1">//</span>
+<span class="c1">// Configure the reader</span>
+<span class="c1">//</span>
+<span class="kt">var</span> <span class="n">reader</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="n">reader</span><span class="p">.</span><span class="n">Connection</span> <span class="p">=</span> <span class="n">connection</span><span class="p">;</span>
 </code></pre></div>
-<p>You can find the complete code for this <a href="https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs">here</a>.</p>
-<h3 id="using-primaveradatabasereader">Using PrimaveraDatabaseReader</h3>
+<p>You can find the complete code for this
+<a href="https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs">here</a>.</p>
+<h2 id="using-primaveradatabasereader">Using PrimaveraDatabaseReader</h2>
 <p>This section documents the additional options provided by the PrimaveraDatabaseReader.</p>
-<h4 id="activity-wbs">Activity WBS</h4>
-<p>In the original implementation of the database handling code, MPXJ would assign each task representing
-a Primavera Activity its own distinct WBS value. This does not match Primavera's behaviour where
-all of a WBS element's child activities will have the same WBS value as the parent WBS element.
-MPXJ's default behaviour now matches Primavera, but should you wish to you can revert to the original
-behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
+<h3 id="activity-wbs">Activity WBS</h3>
+<p>In the original implementation of the database handling code, MPXJ would assign
+each task representing a Primavera Activity its own distinct WBS value. This
+does not match Primavera's behaviour where all of a WBS element's child
+activities will have the same WBS value as the parent WBS element. MPXJ's
+default behaviour now matches Primavera, but should you wish to you can revert
+to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
 
@@ -1093,7 +1074,7 @@ behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
 <span class="n">PrimaveraDatabaseReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="wbs-is-full-path">WBS is Full Path</h4>
+<h3 id="wbs-is-full-path">WBS is Full Path</h3>
 <p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
 separated hierarchy of all of the parent WBS attributes.
 In this example, <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has
@@ -1108,20 +1089,20 @@ the code for the current WBS entry (in the example above <code>wbs2</code>) call
 <span class="n">PrimaveraDatabaseReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="user-defined-fields">User Defined Fields</h4>
+<h3 id="user-defined-fields">User Defined Fields</h3>
 <p>MPXJ attempts to map user defined fields from P6 to the custom fields.
 When MPXJ reads user defined fields from the database, it will assign
 each new user defined field to a new custom attribute. For example when
 the first custom text field is read, it will be stored in TEXT1, the next
 custom text field will be stored in TEXT2, and so on.</p>
-<p>It is possible that there are more user defined values in the database
-than there are custom attributes of a specific type in the MPXJ data model.
-For example the task entity only has TEXT to TEXT30 attributes, so if the database
-has more than 30 text user defined attributes, the default mapping
-switches to using ENTERPRISE_TEXT fields.</p>
-<p>The list below shows the default mappings used by MPXJ. Where there is more than one item
-shown for each user defined type, this indicates how MPXJ "overflows" from one
-custom type to another.</p>
+<p>It is possible that there are more user defined values in the database than
+there are custom attributes of a specific type in the MPXJ data model. For
+example the task entity only has TEXT to TEXT30 attributes, so if the database
+has more than 30 text user defined attributes, the default mapping switches to
+using ENTERPRISE_TEXT fields.</p>
+<p>The list below shows the default mappings used by MPXJ. Where there is more than
+one item shown for each user defined type, this indicates how MPXJ "overflows"
+from one custom type to another.</p>
 <ul>
 <li>FT_TEXT: TEXT, ENTERPRISE_TEXT</li>
 <li>FT_START_DATE: START</li>
@@ -1143,25 +1124,28 @@ custom fields using the the methods shown in the code sample below:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForResourceUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_START_DATE</span><span class="p">,</span> <span class="s">&quot;DATE&quot;</span><span class="p">);</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForAssignmentUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_END_DATE</span><span class="p">,</span> <span class="s">&quot;DATE&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>As the sample shows, a method is provided for the three main entity types: tasks, resources
-and resource assignments. The first argument you pass to these methods is the P6 user defined
-field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ,
-you would pass in <code>"DATE"</code>. To allow values to overflow from one custom field type
-to another, you can simply pass additional values (see the <code>setFieldNamesForTaskUdfType</code> example above).</p>
-<h4 id="reading-additional-attributes">Reading Additional Attributes</h4>
-<p>A data-driven approach is used to extract the attributes used by MPXJ from the database.
-You can if you wish change the way attributes are read from the file, or add support
-for additional attributes. This assumes that you know the column name of the attributes
-you want to work with in the database. To make changes you will need to retrieve the maps
-which define which MPXJ attributes are used to store which columns from the database:</p>
+<p>As the sample shows, a method is provided for the three main entity types:
+tasks, resources and resource assignments. The first argument you pass to these
+methods is the P6 user defined field type, followed by a list of names, for
+example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in
+<code>"DATE"</code>. To allow values to overflow from one custom field type to another, you
+can simply pass additional values (see the <code>setFieldNamesForTaskUdfType</code> example
+above).</p>
+<h3 id="reading-additional-attributes">Reading Additional Attributes</h3>
+<p>A data-driven approach is used to extract the attributes used by MPXJ from the
+database. You can if you wish change the way attributes are read from the file,
+or add support for additional attributes. This assumes that you know the column
+name of the attributes you want to work with in the database. To make changes
+you will need to retrieve the maps which define which MPXJ attributes are used
+to store which columns from the database:</p>
 <div class="highlight"><pre><span></span><code><span class="n">PrimaveraDatabaseReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">resourceFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">wbsFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">activityFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">assignmentFieldMap</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
 </code></pre></div>
-<p>These maps will contain the default mapping between columns and MPXJ attributes. You can modify
-these existing mappings, or add new ones, for example:</p>
+<p>These maps will contain the default mapping between columns and MPXJ attributes.
+You can modify these existing mappings, or add new ones, for example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//</span>
 <span class="c1">// Change the field used to store rsrc_id</span>
 <span class="c1">//</span>

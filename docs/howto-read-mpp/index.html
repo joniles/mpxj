@@ -358,6 +358,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           MPP files
@@ -373,6 +375,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -381,21 +385,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mpp-files" class="md-nav__link">
-    How To: Read MPP files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MPP files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mpp-files" class="md-nav__link">
     Reading MPP files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mppreader" class="md-nav__link">
     Using MPPReader
   </a>
@@ -428,11 +424,6 @@
   <a href="#raw-timephased-data" class="md-nav__link">
     Raw timephased data
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -876,6 +867,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -884,21 +877,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mpp-files" class="md-nav__link">
-    How To: Read MPP files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MPP files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mpp-files" class="md-nav__link">
     Reading MPP files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mppreader" class="md-nav__link">
     Using MPPReader
   </a>
@@ -938,11 +923,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -961,9 +941,7 @@
                   </a>
                 
                 
-                  <h1>MPP files</h1>
-                
-                <h2 id="how-to-read-mpp-files">How To: Read MPP files</h2>
+                <h1 id="how-to-read-mpp-files">How To: Read MPP files</h1>
 <p>The native Microsoft Project file format is typically has the extension MPP
 (or MPT for a template file). Although a common file extension uis used,
 there are actually a number if different variants of the file format.
@@ -975,7 +953,7 @@ Microsoft Project which produce them:</p>
 <li>MPP12 - Project 2003, Project 2007</li>
 <li>MPP14 - Project 2010 and all later versions</li>
 </ul>
-<h3 id="reading-mpp-files">Reading MPP files</h3>
+<h2 id="reading-mpp-files">Reading MPP files</h2>
 <p>The simplest way to read an MPP file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -985,10 +963,10 @@ Microsoft Project which produce them:</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpp&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="using-mppreader">Using MPPReader</h3>
+<h2 id="using-mppreader">Using MPPReader</h2>
 <p>You can work directly with the <code>MPPReader</code> class by replacing <code>UniversalProjectReader</code>
 with <code>MPPReader</code>. This provides access to additional options, as described below.</p>
-<h4 id="password-protected-files">Password Protected Files</h4>
+<h3 id="password-protected-files">Password Protected Files</h3>
 <p>When a read password has been set for an MPP file, the contents of the file are partially
 encrypted. If you attempt to read an MPP file which has been password protected an <code>MPXJException</code> 
 will be raised, with the message <code>File is password protected</code>.</p>
@@ -1015,7 +993,7 @@ the MPP9 password protection.</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setRespectPasswordProtection</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpp&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="presentation-data">Presentation Data</h4>
+<h3 id="presentation-data">Presentation Data</h3>
 <p>Alongside the schedule data itself, MPXJ also extracts much of the presentation data
 available in an MPP file, for example table layouts, filters, graphical indicators
 and so on. If you are not interested in this type of data, you can tell MPXJ not
@@ -1030,7 +1008,7 @@ To do this you will use the <code>setReadPresentationData</code> method, as show
 <span class="n">reader</span><span class="p">.</span><span class="na">setReadPresentationData</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpp&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="properties-only">Properties Only</h4>
+<h3 id="properties-only">Properties Only</h3>
 <p>Should you wish to simply "peek" at the contents of the MPP file by just reading the
 summary properties from the file, you can use the <code>setReadPropertiesOnly</code> method
 as shown below:</p>
@@ -1043,7 +1021,7 @@ as shown below:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setReadPropertiesOnly</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpp&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="raw-timephased-data">Raw timephased data</h4>
+<h3 id="raw-timephased-data">Raw timephased data</h3>
 <p>When MPXJ reads timephased data from an MPP file it "normalises" the data,
 converting it from the compact format Microsoft Project uses internally
 into a representation which shows the timephased values day-by-day. This

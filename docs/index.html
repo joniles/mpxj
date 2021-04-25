@@ -203,6 +203,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Overview
@@ -218,6 +220,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -226,44 +230,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
+  <a href="#supported-formats" class="md-nav__link">
+    Supported Formats
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#java-net-ruby-python-php" class="md-nav__link">
-    Java, .Net, Ruby, Python, PHP...
+  <a href="#supported-languages" class="md-nav__link">
+    Supported Languages
+  </a>
+  
+    <nav class="md-nav" aria-label="Supported Languages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-java" class="md-nav__link">
+    Working with Java
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-in-java" class="md-nav__link">
-    Getting started with MPXJ in Java
+        
+          <li class="md-nav__item">
+  <a href="#working-with-net" class="md-nav__link">
+    Working with .Net
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-net" class="md-nav__link">
-    Getting started with MPXJ and .Net
+        
+          <li class="md-nav__item">
+  <a href="#working-with-ruby" class="md-nav__link">
+    Working with Ruby
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-ruby" class="md-nav__link">
-    Getting started with MPXJ and Ruby
+        
+          <li class="md-nav__item">
+  <a href="#working-with-python" class="md-nav__link">
+    Working with Python
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-python" class="md-nav__link">
-    Getting started with MPXJ and Python
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -883,6 +893,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -891,44 +903,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
+  <a href="#supported-formats" class="md-nav__link">
+    Supported Formats
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#java-net-ruby-python-php" class="md-nav__link">
-    Java, .Net, Ruby, Python, PHP...
+  <a href="#supported-languages" class="md-nav__link">
+    Supported Languages
+  </a>
+  
+    <nav class="md-nav" aria-label="Supported Languages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-java" class="md-nav__link">
+    Working with Java
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-in-java" class="md-nav__link">
-    Getting started with MPXJ in Java
+        
+          <li class="md-nav__item">
+  <a href="#working-with-net" class="md-nav__link">
+    Working with .Net
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-net" class="md-nav__link">
-    Getting started with MPXJ and .Net
+        
+          <li class="md-nav__item">
+  <a href="#working-with-ruby" class="md-nav__link">
+    Working with Ruby
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-ruby" class="md-nav__link">
-    Getting started with MPXJ and Ruby
+        
+          <li class="md-nav__item">
+  <a href="#working-with-python" class="md-nav__link">
+    Working with Python
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started-with-mpxj-and-python" class="md-nav__link">
-    Getting started with MPXJ and Python
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -977,24 +995,15 @@
                   </a>
                 
                 
-                  <h1>Overview</h1>
-                
-                <h2 id="introduction">Introduction</h2>
-<p>Welcome to MPXJ! This library provides a set of facilities to allow project
-information to be manipulated from a number of different programming
-languages. MPXJ supports a range of data formats: Microsoft Project Exchange
-(MPX), Microsoft Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI
-XML), Microsoft  Project Database (MPD), Planner (XML), Primavera P6 (PMXML,
-XER, and database),  Primavera P3 (PRX and database), SureTrak (STX and
-database),  Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager
-(PPX), FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
-ConceptDraw PROJECT (CDPX, CPDZ and CPDTZ), Synchro Scheduler (SP) and the
-Standard Data Exchange Format (SDEF).</p>
+                <h1 id="introduction">Introduction</h1>
+<p>Welcome to MPXJ! This library provides you with the ability to read project
+information (sometimes known as schedules or programmes) from a variety of file
+formats, and also write that information to a variety of file formats.</p>
 <p>The library is based around a set of data structures which follow the way
 schedule data is represented by Microsoft Project. All manipulation of project
 data takes place using these data structures, which can be read from or
-written to the various supported file formats. The notes in the following
-paragraphs explain the facilities MPXJ offers for each file format.</p>
+written to the various supported file formats.</p>
+<h2 id="supported-formats">Supported Formats</h2>
 <ul>
 <li>
 <p><strong>MPX:</strong> The MPX file format can be read by versions of Microsoft
@@ -1113,7 +1122,7 @@ from Sage 100 Contractor. MPXJ can read schedule grid files.</p>
 by the Project Commander application. MPXJ can read Project Commander files.</p>
 </li>
 </ul>
-<h2 id="java-net-ruby-python-php">Java, .Net, Ruby, Python, PHP...</h2>
+<h2 id="supported-languages">Supported Languages</h2>
 <p>MPXJ is written and maintained in Java, however this is no barrier to using
 its functionality in other languages.</p>
 <p>Thanks to the facilities  provided by IKVM, the MPXJ distribution also
@@ -1132,7 +1141,7 @@ provide full read/write access to schedule files.</p>
 <p>You may be able to leverage MPXJ from other languages too, for example the 
 <a href="http://php-java-bridge.sourceforge.net">PHP/Java Bridge</a>
 can be used to expose the complete MPXJ API in PHP.</p>
-<h2 id="getting-started-with-mpxj-in-java">Getting started with MPXJ in Java</h2>
+<h3 id="working-with-java">Working with Java</h3>
 <p>MPXJ is built to work with versions of Java from 1.8 onwards. For many people,
 the easiest way to get started with MPXJ and its dependencies is to use Maven.
 Just include the following in your POM to register MPXJ as a  dependency of your
@@ -1152,7 +1161,7 @@ zip file, with the libraries on which MPXJ depends being found in the <code>lib<
 directory of the zip file. These libraries will need to be available on your
 classpath in order to use all of the MPXJ functionality.</p>
 <p>You'll find a general introduction to MPXJ's functionality <a href="howto-start/">here</a>.</p>
-<h2 id="getting-started-with-mpxj-and-net">Getting started with MPXJ and .Net</h2>
+<h3 id="working-with-net">Working with .Net</h3>
 <p>For many people the easiest way to work with MPXJ is to download the packages via
 <a href="http://www.nuget.org/packages?q=mpxj">NuGet</a>. The .Net assemblies and their
 dependencies can also be found in the zip file distribution from
@@ -1160,7 +1169,7 @@ dependencies can also be found in the zip file distribution from
 or <a href="https://www.github.com/joniles/mpxj/releases">GitHub</a>.
 You'll find a general introduction to MPXJ's functionality <a href="howto-start/">here</a>
 and specific details about working with .Net <a href="howto-dotnet/">here</a>.</p>
-<h2 id="getting-started-with-mpxj-and-ruby">Getting started with MPXJ and Ruby</h2>
+<h3 id="working-with-ruby">Working with Ruby</h3>
 <p>MPXJ is available as a RubyGem, which can be installed using
 <div class="highlight"><pre><span></span><code>gem install mpxj
 </code></pre></div>
@@ -1168,7 +1177,7 @@ or included in you Gemfile and installed using <code>bundler</code>. Note that t
 Ruby version of MPXJ is just a wrapper around the Java library, and provides
 read-only access to schedule data. You can find some documentation for the
 Gem <a href="https://rubygems.org/gems/mpxj">here</a></p>
-<h2 id="getting-started-with-mpxj-and-python">Getting started with MPXJ and Python</h2>
+<h3 id="working-with-python">Working with Python</h3>
 <p>MPXJ is available as a Python Package, which can be installed using
 <div class="highlight"><pre><span></span><code>pip install mpxj
 </code></pre></div>

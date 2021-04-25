@@ -586,6 +586,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           SDEF files
@@ -601,6 +603,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -609,22 +613,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-sdef-files" class="md-nav__link">
-    How To: Read SDEF files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read SDEF files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-sdef-files" class="md-nav__link">
     Reading SDEF files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -835,6 +826,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -843,22 +836,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-sdef-files" class="md-nav__link">
-    How To: Read SDEF files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read SDEF files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-sdef-files" class="md-nav__link">
     Reading SDEF files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -879,12 +859,12 @@
                   </a>
                 
                 
-                  <h1>SDEF files</h1>
-                
-                <h2 id="how-to-read-sdef-files">How To: Read SDEF files</h2>
-<p>The Standard Data Exchange Format (SDEF) is the US Army Corps of Engineers standard format for exchanging schedule data between systems.
-The definition of this format can be found <a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
-<h3 id="reading-sdef-files">Reading SDEF files</h3>
+                <h1 id="how-to-read-sdef-files">How To: Read SDEF files</h1>
+<p>The Standard Data Exchange Format (SDEF) is the US Army Corps of Engineers
+standard format for exchanging schedule data between systems. The definition of
+this format can be found 
+<a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
+<h2 id="reading-sdef-files">Reading SDEF files</h2>
 <p>The simplest way to read an SDEF file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -894,7 +874,10 @@ The definition of this format can be found <a href="https://www.publications.usa
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.sdef&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>You can work directly with the <code>SDEFReader</code> by replacing <code>UniversalProjectReader</code> with <code>SDEFReader</code>, although this offers no particular advantage as there are no additional configuration settings available on the <code>SDEFReader</code> class.</p>
+<p>You can work directly with the <code>SDEFReader</code> by replacing
+<code>UniversalProjectReader</code> with <code>SDEFReader</code>, although this offers no particular
+advantage as there are no additional configuration settings available on the
+<code>SDEFReader</code> class.</p>
                 
               
               

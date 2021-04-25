@@ -737,6 +737,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           FAQ
@@ -752,6 +754,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -760,36 +764,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    Frequently Asked Questions
-  </a>
-  
-    <nav class="md-nav" aria-label="Frequently Asked Questions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#general-questions" class="md-nav__link">
     General Questions
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#known-issues-with-mpxj" class="md-nav__link">
     Known Issues with MPXJ
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#unit-tests" class="md-nav__link">
     Unit Tests
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -847,6 +838,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -855,36 +848,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    Frequently Asked Questions
-  </a>
-  
-    <nav class="md-nav" aria-label="Frequently Asked Questions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#general-questions" class="md-nav__link">
     General Questions
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#known-issues-with-mpxj" class="md-nav__link">
     Known Issues with MPXJ
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#unit-tests" class="md-nav__link">
     Unit Tests
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -905,10 +885,8 @@
                   </a>
                 
                 
-                  <h1>FAQ</h1>
-                
-                <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
-<h3 id="general-questions">General Questions</h3>
+                <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+<h2 id="general-questions">General Questions</h2>
 <p><strong>Can I use MPXJ to write MPP files?</strong></p>
 <p>Not at present. Although it is technically feasible to generate an MPP file, the
 knowledge we have of the file structure is still relatively incomplete, despite
@@ -950,7 +928,7 @@ version 7.9.8.</p>
 anything I can do which will allow me to use it?</strong></p>
 <p>Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0,
 try using <a href="http://retroweaver.sourceforge.net/">Retroweaver</a>.</p>
-<h3 id="known-issues-with-mpxj">Known Issues with MPXJ</h3>
+<h2 id="known-issues-with-mpxj">Known Issues with MPXJ</h2>
 <p><strong>I have an MPP file created by MS Project 98, and some of the Flag field values
 are incorrect.</strong></p>
 <p>The MPP8 file format is rather cryptic, and one part of it that I have yet to
@@ -1002,7 +980,7 @@ useLocaleDefaults parameter to false when calling the write method (for versions
 of MPXJ up to and including 3.0.0) or by calling the method setUseLocaleDefaults
 on the MPXWriter instance before calling the write method (for versions of MPXJ
 after 3.0.0).</p>
-<h3 id="unit-tests">Unit Tests</h3>
+<h2 id="unit-tests">Unit Tests</h2>
 <p><strong>I am trying to run the MPXJ unit tests and I'm having problems with failures
 in JAXB functionality. What's happening?</strong></p>
 <p>Older versions of JAXB were known to have issues with the JUnit classloader, so

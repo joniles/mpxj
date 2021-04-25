@@ -490,6 +490,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Phoenix files
@@ -505,6 +507,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -513,22 +517,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-phoenix-project-manager-files" class="md-nav__link">
-    How To: Read Phoenix Project Manager files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Phoenix Project Manager files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-ppx-files" class="md-nav__link">
     Reading PPX files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -835,6 +826,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -843,22 +836,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-phoenix-project-manager-files" class="md-nav__link">
-    How To: Read Phoenix Project Manager files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Phoenix Project Manager files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-ppx-files" class="md-nav__link">
     Reading PPX files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -879,11 +859,9 @@
                   </a>
                 
                 
-                  <h1>Phoenix files</h1>
-                
-                <h2 id="how-to-read-phoenix-project-manager-files">How To: Read Phoenix Project Manager files</h2>
+                <h1 id="how-to-read-phoenix-project-manager-files">How To: Read Phoenix Project Manager files</h1>
 <p>Phoenix Project Manager uses PPX files.</p>
-<h3 id="reading-ppx-files">Reading PPX files</h3>
+<h2 id="reading-ppx-files">Reading PPX files</h2>
 <p>The simplest way to read a PPX file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -893,7 +871,10 @@
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.ppx&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>You can work directly with the <code>PhoenixReader</code> by replacing <code>UniversalProjectReader</code> with <code>PhoenixReader</code>, although this offers no particular advantage as there are no additional configuration settings available on the <code>PhoenixReader</code> class.</p>
+<p>You can work directly with the <code>PhoenixReader</code> by replacing
+<code>UniversalProjectReader</code> with <code>PhoenixReader</code>, although this offers no
+particular advantage as there are no additional configuration settings available
+on the <code>PhoenixReader</code> class.</p>
                 
               
               

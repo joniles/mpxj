@@ -382,6 +382,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           MPD files
@@ -397,6 +399,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -405,21 +409,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mpd-files" class="md-nav__link">
-    How To: Read MPD files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MPD files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mpd-files" class="md-nav__link">
     Reading MPD files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mpddatabasereader" class="md-nav__link">
     Using MPDDatabaseReader
   </a>
@@ -438,11 +434,6 @@
   <a href="#selecting-a-project" class="md-nav__link">
     Selecting a project
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -862,6 +853,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -870,21 +863,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mpd-files" class="md-nav__link">
-    How To: Read MPD files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MPD files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mpd-files" class="md-nav__link">
     Reading MPD files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mpddatabasereader" class="md-nav__link">
     Using MPDDatabaseReader
   </a>
@@ -910,11 +895,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -933,15 +913,13 @@
                   </a>
                 
                 
-                  <h1>MPD files</h1>
-                
-                <h2 id="how-to-read-mpd-files">How To: Read MPD files</h2>
+                <h1 id="how-to-read-mpd-files">How To: Read MPD files</h1>
 <p>Microsoft Project from Project 98 until Project 2003 could read and write
-schedules as Microsoft Access database files with the extension MPD. Coincidentally,
-Microsoft Project Server shares the same database schema as the MPD file format.
-This means that the <code>MPDDatabaseReader</code> class can also be used to read data from
-a Project Server SQL Server database.</p>
-<h3 id="reading-mpd-files">Reading MPD files</h3>
+schedules as Microsoft Access database files with the extension MPD.
+Coincidentally, Microsoft Project Server shares the same database schema as the
+MPD file format. This means that the <code>MPDDatabaseReader</code> class can also be used
+to read data from a Project Server SQL Server database.</p>
+<h2 id="reading-mpd-files">Reading MPD files</h2>
 <p>The simplest way to read an MPD file is to use the <code>UniversalProjectReader</code>:</p>
 <p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -951,20 +929,33 @@ a Project Server SQL Server database.</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpd&quot;</span><span class="p">);</span>
 </code></pre></div>
-In order for this to work the <code>UniversalProjectReader</code> assumes that the JDBC-ODBC bridge driver is available.
-As an MPD file can contain multiple projects, the <code>UniversalProjectReader</code> assumes that a single
-project is present in the file with an ID of 1. This is normally the case when a single project is saved as an MPD file.</p>
-<h3 id="using-mpddatabasereader">Using MPDDatabaseReader</h3>
-<p>You can work directly with the <code>MPDDatabaseReader</code> class by replacing <code>UniversalProjectReader</code>
-with <code>MPDDatabaseReader</code>. This provides access to additional options, as described below.</p>
-<h4 id="setting-the-database-connection">Setting the database connection</h4>
-<p>Three <code>read</code> methods are provided by the <code>MPDDatabaseReader</code> class which allow you to work directly with an MPD file, either by passing in a file name a <code>File</code> instance or an <code>InputStream</code> instance. These methods use the JDBC-ODBC bridge driver to open the database. An alternative approach is for you to provide your own database connection. To that end the <code>MPDDatabaseReader</code> class provides two additional methods: <code>setConnection</code> and <code>setDataSource</code> which allows you to supply a JDBC <code>Connection</code> instance or a JDBC <code>DataSource</code> instance.</p>
-<p>You can of course use this to set up your own JDBC connection to read from the MDB file, however these methods may be more useful if you wish to read data from a Microsoft Project Server database instance, which shares the same schema as the MDB file.</p>
-<h4 id="selecting-a-project">Selecting a project</h4>
-<p>If the MPD file contains multiple projects, you can retrieve details of the available
-projects using the <code>listProjects</code> method. This returns a map of project IDs and project names.
-The sample code below illustrates how to retrieve this list of projects, and select the specific
-project that you want to read. In this case we read each project in the file in turn.</p>
+In order for this to work the <code>UniversalProjectReader</code> assumes that the
+JDBC-ODBC bridge driver is available. As an MPD file can contain multiple
+projects, the <code>UniversalProjectReader</code> assumes that a single project is present
+in the file with an ID of 1. This is normally the case when a single project is
+saved as an MPD file.</p>
+<h2 id="using-mpddatabasereader">Using MPDDatabaseReader</h2>
+<p>You can work directly with the <code>MPDDatabaseReader</code> class by replacing
+<code>UniversalProjectReader</code> with <code>MPDDatabaseReader</code>. This provides access to
+additional options, as described below.</p>
+<h3 id="setting-the-database-connection">Setting the database connection</h3>
+<p>Three <code>read</code> methods are provided by the <code>MPDDatabaseReader</code> class which allow
+you to work directly with an MPD file, either by passing in a file name a <code>File</code>
+instance or an <code>InputStream</code> instance. These methods use the JDBC-ODBC bridge
+driver to open the database. An alternative approach is for you to provide your
+own database connection. To that end the <code>MPDDatabaseReader</code> class provides two
+additional methods: <code>setConnection</code> and <code>setDataSource</code> which allows you to
+supply a JDBC <code>Connection</code> instance or a JDBC <code>DataSource</code> instance.</p>
+<p>You can of course use this to set up your own JDBC connection to read from the
+MDB file, however these methods may be more useful if you wish to read data from
+a Microsoft Project Server database instance, which shares the same schema as
+the MDB file.</p>
+<h3 id="selecting-a-project">Selecting a project</h3>
+<p>If the MPD file contains multiple projects, you can retrieve details of the
+available projects using the <code>listProjects</code> method. This returns a map of
+project IDs and project names. The sample code below illustrates how to retrieve
+this list of projects, and select the specific project that you want to read. In
+this case we read each project in the file in turn.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Map.Entry</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpd.MPDDatabaseReader</span><span class="p">;</span>

@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-read-planner-files" class="md-skip">
+        <a href="#how-to-read-merlin-files" class="md-skip">
           Skip to content
         </a>
       
@@ -538,6 +538,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Merlin files
@@ -553,6 +555,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -561,22 +565,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-planner-files" class="md-nav__link">
-    How To: Read Planner files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Planner files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-merlin-files" class="md-nav__link">
     Reading Merlin files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -835,6 +826,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -843,22 +836,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-planner-files" class="md-nav__link">
-    How To: Read Planner files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read Planner files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-merlin-files" class="md-nav__link">
     Reading Merlin files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -879,14 +859,13 @@
                   </a>
                 
                 
-                  <h1>Merlin files</h1>
-                
-                <h2 id="how-to-read-planner-files">How To: Read Planner files</h2>
-<p>Merlin Planner is a Mac application. MPXJ provides experimental support for reading some Merlin Planner files.
-The Merlin file format does not necessarily contain a full set of start and finish dates for each task.
-Merlin calculates these dates when it displays a schedule. At the moment MPXJ lacks this functionality, so
-you may not find start and finish dates for each task.</p>
-<h3 id="reading-merlin-files">Reading Merlin files</h3>
+                <h1 id="how-to-read-merlin-files">How To: Read Merlin files</h1>
+<p>Merlin Project is a Mac application. MPXJ provides experimental support for
+reading some Merlin Project files. The Merlin file format does not necessarily
+contain a full set of start and finish dates for each task. Merlin calculates
+these dates when it displays a schedule. At the moment MPXJ lacks this
+functionality, so you may not find start and finish dates for each task.</p>
+<h2 id="reading-merlin-files">Reading Merlin files</h2>
 <p>The simplest way to read a Merlin file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -896,11 +875,14 @@ you may not find start and finish dates for each task.</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample-merlin-project&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>Note that on a Mac Merlin projects are not single files, but rather they are directories
-containing multiple files (the Mac Finder normally hides this from you). When using MPXJ
-to read a Merlin project you pass the directory name to the <code>UniversalProjectReader</code> class.</p>
-<p>You can work directly with the <code>MerlinReader</code> by replacing <code>UniversalProjectReader</code> with <code>MerlinReader</code>,
-although this offers no particular advantage as there are no additional configuration settings available on the <code>MerlinReader</code> class.</p>
+<p>Note that on a Mac Merlin projects are not single files, but rather they are
+directories containing multiple files (the Mac Finder normally hides this from
+you). When using MPXJ to read a Merlin project you pass the directory name to
+the <code>UniversalProjectReader</code> class.</p>
+<p>You can work directly with the <code>MerlinReader</code> by replacing
+<code>UniversalProjectReader</code> with <code>MerlinReader</code>, although this offers no particular
+advantage as there are no additional configuration settings available on the
+<code>MerlinReader</code> class.</p>
                 
               
               

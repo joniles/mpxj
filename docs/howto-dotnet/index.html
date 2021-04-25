@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-use-mpxj-with-net" class="md-skip">
+        <a href="#mpxj-and-net" class="md-skip">
           Skip to content
         </a>
       
@@ -280,6 +280,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           MPXJ and .Net
@@ -295,6 +297,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -303,50 +307,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-use-mpxj-with-net" class="md-nav__link">
-    How To: Use MPXJ with .Net
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Use MPXJ with .Net">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#mpxj-assemblies" class="md-nav__link">
     MPXJ assemblies
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mpxj-dependencies" class="md-nav__link">
     MPXJ dependencies
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net-samples" class="md-nav__link">
     .Net samples
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net-and-java-types" class="md-nav__link">
     .Net and Java types
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mpxj-and-the-gac" class="md-nav__link">
     MPXJ and the GAC
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -863,6 +854,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -871,50 +864,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-use-mpxj-with-net" class="md-nav__link">
-    How To: Use MPXJ with .Net
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Use MPXJ with .Net">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#mpxj-assemblies" class="md-nav__link">
     MPXJ assemblies
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mpxj-dependencies" class="md-nav__link">
     MPXJ dependencies
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net-samples" class="md-nav__link">
     .Net samples
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#net-and-java-types" class="md-nav__link">
     .Net and Java types
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mpxj-and-the-gac" class="md-nav__link">
     MPXJ and the GAC
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -935,10 +915,8 @@
                   </a>
                 
                 
-                  <h1>MPXJ and .Net</h1>
-                
-                <h2 id="how-to-use-mpxj-with-net">How To: Use MPXJ with .Net</h2>
-<h3 id="mpxj-assemblies">MPXJ assemblies</h3>
+                <h1 id="mpxj-and-net">MPXJ and .Net</h1>
+<h2 id="mpxj-assemblies">MPXJ assemblies</h2>
 <p>MPXJ ships with both a Java library (mpxj.jar) and a set of .Net assemblies, 
 which can be found in the lib.net folder of the distribution.
 MPXJ is also available through
@@ -976,12 +954,12 @@ something like this:</p>
 <p>Using the "for C#" DLL your code will look like this:</p>
 <div class="highlight"><pre><span></span><code><span class="n">Task</span> <span class="n">task</span> <span class="p">=</span> <span class="n">projectFile</span><span class="p">.</span><span class="n">AddTask</span><span class="p">();</span>
 </code></pre></div>
-<h3 id="mpxj-dependencies">MPXJ dependencies</h3>
+<h2 id="mpxj-dependencies">MPXJ dependencies</h2>
 <p>Once you have selected the version of the MPXJ DLL most suitable for your
 project, you will need to add its dependencies. If you are using NuGet to manage
 your dependencies, this is done for you automatically. The files you need will
 all be in the <code>lib.net</code> folder of the MPXJ distribution.</p>
-<h3 id="net-samples">.Net samples</h3>
+<h2 id="net-samples">.Net samples</h2>
 <p>MPXJ ships with some sample files which can be found in the <code>src.net</code>
 folder of the distribution. These files illustrate how the MPXJ API can be 
 used to manipulate project data. In particular the <code>MpxjQuery</code> sample files
@@ -992,7 +970,7 @@ MPXJ in either language. Even if you are developing software in a .Net
 language you may still find it useful to refer to the Java examples, and
 indeed the original Java source of MPXJ, to give you an insight into how the
 API may be used.</p>
-<h3 id="net-and-java-types">.Net and Java types</h3>
+<h2 id="net-and-java-types">.Net and Java types</h2>
 <p>The .Net version of MPXJ has been generated directly from the Java
 version using a tool called IKVM. One of the side effects of using IKVM to
 perform this conversion is that the MPXJ exposes .Net versions of the
@@ -1010,7 +988,7 @@ the familiar foreach .Net syntax.</p>
 <code>MpxjExtensionMethods</code> assembly in your own project. The methods themselves are
 documented in the source, and examples of their use can be seen in the samples
 provided in the <code>src.net</code> folder.</p>
-<h3 id="mpxj-and-the-gac">MPXJ and the GAC</h3>
+<h2 id="mpxj-and-the-gac">MPXJ and the GAC</h2>
 <p>For your convenience two batch files are provided in the <code>lib.net</code> directory:
 <code>mpxj-gac-install.bat</code> and <code>mpxj-gac-uninstall.bat</code>. These batch files install
 the MPXJ assemblies into the GAC and uninstall the MPXJ assemblies from the GAC 

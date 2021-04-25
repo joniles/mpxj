@@ -664,6 +664,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           MSPDI files
@@ -679,6 +681,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -687,21 +691,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-write-mspdi-files" class="md-nav__link">
-    How To: Write MSPDI files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Write MSPDI files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#writing-mspdi-files" class="md-nav__link">
     Writing MSPDI files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mspdiwriter" class="md-nav__link">
     Using MSPDIWriter
   </a>
@@ -727,11 +723,6 @@
   <a href="#timephased-data" class="md-nav__link">
     Timephased Data
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -869,6 +860,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -877,21 +870,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-write-mspdi-files" class="md-nav__link">
-    How To: Write MSPDI files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Write MSPDI files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#writing-mspdi-files" class="md-nav__link">
     Writing MSPDI files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mspdiwriter" class="md-nav__link">
     Using MSPDIWriter
   </a>
@@ -924,11 +909,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -947,12 +927,10 @@
                   </a>
                 
                 
-                  <h1>MSPDI files</h1>
-                
-                <h2 id="how-to-write-mspdi-files">How To: Write MSPDI files</h2>
+                <h1 id="how-to-write-mspdi-files">How To: Write MSPDI files</h1>
 <p>Since Microsoft Project 2002, Microsoft Project has been able to 
 read and write an XML-based data interchange format called MSPDI.</p>
-<h3 id="writing-mspdi-files">Writing MSPDI files</h3>
+<h2 id="writing-mspdi-files">Writing MSPDI files</h2>
 <p>The sample code below illustrates how to write data to an MSPDI file.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
@@ -962,19 +940,22 @@ read and write an XML-based data interchange format called MSPDI.</p>
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="using-mspdiwriter">Using MSPDIWriter</h3>
-<h4 id="microsoft-project-compatible-output">Microsoft Project Compatible Output</h4>
-<p>Microsoft Project has a non-standard way of representing negative duration values
-(it should have a minus sign as a prefix at the start of the XSD duration expression rather than embedded in it).</p>
-<p>Originally MPXJ read and wrote correctly formatted XSD duration values, but unfortunately this meant
-that  Project would not read these values correctly, and MPXJ would not be able to consume
-these values correctly from an MSPDI file written by Project. MPXJ has been updated so that it
-reads and writes the form of these duration values understood by Project, but this does mean that
-if you were previously expecting to be able to parse valid XSD duration values from output generated
-by MPXJ, that will no longer be the case.</p>
-<p>To provide backward compatibility the <code>MicrosoftProjectCompatibleOutput</code> flag has been introduced.
-This defaults to <code>true</code> so MSPDI files containing negative durations written by MPXJ can be read by Project.
-If you need to produce correctly formatted XSD durations for consumption by applications other than
+<h2 id="using-mspdiwriter">Using MSPDIWriter</h2>
+<h3 id="microsoft-project-compatible-output">Microsoft Project Compatible Output</h3>
+<p>Microsoft Project has a non-standard way of representing negative duration
+values (it should have a minus sign as a prefix at the start of the XSD duration
+expression rather than embedded in it).</p>
+<p>Originally MPXJ read and wrote correctly formatted XSD duration values, but
+unfortunately this meant that  Project would not read these values correctly,
+and MPXJ would not be able to consume these values correctly from an MSPDI file
+written by Project. MPXJ has been updated so that it reads and writes the form
+of these duration values understood by Project, but this does mean that if you
+were previously expecting to be able to parse valid XSD duration values from
+output generated by MPXJ, that will no longer be the case.</p>
+<p>To provide backward compatibility the <code>MicrosoftProjectCompatibleOutput</code> flag
+has been introduced. This defaults to <code>true</code> so MSPDI files containing negative
+durations written by MPXJ can be read by Project. If you need to produce
+correctly formatted XSD durations for consumption by applications other than
 Project you can set this flag to <code>false</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
@@ -984,10 +965,11 @@ Project you can set this flag to <code>false</code>:</p>
 <span class="n">writer</span><span class="p">.</span><span class="na">setMicrosoftProjectCompatibleOutput</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="save-version">Save Version</h4>
-<p>The MSPDI file contains a <code>SaveVersion</code> attribute which indicates the version of Microsoft Project used to
-save the file. The value of <code>SaveVersion</code> is defined by the <code>net.sf.mpxj.mspdi.SaveVersion</code> enum, 
-which provides the following values:</p>
+<h3 id="save-version">Save Version</h3>
+<p>The MSPDI file contains a <code>SaveVersion</code> attribute which indicates the version of
+Microsoft Project used to save the file. The value of <code>SaveVersion</code> is defined
+by the <code>net.sf.mpxj.mspdi.SaveVersion</code> enum,  which provides the following
+values:</p>
 <div class="highlight"><pre><span></span><code><span class="n">Project2002</span>
 <span class="n">Project2003</span>
 <span class="n">Project2007</span>
@@ -995,13 +977,14 @@ which provides the following values:</p>
 <span class="n">Project2013</span>
 <span class="n">Project2016</span>
 </code></pre></div>
-<p>By default <code>MSPDIWriter</code> sets the <code>SaveVersion</code> value to <code>Project2016</code>.
-The only functional difference this setting makes when writing MSPDI files is that the format of calendar
-exceptions changed in Project 2003 and onwards. MPXJ will always write calendar exceptions using the original
-Project 2002 format, and if the <code>SaveVersion</code> is set to <code>Project2003</code> or later it will also write the 
-new format data as well.</p>
-<p>Here's an example of the <code>SaveVersion</code> attribute being set to ensure that only the older style of calendar
-exceptions is written to the MSPDI file:</p>
+<p>By default <code>MSPDIWriter</code> sets the <code>SaveVersion</code> value to <code>Project2016</code>. The only
+functional difference this setting makes when writing MSPDI files is that the
+format of calendar exceptions changed in Project 2003 and onwards. MPXJ will
+always write calendar exceptions using the original Project 2002 format, and if
+the <code>SaveVersion</code> is set to <code>Project2003</code> or later it will also write the  new
+format data as well.</p>
+<p>Here's an example of the <code>SaveVersion</code> attribute being set to ensure that only
+the older style of calendar exceptions is written to the MSPDI file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.SaveVersion</span><span class="p">;</span>
@@ -1011,19 +994,24 @@ exceptions is written to the MSPDI file:</p>
 <span class="n">writer</span><span class="p">.</span><span class="na">setSaveVersion</span><span class="p">(</span><span class="n">SaveVersion</span><span class="p">.</span><span class="na">Project2002</span><span class="p">);</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="timephased-data">Timephased Data</h4>
-<p>By default <code>MSPDIWriter</code> does not write timephased data to an MSPDI file. To enable writing
-timephased data, you can call the <code>setWriteTimephasedData</code> method.</p>
-<p>When this setting is enabled, the default
-behaviour is for the timephased data is broken down into days when written to the file. If it better suits your
-use case (or you need a more compact file) you can choose to write an aggregated form of the timephased data by
-calling the <code>setSplitTimephasedAsDays</code> method and passing <code>false</code>. The difference between the two formats is
-that if for example you have a 10 day block with 8 hours work per day, this can either be represented as 10 entries in the file
-each for a single day with a value of 8 hours, or a single entry for a 10 day range with a value of 80 hours. Although
-the latter case is more compact, if you are consuming the MSPDI timephased data yourself you will need to differentiate
-between working an non-working days n order to break the single block down into smaller ranges. The default day-by-day format
-MPXJ writes does this for you automatically.</p>
-<p>In the first example below we're enabling timephased data, and using the default day-by-dat breakdown:</p>
+<h3 id="timephased-data">Timephased Data</h3>
+<p>By default <code>MSPDIWriter</code> does not write timephased data to an MSPDI file. To
+enable writing timephased data, you can call the <code>setWriteTimephasedData</code>
+method.</p>
+<p>When this setting is enabled, the default behaviour is for the timephased data
+is broken down into days when written to the file. If it better suits your use
+case (or you need a more compact file) you can choose to write an aggregated
+form of the timephased data by calling the <code>setSplitTimephasedAsDays</code> method and
+passing <code>false</code>. The difference between the two formats is that if for example
+you have a 10 day block with 8 hours work per day, this can either be
+represented as 10 entries in the file each for a single day with a value of 8
+hours, or a single entry for a 10 day range with a value of 80 hours. Although
+the latter case is more compact, if you are consuming the MSPDI timephased data
+yourself you will need to differentiate between working an non-working days n
+order to break the single block down into smaller ranges. The default day-by-day
+format MPXJ writes does this for you automatically.</p>
+<p>In the first example below we're enabling timephased data, and using the default
+day-by-dat breakdown:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
@@ -1033,8 +1021,8 @@ MPXJ writes does this for you automatically.</p>
 <span class="n">writer</span><span class="p">.</span><span class="na">setWriteTimephasedData</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
-<p>In this second example we're overriding the default behaviour as asking MPXJ to write
-an aggregated form of the timephased data: </p>
+<p>In this second example we're overriding the default behaviour as asking MPXJ to
+write an aggregated form of the timephased data: </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 

@@ -370,6 +370,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           MSPDI files
@@ -385,6 +387,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -393,21 +397,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mspdi-files" class="md-nav__link">
-    How To: Read MSPDI files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MSPDI files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mspdi-files" class="md-nav__link">
     Reading MSPDI files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mspdireader" class="md-nav__link">
     Using MSPDIReader
   </a>
@@ -426,11 +422,6 @@
   <a href="#microsoft-project-compatibility" class="md-nav__link">
     Microsoft Project Compatibility
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -862,6 +853,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -870,21 +863,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-mspdi-files" class="md-nav__link">
-    How To: Read MSPDI files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read MSPDI files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-mspdi-files" class="md-nav__link">
     Reading MSPDI files
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#using-mspdireader" class="md-nav__link">
     Using MSPDIReader
   </a>
@@ -910,11 +895,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
     </ul>
   
@@ -933,12 +913,10 @@
                   </a>
                 
                 
-                  <h1>MSPDI files</h1>
-                
-                <h2 id="how-to-read-mspdi-files">How To: Read MSPDI files</h2>
+                <h1 id="how-to-read-mspdi-files">How To: Read MSPDI files</h1>
 <p>The Microsoft Project Data Interchange (MSPDI) format is an XML file format
 which Microsoft Project has been able to read and write since Project 2002.</p>
-<h3 id="reading-mspdi-files">Reading MSPDI files</h3>
+<h2 id="reading-mspdi-files">Reading MSPDI files</h2>
 <p>The simplest way to read an MSPDI file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -948,17 +926,19 @@ which Microsoft Project has been able to read and write since Project 2002.</p>
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="using-mspdireader">Using MSPDIReader</h3>
-<p>You can work directly with the <code>MSPDIReader</code> class by replacing <code>UniversalProjectReader</code>
-with <code>MSPDIReader</code>. This provides access to additional options, as described below.</p>
-<h4 id="encoding">Encoding</h4>
-<p>By default MPXJ assumes that MSPDI files are encoded as UTF-8. The <code>UniversalProjectReader</code>
-understands Unicode Byte Order Marks (BOM) and will adjust the encoding appropriately if a
-BOM is present. If you have an MSPDI file with an unusual encoding, you can manually
-set the encoding used by the reader.</p>
-<p>Two methods are provided to do this: <code>setCharset</code> and <code>setEncoding</code>. The <code>setCharset</code> method
-takes an instance of the <code>Charset</code> class, while the <code>setEncoding</code> method takes the name of
-an encoding. Examples of these methods are shown below:</p>
+<h2 id="using-mspdireader">Using MSPDIReader</h2>
+<p>You can work directly with the <code>MSPDIReader</code> class by replacing
+<code>UniversalProjectReader</code> with <code>MSPDIReader</code>. This provides access to additional
+options, as described below.</p>
+<h3 id="encoding">Encoding</h3>
+<p>By default MPXJ assumes that MSPDI files are encoded as UTF-8. The
+<code>UniversalProjectReader</code> understands Unicode Byte Order Marks (BOM) and will
+adjust the encoding appropriately if a BOM is present. If you have an MSPDI file
+with an unusual encoding, you can manually set the encoding used by the reader.</p>
+<p>Two methods are provided to do this: <code>setCharset</code> and <code>setEncoding</code>. The
+<code>setCharset</code> method takes an instance of the <code>Charset</code> class, while the
+<code>setEncoding</code> method takes the name of an encoding. Examples of these methods
+are shown below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIReader</span><span class="p">;</span>
 
@@ -974,11 +954,12 @@ an encoding. Examples of these methods are shown below:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setEncoding</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">);</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h4 id="microsoft-project-compatibility">Microsoft Project Compatibility</h4>
-<p>Microsoft Project will read MSPDI files which are not valid XML according to the MSPDI schema.
-By default MPXJ has been configured to take the same approach. If for some reason you wish to 
-apply strict validation when reading an MSPDI file, you can do this using the 
-<code>setMicrosoftProjectCompatibleInput</code> method, as shown below.</p>
+<h3 id="microsoft-project-compatibility">Microsoft Project Compatibility</h3>
+<p>Microsoft Project will read MSPDI files which are not valid XML according to the
+MSPDI schema. By default MPXJ has been configured to take the same approach. If
+for some reason you wish to  apply strict validation when reading an MSPDI file,
+you can do this using the  <code>setMicrosoftProjectCompatibleInput</code> method, as shown
+below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIReader</span><span class="p">;</span>
 

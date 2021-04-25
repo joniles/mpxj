@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-get-started" class="md-skip">
+        <a href="#getting-started" class="md-skip">
           Skip to content
         </a>
       
@@ -256,6 +256,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Getting Started
@@ -271,6 +273,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -279,43 +283,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-get-started" class="md-nav__link">
-    How To: Get Started
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Get Started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#tasks-and-resources" class="md-nav__link">
     Tasks and Resources
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#resource-assignments" class="md-nav__link">
     Resource Assignments
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#calendars" class="md-nav__link">
     Calendars
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#timephased-resource-assignments" class="md-nav__link">
-    Timephased Resource Assignments
+      
+        <li class="md-nav__item">
+  <a href="#timephased-data" class="md-nav__link">
+    Timephased Data
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -856,6 +847,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -864,43 +857,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-get-started" class="md-nav__link">
-    How To: Get Started
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Get Started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#tasks-and-resources" class="md-nav__link">
     Tasks and Resources
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#resource-assignments" class="md-nav__link">
     Resource Assignments
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#calendars" class="md-nav__link">
     Calendars
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#timephased-resource-assignments" class="md-nav__link">
-    Timephased Resource Assignments
+      
+        <li class="md-nav__item">
+  <a href="#timephased-data" class="md-nav__link">
+    Timephased Data
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -921,9 +901,7 @@
                   </a>
                 
                 
-                  <h1>Getting Started</h1>
-                
-                <h2 id="how-to-get-started">How To: Get Started</h2>
+                <h1 id="getting-started">Getting Started</h1>
 <p>The MPXJ library allows various formats of Microsoft Project file formats, and
 file formats from other project planning applications
 to be read and written using a single consistent API in Java, .Net, Python or any other 
@@ -958,7 +936,7 @@ for example:</p>
 <div class="highlight"><pre><span></span><code><span class="n">ProjectWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPXWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="s">&quot;example.mpx&quot;</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="tasks-and-resources">Tasks and Resources</h3>
+<h2 id="tasks-and-resources">Tasks and Resources</h2>
 <p>Once you've read your project file, what next? The first things of interest 
 are the tasks and resources which are present in the file.</p>
 <div class="highlight"><pre><span></span><code><span class="n">ProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span> <span class="p">();</span>
@@ -1042,7 +1020,7 @@ code fragment below shows the predecessor relationships between tasks. </p>
    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="resource-assignments">Resource Assignments</h3>
+<h2 id="resource-assignments">Resource Assignments</h2>
 <p>Tasks and resources are related by resource assignments. There is a method 
 available on the ProjectFile class which will retrieve all resource assignments
 in the file. This is used by the code fragment below to provide an overview
@@ -1111,7 +1089,7 @@ as the following code fragment shows. </p>
    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="calendars">Calendars</h3>
+<h2 id="calendars">Calendars</h2>
 <p>Calendars are used to define working and non-working time, and are one of the more
 complex structures defined as part of a project. They are in turn used to define
 the time period over which a task is scheduled. There are two types of calendar: 
@@ -1163,7 +1141,7 @@ days or entire date ranges. Methods are provided to allow a list of  all
 exceptions defined by a calendar can be retrieved, or to retrieve the exception
 which covers an individual date. Calendar exceptions are are represented by 
 instances of the ProjectCalendarException class. </p>
-<h3 id="timephased-resource-assignments">Timephased Resource Assignments</h3>
+<h2 id="timephased-data">Timephased Data</h2>
 <p>Although resource assignments on their own describe which resources are
 assigned to which tasks, and how much work they are going to do, this does not
 necessarily tell us how much work a resource will be doing on any particular 

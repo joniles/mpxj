@@ -454,6 +454,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           ProjectLibre files
@@ -469,6 +471,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -477,22 +481,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-projectlibre-files" class="md-nav__link">
-    How To: Read ProjectLibre files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read ProjectLibre files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-pod-files" class="md-nav__link">
     Reading POD files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -835,6 +826,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -843,22 +836,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-read-projectlibre-files" class="md-nav__link">
-    How To: Read ProjectLibre files
-  </a>
-  
-    <nav class="md-nav" aria-label="How To: Read ProjectLibre files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#reading-pod-files" class="md-nav__link">
     Reading POD files
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -879,11 +859,10 @@
                   </a>
                 
                 
-                  <h1>ProjectLibre files</h1>
-                
-                <h2 id="how-to-read-projectlibre-files">How To: Read ProjectLibre files</h2>
-<p>ProjectLibre writes schedule data to POD files. MPXJ can read POD files written by ProjectLibre version 1.5.5 and later versions.</p>
-<h3 id="reading-pod-files">Reading POD files</h3>
+                <h1 id="how-to-read-projectlibre-files">How To: Read ProjectLibre files</h1>
+<p>ProjectLibre writes schedule data to POD files. MPXJ can read POD files written
+by ProjectLibre version 1.5.5 and later versions.</p>
+<h2 id="reading-pod-files">Reading POD files</h2>
 <p>The simplest way to read a POD file is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
@@ -893,7 +872,10 @@
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.pod&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>You can work directly with the <code>ProjectLibreReader</code> by replacing <code>UniversalProjectReader</code> with <code>ProjectLibreReader</code>, although this offers no particular advantage as there are no additional configuration settings available on the <code>ProjectLibreReader</code> class.</p>
+<p>You can work directly with the <code>ProjectLibreReader</code> by replacing
+<code>UniversalProjectReader</code> with <code>ProjectLibreReader</code>, although this offers no
+particular advantage as there are no additional configuration settings available
+on the <code>ProjectLibreReader</code> class.</p>
                 
               
               
