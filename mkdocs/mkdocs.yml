@@ -58,3 +58,4 @@ nav:
     - 'MPP Field Guide': 'mpp-field-guide.md'
   - 'FAQ': 'faq.md'
   - 'Users': 'users.md'
+  - 'Maven Reports': 'maven-reports.md'

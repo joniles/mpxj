@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 Welcome to MPXJ! This library provides a set of facilities to allow project
 information to be manipulated from a number of different programming
 languages. MPXJ supports a range of data formats: Microsoft Project Exchange
@@ -113,7 +113,7 @@ from Sage 100 Contractor. MPXJ can read schedule grid files.
 * **PROJECT COMMANDER:** Project Commander files are are the native file format used
 by the Project Commander application. MPXJ can read Project Commander files.
 
-## Java, .Net, Ruby, Python, PHP...
+## Supported Languages
 MPXJ is written and maintained in Java, however this is no barrier to using
 its functionality in other languages.
 
@@ -136,7 +136,7 @@ You may be able to leverage MPXJ from other languages too, for example the
 [PHP/Java Bridge](http://php-java-bridge.sourceforge.net)
 can be used to expose the complete MPXJ API in PHP.
 
-## Getting started with MPXJ in Java
+### Working with Java
 
 MPXJ is built to work with versions of Java from 1.8 onwards. For many people,
 the easiest way to get started with MPXJ and its dependencies is to use Maven.
@@ -163,7 +163,7 @@ classpath in order to use all of the MPXJ functionality.
 
 You'll find a general introduction to MPXJ's functionality [here](howto-start.md).
 
-## Getting started with MPXJ and .Net
+### Working with .Net
 
 For many people the easiest way to work with MPXJ is to download the packages via
 [NuGet](http://www.nuget.org/packages?q=mpxj). The .Net assemblies and their
@@ -173,7 +173,7 @@ or [GitHub](https://www.github.com/joniles/mpxj/releases).
 You'll find a general introduction to MPXJ's functionality [here](howto-start.md)
 and specific details about working with .Net [here](howto-dotnet.md).
 
-## Getting started with MPXJ and Ruby
+### Working with Ruby
 MPXJ is available as a RubyGem, which can be installed using
 ```
 gem install mpxj
@@ -183,7 +183,7 @@ Ruby version of MPXJ is just a wrapper around the Java library, and provides
 read-only access to schedule data. You can find some documentation for the
 Gem [here](https://rubygems.org/gems/mpxj)
 
-## Getting started with MPXJ and Python
+### Working with Python
 MPXJ is available as a Python Package, which can be installed using
 ```
 pip install mpxj
@@ -219,7 +219,6 @@ Please see the legal folder within the distribution for details of the
 licences for the third party libraries used by MPXJ.
 
 ## Acknowledgements
-
 This product includes functionality provided by [POI](http://poi.apache.org/).
 
 This product includes functionality provided by [IKVM.NET](http://www.ikvm.net/).

@@ -1,5 +1,5 @@
-## Frequently Asked Questions
-### General Questions
+# Frequently Asked Questions
+## General Questions
 
 **Can I use MPXJ to write MPP files?**
 
@@ -52,7 +52,7 @@ anything I can do which will allow me to use it?**
 Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0,
 try using [Retroweaver](http://retroweaver.sourceforge.net/).
 
-### Known Issues with MPXJ
+## Known Issues with MPXJ
 **I have an MPP file created by MS Project 98, and some of the Flag field values
 are incorrect.**
 
@@ -116,7 +116,7 @@ of MPXJ up to and including 3.0.0) or by calling the method setUseLocaleDefaults
 on the MPXWriter instance before calling the write method (for versions of MPXJ
 after 3.0.0).
 
-### Unit Tests
+## Unit Tests
 **I am trying to run the MPXJ unit tests and I'm having problems with failures
 in JAXB functionality. What's happening?**
 
