@@ -612,7 +612,7 @@
 	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build" description="Produce site content"/>
 
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
-		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs"/>
+		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs/CHANGELOG.md"/>
 		<exec executable="${python}" dir="${basedir}/mkdocs">
 			<arg line="-m mkdocs build -d ${docs.dir}" />
 		</exec>
