@@ -1,6 +1,6 @@
-## How To: Use MPXJ with .Net
+# MPXJ and .Net
 
-### MPXJ assemblies
+## MPXJ assemblies
 MPXJ ships with both a Java library (mpxj.jar) and a set of .Net assemblies, 
 which can be found in the lib.net folder of the distribution.
 MPXJ is also available through
@@ -51,13 +51,13 @@ Using the "for C#" DLL your code will look like this:
 Task task = projectFile.AddTask();
 ```
 
-### MPXJ dependencies
+## MPXJ dependencies
 Once you have selected the version of the MPXJ DLL most suitable for your
 project, you will need to add its dependencies. If you are using NuGet to manage
 your dependencies, this is done for you automatically. The files you need will
 all be in the `lib.net` folder of the MPXJ distribution.
 
-### .Net samples
+## .Net samples
 MPXJ ships with some sample files which can be found in the `src.net`
 folder of the distribution. These files illustrate how the MPXJ API can be 
 used to manipulate project data. In particular the `MpxjQuery` sample files
@@ -69,7 +69,7 @@ language you may still find it useful to refer to the Java examples, and
 indeed the original Java source of MPXJ, to give you an insight into how the
 API may be used.
 
-### .Net and Java types
+## .Net and Java types
 The .Net version of MPXJ has been generated directly from the Java
 version using a tool called IKVM. One of the side effects of using IKVM to
 perform this conversion is that the MPXJ exposes .Net versions of the
@@ -90,7 +90,7 @@ To use these extension methods, simply add a reference to the
 documented in the source, and examples of their use can be seen in the samples
 provided in the `src.net` folder.
 
-### MPXJ and the GAC
+## MPXJ and the GAC
 For your convenience two batch files are provided in the `lib.net` directory:
 `mpxj-gac-install.bat` and `mpxj-gac-uninstall.bat`. These batch files install
 the MPXJ assemblies into the GAC and uninstall the MPXJ assemblies from the GAC 

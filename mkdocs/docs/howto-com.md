@@ -1,4 +1,4 @@
-## How To: Use MPXJ with COM
+# MPXJ and COM
 
 The .Net assemblies provided in the DLLs described [here](howto-dotnet.md) are
 accessible from COM. This should allow you to, for example, write VBA code which

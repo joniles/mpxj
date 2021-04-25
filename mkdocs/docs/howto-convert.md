@@ -1,4 +1,4 @@
-## How To: Convert project data from one format to another
+# Converting Files
 
 To convert project data between different formats you read the source 
 data using an appropriate Reader class, the write the data using a Writer

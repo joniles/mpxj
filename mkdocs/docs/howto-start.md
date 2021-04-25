@@ -1,4 +1,4 @@
-## How To: Get Started
+# Getting Started
 
 The MPXJ library allows various formats of Microsoft Project file formats, and
 file formats from other project planning applications
@@ -45,7 +45,7 @@ ProjectWriter writer = new MPXWriter();
 writer.write(project, "example.mpx");
 ```
 
-### Tasks and Resources
+## Tasks and Resources
 Once you've read your project file, what next? The first things of interest 
 are the tasks and resources which are present in the file.
 
@@ -150,7 +150,7 @@ for (Task task : file.getAllTasks())
 }
 ```
 
-### Resource Assignments
+## Resource Assignments
 Tasks and resources are related by resource assignments. There is a method 
 available on the ProjectFile class which will retrieve all resource assignments
 in the file. This is used by the code fragment below to provide an overview
@@ -228,7 +228,7 @@ for (Resource resource : file.getAllResources())
 }
 ```
 
-### Calendars
+## Calendars
 Calendars are used to define working and non-working time, and are one of the more
 complex structures defined as part of a project. They are in turn used to define
 the time period over which a task is scheduled. There are two types of calendar: 
@@ -294,7 +294,7 @@ which covers an individual date. Calendar exceptions are are represented by
 instances of the ProjectCalendarException class. 
 
 
-### Timephased Resource Assignments
+## Timephased Data
 Although resource assignments on their own describe which resources are
 assigned to which tasks, and how much work they are going to do, this does not
 necessarily tell us how much work a resource will be doing on any particular 

@@ -1,7 +1,7 @@
-## How To: Read Primavera PMXML files
+# How To: Read Primavera PMXML files
 Primavera P6 can export data in an XML format known as PMXML.
 
-### Reading PMXML files
+## Reading PMXML files
 The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 
 ```java
@@ -14,11 +14,12 @@ UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.xml");
 ```
 
-### Using PrimaveraPMFileReader
-You can work directly with the `PrimaveraPMFileReader` by replacing `UniversalProjectReader` with `PrimaveraPMFileReader`.
-This provides access to additional options, as described below.
+## Using PrimaveraPMFileReader
+You can work directly with the `PrimaveraPMFileReader` by replacing
+`UniversalProjectReader` with `PrimaveraPMFileReader`. This provides access to
+additional options, as described below.
 
-#### WBS is Full Path
+### WBS is Full Path
 Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
 separated hierarchy of all of the parent WBS attributes.
 In this example, `root.wbs1.wbs2` is the WBS attribute for `wbs2` which has
@@ -37,11 +38,11 @@ PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 reader.setWbsIsFullPath(false);
 ```
 
-#### Multiple Projects
-A PMXML file can contain multiple projects. By default MPXJ reads the first non-external project
-it finds in the file, otehrwise it defaults to the first project it finds.
-You can however use MPXJ to list the projects contained in
-a PMXML file, as shown below:
+### Multiple Projects
+A PMXML file can contain multiple projects. By default MPXJ reads the first
+non-external project it finds in the file, otehrwise it defaults to the first
+project it finds. You can however use MPXJ to list the projects contained in a
+PMXML file, as shown below:
 
 ```java
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
@@ -87,14 +88,14 @@ InputStream is = new FileInputStream("my-sample.xml");
 List<ProjectFile> files = reader.readAll(is);
 ```
 
-The call to the `readAll` method returns a list of `ProjectFile` instances corresponding
-to the projects in the PMXML file.
+The call to the `readAll` method returns a list of `ProjectFile` instances
+corresponding to the projects in the PMXML file.
 
-#### Link Cross-Project Relations
-A PMXML file can contain multiple projects with relations between activities which span
-those projects. By default these cross-project relations are ignored. However, if you set the
-`linkCrossProjectRelations` reader attribute to `true`, MPXJ will attempt to
-link these relations across projects: 
+### Link Cross-Project Relations
+A PMXML file can contain multiple projects with relations between activities
+which span those projects. By default these cross-project relations are ignored.
+However, if you set the `linkCrossProjectRelations` reader attribute to `true`,
+MPXJ will attempt to link these relations across projects: 
 
 ```java
 import net.sf.mpxj.ProjectFile;

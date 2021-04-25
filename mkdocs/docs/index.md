@@ -1,21 +1,15 @@
 # Introduction
-Welcome to MPXJ! This library provides a set of facilities to allow project
-information to be manipulated from a number of different programming
-languages. MPXJ supports a range of data formats: Microsoft Project Exchange
-(MPX), Microsoft Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI
-XML), Microsoft  Project Database (MPD), Planner (XML), Primavera P6 (PMXML,
-XER, and database),  Primavera P3 (PRX and database), SureTrak (STX and
-database),  Asta Powerproject and Easyplan (PP, MDB), Phoenix Project Manager
-(PPX), FastTrack Schedule (FTS), GanttProject (GAN), TurboProject (PEP),
-ConceptDraw PROJECT (CDPX, CPDZ and CPDTZ), Synchro Scheduler (SP) and the
-Standard Data Exchange Format (SDEF).
+Welcome to MPXJ! This library provides you with the ability to read project
+information (sometimes known as schedules or programmes) from a variety of file
+formats, and also write that information to a variety of file formats.
 
 The library is based around a set of data structures which follow the way
 schedule data is represented by Microsoft Project. All manipulation of project
 data takes place using these data structures, which can be read from or
-written to the various supported file formats. The notes in the following
-paragraphs explain the facilities MPXJ offers for each file format.
+written to the various supported file formats.
 
+
+## Supported Formats
 * **MPX:** The MPX file format can be read by versions of Microsoft
 Project up to and including Microsoft Project 2010, and written by versions up
 to Microsoft Project 98. MPXJ allows MPX files to be created, read and

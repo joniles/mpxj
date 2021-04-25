@@ -1,4 +1,4 @@
-## How To: Read MPP files
+# How To: Read MPP files
 The native Microsoft Project file format is typically has the extension MPP
 (or MPT for a template file). Although a common file extension uis used,
 there are actually a number if different variants of the file format.
@@ -10,7 +10,7 @@ Microsoft Project which produce them:
 * MPP12 - Project 2003, Project 2007
 * MPP14 - Project 2010 and all later versions
 
-### Reading MPP files
+## Reading MPP files
 The simplest way to read an MPP file is to use the `UniversalProjectReader`:
 
 ```java
@@ -23,11 +23,11 @@ UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 
-### Using MPPReader
+## Using MPPReader
 You can work directly with the `MPPReader` class by replacing `UniversalProjectReader`
 with `MPPReader`. This provides access to additional options, as described below.
 
-#### Password Protected Files
+### Password Protected Files
 When a read password has been set for an MPP file, the contents of the file are partially
 encrypted. If you attempt to read an MPP file which has been password protected an `MPXJException` 
 will be raised, with the message `File is password protected`.
@@ -61,7 +61,7 @@ reader.setRespectPasswordProtection(false);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 
-#### Presentation Data
+### Presentation Data
 Alongside the schedule data itself, MPXJ also extracts much of the presentation data
 available in an MPP file, for example table layouts, filters, graphical indicators
 and so on. If you are not interested in this type of data, you can tell MPXJ not
@@ -79,7 +79,7 @@ reader.setReadPresentationData(false);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 
-#### Properties Only
+### Properties Only
 Should you wish to simply "peek" at the contents of the MPP file by just reading the
 summary properties from the file, you can use the `setReadPropertiesOnly` method
 as shown below:
@@ -95,7 +95,7 @@ reader.setReadPropertiesOnly(true);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
 
-#### Raw timephased data
+### Raw timephased data
 When MPXJ reads timephased data from an MPP file it "normalises" the data,
 converting it from the compact format Microsoft Project uses internally
 into a representation which shows the timephased values day-by-day. This
@@ -117,4 +117,3 @@ MPPReader reader = new MPPReader();
 reader.setUseRawTimephasedData(true);
 ProjectFile project = reader.read("my-sample.mpp");
 ```
-

@@ -1,4 +1,4 @@
-## MPXJ Users
+# MPXJ Users
 
 Here is a list of organisations and projects currently using, or believed to be
 using MPXJ. Feel free to [contact me](mailto:jon.iles@bcs.org.uk) if you would

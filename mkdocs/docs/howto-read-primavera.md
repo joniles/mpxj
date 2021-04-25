@@ -1,14 +1,14 @@
-## How To: Read a Primavera P6 database
+# How To: Read a Primavera P6 database
 Reading from a Primavera database is a slightly different proposition
 to reading file-based project data, as a database connection is required.
 
-### Java 
+## Java 
 The example below illustrates how to do this for a Primavera database
 hosted in SQL Server, using the open source JTDS JDBC driver. 
 The only difference when reading from an Oracle
 database will be the JDBC driver and connection string used.
 
-```
+```java
 import java.sql.Connection;
 import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
@@ -79,24 +79,25 @@ reader.setProjectID(selectedProjectID);
 ProjectFile projectFile = reader.read("PPMDBSQLite.db");
 ```
 
-### .Net
+## .Net
 The situation is a little more complicated when using the .Net version of MPXJ.
 In this case you are still actually running Java code, so you need to use a JDBC
 driver to establish a database connection.
 
-Your first step will be to convert your JDBC driver to a .Net assembly using IKVM. For example
-the command line below converts a version of Microsoft's SQL Server JDBC driver to a .Net
-assembly:
+Your first step will be to convert your JDBC driver to a .Net assembly using
+IKVM. For example the command line below converts a version of Microsoft's SQL
+Server JDBC driver to a .Net assembly:
 
 ```
 c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
 ```
 
-You can then add a reference to this assembly to your project. Configuring the JDBC driver
-needs to be done in a slightly different way than you would using Java. Here we need to
-create an instance of the JDBC driver class directly, rather than referencing it by name as we would in Java.
+You can then add a reference to this assembly to your project. Configuring the
+JDBC driver needs to be done in a slightly different way than you would using
+Java. Here we need to create an instance of the JDBC driver class directly,
+rather than referencing it by name as we would in Java.
 
-```
+```C#
 //
 // Configure the connection
 //
@@ -112,18 +113,20 @@ reader.Connection = connection;
 
 ```
 
-You can find the complete code for this [here](https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs).
+You can find the complete code for this
+[here](https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs).
 
-### Using PrimaveraDatabaseReader
+## Using PrimaveraDatabaseReader
 This section documents the additional options provided by the PrimaveraDatabaseReader.
 
  
-#### Activity WBS
-In the original implementation of the database handling code, MPXJ would assign each task representing
-a Primavera Activity its own distinct WBS value. This does not match Primavera's behaviour where
-all of a WBS element's child activities will have the same WBS value as the parent WBS element.
-MPXJ's default behaviour now matches Primavera, but should you wish to you can revert to the original
-behaviour by calling the `setMatchPrimaveraWBS` as shown below.
+### Activity WBS
+In the original implementation of the database handling code, MPXJ would assign
+each task representing a Primavera Activity its own distinct WBS value. This
+does not match Primavera's behaviour where all of a WBS element's child
+activities will have the same WBS value as the parent WBS element. MPXJ's
+default behaviour now matches Primavera, but should you wish to you can revert
+to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 
 ```java
 import net.sf.mpxj.ProjectFile;
@@ -135,7 +138,7 @@ PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
 reader.setMatchPrimaveraWBS(false);
 ```
 
-#### WBS is Full Path
+### WBS is Full Path
 Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
 separated hierarchy of all of the parent WBS attributes.
 In this example, `root.wbs1.wbs2` is the WBS attribute for `wbs2` which has
@@ -154,22 +157,22 @@ PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
 reader.setWbsIsFullPath(false);
 ```
 
-#### User Defined Fields
+### User Defined Fields
 MPXJ attempts to map user defined fields from P6 to the custom fields.
 When MPXJ reads user defined fields from the database, it will assign
 each new user defined field to a new custom attribute. For example when
 the first custom text field is read, it will be stored in TEXT1, the next
 custom text field will be stored in TEXT2, and so on.
  
-It is possible that there are more user defined values in the database
-than there are custom attributes of a specific type in the MPXJ data model.
-For example the task entity only has TEXT to TEXT30 attributes, so if the database
-has more than 30 text user defined attributes, the default mapping
-switches to using ENTERPRISE_TEXT fields.
+It is possible that there are more user defined values in the database than
+there are custom attributes of a specific type in the MPXJ data model. For
+example the task entity only has TEXT to TEXT30 attributes, so if the database
+has more than 30 text user defined attributes, the default mapping switches to
+using ENTERPRISE_TEXT fields.
 
-The list below shows the default mappings used by MPXJ. Where there is more than one item
-shown for each user defined type, this indicates how MPXJ "overflows" from one
-custom type to another.
+The list below shows the default mappings used by MPXJ. Where there is more than
+one item shown for each user defined type, this indicates how MPXJ "overflows"
+from one custom type to another.
 
 * FT_TEXT: TEXT, ENTERPRISE_TEXT
 * FT_START_DATE: START
@@ -194,18 +197,21 @@ reader.setFieldNamesForResourceUdfType(UserFieldDataType.FT_START_DATE, "DATE");
 reader.setFieldNamesForAssignmentUdfType(UserFieldDataType.FT_END_DATE, "DATE");
 ```
 
-As the sample shows, a method is provided for the three main entity types: tasks, resources
-and resource assignments. The first argument you pass to these methods is the P6 user defined
-field type, followed by a list of names, for example to use the fields DATE1, DATE2 and so on in MPXJ,
-you would pass in `"DATE"`. To allow values to overflow from one custom field type
-to another, you can simply pass additional values (see the `setFieldNamesForTaskUdfType` example above).
+As the sample shows, a method is provided for the three main entity types:
+tasks, resources and resource assignments. The first argument you pass to these
+methods is the P6 user defined field type, followed by a list of names, for
+example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in
+`"DATE"`. To allow values to overflow from one custom field type to another, you
+can simply pass additional values (see the `setFieldNamesForTaskUdfType` example
+above).
 
-#### Reading Additional Attributes
-A data-driven approach is used to extract the attributes used by MPXJ from the database.
-You can if you wish change the way attributes are read from the file, or add support
-for additional attributes. This assumes that you know the column name of the attributes
-you want to work with in the database. To make changes you will need to retrieve the maps
-which define which MPXJ attributes are used to store which columns from the database:
+### Reading Additional Attributes
+A data-driven approach is used to extract the attributes used by MPXJ from the
+database. You can if you wish change the way attributes are read from the file,
+or add support for additional attributes. This assumes that you know the column
+name of the attributes you want to work with in the database. To make changes
+you will need to retrieve the maps which define which MPXJ attributes are used
+to store which columns from the database:
 
 ```java
 PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
@@ -215,8 +221,8 @@ Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
 Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
 ```
 
-These maps will contain the default mapping between columns and MPXJ attributes. You can modify
-these existing mappings, or add new ones, for example:
+These maps will contain the default mapping between columns and MPXJ attributes.
+You can modify these existing mappings, or add new ones, for example:
 
 ```java
 //

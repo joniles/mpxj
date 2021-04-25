@@ -1,10 +1,10 @@
-## How To: Read MPX files
+# How To: Read MPX files
 Versions of Microsoft Project up to Project 98 could read and write MPX files
 as a data interchange format. Versions of Project after Project 98 until Project 2010
 can only read MPX files. Versions of Microsoft Project after 2010 cannot read MPX files.
 Other third party project planning applications continue to use MPX as a data interchange format.
 
-### Reading MPX files
+## Reading MPX files
 The simplest way to read an MPX file is to use the `UniversalProjectReader`:
 
 ```java
@@ -17,12 +17,12 @@ UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.mpx");
 ```
 
-### Using MPXReader
+## Using MPXReader
 
 You can work directly with the `MPXReader` class by replacing `UniversalProjectReader`
 with `MPXReader`. This provides access to additional options, as described below.
 
-#### Locale
+### Locale
 It appears that very early in the life of the MPX file format, Microsoft Project was
 internationalised to allow versions of the application to be used in languages other than English.
 One unfortunate side effect of this was that the text used in the MPX file
@@ -73,7 +73,7 @@ import net.sf.mpxj.mpx.MPXReader;
 Locale[] locales = MPXReader.getSupportedLocales();
 ```
 
-#### Ignore Text Models
+### Ignore Text Models
 You should not normally need to modify this option.
 
 An MPX file consists of a series of sections with each section representing
