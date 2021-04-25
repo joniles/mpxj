@@ -231,8 +231,8 @@ public class CustomerDataTest
       boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
       if (!isIKVM)
       {
-         FIELD_REPORTER.report("src/site/markdown/field-guide.md");
-         FIELD_REPORTER.reportMpp("src/site/markdown/mpp-field-guide.md");
+         FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
+         FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
       }
    }
 
