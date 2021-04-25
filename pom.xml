@@ -307,23 +307,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Generate a Google sitemap -->
-			<plugin>
-				<groupId>org.simplify4u.plugins</groupId>
-				<artifactId>sitemapxml-maven-plugin</artifactId>
-				<version>2.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>gen</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<siteOutputDirectory>./docs</siteOutputDirectory>
-				</configuration>
-			</plugin>
-
 			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir> 
 				to allow unit tests to run -->
 			<plugin>

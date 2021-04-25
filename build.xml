@@ -609,9 +609,18 @@
 		</exec>
 	</target>
 
-	<target name="maven-site-build" depends="init" description="Execute maven to produce the web site">
-		<delete dir="${docs.dir}" />
-		<mkdir dir="${docs.dir}" />
+	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build" description="Produce site content"/>
+
+	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
+		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs/CHANGELOG.md"/>
+		<exec executable="${python}" dir="${basedir}/mkdocs">
+			<arg line="-m mkdocs build -d ${docs.dir}" />
+		</exec>
+		<delete file="${basedir}/docs/sitemap.xml" />
+		<delete file="${basedir}/docs/sitemap.xml.gz" />
+	</target>
+
+	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
 		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
 		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
 			<arg line="post-site" />

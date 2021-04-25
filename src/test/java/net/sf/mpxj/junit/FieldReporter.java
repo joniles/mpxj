@@ -108,6 +108,23 @@ public class FieldReporter
    private void report(String file, Set<String> keys, Map<FieldType, Set<String>> map, String title, String text) throws IOException
    {
       PrintWriter pw = new PrintWriter(file, "UTF-8");
+
+      pw.println("<style type='text/css' rel='stylesheet'>");
+      pw.println("table {");
+      pw.println("   display: block;");
+      pw.println("   height: 300px;");
+      pw.println("   overflow: auto;");
+      pw.println("   width: 100%;");
+      pw.println("}");
+      pw.println("");
+      pw.println("th {");
+      pw.println("   position: sticky;");
+      pw.println("   top: 0;");
+      pw.println("   z-index: 1; ");
+      pw.println("}");
+      pw.println("</style>");
+      pw.println();
+
       pw.println("# " + title);
       pw.println(text);
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
