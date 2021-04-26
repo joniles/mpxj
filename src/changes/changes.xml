@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.3.0">
+		</release>
+		<release date="26/04/2021" version="9.2.6">
 			<action dev="joniles" type="update">Handle invalid baseline numbers when reading MSPDI files.</action>
 			<action dev="joniles" type="update">Improve custom field handling when reading GanttProject files.</action>
 		</release>

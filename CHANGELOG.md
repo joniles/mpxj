@@ -1,6 +1,8 @@
 # Changelog
 
 ## 9.3.0 (git master)
+
+## 9.2.6 (26/04/2021)
 * Handle invalid baseline numbers when reading MSPDI files.
 * Improve custom field handling when reading GanttProject files.
 
