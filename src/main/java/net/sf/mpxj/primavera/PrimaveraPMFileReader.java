@@ -372,7 +372,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       try
       {
-         m_clashMap = new HashMap<>();
+         m_activityClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
          m_taskUdfCounters = new UserFieldCounters();
          m_resourceUdfCounters = new UserFieldCounters();
@@ -465,7 +465,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_clashMap = null;
+         m_activityClashMap = null;
          m_activityCodeMap = null;
          m_taskUdfCounters = null;
          m_resourceUdfCounters = null;
@@ -1027,7 +1027,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processTasks(List<WBSType> wbs, Map<Integer, Notes> wbsNotes, List<ActivityType> activities, Map<Integer, Notes> activityNotes)
    {
-      Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
       boolean baselineFromCurrentProject = m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null;
 
@@ -1040,7 +1039,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          Task task = m_projectFile.addTask();
          Integer uniqueID = row.getObjectId();
-         uniqueIDs.add(uniqueID);
+         m_activityClashMap.addID(uniqueID);
          wbsTasks.add(task);
 
          task.setUniqueID(uniqueID);
@@ -1095,8 +1094,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       // Read Task entries and create tasks
       //
-      int nextID = 1;
-      m_clashMap.clear();
 
       // If the schedule is using longest path to determine critical activities
       // we currently don't have enough information to correctly set this attribute.
@@ -1108,18 +1105,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          Integer uniqueID = row.getObjectId();
          Notes notes = activityNotes.get(uniqueID);
-
-         if (uniqueIDs.contains(uniqueID))
-         {
-            while (uniqueIDs.contains(Integer.valueOf(nextID)))
-            {
-               ++nextID;
-            }
-            Integer newUniqueID = Integer.valueOf(nextID);
-            m_clashMap.put(uniqueID, newUniqueID);
-            uniqueID = newUniqueID;
-         }
-         uniqueIDs.add(uniqueID);
+         uniqueID = m_activityClashMap.addID(uniqueID);
 
          Task task;
          Integer parentTaskID = row.getWBSObjectId();
@@ -1556,8 +1542,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Integer predecessorID = row.getPredecessorActivityObjectId();
          Integer successorID = row.getSuccessorActivityObjectId();
 
-         Task successorTask = m_projectFile.getTaskByUniqueID(mapTaskID(successorID));
-         Task predecessorTask = m_projectFile.getTaskByUniqueID(mapTaskID(predecessorID));
+         Task successorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(successorID));
+         Task predecessorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(predecessorID));
 
          RelationType type = RELATION_TYPE_MAP.get(row.getType());
          Duration lag = getDuration(row.getLag());
@@ -1599,7 +1585,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (ResourceAssignmentType row : assignments)
       {
-         Task task = m_projectFile.getTaskByUniqueID(mapTaskID(row.getActivityObjectId()));
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
          Resource resource = m_projectFile.getResourceByUniqueID(row.getResourceObjectId());
          if (task != null && resource != null)
          {
@@ -2111,26 +2097,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * Deals with the case where we have had to map a task ID to a new value.
-    *
-    * @param id task ID from database
-    * @return mapped task ID
-    */
-   private Integer mapTaskID(Integer id)
-   {
-      Integer mappedID = m_clashMap.get(id);
-      if (mappedID == null)
-      {
-         mappedID = id;
-      }
-      return (mappedID);
-   }
-
    private Integer m_projectID;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap;
+   private ClashMap m_activityClashMap;
    private Map<Integer, ActivityCodeValue> m_activityCodeMap;
    private UserFieldCounters m_taskUdfCounters;
    private UserFieldCounters m_resourceUdfCounters;

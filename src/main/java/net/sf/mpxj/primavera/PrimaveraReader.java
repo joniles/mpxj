@@ -727,7 +727,6 @@ final class PrimaveraReader
    {
       ProjectProperties projectProperties = m_project.getProjectProperties();
       String projectName = projectProperties.getName();
-      Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
       boolean baselineFromCurrentProject = m_project.getProjectProperties().getBaselineProjectUniqueID() == null;
 
@@ -759,7 +758,7 @@ final class PrimaveraReader
          // If we don't do this, the logic in Task.getCritical will mark WBS entries without
          // child activities as critical.
          task.setCritical(false);
-         uniqueIDs.add(task.getUniqueID());
+         m_activityClashMap.addID(task.getUniqueID());
          wbsTasks.add(task);
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -793,8 +792,6 @@ final class PrimaveraReader
       //
       // Read Task entries and create tasks
       //
-      int nextID = 1;
-      m_clashMap.clear();
 
       // If the schedule is using longest path to determine critical activities
       // we currently don't have enough information to correctly set this attribute.
@@ -845,18 +842,7 @@ final class PrimaveraReader
 
          task.setNotesObject(taskNotes.get(uniqueID));
 
-         if (uniqueIDs.contains(uniqueID))
-         {
-            while (uniqueIDs.contains(Integer.valueOf(nextID)))
-            {
-               ++nextID;
-            }
-            Integer newUniqueID = Integer.valueOf(nextID);
-            m_clashMap.put(uniqueID, newUniqueID);
-            uniqueID = newUniqueID;
-            task.setUniqueID(uniqueID);
-         }
-         uniqueIDs.add(uniqueID);
+         task.setUniqueID(m_activityClashMap.addID(uniqueID));
 
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
@@ -904,7 +890,7 @@ final class PrimaveraReader
          {
             task.getCritical();
          }
-         
+
          if (baselineFromCurrentProject)
          {
             populateBaselineFromCurrentProject(task);
@@ -1448,8 +1434,8 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Integer currentID = mapTaskID(row.getInteger("task_id"));
-         Integer predecessorID = mapTaskID(row.getInteger("pred_task_id"));
+         Integer currentID = m_activityClashMap.getID(row.getInteger("task_id"));
+         Integer predecessorID = m_activityClashMap.getID(row.getInteger("pred_task_id"));
          Task currentTask = m_project.getTaskByUniqueID(currentID);
          Task predecessorTask = m_project.getTaskByUniqueID(predecessorID);
          RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
@@ -1483,7 +1469,7 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task task = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("rsrc_id"));
          if (task != null && resource != null)
          {
@@ -1802,22 +1788,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Deals with the case where we have had to map a task ID to a new value.
-    *
-    * @param id task ID from database
-    * @return mapped task ID
-    */
-   private Integer mapTaskID(Integer id)
-   {
-      Integer mappedID = m_clashMap.get(id);
-      if (mappedID == null)
-      {
-         mappedID = id;
-      }
-      return (mappedID);
-   }
-
-   /**
     * Calculate the physical percent complete.
     *
     * @param row task data
@@ -2003,7 +1973,7 @@ final class PrimaveraReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap = new HashMap<>();
+   private ClashMap m_activityClashMap = new ClashMap();
    private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
 
