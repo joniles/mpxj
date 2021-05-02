@@ -191,7 +191,7 @@ Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
 Parent Task Unique ID| |✓|✓|✓
-Physical % Complete| | |✓|✓
+Physical % Complete| |✓|✓|✓
 Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓

@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.3.0 (git master)
+* Corrected the data type of the task physical percent complete attribute.
 
 ## 9.2.6 (26/04/2021)
 * Handle invalid baseline numbers when reading MSPDI files.

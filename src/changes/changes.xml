@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.3.0">
+			<action dev="joniles" type="update">Corrected the data type of the task physical percent complete attribute.</action>
 		</release>
 		<release date="26/04/2021" version="9.2.6">
 			<action dev="joniles" type="update">Handle invalid baseline numbers when reading MSPDI files.</action>

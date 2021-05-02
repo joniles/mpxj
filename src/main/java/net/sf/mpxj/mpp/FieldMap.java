@@ -1080,6 +1080,7 @@ abstract class FieldMap
                break;
             }
 
+            case PERCENTAGE:
             case SHORT:
             {
                result = Integer.valueOf(varData.getShort(id, m_varDataKey));
