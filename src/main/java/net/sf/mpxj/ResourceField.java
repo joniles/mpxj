@@ -597,6 +597,7 @@ public enum ResourceField implements FieldType
    POOL(DataType.NUMERIC),
    PER_DAY(DataType.NUMERIC),
    PHONE(DataType.STRING),
+   ROLE(DataType.BOOLEAN),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),

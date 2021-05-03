@@ -50,6 +50,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       super(file);
 
       setType(ResourceType.WORK);
+      setRole(Boolean.FALSE);
+
       ProjectConfig config = file.getProjectConfig();
 
       if (config.getAutoResourceUniqueID() == true)
@@ -2477,6 +2479,27 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public String getPhone()
    {
       return (String) getCachedValue(ResourceField.PHONE);
+   }
+
+   /**
+    * Set the role field.
+    *
+    * @param value role value
+    */
+   public void setRole(Boolean value)
+   {
+      set(ResourceField.ROLE, value);
+   }
+
+   /**
+    * Retrieve the role field.
+    * Returns true if this object represents a role rather than an individual resource.
+    *
+    * @return role value
+    */
+   public Boolean getRole()
+   {
+      return (Boolean) getCachedValue(ResourceField.ROLE);
    }
 
    /**
