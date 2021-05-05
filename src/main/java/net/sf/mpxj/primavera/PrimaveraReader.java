@@ -111,10 +111,11 @@ final class PrimaveraReader
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
     * @param assignmentFields assignment field mapping
+    * @param roleFields role field mapping 
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -126,6 +127,7 @@ final class PrimaveraReader
       config.setAutoWBS(false);
 
       m_resourceFields = resourceFields;
+      m_roleFields = roleFields;
       m_wbsFields = wbsFields;
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
@@ -575,6 +577,23 @@ final class PrimaveraReader
       }
    }
 
+   /**
+    * Process roles.
+    *
+    * @param rows resource data
+    */
+   public void processRoles(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Resource resource = m_project.addResource();
+         processFields(m_roleFields, row, resource);
+         resource.setRole(Boolean.TRUE);
+         resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
+         resource.setNotesObject(getNotes(resource.getNotes()));
+      }
+   }
+
    private Notes getNotes(String text)
    {
       Notes notes = getHtmlNote(text);
@@ -689,6 +708,83 @@ final class PrimaveraReader
          }
 
          Resource resource = m_project.getResourceByUniqueID(resourceID);
+         if (resource != null)
+         {
+            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+
+            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            costRateTable.add(entry);
+
+            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+         }
+      }
+   }
+
+   /**
+    * Process role rates.
+    *
+    * @param rows role rate data
+    */
+   public void processRoleRates(List<Row> rows)
+   {
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      Collections.sort(rows, new Comparator<Row>()
+      {
+         @Override public int compare(Row r1, Row r2)
+         {
+            Integer id1 = r1.getInteger("role_id");
+            Integer id2 = r2.getInteger("role_id");
+            int cmp = NumberHelper.compare(id1, id2);
+            if (cmp != 0)
+            {
+               return cmp;
+            }
+            Date d1 = r1.getDate("start_date");
+            Date d2 = r2.getDate("start_date");
+            return DateHelper.compare(d1, d2);
+         }
+      });
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getDate("start_date");
+         Date endDate = DateHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
+            {
+               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
+            }
+         }
+
+         Resource resource = m_project.getResourceByUniqueID(m_roleClashMap.getID(row.getInteger("role_id")));
          if (resource != null)
          {
             if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
@@ -1154,7 +1250,9 @@ final class PrimaveraReader
       // Replace newlines
       html = html.replaceAll("\\x7F\\x7F", "\n");
 
-      return new HtmlNotes(html);
+      HtmlNotes result = new HtmlNotes(html);
+      
+      return result.isEmpty() ? null : result;
    }
 
    /**
@@ -1470,7 +1568,8 @@ final class PrimaveraReader
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
-         Resource resource = m_project.getResourceByUniqueID(row.getInteger("rsrc_id"));
+         Integer resourceID = row.getInteger("rsrc_id") == null ? m_roleClashMap.getID(row.getInteger("role_id")) : row.getInteger("rsrc_id");
+         Resource resource = m_project.getResourceByUniqueID(resourceID);
          if (task != null && resource != null)
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
@@ -1880,6 +1979,24 @@ final class PrimaveraReader
    }
 
    /**
+    * Retrieve the default mapping between MPXJ resource fields and Primavera role field names.
+    *
+    * @return mapping
+    */
+   public static Map<FieldType, String> getDefaultRoleFieldMap()
+   {
+      Map<FieldType, String> map = new LinkedHashMap<>();
+
+      map.put(ResourceField.UNIQUE_ID, "role_id");
+      map.put(ResourceField.NAME, "role_name");
+      map.put(ResourceField.RESOURCE_ID, "role_short_name");
+      map.put(ResourceField.NOTES, "role_descr");
+      map.put(ResourceField.PARENT_ID, "parent_role_id");
+
+      return map;
+   }
+
+   /**
     * Retrieve the default mapping between MPXJ task fields and Primavera wbs field names.
     *
     * @return mapping
@@ -1973,26 +2090,28 @@ final class PrimaveraReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private ClashMap m_activityClashMap = new ClashMap();
-   private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private final ClashMap m_activityClashMap = new ClashMap();
+   private final ClashMap m_roleClashMap = new ClashMap();
+   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
 
    private final UserFieldCounters m_taskUdfCounters;
    private final UserFieldCounters m_resourceUdfCounters;
    private final UserFieldCounters m_assignmentUdfCounters;
    private Map<FieldType, String> m_resourceFields;
+   private Map<FieldType, String> m_roleFields;
    private Map<FieldType, String> m_wbsFields;
    private Map<FieldType, String> m_taskFields;
    private Map<FieldType, String> m_assignmentFields;
-   private List<ExternalRelation> m_externalRelations = new ArrayList<>();
+   private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
 
-   private Map<Integer, String> m_udfFields = new HashMap<>();
-   private Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
+   private final Map<Integer, String> m_udfFields = new HashMap<>();
+   private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
-   private Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
+   private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
+   private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static

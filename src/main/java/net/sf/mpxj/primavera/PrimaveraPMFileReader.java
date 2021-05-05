@@ -123,6 +123,8 @@ import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.RoleRateType;
+import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
@@ -373,6 +375,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       try
       {
          m_activityClashMap = new ClashMap();
+         m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
          m_taskUdfCounters = new UserFieldCounters();
          m_resourceUdfCounters = new UserFieldCounters();
@@ -445,11 +448,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processActivityCodes(apibo, activityCodeTypes, activityCodes);
          processCalendars(apibo, calendars);
          processResources(apibo);
+         processRoles(apibo);
          processTasks(wbs, getWbsNotes(projectNotes), activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
          processAssignments(assignments);
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
+         processRoleRates(apibo);
          rollupValues();
 
          m_projectFile.updateStructure();
@@ -466,6 +471,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          m_projectFile = null;
          m_activityClashMap = null;
+         m_roleClashMap = null;
          m_activityCodeMap = null;
          m_taskUdfCounters = null;
          m_resourceUdfCounters = null;
@@ -933,6 +939,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceType xml : resources)
       {
          Resource resource = m_projectFile.addResource();
+         m_roleClashMap.addID(xml.getObjectId());
 
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
@@ -949,6 +956,24 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
+      }
+   }
+
+   /**
+    * Process roles.
+    *
+    * @param apibo xml container
+    */
+   private void processRoles(APIBusinessObjects apibo)
+   {
+      for (RoleType role : apibo.getRole())
+      {
+         Resource resource = m_projectFile.addResource();
+         resource.setRole(Boolean.TRUE);
+         resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
+         resource.setName(role.getName());
+         resource.setResourceID(role.getId());
+         resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
       }
    }
 
@@ -1586,7 +1611,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
-         Resource resource = m_projectFile.getResourceByUniqueID(row.getResourceObjectId());
+         Integer resourceID = row.getResourceObjectId() == null ? m_roleClashMap.getID(row.getRoleObjectId()) : row.getResourceObjectId();
+         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+
          if (task != null && resource != null)
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
@@ -1689,8 +1716,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (i + 1 < rates.size())
          {
             ResourceRateType nextRow = rates.get(i + 1);
-            int nextResourceID = NumberHelper.getInt(nextRow.getResourceObjectId());
-            if (resourceID.intValue() == nextResourceID)
+            if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
             {
                Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
                cal.add(Calendar.MINUTE, -1);
@@ -1700,6 +1726,85 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+         if (resource != null)
+         {
+            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+
+            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            costRateTable.add(entry);
+
+            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+         }
+      }
+   }
+
+   /**
+    * Process role rates.
+    *
+    * @param apibo xml container
+    */
+   private void processRoleRates(APIBusinessObjects apibo)
+   {
+      List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRate());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      Collections.sort(rates, new Comparator<RoleRateType>()
+      {
+         @Override public int compare(RoleRateType r1, RoleRateType r2)
+         {
+            Integer id1 = r1.getRoleObjectId();
+            Integer id2 = r2.getRoleObjectId();
+            int cmp = NumberHelper.compare(id1, id2);
+            if (cmp != 0)
+            {
+               return cmp;
+            }
+            Date d1 = r1.getEffectiveDate();
+            Date d2 = r2.getEffectiveDate();
+            return DateHelper.compare(d1, d2);
+         }
+      });
+
+      for (int i = 0; i < rates.size(); ++i)
+      {
+         RoleRateType row = rates.get(i);
+
+         Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getEffectiveDate();
+         Date endDate = DateHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            RoleRateType nextRow = rates.get(i + 1);
+            if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
+            {
+               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
+            }
+         }
+
+         Resource resource = m_projectFile.getResourceByUniqueID(m_roleClashMap.getID(row.getRoleObjectId()));
          if (resource != null)
          {
             if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
@@ -1799,7 +1904,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Remove BOM and NUL characters
       String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
-      return new HtmlNotes(html);
+      HtmlNotes result = new HtmlNotes(html);
+      
+      return result.isEmpty() ? null : result;
    }
 
    /**
@@ -2101,6 +2208,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
+   private ClashMap m_roleClashMap;
    private Map<Integer, ActivityCodeValue> m_activityCodeMap;
    private UserFieldCounters m_taskUdfCounters;
    private UserFieldCounters m_resourceUdfCounters;

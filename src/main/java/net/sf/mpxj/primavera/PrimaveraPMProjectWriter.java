@@ -74,6 +74,8 @@ import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.RoleRateType;
+import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
@@ -152,7 +154,9 @@ final class PrimaveraPMProjectWriter
             writeCostAccounts();
             writeCalendars();
             writeResources();
+            writeRoles();
             writeResourceRates();
+            writeRoleRates();
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -541,13 +545,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResources()
    {
-      for (Resource resource : m_projectFile.getResources())
-      {
-         if (resource.getUniqueID().intValue() != 0)
-         {
-            writeResource(resource);
-         }
-      }
+      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(r -> writeResource(r));
    }
 
    /**
@@ -577,6 +575,30 @@ final class PrimaveraPMProjectWriter
       xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
+   }
+
+   /**
+    * This method writes role data to a PMXML file.
+    */
+   private void writeRoles()
+   {
+      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(r -> writeRole(r));
+   }
+
+   /**
+    * Write a single role.
+    *
+    * @param mpxj Resource instance
+    */
+   private void writeRole(Resource mpxj)
+   {
+      RoleType xml = m_factory.createRoleType();
+      m_apibo.getRole().add(xml);
+
+      xml.setObjectId(mpxj.getUniqueID());
+      xml.setName(mpxj.getName());
+      xml.setId(mpxj.getResourceID());
+      xml.setResponsibilities(getResourceNotes(mpxj.getNotesObject()));
    }
 
    /**
@@ -840,6 +862,15 @@ final class PrimaveraPMProjectWriter
       Task parentTask = task.getParentTask();
       Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
+      if (BooleanHelper.getBoolean(mpxj.getResource().getRole()))
+      {
+         xml.setRoleObjectId(mpxj.getResourceUniqueID());
+      }
+      else
+      {
+         xml.setResourceObjectId(mpxj.getResourceUniqueID());
+      }
+
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
       xml.setActualCost(getDouble(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
@@ -864,7 +895,6 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
-      xml.setResourceObjectId(mpxj.getResourceUniqueID());
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(parentTaskUniqueID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
@@ -978,7 +1008,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceRates()
    {
-      m_projectFile.getResources().forEach(r -> writeResourceRates(r));
+      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole())).forEach(r -> writeResourceRates(r));
    }
 
    /**
@@ -1018,6 +1048,57 @@ final class PrimaveraPMProjectWriter
                //rate.setResourceId(value);
                //rate.setResourceName(value);
                rate.setResourceObjectId(resource.getUniqueID());
+               //rate.setShiftPeriodObjectId(value);
+            }
+         }
+      }
+   }
+
+   /**
+    * Write rate information for each role.
+    */
+   private void writeRoleRates()
+   {
+      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole())).forEach(r -> writeRoleRates(r));
+   }
+
+   /**
+    * Write rate information for a single role.
+    *
+    * @param resource Resource instance
+    */
+   private void writeRoleRates(Resource resource)
+   {
+      CostRateTable table = resource.getCostRateTable(0);
+      AvailabilityTable availabilityTable = resource.getAvailability();
+
+      if (table != null)
+      {
+         for (CostRateTableEntry entry : table)
+         {
+            if (costRateTableWriteRequired(entry))
+            {
+               Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
+               Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+
+               RoleRateType rate = m_factory.createRoleRateType();
+               m_apibo.getRoleRate().add(rate);
+
+               //rate.setCreateDate(value);
+               //rate.setCreateUser(value);
+               rate.setEffectiveDate(entry.getStartDate());
+               //rate.setLastUpdateDate(value);
+               //rate.setLastUpdateUser(value);
+               rate.setMaxUnitsPerTime(maxUnits);
+               rate.setObjectId(m_sequences.getRateObjectID());
+               rate.setPricePerUnit(Double.valueOf(entry.getStandardRate().getAmount()));
+               //rate.setPricePerUnit2(value);
+               //rate.setPricePerUnit3(value);
+               //rate.setPricePerUnit4(value);
+               //rate.setPricePerUnit5(value);
+               //rate.setResourceId(value);
+               //rate.setResourceName(value);
+               rate.setRoleObjectId(resource.getUniqueID());
                //rate.setShiftPeriodObjectId(value);
             }
          }

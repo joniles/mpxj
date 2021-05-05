@@ -163,7 +163,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -227,7 +227,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processCostAccounts();
          processCalendars();
          processResources();
+         processRoles();
          processResourceRates();
+         processRoleRates();
          processTasks();
          processPredecessors();
          processAssignments();
@@ -498,12 +500,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process roles.
+    */
+   private void processRoles()
+   {
+      List<Row> rows = getRows("roles", null, null);
+      m_reader.processRoles(rows);
+   }
+
+   /**
     * Process resource rates.
     */
    private void processResourceRates()
    {
       List<Row> rows = getRows("rsrcrate", null, null);
       m_reader.processResourceRates(rows);
+   }
+
+   /**
+    * Process role rates.
+    */
+   private void processRoleRates()
+   {
+      List<Row> rows = getRows("rolerate", null, null);
+      m_reader.processRoleRates(rows);
    }
 
    /**
@@ -836,6 +856,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @return Primavera field name to MPXJ field type map
     */
+   public Map<FieldType, String> getRoleFieldMap()
+   {
+      return m_roleFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    *
+    * @return Primavera field name to MPXJ field type map
+    */
    public Map<FieldType, String> getWbsFieldMap()
    {
       return m_wbsFields;
@@ -976,6 +1006,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
+   private Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
@@ -1065,6 +1096,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("parent_acct_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_actv_code_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_role_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("phys_complete_pct", XerFieldType.DOUBLE);
@@ -1082,6 +1114,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("resume_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("role_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("seq_num", XerFieldType.INTEGER);
@@ -1139,6 +1172,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("memotype");
       REQUIRED_TABLES.add("wbsmemo");
       REQUIRED_TABLES.add("taskmemo");
+      REQUIRED_TABLES.add("roles");
+      REQUIRED_TABLES.add("rolerate");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

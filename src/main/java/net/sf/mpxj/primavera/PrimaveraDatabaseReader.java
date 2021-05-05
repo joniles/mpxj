@@ -97,7 +97,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
 
@@ -109,7 +109,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processCostAccounts();
          processCalendars();
          processResources();
+         processRoles();
          processResourceRates();
+         processRoleRates();
          processTasks();
          processPredecessors();
          processAssignments();
@@ -307,8 +309,21 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processResources() throws SQLException
    {
+      // TODO: handle exporting parent resources
       List<Row> rows = getRows("select * from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_seq_num", m_projectID);
       m_reader.processResources(rows);
+   }
+
+   /**
+    * Process roles.
+    *
+    * @throws SQLException
+    */
+   private void processRoles() throws SQLException
+   {
+      // TODO: handle exporting parent roles
+      List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by seq_num", m_projectID);
+      m_reader.processRoles(rows);
    }
 
    /**
@@ -320,6 +335,17 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       List<Row> rows = getRows("select * from " + m_schema + "rsrcrate where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_rate_id", m_projectID);
       m_reader.processResourceRates(rows);
+   }
+
+   /**
+    * Process role rates.
+    *
+    * @throws SQLException
+    */
+   private void processRoleRates() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "rolerate where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by role_rate_id", m_projectID);
+      m_reader.processRoleRates(rows);
    }
 
    /**
@@ -643,6 +669,16 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     *
     * @return Primavera field name to MPXJ field type map
     */
+   public Map<FieldType, String> getRoleFieldMap()
+   {
+      return m_roleFields;
+   }
+
+   /**
+    * Customise the data retrieved by this reader by modifying the contents of this map.
+    *
+    * @return Primavera field name to MPXJ field type map
+    */
    public Map<FieldType, String> getWbsFieldMap()
    {
       return m_wbsFields;
@@ -730,6 +766,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_wbsIsFullPath = true;
 
    private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
+   private Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
