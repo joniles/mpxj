@@ -32,7 +32,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.AccrueType;
@@ -579,7 +581,9 @@ public final class DatatypeConverter
     */
    public static final String printWorkContour(WorkContour value)
    {
-      return (Integer.toString(value == null ? WorkContour.FLAT.getValue() : value.getValue()));
+      // TODO: mapping from custom contours (e.g. form P6) to MS Project defaults
+      String result = WORK_CONTOUR_MAP.get(value);
+      return result == null ? WORK_CONTOUR_MAP.get(WorkContour.FLAT) : result;
    }
 
    /**
@@ -2009,4 +2013,18 @@ public final class DatatypeConverter
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
 
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
+
+   private static final Map<WorkContour, String> WORK_CONTOUR_MAP = new HashMap<>();
+   static
+   {
+      WORK_CONTOUR_MAP.put(WorkContour.FLAT, "0");
+      WORK_CONTOUR_MAP.put(WorkContour.BACK_LOADED, "1");
+      WORK_CONTOUR_MAP.put(WorkContour.FRONT_LOADED, "2");
+      WORK_CONTOUR_MAP.put(WorkContour.DOUBLE_PEAK, "3");
+      WORK_CONTOUR_MAP.put(WorkContour.EARLY_PEAK, "4");
+      WORK_CONTOUR_MAP.put(WorkContour.LATE_PEAK, "5");
+      WORK_CONTOUR_MAP.put(WorkContour.BELL, "6");
+      WORK_CONTOUR_MAP.put(WorkContour.TURTLE, "7");
+      WORK_CONTOUR_MAP.put(WorkContour.CONTOURED, "8");
+   }
 }
