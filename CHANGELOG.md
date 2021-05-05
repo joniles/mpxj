@@ -1,7 +1,9 @@
 # Changelog
 
 ## 9.3.0 (git master)
+* Add support for reading roles from P6 schedules. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
 * Corrected the data type of the task physical percent complete attribute.
+* Handle non-standard relationship type representations encountered in XER files and P6 databases.
 
 ## 9.2.6 (26/04/2021)
 * Handle invalid baseline numbers when reading MSPDI files.

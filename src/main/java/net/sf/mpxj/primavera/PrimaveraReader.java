@@ -1251,7 +1251,7 @@ final class PrimaveraReader
       html = html.replaceAll("\\x7F\\x7F", "\n");
 
       HtmlNotes result = new HtmlNotes(html);
-      
+
       return result.isEmpty() ? null : result;
    }
 
@@ -1532,30 +1532,66 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Integer currentID = m_activityClashMap.getID(row.getInteger("task_id"));
+         Integer successorID = m_activityClashMap.getID(row.getInteger("task_id"));
          Integer predecessorID = m_activityClashMap.getID(row.getInteger("pred_task_id"));
-         Task currentTask = m_project.getTaskByUniqueID(currentID);
+
+         Task successorTask = m_project.getTaskByUniqueID(successorID);
          Task predecessorTask = m_project.getTaskByUniqueID(predecessorID);
-         RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
+
+         RelationType type = getRelationType(row.getString("pred_type"));
          Duration lag = row.getDuration("lag_hr_cnt");
-         if (currentTask != null)
+
+         if (successorTask != null && predecessorTask != null)
          {
-            Integer uniqueID = row.getInteger("task_pred_id");
-            if (predecessorTask != null)
+            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
+            relation.setUniqueID(row.getInteger("task_pred_id"));
+            m_eventManager.fireRelationReadEvent(relation);
+         }
+         else
+         {
+            // If we're missing the predecessor or successor we assume they are external relations
+            if (successorTask != null && predecessorTask == null)
             {
-               Relation relation = currentTask.addPredecessor(predecessorTask, type, lag);
-               relation.setUniqueID(uniqueID);
-               m_eventManager.fireRelationReadEvent(relation);
+               ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
+               m_externalRelations.add(relation);
+               relation.setUniqueID(row.getInteger("task_pred_id"));
             }
             else
             {
-               // if we can't find the predecessor, it must lie outside the project
-               ExternalRelation relation = new ExternalRelation(predecessorID, currentTask, type, lag, true);
-               m_externalRelations.add(relation);
-               relation.setUniqueID(uniqueID);
+               if (successorTask == null && predecessorTask != null)
+               {
+                  ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
+                  m_externalRelations.add(relation);
+                  relation.setUniqueID(row.getInteger("task_pred_id"));
+               }
             }
          }
       }
+   }
+
+   /**
+    * Look up the relation type between tasks.
+    * 
+    * @param value string representation of a relation type
+    * @return RelationType instance
+    */
+   private RelationType getRelationType(String value)
+   {
+      RelationType result = null;
+      if (value != null)
+      {
+         // We have examples from XER files where the relation type is in the form
+         // PR_FF1, PR_FF2 and so on. We'll try to handle this by stripping off any
+         // suffix to determine the original relation type.          
+         if (value.length() > 5)
+         {
+            value = value.substring(0, 5);
+         }
+         result = RELATION_TYPE_MAP.get(value);
+      }
+
+      // Default to Finish-Start if we can't determine the type
+      return result == null ? RelationType.FINISH_START : result;
    }
 
    /**
