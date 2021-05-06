@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.stream.DoubleStream;
+
 /**
  * Instances of this class represent enumerated work contour values.
  */
@@ -55,6 +57,7 @@ public final class WorkContour
 
    /**
     * Retrieve an instance of the enum based on its int value.
+    * TODO: move this to MS Project specific code
     *
     * @param type int type
     * @return enum instance
@@ -80,6 +83,36 @@ public final class WorkContour
    public double[] getCurveValues()
    {
       return m_curveValues;
+   }
+
+   /**
+    * Retrieve the name of this work contour.
+    * 
+    * @return contour name
+    */
+   public String getName()
+   {
+      return m_name;
+   }
+
+   /**
+    * Returns true if the timephased data has been manually edited.
+    * 
+    * @return true if manually edited
+    */
+   public boolean isContoured()
+   {
+      return m_curveValues == null;
+   }
+
+   /**
+    * Returns true if this contour is flat.
+    * 
+    * @return true if flat
+    */
+   public boolean isFlat()
+   {
+      return m_curveValues != null && DoubleStream.of(m_curveValues).distinct().count() == 1;
    }
 
    @Override public String toString()
