@@ -44,7 +44,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2021-04-26</li>
+        <li id="publishDate">Last Published: 2021-05-06</li>
           </ul>
         </div>
       </header>
@@ -79,8 +79,30 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a9.3.0">Release 9.3.0 &#x2013; git master</h3>
+<h3 id="a9.3.1">Release 9.3.1 &#x2013; git master</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a9.3.0">Release 9.3.0 &#x2013; 06/05/2021</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/add.gif" alt="Add" title="Add" /></td>
+<td>Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute &quot;Role&quot; is used to distinguish between Resource instances which represent resources and those which represent roles.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/add.gif" alt="Add" title="Add" /></td>
+<td>Add support for reading resource curves from P6 databases, XER and PMXML files, and for writing resource curves to PMXML files. The WorkContour enum is now a class, and instance of this class are used to represent resource curves. The curves are available via the work contour attribute of resource assignments.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Corrected the data type of the task physical percent complete attribute.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of non-standard relationship type representations encountered in XER files and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a9.2.6">Release 9.2.6 &#x2013; 26/04/2021</h3>
 <table border="0" class="table table-striped">
 <tr class="a">

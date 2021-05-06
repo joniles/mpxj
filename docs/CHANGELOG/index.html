@@ -247,8 +247,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#930-git-master" class="md-nav__link">
-    9.3.0 (git master)
+  <a href="#931-git-master" class="md-nav__link">
+    9.3.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#930-06052021" class="md-nav__link">
+    9.3.0 (06/05/2021)
   </a>
   
 </li>
@@ -2012,8 +2019,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#930-git-master" class="md-nav__link">
-    9.3.0 (git master)
+  <a href="#931-git-master" class="md-nav__link">
+    9.3.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#930-06052021" class="md-nav__link">
+    9.3.0 (06/05/2021)
   </a>
   
 </li>
@@ -3212,7 +3226,14 @@
                 
                 
                 <h1 id="changelog">Changelog</h1>
-<h2 id="930-git-master">9.3.0 (git master)</h2>
+<h2 id="931-git-master">9.3.1 (git master)</h2>
+<h2 id="930-06052021">9.3.0 (06/05/2021)</h2>
+<ul>
+<li>Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.</li>
+<li>Add support for reading resource curves from P6 databases, XER and PMXML files, and for writing resource curves to PMXML files. The WorkContour enum is now a class, and instance of this class are used to represent resource curves. The curves are available via the work contour attribute of resource assignments.</li>
+<li>Corrected the data type of the task physical percent complete attribute.</li>
+<li>Improve handling of non-standard relationship type representations encountered in XER files and P6 databases.</li>
+</ul>
 <h2 id="926-26042021">9.2.6 (26/04/2021)</h2>
 <ul>
 <li>Handle invalid baseline numbers when reading MSPDI files.</li>
