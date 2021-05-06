@@ -1,9 +1,10 @@
 # Changelog
 
 ## 9.3.0 (git master)
-* Add support for reading roles from P6 schedules. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
+* Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
+* Add support for reading resource curves from P6 databases, XER and PMXML files, and for writing resource curves to PMXML files. The WorkContour enum is now a class, and instance of this class are used to represent resource curves. The curves are available via the work contour attribute of resource assignments.
 * Corrected the data type of the task physical percent complete attribute.
-* Handle non-standard relationship type representations encountered in XER files and P6 databases.
+* Improve handling of non-standard relationship type representations encountered in XER files and P6 databases.
 
 ## 9.2.6 (26/04/2021)
 * Handle invalid baseline numbers when reading MSPDI files.
