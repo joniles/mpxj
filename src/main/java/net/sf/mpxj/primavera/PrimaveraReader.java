@@ -91,6 +91,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -1598,8 +1599,9 @@ final class PrimaveraReader
     * Process assignment data.
     *
     * @param rows assignment data
+    * @param workContours work contours
     */
-   public void processAssignments(List<Row> rows)
+   public void processAssignments(List<Row> rows, Map<Integer, WorkContour> workContours)
    {
       for (Row row : rows)
       {
@@ -1622,7 +1624,8 @@ final class PrimaveraReader
             Duration totalWork = Duration.add(actualWork, remainingWork, m_project.getProjectProperties());
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
-
+            assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
+           
             // include actual overtime cost in cost calculations
             assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
             assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));

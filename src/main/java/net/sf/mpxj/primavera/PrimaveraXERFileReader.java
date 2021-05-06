@@ -45,6 +45,7 @@ import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
@@ -556,7 +557,50 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processAssignments()
    {
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      m_reader.processAssignments(rows);
+      m_reader.processAssignments(rows, processWorkContours());
+   }
+
+   /**
+    * Process resource curves.
+    * 
+    * @return resource curves
+    */
+   private Map<Integer, WorkContour> processWorkContours()
+   {
+      Map<Integer, WorkContour> result = new HashMap<>();
+
+      List<Row> rows = getRows("rsrccurvdata", null, null);
+      for (Row row : rows)
+      {
+         String name = row.getString("curv_name");
+         double[] values =
+         {
+            NumberHelper.getDouble(row.getDouble("pct_usage_1")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_2")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_3")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_4")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_5")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_6")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_7")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_8")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_9")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_10")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_11")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_12")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_13")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_14")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_15")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_16")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_17")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_18")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_19")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_20"))
+         };
+
+         result.put(row.getInteger("curv_id"), new WorkContour(name, values));
+      }
+
+      return result;
    }
 
    /**
@@ -1073,6 +1117,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("cstr_date2", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("curv_id", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("day_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("decimal_digit_cnt", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("default_flag", XerFieldType.STRING);
@@ -1099,6 +1144,26 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("parent_role_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("pct_usage_1", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_2", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_3", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_4", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_5", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_6", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_7", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_8", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_9", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_10", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_11", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_12", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_13", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_14", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_15", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_16", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_17", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_18", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_19", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("pct_usage_20", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("phys_complete_pct", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
@@ -1174,6 +1239,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("taskmemo");
       REQUIRED_TABLES.add("roles");
       REQUIRED_TABLES.add("rolerate");
+      REQUIRED_TABLES.add("rsrccurvdata");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

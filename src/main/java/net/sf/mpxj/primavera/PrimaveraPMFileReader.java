@@ -98,6 +98,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -121,6 +122,8 @@ import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceCurveType;
+import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
@@ -382,6 +385,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
          m_notebookTopics = new HashMap<>();
+         m_workContours = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -451,6 +455,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processRoles(apibo);
          processTasks(wbs, getWbsNotes(projectNotes), activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
+         processWorkContours(apibo);
          processAssignments(assignments);
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
@@ -478,6 +483,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
          m_notebookTopics = null;
+         m_workContours = null;
       }
    }
 
@@ -1601,6 +1607,42 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   private void processWorkContours(APIBusinessObjects apibo)
+   {
+      apibo.getResourceCurve().forEach(c -> processWorkContour(c));
+   }
+
+   private void processWorkContour(ResourceCurveType curve)
+   {
+      ResourceCurveValuesType curveValues = curve.getValues();
+
+      double[] values =
+      {
+         NumberHelper.getDouble(curveValues.getValue5()),
+         NumberHelper.getDouble(curveValues.getValue10()),
+         NumberHelper.getDouble(curveValues.getValue15()),
+         NumberHelper.getDouble(curveValues.getValue20()),
+         NumberHelper.getDouble(curveValues.getValue25()),
+         NumberHelper.getDouble(curveValues.getValue30()),
+         NumberHelper.getDouble(curveValues.getValue35()),
+         NumberHelper.getDouble(curveValues.getValue40()),
+         NumberHelper.getDouble(curveValues.getValue45()),
+         NumberHelper.getDouble(curveValues.getValue50()),
+         NumberHelper.getDouble(curveValues.getValue55()),
+         NumberHelper.getDouble(curveValues.getValue60()),
+         NumberHelper.getDouble(curveValues.getValue65()),
+         NumberHelper.getDouble(curveValues.getValue70()),
+         NumberHelper.getDouble(curveValues.getValue75()),
+         NumberHelper.getDouble(curveValues.getValue80()),
+         NumberHelper.getDouble(curveValues.getValue85()),
+         NumberHelper.getDouble(curveValues.getValue90()),
+         NumberHelper.getDouble(curveValues.getValue95()),
+         NumberHelper.getDouble(curveValues.getValue100()),
+      };
+
+      m_workContours.put(curve.getObjectId(), new WorkContour(curve.getName(), values));
+   }
+
    /**
     * Process resource assignments.
     *
@@ -1632,7 +1674,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
-
+            assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
+            
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 
@@ -1905,7 +1948,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
       HtmlNotes result = new HtmlNotes(html);
-      
+
       return result.isEmpty() ? null : result;
    }
 
@@ -2217,6 +2260,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
+   private Map<Integer, WorkContour> m_workContours;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
