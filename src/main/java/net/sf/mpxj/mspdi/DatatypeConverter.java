@@ -581,7 +581,7 @@ public final class DatatypeConverter
     */
    public static final String printWorkContour(WorkContour value)
    {
-      // TODO: mapping from custom contours (e.g. form P6) to MS Project defaults
+      // TODO: mapping from custom contours (e.g. from P6) to MS Project defaults
       String result = WORK_CONTOUR_MAP.get(value);
       return result == null ? WORK_CONTOUR_MAP.get(WorkContour.FLAT) : result;
    }
