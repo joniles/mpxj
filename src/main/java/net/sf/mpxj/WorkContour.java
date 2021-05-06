@@ -29,6 +29,17 @@ package net.sf.mpxj;
 public final class WorkContour
 {
    /**
+    * Constructor.
+    * 
+    * @param name work contour name
+    * @param values curve values, 20 values representing 5% duration intervals, total of values is 100%
+    */
+   public WorkContour(String name, double... values)
+   {
+      this(name, -1, values);
+   }
+
+   /**
     * Private constructor.
     *
     * @param name work contour name

@@ -46,6 +46,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
@@ -114,6 +115,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processRoleRates();
          processTasks();
          processPredecessors();
+         processWorkContours();
          processAssignments();
          processExpenseItems();
          m_reader.rollupValues();
@@ -394,7 +396,34 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processAssignments() throws SQLException
    {
       List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
-      m_reader.processAssignments(rows);
+      m_reader.processAssignments(rows, processWorkContours());
+   }
+
+   /**
+    * Process resource curves.
+    * 
+    * @return work contours
+    */
+   private Map<Integer, WorkContour> processWorkContours() throws SQLException
+   {
+      Map<Integer, WorkContour> result = new HashMap<>();
+      List<Row> rows = getRows("select * from " + m_schema + "rsrccurv");
+      for (Row row : rows)
+      {
+         try
+         {
+            String name = row.getString("curv_name");
+            double[] values = Record.getRecord(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getValue().split("\\|")[1])).skip(1).toArray();
+            result.put(row.getInteger("curv_id"), new WorkContour(name, values));
+         }
+
+         catch (Exception ex)
+         {
+            // Skip any curves we can't read
+         }
+      }
+
+      return result;
    }
 
    /**
