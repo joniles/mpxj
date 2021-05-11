@@ -398,21 +398,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (assignment == null)
       {
          assignment = new ResourceAssignment(getParentFile(), this);
-         m_assignments.add(assignment);
-         getParentFile().getResourceAssignments().add(assignment);
-
          assignment.setTaskUniqueID(getUniqueID());
+         assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-
-         if (resource != null)
-         {
-            assignment.setResourceUniqueID(resource.getUniqueID());
-            resource.addResourceAssignment(assignment);
-         }
+         addResourceAssignment(assignment);
       }
 
-      return (assignment);
+      return assignment;
    }
 
    /**
@@ -5543,7 +5536,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          case EARLY_FINISH:
          case LATE_FINISH:
          {
-            reset(TaskField.FINISH_SLACK,TaskField.TOTAL_SLACK, TaskField.CRITICAL);
+            reset(TaskField.FINISH_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
@@ -5583,7 +5576,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       Stream.of(fields).forEach(f -> m_array[f.getValue()] = null);
    }
-   
+
    /**
     * {@inheritDoc}
     */
