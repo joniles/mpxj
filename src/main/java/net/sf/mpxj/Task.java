@@ -440,7 +440,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       ResourceAssignment assignment = null;
       Integer resourceUniqueID = null;
 
-      if (resource != null)
+      if (resource == null)
+      {
+         assignment = m_assignments.stream().filter(a -> a.getResource() == null).findFirst().orElse(null); 
+      }
+      else
       {
          Iterator<ResourceAssignment> iter = m_assignments.iterator();
          resourceUniqueID = resource.getUniqueID();
