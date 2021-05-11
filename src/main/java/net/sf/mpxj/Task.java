@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.BooleanHelper;
@@ -437,31 +438,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = null;
-      Integer resourceUniqueID = null;
-
-      if (resource == null)
-      {
-         assignment = m_assignments.stream().filter(a -> a.getResource() == null).findFirst().orElse(null); 
-      }
-      else
-      {
-         Iterator<ResourceAssignment> iter = m_assignments.iterator();
-         resourceUniqueID = resource.getUniqueID();
-
-         while (iter.hasNext() == true)
-         {
-            assignment = iter.next();
-            Integer uniqueID = assignment.getResourceUniqueID();
-            if (uniqueID != null && uniqueID.equals(resourceUniqueID) == true)
-            {
-               break;
-            }
-            assignment = null;
-         }
-      }
-
-      return assignment;
+      Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
+      return m_assignments.stream().filter(filter).findFirst().orElse(null); 
    }
 
    /**
