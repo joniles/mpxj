@@ -394,17 +394,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = getExistingResourceAssignment(resource);
-
-      if (assignment == null)
-      {
-         assignment = new ResourceAssignment(getParentFile(), this);
-         assignment.setTaskUniqueID(getUniqueID());
-         assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
-         assignment.setWork(getDuration());
-         assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-         addResourceAssignment(assignment);
-      }
+      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
+      assignment.setTaskUniqueID(getUniqueID());
+      assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
+      assignment.setWork(getDuration());
+      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+      addResourceAssignment(assignment);
 
       return assignment;
    }
@@ -416,16 +411,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void addResourceAssignment(ResourceAssignment assignment)
    {
-      if (getExistingResourceAssignment(assignment.getResource()) == null)
-      {
-         m_assignments.add(assignment);
-         getParentFile().getResourceAssignments().add(assignment);
+      m_assignments.add(assignment);
+      getParentFile().getResourceAssignments().add(assignment);
 
-         Resource resource = assignment.getResource();
-         if (resource != null)
-         {
-            resource.addResourceAssignment(assignment);
-         }
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.addResourceAssignment(assignment);
       }
    }
 
@@ -436,10 +428,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * @param resource resource to test for
     * @return existing resource assignment
     */
-   private ResourceAssignment getExistingResourceAssignment(Resource resource)
+   public ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
       Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
-      return m_assignments.stream().filter(filter).findFirst().orElse(null); 
+      return m_assignments.stream().filter(filter).findFirst().orElse(null);
    }
 
    /**
