@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -545,17 +547,28 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setAllocations(allocations);
 
       List<Allocation> allocationList = allocations.getAllocation();
-      for (ResourceAssignment mpxjAssignment : m_projectFile.getResourceAssignments())
-      {
-         Allocation plannerAllocation = m_factory.createAllocation();
-         allocationList.add(plannerAllocation);
 
-         plannerAllocation.setTaskId(getIntegerString(mpxjAssignment.getTask().getUniqueID()));
-         plannerAllocation.setResourceId(getIntegerString(mpxjAssignment.getResourceUniqueID()));
-         plannerAllocation.setUnits(getIntegerString(mpxjAssignment.getUnits()));
+      // As we now allow a resource to be assigned multiple times to a task
+      // we need to handle this for file formats which allow a resource to be
+      // assigned only once. The code below attempts to preserve the original
+      // behaviour when we ignored multiple assignments of the same resource.
+      // TODO: implement more intelligent rollup of multiple resource assignments
+      Function<ResourceAssignment, String> assignmentKey = (a) -> a.getTaskUniqueID() + " " + a.getResourceUniqueID();
+      Map<String, ResourceAssignment> map = m_projectFile.getResourceAssignments().stream().collect(Collectors.toMap(assignmentKey, Function.identity(), (a1, a2) -> a1));
+      m_projectFile.getResourceAssignments().stream().filter(a -> map.get(assignmentKey.apply(a)) == a).forEach(a -> allocationList.add(writeAssignment(a)));
+   }
 
-         m_eventManager.fireAssignmentWrittenEvent(mpxjAssignment);
-      }
+   private Allocation writeAssignment(ResourceAssignment mpxjAssignment)
+   {
+      Allocation plannerAllocation = m_factory.createAllocation();
+
+      plannerAllocation.setTaskId(getIntegerString(mpxjAssignment.getTask().getUniqueID()));
+      plannerAllocation.setResourceId(getIntegerString(mpxjAssignment.getResourceUniqueID()));
+      plannerAllocation.setUnits(getIntegerString(mpxjAssignment.getUnits()));
+
+      m_eventManager.fireAssignmentWrittenEvent(mpxjAssignment);
+
+      return plannerAllocation;
    }
 
    /**
