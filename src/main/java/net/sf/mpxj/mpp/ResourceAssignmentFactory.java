@@ -174,7 +174,7 @@ public class ResourceAssignmentFactory
          }
 
          Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
-         if (task != null)
+         if (task != null && task.getExistingResourceAssignment(assignment.getResource()) == null)
          {
             task.addResourceAssignment(assignment);
 
