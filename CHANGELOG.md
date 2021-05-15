@@ -2,6 +2,7 @@
 
 ## 9.3.1 (git master)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
+* Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 
 ## 9.3.0 (06/05/2021)
 * Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
