@@ -342,7 +342,7 @@ final class PrimaveraPMProjectWriter
 
    private void writeResourceCurves()
    {
-      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(r -> r.getWorkContour()).filter(w -> w != null && !w.isContoured() && !w.isFlat()).collect(Collectors.toSet());
+      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(r -> r.getWorkContour()).filter(w -> w != null && !w.isContourManual() && !w.isContourFlat()).collect(Collectors.toSet());
       if (!workContours.isEmpty())
       {
          ObjectSequence id = new ObjectSequence(1);

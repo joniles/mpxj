@@ -100,7 +100,7 @@ public final class WorkContour
     * 
     * @return true if manually edited
     */
-   public boolean isContoured()
+   public boolean isContourManual()
    {
       return m_curveValues == null;
    }
@@ -110,7 +110,7 @@ public final class WorkContour
     * 
     * @return true if flat
     */
-   public boolean isFlat()
+   public boolean isContourFlat()
    {
       return m_curveValues != null && DoubleStream.of(m_curveValues).distinct().count() == 1;
    }
