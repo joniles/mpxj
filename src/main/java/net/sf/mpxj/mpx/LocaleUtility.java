@@ -57,25 +57,26 @@ final class LocaleUtility
     */
    public static void setLocale(ProjectProperties properties, Locale locale)
    {
+      // MPX-specific properties
       properties.setMpxDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       properties.setMpxProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
       properties.setMpxCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
-
+      properties.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
+      properties.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
+      properties.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
+      properties.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
+      properties.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
+      properties.setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
+      properties.setDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      properties.setBarTextDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      
+      // Common properties
       properties.setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
       properties.setSymbolPosition((CurrencySymbolPosition) LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       properties.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       properties.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       properties.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-
-      properties.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
-      properties.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
       properties.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
-      properties.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
-      properties.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
-      properties.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
-      properties.setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      properties.setDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      properties.setBarTextDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
    }
 
    /**

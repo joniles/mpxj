@@ -2895,7 +2895,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Default currency symbol position.
     */
-   private static CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
+   private static final CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
 
    /**
     * Default cost value.

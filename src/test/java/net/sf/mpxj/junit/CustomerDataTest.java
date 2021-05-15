@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -410,7 +411,7 @@ public class CustomerDataTest
                continue;
             }
 
-            testWriters(mpxj);
+            //testWriters(mpxj);
 
             FIELD_REPORTER.process(mpxj);
          }
@@ -524,13 +525,18 @@ public class CustomerDataTest
          return true;
       }
 
-      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", MSPDIWriter.class);
-      boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", PrimaveraPMFileWriter.class);
-      boolean json = testBaseline(name, project, baselineDirectory, "json", JsonWriter.class);
-      boolean planner = testBaseline(name, project, baselineDirectory, "planner", PlannerWriter.class);
-      boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", SDEFWriter.class);
-
-      return mspdi && pmxml && json && planner && sdef;
+      Consumer<ProjectWriter> jsonConfig = (w) -> ((JsonWriter) w).setPretty(true);
+      Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
+      Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
+      
+      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, null);
+      boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
+      boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);
+      boolean planner = testBaseline(name, project, baselineDirectory, "planner", ".xml", PlannerWriter.class, null);
+      boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", ".sdef", SDEFWriter.class, null);
+      boolean mpx = testBaseline(name, project, baselineDirectory, "mpx", ".mpx", MPXWriter.class, mpxConfig);
+      
+      return mspdi && pmxml && json && planner && sdef && mpx;
    }
 
    /**
@@ -540,40 +546,24 @@ public class CustomerDataTest
     * @param project ProjectFile instance
     * @param baselineDir baseline directory location
     * @param subDir sub directory name
+    * @param suffix file suffix
     * @param writerClass file writer class
+    * @param config optional writer configuration
     * @return true if the baseline test is successful
     */
-   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDir, String subDir, Class<? extends ProjectWriter> writerClass) throws Exception
+   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDir, String subDir, String suffix, Class<? extends ProjectWriter> writerClass, Consumer<ProjectWriter> config) throws Exception
    {
       File baselineDirectory = new File(baselineDir, subDir);
 
       boolean success = true;
 
       ProjectWriter writer = writerClass.newInstance();
-      String suffix;
 
-      // Not ideal, but...
-      if (writer instanceof JsonWriter)
+      if (config != null)
       {
-         ((JsonWriter) writer).setPretty(true);
-         suffix = ".json";
+         config.accept(writer);
       }
-      else
-      {
-         if (writer instanceof SDEFWriter)
-         {
-            suffix = ".sdef";
-         }
-         else
-         {
-            suffix = ".xml";
 
-            if (writer instanceof PrimaveraPMFileWriter)
-            {
-               ((PrimaveraPMFileWriter) writer).setWriteBaselines(true);
-            }
-         }
-      }
       File baselineFile = new File(baselineDirectory, name + suffix);
 
       project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
@@ -636,23 +626,6 @@ public class CustomerDataTest
    }
 
    /**
-    * Ensure that we can export the file under test through our writers, without error.
-    *
-    * @param project ProjectFile instance
-    */
-   private void testWriters(ProjectFile project) throws Exception
-   {
-      for (Class<? extends ProjectWriter> c : WRITER_CLASSES)
-      {
-         File outputFile = File.createTempFile("writer_test", ".dat");
-         outputFile.deleteOnExit();
-         ProjectWriter p = c.newInstance();
-         p.write(project, outputFile);
-         FileHelper.deleteQuietly(outputFile);
-      }
-   }
-
-   /**
     * As part of the regression test process, I save customer's MPP files
     * as MSPDI files using a version of MS Project. This method allows these
     * two versions to be compared in order to ensure that MPXJ is
@@ -685,30 +658,7 @@ public class CustomerDataTest
 
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
 
-   private static final List<Class<? extends ProjectWriter>> WRITER_CLASSES = new ArrayList<>();
-
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 
    private static final boolean DEBUG_FAILURES = false;
-
-   static
-   {
-      // Exercised by baseline test
-      //WRITER_CLASSES.add(JsonWriter.class);
-
-      // Exercised by baseline test
-      //WRITER_CLASSES.add(MSPDIWriter.class);
-
-      // Exercised by baseline test
-      //WRITER_CLASSES.add(PlannerWriter.class);
-
-      // Exercise by baseline test
-      //WRITER_CLASSES.add(PrimaveraPMFileWriter.class);
-
-      // Exercise by baseline test
-      // WRITER_CLASSES.add(SDEFWriter.class);
-
-      // Write MPX last as applying locale settings will change some project values
-      WRITER_CLASSES.add(MPXWriter.class);
-   }
 }

@@ -64,12 +64,24 @@ public final class MPXJFormats
       ProjectProperties properties = m_projectFile.getProjectProperties();
       char decimalSeparator = properties.getDecimalSeparator();
       char thousandsSeparator = properties.getThousandsSeparator();
+
+      updateNumericFormats(decimalSeparator, thousandsSeparator);
+      updateCurrencyFormats(properties, decimalSeparator, thousandsSeparator);
+      updateDateTimeFormats(properties);
+   }
+
+   /**
+    * Update numeric formats.
+    * 
+    * @param decimalSeparator decimal separator
+    * @param thousandsSeparator thousands separator
+    */
+   private void updateNumericFormats(char decimalSeparator, char thousandsSeparator)
+   {
       m_unitsDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_decimalFormat.applyPattern("0.00#", null, decimalSeparator, thousandsSeparator);
       m_durationDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_percentageDecimalFormat.applyPattern("##0.##", null, decimalSeparator, thousandsSeparator);
-      updateCurrencyFormats(properties, decimalSeparator, thousandsSeparator);
-      updateDateTimeFormats(properties);
    }
 
    /**
