@@ -1618,6 +1618,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       double[] values =
       {
+         NumberHelper.getDouble(curveValues.getValue0()),
          NumberHelper.getDouble(curveValues.getValue5()),
          NumberHelper.getDouble(curveValues.getValue10()),
          NumberHelper.getDouble(curveValues.getValue15()),

@@ -575,6 +575,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          String name = row.getString("curv_name");
          double[] values =
          {
+            NumberHelper.getDouble(row.getDouble("pct_usage_0")),
             NumberHelper.getDouble(row.getDouble("pct_usage_1")),
             NumberHelper.getDouble(row.getDouble("pct_usage_2")),
             NumberHelper.getDouble(row.getDouble("pct_usage_3")),
@@ -1144,6 +1145,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("parent_role_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("pct_usage_0", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("pct_usage_1", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("pct_usage_2", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("pct_usage_3", XerFieldType.DOUBLE);

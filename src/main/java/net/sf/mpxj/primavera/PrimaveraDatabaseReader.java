@@ -413,7 +413,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          try
          {
             String name = row.getString("curv_name");
-            double[] values = Record.getRecord(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getValue().split("\\|")[1])).skip(1).toArray();
+            double[] values = Record.getRecord(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getValue().split("\\|")[1])).toArray();
             result.put(row.getInteger("curv_id"), new WorkContour(name, values));
          }
 

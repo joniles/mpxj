@@ -34,7 +34,7 @@ public final class WorkContour
     * Constructor.
     * 
     * @param name work contour name
-    * @param values curve values, 20 values representing 5% duration intervals, total of values is 100%
+    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
    public WorkContour(String name, double... values)
    {
@@ -46,7 +46,7 @@ public final class WorkContour
     *
     * @param name work contour name
     * @param type int version of the enum
-    * @param values curve values, 20 values representing 5% duration intervals, total of values is 100% 
+    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100% 
     */
    private WorkContour(String name, int type, double... values)
    {
@@ -73,10 +73,10 @@ public final class WorkContour
 
    /**
     * Retrieve the values which define the curve.
-    * The method returns an array of 20 doubles, each representing 5% of the duration.
-    * The total of the values in the array will be 100%. Note that the CONTOURED
-    * enum will return null as the values for the work or cost per time period have
-    * been hand crafted and do not use a curve.
+    * The method returns an array of 21 doubles, each representing 5% of the duration.
+    * This includes an entry for 0%. The total of the values in the array must be 100%.
+    * Note that the CONTOURED enum will return null as the values for the work or cost
+    * per time period have been hand crafted and do not use a curve.
     * 
     * @return curve values
     */
@@ -112,7 +112,7 @@ public final class WorkContour
     */
    public boolean isContourFlat()
    {
-      return m_curveValues != null && DoubleStream.of(m_curveValues).distinct().count() == 1;
+      return m_curveValues != null && m_curveValues[0] == 0.0 && DoubleStream.of(m_curveValues).skip(1).distinct().count() == 1;
    }
 
    @Override public String toString()
@@ -128,18 +128,18 @@ public final class WorkContour
    private final int m_value;
 
    /**
-    * Curve representation - one value per 5% of duration - 20 values, total of values is 100%.
+    * Curve representation - one value per 5% of duration, including 0%, 21 values, total of values needs to be 100%.
     */
    private final double[] m_curveValues;
 
-   public static final WorkContour FLAT = new WorkContour("FLAT", 0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
-   public static final WorkContour BACK_LOADED = new WorkContour("BACK_LOADED", 1, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
-   public static final WorkContour FRONT_LOADED = new WorkContour("FRONT_LOADED", 2, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
-   public static final WorkContour DOUBLE_PEAK = new WorkContour("DOUBLE_PEAK", 3, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
-   public static final WorkContour EARLY_PEAK = new WorkContour("EARLY_PEAK", 4, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
-   public static final WorkContour LATE_PEAK = new WorkContour("LATE_PEAK", 5, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
-   public static final WorkContour BELL = new WorkContour("BELL", 6, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
-   public static final WorkContour TURTLE = new WorkContour("TURTLE", 7, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
+   public static final WorkContour FLAT = new WorkContour("FLAT", 0, 0.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
+   public static final WorkContour BACK_LOADED = new WorkContour("BACK_LOADED", 1, 0.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
+   public static final WorkContour FRONT_LOADED = new WorkContour("FRONT_LOADED", 2, 0.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
+   public static final WorkContour DOUBLE_PEAK = new WorkContour("DOUBLE_PEAK", 3, 0.0, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
+   public static final WorkContour EARLY_PEAK = new WorkContour("EARLY_PEAK", 4, 0.0, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
+   public static final WorkContour LATE_PEAK = new WorkContour("LATE_PEAK", 5, 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
+   public static final WorkContour BELL = new WorkContour("BELL", 6, 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
+   public static final WorkContour TURTLE = new WorkContour("TURTLE", 7, 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
    public static final WorkContour CONTOURED = new WorkContour("CONTOURED", 8, null);
 
    /**
