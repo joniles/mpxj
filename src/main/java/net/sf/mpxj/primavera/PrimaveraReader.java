@@ -399,10 +399,27 @@ final class PrimaveraReader
       if (calendarData != null && !calendarData.isEmpty())
       {
          Record root = Record.getRecord(calendarData);
-         if (root != null)
+         Record daysOfWeek = root == null ? null : root.getChild("DaysOfWeek");
+         Record exceptions = root == null ? null : root.getChild("Exceptions");
+
+         if (daysOfWeek == null)
          {
-            processCalendarDays(calendar, root);
-            processCalendarExceptions(calendar, root);
+            if (row.getInteger("base_clndr_id") == null)
+            {
+               // We have a base calendar, but we don't have any days specified.
+               // Populate the calendar with a default working week.   
+               calendar.addDefaultCalendarDays();
+               calendar.addDefaultCalendarHours();
+            }
+         }
+         else
+         {
+            processCalendarDays(calendar, daysOfWeek);
+         }
+
+         if (exceptions != null)
+         {
+            processCalendarExceptions(calendar, exceptions);
          }
       }
       else
@@ -433,18 +450,13 @@ final class PrimaveraReader
     * Process calendar days of the week.
     *
     * @param calendar project calendar
-    * @param root calendar data
+    * @param daysOfWeek calendar data
     */
-   private void processCalendarDays(ProjectCalendar calendar, Record root)
+   private void processCalendarDays(ProjectCalendar calendar, Record daysOfWeek)
    {
-      // Retrieve working hours ...
-      Record daysOfWeek = root.getChild("DaysOfWeek");
-      if (daysOfWeek != null)
+      for (Record dayRecord : daysOfWeek.getChildren())
       {
-         for (Record dayRecord : daysOfWeek.getChildren())
-         {
-            processCalendarHours(calendar, dayRecord);
-         }
+         processCalendarHours(calendar, dayRecord);
       }
    }
 
@@ -528,24 +540,19 @@ final class PrimaveraReader
     * Process calendar exceptions.
     *
     * @param calendar project calendar
-    * @param root calendar data
+    * @param exceptions calendar data
     */
-   private void processCalendarExceptions(ProjectCalendar calendar, Record root)
+   private void processCalendarExceptions(ProjectCalendar calendar, Record exceptions)
    {
-      // Retrieve exceptions
-      Record exceptions = root.getChild("Exceptions");
-      if (exceptions != null)
+      for (Record exception : exceptions.getChildren())
       {
-         for (Record exception : exceptions.getChildren())
-         {
-            long daysFromEpoch = Integer.parseInt(exception.getValue().split("\\|")[1]);
-            Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
+         long daysFromEpoch = Integer.parseInt(exception.getValue().split("\\|")[1]);
+         Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
 
-            ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
-            for (Record exceptionHours : exception.getChildren())
-            {
-               addHours(pce, exceptionHours);
-            }
+         ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
+         for (Record exceptionHours : exception.getChildren())
+         {
+            addHours(pce, exceptionHours);
          }
       }
    }
@@ -1625,7 +1632,7 @@ final class PrimaveraReader
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
             assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
-           
+
             // include actual overtime cost in cost calculations
             assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
             assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));

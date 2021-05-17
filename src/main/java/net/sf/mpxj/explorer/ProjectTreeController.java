@@ -291,7 +291,7 @@ public class ProjectTreeController
       {
          @Override public String toString()
          {
-            return day.name();
+            return day.name() + " (" + calendar.getWorkingDay(day) + ")";
          }
       };
       parentNode.add(dayNode);
