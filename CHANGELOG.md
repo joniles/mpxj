@@ -4,6 +4,7 @@
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
 * Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 * Include an entry for 0% in the WorkContour curve definition.
+* Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.
 
 ## 9.3.0 (06/05/2021)
 * Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
