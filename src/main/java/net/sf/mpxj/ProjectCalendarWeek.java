@@ -195,6 +195,20 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
+    * Convenience method to set up a standard working week.
+    */
+   public void addDefaultCalendarDays()
+   {
+      setWorkingDay(Day.SUNDAY, false);
+      setWorkingDay(Day.MONDAY, true);
+      setWorkingDay(Day.TUESDAY, true);
+      setWorkingDay(Day.WEDNESDAY, true);
+      setWorkingDay(Day.THURSDAY, true);
+      setWorkingDay(Day.FRIDAY, true);
+      setWorkingDay(Day.SATURDAY, false);
+   }
+
+   /**
     * This is a convenience method used to add a default set of calendar
     * hours to a calendar.
     *
@@ -265,6 +279,36 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    public DayType[] getDays()
    {
       return (m_days);
+   }
+
+   /**
+    * Method indicating whether a day is a working or non-working day.
+    *
+    * @param day required day
+    * @return true if this is a working day
+    */
+   public boolean isWorkingDay(Day day)
+   {
+      DayType value = getWorkingDay(day);
+      boolean result;
+
+      if (value == DayType.DEFAULT)
+      {
+         if (m_parent != null)
+         {
+            result = m_parent.isWorkingDay(day);
+         }
+         else
+         {
+            result = (day != Day.SATURDAY && day != Day.SUNDAY);
+         }
+      }
+      else
+      {
+         result = (value == DayType.WORKING);
+      }
+
+      return (result);
    }
 
    /**

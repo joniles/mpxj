@@ -284,37 +284,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Method indicating whether a day is a working or non-working day.
-    *
-    * @param day required day
-    * @return true if this is a working day
-    */
-   public boolean isWorkingDay(Day day)
-   {
-      DayType value = getWorkingDay(day);
-      boolean result;
-
-      if (value == DayType.DEFAULT)
-      {
-         ProjectCalendar cal = getParent();
-         if (cal != null)
-         {
-            result = cal.isWorkingDay(day);
-         }
-         else
-         {
-            result = (day != Day.SATURDAY && day != Day.SUNDAY);
-         }
-      }
-      else
-      {
-         result = (value == DayType.WORKING);
-      }
-
-      return (result);
-   }
-
-   /**
     * This method is provided to allow an absolute period of time
     * represented by start and end dates into a duration in working
     * days based on this calendar instance. This method takes account
@@ -1893,7 +1862,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          }
 
-         ranges = week.getHours(day);
+         if (week.isWorkingDay(day))
+         {
+            ranges = week.getHours(day);
+         }
+         else
+         {
+            ranges = EMPTY_DATE_RANGES;
+         }
       }
       return ranges;
    }
@@ -2040,4 +2016,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * and take an alternative approach.
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
+
+   private static final ProjectCalendarDateRanges EMPTY_DATE_RANGES = new ProjectCalendarDateRanges()
+   {
+      // No implementation
+   };
 }
