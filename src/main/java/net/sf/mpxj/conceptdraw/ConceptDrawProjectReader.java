@@ -232,7 +232,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
    {
       mpxjCalendar.setWorkingDay(day.getDay(), day.isIsDayWorking());
       if (day.isIsDayWorking())
-      {         
+      {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day.getDay());
          for (Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
