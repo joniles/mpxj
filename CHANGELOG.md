@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.3.1 (git master)
+## 9.3.2 (git master)
+
+## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
 * Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 * Include an entry for 0% in the WorkContour curve definition.
