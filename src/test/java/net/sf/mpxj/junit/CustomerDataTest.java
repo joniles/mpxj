@@ -528,14 +528,14 @@ public class CustomerDataTest
       Consumer<ProjectWriter> jsonConfig = (w) -> ((JsonWriter) w).setPretty(true);
       Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
-      
+
       boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, null);
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
       boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);
       boolean planner = testBaseline(name, project, baselineDirectory, "planner", ".xml", PlannerWriter.class, null);
       boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", ".sdef", SDEFWriter.class, null);
       boolean mpx = testBaseline(name, project, baselineDirectory, "mpx", ".mpx", MPXWriter.class, mpxConfig);
-      
+
       return mspdi && pmxml && json && planner && sdef && mpx;
    }
 

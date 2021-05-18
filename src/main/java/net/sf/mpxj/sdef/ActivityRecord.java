@@ -60,8 +60,8 @@ class ActivityRecord extends AbstractSDEFRecord
       task.setFeatureOfWork(getString(14));
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
       task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
-      
-      // We don't have early/late start/finish yet, so default these 
+
+      // We don't have early/late start/finish yet, so default these
       // attributes here to avoid trying to calculate them.
       task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));

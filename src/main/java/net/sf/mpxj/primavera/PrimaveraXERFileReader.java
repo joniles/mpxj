@@ -562,7 +562,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resource curves.
-    * 
+    *
     * @return resource curves
     */
    private Map<Integer, WorkContour> processWorkContours()

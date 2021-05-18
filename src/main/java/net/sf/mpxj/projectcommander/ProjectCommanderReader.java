@@ -329,7 +329,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setCritical(false);
-            
+
       m_eventManager.fireTaskReadEvent(task);
    }
 

@@ -72,7 +72,7 @@ public final class MPXJFormats
 
    /**
     * Update numeric formats.
-    * 
+    *
     * @param decimalSeparator decimal separator
     * @param thousandsSeparator thousands separator
     */

@@ -91,7 +91,7 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setStart(start);
       task.setFinish(finish);
       task.setPercentageComplete(Double.valueOf(percentComplete));
-      
+
       // Force calculation here to avoid later issues
       task.getStartSlack();
       task.getFinishSlack();

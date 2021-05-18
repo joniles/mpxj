@@ -348,7 +348,7 @@ final class PrimaveraPMProjectWriter
          ObjectSequence id = new ObjectSequence(1);
          List<WorkContour> sortedWorkContours = new ArrayList<>(workContours);
          Collections.sort(sortedWorkContours, (c1, c2) -> c1.getName().compareTo(c2.getName()));
-         
+
          List<ResourceCurveType> curves = m_apibo.getResourceCurve();
          for (WorkContour contour : sortedWorkContours)
          {

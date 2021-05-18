@@ -401,7 +401,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process resource curves.
-    * 
+    *
     * @return work contours
     */
    private Map<Integer, WorkContour> processWorkContours() throws SQLException

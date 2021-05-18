@@ -32,7 +32,7 @@ public final class WorkContour
 {
    /**
     * Constructor.
-    * 
+    *
     * @param name work contour name
     * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
@@ -46,7 +46,7 @@ public final class WorkContour
     *
     * @param name work contour name
     * @param type int version of the enum
-    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100% 
+    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
    private WorkContour(String name, int type, double... values)
    {
@@ -77,7 +77,7 @@ public final class WorkContour
     * This includes an entry for 0%. The total of the values in the array must be 100%.
     * Note that the CONTOURED enum will return null as the values for the work or cost
     * per time period have been hand crafted and do not use a curve.
-    * 
+    *
     * @return curve values
     */
    public double[] getCurveValues()
@@ -87,7 +87,7 @@ public final class WorkContour
 
    /**
     * Retrieve the name of this work contour.
-    * 
+    *
     * @return contour name
     */
    public String getName()
@@ -97,7 +97,7 @@ public final class WorkContour
 
    /**
     * Returns true if the timephased data has been manually edited.
-    * 
+    *
     * @return true if manually edited
     */
    public boolean isContourManual()
@@ -107,7 +107,7 @@ public final class WorkContour
 
    /**
     * Returns true if this contour is flat.
-    * 
+    *
     * @return true if flat
     */
    public boolean isContourFlat()

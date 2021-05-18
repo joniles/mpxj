@@ -113,7 +113,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
          m_resourcePropertyTypes = getResourcePropertyTypes();
          m_taskPropertyTypes = getTaskPropertyTypes();
-         
+
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
          config.setAutoTaskUniqueID(false);

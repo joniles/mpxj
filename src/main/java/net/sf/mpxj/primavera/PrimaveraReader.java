@@ -112,7 +112,7 @@ final class PrimaveraReader
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
     * @param assignmentFields assignment field mapping
-    * @param roleFields role field mapping 
+    * @param roleFields role field mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
@@ -407,7 +407,7 @@ final class PrimaveraReader
             if (row.getInteger("base_clndr_id") == null)
             {
                // We have a base calendar, but we don't have any days specified.
-               // Populate the calendar with a default working week.   
+               // Populate the calendar with a default working week.
                calendar.addDefaultCalendarDays();
                calendar.addDefaultCalendarHours();
             }
@@ -1579,7 +1579,7 @@ final class PrimaveraReader
 
    /**
     * Look up the relation type between tasks.
-    * 
+    *
     * @param value string representation of a relation type
     * @return RelationType instance
     */
@@ -1590,7 +1590,7 @@ final class PrimaveraReader
       {
          // We have examples from XER files where the relation type is in the form
          // PR_FF1, PR_FF2 and so on. We'll try to handle this by stripping off any
-         // suffix to determine the original relation type.          
+         // suffix to determine the original relation type.
          if (value.length() > 5)
          {
             value = value.substring(0, 5);

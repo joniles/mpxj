@@ -21,7 +21,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package net.sf.mpxj.primavera;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ class ClashMap
 {
    /**
     * Adds an ID. Returns the renumbered ID is there is a clash.
-    * 
+    *
     * @param id original ID
     * @return renumbered ID
     */
@@ -66,7 +65,7 @@ class ClashMap
    /**
     * If there has been a clash this method retrieves the renumbered version of the ID.
     * If there has been no clash, the original ID value is returned.
-    * 
+    *
     * @param id ID to test
     * @return renumbered ID value
     */

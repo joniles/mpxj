@@ -1676,7 +1676,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
             assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
-            
+
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 

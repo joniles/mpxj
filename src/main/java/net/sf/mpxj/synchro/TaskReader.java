@@ -44,7 +44,7 @@ class TaskReader extends TableReader
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
       int unknown5Size = stream.getVersion().before(Synchro.VERSION_6_3_0) ? 85 : 84;
-      
+
       map.put("UNKNOWN1", stream.readByte());
       map.put("RESOURCE_ASSIGNMENTS", stream.readTable(ResourceAssignmentReader.class));
       map.put("UNKNOWN2", stream.readBytes(4));

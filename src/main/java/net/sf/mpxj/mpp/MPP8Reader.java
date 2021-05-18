@@ -1114,7 +1114,7 @@ final class MPP8Reader implements MPPVariantReader
                {
                   assignment = task.addResourceAssignment(resource);
                }
-               
+
                assignment.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
                assignment.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 96)) / 100, TimeUnit.HOURS));
                assignment.setCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));

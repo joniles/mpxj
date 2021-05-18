@@ -577,7 +577,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
       task.getStartSlack();
       task.getFinishSlack();
       task.getCritical();
-      
+
       m_activityMap.put(activity.getId(), task);
    }
 
@@ -840,7 +840,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          Date lateStartDate = parentTask.getLateStart();
          Date lateFinishDate = parentTask.getLateFinish();
          boolean critical = false;
-         
+
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -858,7 +858,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
             {
                ++finished;
             }
-            
+
             critical = critical || task.getCritical();
          }
 
@@ -885,7 +885,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
             duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
             parentTask.setDuration(duration);
          }
-         
+
          // Force calculation here to avoid later issues
          parentTask.getStartSlack();
          parentTask.getFinishSlack();
