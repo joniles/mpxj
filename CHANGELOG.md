@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.3.2 (git master)
+* Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.

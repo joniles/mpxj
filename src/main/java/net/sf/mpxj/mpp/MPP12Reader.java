@@ -200,11 +200,25 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processCustomValueLists() throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      Props taskProps = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
+      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
+      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
+   }
 
-      CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
-      reader.process();
+   /**
+    * This method extracts and collates the value list information
+    * for custom column value lists for a specific entity.
+    * 
+    * @param dir entity directory
+    */
+   private void processCustomValueLists(DirectoryEntry dir) throws IOException
+   {
+      if (dir.hasEntry("Props"))
+      {
+         Props taskProps = new Props12(m_inputStreamFactory.getInstance(dir, "Props"));
+
+         CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
+         reader.process();
+      }
    }
 
    /**

@@ -207,10 +207,21 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processCustomValueLists() throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      if (taskDir.hasEntry("Props"))
+      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
+      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
+   }
+
+   /**
+    * This method extracts and collates the value list information
+    * for custom column value lists for a specific entity.
+    * 
+    * @param dir entity directory
+    */
+   private void processCustomValueLists(DirectoryEntry dir) throws IOException
+   {
+      if (dir.hasEntry("Props"))
       {
-         Props taskProps = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
+         Props taskProps = new Props14(m_inputStreamFactory.getInstance(dir, "Props"));
 
          CustomFieldValueReader14 reader = new CustomFieldValueReader14(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
          reader.process();
