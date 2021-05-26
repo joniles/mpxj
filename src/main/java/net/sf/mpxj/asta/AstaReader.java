@@ -1011,6 +1011,7 @@ final class AstaReader
     */
    public void processAssignments(List<Row> permanentAssignments)
    {
+      // TODO: add support for consumable resource assignments
       for (Row row : permanentAssignments)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATEE_TO"));
@@ -1619,12 +1620,18 @@ final class AstaReader
       processCustomFieldData(data, map);
    }
 
+   /**
+    * Process custom field configuration.
+    * 
+    * @param definitions field definitions
+    * @param map custom field map
+    */
    private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
    {
       UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
       UserFieldDataType<ResourceField> resourceTypes = new UserFieldDataType<>(ResourceField.class);
       UserFieldDataType<AssignmentField> assignmentTypes = new UserFieldDataType<>(AssignmentField.class);
-      
+
       for (Row row : definitions)
       {
          FieldType field = null;
@@ -1645,7 +1652,7 @@ final class AstaReader
                field = resourceTypes.nextField(row.getInteger("DATA_TYPE"));
                break;
             }
-            
+
             case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
             {
                field = assignmentTypes.nextField(row.getInteger("DATA_TYPE"));
@@ -1661,6 +1668,12 @@ final class AstaReader
       }
    }
 
+   /**
+    * Process custom field data.
+    * 
+    * @param data custom field data
+    * @param map field map
+    */
    private void processCustomFieldData(List<Row> data, Map<Integer, UserField> map)
    {
       for (Row row : data)
@@ -1698,7 +1711,8 @@ final class AstaReader
                mapper = i -> m_project.getResourceByUniqueID(i);
                break;
             }
-            
+
+            // TODO: add support for consumable resource assignments
             case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
             {
                mapper = i -> m_project.getResourceAssignments().getByUniqueID(i);
@@ -1722,44 +1736,129 @@ final class AstaReader
          {
             case 0:
             {
-               value = Boolean.valueOf(row.getInt("DATA_AS_NUMBER") == 1);
+               value = getCustomFieldBoolean(row);
                break;
             }
 
             case 6:
             {
-               value = row.getInteger("DATA_AS_NUMBER");
+               value = getCustomFieldInteger(row);
                break;
             }
 
             case 8:
             {
-               value = row.getDouble("DATA_AS_FLOAT");
+               value = getCustomFieldDouble(row);
                break;
             }
 
             case 13:
             {
-               value = row.getDate("DATA_AS_DATE");
+               value = getCustomFieldDate(row);
                break;
             }
 
             case 15:
             {
-               // TODO: displayed time units defined by DATA_AS_ID
-               value = Duration.getInstance(NumberHelper.getDouble(row.getDouble("DATA_AS_FLOAT")), TimeUnit.HOURS);
+               value = getCustomFieldDuration(row);
                break;
             }
 
             default:
             {
-               value = row.getString("DATA_AS_NOTE");
+               value = getCustomFieldString(row);
                break;
             }
          }
 
          container.set(field.getField(), value);
       }
+   }
+
+   private Integer getCustomFieldInteger(Row row)
+   {
+      Integer result;
+      Object value = row.getObject("DATA_AS_NUMBER");
+      if (value instanceof Number)
+      {
+         result = Integer.valueOf(((Number) value).intValue());
+      }
+      else
+      {
+         if (value instanceof String)
+         {
+            try
+            {
+               result = Integer.valueOf((String) value);
+            }
+            catch (NumberFormatException ex)
+            {
+               result = null;
+            }
+         }
+         else
+         {
+            result = null;
+         }
+      }
+      return result;
+   }
+
+   private Double getCustomFieldDouble(Row row)
+   {
+      Double result;
+      Object value = row.getObject("DATA_AS_NUMBER");
+      if (value instanceof Number)
+      {
+         result = Double.valueOf(((Number) value).doubleValue());
+      }
+      else
+      {
+         if (value instanceof String)
+         {
+            try
+            {
+               result = Double.valueOf((String) value);
+            }
+            catch (NumberFormatException ex)
+            {
+               result = null;
+            }
+         }
+         else
+         {
+            result = null;
+         }
+      }
+      return result;
+   }
+
+   private Boolean getCustomFieldBoolean(Row row)
+   {
+      Integer result = getCustomFieldInteger(row);
+      return Boolean.valueOf(result != null && result.intValue() == 1);
+   }
+
+   private Date getCustomFieldDate(Row row)
+   {
+      Object value = row.getObject("DATA_AS_DATE");
+      if (!(value instanceof Date))
+      {
+         value = null;
+      }
+      return (Date) value;
+   }
+
+   private Duration getCustomFieldDuration(Row row)
+   {
+      // TODO: displayed time units defined by DATA_AS_ID
+      return Duration.getInstance(NumberHelper.getDouble(getCustomFieldDouble(row)), TimeUnit.HOURS);
+   }
+
+   private String getCustomFieldString(Row row)
+   {
+      Object value = row.getObject("DATA_AS_NOTE");
+      return value == null ? null : value.toString();
    }
 
    private ProjectFile m_project;
