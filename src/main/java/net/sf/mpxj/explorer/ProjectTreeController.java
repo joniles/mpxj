@@ -31,6 +31,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
@@ -369,16 +372,23 @@ public class ProjectTreeController
     */
    private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (CustomField field : file.getCustomFields())
+      // Function to generate a name for each custom field
+      Function<CustomField, String> name = f -> {
+         FieldType type = f.getFieldType();
+         String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
+         result = f.getAlias() == null || f.getAlias().isEmpty() ? result : result + " (" + f.getAlias() + ")";
+         return result;
+      };
+
+      // Use a TreeMap to sort by name
+      Map<String, CustomField> map = file.getCustomFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
+      for (Map.Entry<String, CustomField> entry : map.entrySet())
       {
-         final CustomField c = field;
-         MpxjTreeNode childNode = new MpxjTreeNode(field)
+         MpxjTreeNode childNode = new MpxjTreeNode(entry.getValue())
          {
             @Override public String toString()
             {
-               FieldType type = c.getFieldType();
-
-               return type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
+               return entry.getKey();
             }
          };
          parentNode.add(childNode);
