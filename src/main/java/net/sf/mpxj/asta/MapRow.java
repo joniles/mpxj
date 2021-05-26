@@ -183,7 +183,7 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   public Object getObject(String name)
+   @Override public Object getObject(String name)
    {
       return m_map.get(name);
    }

@@ -1731,6 +1731,11 @@ final class AstaReader
             continue;
          }
 
+         // Ideally we'd just retrieve the correct type from the result set.
+         // Although the table metadata is correct, it appears that Asta is
+         // writing inconsistent data types in the records themselves, hence
+         // we have to work to ensure that we can convert what we get into
+         // the expected type.
          Object value = null;
          switch (field.getDataType())
          {
@@ -1775,6 +1780,12 @@ final class AstaReader
       }
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private Integer getCustomFieldInteger(Row row)
    {
       Integer result;
@@ -1804,6 +1815,12 @@ final class AstaReader
       return result;
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private Double getCustomFieldDouble(Row row)
    {
       Double result;
@@ -1833,12 +1850,24 @@ final class AstaReader
       return result;
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private Boolean getCustomFieldBoolean(Row row)
    {
       Integer result = getCustomFieldInteger(row);
       return Boolean.valueOf(result != null && result.intValue() == 1);
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private Date getCustomFieldDate(Row row)
    {
       Object value = row.getObject("DATA_AS_DATE");
@@ -1849,12 +1878,24 @@ final class AstaReader
       return (Date) value;
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private Duration getCustomFieldDuration(Row row)
    {
       // TODO: displayed time units defined by DATA_AS_ID
       return Duration.getInstance(NumberHelper.getDouble(getCustomFieldDouble(row)), TimeUnit.HOURS);
    }
 
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
    private String getCustomFieldString(Row row)
    {
       Object value = row.getObject("DATA_AS_NOTE");
