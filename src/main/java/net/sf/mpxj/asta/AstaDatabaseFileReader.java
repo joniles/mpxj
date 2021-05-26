@@ -108,10 +108,11 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
-
+         processCustomFields();
+         
          m_reader = null;
 
-         return (project);
+         return project;
       }
 
       catch (SQLException ex)
@@ -225,6 +226,16 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    {
       List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start as starz, linkable_finish as enj, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocation_of = perm_resource_skill.id where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
       m_reader.processAssignments(permanentAssignments);
+   }
+
+   /**
+    * Process custom fields.
+    */
+   private void processCustomFields() throws SQLException
+   {
+      List<Row> definitions = getRows("select * from udf_defn");
+      List<Row> data = getRows("select * from udf_data");
+      m_reader.processCustomFields(definitions, data);
    }
 
    /**

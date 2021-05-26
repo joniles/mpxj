@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
@@ -43,6 +45,8 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -53,8 +57,10 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -77,7 +83,7 @@ final class AstaReader
 
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
-
+      config.setAutoAssignmentUniqueID(false);
       config.setAutoCalendarUniqueID(false);
 
       m_project.getProjectProperties().setFileApplication("Asta");
@@ -370,6 +376,8 @@ final class AstaReader
                populateBar(row, task);
                createTasks(task, task.getName(), row.getChildRows());
             }
+
+            m_barMap.put(row.getInteger("BARID"), task);
          }
          else
          {
@@ -404,10 +412,12 @@ final class AstaReader
       if (row.getInteger("TASKID") != null)
       {
          populateTask(row, task);
+         m_taskMap.put(row.getInteger("TASKID"), task);
       }
       else
       {
          populateMilestone(row, task);
+         m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
       }
 
       String name = task.getName();
@@ -1595,10 +1605,170 @@ final class AstaReader
       return notes;
    }
 
+   /**
+    * Extract custom field data.
+    *  
+    * @param definitions custom field definitions
+    * @param data custom field data
+    */
+   public void processCustomFields(List<Row> definitions, List<Row> data)
+   {
+      Map<Integer, UserField> map = new HashMap<>();
+
+      processCustomFieldDefinitions(definitions, map);
+      processCustomFieldData(data, map);
+   }
+
+   private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
+   {
+      UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
+      UserFieldDataType<ResourceField> resourceTypes = new UserFieldDataType<>(ResourceField.class);
+      UserFieldDataType<AssignmentField> assignmentTypes = new UserFieldDataType<>(AssignmentField.class);
+      
+      for (Row row : definitions)
+      {
+         FieldType field = null;
+         int objectType = row.getInt("OBJ_TYPE");
+         switch (objectType)
+         {
+            case BAR_OBJECT_TYPE:
+            case TASK_OBJECT_TYPE:
+            case MILESTONE_OBJECT_TYPE:
+            {
+               field = taskTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+
+            case PERMANENT_RESOURCE_OBJECT_TYPE:
+            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+            {
+               field = resourceTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+            
+            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+            {
+               field = assignmentTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+         }
+
+         if (field != null)
+         {
+            map.put(row.getInteger("UDF_ID"), new UserField(field, objectType, row.getInt("DATA_TYPE")));
+            m_project.getCustomFields().getCustomField(field).setAlias(row.getString("UDF_NAME"));
+         }
+      }
+   }
+
+   private void processCustomFieldData(List<Row> data, Map<Integer, UserField> map)
+   {
+      for (Row row : data)
+      {
+         UserField field = map.get(row.getInteger("UDF_ID"));
+         if (field == null)
+         {
+            continue;
+         }
+
+         Function<Integer, FieldContainer> mapper = null;
+         switch (field.getObjectType())
+         {
+            case BAR_OBJECT_TYPE:
+            {
+               mapper = i -> m_barMap.get(i);
+               break;
+            }
+
+            case TASK_OBJECT_TYPE:
+            {
+               mapper = i -> m_taskMap.get(i);
+               break;
+            }
+
+            case MILESTONE_OBJECT_TYPE:
+            {
+               mapper = i -> m_milestoneMap.get(i);
+               break;
+            }
+
+            case PERMANENT_RESOURCE_OBJECT_TYPE:
+            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+            {
+               mapper = i -> m_project.getResourceByUniqueID(i);
+               break;
+            }
+            
+            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+            {
+               mapper = i -> m_project.getResourceAssignments().getByUniqueID(i);
+               break;
+            }
+         }
+
+         if (mapper == null)
+         {
+            continue;
+         }
+
+         FieldContainer container = mapper.apply(row.getInteger("OBJ_ID"));
+         if (container == null)
+         {
+            continue;
+         }
+
+         Object value = null;
+         switch (field.getDataType())
+         {
+            case 0:
+            {
+               value = Boolean.valueOf(row.getInt("DATA_AS_NUMBER") == 1);
+               break;
+            }
+
+            case 6:
+            {
+               value = row.getInteger("DATA_AS_NUMBER");
+               break;
+            }
+
+            case 8:
+            {
+               value = row.getDouble("DATA_AS_FLOAT");
+               break;
+            }
+
+            case 13:
+            {
+               value = row.getDate("DATA_AS_DATE");
+               break;
+            }
+
+            case 15:
+            {
+               // TODO: displayed time units defined by DATA_AS_ID
+               value = Duration.getInstance(NumberHelper.getDouble(row.getDouble("DATA_AS_FLOAT")), TimeUnit.HOURS);
+               break;
+            }
+
+            default:
+            {
+               value = row.getString("DATA_AS_NOTE");
+               break;
+            }
+         }
+
+         container.set(field.getField(), value);
+      }
+   }
+
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
    private final Set<Integer> m_deferredConstraintType = new HashSet<>();
+   private final Map<Integer, Task> m_barMap = new HashMap<>();
+   private final Map<Integer, Task> m_taskMap = new HashMap<>();
+   private final Map<Integer, Task> m_milestoneMap = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
@@ -1613,4 +1783,11 @@ final class AstaReader
       RelationType.FINISH_FINISH,
       RelationType.START_FINISH
    };
+
+   private static final int BAR_OBJECT_TYPE = 16;
+   private static final int TASK_OBJECT_TYPE = 20;
+   private static final int MILESTONE_OBJECT_TYPE = 21;
+   private static final int CONSUMABLE_RESOURCE_OBJECT_TYPE = 50;
+   private static final int PERMANENT_RESOURCE_OBJECT_TYPE = 51;
+   private static final int PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE = 59;
 }
