@@ -102,10 +102,11 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
+         // TODO: custom field support (where is udf_data?)
 
          m_reader = null;
 
-         return (project);
+         return project;
       }
 
       catch (SQLException ex)

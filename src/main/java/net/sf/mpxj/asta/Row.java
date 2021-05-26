@@ -39,6 +39,14 @@ import net.sf.mpxj.Duration;
 interface Row
 {
    /**
+    * Retrieve an Object representing the value of an attribute.
+    * 
+    * @param name attribute name
+    * @return attribute value
+    */
+   public Object getObject(String name);
+
+   /**
     * Retrieve a string attribute.
     *
     * @param name attribute name

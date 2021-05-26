@@ -70,8 +70,9 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
          processTasks();
          processPredecessors();
          processAssignments();
+         // TODO: custom field support
 
-         return (project);
+         return project;
       }
 
       catch (SQLException ex)

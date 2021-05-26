@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
@@ -43,6 +45,8 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -53,8 +57,10 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -77,7 +83,7 @@ final class AstaReader
 
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
-
+      config.setAutoAssignmentUniqueID(false);
       config.setAutoCalendarUniqueID(false);
 
       m_project.getProjectProperties().setFileApplication("Asta");
@@ -370,6 +376,8 @@ final class AstaReader
                populateBar(row, task);
                createTasks(task, task.getName(), row.getChildRows());
             }
+
+            m_barMap.put(row.getInteger("BARID"), task);
          }
          else
          {
@@ -404,10 +412,12 @@ final class AstaReader
       if (row.getInteger("TASKID") != null)
       {
          populateTask(row, task);
+         m_taskMap.put(row.getInteger("TASKID"), task);
       }
       else
       {
          populateMilestone(row, task);
+         m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
       }
 
       String name = task.getName();
@@ -1001,6 +1011,7 @@ final class AstaReader
     */
    public void processAssignments(List<Row> permanentAssignments)
    {
+      // TODO: add support for consumable resource assignments
       for (Row row : permanentAssignments)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATEE_TO"));
@@ -1595,10 +1606,309 @@ final class AstaReader
       return notes;
    }
 
+   /**
+    * Extract custom field data.
+    *  
+    * @param definitions custom field definitions
+    * @param data custom field data
+    */
+   public void processCustomFields(List<Row> definitions, List<Row> data)
+   {
+      Map<Integer, UserField> map = new HashMap<>();
+
+      processCustomFieldDefinitions(definitions, map);
+      processCustomFieldData(data, map);
+   }
+
+   /**
+    * Process custom field configuration.
+    * 
+    * @param definitions field definitions
+    * @param map custom field map
+    */
+   private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
+   {
+      UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
+      UserFieldDataType<ResourceField> resourceTypes = new UserFieldDataType<>(ResourceField.class);
+      UserFieldDataType<AssignmentField> assignmentTypes = new UserFieldDataType<>(AssignmentField.class);
+
+      for (Row row : definitions)
+      {
+         FieldType field = null;
+         int objectType = row.getInt("OBJ_TYPE");
+         switch (objectType)
+         {
+            case BAR_OBJECT_TYPE:
+            case TASK_OBJECT_TYPE:
+            case MILESTONE_OBJECT_TYPE:
+            {
+               field = taskTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+
+            case PERMANENT_RESOURCE_OBJECT_TYPE:
+            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+            {
+               field = resourceTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+
+            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+            {
+               field = assignmentTypes.nextField(row.getInteger("DATA_TYPE"));
+               break;
+            }
+         }
+
+         if (field != null)
+         {
+            map.put(row.getInteger("UDF_ID"), new UserField(field, objectType, row.getInt("DATA_TYPE")));
+            m_project.getCustomFields().getCustomField(field).setAlias(row.getString("UDF_NAME"));
+         }
+      }
+   }
+
+   /**
+    * Process custom field data.
+    * 
+    * @param data custom field data
+    * @param map field map
+    */
+   private void processCustomFieldData(List<Row> data, Map<Integer, UserField> map)
+   {
+      for (Row row : data)
+      {
+         UserField field = map.get(row.getInteger("UDF_ID"));
+         if (field == null)
+         {
+            continue;
+         }
+
+         Function<Integer, FieldContainer> mapper = null;
+         switch (field.getObjectType())
+         {
+            case BAR_OBJECT_TYPE:
+            {
+               mapper = i -> m_barMap.get(i);
+               break;
+            }
+
+            case TASK_OBJECT_TYPE:
+            {
+               mapper = i -> m_taskMap.get(i);
+               break;
+            }
+
+            case MILESTONE_OBJECT_TYPE:
+            {
+               mapper = i -> m_milestoneMap.get(i);
+               break;
+            }
+
+            case PERMANENT_RESOURCE_OBJECT_TYPE:
+            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+            {
+               mapper = i -> m_project.getResourceByUniqueID(i);
+               break;
+            }
+
+            // TODO: add support for consumable resource assignments
+            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+            {
+               mapper = i -> m_project.getResourceAssignments().getByUniqueID(i);
+               break;
+            }
+         }
+
+         if (mapper == null)
+         {
+            continue;
+         }
+
+         FieldContainer container = mapper.apply(row.getInteger("OBJ_ID"));
+         if (container == null)
+         {
+            continue;
+         }
+
+         // Ideally we'd just retrieve the correct type from the result set.
+         // Although the table metadata is correct, it appears that Asta is
+         // writing inconsistent data types in the records themselves, hence
+         // we have to work to ensure that we can convert what we get into
+         // the expected type.
+         Object value = null;
+         switch (field.getDataType())
+         {
+            case 0:
+            {
+               value = getCustomFieldBoolean(row);
+               break;
+            }
+
+            case 6:
+            {
+               value = getCustomFieldInteger(row);
+               break;
+            }
+
+            case 8:
+            {
+               value = getCustomFieldDouble(row);
+               break;
+            }
+
+            case 13:
+            {
+               value = getCustomFieldDate(row);
+               break;
+            }
+
+            case 15:
+            {
+               value = getCustomFieldDuration(row);
+               break;
+            }
+
+            default:
+            {
+               value = getCustomFieldString(row);
+               break;
+            }
+         }
+
+         container.set(field.getField(), value);
+      }
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private Integer getCustomFieldInteger(Row row)
+   {
+      Integer result;
+      Object value = row.getObject("DATA_AS_NUMBER");
+      if (value instanceof Number)
+      {
+         result = Integer.valueOf(((Number) value).intValue());
+      }
+      else
+      {
+         if (value instanceof String)
+         {
+            try
+            {
+               result = Integer.valueOf((String) value);
+            }
+            catch (NumberFormatException ex)
+            {
+               result = null;
+            }
+         }
+         else
+         {
+            result = null;
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private Double getCustomFieldDouble(Row row)
+   {
+      Double result;
+      Object value = row.getObject("DATA_AS_NUMBER");
+      if (value instanceof Number)
+      {
+         result = Double.valueOf(((Number) value).doubleValue());
+      }
+      else
+      {
+         if (value instanceof String)
+         {
+            try
+            {
+               result = Double.valueOf((String) value);
+            }
+            catch (NumberFormatException ex)
+            {
+               result = null;
+            }
+         }
+         else
+         {
+            result = null;
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private Boolean getCustomFieldBoolean(Row row)
+   {
+      Integer result = getCustomFieldInteger(row);
+      return Boolean.valueOf(result != null && result.intValue() == 1);
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private Date getCustomFieldDate(Row row)
+   {
+      Object value = row.getObject("DATA_AS_DATE");
+      if (!(value instanceof Date))
+      {
+         value = null;
+      }
+      return (Date) value;
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private Duration getCustomFieldDuration(Row row)
+   {
+      // TODO: displayed time units defined by DATA_AS_ID
+      return Duration.getInstance(NumberHelper.getDouble(getCustomFieldDouble(row)), TimeUnit.HOURS);
+   }
+
+   /**
+    * Retrieve a value and handle inconsistent types.
+    * 
+    * @param row result set row
+    * @return value
+    */
+   private String getCustomFieldString(Row row)
+   {
+      Object value = row.getObject("DATA_AS_NOTE");
+      return value == null ? null : value.toString();
+   }
+
    private ProjectFile m_project;
    private EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
    private final Set<Integer> m_deferredConstraintType = new HashSet<>();
+   private final Map<Integer, Task> m_barMap = new HashMap<>();
+   private final Map<Integer, Task> m_taskMap = new HashMap<>();
+   private final Map<Integer, Task> m_milestoneMap = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
@@ -1613,4 +1923,11 @@ final class AstaReader
       RelationType.FINISH_FINISH,
       RelationType.START_FINISH
    };
+
+   private static final int BAR_OBJECT_TYPE = 16;
+   private static final int TASK_OBJECT_TYPE = 20;
+   private static final int MILESTONE_OBJECT_TYPE = 21;
+   private static final int CONSUMABLE_RESOURCE_OBJECT_TYPE = 50;
+   private static final int PERMANENT_RESOURCE_OBJECT_TYPE = 51;
+   private static final int PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE = 59;
 }
