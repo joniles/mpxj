@@ -304,6 +304,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       switch (fieldType)
       {
+         case SHORT:
          case INTEGER:
          {
             writeIntegerField(fieldName, value);

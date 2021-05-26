@@ -8,6 +8,7 @@
 		<release date="git master" version="9.3.2">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>
 			<action dev="joniles" type="update">Added support for reading custom fields from Asta Powerproject files.</action>
+			<action dev="joniles" type="update">Ensure short data type value are written to JSON files as numeric values.</action>
 		</release>
 		<release date="18/5/2021" version="9.3.1">
 			<action dev="joniles" type="update">Preserve multiple assignments between an activity and a resource when reading P6 schedules.</action>
