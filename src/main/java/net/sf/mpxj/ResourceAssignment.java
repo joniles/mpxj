@@ -2842,6 +2842,17 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       //
       switch (field)
       {
+         case UNIQUE_ID:
+         {
+            ProjectFile parent = getParentFile();
+            if (oldValue != null)
+            {
+               parent.getResourceAssignments().unmapUniqueID((Integer) oldValue);
+            }
+            parent.getResourceAssignments().mapUniqueID((Integer) newValue, this);
+            break;
+         }
+
          case START:
          case BASELINE_START:
          {
