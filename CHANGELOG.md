@@ -3,7 +3,8 @@
 ## 9.3.2 (git master)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 * Added support for reading custom fields from Asta Powerproject files.
-* Ensure short data type value are written to JSON files as numeric values.
+* Ensure short data type values are written to JSON files as numeric values.
+* Ensure delay data type values are written to JSON files as duration values.
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.

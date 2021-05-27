@@ -41,7 +41,7 @@ module MPXJ
         get_float_value(attribute_value)
       when 2
         get_date_value(attribute_value)
-      when 6, 16
+      when 6, 16, 21
         get_duration_value(attribute_value)
       when 4
         get_boolean_value(attribute_value)

@@ -326,6 +326,7 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case DELAY:
          case WORK:
          case DURATION:
          {
