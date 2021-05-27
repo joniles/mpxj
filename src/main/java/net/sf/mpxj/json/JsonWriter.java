@@ -43,6 +43,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -376,6 +377,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case RATE:
+         {
+            writeRateField(fieldName, value);
+            break;
+         }
+
          case BINARY:
          {
             // Don't write binary data
@@ -522,6 +529,20 @@ public final class JsonWriter extends AbstractProjectWriter
       if (value != null)
       {
          m_writer.writeNameValuePair(fieldName, ((Priority) value).getValue());
+      }
+   }
+
+   /**
+    * Write a priority field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeRateField(String fieldName, Object value) throws IOException
+   {
+      if (value != null && ((Rate) value).getAmount() != 0.0)
+      {
+         m_writer.writeNameValuePair(fieldName, ((Rate) value).getAmount() + "/" + ((Rate) value).getUnits());
       }
    }
 

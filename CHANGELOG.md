@@ -5,6 +5,8 @@
 * Added support for reading custom fields from Asta Powerproject files.
 * Ensure short data type values are written to JSON files as numeric values.
 * Ensure delay data type values are written to JSON files as duration values.
+* Don't write zero rates to JSON files.
+* Introduced a separator into rate values in a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.

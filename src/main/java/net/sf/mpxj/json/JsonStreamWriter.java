@@ -244,12 +244,6 @@ public class JsonStreamWriter
                break;
             }
 
-            case '/':
-            {
-               m_buffer.append("\\/");
-               break;
-            }
-
             case '\b':
             {
                m_buffer.append("\\b");

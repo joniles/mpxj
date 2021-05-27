@@ -10,6 +10,8 @@
 			<action dev="joniles" type="update">Added support for reading custom fields from Asta Powerproject files.</action>
 			<action dev="joniles" type="update">Ensure short data type values are written to JSON files as numeric values.</action>
 			<action dev="joniles" type="update">Ensure delay data type values are written to JSON files as duration values.</action>
+			<action dev="joniles" type="update">Don't write zero rates to JSON files.</action>
+			<action dev="joniles" type="update">Introduced a separator into rate values in a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).</action>
 		</release>
 		<release date="18/5/2021" version="9.3.1">
 			<action dev="joniles" type="update">Preserve multiple assignments between an activity and a resource when reading P6 schedules.</action>
