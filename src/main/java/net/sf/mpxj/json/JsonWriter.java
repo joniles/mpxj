@@ -341,6 +341,7 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case RATE_UNITS:
          case TIME_UNITS:
          {
             writeTimeUnitsField(fieldName, value);
@@ -391,6 +392,14 @@ public final class JsonWriter extends AbstractProjectWriter
 
          default:
          {
+            // If we have an enum, ensure we write the name as it appears in the code.
+            // We have a various enums which currently override toString to produce
+            // file-format-specific values, which is not helpful in the JSON file.
+            if (value instanceof Enum)
+            {
+               value = ((Enum<?>) value).name();
+            }
+
             writeStringField(fieldName, value);
             break;
          }
