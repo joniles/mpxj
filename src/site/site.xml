@@ -1,0 +1,41 @@
+<project name="MPXJ">
+	<version position="none"/>
+
+	<googleAnalyticsAccountId>UA-7202224-1</googleAnalyticsAccountId>
+
+    <poweredBy/>
+
+	<skin>
+	    <groupId>org.apache.maven.skins</groupId>
+	    <artifactId>maven-fluido-skin</artifactId>
+	    <version>1.9</version>
+  	</skin>
+
+	<custom>
+	    <fluidoSkin>
+	    	<!--  set sidebar/body widths: must add up to 12 -->
+	    	<leftColumnClass>span3</leftColumnClass>
+      		<bodyColumnClass>span9</bodyColumnClass>
+      		<skipGenerationDate>true</skipGenerationDate>
+			<gitHub>
+				<projectId>joniles/mpxj</projectId>
+				<ribbonOrientation>right</ribbonOrientation>
+				<ribbonColor>black</ribbonColor>
+			</gitHub>
+	    </fluidoSkin>
+  	</custom>
+
+	<body>
+		<menu name="MPXJ">
+			<item name="Summary" href="summary.html" />
+			<item name="Changes" href="changes-report.html" />
+			<item name="Team" href="team.html" />
+			<item name="Mailing List" href="mailing-lists.html" />
+			<item name="Issues" href="issue-management.html" />
+			<item name="Source" href="scm.html" />
+			<item name="Javadoc" href="apidocs/index.html" />
+			<item name="Dependencies" href="dependency-updates-report.html" />
+			<item name="Plugins" href="plugin-updates-report.html" />
+	    </menu>
+	</body>
+</project>

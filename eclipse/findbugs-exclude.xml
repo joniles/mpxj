@@ -162,4 +162,30 @@
 		<Method name="mkdirsQuietly" />
 	</Match>	 
 		 
+	<Match>
+		<Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+		<Class name="~.*\.CustomerDataTest" />	
+		<Method name="debugFailure" />
+	</Match>		
+	
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.MppEmbeddedTest" />	
+		<Method name="testEmbeddedObjects" />
+	</Match>
+	
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMProjectWriter" />	
+		<Method name="writeNativeActivityNote" />
+	</Match> 
+		
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMProjectWriter" />	
+		<Method name="writeNativeWbsNote" />
+	</Match>
 </FindBugsFilter>

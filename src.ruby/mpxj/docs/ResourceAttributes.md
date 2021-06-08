@@ -25,13 +25,13 @@
 	Resource#baseline1_finish
 	Resource#baseline1_start
 	Resource#baseline1_work
-	...	
+	...
 	Resource#baseline10_budget_cost
 	Resource#baseline10_budget_work
 	Resource#baseline10_cost
 	Resource#baseline10_finish
 	Resource#baseline10_start
-	Resource#baseline10_work	
+	Resource#baseline10_work
 	Resource#baseline_budget_cost
 	Resource#baseline_budget_work
 	Resource#baseline_cost
@@ -89,7 +89,7 @@
 	Resource#enterprise_date30
 	Resource#enterprise_duration1
 	...
-	Resource#enterprise_duration10	
+	Resource#enterprise_duration10
 	Resource#enterprise_duration1_units
 	...
 	Resource#enterprise_duration10_units
@@ -151,7 +151,7 @@
 	Resource#objects
 	Resource#outline_code1
 	...
-	Resource#outline_code10	
+	Resource#outline_code10
 	Resource#outline_code1_index
 	...
 	Resource#outline_code10_index

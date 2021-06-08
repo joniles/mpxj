@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN" "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <!--
     This configuration file was written by the eclipse-cs plugin configuration editor
@@ -38,9 +38,7 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="JavadocMethod">
-      <property name="allowMissingThrowsTags" value="true"/>
-    </module>
+    <module name="JavadocMethod"/>
     <module name="JavadocType"/>
     <module name="ConstantName">
       <property name="format" value="^[A-Z](_?[A-Z0-9]+)*$"/>
@@ -65,5 +63,7 @@
     <module name="JavadocStyle">
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
+    <module name="JavadocStyle"/>
+    <module name="MissingJavadocMethod"/>
   </module>
 </module>

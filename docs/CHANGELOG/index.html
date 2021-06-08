@@ -1,0 +1,4887 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="http://www.mpxj.org/CHANGELOG/">
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+    
+    
+      
+        <title>Changes - MPXJ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-7202224-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MPXJ" class="md-header__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MPXJ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/joniles/mpxj/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MPXJ" class="md-nav__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    MPXJ
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/joniles/mpxj/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Changes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Changes
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#930-git-master" class="md-nav__link">
+    9.3.0 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#926-26042021" class="md-nav__link">
+    9.2.6 (26/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#925-20042021" class="md-nav__link">
+    9.2.5 (20/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#924-09042021" class="md-nav__link">
+    9.2.4 (09/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#923-08042021" class="md-nav__link">
+    9.2.3 (08/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#922-07042021" class="md-nav__link">
+    9.2.2 (07/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#921-04042021" class="md-nav__link">
+    9.2.1 (04/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#920-30032021" class="md-nav__link">
+    9.2.0 (30/03/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-11032021" class="md-nav__link">
+    9.1.0 (11/03/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#900-18022020" class="md-nav__link">
+    9.0.0 (18/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#851-07012021" class="md-nav__link">
+    8.5.1 (07/01/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#850-06012021" class="md-nav__link">
+    8.5.0 (06/01/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#840-29122020" class="md-nav__link">
+    8.4.0 (29/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#835-15122020" class="md-nav__link">
+    8.3.5 (15/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#834-10122020" class="md-nav__link">
+    8.3.4 (10/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#833-24112020" class="md-nav__link">
+    8.3.3 (24/11/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#832-22102020" class="md-nav__link">
+    8.3.2 (22/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#831-14102020" class="md-nav__link">
+    8.3.1 (14/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#830-13102020" class="md-nav__link">
+    8.3.0 (13/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#820-09092020" class="md-nav__link">
+    8.2.0 (09/09/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#814-31082020" class="md-nav__link">
+    8.1.4 (31/08/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#813-25062020" class="md-nav__link">
+    8.1.3 (25/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#812-18062020" class="md-nav__link">
+    8.1.2 (18/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#811-17062020" class="md-nav__link">
+    8.1.1 (17/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#810-11062020" class="md-nav__link">
+    8.1.0 (11/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#808-20042020" class="md-nav__link">
+    8.0.8 (20/04/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#807-17042020" class="md-nav__link">
+    8.0.7 (17/04/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#806-05032020" class="md-nav__link">
+    8.0.6 (05/03/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#805-07022020" class="md-nav__link">
+    8.0.5 (07/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#804-06022020" class="md-nav__link">
+    8.0.4 (06/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#803-27012020" class="md-nav__link">
+    8.0.3 (27/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#802-16012020" class="md-nav__link">
+    8.0.2 (16/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#801-05012020" class="md-nav__link">
+    8.0.1 (05/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#800-02012020" class="md-nav__link">
+    8.0.0 (02/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#798-27122019" class="md-nav__link">
+    7.9.8 (27/12/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#797-25112019" class="md-nav__link">
+    7.9.7 (25/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#796-22112019" class="md-nav__link">
+    7.9.6 (22/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#795-19112019" class="md-nav__link">
+    7.9.5 (19/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#794-08112019" class="md-nav__link">
+    7.9.4 (08/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#793-10092019" class="md-nav__link">
+    7.9.3 (10/09/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#792-19082019" class="md-nav__link">
+    7.9.2 (19/08/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#791-01072019" class="md-nav__link">
+    7.9.1 (01/07/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#790-01072019" class="md-nav__link">
+    7.9.0 (01/07/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#784-27062019" class="md-nav__link">
+    7.8.4 (27/06/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#783-24052019" class="md-nav__link">
+    7.8.3 (24/05/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#782-19052019" class="md-nav__link">
+    7.8.2 (19/05/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#781-13022019" class="md-nav__link">
+    7.8.1 (13/02/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#780-18012019" class="md-nav__link">
+    7.8.0 (18/01/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#771-23102018" class="md-nav__link">
+    7.7.1 (23/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#770-12102018" class="md-nav__link">
+    7.7.0 (12/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#763-04102018" class="md-nav__link">
+    7.6.3 (04/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#762-30082018" class="md-nav__link">
+    7.6.2 (30/08/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#761-29082018" class="md-nav__link">
+    7.6.1 (29/08/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#760-13072018" class="md-nav__link">
+    7.6.0 (13/07/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#750-19062018" class="md-nav__link">
+    7.5.0 (19/06/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#744-06062018" class="md-nav__link">
+    7.4.4 (06/06/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#743-25052018" class="md-nav__link">
+    7.4.3 (25/05/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#742-30042018" class="md-nav__link">
+    7.4.2 (30/04/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#741-16042018" class="md-nav__link">
+    7.4.1 (16/04/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#740-23032018" class="md-nav__link">
+    7.4.0 (23/03/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#730-12032018" class="md-nav__link">
+    7.3.0 (12/03/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#721-26012018" class="md-nav__link">
+    7.2.1 (26/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#720-18012018" class="md-nav__link">
+    7.2.0 (18/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#710-03012018" class="md-nav__link">
+    7.1.0 (03/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#703-21122017" class="md-nav__link">
+    7.0.3 (21/12/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#702-20112017" class="md-nav__link">
+    7.0.2 (20/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#701-20112017" class="md-nav__link">
+    7.0.1 (20/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#700-08112017" class="md-nav__link">
+    7.0.0 (08/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#621-11102017" class="md-nav__link">
+    6.2.1 (11/10/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#620-06102017" class="md-nav__link">
+    6.2.0 (06/10/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#612-12092017" class="md-nav__link">
+    6.1.2 (12/09/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#611-30082017" class="md-nav__link">
+    6.1.1 (30/08/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#610-28072017" class="md-nav__link">
+    6.1.0 (28/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#600-22072017" class="md-nav__link">
+    6.0.0 (22/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5140-13072017" class="md-nav__link">
+    5.14.0 (13/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5130-27062017" class="md-nav__link">
+    5.13.0 (27/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5120-26062017" class="md-nav__link">
+    5.12.0 (26/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5110-20062017" class="md-nav__link">
+    5.11.0 (20/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5100-23052017" class="md-nav__link">
+    5.10.0 (23/05/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#590-27042017" class="md-nav__link">
+    5.9.0 (27/04/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#580-21042017" class="md-nav__link">
+    5.8.0 (21/04/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#571-22032017" class="md-nav__link">
+    5.7.1 (22/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#570-20032017" class="md-nav__link">
+    5.7.0 (20/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#565-07032017" class="md-nav__link">
+    5.6.5 (07/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#564-16022017" class="md-nav__link">
+    5.6.4 (16/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#563-08022017" class="md-nav__link">
+    5.6.3 (08/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#562-06022017" class="md-nav__link">
+    5.6.2 (06/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#561-03022017" class="md-nav__link">
+    5.6.1 (03/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#560-29012017" class="md-nav__link">
+    5.6.0 (29/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#559-27012017" class="md-nav__link">
+    5.5.9 (27/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#558-23012017" class="md-nav__link">
+    5.5.8 (23/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#557-13012017" class="md-nav__link">
+    5.5.7 (13/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#556-06012017" class="md-nav__link">
+    5.5.6 (06/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#555-06012017" class="md-nav__link">
+    5.5.5 (06/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#554-01122016" class="md-nav__link">
+    5.5.4 (01/12/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#553-29112016" class="md-nav__link">
+    5.5.3 (29/11/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#552-02112016" class="md-nav__link">
+    5.5.2 (02/11/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#551-14102016" class="md-nav__link">
+    5.5.1 (14/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#550-13102016" class="md-nav__link">
+    5.5.0 (13/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#540-06102016" class="md-nav__link">
+    5.4.0 (06/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#533-31082016" class="md-nav__link">
+    5.3.3 (31/08/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#532-31082016" class="md-nav__link">
+    5.3.2 (31/08/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#531-01072016" class="md-nav__link">
+    5.3.1 (01/07/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#530-10062016" class="md-nav__link">
+    5.3.0 (10/06/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#522-11032016" class="md-nav__link">
+    5.2.2 (11/03/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#521-11022016" class="md-nav__link">
+    5.2.1 (11/02/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#520-08022016" class="md-nav__link">
+    5.2.0 (08/02/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5118-25012016" class="md-nav__link">
+    5.1.18 (25/01/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5117-30122015" class="md-nav__link">
+    5.1.17 (30/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5116-18122015" class="md-nav__link">
+    5.1.16 (18/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5115-16122015" class="md-nav__link">
+    5.1.15 (16/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5114-09122015" class="md-nav__link">
+    5.1.14 (09/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5113-26112015" class="md-nav__link">
+    5.1.13 (26/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5112-16112015" class="md-nav__link">
+    5.1.12 (16/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5111-12112015" class="md-nav__link">
+    5.1.11 (12/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5110-09092015" class="md-nav__link">
+    5.1.10 (09/09/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#519-29082015" class="md-nav__link">
+    5.1.9 (29/08/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#518-13072015" class="md-nav__link">
+    5.1.8 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#517-13072015" class="md-nav__link">
+    5.1.7 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#516-13072015" class="md-nav__link">
+    5.1.6 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#515-05062015" class="md-nav__link">
+    5.1.5 (05/06/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#514-03062015" class="md-nav__link">
+    5.1.4 (03/06/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#513-18052015" class="md-nav__link">
+    5.1.3 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#512-18052015" class="md-nav__link">
+    5.1.2 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511-18052015" class="md-nav__link">
+    5.1.1 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-17052015" class="md-nav__link">
+    5.1.0 (17/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#500-06052015" class="md-nav__link">
+    5.0.0 (06/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#476-18032015" class="md-nav__link">
+    4.7.6 (18/03/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#475-27022015" class="md-nav__link">
+    4.7.5 (27/02/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#474-25022015" class="md-nav__link">
+    4.7.4 (25/02/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#473-23122014" class="md-nav__link">
+    4.7.3 (23/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#472-15122014" class="md-nav__link">
+    4.7.2 (15/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#471-08122014" class="md-nav__link">
+    4.7.1 (08/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#470-04122014" class="md-nav__link">
+    4.7.0 (04/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#462-11112014" class="md-nav__link">
+    4.6.2 (11/11/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#461-17102014" class="md-nav__link">
+    4.6.1 (17/10/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#460-17102014" class="md-nav__link">
+    4.6.0 (17/10/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#450-01032014" class="md-nav__link">
+    4.5.0 (01/03/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#440-14032013" class="md-nav__link">
+    4.4.0 (14/03/2013)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#430-08022012" class="md-nav__link">
+    4.3.0 (08/02/2012)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#420-23062011" class="md-nav__link">
+    4.2.0 (23/06/2011)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#410-30052011" class="md-nav__link">
+    4.1.0 (30/05/2011)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#400-25052010" class="md-nav__link">
+    4.0.0 (25/05/2010)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#320-20012010" class="md-nav__link">
+    3.2.0 (20/01/2010)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310-20052009" class="md-nav__link">
+    3.1.0 (20/05/2009)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#300-25012009" class="md-nav__link">
+    3.0.0 (25/01/2009)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210-23032008" class="md-nav__link">
+    2.1.0 (23/03/2008)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#200-07102007" class="md-nav__link">
+    2.0.0 (07/10/2007)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-30082007" class="md-nav__link">
+    1.0.0 (30/08/2007)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#092-07032006" class="md-nav__link">
+    0.9.2 (07/03/2006)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#091-26012006" class="md-nav__link">
+    0.9.1 (26/01/2006)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0025-11082005" class="md-nav__link">
+    0.0.25 (11/08/2005)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0024-10012005" class="md-nav__link">
+    0.0.24 (10/01/2005)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0023-17112004" class="md-nav__link">
+    0.0.23 (17/11/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0022-27072004" class="md-nav__link">
+    0.0.22 (27/07/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0021-06052004" class="md-nav__link">
+    0.0.21 (06/05/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0020-15032004" class="md-nav__link">
+    0.0.20 (15/03/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0019-02122003" class="md-nav__link">
+    0.0.19 (02/12/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0018-13112003" class="md-nav__link">
+    0.0.18 (13/11/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0017-05082003" class="md-nav__link">
+    0.0.17 (05/08/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0016-04072003" class="md-nav__link">
+    0.0.16 (04/07/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0015-17062003" class="md-nav__link">
+    0.0.15 (17/06/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0014-28052003" class="md-nav__link">
+    0.0.14 (28/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0013-22052003" class="md-nav__link">
+    0.0.13 (22/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0012-08052003" class="md-nav__link">
+    0.0.12 (08/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0011-15042003" class="md-nav__link">
+    0.0.11 (15/04/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0010-08042003" class="md-nav__link">
+    0.0.10 (08/04/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#009" class="md-nav__link">
+    0.0.9 ()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#008-27032003" class="md-nav__link">
+    0.0.8 (27/03/2003)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Getting Started
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-build/" class="md-nav__link">
+        Building MPXJ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-dotnet/" class="md-nav__link">
+        MPXJ and .Net
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-com/" class="md-nav__link">
+        MPXJ and COM
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-convert/" class="md-nav__link">
+        Converting Files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        How to Read...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="How to Read..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          How to Read...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpx/" class="md-nav__link">
+        MPX Files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpp/" class="md-nav__link">
+        MPP files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mspdi/" class="md-nav__link">
+        MSPDI files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd/" class="md-nav__link">
+        MPD files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-planner/" class="md-nav__link">
+        Planner files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-asta/" class="md-nav__link">
+        Asta files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-p3/" class="md-nav__link">
+        P3 files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-suretrak/" class="md-nav__link">
+        SureTrak files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-turboproject/" class="md-nav__link">
+        TurboProject files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectlibre/" class="md-nav__link">
+        ProjectLibre files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-fasttrack/" class="md-nav__link">
+        FastTrack files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttproject/" class="md-nav__link">
+        GanttProject files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-phoenix/" class="md-nav__link">
+        Phoenix files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-pmxml/" class="md-nav__link">
+        PMXML files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-primavera/" class="md-nav__link">
+        P6 databases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-xer/" class="md-nav__link">
+        XER files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-merlin/" class="md-nav__link">
+        Merlin files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-conceptdraw/" class="md-nav__link">
+        ConceptDraw PROJECT files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-synchro/" class="md-nav__link">
+        Synchro Scheduler files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttdesigner/" class="md-nav__link">
+        Gantt Designer files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-sdef/" class="md-nav__link">
+        SDEF files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-schedule-grid/" class="md-nav__link">
+        Schedule Grid files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectcommander/" class="md-nav__link">
+        Project Commander files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        How to Write...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="How to Write..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          How to Write...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mpx/" class="md-nav__link">
+        MPX files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mspdi/" class="md-nav__link">
+        MSPDI files
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        Field Guides...
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Field Guides..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Field Guides...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field-guide/" class="md-nav__link">
+        Field Guide
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpp-field-guide/" class="md-nav__link">
+        MPP Field Guide
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        Users
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maven-reports/" class="md-nav__link">
+        Maven Reports
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#930-git-master" class="md-nav__link">
+    9.3.0 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#926-26042021" class="md-nav__link">
+    9.2.6 (26/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#925-20042021" class="md-nav__link">
+    9.2.5 (20/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#924-09042021" class="md-nav__link">
+    9.2.4 (09/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#923-08042021" class="md-nav__link">
+    9.2.3 (08/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#922-07042021" class="md-nav__link">
+    9.2.2 (07/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#921-04042021" class="md-nav__link">
+    9.2.1 (04/04/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#920-30032021" class="md-nav__link">
+    9.2.0 (30/03/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-11032021" class="md-nav__link">
+    9.1.0 (11/03/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#900-18022020" class="md-nav__link">
+    9.0.0 (18/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#851-07012021" class="md-nav__link">
+    8.5.1 (07/01/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#850-06012021" class="md-nav__link">
+    8.5.0 (06/01/2021)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#840-29122020" class="md-nav__link">
+    8.4.0 (29/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#835-15122020" class="md-nav__link">
+    8.3.5 (15/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#834-10122020" class="md-nav__link">
+    8.3.4 (10/12/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#833-24112020" class="md-nav__link">
+    8.3.3 (24/11/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#832-22102020" class="md-nav__link">
+    8.3.2 (22/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#831-14102020" class="md-nav__link">
+    8.3.1 (14/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#830-13102020" class="md-nav__link">
+    8.3.0 (13/10/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#820-09092020" class="md-nav__link">
+    8.2.0 (09/09/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#814-31082020" class="md-nav__link">
+    8.1.4 (31/08/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#813-25062020" class="md-nav__link">
+    8.1.3 (25/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#812-18062020" class="md-nav__link">
+    8.1.2 (18/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#811-17062020" class="md-nav__link">
+    8.1.1 (17/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#810-11062020" class="md-nav__link">
+    8.1.0 (11/06/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#808-20042020" class="md-nav__link">
+    8.0.8 (20/04/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#807-17042020" class="md-nav__link">
+    8.0.7 (17/04/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#806-05032020" class="md-nav__link">
+    8.0.6 (05/03/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#805-07022020" class="md-nav__link">
+    8.0.5 (07/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#804-06022020" class="md-nav__link">
+    8.0.4 (06/02/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#803-27012020" class="md-nav__link">
+    8.0.3 (27/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#802-16012020" class="md-nav__link">
+    8.0.2 (16/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#801-05012020" class="md-nav__link">
+    8.0.1 (05/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#800-02012020" class="md-nav__link">
+    8.0.0 (02/01/2020)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#798-27122019" class="md-nav__link">
+    7.9.8 (27/12/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#797-25112019" class="md-nav__link">
+    7.9.7 (25/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#796-22112019" class="md-nav__link">
+    7.9.6 (22/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#795-19112019" class="md-nav__link">
+    7.9.5 (19/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#794-08112019" class="md-nav__link">
+    7.9.4 (08/11/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#793-10092019" class="md-nav__link">
+    7.9.3 (10/09/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#792-19082019" class="md-nav__link">
+    7.9.2 (19/08/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#791-01072019" class="md-nav__link">
+    7.9.1 (01/07/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#790-01072019" class="md-nav__link">
+    7.9.0 (01/07/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#784-27062019" class="md-nav__link">
+    7.8.4 (27/06/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#783-24052019" class="md-nav__link">
+    7.8.3 (24/05/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#782-19052019" class="md-nav__link">
+    7.8.2 (19/05/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#781-13022019" class="md-nav__link">
+    7.8.1 (13/02/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#780-18012019" class="md-nav__link">
+    7.8.0 (18/01/2019)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#771-23102018" class="md-nav__link">
+    7.7.1 (23/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#770-12102018" class="md-nav__link">
+    7.7.0 (12/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#763-04102018" class="md-nav__link">
+    7.6.3 (04/10/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#762-30082018" class="md-nav__link">
+    7.6.2 (30/08/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#761-29082018" class="md-nav__link">
+    7.6.1 (29/08/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#760-13072018" class="md-nav__link">
+    7.6.0 (13/07/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#750-19062018" class="md-nav__link">
+    7.5.0 (19/06/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#744-06062018" class="md-nav__link">
+    7.4.4 (06/06/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#743-25052018" class="md-nav__link">
+    7.4.3 (25/05/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#742-30042018" class="md-nav__link">
+    7.4.2 (30/04/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#741-16042018" class="md-nav__link">
+    7.4.1 (16/04/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#740-23032018" class="md-nav__link">
+    7.4.0 (23/03/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#730-12032018" class="md-nav__link">
+    7.3.0 (12/03/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#721-26012018" class="md-nav__link">
+    7.2.1 (26/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#720-18012018" class="md-nav__link">
+    7.2.0 (18/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#710-03012018" class="md-nav__link">
+    7.1.0 (03/01/2018)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#703-21122017" class="md-nav__link">
+    7.0.3 (21/12/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#702-20112017" class="md-nav__link">
+    7.0.2 (20/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#701-20112017" class="md-nav__link">
+    7.0.1 (20/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#700-08112017" class="md-nav__link">
+    7.0.0 (08/11/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#621-11102017" class="md-nav__link">
+    6.2.1 (11/10/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#620-06102017" class="md-nav__link">
+    6.2.0 (06/10/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#612-12092017" class="md-nav__link">
+    6.1.2 (12/09/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#611-30082017" class="md-nav__link">
+    6.1.1 (30/08/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#610-28072017" class="md-nav__link">
+    6.1.0 (28/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#600-22072017" class="md-nav__link">
+    6.0.0 (22/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5140-13072017" class="md-nav__link">
+    5.14.0 (13/07/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5130-27062017" class="md-nav__link">
+    5.13.0 (27/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5120-26062017" class="md-nav__link">
+    5.12.0 (26/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5110-20062017" class="md-nav__link">
+    5.11.0 (20/06/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5100-23052017" class="md-nav__link">
+    5.10.0 (23/05/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#590-27042017" class="md-nav__link">
+    5.9.0 (27/04/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#580-21042017" class="md-nav__link">
+    5.8.0 (21/04/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#571-22032017" class="md-nav__link">
+    5.7.1 (22/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#570-20032017" class="md-nav__link">
+    5.7.0 (20/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#565-07032017" class="md-nav__link">
+    5.6.5 (07/03/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#564-16022017" class="md-nav__link">
+    5.6.4 (16/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#563-08022017" class="md-nav__link">
+    5.6.3 (08/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#562-06022017" class="md-nav__link">
+    5.6.2 (06/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#561-03022017" class="md-nav__link">
+    5.6.1 (03/02/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#560-29012017" class="md-nav__link">
+    5.6.0 (29/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#559-27012017" class="md-nav__link">
+    5.5.9 (27/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#558-23012017" class="md-nav__link">
+    5.5.8 (23/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#557-13012017" class="md-nav__link">
+    5.5.7 (13/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#556-06012017" class="md-nav__link">
+    5.5.6 (06/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#555-06012017" class="md-nav__link">
+    5.5.5 (06/01/2017)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#554-01122016" class="md-nav__link">
+    5.5.4 (01/12/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#553-29112016" class="md-nav__link">
+    5.5.3 (29/11/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#552-02112016" class="md-nav__link">
+    5.5.2 (02/11/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#551-14102016" class="md-nav__link">
+    5.5.1 (14/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#550-13102016" class="md-nav__link">
+    5.5.0 (13/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#540-06102016" class="md-nav__link">
+    5.4.0 (06/10/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#533-31082016" class="md-nav__link">
+    5.3.3 (31/08/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#532-31082016" class="md-nav__link">
+    5.3.2 (31/08/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#531-01072016" class="md-nav__link">
+    5.3.1 (01/07/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#530-10062016" class="md-nav__link">
+    5.3.0 (10/06/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#522-11032016" class="md-nav__link">
+    5.2.2 (11/03/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#521-11022016" class="md-nav__link">
+    5.2.1 (11/02/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#520-08022016" class="md-nav__link">
+    5.2.0 (08/02/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5118-25012016" class="md-nav__link">
+    5.1.18 (25/01/2016)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5117-30122015" class="md-nav__link">
+    5.1.17 (30/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5116-18122015" class="md-nav__link">
+    5.1.16 (18/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5115-16122015" class="md-nav__link">
+    5.1.15 (16/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5114-09122015" class="md-nav__link">
+    5.1.14 (09/12/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5113-26112015" class="md-nav__link">
+    5.1.13 (26/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5112-16112015" class="md-nav__link">
+    5.1.12 (16/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5111-12112015" class="md-nav__link">
+    5.1.11 (12/11/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5110-09092015" class="md-nav__link">
+    5.1.10 (09/09/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#519-29082015" class="md-nav__link">
+    5.1.9 (29/08/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#518-13072015" class="md-nav__link">
+    5.1.8 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#517-13072015" class="md-nav__link">
+    5.1.7 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#516-13072015" class="md-nav__link">
+    5.1.6 (13/07/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#515-05062015" class="md-nav__link">
+    5.1.5 (05/06/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#514-03062015" class="md-nav__link">
+    5.1.4 (03/06/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#513-18052015" class="md-nav__link">
+    5.1.3 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#512-18052015" class="md-nav__link">
+    5.1.2 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511-18052015" class="md-nav__link">
+    5.1.1 (18/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-17052015" class="md-nav__link">
+    5.1.0 (17/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#500-06052015" class="md-nav__link">
+    5.0.0 (06/05/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#476-18032015" class="md-nav__link">
+    4.7.6 (18/03/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#475-27022015" class="md-nav__link">
+    4.7.5 (27/02/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#474-25022015" class="md-nav__link">
+    4.7.4 (25/02/2015)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#473-23122014" class="md-nav__link">
+    4.7.3 (23/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#472-15122014" class="md-nav__link">
+    4.7.2 (15/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#471-08122014" class="md-nav__link">
+    4.7.1 (08/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#470-04122014" class="md-nav__link">
+    4.7.0 (04/12/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#462-11112014" class="md-nav__link">
+    4.6.2 (11/11/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#461-17102014" class="md-nav__link">
+    4.6.1 (17/10/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#460-17102014" class="md-nav__link">
+    4.6.0 (17/10/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#450-01032014" class="md-nav__link">
+    4.5.0 (01/03/2014)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#440-14032013" class="md-nav__link">
+    4.4.0 (14/03/2013)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#430-08022012" class="md-nav__link">
+    4.3.0 (08/02/2012)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#420-23062011" class="md-nav__link">
+    4.2.0 (23/06/2011)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#410-30052011" class="md-nav__link">
+    4.1.0 (30/05/2011)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#400-25052010" class="md-nav__link">
+    4.0.0 (25/05/2010)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#320-20012010" class="md-nav__link">
+    3.2.0 (20/01/2010)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310-20052009" class="md-nav__link">
+    3.1.0 (20/05/2009)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#300-25012009" class="md-nav__link">
+    3.0.0 (25/01/2009)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#210-23032008" class="md-nav__link">
+    2.1.0 (23/03/2008)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#200-07102007" class="md-nav__link">
+    2.0.0 (07/10/2007)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-30082007" class="md-nav__link">
+    1.0.0 (30/08/2007)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#092-07032006" class="md-nav__link">
+    0.9.2 (07/03/2006)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#091-26012006" class="md-nav__link">
+    0.9.1 (26/01/2006)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0025-11082005" class="md-nav__link">
+    0.0.25 (11/08/2005)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0024-10012005" class="md-nav__link">
+    0.0.24 (10/01/2005)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0023-17112004" class="md-nav__link">
+    0.0.23 (17/11/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0022-27072004" class="md-nav__link">
+    0.0.22 (27/07/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0021-06052004" class="md-nav__link">
+    0.0.21 (06/05/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0020-15032004" class="md-nav__link">
+    0.0.20 (15/03/2004)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0019-02122003" class="md-nav__link">
+    0.0.19 (02/12/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0018-13112003" class="md-nav__link">
+    0.0.18 (13/11/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0017-05082003" class="md-nav__link">
+    0.0.17 (05/08/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0016-04072003" class="md-nav__link">
+    0.0.16 (04/07/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0015-17062003" class="md-nav__link">
+    0.0.15 (17/06/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0014-28052003" class="md-nav__link">
+    0.0.14 (28/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0013-22052003" class="md-nav__link">
+    0.0.13 (22/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0012-08052003" class="md-nav__link">
+    0.0.12 (08/05/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0011-15042003" class="md-nav__link">
+    0.0.11 (15/04/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0010-08042003" class="md-nav__link">
+    0.0.10 (08/04/2003)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#009" class="md-nav__link">
+    0.0.9 ()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#008-27032003" class="md-nav__link">
+    0.0.8 (27/03/2003)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/joniles/mpxj/edit/master/docs/CHANGELOG.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="changelog">Changelog</h1>
+<h2 id="930-git-master">9.3.0 (git master)</h2>
+<h2 id="926-26042021">9.2.6 (26/04/2021)</h2>
+<ul>
+<li>Handle invalid baseline numbers when reading MSPDI files.</li>
+<li>Improve custom field handling when reading GanttProject files.</li>
+</ul>
+<h2 id="925-20042021">9.2.5 (20/04/2021)</h2>
+<ul>
+<li>Add launcher batch file and shell script.</li>
+<li>Improve handling of calculated task attributes when writing a project to a different format.</li>
+<li>Ensure that dates are rolled up to summary tasks when reading FastTrack files.</li>
+<li>Improve support for Synchro 6.3 SP files.</li>
+</ul>
+<h2 id="924-09042021">9.2.4 (09/04/2021)</h2>
+<ul>
+<li>Fix an issue reading resource rate information GanttProject files.</li>
+</ul>
+<h2 id="923-08042021">9.2.3 (08/04/2021)</h2>
+<ul>
+<li>Fix an issue reading Planned Duration from P6 databases and XER files.</li>
+<li>Ensure Duration and Actual Duration are populated for WBS entries when reading P6 schedules.</li>
+</ul>
+<h2 id="922-07042021">9.2.2 (07/04/2021)</h2>
+<ul>
+<li>Fix issue with WBS ordering when writing PMXML files.</li>
+</ul>
+<h2 id="921-04042021">9.2.1 (04/04/2021)</h2>
+<ul>
+<li>Improve Task critical flag calculation when reading PMXML files.</li>
+<li>Improve support for Synchro 6.3 SP files.</li>
+</ul>
+<h2 id="920-30032021">9.2.0 (30/03/2021)</h2>
+<ul>
+<li>Improve accuracy when reading subprojects from MPP files.</li>
+<li>Add Remaining Late Start and Remaining Late Finish attributes to Task.</li>
+<li>Add Critical Activity Type attribute to Project Properties</li>
+<li>Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.</li>
+<li>Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.</li>
+<li>Ensure that WBS entries without child activities are not marked as critical.</li>
+<li>Don't attempt to set the critical flag when reading XER and PMXML files where the schedule is using "longest path" to determine critical activities. (MPXJ currently doesn't have enough information to be able to determine the correct value for the critical flag in this situation).</li>
+<li>Ensure cost, duration, date and work attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.</li>
+<li>Populate baseline cost, duration, finish, start and work when reading from XER files, PMXML files and P6 databases where the "Project Baseline" has been set to "Current Project".</li>
+</ul>
+<h2 id="910-11032021">9.1.0 (11/03/2021)</h2>
+<ul>
+<li>Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.</li>
+<li>Added experimental support for writing baseline projects to PMXML files. </li>
+<li>Added the Project GUID attribute.</li>
+<li>When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.</li>
+<li>When reading PMXML files which include the current baseline project, use this to populate the relevant baseline attributes in the main schedule.</li>
+<li>The Project Unique ID property is now an integer rather than a string.</li>
+<li>When reading Primavera schedules, populate the project properties Project ID and Baseline Project Unique ID.</li>
+<li>Handle Primavera resource rates which don't have a start or finish date.</li>
+<li>Handle MSPDI files with resource availability tables which don't have a start or finish date.</li>
+<li>Ensure that the Activity ID field is populated consistently for WBS entries in PMXML files compared to the same schedule read from an XER file or P6 database.</li>
+<li>Ensure duration of manually scheduled tasks in MPP files is represented correctly.</li>
+</ul>
+<h2 id="900-18022020">9.0.0 (18/02/2020)</h2>
+<ul>
+<li>NOTE: this release introduces breaking changes!</li>
+<li>All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.</li>
+<li>All code previously marked as deprecated has been removed.</li>
+<li>When reading an XER file or a P6 database, some custom project property names have been updated. LagCalendar is now CalendarForSchedulingRelationshipLag, RetainedLogic is now WhenSchedulingProgressedActivitiesUseRetainedLogic, ProgressOverride is now WhenSchedulingProgressedActivitiesUseProgressOverride, IgnoreOtherProjectRelationships is now WhenSchedulingProgressedActivitiesUseProgressOverride, and StartToStartLagCalculationType is now ComputeStartToStartLagFromEarlyStart.</li>
+<li>Updated PMXML schema to version 20.12.</li>
+<li>Fix an issue where GUID values were not being read correctly from XER files and P6 databases.</li>
+<li>Percent complete type is now available as a task attribute for P6 schedules from any source.</li>
+<li>Ensure that percent complete values are stored in the appropriate attributes when reading P6 schedules. (NOTE: Previously the "reported" percent complete value was stored as the tasks "percent complete" attribute. Now this holds the schedule percent complete value, and the percent work complete and physical percent complete attributes are also populated. To determine which value should be reported for a task, see the "percent complete type" extended field attribute.)</li>
+<li>Correctly handle default calendar when reading and writing PMXML files.</li>
+<li>Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.</li>
+<li>Match the way P6 exports the WBS code attribute for PMXML files.</li>
+<li>Update the representation of Boolean values when writing PMXML files to match the form exported by P6.</li>
+<li>Set the task type attribute when reading PMXML files.</li>
+<li>Improve duration and actual duration calculations when reading XER files and P6 databases.</li>
+<li>Fix an issue where resource assignment costs were not being read correctly from PMXML files.</li>
+<li>Read and write the suspend date and resume date attributes for PMXML files.</li>
+<li>General improvements to the SDEF writer.</li>
+<li>Updated to rtfparserkit 1.16.0.</li>
+</ul>
+<h2 id="851-07012021">8.5.1 (07/01/2021)</h2>
+<ul>
+<li>Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.</li>
+</ul>
+<h2 id="850-06012021">8.5.0 (06/01/2021)</h2>
+<ul>
+<li>Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.</li>
+<li>Write WBS and Activity notes to PMXML files.</li>
+<li>PMXML compatibility improvements to ensure files can be successfully imported into P6.</li>
+</ul>
+<h2 id="840-29122020">8.4.0 (29/12/2020)</h2>
+<ul>
+<li>Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.</li>
+<li>Read activity notepad entries for XER, PMXML files and P6 databases.</li>
+<li>Read schedule and leveling options from PMXML files and P6 databases.</li>
+<li>Improve support for reading activity cost and work from PMXML files.</li>
+</ul>
+<h2 id="835-15122020">8.3.5 (15/12/2020)</h2>
+<ul>
+<li>Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</li>
+</ul>
+<h2 id="834-10122020">8.3.4 (10/12/2020)</h2>
+<ul>
+<li>Updated PMXML schema to version 19.12.</li>
+<li>Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</li>
+<li>Updated the getPopulatedFields methods to ignore fields with default values.</li>
+<li>Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</li>
+<li>Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.</li>
+<li>Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.</li>
+<li>Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.</li>
+<li>Read assignment actual overtime cost and work attributes from PMXML files.</li>
+<li>Update calculation of assignment work, cost and units attributes for PMXML files.</li>
+</ul>
+<h2 id="833-24112020">8.3.3 (24/11/2020)</h2>
+<ul>
+<li>Added cost rate table support when reading from and writing to PMXML files.</li>
+<li>Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </li>
+<li>Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</li>
+<li>Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</li>
+<li>Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</li>
+<li>Align invalid XER record behaviour with P6.</li>
+<li>Handle Planner files which don't contain an allocations tag.</li>
+<li>Gracefully handle MPP files with missing view or table data.</li>
+</ul>
+<h2 id="832-22102020">8.3.2 (22/10/2020)</h2>
+<ul>
+<li>Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)</li>
+<li>Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)</li>
+<li>Improved handling of enterprise custom fields when reading MPP files</li>
+<li>Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.</li>
+<li>Improve handling of some MPP12 MPP file variants.</li>
+<li>Avoid error when reading timephased data from certain MPP files.</li>
+<li>Gracefully handle MPP files with missing view data.</li>
+<li>Update junit to 4.13.1.</li>
+</ul>
+<h2 id="831-14102020">8.3.1 (14/10/2020)</h2>
+<ul>
+<li>Minor updates to PlannerReader.</li>
+</ul>
+<h2 id="830-13102020">8.3.0 (13/10/2020)</h2>
+<ul>
+<li>Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.</li>
+<li>Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.</li>
+<li>Add support for writing expense items, expense categories and cost accounts to PMXML files.</li>
+<li>Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6</li>
+<li>Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.</li>
+<li>Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.</li>
+<li>Updated PMXML reader to avoid user defined field collisions.</li>
+<li>Updated PMXML reader to add setProjectID and listProjects methods.</li>
+<li>Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection</li>
+</ul>
+<h2 id="820-09092020">8.2.0 (09/09/2020)</h2>
+<ul>
+<li>All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.</li>
+<li>Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.</li>
+<li>Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.</li>
+<li>Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.</li>
+<li>Set export flag property when reading projects from a PMXML file.</li>
+<li>Corrected data type of resource assignment Work Contour field.</li>
+<li>Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.</li>
+<li>Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.</li>
+</ul>
+<h2 id="814-31082020">8.1.4 (31/08/2020)</h2>
+<ul>
+<li>Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</li>
+<li>Import milestone constraints from Asta schedules (Contributed by Dave McKay)</li>
+<li>Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)</li>
+<li>Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)</li>
+<li>Gracefully handle a missing table name when reading an XER file.</li>
+<li>Gracefully handle a unexpected calendar data when reading an XER file.</li>
+<li>Correctly handle XER files with multi-byte character encoding.</li>
+<li>Import all schedule and leveling options from XER files.</li>
+<li>Ensure project calendars are read from PMXML files.</li>
+<li>Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.</li>
+</ul>
+<h2 id="813-25062020">8.1.3 (25/06/2020)</h2>
+<ul>
+<li>Improve reliability when reading custom field values from certain MPP12 files.</li>
+<li>Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.</li>
+<li>Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.</li>
+<li>Improve accuracy of task durations when reading Asta schedules.</li>
+<li>Fix an issue handling the end date of calendar exceptions when reading Asta schedules.</li>
+<li>Fix an issue with correctly identifying the calendar applied to summary tasks when reading Asta schedules.</li>
+<li>Populate percent complete, duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.</li>
+<li>The percent complete value reported for tasks when reading Asta schedules is now Duration Percent Complete. The Overall Percent Complete value originally being returned is available in a custom field. </li>
+</ul>
+<h2 id="812-18062020">8.1.2 (18/06/2020)</h2>
+<ul>
+<li>Improve detection of unusual MSPDI file variants.</li>
+<li>Updated to read task notes from FastTrack FTS files.</li>
+</ul>
+<h2 id="811-17062020">8.1.1 (17/06/2020)</h2>
+<ul>
+<li>Improve support for Synchro 6.2 SP files.</li>
+</ul>
+<h2 id="810-11062020">8.1.0 (11/06/2020)</h2>
+<ul>
+<li>Experimental support for reading Project Commander schedules.</li>
+<li>Update to use JAXB 2.3.2.</li>
+<li>Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.</li>
+<li>Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.</li>
+<li>Improve accuracy of task order when reading Phoenix files.</li>
+<li>Improve accuracy of task data when reading some MPP file variants.</li>
+<li>Improve reliability when reading certain SureTrak files.</li>
+</ul>
+<h2 id="808-20042020">8.0.8 (20/04/2020)</h2>
+<ul>
+<li>Improve handling of numeric character references invalid for XML 1.0 in PMXML files.</li>
+<li>Improve handling of resource calendars read from Planner files.</li>
+<li>Improve handling of resource calendars read from MPX files.</li>
+<li>Ignore the milestone flag when reading MPX files if the task has a non-zero duration.</li>
+<li>Ensure JSON files can be written when Unique ID predecessor/successor attributes have been read from an MPX file.</li>
+</ul>
+<h2 id="807-17042020">8.0.7 (17/04/2020)</h2>
+<ul>
+<li>Updated to rtfparserkit 1.15.0.</li>
+<li>Improve handling of PMXML files with empty calendar exception time ranges.</li>
+</ul>
+<h2 id="806-05032020">8.0.6 (05/03/2020)</h2>
+<ul>
+<li>Updated to use POI 4.1.2.</li>
+<li>Improve handling of some XER file variants.</li>
+</ul>
+<h2 id="805-07022020">8.0.5 (07/02/2020)</h2>
+<ul>
+<li>Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.</li>
+<li>Ensure summary task start and finish dates are populated when reading PMXML files.</li>
+<li>Use baseline start and finish dates as planned start and finish dates when writing PMXML files.</li>
+<li>Late start and late finish dates are now written to PMXML files.</li>
+</ul>
+<h2 id="804-06022020">8.0.4 (06/02/2020)</h2>
+<ul>
+<li>Update sqlite-jdbc dependency to 3.30.1</li>
+<li>Improve handling of characters invalid for XML 1.0 in PMXML files generated by P6.</li>
+</ul>
+<h2 id="803-27012020">8.0.3 (27/01/2020)</h2>
+<ul>
+<li>Improve handling of zero value durations, costs and units from certain MPP files.</li>
+<li>Improve percent complete calculation for certain XER file and P6 Database schedules.</li>
+<li>Improve percent complete calculation for certain P3 schedules.</li>
+<li>Improve handling of incorrectly encoded characters in PMXML files generated by P6.</li>
+<li>Ensure that negative durations can be written to and read from MSPDI files in the format understood by MS Project.</li>
+</ul>
+<h2 id="802-16012020">8.0.2 (16/01/2020)</h2>
+<ul>
+<li>Improve handling of zero duration tasks read from Phoenix files.</li>
+</ul>
+<h2 id="801-05012020">8.0.1 (05/01/2020)</h2>
+<ul>
+<li>Add missing nuget dependency</li>
+</ul>
+<h2 id="800-02012020">8.0.0 (02/01/2020)</h2>
+<ul>
+<li>MPXJ now requires Java 8 or later.</li>
+<li>Removed deprecated methods.</li>
+<li>Updated to use POI 4.1.1.</li>
+<li>Updated to use IKVM 8.1.5717.0.</li>
+</ul>
+<h2 id="798-27122019">7.9.8 (27/12/2019)</h2>
+<ul>
+<li>Added support for reading and writing outline code/custom field lookup tables for MSPDI files.</li>
+<li>Added sample code to demonstrate creation of timephased work.</li>
+<li>Populate project status date attribute when reading Asta schedules.</li>
+<li>Populate parent attribute when reading activity code values from Primavera schedules.</li>
+<li>Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.</li>
+<li>Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.</li>
+</ul>
+<h2 id="797-25112019">7.9.7 (25/11/2019)</h2>
+<ul>
+<li>Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.</li>
+</ul>
+<h2 id="796-22112019">7.9.6 (22/11/2019)</h2>
+<ul>
+<li>Improve support for FastTrack files.</li>
+</ul>
+<h2 id="795-19112019">7.9.5 (19/11/2019)</h2>
+<ul>
+<li>Added flag to manage compliance with password protection. (Contributed by ztravis)</li>
+<li>Improve support for Synchro 6.1 SP files.</li>
+<li>Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.</li>
+</ul>
+<h2 id="794-08112019">7.9.4 (08/11/2019)</h2>
+<ul>
+<li>Add support for reading Sage 100 Contractor schedule grid files.</li>
+<li>Ensure attribute names are valid when exporting JSON.</li>
+<li>Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).</li>
+<li>Fix an issue when copying a calendar which has exceptions defined.</li>
+</ul>
+<h2 id="793-10092019">7.9.3 (10/09/2019)</h2>
+<ul>
+<li>Add support for reading task early finish and late finish attributes from Asta PP files.</li>
+<li>Ensure XER files containing secondary constraints can be read correctly.</li>
+<li>Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).</li>
+<li>Ensure base calendars are read correctly for P6 schedules.</li>
+<li>Ensure MPP files with unexpected auto filter definition data are handled gracefully.</li>
+<li>Preserve leveling delay format when reading tasks from MSPDI files.</li>
+<li>Ensure unexpected structure of timephased data is handled gracefully when reading MPP files.</li>
+</ul>
+<h2 id="792-19082019">7.9.2 (19/08/2019)</h2>
+<ul>
+<li>Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)</li>
+<li>Improve support for Synchro SP files containing blank tasks.</li>
+<li>Make constraint type mapping consistent when reading and writing PMXML files.</li>
+<li>Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).</li>
+<li>Improve handling of certain types of malformed MPP files.</li>
+<li>Improve handling of certain types of malformed SDEF files.</li>
+<li>Map P6 Equipment resource type to cost rather than work (Contributed by forenpm)</li>
+<li>Improve handling of certain MPP files containing large numbers of blank tasks.</li>
+<li>Improve handling of certain MPX files containing trailing delimiters.</li>
+</ul>
+<h2 id="791-01072019">7.9.1 (01/07/2019)</h2>
+<ul>
+<li>Set task start, finish and percent complete when reading SDEF files.</li>
+</ul>
+<h2 id="790-01072019">7.9.0 (01/07/2019)</h2>
+<ul>
+<li>Add support for reading SDEF files.</li>
+</ul>
+<h2 id="784-27062019">7.8.4 (27/06/2019)</h2>
+<ul>
+<li>Add support for reading data links (linked fields) configuration from MPP files.</li>
+<li>Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).</li>
+<li>Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.</li>
+<li>Ensure that activity codes are read for P6 schedules.</li>
+<li>Improve support for reading custom field values derived from custom field lookup tables in MPP files.</li>
+<li>Improve support for MPP files written with the June 2019 update of Microsoft Project.</li>
+</ul>
+<h2 id="783-24052019">7.8.3 (24/05/2019)</h2>
+<ul>
+<li>Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.</li>
+</ul>
+<h2 id="782-19052019">7.8.2 (19/05/2019)</h2>
+<ul>
+<li>Improve handling of MPP files with missing Props.</li>
+<li>Improve handling of custom field lookup tables for MPP12 files.</li>
+<li>Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)</li>
+<li>Improve handling of Activity Type and Activity ID when writing PMXML files (Based on a contribution by Sebastian Stock)</li>
+<li>Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)</li>
+<li>Improve handling of certain FTS files.</li>
+<li>Improve handling of task notes from MPP8 files.</li>
+<li>More accurately read predecessors and successors from Asta PP files (Based on a contribution by Dave McKay)</li>
+<li>When a schedule is read from P6, P3, or SureTrak, Task.getSummary will return true only if a task is part of the WBS</li>
+<li>Improve support for reading the Synchro Scheduler 2018 SP files.</li>
+<li>Added Task.hasChildTasks() method.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/330">Issue 330</a>: Splits data coming in as null for all tasks</li>
+</ul>
+<h2 id="781-13022019">7.8.1 (13/02/2019)</h2>
+<ul>
+<li>Improve support for reading the Synchro Scheduler 2018 SP files.</li>
+<li>Add support for reading Gantt Designer GNT files.</li>
+<li>Improve handling of non-standard MSPDI files.</li>
+<li>Improve handling of non-standard GanttProject files.</li>
+<li>Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.</li>
+<li>Improve support for reading user defined fields from PMXML files.</li>
+<li>Ignore hammock tasks when reading PP files.</li>
+</ul>
+<h2 id="780-18012019">7.8.0 (18/01/2019)</h2>
+<ul>
+<li>Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.</li>
+<li>Updated Java build to use Maven</li>
+<li>Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)</li>
+<li>Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/332">Issue 332</a>: Asta lag sign incorrect (Based on a contribution by Dave McKay)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/333">Issue 333</a>: Asta constraints lost (Contributed by Dave McKay)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/335">Issue 335</a>: MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)</li>
+</ul>
+<h2 id="771-23102018">7.7.1 (23/10/2018)</h2>
+<ul>
+<li>Read additional schedule options from XER files. (Contributed by forenpm)</li>
+<li>Improve handling of some types of MPP file with missing resource assignment data.</li>
+<li>Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).</li>
+<li>Ensure that timephased actual work is handled correctly for material resources (Contributed by Vadim Gerya).</li>
+<li>Improve accuracy when reading resource type from MPP files.</li>
+<li>Improve compatibility of generated MSPDI files with Asta Powerproject (Contributed by Dave McKay).</li>
+</ul>
+<h2 id="770-12102018">7.7.0 (12/10/2018)</h2>
+<ul>
+<li>Add support for reading the Synchro Scheduler SP files.</li>
+<li>Add support for reading the activity code (ID) from Asta files.</li>
+<li>When reading a Phoenix file, set the project's status date to the data date from the storepoint.</li>
+<li>Handle MSPDI files with timephased assignments that don't specify a start and end date.</li>
+</ul>
+<h2 id="763-04102018">7.6.3 (04/10/2018)</h2>
+<ul>
+<li>Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)</li>
+<li>Add support for reading Retained Logic and Progressive Override project attributes from P6. (Contributed by forenpm)</li>
+<li>Fix incorrect sign when calculating start and finish slack (Contributed by Brian Leach).</li>
+<li>Correctly read predecessors and successors from Phoenix files.</li>
+</ul>
+<h2 id="762-30082018">7.6.2 (30/08/2018)</h2>
+<ul>
+<li>Add support for nvarchar columns when reading from a P6 database.</li>
+<li>Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).</li>
+<li>Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).</li>
+</ul>
+<h2 id="761-29082018">7.6.1 (29/08/2018)</h2>
+<ul>
+<li>Improve handling of MPP files where MPXJ is unable to read the filter definitions.</li>
+<li>Improve handling of SureTrak projects without a WBS.</li>
+<li>Improve handling of SureTrak and P3 WBS extraction.</li>
+<li>Handle unsupported ProjectLibre POD files more gracefully.</li>
+<li>Improve detection of non MS Project compound OLE documents.</li>
+<li>Gracefully handle XER files which contain no projects.</li>
+</ul>
+<h2 id="760-13072018">7.6.0 (13/07/2018)</h2>
+<ul>
+<li>Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.</li>
+<li>Add support for reading the export_flag attribute from XER files. (Contributed by forenpm)</li>
+<li>Use correct licence details in Maven pom.xml (contributed by Mark Atwood).</li>
+<li>Improve UniversalProjectReader's handling of XER files containing multiple projects.</li>
+</ul>
+<h2 id="750-19062018">7.5.0 (19/06/2018)</h2>
+<ul>
+<li>Added support for reading activity codes from P6 databases, XER files, and PMXML files.</li>
+<li>Added support for reading user defined values from a P6 database.</li>
+<li>Added support for PRX files which contain a SureTrak database.</li>
+<li>Added support for reading the resource "enterprise" attribute from MPP12 and MPP14 files.</li>
+<li>Improve performance when reading user defined values from XER files.</li>
+<li>Improved support for older Primavera PMXML files.</li>
+<li>Updated to rtfparserkit 1.11.0 for improved RTF parsing.</li>
+</ul>
+<h2 id="744-06062018">7.4.4 (06/06/2018)</h2>
+<ul>
+<li>Improve handling of calendar exceptions in MPX files.</li>
+<li>Improve handling of MPP files with large numbers of null tasks.</li>
+<li>Improve robustness when reading timephased data.</li>
+<li>Correctly sort Primavera schedules containing WBS entries with no child activities.</li>
+</ul>
+<h2 id="743-25052018">7.4.3 (25/05/2018)</h2>
+<ul>
+<li>Add support for reading the resource "generic" attribute from MPP files.</li>
+<li>Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.</li>
+<li>Store the Primavera Project ID as Unique ID in the project properties.</li>
+<li>Update MerlinReader to ensure support for Merlin Project Pro 5.</li>
+</ul>
+<h2 id="742-30042018">7.4.2 (30/04/2018)</h2>
+<ul>
+<li>Gracefully handle malformed duration values in MSPDI files.</li>
+<li>Gracefully handle unexpected calendar exception data structure in certain MPP files.</li>
+<li>Improve handling of certain unusual MPP12 files.</li>
+<li>More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</li>
+</ul>
+<h2 id="741-16042018">7.4.1 (16/04/2018)</h2>
+<ul>
+<li>Add methods to list projects available in P3 and SureTrak database directories.</li>
+<li>Avoid NPE when a work pattern can't be located in an Asta Powerproject PP file.</li>
+<li>Avoid array bounds exception when reading certain PRX files.</li>
+<li>Read outline code value lists from MPP9 files.</li>
+<li>Handle SureTrak projects without a WBS.</li>
+</ul>
+<h2 id="740-23032018">7.4.0 (23/03/2018)</h2>
+<ul>
+<li>Added support for reading Primavera SureTrak databases from directories, zip files, and STX files.</li>
+<li>Added support for PP files generated by Asta Powerproject from version 13.0.0.1</li>
+</ul>
+<h2 id="730-12032018">7.3.0 (12/03/2018)</h2>
+<ul>
+<li>Added support for reading Primavera P3 databases from directories, zip files, and PRX files.</li>
+<li>Improve robustness when reading MPP files containing apparently invalid custom field data.</li>
+<li>Improve UniversalProjectReader byte order mark handling.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/324">Issue 324</a>: Fields with lookup unreadable when a field has custom name.</li>
+</ul>
+<h2 id="721-26012018">7.2.1 (26/01/2018)</h2>
+<ul>
+<li>More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.</li>
+<li>Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.</li>
+<li>UniversalProjectReader updated to recognise MPX files with non-default separator characters.</li>
+<li>Update FastTrack reader to handle invalid percentage values on resource assignments.</li>
+<li>Update FastTrack reader to handle variations in UUID format.</li>
+<li>Read the full project name from XER files and the Primavera database and store it in the project title attribute.</li>
+</ul>
+<h2 id="720-18012018">7.2.0 (18/01/2018)</h2>
+<ul>
+<li>Added support for reading TurboProject PEP files.</li>
+<li>Handle numeric values with leading spaces in XER files.</li>
+<li>Fix array bounds error when reading constraints from certain MPP files.</li>
+</ul>
+<h2 id="710-03012018">7.1.0 (03/01/2018)</h2>
+<ul>
+<li>Added support for reading GanttProject GAN files.</li>
+<li>Ensure that calendar exception dates are read correctly from XER files and P6 databases regardless of the user's timezone.</li>
+<li>Read working day calendar exceptions from XER files and P6 database.</li>
+<li>Mark some ProjectFile methods as deprecated.</li>
+</ul>
+<h2 id="703-21122017">7.0.3 (21/12/2017)</h2>
+<ul>
+<li>Use the Windows-1252 character set as the default when reading XER files.</li>
+<li>Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.</li>
+<li>Handle recurring calendar exceptions read from MSPDI files without an occurrence count.</li>
+<li>Improve robustness of FastTrack schedule reader.</li>
+<li>Avoid reading empty calendar exceptions from MPX files.</li>
+</ul>
+<h2 id="702-20112017">7.0.2 (20/11/2017)</h2>
+<ul>
+<li>Further improvements to task pruning for Asta PP files.</li>
+</ul>
+<h2 id="701-20112017">7.0.1 (20/11/2017)</h2>
+<ul>
+<li>Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</li>
+<li>Populate the project's comments property when reading an MSPDI file.</li>
+<li>Ensure that tasks are not discarded when reading PP files from older Asta versions.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/319">Issue 319</a>: Wrong date ranges for split tasks</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/222">Issue 222</a>: getDefaultTaskType() not returning correct default task type</li>
+</ul>
+<h2 id="700-08112017">7.0.0 (08/11/2017)</h2>
+<ul>
+<li>Added support for reading recurring exceptions from MPP and MSPDI files.</li>
+<li>Updated RecurringTask class interface (Note: this is a breaking API change)</li>
+<li>MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)</li>
+<li>Correctly handle MSPDI files with Byte Order Marks.</li>
+<li>Handle MSPDI files with varying namespaces.</li>
+<li>Improve robustness Merlin file reader.</li>
+<li>Improve extraction of task start and finish dates from PMXML files only containing partial data.</li>
+<li>Prevent POI from closing the input stream when using UniversalProjectReader</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/321">Issue 321</a>: Cannot read mpp file using getProjectReader.</li>
+</ul>
+<h2 id="621-11102017">6.2.1 (11/10/2017)</h2>
+<ul>
+<li>Gracefully handle corrupt MPP files.</li>
+<li>Improve reading and writing slack values for MSPDI files.</li>
+<li>Improve activity hierarchy extraction from Phoenix files.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/243">Issue 243</a>: MSPDI Slack values not correctly set while loading.</li>
+</ul>
+<h2 id="620-06102017">6.2.0 (06/10/2017)</h2>
+<ul>
+<li>Added support for reading Work Weeks from MPP files.</li>
+<li>Add support for calendar exception names for MPP and MSPDI files.</li>
+<li>Updated to use POI 3.17.</li>
+<li>Improve accuracy of calendar exception dates read from XER files and P6 database.</li>
+<li>Only write non-default user-defined field values to a PMXML file.</li>
+<li>Use Primavera P6 17.7 XML schema.</li>
+<li>Gracefully handle corrupt document summary information in MPP files.</li>
+<li>Don't duplicate exceptions when reading from an MSPDI file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/231">Issue 231</a>: MPP DataType: Non-unique enumeration value.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/258">Issue 258</a>: Calendar Work Week missing from MPP data extraction.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/318">Issue 318</a>: TimephasedWork Negative TotalAmount.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/320">Issue 320</a>: Date conversion fails in PrimaveraReader.</li>
+</ul>
+<h2 id="612-12092017">6.1.2 (12/09/2017)</h2>
+<ul>
+<li>Gracefully handle incomplete records in XER files.</li>
+</ul>
+<h2 id="611-30082017">6.1.1 (30/08/2017)</h2>
+<ul>
+<li>Ensure all classes in the gem are required</li>
+</ul>
+<h2 id="610-28072017">6.1.0 (28/07/2017)</h2>
+<ul>
+<li>Provide Task.getEffectiveCalendar() method</li>
+<li>Populate missing finish dates in MSPDI files</li>
+</ul>
+<h2 id="600-22072017">6.0.0 (22/07/2017)</h2>
+<ul>
+<li>Gracefully handle invalid calendar data in XER files.</li>
+<li>Handle XER files containing blank lines.</li>
+<li>Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).</li>
+<li>Include overtime in work and cost fields when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Read default project calendar from P6 (Contributed by Brandon Herzog).</li>
+<li>Read resource rate and assignment units from P6 (Contributed by Brandon Herzog).</li>
+<li>Set ignore resource calendar flag for tasks from P6 (Contributed by Brandon Herzog).</li>
+<li>Change P6 costs to be calculated from resource assignment to support XER files without the cost table (Contributed by Brandon Herzog).</li>
+<li>Map anticipated end date to deadline for P6 (Contributed by Brandon Herzog).</li>
+<li>Update task work to include actual and remaining work when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Calculate summary task work fields by summing up children when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Set task project name when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Fix "00:00" calendar finish times to parse as end of day when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Add default working hours if a calendar does not specify any hours when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Read fiscal year start month from P6 (Contributed by Brandon Herzog).</li>
+<li>Fix bug in rollup of child task dates containing null values that could set incorrect end date when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Fix date offset in parse of P6 calendar exceptions (Contributed by Brandon Herzog).</li>
+<li>Fix count of P6 UDFs that map to same data type (Contributed by Brandon Herzog).</li>
+<li>Add support for reading Resource and Assignment UDFs from P6 (Contributed by Brandon Herzog).</li>
+<li>Update P6 UDFs to fill into multiple field types to expand storage capacity, for example into TEXT and ENTERPRISE_TEXT (Contributed by Brandon Herzog).</li>
+<li>Use only the WBS as activity code for WBS tasks instead of also appending name for P6 tasks (Contributed by Brandon Herzog).</li>
+<li>Add the ability to link task Relations that cross project boundaries in XER files (Contributed by Brandon Herzog).</li>
+<li>Add function to clear all exceptions from ProjectCalendar instances (Contributed by Brandon Herzog).</li>
+<li>Reading the lag calendar scheduling option as the "LagCalendar" custom project property when reading from P6 (Contributed by Brandon Herzog).</li>
+<li>Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).</li>
+</ul>
+<h2 id="5140-13072017">5.14.0 (13/07/2017)</h2>
+<ul>
+<li>Improve handling of activity codes read from Phoenix files</li>
+<li>Calculate percent complete for tasks read from Phoenix files</li>
+<li>Populate task duration with Original Duration attribute when reading from XER files or P6 databases.</li>
+<li>Ensure that task finish dates are read correctly from Phoenix files.</li>
+<li>Improve UniversalProjectReader's handling of non-MPP OLE compound documents.</li>
+<li>Improve task hierarchy and ordering when reading some MPP files.</li>
+</ul>
+<h2 id="5130-27062017">5.13.0 (27/06/2017)</h2>
+<ul>
+<li>Further improve handling of WBS, bar, and task structure from Asta files.</li>
+</ul>
+<h2 id="5120-26062017">5.12.0 (26/06/2017)</h2>
+<ul>
+<li>Improve handling of WBS, bar, and task structure from Asta files.</li>
+</ul>
+<h2 id="5110-20062017">5.11.0 (20/06/2017)</h2>
+<ul>
+<li>Improve handling of malformed durations in MSPDI files.</li>
+<li>Improve performance when reading MPP files with certain kinds of timephased data.</li>
+<li>Raise a specific "password protected" exception type from the Ruby gem.</li>
+<li>Fix an issue with the storage of the "earned value method" task attribute.</li>
+</ul>
+<h2 id="5100-23052017">5.10.0 (23/05/2017)</h2>
+<ul>
+<li>Improve handling of deleted tasks in MPP files.</li>
+<li>Improve handling of invalid predecessor tasks in MPX files.</li>
+<li>Improve handling of invalid saved view state in MPP files.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/313">Issue 313</a>: Empty baseline dates populated with garbage date instead of null.</li>
+</ul>
+<h2 id="590-27042017">5.9.0 (27/04/2017)</h2>
+<ul>
+<li>Add support for reading ProjectLibre POD files (from ProjectLibre version 1.5.5 onwards).</li>
+<li>Correct getter method name for "file application" project property.</li>
+</ul>
+<h2 id="580-21042017">5.8.0 (21/04/2017)</h2>
+<ul>
+<li>Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).</li>
+<li>Improve support for estimated durations in Merlin files.</li>
+<li>Read task notes from Asta files.</li>
+<li>Improve support for reading resource rates from Phoenix files.</li>
+<li>Add "file application" and "file type" to project properties to determine source of schedule data.</li>
+</ul>
+<h2 id="571-22032017">5.7.1 (22/03/2017)</h2>
+<ul>
+<li>Improve support for Phoenix Project Manager XML files.</li>
+</ul>
+<h2 id="570-20032017">5.7.0 (20/03/2017)</h2>
+<ul>
+<li>Add support for FastTrack Schedule files.</li>
+<li>Ensure that timephased data calculations correctly handle entry to and exit from DST.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/306">Issue 306</a>: Microsoft Project 2016:  Issue with assignment 'Work Contour' attribute.</li>
+</ul>
+<h2 id="565-07032017">5.6.5 (07/03/2017)</h2>
+<ul>
+<li>Improve handling of invalid calendar data in MSPDI files</li>
+<li>Improve handling of XER files containing multi-line records</li>
+<li>Improve handling of malformed MPX files</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/308">Issue 308</a>: Add support for elapsed percent to MSPDI writer</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/310">Issue 310</a>: MPX percent lag incorrect</li>
+</ul>
+<h2 id="564-16022017">5.6.4 (16/02/2017)</h2>
+<ul>
+<li>UniversalProjectReader now recognises and handles byte order marks</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/307">Issue 307</a>: TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files</li>
+</ul>
+<h2 id="563-08022017">5.6.3 (08/02/2017)</h2>
+<ul>
+<li>Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.</li>
+<li>Updated to rtfparserkit 1.10.0 for improved RTF parsing.</li>
+</ul>
+<h2 id="562-06022017">5.6.2 (06/02/2017)</h2>
+<ul>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/305">Issue 305</a>: Failed to Parse error with Primavera 15.2 or 16.1 XML files</li>
+</ul>
+<h2 id="561-03022017">5.6.1 (03/02/2017)</h2>
+<ul>
+<li>Correct resource assignment handling for Phoenix Project Manager schedules.</li>
+</ul>
+<h2 id="560-29012017">5.6.0 (29/01/2017)</h2>
+<ul>
+<li>Add support for Phoenix Project Manager schedules.</li>
+</ul>
+<h2 id="559-27012017">5.5.9 (27/01/2017)</h2>
+<ul>
+<li>Improve robustness of date parsing for MPX files.</li>
+</ul>
+<h2 id="558-23012017">5.5.8 (23/01/2017)</h2>
+<ul>
+<li>Fix NPE when reading graphical indicators with unknown field type.</li>
+</ul>
+<h2 id="557-13012017">5.5.7 (13/01/2017)</h2>
+<ul>
+<li>Fix percent complete NaN value for some Primavera schedules.</li>
+</ul>
+<h2 id="556-06012017">5.5.6 (06/01/2017)</h2>
+<ul>
+<li>Fix incorrectly set critical flag for primavera schedules.</li>
+</ul>
+<h2 id="555-06012017">5.5.5 (06/01/2017)</h2>
+<ul>
+<li>Updated to rtfparserkit 1.9.0 for improved RTF parsing</li>
+<li>Improve calendar exception parsing for Primavera XER and database readers.</li>
+<li>Ensure the task summary flag is set correctly for Primavera schedules.</li>
+<li>Rollup baseline, early and late start and finish dates to WBS for Primavera schedules.</li>
+<li>Rollup baseline duration, remaining duration and percent complete to WBS for Primavera schedules.</li>
+<li>Use the project's critical slack limit value when setting the critical flag on a task.</li>
+<li>Experimental support for reading Merlin Project schedules.</li>
+</ul>
+<h2 id="554-01122016">5.5.4 (01/12/2016)</h2>
+<ul>
+<li>Default to UTF-8 encoding when generating JSON files</li>
+</ul>
+<h2 id="553-29112016">5.5.3 (29/11/2016)</h2>
+<ul>
+<li>Correctly read text from MPP files when default charset is not UTF-8.</li>
+<li>Improve accuracy when reading MPP9 files.</li>
+</ul>
+<h2 id="552-02112016">5.5.2 (02/11/2016)</h2>
+<ul>
+<li>Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).</li>
+<li>PMXML writer generates currency record (Based on a contribution by Dave McKay).</li>
+<li>PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).</li>
+<li>PMXML writer records currency and parent attributes for Resource (Based on a contribution by Dave McKay).</li>
+<li>PMXML writer resource assignments include RateSource and ActualOvertimeUnits attributes(Based on a contribution by Dave McKay).</li>
+<li>MSPDI reader: gracefully handle invalid calendar exceptions..</li>
+<li>PMXML writer: gracefully handle missing data.</li>
+<li>Planner writer: gracefully handle missing data.</li>
+</ul>
+<h2 id="551-14102016">5.5.1 (14/10/2016)</h2>
+<ul>
+<li>Update universal project reader to support zip files.</li>
+<li>Update ruby to align error handling with universal project reader.</li>
+</ul>
+<h2 id="550-13102016">5.5.0 (13/10/2016)</h2>
+<ul>
+<li>Universal project reader.</li>
+<li>Avoid NPE when reading PMXML files.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/297">Issue 297</a>: Missing extended attributes</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/300">Issue 300</a>: CrossProject field omission causes issues when importing to P6</li>
+</ul>
+<h2 id="540-06102016">5.4.0 (06/10/2016)</h2>
+<ul>
+<li>Updated to use POI 3.15.</li>
+</ul>
+<h2 id="533-31082016">5.3.3 (31/08/2016)</h2>
+<ul>
+<li>Avoid NPE when field type is unknown.</li>
+<li>Improve Ruby error reporting.</li>
+<li>Improve support for non-standard time formats in MPX files</li>
+<li>Improve support for MPP14 files with very large numbers of blank tasks</li>
+</ul>
+<h2 id="532-31082016">5.3.2 (31/08/2016)</h2>
+<ul>
+<li>When reading an XER file, treat FT_STATICTPYE user defined fields as text.</li>
+</ul>
+<h2 id="531-01072016">5.3.1 (01/07/2016)</h2>
+<ul>
+<li>Add data date attribute to PMXML output.</li>
+<li>Update PMXML writer to avoid NPE.</li>
+<li>Update PMXML writer to allow task field used for Activity ID to be chosen.</li>
+<li>Updated to avoid NPE when reading an XER file where project not under EPS.</li>
+<li>Generate Task IDs if missing from MSPDI file</li>
+</ul>
+<h2 id="530-10062016">5.3.0 (10/06/2016)</h2>
+<ul>
+<li>Add support for PP files generated by Asta Powerproject from version 13.0.0.3 onwards</li>
+<li>Minor improvements to SDEF support.</li>
+<li>Updated to rtfparserkit 1.8.0</li>
+<li>Improve finish time handling in PMXML files (contributed by lobmeleon)</li>
+</ul>
+<h2 id="522-11032016">5.2.2 (11/03/2016)</h2>
+<ul>
+<li>Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/291">Issue 291</a>: PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/292">Issue 292</a>: Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment</li>
+</ul>
+<h2 id="521-11022016">5.2.1 (11/02/2016)</h2>
+<ul>
+<li>Add support for PP files generated by Asta Powerproject up to version 13.0.0.3</li>
+</ul>
+<h2 id="520-08022016">5.2.0 (08/02/2016)</h2>
+<ul>
+<li>Add support for PP files generated by Asta Powerproject 11, Powerproject 12, Easyplan 2, Easyplan 3, Easyplan 4, Easyplan 5 and Easyplan 6</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/285">Issue 285</a>: Unsupported encoding command ansicpg949</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/288">Issue 288</a>: AvailabilityTable getEntryByDate does not work properly</li>
+</ul>
+<h2 id="5118-25012016">5.1.18 (25/01/2016)</h2>
+<ul>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/285">Issue 285</a>: Unsupported encoding command ansicpg1254</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/286">Issue 286</a>: NullPointerException in CriteriaReader.getConstantValue</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/287">Issue 287</a>: Allow a character encoding to be specified when reading an XER file</li>
+<li>Write Primavera Primary Resource Unique ID to Task field Number1</li>
+</ul>
+<h2 id="5117-30122015">5.1.17 (30/12/2015)</h2>
+<ul>
+<li>Improve support for reading MPP files generated by Project 2016</li>
+<li>Handle missing time component of a time stamp field when reading an MPX file.</li>
+</ul>
+<h2 id="5116-18122015">5.1.16 (18/12/2015)</h2>
+<ul>
+<li>Improve support for reading MPX files generated by SureTrak</li>
+</ul>
+<h2 id="5115-16122015">5.1.15 (16/12/2015)</h2>
+<ul>
+<li>Fix WBS and Activity ordering for tasks from Primavera.</li>
+</ul>
+<h2 id="5114-09122015">5.1.14 (09/12/2015)</h2>
+<ul>
+<li>Strip unescaped control characters from JSON output.</li>
+</ul>
+<h2 id="5113-26112015">5.1.13 (26/11/2015)</h2>
+<ul>
+<li>For schedules imported from Primavera ensure tasks representing activities are ordered by Activity ID within the WBS to match Primavera.</li>
+</ul>
+<h2 id="5112-16112015">5.1.12 (16/11/2015)</h2>
+<ul>
+<li>Avoid NPE when writing MSPDI files with timephased data  (contributed by Bruno Gasnier)</li>
+<li>Improve resource assignment constructor (based on a contribution by Bruno Gasnier)</li>
+<li>Improve MPX French translations (contributed by Bruno Gasnier)</li>
+<li>Add calendar specific minutes per day, week, month, and year (based on a contribution by Bruno Gasnier)</li>
+<li>Add support for reading and writing GUID attribute for PMXML, XER files and Primavera database.</li>
+</ul>
+<h2 id="5111-12112015">5.1.11 (12/11/2015)</h2>
+<ul>
+<li>Avoid NPE when reading MPP14 custom properties.</li>
+<li>Ensure calculated task attributes are present in JSON output.</li>
+<li>Handle MSPDI files written by German versions of Microsoft Project (based on a contribution by Lord Helmchen)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/277">Issue 277</a>: synchronizeTaskIDToHierarchy clears list of tasks</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/273">Issue 273</a>: PrimaveraPMFileWriter throws Exception at write(..)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/281">Issue 281</a>: Parent task is always null when reading a Primavera XER file</li>
+<li>Ensure that Task.getSuccesors() and Task.getPredecessors() return an empty list rather than null.</li>
+</ul>
+<h2 id="5110-09092015">5.1.10 (09/09/2015)</h2>
+<ul>
+<li>Improve FixedMeta2 block size heuristic to improve reliability when reading MPP14 files.</li>
+</ul>
+<h2 id="519-29082015">5.1.9 (29/08/2015)</h2>
+<ul>
+<li>Ensure Resource BookingType is read correctly from MPP files</li>
+<li>Added basic custom field attributes to JSON output</li>
+<li>Added Ruby methods to work with custom field aliases</li>
+<li>Fix to infinite loop condition when writing calendar (contributed by lobmeleon)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/274">Issue 274</a>: MPXJ getNotes() API returns garbled value for multibyte characters</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/268">Issue 268</a>: Unsupported encoding error when reading resource notes</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/256">Issue 256</a>: Incorrect resource types are read (contributed by Colin Rodriguez)</li>
+<li>Symmetry between Primavera PM reader/writer (contributed by lobmeleon)</li>
+<li>Added UDF support to PMXML file reader and writer(contributed by lobmeleon)</li>
+<li>Updated to rtfparserkit 1.4.0</li>
+</ul>
+<h2 id="518-13072015">5.1.8 (13/07/2015)</h2>
+<ul>
+<li>Another attempt at getting tzinfo-data dependency working</li>
+</ul>
+<h2 id="517-13072015">5.1.7 (13/07/2015)</h2>
+<ul>
+<li>Updated ruby gem to make tzinfo-data dependency conditional on platform</li>
+</ul>
+<h2 id="516-13072015">5.1.6 (13/07/2015)</h2>
+<ul>
+<li>Updated ruby gem to allow timezone to be provided</li>
+</ul>
+<h2 id="515-05062015">5.1.5 (05/06/2015)</h2>
+<ul>
+<li>Updated to use IKVM 8.0.5449.1</li>
+</ul>
+<h2 id="514-03062015">5.1.4 (03/06/2015)</h2>
+<ul>
+<li>Updated to generate Activity ID for Primavera WBS.</li>
+<li>Updated to correct Primavera duration percent complete calculation.</li>
+</ul>
+<h2 id="513-18052015">5.1.3 (18/05/2015)</h2>
+<ul>
+<li>Updated to ensure Ruby reads Boolean attributes correctly.</li>
+</ul>
+<h2 id="512-18052015">5.1.2 (18/05/2015)</h2>
+<ul>
+<li>Updated to ensure Ruby recognises short type as an integer.</li>
+</ul>
+<h2 id="511-18052015">5.1.1 (18/05/2015)</h2>
+<ul>
+<li>Updated to use ruby-duration gem to avoid conflict with ActiveSupport::Duration.</li>
+</ul>
+<h2 id="510-17052015">5.1.0 (17/05/2015)</h2>
+<ul>
+<li>Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string</li>
+<li>Ensure conversion to/from .Net DateTime takes account of timezone and daylight savings (based on a contribution by Timour Koupeev)</li>
+<li>Updated to use POI 3.12.</li>
+<li>Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</li>
+<li>Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias</li>
+</ul>
+<h2 id="500-06052015">5.0.0 (06/05/2015)</h2>
+<ul>
+<li>Added project properties to the JSON output</li>
+<li>Added support for project properties to the Ruby wrapper</li>
+<li>Added support for reading data from a standalone Primavera P6 SQLite database</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/267">Issue 267</a>: XXE security vulnerability</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/266">Issue 266</a>: Task Number fields not saved to file if the value would floor to zero</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/255">Issue 255</a>: Not all project calendars are read in for Project 2013 files (based on a contribution by Colin Rodriguez)</li>
+<li>Renamed TaskContainer class to ChildTaskContainer</li>
+<li>Renamed ProjectHeader class to ProjectProperties</li>
+<li>Introduced ProjectConfig class</li>
+<li>Introduced TaskContainer class</li>
+<li>Introduced ResourceContainer class</li>
+<li>Introduced ResourceAssignmentContainer class</li>
+<li>Introduced ProjectCalendarContainer class</li>
+<li>Renamed ProjectFile.getProjectHeader to getProjectProperties</li>
+<li>Renamed ProjectFile.getCalendar to getDefaultCalendar</li>
+<li>Renamed ProjectFile.setCalendar to setDefaultCalendar</li>
+<li>Renamed MppReader.getReadHeaderOnly to getReadPropertiesOnly</li>
+<li>Renamed MppReader.setReadHeaderOnly to setReadPropertiesOnly</li>
+<li>Renamed ProjectFile.getCalendarUniqueID to ProjectConfig.getNextCalendarUniqueID</li>
+<li>Renamed ProjectFile.getResourceUniqueID to ProjectConfig.getNextResourceUniqueID</li>
+<li>Renamed ProjectFile.getTaskUniqueID to ProjectConfig.getNextTaskUniqueID</li>
+<li>Renamed ProjectFile.getAssignmentUniqueID to ProjectConfig.getNextAssignmentUniqueID</li>
+<li>Renamed ProjectFile.getResourceID to ProjectConfig.getNextResourceID</li>
+<li>Renamed ProjectFile.getTaskID to ProjectConfig.getNextTaskID</li>
+<li>Renamed ProjectHeader.getApplicationName to getShortApplicationName</li>
+<li>Renamed ProjectHeader.setApplicationName to setShortApplicationName</li>
+<li>Renamed ProjectHeader.setCalendarName to setDefaultCalendarName</li>
+<li>Renamed ProjectHeader.getCalendarName to getDefaultCalendarName</li>
+<li>Moved ProjectFile.getProjectFilePath to ProjectHeader.getProjectFilePath</li>
+<li>Moved ProjectFile.setProjectFilePath to ProjectHeader.setProjectFilePath</li>
+<li>Moved ProjectFile.getApplicationName to ProjectHeader.getFullApplicationName</li>
+<li>Moved ProjectFile.setApplicationName to ProjectHeader.setFullApplicationName</li>
+<li>Moved FileCreationRecord.setDelimiter to ProjectHeader.setMpxDelimiter</li>
+<li>Moved FileCreationRecord.getDelimiter to ProjectHeader.getMpxDelimiter</li>
+<li>Moved FileCreationRecord.setProgramName to ProjectHeader.setMpxProgramName</li>
+<li>Moved FileCreationRecord.getProgramName to ProjectHeader.getMpxProgramName</li>
+<li>Moved FileCreationRecord.setFileVersion to ProjectHeader.setMpxFileVersion</li>
+<li>Moved FileCreationRecord.getFileVersion to ProjectHeader.getMpxFileVersion</li>
+<li>Moved FileCreationRecord.setCodePage to ProjectHeader.setMpxCodePage</li>
+<li>Moved FileCreationRecord.getCodePage to ProjectHeader.getMpxCodePage</li>
+<li>Moved ProjectFile.getMppFileType to ProjectHeader.getMppFileType</li>
+<li>Moved ProjectFile.setMppFileType to ProjectHeader.setMppFileType</li>
+<li>Moved ProjectFile.getApplicationVersion to ProjectHeader.getApplicationVersion</li>
+<li>Moved ProjectFile.setApplicationVersion to ProjectHeader.setApplicationVersion</li>
+<li>Moved ProjectFile.setAutoFilter to ProjectHeader.setAutoFilter</li>
+<li>Moved ProjectFile.getAutoFilter to ProjectHeader.getAutoFilter</li>
+<li>Removed ProjectFile.getAliasTaskField, replaced by ProjectFile.getTaskFieldAliases().getField()</li>
+<li>Removed ProjectFile.getAliasResourceField, replaced by ProjectFile.getResourceFieldAliases().getField()</li>
+<li>Removed ProjectFile.getTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().getAlias()</li>
+<li>Removed ProjectFile.setTaskFieldAlias, replaced by ProjectFile.getTaskFieldAliases().setAlias()</li>
+<li>Removed ProjectFile.getResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().getAlias()</li>
+<li>Removed ProjectFile.setResourceFieldAlias, replaced by ProjectFile.getResourceFieldAliases().setAlias()</li>
+<li>Removed ProjectFile.getTaskFieldAliasMap, replaced by ProjectFile.getTaskFieldAliases</li>
+<li>Removed ProjectFile.getResourceFieldAliasMap, replaced by ProjectFile.getResourceFieldAliases</li>
+<li>Removed ProjectFile.addTable, replaced by ProjectFile.getTables().add()</li>
+<li>Removed ProjectFile.getTaskTableByName, replaced by ProjectFile.getTables().getTaskTableByName()</li>
+<li>Removed ProjectFile.getResourceTableByName, replaced by ProjectFile.getTables().getResourceTableByName()</li>
+<li>Removed ProjectFile.addFilter, replaced by ProjectFile.getFilters().addFilter()</li>
+<li>Removed ProjectFile.removeFilter, replaced by ProjectFile.getFilters().rmoveFilter()</li>
+<li>Removed ProjectFile.getAllResourceFilters, replaced by ProjectFile.getFilters().getResourceFilters()</li>
+<li>Removed ProjectFile.getAllTaskFilters, replaced by ProjectFile.getFilters().getTaskFilters()</li>
+<li>Removed ProjectFile.getFilterByName, replaced by ProjectFile.getFilters().getFilterByName()</li>
+<li>Removed ProjectFile.getFilterByID, replaced by ProjectFile.getFilters().getFilterByID()</li>
+<li>Removed ProjectFile.getAllGroups, replaced by ProjectFile.getGroups()</li>
+<li>Removed ProjectFile.getGroupByName, replaced by ProjectFile.getGroups().getByName()</li>
+<li>Removed ProjectFile.addGroups, replaced by ProjectFile.getGroups().add()</li>
+<li>Removed ProjectFile.addView, replaced by ProjectFile.getViews().add()</li>
+<li>Removed ProjectFile.setViewState, replaced by ProjectFile.getViews().setViewState()</li>
+<li>Removed ProjectFile.getViewState, replaced by ProjectFile.getViews().getViewState()</li>
+<li>Removed ProjectFile.getResourceSubProject, replaced by ProjectFile.getSubProjects().getResourceSubProject()</li>
+<li>Removed ProjectFile.setResourceSubProject, replaced by ProjectFile.getSubProjects().setResourceSubProject()</li>
+<li>Removed ProjectFile.addSubProject, replaced by ProjectFile.getSubProjects().add()</li>
+<li>Removed ProjectFile.getAllSubProjects, replaced by ProjectFile.getSubProjects</li>
+<li>Removed ProjectFile.fireTaskReadEvent, replaced by ProjectFile.getEventManager().fireTaskReadEvent()</li>
+<li>Removed ProjectFile.fireTaskWrittenEvent, replaced by ProjectFile.getEventManager().fireTaskWrittenEvent()</li>
+<li>Removed ProjectFile.fireResourceReadEvent, replaced by ProjectFile.getEventManager().fireResourceReadEvent()</li>
+<li>Removed ProjectFile.fireResourceWrittenEvent, replaced by ProjectFile.getEventManager().fireResourceWrittenEvent()</li>
+<li>Removed ProjectFile.fireCalendarReadEvent, replaced by ProjectFile.getEventManager().fireCalendarReadEvent()</li>
+<li>Removed ProjectFile.fireAssignmentReadEvent, replaced by ProjectFile.getEventManager().fireAssignmentReadEvent()</li>
+<li>Removed ProjectFile.fireAssignmentWrittenEvent, replaced by ProjectFile.getEventManager().fireAssignmentWrittenEvent()</li>
+<li>Removed ProjectFile.fireRelationReadEvent, replaced by ProjectFile.getEventManager().fireRelationReadEvent()</li>
+<li>Removed ProjectFile.fireRelationWrittenEvent, replaced by ProjectFile.getEventManager().fireRelationWrittenEvent()</li>
+<li>Removed ProjectFile.fireCalendarWrittenEvent, replaced by ProjectFile.getEventManager().fireCalendarWrittenEvent()</li>
+<li>Removed ProjectFile.addProjectListener, replaced by ProjectFile.getEventManager().addProjectListener()</li>
+<li>Removed ProjectFile.addProjectListeners, replaced by ProjectFile.getEventManager().addProjectListeners()</li>
+<li>Removed ProjectFile.removeProjectListener, replaced by ProjectFile.getEventManager().removeProjectListener()</li>
+<li>Removed ProjectFile.addGraphicalIndicator</li>
+<li>Removed ProjectFile.getGraphicalIndicator, replaced by ProjectFile.getCustomFields().getCustomField().getGraphicalIndicator()</li>
+</ul>
+<h2 id="476-18032015">4.7.6 (18/03/2015)</h2>
+<ul>
+<li>Added a Ruby wrapper for MPXJ</li>
+<li>Added the ability to export project data as JSON, to make it easier to work with in languages other than Java</li>
+<li>Added support for the Assignment attribute Resource Request Type</li>
+<li>Primavera database and XER readers updated to match WBS visible in Primavera for each task. Previous behaviour of generating a unique WBS for each task can be restored using a flag set on the readers.</li>
+<li>Avoid NPE when calculating Task Completed Through</li>
+<li>Read Task Earned Value Method correctly from MPP files</li>
+<li>Fix issue where some floating point attributes were returning NaN</li>
+</ul>
+<h2 id="475-27022015">4.7.5 (27/02/2015)</h2>
+<ul>
+<li>Handle invalid Primavera calendar data gracefully</li>
+</ul>
+<h2 id="474-25022015">4.7.4 (25/02/2015)</h2>
+<ul>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/257">Issue 257</a>: Failed to read project containing CodePage 1250 text.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/259">Issue 259</a>: MS Project 2010: tasks with null baseline dates</li>
+<li>Incorrect task end date read from Primavera XER and database</li>
+<li>Incorrect percent complete read from Primavera XER, database, and PMXML files</li>
+<li>Failed to read fields held at the end of a fixed data block</li>
+<li>Added support for Task Baseline Estimated Duration, Baseline Estimated Start, Baseline Estimated Finish, Baseline Fixed Cost, and Baseline Fixed Cost Accrual</li>
+<li>Added the ability to customise the fields read from a Primavera database or XER file.</li>
+<li>Added Task Activity Type and Task Status as additional fields read from Primavera database and XER and files</li>
+<li>Changed Task physical percent complete methods for consistency to use Number rather than Integer</li>
+</ul>
+<h2 id="473-23122014">4.7.3 (23/12/2014)</h2>
+<ul>
+<li>Updated to use POI 3.11.</li>
+<li>Updated to use rtfparserkit 1.1.0 for Java 6 compatibility.</li>
+</ul>
+<h2 id="472-15122014">4.7.2 (15/12/2014)</h2>
+<ul>
+<li>Updated to fix Maven dependency issue.</li>
+</ul>
+<h2 id="471-08122014">4.7.1 (08/12/2014)</h2>
+<ul>
+<li>Added a flag to MPPReader to indicate that only the project header should be read.</li>
+</ul>
+<h2 id="470-04122014">4.7.0 (04/12/2014)</h2>
+<ul>
+<li>Implemented new RTF parser for stripping RTF to improve performance and accuracy</li>
+<li>Removed non-API code from the top level package</li>
+<li>Improved support for reading built-in and custom project properties from MPP files.</li>
+<li>Improved resilience of MPP file reading to unknown data structures</li>
+<li>Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks</li>
+<li>Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files</li>
+</ul>
+<h2 id="462-11112014">4.6.2 (11/11/2014)</h2>
+<ul>
+<li>Fixed issue with custom duration field units not read correctly from MSPDI files</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/223">Issue 223</a>: Problems with the lag calculated in the relation</li>
+<li>Outline code not read correctly from MPP file written by Project 2013</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/239">Issue 239</a>: Defensive changes to avoid exceptions when reading MPP files</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/250">Issue 250</a>: Deleted tasks being read from mpp file</li>
+<li>Added DotNetInputStream and DotNetOutputStream classes for ease of use under .Net.</li>
+<li>Updated to automatically generate and package MpxjUtilities.dll</li>
+</ul>
+<h2 id="461-17102014">4.6.1 (17/10/2014)</h2>
+<ul>
+<li>Fixed NuGet metadata</li>
+</ul>
+<h2 id="460-17102014">4.6.0 (17/10/2014)</h2>
+<ul>
+<li>Added support for NuGet.</li>
+<li>Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.</li>
+<li>Fixed an issue where the project's default duration format was not being used</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/248">Issue 248</a>: Reading .MPP file using MPXJ 4.2 reads extra unintentional ResourceAssignment with the task which is not seen in Task Sheet in Microsoft Project</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/235">Issue 235</a>: All resources have "Material" property</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to capture the Project ID to align with data read from XER file/database (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to ensure task percent complete supports Physical Percent, Duration Percent and Units Percent (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to ensure task baseline values match values read from XER file/database (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to ensure task actual duration to matches value read from XER file/database (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to read the task duration (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to read task LateStart, LateFinish, EarlyStart, EarlyFinish attributes correctly (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to read task Start and End correctly (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to identify milestones (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to set the task Critical attribute (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera PM XML file reader to include costs (contributed by Nathaniel Marrin)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/247">Issue 247</a>: Updated Primavera XER/Database readers to read task Start and End correctly (contributed by Nathaniel Marrin)</li>
+<li>Migrated tests to JUnit 4</li>
+</ul>
+<h2 id="450-01032014">4.5.0 (01/03/2014)</h2>
+<ul>
+<li>Added the ability to call the .Net version of MPXJ from COM.</li>
+<li>Added support Primavera decimal database columns.</li>
+<li>Added support for user defined task fields (contributed by Mario Fuentes).</li>
+<li>Added POM for current Maven versions (contributed by Nick Burch)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/213">Issue 213</a>: Unable to load mpp from project-2013</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/226">Issue 226</a>: Primavera currency files without currency information</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/227">Issue 227</a>: PrimaveraReader cannot handle files with more than 30 user defined fields</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/224">Issue 224</a>: setMilestone() issue</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/210">Issue 210</a>: MPXJ 4.4 and 2013 files - invalid load of task data</li>
+<li>Updated to fix an issue with Asta Powerproject PP file tokenization</li>
+<li>Updated to fix an issue where valid WBS values containing .0 are corrupted</li>
+<li>Updated to allow Primavera hours per day to be a decimal value</li>
+<li>Updated to support Primavera PM XML files generated by Primavera versions up to P6v8.3 (contributed by Mario Fuentes)</li>
+<li>Updated to set the StatusDate attribute in the project header from a Primavera database, XER file or PM XML file.</li>
+<li>Updated to use (a patched version of) POI 3.10.</li>
+</ul>
+<h2 id="440-14032013">4.4.0 (14/03/2013)</h2>
+<ul>
+<li>Added support for writing Primavera PM XML files.</li>
+<li>Added support for reading Asta Powerproject PP and MDB files.</li>
+<li>Added support for writing SDEF files (Contributed by William Iverson).</li>
+<li>Added support for reading Enterprise Custom Fields 1-50 for Task, Resources, and Resource Assignments.</li>
+<li>Added MpxjExtensionMethods assembly to simplify working with Java types in .Net (Contributed by Kyle Patmore)</li>
+<li>Provided two new .Net DLL versions in addition to the original version. These allow properties to be accessed in a ".Net style", and for languages apart from VB, provide .Net style method names.</li>
+<li>Updated to remove the distinction between base calendar and resource calendars in the ProjectFile class.</li>
+<li>Updated to improve support for custom outline codes (Contributed by Gary McKenney)</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/189">Issue 189</a>: getTimephasedOvertimeWork can return TimephasedWork with NaN</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/190">Issue 190</a>: Support for timephased cost for cost type resources</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/195">Issue 195</a>: Rolled Up tasks don't use default duration units</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/199">Issue 199</a>: Extract Primavera Task ID</li>
+<li>Updated to fix an issue where the resource assignment delay attribute was not being read from or written to MSPDI files correctly</li>
+<li>Updated to fix an issue where derived calendars were not being read correctly from MPP files</li>
+<li>Updated to use IKVM 7.2.</li>
+</ul>
+<h2 id="430-08022012">4.3.0 (08/02/2012)</h2>
+<ul>
+<li>Added support for reading Primavera PM XML files.</li>
+<li>Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.</li>
+<li>Added support for Work Weeks in MSPDI files (SourceForge feature request 23).</li>
+<li>Updated to use IKVM 7.0.</li>
+<li>Updated to fix SourceForge bug 3290224: Incorrect order of tasks when writing an MSPDI file (contributed by Jonathan Besanceney).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/161">Issue 161</a>: ResourceAssignment.getTaskUniqueID() returns null.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/169">Issue 169</a>: Wrong project name in MPX file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/170">Issue 170</a>: Wrong title in XML file when importing from XER file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/168">Issue 168</a>: Wrong record number for resource calendar in MPX file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/171">Issue 171</a>: In the XML file the element field SaveVersion is missing.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/167">Issue 167</a>: Loop when import task with 0% on units of works in resources.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/163">Issue 163</a>: French locale NA incorrect.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/175">Issue 175</a>: Invalid dependency between child and parent.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/174">Issue 174</a>: Missing tasks from MS Project 2010 mpp file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/179">Issue 179</a>: Wrong WBS code and WBS when converting a Primavera XER file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/177">Issue 177</a>: Error reading XER file with German localisation for numbers.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/166">Issue 166</a>: TimephasedResourceAssignments with negative TotalWork.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/181">Issue 181</a>: Wrong currency symbol in the exported file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/104">Issue 104</a>: TimephasedResourceAssignment end date not correct.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/116">Issue 116</a>: Calendar hours are incorrect.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/188">Issue 188</a>: NullReferenceException with getTimephasedBaselineWork.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/191">Issue 191</a>: Outline number is null when opening Project 2003 MPP file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/192">Issue 192</a>: Unable to parse note (unknown locale).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/193">Issue 193</a>: MPP9Reader marks all tasks after a null task as null.</li>
+<li>Updated to fix an issue where the Task critical attribute was incorrectly calculated for some manually scheduled tasks.</li>
+<li>Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.</li>
+<li>Updated to fix an issue where subprojects were not read correctly (Contributed by Gary McKenney).</li>
+</ul>
+<h2 id="420-23062011">4.2.0 (23/06/2011)</h2>
+<ul>
+<li>Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.</li>
+<li>Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.</li>
+<li>Added support for retrieving the table associated with any view.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/158">Issue 158</a>: Error converting Mpp to planner.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/157">Issue 157</a>: MSPDI Linklag for TimeUnit.Percent.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/156">Issue 156</a>: Error reading calendars for 2010 files.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/159">Issue 159</a>: Duplication of calendar id.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/153">Issue 153</a>: Wrong task start.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/156">Issue 156</a>: Wrong start and finish dates for 2010 files.</li>
+</ul>
+<h2 id="410-30052011">4.1.0 (30/05/2011)</h2>
+<ul>
+<li>Updated ProjectFile class to change default value for "auto" flags to simplify programmatic creation of project files.</li>
+<li>Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.</li>
+<li>Added support cost resource type for MPP12, MPP14 and MSPDI files.</li>
+<li>Added Task.removePredecessor method (contributed by Leslie Damon).</li>
+<li>Added "read presentation data" flag to MPPReader - allows clients to save time and memory when MPP presentation data not required.</li>
+<li>Added support for reading Primavera calendars (contributed by Bruno Gasnier).</li>
+<li>Added support for resource assignment leveling delay for MPP, MPD, and MSPDI files.</li>
+<li>Added support for "unassigned" resource assignments.</li>
+<li>Added support for task manual duration attribute for manually scheduled tasks in MPP14 and MSPDI files.</li>
+<li>Added support for resource NT account attribute for MPP9, MPP12, and MPP14 files.</li>
+<li>Added support for physical % complete for MPP9, MPP12, and MPP14 files.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/120">Issue 120</a>: MPXJ API returns the incorrect start date of a manual task.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/123">Issue 123</a>: Task id incorrect after importing from MPP14 file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/124">Issue 124</a>: MPXJ 4.0 fails to work with Project 2010 format.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/128">Issue 128</a>: Index was outside the bounds of the array.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/131">Issue 131</a>: header.getHonorConstraints() is not working in case of MPP.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/139">Issue 139</a>: Empty notes appear for all tasks when saving in XML format.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/122">Issue 122</a>: All Extended Attributes always added when using MSPDIWriter.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/144">Issue 144</a>: Baseline/Actual Work in 2010 MPP missing.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/114">Issue 114</a>: ResourceAssignment getCalendar not using IgnoreResourceCalendar flag</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/146">Issue 146</a>: ExternalTaskProject value missing.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/137">Issue 137</a>: Deleted Primavera tasks handling problem.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/143">Issue 143</a>: Latest CVS version gives wrong values for inactive field.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/125">Issue 125</a>: Task ID order when creating a project file is not correct.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/106">Issue 106</a>: Invalid tasks that should not be there.</li>
+<li>Updated to fix task calendars read incorrectly from MPP14 files.</li>
+<li>Updated to fix incorrect month duration assumption (contributed by Frank Illenberger).</li>
+<li>Updated to fix incorrect number format in MSPDI file in non-English locales (contributed by Frank Illenberger).</li>
+<li>Updated to fix incorrect resource assignment actual work attribute for MPP14 files.</li>
+<li>Updated to fix incorrect task leveling delay attribute for MPP9, MPP12, and MPP14 files.</li>
+<li>Updated to fix leveling delay and link lag when writing an MSPDI file (contributed by Frank Illenberger).</li>
+<li>Updated to fix incorrect assignment actual start date when writing an MSPDI file.</li>
+<li>Updated to improve support for material resources in MSPDI files.</li>
+<li>Updated to reduce overall size of MSPDI files by not writing default values.</li>
+<li>Updated to use IKVM 0.46.0.1.</li>
+<li>Updated to use POI 3.7.</li>
+<li>Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.</li>
+</ul>
+<h2 id="400-25052010">4.0.0 (25/05/2010)</h2>
+<ul>
+<li>Added support for reading Microsoft Project 2010 MPP files.</li>
+<li>Added support for reading Primavera P6 XER files.</li>
+<li>Added support for reading Primavera P6 databases.</li>
+<li>Updated to target Java 1.6.</li>
+<li>Added Russian locale (Contributed by Roman Bilous).</li>
+<li>Relation.getDuration() is always giving result in 'HOUR' fmt.</li>
+</ul>
+<h2 id="320-20012010">3.2.0 (20/01/2010)</h2>
+<ul>
+<li>Added support for Resource cost rate tables (Based on code by Andrei Missine).</li>
+<li>Added support for Resource availability (Based on code by Andrei Missine).</li>
+<li>Added support for successors (Based on an idea by John D. Lewis).</li>
+<li>Added support for task and resource GUIDs.</li>
+<li>Added a flag to allow raw timephased data to be retrieved from MPP files.</li>
+<li>Updated to fix logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/94">Issue 94</a>: MPXJ Issue: Related to Project Calendar.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/90">Issue 90</a>: POI License in legal folder of download wrong.</li>
+<li>Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/102">Issue 102</a>: Planner writer causes Null Pointer exception.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/100">Issue 100</a>: getRecurring() task is not working</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/98">Issue 98</a>: getStandardRateFormat() is returning 'null'</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/97">Issue 97</a>: getWeekStartDay() is not working.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/96">Issue 96</a>: getDaysPerMonth() is not working.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/101">Issue 101</a>: Resource.getNotes() not working for MPP12 file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/105">Issue 105</a>: MPP: getEditableActualCosts() is not behaving correctly.</li>
+<li>Updated to use POI 3.6.</li>
+<li>Updated to use IKVM 0.42.0.3.</li>
+<li>Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</li>
+<li>Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</li>
+<li>Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</li>
+<li>Updated to improve MPP file task structure validation. (Contributed by Jari Niskala).</li>
+<li>Updated to improve MPX file parsing. (Contributed by Jari Niskala).</li>
+<li>Updated to automatically populate missing WBS attributes. (Contributed by Jari Niskala).</li>
+<li>Updated to refactor the Relation class (note minor method name changes).</li>
+<li>Updated to add default calendar to Planner output.</li>
+</ul>
+<h2 id="310-20052009">3.1.0 (20/05/2009)</h2>
+<ul>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/73">Issue 73</a>: Plan file fails to load.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/72">Issue 72</a>: Resource Assignment Normaliser rounding problem.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/78">Issue 78</a>: Column alignment values are incorrect.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/76">Issue 76</a>: NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/74">Issue 74</a>: .0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/79">Issue 79</a>: Too strict net.sf.mpxj.mpd.ResultSetRow.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/80">Issue 80</a>: Generated planner file can't be opened.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/82">Issue 82</a>: Support for loading global.mpt.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/81">Issue 81</a>: Lowercase table name won't work with db on linux machines.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/71">Issue 71</a>: Standard Calendar localization import problem.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/83">Issue 83</a>: Strange duration conversion from database</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/86">Issue 86</a>: FilterCriteria not being read in properly (Contributed by James Styles)</li>
+<li>Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</li>
+<li>Updated to fix Steelray bug 8469: Subproject flag not set correctly.</li>
+<li>Updated to fix potential NPEs (Suggested by Steve Jonik).</li>
+<li>Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</li>
+<li>Updated to provide strong names for .Net DLLs.</li>
+</ul>
+<h2 id="300-25012009">3.0.0 (25/01/2009)</h2>
+<ul>
+<li>Updated to the Project 2007 MSPDI schema.</li>
+<li>Updated to POI 3.2.</li>
+<li>Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</li>
+<li>Updated MPX output to prevent Project 2007 complaining.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/68">Issue 68</a>: Task getNumber*() methods return inaccurate large values.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/56">Issue 56</a>: Duplicate task in file.getChildTasks() when opening MPX.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/57">Issue 57</a>: Relation.getTask returns null.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/58">Issue 58</a>: Task.getSplits() not consistent.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/60">Issue 60</a>: WBS Field not imported Mpp12.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/63">Issue 63</a>: There are some conflict in TaskField.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/66">Issue 66</a>: MSPDIReader is not setting calendarName in projectHeader.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/67">Issue 67</a>: Write resource calendar with exceptions only.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/69">Issue 69</a>: File loses predecessors.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/70">Issue 70</a>: Resources not bring read.</li>
+<li>Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</li>
+<li>Updated split task implementation to represent splits as DateRange instances rather than as hours.</li>
+<li>Added .Net DLLs using IKVM.</li>
+<li>Added support for reading timephased resource assignment data from MPP files.</li>
+<li>Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</li>
+<li>Added support for reading recurring task data from MPP files.</li>
+<li>Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</li>
+<li>Added Spanish locale (Contributed by Agustin Barto).</li>
+<li>Added support for durations with percentage time lag (Contributed by Jonas Tampier).</li>
+<li>Added support MSPDI file split tasks.</li>
+</ul>
+<h2 id="210-23032008">2.1.0 (23/03/2008)</h2>
+<ul>
+<li>Updated to POI 3.0.2</li>
+<li>Updated to address an out of memory exception raised when processing certain MPP12 files.</li>
+<li>Updated to fix a problem caused by duplicate ID values in MPP12 files.</li>
+<li>Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala).</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/48">Issue 48</a>: Import from Project 2007 ignores some tasks.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/52">Issue 52</a>: Crash on priority not set in MSPDI-file.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/51">Issue 51</a>: Resource start/finish dates with MSP 2007.</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/51">Issue 51</a>: MS Project 2007: Calendar exceptions dates are wrong.</li>
+<li>Added support for Enterprise task and resource fields.</li>
+<li>Added support for Baseline task and resource fields.</li>
+<li>Added support for extracting non-English (i.e. character set encoded) text from note fields.</li>
+<li>Added support for Chinese MPX files (contributed by Felix Tian).</li>
+<li>Added support for reading project start and end dates from all MPP file types (Bug #1827633).</li>
+<li>Added support for password protected MPP9 files (Contributed by Jari Niskala)</li>
+<li>Added support for calendar exceptions for MPP12 files (Contributed by Jari Niskala)</li>
+<li>Added support for value lists and descriptions for custom fields (Contributed by Jari Niskala)</li>
+<li>Added support for timescale formats (Contributed by Jari Niskala)</li>
+<li>Added support for the project file path attribute (Contributed by Jari Niskala)</li>
+<li>Added support for the ignore resource calendar attribute (Contributed by Jari Niskala)</li>
+<li>Added support for the resource actual overtime work attribute (Contributed by Jari Niskala)</li>
+<li>Added support for the resource material label attribute (Contributed by Jari Niskala)</li>
+<li>Added support for the resource NT account attribute (Contributed by Jari Niskala)</li>
+<li>Improved support for hyperlinks (Contributed by Jari Niskala)</li>
+<li>Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</li>
+</ul>
+<h2 id="200-07102007">2.0.0 (07/10/2007)</h2>
+<ul>
+<li>Migrated to Java 5</li>
+<li>Introduced generics</li>
+<li>Introduced enums</li>
+<li>Updated to POI 3.0.1</li>
+<li>Updated to JAXB 2.1.4</li>
+<li>Changed company details from Tapster Rock to Packwood Software</li>
+</ul>
+<h2 id="100-30082007">1.0.0 (30/08/2007)</h2>
+<ul>
+<li>Added support for reading MPD files via JDBC</li>
+<li>Added support for reading Planner files</li>
+<li>Added support for over allocated flag to all MPP file formats.</li>
+<li>Added support for calculating duration variance from MPP files.</li>
+<li>Added support for calculating start and finish variance from MPP files.</li>
+<li>Added support for attribute change listeners for Task and Resource classes.</li>
+<li>Added support for start slack, finish slack, free slack and total slack read from MPP files.</li>
+<li>Added support for external tasks.</li>
+<li>Added unique ID generation for calendars read from MPX files.</li>
+<li>Added support for the status date property of the project.</li>
+<li>Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</li>
+<li>Fixed incorrect calculation of lag times for some MPP files.</li>
+<li>Fixed missing predecessor tasks in certain rare MPP9 files.</li>
+<li>Fixed incorrect MPX file AM/PM text setting in certain locales.</li>
+<li>Fixed an ArrayIndexOutOfBoundsException.</li>
+<li>Fixed a ClassCastException.</li>
+<li>Fixed a zero length string error.</li>
+<li>Fixed a duration rounding error when reading MSPDI files.</li>
+<li>Fixed incorrect "as late as possible" constraint handling.</li>
+<li>Incorrect late start date read from an MPP9 file.</li>
+<li>Incorrect total slack calculation.</li>
+<li>Added a default for the task constraint type attribute to prevent a possible NPE when writing an MSPDI file.</li>
+<li>Added a default resource calendar name where the resource name is empty.</li>
+<li>Updated the Column.getTitle method to take account of user defined column aliases.</li>
+<li>Updated to add another condition to the test for deleted tasks in MPP8 files.</li>
+<li>Updated to significantly improve the performance of writing MSPDI files.</li>
+</ul>
+<h2 id="092-07032006">0.9.2 (07/03/2006)</h2>
+<ul>
+<li>Added support for split views.</li>
+<li>Added support for graphical indicators.</li>
+<li>Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.</li>
+<li>Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</li>
+<li>Standardised on minutes per day and minutes per week, rather than hours per day and hours per week.</li>
+<li>Provided additional time ranges for calendar exceptions.</li>
+<li>Refactored Task and Resource to use TaskField and ResourceField to identify fields.</li>
+<li>Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</li>
+<li>Fixed a bug when reading MPP files where task finish dates appeared before the start date where a "start no later than" constraint was in use.</li>
+<li>Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.</li>
+<li>Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</li>
+<li>Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.</li>
+<li>Fixed a bug where split tasks were not being reported correctly.</li>
+</ul>
+<h2 id="091-26012006">0.9.1 (26/01/2006)</h2>
+<ul>
+<li>Major API rewrite.</li>
+<li>Added a flag called "expanded" to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.</li>
+<li>Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).</li>
+<li>Modified MPXDateFormat, MPXTimeFormat and MPXCurrencyFormat to derive them from DateFormat and NumberFormat.</li>
+<li>Added support for MPT files.</li>
+<li>Fixed a bug which could case an NPE when reading certain MPP9 files.</li>
+<li>Added support for the "marked" attribute for MPP9 files.</li>
+<li>Added support for reading split task data from MPP9 files.</li>
+<li>Added support for reading calculate multiple critical paths flag.</li>
+<li>Fixed a bug which could case an array out of bounds exception in the Priority (contributed by Frank Illenberger).</li>
+<li>Fixed bug #1346735 "Priorities of the tasks are exported incorrectly".</li>
+<li>Added code to allow tasks, resources, resource assignments and calendars to be removed from the data structure.</li>
+<li>Implemented Italian MPX file format translation (contributed by Elio Zoggia).</li>
+<li>Cleaned up calendar usage.</li>
+<li>Added support for retrieval of custom document summary fields from the project header (contributed by Wade Golden).</li>
+<li>Updated to use checkstyle 4.0 and fixed warnings.</li>
+<li>Rationalised duration conversions into a set of methods in the MPXDuration class.</li>
+<li>Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</li>
+<li>Fixed an issue where tasks with a percent complete value, but no resource assignments, would not write correctly to an MSPDI file.</li>
+<li>Added an accessor method for resource calendars.</li>
+<li>Unique ID generation was not correct for tasks, resources and calendars if these entities were added to an existing project file.</li>
+<li>Fixed a compatibility issue with POI3</li>
+<li>Added an event listener to the project file to allow notifications of resources and tasks being read and written to and from a file.</li>
+<li>Fixed a compiler warning when build with JDK5.</li>
+<li>Fixed a bug where a project start date was not being set correctly in the project header.</li>
+<li>Added support for reading the project header "calendar name", "schedule from" and "revision" values from MPP files.</li>
+<li>Fixed split task support.</li>
+<li>Enhanced TableFontStyle implementation.</li>
+</ul>
+<h2 id="0025-11082005">0.0.25 (11/08/2005)</h2>
+<ul>
+<li>Added support for reading all properties from an MPP9 file which define the visual appearance of the Gantt Chart view shown in Microsoft Project (development funding courtesy of Steelray).</li>
+<li>Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.</li>
+<li>Fixed incorrect value in WorkGroup enumerated type.</li>
+<li>Implemented the resource assignment work contour property (contributed by Wade Golden).</li>
+<li>Implemented correct handling for MPX files using different character set encodings (suggested by Frank Illenberger).</li>
+<li>Fixed task duration calculation when importing an MPP file with a "non-standard" hours-per-day setting (contributed by Wade Golden).</li>
+<li>Updated to ensure that the MPX task fixed attribute, and the MPP/MSPDI task type attribute are correctly handled.</li>
+<li>Updated to implement the remaining project header attributes supported by the MSPDI file format.</li>
+<li>Updated to add support for reading the MPX 3.0 files generated by Primavera (courtesy of CapitalSoft).</li>
+<li>Fixed incorrect assumptions about conversion of durations to hours when writing MPX files (contributed by Frank Illenberger).</li>
+<li>Updated to calculate remaining work for resource assignments on import, to allow MSPDI export of this data to work correctly (contributed by Frank Illenberger).</li>
+<li>Updated to add another condition to the test for deleted tasks in MPP8 files.</li>
+<li>Updated to fix a problem with reading assignment data from MPP9 files.</li>
+<li>Rationalised the location of the JUnit tests and the sample files.</li>
+<li>Fixed a problem where the project start and end dates reported in the project header were incorrect.</li>
+<li>Fixed an array out of bounds exception when reading an MPP9 file.</li>
+<li>Updated to allow MPXCalendarHours to accept an arbitrary number of time periods.</li>
+<li>Introduced the Day class to replace the use of arbitrary integers to represent days of the week.</li>
+<li>Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</li>
+<li>Fixed a problem with number formats in MSPDI files.</li>
+<li>Updated the MPP View class to extract the view type.</li>
+<li>Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</li>
+<li>Implemented French MPX file format translation (contributed by Benoit Baranne).</li>
+<li>Fixed a bug reading assignment work contour attribute.</li>
+<li>Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</li>
+<li>Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</li>
+<li>Updated to make replace the int relation type in the Relation class with instances of the RelationType class.</li>
+<li>Updated to derive RelationList from AbstractList.</li>
+<li>Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</li>
+<li>Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</li>
+<li>Added support for early start, early finish, late start, late finish to MPP files.</li>
+<li>Updated MPP9 file support to handle start as late as possible constraints. </li>
+<li>Added support for sub project file information in MPP9 files.</li>
+<li>Fixed a bug where occasionally a task in MPP9 files were not being read.</li>
+<li>Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</li>
+<li>Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</li>
+<li>Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</li>
+<li>Updated to fix unreliable retrieval of project start and end dates from certain MPP files.</li>
+<li>Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).</li>
+<li>Fixed a bug when reading durations in elapsed days from an MPP file.</li>
+<li>Tasks can now have arbitrary priority values. These values are mapped to/from the fixed MPP8/MPX priority values where necessary.</li>
+</ul>
+<h2 id="0024-10012005">0.0.24 (10/01/2005)</h2>
+<ul>
+<li>Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</li>
+<li>Updated to use class instances instead of primitives to represent some enumerated types.</li>
+<li>Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</li>
+<li>Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</li>
+<li>Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</li>
+<li>Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</li>
+<li>Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</li>
+</ul>
+<h2 id="0023-17112004">0.0.23 (17/11/2004)</h2>
+<ul>
+<li>Fixed a bug where MPXJ was still using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</li>
+<li>Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.</li>
+<li>Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</li>
+<li>Fixed a bug where the task unique ID values were being truncated unnecessarily.</li>
+<li>Fixed a bug where calendar exceptions were not testing the range of dates between the start and end date correctly.</li>
+<li>Fixed a bug where the priority of a task was being escalated when converting between an MPP9 file and an MSPDI file.</li>
+<li>Fixed a bug where a deadline was incorrectly being added to a task when importing data from an MPP9 file.</li>
+<li>Fixed a bug where deleted resource assignments in MPP9 files were still seen by MPXJ.</li>
+<li>Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</li>
+<li>Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)</li>
+<li>Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</li>
+<li>Updated support for password protected files to allow write reserved files to be read.</li>
+<li>Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</li>
+<li>Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</li>
+<li>Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</li>
+<li>Updated to improve accuracy when converting an MPP file to an MSPDI file.</li>
+<li>Added support for blank task rows in MPP8 files.</li>
+<li>Added support for blank resource rows in MPP8 files.</li>
+<li>Added support for Portuguese MPX files.</li>
+<li>Added support reading and writing extended attributes (apart from outline codes) for MSPDI files.</li>
+<li>Added support for the Resource Type attribute.</li>
+</ul>
+<h2 id="0022-27072004">0.0.22 (27/07/2004)</h2>
+<ul>
+<li>Fixed a bug where task data was not being read correctly from very large MPP9 files.</li>
+<li>Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.</li>
+<li>Fixed a bug where certain MPP9 files were not read correctly.</li>
+<li>Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</li>
+<li>Fixed a bug where MPXJ was using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</li>
+<li>Fixed a bug where MPXJ not correctly handling embedded line breaks when reading and writing MPX files.</li>
+<li>Removed arbitrary restrictions on the number of various entities, originally taken from the MPX specification.</li>
+<li>Updated MPX documentation for Task.getFixed and Task.setFixed.</li>
+<li>Updated MPP9 file code to improve handling invalid offset values.</li>
+<li>Updated to remove leading and trailing spaces from MPX task field names before processing.</li>
+<li>Updated to detect password protected files and raise a suitable exception.</li>
+<li>Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</li>
+<li>Implemented support for Maven.</li>
+<li>Updated MpxCreate utility to allow it to create both MPX and MSPDI files.</li>
+<li>Added new JUnit test for confidential customer data.</li>
+<li>Added support for the resource assignment remaining work attribute for MPP8, MPP9 and MSPDI files.</li>
+</ul>
+<h2 id="0021-06052004">0.0.21 (06/05/2004)</h2>
+<ul>
+<li>Fixed a bug where the task start date attribute was not always correct for MPP8 files.</li>
+<li>Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.</li>
+<li>Fixed a bug causing an exception when reading certain MPP9 files.</li>
+<li>Updated to allow localised MPX files to be written and read.</li>
+<li>Implemented support for German MPX files.</li>
+<li>Implemented generic mechanism for dealing with task field aliases.</li>
+<li>Implemented task field alias read/write for MSPDI files.</li>
+<li>Implemented task field alias read for MPP9 files.</li>
+<li>Implemented resource field alias read/write for MSPDI files.</li>
+<li>Implemented resource field alias read for MPP9 files.</li>
+</ul>
+<h2 id="0020-15032004">0.0.20 (15/03/2004)</h2>
+<ul>
+<li>Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.</li>
+<li>Fixed a bug causing a null pointer exception when writing an MSPDI file.</li>
+<li>Fixed a bug in MSPDI files where default values were being written incorrectly for some task attributes.</li>
+<li>Fixed a bug with MSPDI file date handling in non GMT time zones.</li>
+<li>Fixed a bug in processing calendar data where data block is not a multiple of 12 bytes</li>
+<li>Fixed a bug processing tables where column data is null</li>
+<li>Fixed checkstyle code warnings.</li>
+<li>Fixed Eclipse code warnings.</li>
+<li>Updated to include version 2.5 of the POI library.</li>
+<li>Added support for task calendars.</li>
+</ul>
+<h2 id="0019-02122003">0.0.19 (02/12/2003)</h2>
+<ul>
+<li>Fixed a bug reading table data from certain MPP8 files</li>
+<li>Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</li>
+<li>Re-implemented base and resource calendars as a single MPXCalendar class</li>
+<li>Updated support for base calendars and resource calendars for all file formats</li>
+<li>Improved MPXException to print details of any nested exception when a stack trace is printed.</li>
+<li>Removed unnecessary use of ByteArray.java</li>
+<li>Added support for the following task fields: ActualOvertimeCost, ActualOvertimeWork, FixedCostAccrual, Hyperlink, HyperlinkAddress, HyperlinkSubAddress, LevelAssignments, LevelingCanSplit, LevelingDelay, PreleveledStart, PreleveledFinish, RemainingOvertimeCost, RemainingOvertimeWork.</li>
+</ul>
+<h2 id="0018-13112003">0.0.18 (13/11/2003)</h2>
+<ul>
+<li>Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.</li>
+<li>Fixed a bug with writing MSPDI XML files in non-GMT timezones.</li>
+<li>Fixed a bug causing an exception when zero length calendar names were present</li>
+<li>Fixed a bug causing MPP8 flags to be read incorrectly. Note that flag 20 is still not read correctly.</li>
+<li>Fixed a bug with the "Microsoft Project Compatible Output" flag for MSPDI files.</li>
+<li>Fixed a bug reading task text 10.</li>
+<li>Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.</li>
+<li>Improved invalid MPX data error handling and reporting.</li>
+<li>Added BaseCalendar.getDate method to allow end dates to be calculated based on a start date and a duration of working time.</li>
+<li>Made MPXDateFormat implement java.io.Serializable to allow MPXDate to serialize correctly.</li>
+<li>Updated the ant build file to allow MPXJ to be built without the components that depend on JAXB</li>
+<li>Rationalised setDefaultStartTime and setDefaultEndTime methods</li>
+<li>Added MppXml utility</li>
+<li>Added support for querying view information held in MPP files.</li>
+<li>Added support for querying table information held in MPP files. (NB This allows the user to retrieve column information, including user defined column names)</li>
+<li>Added support for outlinecode1-10 fields in MPP9 files.</li>
+<li>Added support for resource "available from" and "available to" fields.</li>
+<li>Verified that MPXJ will read MPP files written by Microsoft Project 2003 (they are still MPP9 files).</li>
+</ul>
+<h2 id="0017-05082003">0.0.17 (05/08/2003)</h2>
+<ul>
+<li>Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.</li>
+<li>Fixed a bug where special characters appearing in the currency symbol were not being quoted.</li>
+<li>Fixed a bug that caused resource assignments to be incorrectly read from some MPP8 files.</li>
+<li>Added a new write method to MPXFile allowing the user control over the character encoding used when writing an MPX file.</li>
+</ul>
+<h2 id="0016-04072003">0.0.16 (04/07/2003)</h2>
+<ul>
+<li>Fixed bug causing some extended boolean attributes to be read incorrectly.</li>
+<li>Fixed bug causing MPP8 file task data to be read incorrectly under certain circumstances.</li>
+<li>Updated calendar duration code to account for calendar exceptions.</li>
+</ul>
+<h2 id="0015-17062003">0.0.15 (17/06/2003)</h2>
+<ul>
+<li>Fixed a bug causing resource assignments to be duplicated in an MPX file created programmatically.</li>
+<li>Fixed a bug causing an incorrect duration value to be read from an MPP9 file.</li>
+<li>Fixed a bug causing invalid MPX files to be written in locales which don't use a period as the decimal separator.</li>
+<li>Fixed a bug causing embedded quote and comma characters in task and resource notes to be handled incorrectly.</li>
+<li>Added simple JUnit test to demonstrate iteration through relationships.</li>
+<li>Added an example of programmatically creating a partially complete task to the MPXCreate.java example.</li>
+<li>Added default values to the MPX project header.</li>
+<li>Added support for reading the RemainingDuration field from an MPP9 file.</li>
+<li>Updated predecessor and successor method documentation.</li>
+<li>Updated Task.get/set ResourceInitials and Task.get/set ResourceNames method documentation.</li>
+<li>Updated to extract the following fields from resource assignment data in MPP files which were previously not imported: ActualCost, ActualWork, Cost, Finish, Start, Units, Work.</li>
+</ul>
+<h2 id="0014-28052003">0.0.14 (28/05/2003)</h2>
+<ul>
+<li>Updated to extract the following fields from resource data in an MPP9 file which were previously not imported: Flag1-Flag20.</li>
+<li>Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.</li>
+<li>Updated API to make classes final and constructors package access only where appropriate.</li>
+<li>Updated to use of 6 byte long int fields for cost and work values for MPP8.</li>
+<li>Fixed error in reading task fixed cost for MPP8.</li>
+<li>Updated to extract the following fields from task data in an MPP8 file which were previously not imported: Contact, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EffortDriven, Finish1-Finish10, Flag1-Flag20, HideBar, Milestone, Number1-Number20, Rollup, Start1-Start10, Text1-Text30, Type, WBS.</li>
+<li>Updated to extract the following fields from resource data in an MPP8 file which were previously not imported: Code, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EmailAddress, Finish1-Finish10, Number1-Number20, Start1-Start10, Text1-Text30</li>
+<li>Added support for task and resource note fields in MPP8 files.</li>
+<li>Added support for the OvertimeCost task attribute for all file formats.</li>
+<li>Updated to extract calendar data from MPP8 files.</li>
+<li>Updated resource notes to fix end of line handling problem.</li>
+<li>Added functionality to read default settings and currency settings data from MPP files.</li>
+</ul>
+<h2 id="0013-22052003">0.0.13 (22/05/2003)</h2>
+<ul>
+<li>Implemented support for the Microsoft Project 98 file format.</li>
+<li>Fixed a bug that prevented task and resource note text from being read.</li>
+<li>Updated to remove a Java 1.4 dependency introduced in 0.0.12. Will now work with Java 1.3.</li>
+<li>Updated to correct handling of carriage returns embedded in note fields.</li>
+</ul>
+<h2 id="0012-08052003">0.0.12 (08/05/2003)</h2>
+<ul>
+<li>Fixed incorrect handling of timezones and daylight saving time.</li>
+<li>Fixed incorrect task structure generated from outline levels.</li>
+<li>Updated to extract the notes fields from tasks and resources read from an MPP file.</li>
+<li>Added the option to remove or preserve the RTF formatting from the note fields from an MPP file.</li>
+<li>Updated to extract the following fields from task data in an MPP file which were previously not imported: Text11-Text30, Number6-Number20, Duration4-Duration10, Date1-Date10, Cost4-Cost10, Start6-Start10, Finish6-Finish10</li>
+<li>Updated to extract the following fields from resource data in an MPP file which were previously not imported: Text6-Text30, Start1-Start10, Finish1-Finish10, Number1-Number20, Duration1-Duration10, Date1-Date10, Cost1-Cost10</li>
+</ul>
+<h2 id="0011-15042003">0.0.11 (15/04/2003)</h2>
+<ul>
+<li>Fixed error in format string used in one of the example files.</li>
+<li>Fixed error where double byte characters were being read incorrectly.</li>
+<li>Fixed error where deleted constraints were being resurrected when read from an MPP file.</li>
+<li>Updated to extract the following fields from task data in an MPP file which were previously not imported: Flag11-Flag20, Rollup, HideBar, EffortDriven.</li>
+</ul>
+<h2 id="0010-08042003">0.0.10 (08/04/2003)</h2>
+<ul>
+<li>Corrected Actual Start and Actual End fields from MPP file.</li>
+<li>Fixed bug where time values were being broken by daylight saving time in the user's default locale.</li>
+<li>Updated to extract the following fields from task data in an MPP file which were previously not imported: Actual Work, Baseline Work, Cost Variance, Deadline, Remaining Work, Work.</li>
+<li>Updated to extract the following fields from resource data in an MPP file which were previously not imported: Actual Cost, Actual Overtime Cost, Actual Work, Baseline Work, Cost, Cost Variance, Max Units, Overtime Cost, Overtime Rate, Overtime Work, Peak, Regular work, Remaining Cost, Remaining Overtime Cost, Remaining Work, Standard Rate, Work, Work Variance</li>
+</ul>
+<h2 id="009">0.0.9 ()</h2>
+<ul>
+<li>Fixed bug when handling certain types of modified MPP file where resources have been updated.</li>
+<li>Added sample MPP files for bugs to the JUnit tests.</li>
+<li>Added support for summary flag import from MPP files.</li>
+<li>Added automatic summary flag update when creating an MPX file programmatically.</li>
+<li>Added new constructor to the MSPDIFile class to allow MSPDI files to be created from scratch.</li>
+</ul>
+<h2 id="008-27032003">0.0.8 (27/03/2003)</h2>
+<ul>
+<li>Added support for estimated durations.</li>
+<li>Fixed bug in handling certain types of modified MPP file where tasks have been updated.</li>
+<li>Added the facility to auto generate outline numbers.</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href=".." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Overview
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../howto-start/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Getting Started
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -32,7 +32,7 @@
 	Task#baseline1_fixed_cost_accrual
 	Task#baseline1_start
 	Task#baseline1_work
-	...		
+	...
 	Task#baseline10_budget_cost
 	Task#baseline10_budget_work
 	Task#baseline10_cost
@@ -315,4 +315,4 @@
 	Task#work
 	Task#work_contour
 	Task#work_variance
-		
+

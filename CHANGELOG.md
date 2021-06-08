@@ -1,8 +1,355 @@
 # Changelog
 
-## 7.6.1 (git master)
+## 9.3.0 (git master)
+* Add support for reading roles from P6 schedules. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
+* Corrected the data type of the task physical percent complete attribute.
+* Handle non-standard relationship type representations encountered in XER files and P6 databases.
+
+## 9.2.6 (26/04/2021)
+* Handle invalid baseline numbers when reading MSPDI files.
+* Improve custom field handling when reading GanttProject files.
+
+## 9.2.5 (20/04/2021)
+* Add launcher batch file and shell script.
+* Improve handling of calculated task attributes when writing a project to a different format.
+* Ensure that dates are rolled up to summary tasks when reading FastTrack files.
+* Improve support for Synchro 6.3 SP files.
+
+## 9.2.4 (09/04/2021)
+* Fix an issue reading resource rate information GanttProject files.
+
+## 9.2.3 (08/04/2021)
+* Fix an issue reading Planned Duration from P6 databases and XER files.
+* Ensure Duration and Actual Duration are populated for WBS entries when reading P6 schedules.
+
+## 9.2.2 (07/04/2021)
+* Fix issue with WBS ordering when writing PMXML files.
+
+## 9.2.1 (04/04/2021)
+* Improve Task critical flag calculation when reading PMXML files.
+* Improve support for Synchro 6.3 SP files.
+
+## 9.2.0 (30/03/2021)
+* Improve accuracy when reading subprojects from MPP files.
+* Add Remaining Late Start and Remaining Late Finish attributes to Task.
+* Add Critical Activity Type attribute to Project Properties
+* Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.
+* Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.
+* Ensure that WBS entries without child activities are not marked as critical.
+* Don't attempt to set the critical flag when reading XER and PMXML files where the schedule is using "longest path" to determine critical activities. (MPXJ currently doesn't have enough information to be able to determine the correct value for the critical flag in this situation).
+* Ensure cost, duration, date and work attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.
+* Populate baseline cost, duration, finish, start and work when reading from XER files, PMXML files and P6 databases where the "Project Baseline" has been set to "Current Project".
+
+## 9.1.0 (11/03/2021)
+* Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.
+* Added experimental support for writing baseline projects to PMXML files. 
+* Added the Project GUID attribute.
+* When reading PMXML files, the list of projects returned by the readAll method will include any baseline projects present in the file.
+* When reading PMXML files which include the current baseline project, use this to populate the relevant baseline attributes in the main schedule.
+* The Project Unique ID property is now an integer rather than a string.
+* When reading Primavera schedules, populate the project properties Project ID and Baseline Project Unique ID.
+* Handle Primavera resource rates which don't have a start or finish date.
+* Handle MSPDI files with resource availability tables which don't have a start or finish date.
+* Ensure that the Activity ID field is populated consistently for WBS entries in PMXML files compared to the same schedule read from an XER file or P6 database.
+* Ensure duration of manually scheduled tasks in MPP files is represented correctly.
+
+## 9.0.0 (18/02/2020)
+* NOTE: this release introduces breaking changes!
+* All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.
+* All code previously marked as deprecated has been removed.
+* When reading an XER file or a P6 database, some custom project property names have been updated. LagCalendar is now CalendarForSchedulingRelationshipLag, RetainedLogic is now WhenSchedulingProgressedActivitiesUseRetainedLogic, ProgressOverride is now WhenSchedulingProgressedActivitiesUseProgressOverride, IgnoreOtherProjectRelationships is now WhenSchedulingProgressedActivitiesUseProgressOverride, and StartToStartLagCalculationType is now ComputeStartToStartLagFromEarlyStart.
+* Updated PMXML schema to version 20.12.
+* Fix an issue where GUID values were not being read correctly from XER files and P6 databases.
+* Percent complete type is now available as a task attribute for P6 schedules from any source.
+* Ensure that percent complete values are stored in the appropriate attributes when reading P6 schedules. (NOTE: Previously the "reported" percent complete value was stored as the tasks "percent complete" attribute. Now this holds the schedule percent complete value, and the percent work complete and physical percent complete attributes are also populated. To determine which value should be reported for a task, see the "percent complete type" extended field attribute.)
+* Correctly handle default calendar when reading and writing PMXML files.
+* Update the sort order of WBS entries and activities in PMXML files to match the order exported by P6.
+* Match the way P6 exports the WBS code attribute for PMXML files.
+* Update the representation of Boolean values when writing PMXML files to match the form exported by P6.
+* Set the task type attribute when reading PMXML files.
+* Improve duration and actual duration calculations when reading XER files and P6 databases.
+* Fix an issue where resource assignment costs were not being read correctly from PMXML files.
+* Read and write the suspend date and resume date attributes for PMXML files.
+* General improvements to the SDEF writer.
+* Updated to rtfparserkit 1.16.0.
+
+## 8.5.1 (07/01/2021)
+* Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.
+
+## 8.5.0 (06/01/2021)
+* Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.
+* Write WBS and Activity notes to PMXML files.
+* PMXML compatibility improvements to ensure files can be successfully imported into P6.
+
+## 8.4.0 (29/12/2020)
+* Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.
+* Read activity notepad entries for XER, PMXML files and P6 databases.
+* Read schedule and leveling options from PMXML files and P6 databases.
+* Improve support for reading activity cost and work from PMXML files.
+
+## 8.3.5 (15/12/2020)
+* Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
+
+## 8.3.4 (10/12/2020)
+* Updated PMXML schema to version 19.12.
+* Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
+* Updated the getPopulatedFields methods to ignore fields with default values.
+* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
+* Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.
+* Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.
+* Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.
+* Read assignment actual overtime cost and work attributes from PMXML files.
+* Update calculation of assignment work, cost and units attributes for PMXML files.
+
+## 8.3.3 (24/11/2020)
+* Added cost rate table support when reading from and writing to PMXML files.
+* Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. 
+* Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
+* Improve handling of cost rate tables and availability tables when writing to an MSPDI file.
+* Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
+* Align invalid XER record behaviour with P6.
+* Handle Planner files which don't contain an allocations tag.
+* Gracefully handle MPP files with missing view or table data.
+
+## 8.3.2 (22/10/2020)
+* Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)
+* Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)
+* Improved handling of enterprise custom fields when reading MPP files
+* Update Primavera database and XER readers to avoid potential type conversion errors when the caller provides their own field mappings.
+* Improve handling of some MPP12 MPP file variants.
+* Avoid error when reading timephased data from certain MPP files.
+* Gracefully handle MPP files with missing view data.
+* Update junit to 4.13.1.
+
+## 8.3.1 (14/10/2020)
+* Minor updates to PlannerReader.
+
+## 8.3.0 (13/10/2020)
+* Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.
+* Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.
+* Add support for writing expense items, expense categories and cost accounts to PMXML files.
+* Updated the XER file reader to ignore invalid records rather than reporting an error, matching the behaviour of P6
+* Updated the XER file reader to ensure that activity suspend and resume dates are read correctly.
+* Updated the XER file reader to ensure that if the reader returns the project selected by the caller when the caller supplies a value for project ID.
+* Updated PMXML reader to avoid user defined field collisions.
+* Updated PMXML reader to add setProjectID and listProjects methods.
+* Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection
+
+## 8.2.0 (09/09/2020)
+* All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.
+* Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.
+* Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.
+* Ensure that the critical flag is rolled up appropriately to WBS items when reading Primavera schedules.
+* Set export flag property when reading projects from a PMXML file.
+* Corrected data type of resource assignment Work Contour field.
+* Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.
+* Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.
+
+## 8.1.4 (31/08/2020)
+* Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
+* Import milestone constraints from Asta schedules (Contributed by Dave McKay)
+* Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)
+* Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)
+* Gracefully handle a missing table name when reading an XER file.
+* Gracefully handle a unexpected calendar data when reading an XER file.
+* Correctly handle XER files with multi-byte character encoding.
+* Import all schedule and leveling options from XER files.
+* Ensure project calendars are read from PMXML files.
+* Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.
+
+## 8.1.3 (25/06/2020)
+* Improve reliability when reading custom field values from certain MPP12 files.
+* Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.
+* Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.
+* Improve accuracy of task durations when reading Asta schedules.
+* Fix an issue handling the end date of calendar exceptions when reading Asta schedules.
+* Fix an issue with correctly identifying the calendar applied to summary tasks when reading Asta schedules.
+* Populate percent complete, duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.
+* The percent complete value reported for tasks when reading Asta schedules is now Duration Percent Complete. The Overall Percent Complete value originally being returned is available in a custom field. 
+
+## 8.1.2 (18/06/2020)
+* Improve detection of unusual MSPDI file variants.
+* Updated to read task notes from FastTrack FTS files.
+
+## 8.1.1 (17/06/2020)
+* Improve support for Synchro 6.2 SP files.
+
+## 8.1.0 (11/06/2020)
+* Experimental support for reading Project Commander schedules.
+* Update to use JAXB 2.3.2.
+* Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.
+* Strip trailing ASCII NUL characters from text fields when reading from a Primavera database.
+* Improve accuracy of task order when reading Phoenix files.
+* Improve accuracy of task data when reading some MPP file variants.
+* Improve reliability when reading certain SureTrak files.
+
+## 8.0.8 (20/04/2020)
+* Improve handling of numeric character references invalid for XML 1.0 in PMXML files.
+* Improve handling of resource calendars read from Planner files.
+* Improve handling of resource calendars read from MPX files.
+* Ignore the milestone flag when reading MPX files if the task has a non-zero duration.
+* Ensure JSON files can be written when Unique ID predecessor/successor attributes have been read from an MPX file.
+
+## 8.0.7 (17/04/2020)
+* Updated to rtfparserkit 1.15.0.
+* Improve handling of PMXML files with empty calendar exception time ranges.
+
+## 8.0.6 (05/03/2020)
+* Updated to use POI 4.1.2.
+* Improve handling of some XER file variants.
+
+## 8.0.5 (07/02/2020)
+* Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.
+* Ensure summary task start and finish dates are populated when reading PMXML files.
+* Use baseline start and finish dates as planned start and finish dates when writing PMXML files.
+* Late start and late finish dates are now written to PMXML files.
+
+## 8.0.4 (06/02/2020)
+* Update sqlite-jdbc dependency to 3.30.1
+* Improve handling of characters invalid for XML 1.0 in PMXML files generated by P6.
+
+## 8.0.3 (27/01/2020)
+* Improve handling of zero value durations, costs and units from certain MPP files.
+* Improve percent complete calculation for certain XER file and P6 Database schedules.
+* Improve percent complete calculation for certain P3 schedules.
+* Improve handling of incorrectly encoded characters in PMXML files generated by P6.
+* Ensure that negative durations can be written to and read from MSPDI files in the format understood by MS Project.
+
+## 8.0.2 (16/01/2020)
+* Improve handling of zero duration tasks read from Phoenix files.
+
+## 8.0.1 (05/01/2020)
+* Add missing nuget dependency
+
+## 8.0.0 (02/01/2020)
+* MPXJ now requires Java 8 or later.
+* Removed deprecated methods.
+* Updated to use POI 4.1.1.
+* Updated to use IKVM 8.1.5717.0.
+
+## 7.9.8 (27/12/2019)
+* Added support for reading and writing outline code/custom field lookup tables for MSPDI files.
+* Added sample code to demonstrate creation of timephased work.
+* Populate project status date attribute when reading Asta schedules.
+* Populate parent attribute when reading activity code values from Primavera schedules.
+* Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.
+* Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.
+
+## 7.9.7 (25/11/2019)
+* Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.
+
+## 7.9.6 (22/11/2019)
+* Improve support for FastTrack files.
+
+## 7.9.5 (19/11/2019)
+* Added flag to manage compliance with password protection. (Contributed by ztravis)
+* Improve support for Synchro 6.1 SP files.
+* Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.
+
+## 7.9.4 (08/11/2019)
+* Add support for reading Sage 100 Contractor schedule grid files.
+* Ensure attribute names are valid when exporting JSON.
+* Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).
+* Fix an issue when copying a calendar which has exceptions defined.
+
+## 7.9.3 (10/09/2019)
+* Add support for reading task early finish and late finish attributes from Asta PP files.
+* Ensure XER files containing secondary constraints can be read correctly.
+* Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).
+* Ensure base calendars are read correctly for P6 schedules.
+* Ensure MPP files with unexpected auto filter definition data are handled gracefully.
+* Preserve leveling delay format when reading tasks from MSPDI files.
+* Ensure unexpected structure of timephased data is handled gracefully when reading MPP files.
+
+## 7.9.2 (19/08/2019)
+* Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)
+* Improve support for Synchro SP files containing blank tasks.
+* Make constraint type mapping consistent when reading and writing PMXML files.
+* Improve handling of leveling delay units and actual duration units (Based in a contribution by Daniel Schmidt).
+* Improve handling of certain types of malformed MPP files.
+* Improve handling of certain types of malformed SDEF files.
+* Map P6 Equipment resource type to cost rather than work (Contributed by forenpm)
+* Improve handling of certain MPP files containing large numbers of blank tasks.
+* Improve handling of certain MPX files containing trailing delimiters.
+
+## 7.9.1 (01/07/2019)
+* Set task start, finish and percent complete when reading SDEF files.
+
+## 7.9.0 (01/07/2019)
+* Add support for reading SDEF files.
+
+## 7.8.4 (27/06/2019)
+* Add support for reading data links (linked fields) configuration from MPP files.
+* Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).
+* Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.
+* Ensure that activity codes are read for P6 schedules.
+* Improve support for reading custom field values derived from custom field lookup tables in MPP files.
+* Improve support for MPP files written with the June 2019 update of Microsoft Project.
+
+## 7.8.3 (24/05/2019)
+* Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.
+
+## 7.8.2 (19/05/2019)
+* Improve handling of MPP files with missing Props.
+* Improve handling of custom field lookup tables for MPP12 files.
+* Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)
+* Improve handling of Activity Type and Activity ID when writing PMXML files (Based on a contribution by Sebastian Stock)
+* Update PMXML file reader for greater consistency with XER and P6 database readers (Activity ID, Activity Type, Status, and Primary Resource ID)
+* Improve handling of certain FTS files.
+* Improve handling of task notes from MPP8 files.
+* More accurately read predecessors and successors from Asta PP files (Based on a contribution by Dave McKay)
+* When a schedule is read from P6, P3, or SureTrak, Task.getSummary will return true only if a task is part of the WBS
+* Improve support for reading the Synchro Scheduler 2018 SP files.
+* Added Task.hasChildTasks() method.
+* Fixed [Issue 330](https://sourceforge.net/p/mpxj/bugs/330): Splits data coming in as null for all tasks
+
+## 7.8.1 (13/02/2019)
+* Improve support for reading the Synchro Scheduler 2018 SP files.
+* Add support for reading Gantt Designer GNT files.
+* Improve handling of non-standard MSPDI files.
+* Improve handling of non-standard GanttProject files.
+* Update MSPDI generation to ensure MS Project correctly recognises complete milestones without resource assignments.
+* Improve support for reading user defined fields from PMXML files.
+* Ignore hammock tasks when reading PP files.
+
+## 7.8.0 (18/01/2019)
+* Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.
+* Updated Java build to use Maven
+* Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)
+* Updated to fix an issue when the Microsoft JDBC driver is used to access a P6 database in SQL Server 2005
+* Fixed [Issue 332](https://sourceforge.net/p/mpxj/bugs/332): Asta lag sign incorrect (Based on a contribution by Dave McKay)
+* Fixed [Issue 333](https://sourceforge.net/p/mpxj/bugs/333): Asta constraints lost (Contributed by Dave McKay)
+* Fixed [Issue 335](https://sourceforge.net/p/mpxj/bugs/335): MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)
+
+## 7.7.1 (23/10/2018)
+* Read additional schedule options from XER files. (Contributed by forenpm)
+* Improve handling of some types of MPP file with missing resource assignment data.
+* Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).
+* Ensure that timephased actual work is handled correctly for material resources (Contributed by Vadim Gerya).
+* Improve accuracy when reading resource type from MPP files.
+* Improve compatibility of generated MSPDI files with Asta Powerproject (Contributed by Dave McKay).
+
+## 7.7.0 (12/10/2018)
+* Add support for reading the Synchro Scheduler SP files.
+* Add support for reading the activity code (ID) from Asta files.
+* When reading a Phoenix file, set the project's status date to the data date from the storepoint.
+* Handle MSPDI files with timephased assignments that don't specify a start and end date.
+
+## 7.6.3 (04/10/2018)
+* Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)
+* Add support for reading Retained Logic and Progressive Override project attributes from P6. (Contributed by forenpm)
+* Fix incorrect sign when calculating start and finish slack (Contributed by Brian Leach).
+* Correctly read predecessors and successors from Phoenix files.
+
+## 7.6.2 (30/08/2018)
+* Add support for nvarchar columns when reading from a P6 database.
+* Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).
+* Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).
+
+## 7.6.1 (29/08/2018)
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
 * Improve handling of SureTrak projects without a WBS.
+* Improve handling of SureTrak and P3 WBS extraction.
 * Handle unsupported ProjectLibre POD files more gracefully.
 * Improve detection of non MS Project compound OLE documents.
 * Gracefully handle XER files which contain no projects.
