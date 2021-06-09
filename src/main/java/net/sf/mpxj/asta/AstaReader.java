@@ -564,6 +564,16 @@ final class AstaReader
          calendarID = row.getInteger("_COMMON_CALENDAR");
       }
 
+      String name = row.getString("NAMH");
+      if (name == null || name.isEmpty())
+      {         
+         String extendedTaskName = row.getString("_NAME");
+         if (extendedTaskName != null && !extendedTaskName.isEmpty())
+         {
+            name = extendedTaskName;
+         }
+      }
+      
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
@@ -572,7 +582,7 @@ final class AstaReader
       task.setFinish(row.getDate("ENF"));
       //NATURAL_ORDER
       //SPARI_INTEGER
-      task.setName(row.getString("NAMH"));
+      task.setName(name);
       //EXPANDED_TASK
       //PRIORITY
       //UNSCHEDULABLE

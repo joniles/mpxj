@@ -5,7 +5,7 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.3.2">
+		<release date="git master" version="9.4.0">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>
 			<action dev="joniles" type="update">Added support for reading custom fields from Asta Powerproject files.</action>
 			<action dev="joniles" type="update">Ensure short data type values are written to JSON files as numeric values.</action>
@@ -14,7 +14,8 @@
 			<action dev="joniles" type="update">Introduced a separator into rate values when written to a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).</action>			
 			<action dev="joniles" type="update">When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).</action>
 			<action dev="joniles" type="update">Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.</action>			
-			<action dev="joniles" type="update">Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</action>
+			<action dev="joniles" type="update">Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</action>			
+			<action dev="joniles" type="update">Improve population of summary task names when reading from Powerproject PP files.</action>
 		</release>
 		<release date="18/5/2021" version="9.3.1">
 			<action dev="joniles" type="update">Preserve multiple assignments between an activity and a resource when reading P6 schedules.</action>

@@ -1,6 +1,6 @@
 # Changelog
 
-## 9.3.2 (git master)
+## 9.4.0 (git master)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 * Added support for reading custom fields from Asta Powerproject files.
 * Ensure short data type values are written to JSON files as numeric values.
@@ -10,6 +10,7 @@
 * When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).
 * Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.
 * Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).
+* Improve population of summary task names when reading from Powerproject PP files.
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
