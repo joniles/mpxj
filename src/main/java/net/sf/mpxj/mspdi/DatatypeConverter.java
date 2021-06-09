@@ -87,7 +87,7 @@ public final class DatatypeConverter
    {
       Number result;
 
-      if (value == null)
+      if (value == null || value.isEmpty())
       {
          result = null;
       }
@@ -188,7 +188,7 @@ public final class DatatypeConverter
    public static final Date parseOutlineCodeValueDate(String value)
    {
       Date result = null;
-      if (value != null)
+      if (value != null && !value.isEmpty())
       {
          long rawValue = Long.parseLong(value);
          long dateMS = ((rawValue / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;

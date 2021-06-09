@@ -9,6 +9,7 @@
 * Introduced a separator into rate values when written to a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).
 * When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).
 * Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.
+* Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
