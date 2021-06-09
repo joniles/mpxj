@@ -1044,6 +1044,17 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
          {
+            if (rate.getRateTable() == null)
+            {
+               continue;
+            }
+
+            int tableIndex = rate.getRateTable().intValue();
+            if (tableIndex < 0 || tableIndex >= CostRateTable.MAX_TABLES)
+            {
+               continue;
+            }
+
             Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate());
             TimeUnit standardRateFormat = DatatypeConverter.parseTimeUnit(rate.getStandardRateFormat());
             Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate());
@@ -1075,8 +1086,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             }
 
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
-
-            int tableIndex = rate.getRateTable().intValue();
             CostRateTable table = resource.getCostRateTable(tableIndex);
             if (table == null)
             {
