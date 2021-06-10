@@ -11,6 +11,7 @@
 * Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.
 * Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).
 * Improve population of summary task names when reading from Powerproject PP files.
+* Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).
 
 ## 9.3.1 (18/5/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.

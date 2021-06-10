@@ -1682,6 +1682,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       DataType dataType = fieldType.getDataType();
       HashMap<String, CustomFieldValueItem> result = new HashMap<>();
+      // TODO: this doesn't handle hierarchical value lookup
       items.forEach(item -> result.put(DatatypeConverter.printExtendedAttribute(this, item.getValue(), dataType), item));
       return result;
    }

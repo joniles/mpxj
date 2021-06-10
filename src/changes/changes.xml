@@ -15,7 +15,8 @@
 			<action dev="joniles" type="update">When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).</action>
 			<action dev="joniles" type="update">Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.</action>			
 			<action dev="joniles" type="update">Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</action>			
-			<action dev="joniles" type="update">Improve population of summary task names when reading from Powerproject PP files.</action>
+			<action dev="joniles" type="update">Improve population of summary task names when reading from Powerproject PP files.</action>			
+			<action dev="joniles" type="update">Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).</action>
 		</release>
 		<release date="18/5/2021" version="9.3.1">
 			<action dev="joniles" type="update">Preserve multiple assignments between an activity and a resource when reading P6 schedules.</action>
