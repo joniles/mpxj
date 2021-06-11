@@ -247,8 +247,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#932-git-master" class="md-nav__link">
-    9.3.2 (git master)
+  <a href="#941-git-master" class="md-nav__link">
+    9.4.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#940-1162021" class="md-nav__link">
+    9.4.0 (11/6/2021)
   </a>
   
 </li>
@@ -2026,8 +2033,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#932-git-master" class="md-nav__link">
-    9.3.2 (git master)
+  <a href="#941-git-master" class="md-nav__link">
+    9.4.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#940-1162021" class="md-nav__link">
+    9.4.0 (11/6/2021)
   </a>
   
 </li>
@@ -3240,7 +3254,21 @@
                 
                 
                 <h1 id="changelog">Changelog</h1>
-<h2 id="932-git-master">9.3.2 (git master)</h2>
+<h2 id="941-git-master">9.4.1 (git master)</h2>
+<h2 id="940-1162021">9.4.0 (11/6/2021)</h2>
+<ul>
+<li>Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</li>
+<li>Added support for reading custom fields from Asta Powerproject files.</li>
+<li>Ensure short data type values are written to JSON files as numeric values.</li>
+<li>Ensure delay data type values are written to JSON files as duration values.</li>
+<li>Don't write zero rates to JSON files.</li>
+<li>Introduced a separator into rate values when written to a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).</li>
+<li>When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).</li>
+<li>Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.</li>
+<li>Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</li>
+<li>Improve population of summary task names when reading from Powerproject PP files.</li>
+<li>Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).</li>
+</ul>
 <h2 id="931-1852021">9.3.1 (18/5/2021)</h2>
 <ul>
 <li>Preserve multiple assignments between an activity and a resource when reading P6 schedules.</li>

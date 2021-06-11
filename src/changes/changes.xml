@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.4.0">
+		<release date="git master" version="9.4.1">
+		</release>
+		<release date="11/6/2021" version="9.4.0">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>
 			<action dev="joniles" type="update">Added support for reading custom fields from Asta Powerproject files.</action>
 			<action dev="joniles" type="update">Ensure short data type values are written to JSON files as numeric values.</action>

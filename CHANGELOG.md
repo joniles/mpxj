@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.4.0 (git master)
+## 9.4.1 (git master)
+
+## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 * Added support for reading custom fields from Asta Powerproject files.
 * Ensure short data type values are written to JSON files as numeric values.
