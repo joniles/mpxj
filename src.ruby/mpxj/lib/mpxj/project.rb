@@ -130,16 +130,13 @@ module MPXJ
     end
 
     def process_properties(json_data)
-      attribute_types = json_data["property_types"]
-      attribute_values = json_data["property_values"]
-      @properties = Properties.new(self, attribute_types, attribute_values)
+      @properties = Properties.new(self, json_data["property_values"])
     end
 
     def process_resources(json_data)
-      attribute_types = json_data["resource_types"]
       resources = json_data["resources"]
       resources.each do |attribute_values|
-        resource = Resource.new(self, attribute_types, attribute_values)
+        resource = Resource.new(self, attribute_values)
         @all_resources << resource
         @resources_by_unique_id[resource.unique_id] = resource
         @resources_by_id[resource.id] = resource
@@ -147,10 +144,9 @@ module MPXJ
     end
 
     def process_tasks(json_data)
-      attribute_types = json_data["task_types"]
       tasks = json_data["tasks"]
       tasks.each do |attribute_values|
-        task = Task.new(self, attribute_types, attribute_values)
+        task = Task.new(self, attribute_values)
         @all_tasks << task
         @tasks_by_unique_id[task.unique_id] = task
         @tasks_by_id[task.id] = task
@@ -158,10 +154,9 @@ module MPXJ
     end
 
     def process_assignments(json_data)
-      attribute_types = json_data["assignment_types"]
       assignments = json_data["assignments"]
       assignments.each do |attribute_values|
-        assignment = Assignment.new(self, attribute_types, attribute_values)
+        assignment = Assignment.new(self, attribute_values)
         @all_assignments << assignment
         if assignment.task
           assignment.task.assignments << assignment
