@@ -41,11 +41,13 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
@@ -55,6 +57,7 @@ import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
@@ -281,7 +284,7 @@ public final class JsonWriter extends AbstractProjectWriter
          Object value = container.getCurrentValue(field);
          if (value != null)
          {
-            writeField(field, value);
+            writeField(container, field, value);
          }
       }
       m_writer.writeEndObject();
@@ -290,25 +293,27 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
     *
+    * @param container field container
     * @param field field type
     * @param value field value
     */
-   private void writeField(FieldType field, Object value) throws IOException
+   private void writeField(FieldContainer container, FieldType field, Object value) throws IOException
    {
       if (!IGNORED_FIELDS.contains(field))
       {
-         writeField(field.name().toLowerCase(), field.getDataType(), value);
+         writeField(container, field.name().toLowerCase(), field.getDataType(), value);
       }
    }
 
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
     *
+    * @param container field container
     * @param fieldName field name
     * @param fieldType field type
     * @param value field value
     */
-   private void writeField(String fieldName, DataType fieldType, Object value) throws IOException
+   private void writeField(FieldContainer container, String fieldName, DataType fieldType, Object value) throws IOException
    {
       switch (fieldType)
       {
@@ -400,6 +405,18 @@ public final class JsonWriter extends AbstractProjectWriter
          case WORK_CONTOUR:
          {
             writeWorkContourField(fieldName, value);
+            break;
+         }
+
+         case EARNED_VALUE_METHOD:
+         {
+            writeEarnedValueMethodField(container, fieldName, value);
+            break;
+         }
+
+         case TASK_TYPE:
+         {
+            writeTaskTypeField(container, fieldName, value);
             break;
          }
 
@@ -596,7 +613,7 @@ public final class JsonWriter extends AbstractProjectWriter
                type = DataType.STRING;
                entryValue = entryValue.toString();
             }
-            writeField(entry.getKey(), type, entryValue);
+            writeField(null, entry.getKey(), type, entryValue);
          }
       }
       m_writer.writeEndObject();
@@ -728,6 +745,44 @@ public final class JsonWriter extends AbstractProjectWriter
          if (!type.isContourFlat())
          {
             m_writer.writeNameValuePair(fieldName, type.toString());
+         }
+      }
+   }
+
+   /**
+    * Write an earned value method field to the JSON file.
+    *  
+    * @param container field container
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeEarnedValueMethodField(FieldContainer container, String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         EarnedValueMethod method = (EarnedValueMethod) value;
+         if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
+         {
+            m_writer.writeNameValuePair(fieldName, method.name());
+         }
+      }
+   }
+
+   /**
+    * Write a task type field to the JSON file.
+    *  
+    * @param container field container
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeTaskTypeField(FieldContainer container, String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         TaskType type = (TaskType) value;
+         if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
+         {
+            m_writer.writeNameValuePair(fieldName, type.name());
          }
       }
    }
