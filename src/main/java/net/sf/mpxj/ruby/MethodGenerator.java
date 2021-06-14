@@ -1,3 +1,25 @@
+/*
+ * file:       MethodGenerator.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2021
+ * date:       14/06/2021
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package net.sf.mpxj.ruby;
 
@@ -15,9 +37,17 @@ import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
+/**
+ * Generates methods to read attributes for ruby classes.
+ */
 public class MethodGenerator
 {
 
+   /**
+    * Main entry point.
+    * 
+    * @param argv command line arguments
+    */
    public static void main(String[] argv) throws IOException
    {
       if (argv.length != 1)
@@ -31,15 +61,27 @@ public class MethodGenerator
       }
    }
 
+   /**
+    * Generate ruby class methods.
+    * 
+    * @param directory target directory for method files.
+    */
    public void process(File directory) throws IOException
    {
-      writeAttributeTypes(directory, "Property", ProjectField.values());
-      writeAttributeTypes(directory, "Resource", ResourceField.values());
-      writeAttributeTypes(directory, "Task", TaskField.values());
-      writeAttributeTypes(directory, "Assignment", AssignmentField.values());
+      writeAttributeMethods(directory, "Property", ProjectField.values());
+      writeAttributeMethods(directory, "Resource", ResourceField.values());
+      writeAttributeMethods(directory, "Task", TaskField.values());
+      writeAttributeMethods(directory, "Assignment", AssignmentField.values());
    }
 
-   private void writeAttributeTypes(File directory, String name, FieldType[] types) throws IOException
+   /**
+    * Write attribute methods for a specific entity.
+    * 
+    * @param directory target directory
+    * @param name entity name
+    * @param types entity attributes
+    */
+   private void writeAttributeMethods(File directory, String name, FieldType[] types) throws IOException
    {
       List<FieldType> list = Arrays.asList(types);
       list.sort((t1, t2) -> t1.name().compareTo(t2.name()));
@@ -69,6 +111,12 @@ public class MethodGenerator
       }
    }
 
+   /**
+    * Write a single method definition.
+    * 
+    * @param writer output writer
+    * @param field attribute to write
+    */
    private void writeMethod(Writer writer, FieldType field) throws IOException
    {
       String methodName = getMethodName(field.getDataType());
@@ -93,6 +141,12 @@ public class MethodGenerator
       writer.write("\n");
    }
 
+   /**
+    * Generate the name of the method used to process a specific data type.
+    * 
+    * @param type data type 
+    * @return method name
+    */
    private String getMethodName(DataType type)
    {
       String methodName;

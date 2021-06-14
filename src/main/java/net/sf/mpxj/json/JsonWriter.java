@@ -102,6 +102,26 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Returns true of attribute type information is written to the JSON file.
+    * 
+    * @return true if attribute types written
+    */
+   public boolean getWriteAttributeTypes()
+   {
+      return m_writeAttributeTypes;
+   }
+
+   /**
+    * Sets the flag used to determine if attribute types are written to the JSON file.
+    * 
+    * @param writeAttributeTypes set to true to write attribute types
+    */
+   public void setWriteAttributeTypes(boolean writeAttributeTypes)
+   {
+      m_writeAttributeTypes = writeAttributeTypes;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
@@ -254,12 +274,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeAttributeTypes(String name, FieldType[] types) throws IOException
    {
-      m_writer.writeStartObject(name);
-      for (FieldType field : types)
+      if (m_writeAttributeTypes)
       {
-         m_writer.writeNameValuePair(field.name().toLowerCase(), field.getDataType().getValue());
+         m_writer.writeStartObject(name);
+         for (FieldType field : types)
+         {
+            m_writer.writeNameValuePair(field.name().toLowerCase(), field.getDataType().getValue());
+         }
+         m_writer.writeEndObject();
       }
-      m_writer.writeEndObject();
    }
 
    /**
@@ -681,6 +704,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
    private Charset m_encoding = DEFAULT_ENCODING;
+   private boolean m_writeAttributeTypes;
 
    private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
