@@ -2,6 +2,9 @@
 
 ## 9.4.1 (git master)
 * Correct resource assignment percent complete values read from PP files.
+* Don't write Assignment Task GUID or Assignment Resource GUID to JSON.
+* Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).
+* Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).

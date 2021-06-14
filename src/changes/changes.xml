@@ -7,6 +7,9 @@
 	<body>
 		<release date="git master" version="9.4.1">
 			<action dev="joniles" type="update">Correct resource assignment percent complete values read from PP files.</action>
+			<action dev="joniles" type="update">Don't write Assignment Task GUID or Assignment Resource GUID to JSON.</action>
+			<action dev="joniles" type="update">Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).</action>
+			<action dev="joniles" type="update">Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).</action>
 		</release>
 		<release date="11/6/2021" version="9.4.0">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>

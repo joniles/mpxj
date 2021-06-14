@@ -26,11 +26,14 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.AssignmentField;
@@ -48,10 +51,12 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
@@ -290,8 +295,10 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeField(FieldType field, Object value) throws IOException
    {
-      String fieldName = field.name().toLowerCase();
-      writeField(fieldName, field.getDataType(), value);
+      if (!IGNORED_FIELDS.contains(field))
+      {
+         writeField(field.name().toLowerCase(), field.getDataType(), value);
+      }
    }
 
    /**
@@ -381,6 +388,18 @@ public final class JsonWriter extends AbstractProjectWriter
          case RATE:
          {
             writeRateField(fieldName, value);
+            break;
+         }
+
+         case RESOURCE_REQUEST_TYPE:
+         {
+            writeResourceRequestTypeField(fieldName, value);
+            break;
+         }
+
+         case WORK_CONTOUR:
+         {
+            writeWorkContourField(fieldName, value);
             break;
          }
 
@@ -677,6 +696,42 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write a resource request type field to the JSON file.
+    *  
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeResourceRequestTypeField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         ResourceRequestType type = (ResourceRequestType) value;
+         if (type != ResourceRequestType.NONE)
+         {
+            m_writer.writeNameValuePair(fieldName, type.name());
+         }
+      }
+   }
+
+   /**
+    * Write a work contour field to the JSON file.
+    *  
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeWorkContourField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         WorkContour type = (WorkContour) value;
+         if (!type.isContourFlat())
+         {
+            m_writer.writeNameValuePair(fieldName, type.toString());
+         }
+      }
+   }
+
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
@@ -684,7 +739,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
-   private static Map<String, DataType> TYPE_MAP = new HashMap<>();
+   private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);
@@ -693,4 +748,6 @@ public final class JsonWriter extends AbstractProjectWriter
       TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
    }
+
+   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID));
 }
