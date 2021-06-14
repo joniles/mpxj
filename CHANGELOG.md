@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.4.1 (git master)
+* Correct resource assignment percent complete values read from PP files.
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
