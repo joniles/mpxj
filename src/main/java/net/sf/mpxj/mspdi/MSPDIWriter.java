@@ -87,6 +87,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
@@ -1835,7 +1836,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
-            dummy.setResourceUniqueID(NULL_RESOURCE_ID);
+            dummy.setResourceUniqueID(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
@@ -1908,7 +1909,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
+      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
       xml.setResume(mpx.getResume());
       xml.setStart(mpx.getStart());
       xml.setStop(mpx.getStop());
@@ -2351,8 +2352,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private SaveVersion m_saveVersion = SaveVersion.Project2016;
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
-
-   private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);
 
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
 

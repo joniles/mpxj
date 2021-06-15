@@ -555,7 +555,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       // TODO: implement more intelligent rollup of multiple resource assignments
       Function<ResourceAssignment, String> assignmentKey = (a) -> a.getTaskUniqueID() + " " + a.getResourceUniqueID();
       Map<String, ResourceAssignment> map = m_projectFile.getResourceAssignments().stream().collect(Collectors.toMap(assignmentKey, Function.identity(), (a1, a2) -> a1));
-      m_projectFile.getResourceAssignments().stream().filter(a -> map.get(assignmentKey.apply(a)) == a).forEach(a -> allocationList.add(writeAssignment(a)));
+      m_projectFile.getResourceAssignments().stream().filter(a -> a.getResourceUniqueID() != null && map.get(assignmentKey.apply(a)) == a).forEach(a -> allocationList.add(writeAssignment(a)));
    }
 
    private Allocation writeAssignment(ResourceAssignment mpxjAssignment)
