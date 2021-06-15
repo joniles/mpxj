@@ -7,6 +7,9 @@
 * Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).
 * Don't write a value for Task Earned Value Method to JSON if the method matches the project default.
 * Don't write a value for Task Type to JSON if the type matches the project default.
+* When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.
+* For MPX and Planner files, don't write resource assignments for the "null" resource.
+* Handle missing status date when reading P6 schedules from XER files or database.
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
