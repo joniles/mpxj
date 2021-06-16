@@ -1205,15 +1205,22 @@ final class MPP14Reader implements MPPVariantReader
          }
 
          //
-         // Set the calendar name
+         // Configure the calendar
          //
          Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
-         if (calendarID != null && calendarID.intValue() != -1)
+         if (calendarID != null)
          {
-            ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
-            if (calendar != null)
+            if (calendarID.intValue() == -1)
             {
-               task.setCalendar(calendar);
+               task.setCalendarUniqueID(null);
+            }
+            else
+            {
+               ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
+               if (calendar != null)
+               {
+                  task.setCalendar(calendar);
+               }
             }
          }
 

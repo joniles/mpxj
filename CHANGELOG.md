@@ -8,6 +8,7 @@
 * Don't write a value for Task Earned Value Method to JSON if the method matches the project default.
 * Don't write a value for Task Type to JSON if the type matches the project default.
 * Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.
+* Stop writing a default value (-1) for Task Calendar ID to JSON if the task does not have a calendar.
 * When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.
 * For MPX and Planner files, don't write resource assignments for the "null" resource.
 * Handle missing status date when reading P6 schedules from XER files or database.
