@@ -566,14 +566,14 @@ final class AstaReader
 
       String name = row.getString("NAMH");
       if (name == null || name.isEmpty())
-      {         
+      {
          String extendedTaskName = row.getString("_NAME");
          if (extendedTaskName != null && !extendedTaskName.isEmpty())
          {
             name = extendedTaskName;
          }
       }
-      
+
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
@@ -1028,9 +1028,9 @@ final class AstaReader
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
          if (task != null && resource != null)
          {
-            double percentComplete = row.getPercent("PERCENT_COMPLETE").doubleValue();
+            Double percentComplete = row.getPercent("PERCENT_COMPLETE");
             Duration work = row.getWork("EFFORW");
-            double actualWork = work.getDuration() * percentComplete;
+            double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
             double remainingWork = work.getDuration() - actualWork;
 
             ResourceAssignment assignment = task.addResourceAssignment(resource);
@@ -1039,11 +1039,10 @@ final class AstaReader
             assignment.setFinish(row.getDate("ENJ"));
             assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
             assignment.setDelay(row.getDuration("DELAAHOURS"));
-            assignment.setPercentageWorkComplete(Double.valueOf(percentComplete * 100));
+            assignment.setPercentageWorkComplete(percentComplete);
             assignment.setWork(work);
             assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
             assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
-
          }
 
          //PROJID

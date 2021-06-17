@@ -152,7 +152,6 @@ Cost Variance|✓|✓|✓|✓
 Created|✓|✓|✓|✓
 Critical|✓|✓|✓|✓
 Deadline| |✓|✓|✓
-Deliverable GUID| | |✓|✓
 Duration|✓|✓|✓|✓
 Duration Units| |✓|✓| 
 Duration Variance|✓|✓|✓|✓

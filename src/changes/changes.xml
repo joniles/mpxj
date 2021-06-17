@@ -6,6 +6,18 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.4.1">
+			<action dev="joniles" type="update">Correct resource assignment percent complete values read from PP files.</action>
+			<action dev="joniles" type="update">Don't write Assignment Task GUID, Assignment Resource GUID or Resource Calendar GUID to JSON.</action>
+			<action dev="joniles" type="update">Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).</action>
+			<action dev="joniles" type="update">Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).</action>
+			<action dev="joniles" type="update">Don't write a value for Task Earned Value Method to JSON if the method matches the project default.</action>
+			<action dev="joniles" type="update">Don't write a value for Task Type to JSON if the type matches the project default.</action>			
+			<action dev="joniles" type="update">Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.</action>			
+			<action dev="joniles" type="update">Stop writing a default value (-1) for Task Calendar ID to JSON if the task does not have a calendar.</action>
+			<action dev="joniles" type="update">When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</action>			
+			<action dev="joniles" type="update">For MPX and Planner files, don't write resource assignments for the "null" resource.</action>
+			<action dev="joniles" type="update">Handle missing status date when reading P6 schedules from XER files or database.</action>
+			<action dev="joniles" type="update">When redaing MPP files, treat UUID's which are all zeros as null.</action>
 		</release>
 		<release date="11/6/2021" version="9.4.0">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>

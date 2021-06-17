@@ -661,9 +661,9 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write any resource assignments
       //
-      if (record.getResourceAssignments().isEmpty() == false)
+      for (ResourceAssignment assignment : record.getResourceAssignments())
       {
-         for (ResourceAssignment assignment : record.getResourceAssignments())
+         if (assignment.getResource() != null)
          {
             writeResourceAssignment(assignment);
          }
@@ -759,7 +759,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_buffer.append(MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(formatResource(record.getResource()));
+      m_buffer.append(record.getResource().getID());
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatUnits(record.getUnits())));
       m_buffer.append(m_delimiter);
@@ -783,7 +783,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getDelay())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getResourceUniqueID()));
+      m_buffer.append(record.getResource().getUniqueID());
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
@@ -1422,18 +1422,6 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
       return (value);
-   }
-
-   /**
-    * Formats a resource, taking into account that the resource reference
-    * may be null.
-    *
-    * @param resource Resource instance
-    * @return formatted value
-    */
-   private String formatResource(Resource resource)
-   {
-      return (resource == null ? "-65535" : format(resource.getID()));
    }
 
    /**

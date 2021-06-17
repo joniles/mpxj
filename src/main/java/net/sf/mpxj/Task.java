@@ -5317,7 +5317,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          {
             case PARENT_TASK_UNIQUE_ID:
             {
-               result = m_parent == null ? Integer.valueOf(-1) : m_parent.getUniqueID();
+               result = m_parent == null ? null : m_parent.getUniqueID();
                break;
             }
 

@@ -39,6 +39,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
+import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedCostNormaliser;
@@ -159,6 +160,12 @@ public class ResourceAssignmentFactory
          assignment.setResponsePending((meta[9] & 0x01) != 0);
          assignment.setTeamStatusPending((meta[10] & 0x02) != 0);
 
+         // Map the null resource ID value to null
+         if (NumberHelper.equals(assignment.getResourceUniqueID(), MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID))
+         {
+            assignment.setResourceUniqueID(null);
+         }
+         
          processHyperlinkData(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
 
          //
