@@ -295,7 +295,10 @@ public final class MPPUtility
          long2 |= ((long) (data[offset + 14] & 0xFF)) << 8;
          long2 |= ((long) (data[offset + 15] & 0xFF)) << 0;
 
-         result = new UUID(long1, long2);
+         if (long1 != 0 || long2 != 0)
+         {
+            result = new UUID(long1, long2);
+         }
       }
       return result;
    }

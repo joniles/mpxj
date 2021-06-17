@@ -12,6 +12,7 @@
 * When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.
 * For MPX and Planner files, don't write resource assignments for the "null" resource.
 * Handle missing status date when reading P6 schedules from XER files or database.
+* When redaing MPP files, treat UUID's which are all zeros as null.
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
