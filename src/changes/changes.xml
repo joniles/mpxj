@@ -17,7 +17,8 @@
 			<action dev="joniles" type="update">When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</action>			
 			<action dev="joniles" type="update">For MPX and Planner files, don't write resource assignments for the "null" resource.</action>
 			<action dev="joniles" type="update">Handle missing status date when reading P6 schedules from XER files or database.</action>
-			<action dev="joniles" type="update">When redaing MPP files, treat UUID's which are all zeros as null.</action>
+			<action dev="joniles" type="update">When reading MPP files, treat UUID's which are all zeros as null.</action>
+			<action dev="joniles" type="update">Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</action>
 		</release>
 		<release date="11/6/2021" version="9.4.0">
 			<action dev="joniles" type="update">Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</action>
