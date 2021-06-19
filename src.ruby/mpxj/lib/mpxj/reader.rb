@@ -20,7 +20,7 @@ module MPXJ
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
 
       begin
-        classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
+        classpath = "#{File.dirname(__FILE__)}/*"
         java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
           report_error(java_output)
@@ -48,15 +48,6 @@ module MPXJ
       args = []
       args << "-Xmx#{@@max_memory_size}" if @@max_memory_size.present?
       args.join(' ')
-    end
-
-    # @private
-    def self.path_separator
-      if windows?
-        ";"
-      else
-        ":"
-      end
     end
 
     # @private

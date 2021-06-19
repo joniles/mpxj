@@ -9,7 +9,6 @@ module MPXJ
       @parent_project = parent_project
       @attribute_values = attribute_values
     end
-    protected
 
     attr_reader :attribute_values
 
