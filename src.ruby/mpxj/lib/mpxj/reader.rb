@@ -50,11 +50,6 @@ module MPXJ
       args.join(' ')
     end
 
-    # @private
-    def self.windows?
-      (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
-    end
-
      # @private
     def self.report_error(java_output)
       if java_output.include?('Conversion Error: ')
