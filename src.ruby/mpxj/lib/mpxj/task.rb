@@ -1,13 +1,15 @@
 module MPXJ
   # Represents a task in a project plan
   class Task < Container
+    include MPXJ::TaskMethods
+
     attr_reader :assignments
     attr_reader :predecessors
     attr_reader :successors
     attr_reader :child_tasks
 
-    def initialize(parent_project, attribute_types, attribute_values)
-      super(parent_project, attribute_types, attribute_values)
+    def initialize(parent_project, attribute_values)
+      super(parent_project, attribute_values)
       @assignments = []
       @child_tasks = []
       process_relations
@@ -24,8 +26,6 @@ module MPXJ
 
     private
 
-    RELATION_ATTRIBUTE_TYPES = {"task_unique_id" => 17, "lag" => 6, "type" => 10}
-
     def process_relations
       @predecessors = process_relation_list(attribute_values["predecessors"])
       @successors = process_relation_list(attribute_values["successors"])
@@ -35,7 +35,7 @@ module MPXJ
       result = []
       if list
         list.each do |attribute_values|
-          result << Relation.new(self, RELATION_ATTRIBUTE_TYPES, attribute_values)
+          result << Relation.new(self, attribute_values)
         end
       end
       result

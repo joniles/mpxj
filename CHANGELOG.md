@@ -2,6 +2,8 @@
 
 ## 9.4.1 (git master)
 * Correct resource assignment percent complete values read from PP files.
+* JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).
+* The MPXJ Ruby Gem now generates explicit methods to access attributes rather than relying on "method_missing" to intercept and act on attribute access.
 * Don't write Assignment Task GUID, Assignment Resource GUID or Resource Calendar GUID to JSON.
 * Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).
 * Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).
