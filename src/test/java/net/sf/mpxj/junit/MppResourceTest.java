@@ -378,16 +378,16 @@ public class MppResourceTest
    private void testResourceOutlineCodes(ProjectFile mpp) throws Exception
    {
       Resource resourceWade = mpp.getResourceByID(Integer.valueOf(1));
-      assertEquals("AAA", resourceWade.getOutlineCode1());
-      assertEquals("BBB", resourceWade.getOutlineCode2());
-      assertEquals("CCC", resourceWade.getOutlineCode3());
-      assertEquals("DDD", resourceWade.getOutlineCode4());
-      assertEquals("EEE", resourceWade.getOutlineCode5());
-      assertEquals("FFF", resourceWade.getOutlineCode6());
-      assertEquals("GGG", resourceWade.getOutlineCode7());
-      assertEquals("HHH", resourceWade.getOutlineCode8());
-      assertEquals("III", resourceWade.getOutlineCode9());
-      assertEquals("JJJ", resourceWade.getOutlineCode10());
+      assertEquals("AAA", resourceWade.getOutlineCode(1));
+      assertEquals("BBB", resourceWade.getOutlineCode(2));
+      assertEquals("CCC", resourceWade.getOutlineCode(3));
+      assertEquals("DDD", resourceWade.getOutlineCode(4));
+      assertEquals("EEE", resourceWade.getOutlineCode(5));
+      assertEquals("FFF", resourceWade.getOutlineCode(6));
+      assertEquals("GGG", resourceWade.getOutlineCode(7));
+      assertEquals("HHH", resourceWade.getOutlineCode(8));
+      assertEquals("III", resourceWade.getOutlineCode(9));
+      assertEquals("JJJ", resourceWade.getOutlineCode(10));
    }
 
    /**

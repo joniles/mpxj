@@ -45,6 +45,7 @@ like to be featured in this list.
 * OmniPlan [www.omnigroup.com](http://www.omnigroup.com)
 * Onepoint Project [www.onepoint-project.com](http://www.onepoint-project.com)
 * OpenProj [openproj.org](http://openproj.org/)
+* Parasoft DTP [www.parasoft.com/products/parasoft-dtp](https://www.parasoft.com/products/parasoft-dtp/)
 * Pavone [www.pavone.com](http://www.pavone.com)
 * Pemari [www.pemari.com](http://www.pemari.com)
 * PIEmatrix [piematrix.com](http://piematrix.com)
