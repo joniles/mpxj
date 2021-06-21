@@ -1,7 +1,7 @@
 module MPXJ
   # Represents a relationship between two tasks in a project plan
   class Relation < Container
-  	# Retrieve the Task Unique ID value
+    # Retrieve the Task Unique ID value
     #
     # @return Task Unique ID value
  		def task_unique_id
