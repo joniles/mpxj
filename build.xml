@@ -167,6 +167,13 @@
 		<copy todir="${basedir}/src.ruby/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
+		<java classname="net.sf.mpxj.ruby.MethodGenerator" failonerror="true">
+			<arg value="${basedir}/src.ruby/mpxj/lib/mpxj" />
+			<classpath>
+				<pathelement path="${classpath}" />
+				<pathelement path="${basedir}/mpxj.jar" />
+			</classpath>
+		</java>
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">

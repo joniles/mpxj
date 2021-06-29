@@ -2,14 +2,21 @@
 
 ## 9.4.1 (git master)
 * Correct resource assignment percent complete values read from PP files.
+* JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).
+* The MPXJ Ruby Gem now generates explicit methods to access attributes rather than relying on "method_missing" to intercept and act on attribute access.
 * Don't write Assignment Task GUID, Assignment Resource GUID or Resource Calendar GUID to JSON.
 * Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).
 * Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).
 * Don't write a value for Task Earned Value Method to JSON if the method matches the project default.
 * Don't write a value for Task Type to JSON if the type matches the project default.
+* Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.
+* Stop writing a default value (-1) for Task Calendar ID to JSON if the task does not have a calendar.
 * When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.
 * For MPX and Planner files, don't write resource assignments for the "null" resource.
 * Handle missing status date when reading P6 schedules from XER files or database.
+* When reading MPP files, treat UUID's which are all zeros as null.
+* Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.
+* Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).

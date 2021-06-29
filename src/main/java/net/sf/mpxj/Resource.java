@@ -1723,11 +1723,34 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Set an outline code value.
+    *
+    * @param index outline code index (1-10)
+    * @param value outline code value
+    */
+   public void setOutlineCode(int index, String value)
+   {
+      set(selectField(ResourceFieldLists.CUSTOM_OUTLINE_CODE, index), value);
+   }
+
+   /**
+    * Retrieve an outline code value.
+    *
+    * @param index outline code index (1-10)
+    * @return outline code value
+    */
+   public String getOutlineCode(int index)
+   {
+      return (String) getCachedValue(selectField(ResourceFieldLists.CUSTOM_OUTLINE_CODE, index));
+   }
+
+   /**
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(1, value)
     */
-   public void setOutlineCode1(String value)
+   @Deprecated public void setOutlineCode1(String value)
    {
       set(ResourceField.OUTLINE_CODE1, value);
    }
@@ -1736,8 +1759,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(1)
     */
-   public String getOutlineCode1()
+   @Deprecated public String getOutlineCode1()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE1));
    }
@@ -1746,8 +1770,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(2, value)
     */
-   public void setOutlineCode2(String value)
+   @Deprecated public void setOutlineCode2(String value)
    {
       set(ResourceField.OUTLINE_CODE2, value);
    }
@@ -1756,8 +1781,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(2)
     */
-   public String getOutlineCode2()
+   @Deprecated public String getOutlineCode2()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE2));
    }
@@ -1766,8 +1792,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(3, value)
     */
-   public void setOutlineCode3(String value)
+   @Deprecated public void setOutlineCode3(String value)
    {
       set(ResourceField.OUTLINE_CODE3, value);
    }
@@ -1776,8 +1803,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(3)
     */
-   public String getOutlineCode3()
+   @Deprecated public String getOutlineCode3()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE3));
    }
@@ -1786,8 +1814,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(4, value)
     */
-   public void setOutlineCode4(String value)
+   @Deprecated public void setOutlineCode4(String value)
    {
       set(ResourceField.OUTLINE_CODE4, value);
    }
@@ -1796,8 +1825,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(4)
     */
-   public String getOutlineCode4()
+   @Deprecated public String getOutlineCode4()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE4));
    }
@@ -1806,8 +1836,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(5, value)
     */
-   public void setOutlineCode5(String value)
+   @Deprecated public void setOutlineCode5(String value)
    {
       set(ResourceField.OUTLINE_CODE5, value);
    }
@@ -1816,8 +1847,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(5)
     */
-   public String getOutlineCode5()
+   @Deprecated public String getOutlineCode5()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE5));
    }
@@ -1826,8 +1858,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(6, value)
     */
-   public void setOutlineCode6(String value)
+   @Deprecated public void setOutlineCode6(String value)
    {
       set(ResourceField.OUTLINE_CODE6, value);
    }
@@ -1836,8 +1869,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(6)
     */
-   public String getOutlineCode6()
+   @Deprecated public String getOutlineCode6()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE6));
    }
@@ -1846,8 +1880,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(7, value)
     */
-   public void setOutlineCode7(String value)
+   @Deprecated public void setOutlineCode7(String value)
    {
       set(ResourceField.OUTLINE_CODE7, value);
    }
@@ -1856,8 +1891,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(7)
     */
-   public String getOutlineCode7()
+   @Deprecated public String getOutlineCode7()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE7));
    }
@@ -1866,8 +1902,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(8, value)
     */
-   public void setOutlineCode8(String value)
+   @Deprecated public void setOutlineCode8(String value)
    {
       set(ResourceField.OUTLINE_CODE8, value);
    }
@@ -1876,8 +1913,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(8)
     */
-   public String getOutlineCode8()
+   @Deprecated public String getOutlineCode8()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE8));
    }
@@ -1886,8 +1924,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(9, value)
     */
-   public void setOutlineCode9(String value)
+   @Deprecated public void setOutlineCode9(String value)
    {
       set(ResourceField.OUTLINE_CODE9, value);
    }
@@ -1896,8 +1935,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(9)
     */
-   public String getOutlineCode9()
+   @Deprecated public String getOutlineCode9()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE9));
    }
@@ -1906,8 +1946,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the value of an outline code field.
     *
     * @param value outline code value
+    * @deprecated use setOutlineCode(10, value)
     */
-   public void setOutlineCode10(String value)
+   @Deprecated public void setOutlineCode10(String value)
    {
       set(ResourceField.OUTLINE_CODE10, value);
    }
@@ -1916,8 +1957,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Retrieves the value of an outline code field.
     *
     * @return outline code value
+    * @deprecated use getOutlineCode(10)
     */
-   public String getOutlineCode10()
+   @Deprecated public String getOutlineCode10()
    {
       return ((String) getCachedValue(ResourceField.OUTLINE_CODE10));
    }

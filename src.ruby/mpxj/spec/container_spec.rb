@@ -10,10 +10,4 @@ describe MPXJ::Container do
       expect(@project.get_task_by_id(1).parent_project).to eq(@project)
     end
   end
-
-  describe "#method_missing" do
-    it 'returns attribute when missing method called' do
-      expect(@project.get_task_by_id(1).name).to eq("Task 1")
-    end
-  end
 end
