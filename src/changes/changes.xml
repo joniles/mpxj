@@ -5,7 +5,8 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.4.1">
+		<release date="git master" version="9.5.0">
+			<action dev="joniles" type="update">Added support for reading baseline data from embedded baselines in PP files.</action>
 			<action dev="joniles" type="update">Correct resource assignment percent complete values read from PP files.</action>
 			<action dev="joniles" type="update">JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).</action>			
 			<action dev="joniles" type="update">The MPXJ Ruby Gem now generates explicit methods to access attributes rather than relying on "method_missing" to intercept and act on attribute access.</action>

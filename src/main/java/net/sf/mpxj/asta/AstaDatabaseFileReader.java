@@ -65,7 +65,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          // This ensures that it is an explicit dependency of MPXJ
          // and will work as expected in .Net.
          m_connection = org.sqlite.JDBC.createConnection(url, props);
-         m_projectID = Integer.valueOf(0);
          return read();
       }
 
@@ -96,8 +95,16 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
     */
    public ProjectFile read() throws MPXJException
    {
+      ProjectFile project = read(DEFAULT_PROJECT_ID);
+      processBaseline(project, DEFAULT_PROJECT_ID);
+      return project;
+   }
+
+   private ProjectFile read(Integer projectID) throws MPXJException
+   {
       try
       {
+         m_projectID = projectID;
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
@@ -109,7 +116,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          processPredecessors();
          processAssignments();
          processCustomFields();
-         
+
          m_reader = null;
 
          return project;
@@ -124,7 +131,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-
    }
 
    /**
@@ -453,10 +459,41 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
       return list;
    }
+
+   private void processBaseline(ProjectFile project, Integer projectID) throws MPXJException
+   {
+      try
+      {
+         // We don't need the project_summary join, but this ensures that we know the baseline project exists
+         List<Row> baseline = getRows("select baseline_summary.baseline_project_id from baseline_summary join userr on userr.projid = baseline_summary.projid and userr.current_baseline_id = baseline_summary.baseline_id join project_summary on project_summary.projid = baseline_summary.baseline_project_id where baseline_summary.projid=?", projectID);
+         if (!baseline.isEmpty())
+         {
+            // Ignore the value we get back if it matches the current project
+            Integer baselineProjectID = baseline.get(0).getInteger("BASELINE_PROJECT_ID");
+            if (baselineProjectID != null && !baselineProjectID.equals(projectID))
+            {
+               ProjectFile baselineProject = read(baselineProjectID);
+
+               // It looks like Powerproject uses a single ID generator for all entities,
+               // so we should be able to match on Unique ID only (no overlap between bar, task, milestone etc).
+               /// To be on the safe side we'll build a key which includes the summary and milestone flags.
+               project.setBaseline(baselineProject, t -> t.getUniqueID() + ":" + t.getSummary() + ":" + t.getMilestone());
+            }
+         }
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException("Failed to read baseline data", ex);
+      }
+   }
+
    private AstaReader m_reader;
-   private Integer m_projectID = Integer.valueOf(1);
+   private Integer m_projectID;
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
    private Map<String, Integer> m_meta = new HashMap<>();
+   
+   private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(0);
 }
