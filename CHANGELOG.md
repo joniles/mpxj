@@ -16,6 +16,7 @@
 * Handle missing status date when reading P6 schedules from XER files or database.
 * When reading MPP files, treat UUID's which are all zeros as null.
 * Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.
+* Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.
 
 ## 9.4.0 (11/6/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).

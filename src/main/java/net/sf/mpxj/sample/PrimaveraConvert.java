@@ -29,6 +29,7 @@ import java.util.Properties;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import net.sf.mpxj.primavera.PrimaveraHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
@@ -130,7 +131,7 @@ public final class PrimaveraConvert
 
          baselineReader.setProjectID(baselineProjectID.intValue());
          ProjectFile baselineProjectFile = baselineReader.read();
-         projectFile.setBaseline(baselineProjectFile, t -> t.getCanonicalActivityID());
+         projectFile.setBaseline(baselineProjectFile, PrimaveraHelper::baselineKey);
          elapsed = System.currentTimeMillis() - start;
          System.out.println("Reading baseline completed in " + elapsed + "ms.");
       }
