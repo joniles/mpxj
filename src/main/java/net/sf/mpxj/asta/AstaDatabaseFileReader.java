@@ -464,7 +464,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    {
       try
       {
-         // We don't need the project/_summary join, but this ensures that we know the baseline project exists
+         // We don't need the project_summary join, but this ensures that we know the baseline project exists
          List<Row> baseline = getRows("select baseline_summary.baseline_project_id from baseline_summary join userr on userr.projid = baseline_summary.projid and userr.current_baseline_id = baseline_summary.baseline_id join project_summary on project_summary.projid = baseline_summary.baseline_project_id where baseline_summary.projid=?", projectID);
          if (!baseline.isEmpty())
          {
