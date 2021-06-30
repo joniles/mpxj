@@ -30,6 +30,7 @@ net.sf.mpxj.primavera.suretrak
 net.sf.mpxj.projectcommander
 net.sf.mpxj.projectlibre
 net.sf.mpxj.reader
+net.sf.mpxj.ruby
 net.sf.mpxj.sage
 net.sf.mpxj.sample
 net.sf.mpxj.sdef

@@ -247,8 +247,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#941-git-master" class="md-nav__link">
-    9.4.1 (git master)
+  <a href="#951-git-master" class="md-nav__link">
+    9.5.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#950-3062021" class="md-nav__link">
+    9.5.0 (30/6/2021)
   </a>
   
 </li>
@@ -2033,8 +2040,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#941-git-master" class="md-nav__link">
-    9.4.1 (git master)
+  <a href="#951-git-master" class="md-nav__link">
+    9.5.1 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#950-3062021" class="md-nav__link">
+    9.5.0 (30/6/2021)
   </a>
   
 </li>
@@ -3254,7 +3268,27 @@
                 
                 
                 <h1 id="changelog">Changelog</h1>
-<h2 id="941-git-master">9.4.1 (git master)</h2>
+<h2 id="951-git-master">9.5.1 (git master)</h2>
+<h2 id="950-3062021">9.5.0 (30/6/2021)</h2>
+<ul>
+<li>Added support for reading baseline data from embedded baselines in PP files.</li>
+<li>Correct resource assignment percent complete values read from PP files.</li>
+<li>JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).</li>
+<li>The MPXJ Ruby Gem now generates explicit methods to access attributes rather than relying on "method_missing" to intercept and act on attribute access.</li>
+<li>Don't write Assignment Task GUID, Assignment Resource GUID or Resource Calendar GUID to JSON.</li>
+<li>Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).</li>
+<li>Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).</li>
+<li>Don't write a value for Task Earned Value Method to JSON if the method matches the project default.</li>
+<li>Don't write a value for Task Type to JSON if the type matches the project default.</li>
+<li>Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.</li>
+<li>Stop writing a default value (-1) for Task Calendar ID to JSON if the task does not have a calendar.</li>
+<li>When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</li>
+<li>For MPX and Planner files, don't write resource assignments for the "null" resource.</li>
+<li>Handle missing status date when reading P6 schedules from XER files or database.</li>
+<li>When reading MPP files, treat UUID's which are all zeros as null.</li>
+<li>Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</li>
+<li>Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.</li>
+</ul>
 <h2 id="940-1162021">9.4.0 (11/6/2021)</h2>
 <ul>
 <li>Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).</li>
