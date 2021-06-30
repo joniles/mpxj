@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.5.0">
+		<release date="git master" version="9.5.1">
+		</release>
+		<release date="30/6/2021" version="9.5.0">
 			<action dev="joniles" type="update">Added support for reading baseline data from embedded baselines in PP files.</action>
 			<action dev="joniles" type="update">Correct resource assignment percent complete values read from PP files.</action>
 			<action dev="joniles" type="update">JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).</action>			

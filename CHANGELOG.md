@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.5.0 (git master)
+## 9.5.1 (git master)
+
+## 9.5.0 (30/6/2021)
 * Added support for reading baseline data from embedded baselines in PP files.
 * Correct resource assignment percent complete values read from PP files.
 * JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).
