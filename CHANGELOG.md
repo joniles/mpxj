@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.5.1 (git master)
+* When using ProjectFile.setBaseline, gracefully handle duplicate task key values.
 
 ## 9.5.0 (30/6/2021)
 * Added support for reading baseline data from embedded baselines in PP files.
