@@ -6,7 +6,7 @@
 		<tstamp />
 
 		<property environment="env"/>
-		<property name="current.version" value="9.5.0" />
+		<property name="current.version" value="9.5.1" />
 		<property name="maven.dir" value="c:/java/apache-maven-3.6.3"/>
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />

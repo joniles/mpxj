@@ -1,10 +1,12 @@
 # Changelog
 
-## 9.5.1 (git master)
+## 9.5.2 (git master)
+
+## 9.5.1 (01/07/2021)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.
 * Handle missing values populating cost rate table from an MPP file.
 
-## 9.5.0 (30/6/2021)
+## 9.5.0 (30/06/2021)
 * Added support for reading baseline data from embedded baselines in PP files.
 * Correct resource assignment percent complete values read from PP files.
 * JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).
@@ -23,7 +25,7 @@
 * Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.
 * Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.
 
-## 9.4.0 (11/6/2021)
+## 9.4.0 (11/06/2021)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 * Added support for reading custom fields from Asta Powerproject files.
 * Ensure short data type values are written to JSON files as numeric values.
@@ -36,7 +38,7 @@
 * Improve population of summary task names when reading from Powerproject PP files.
 * Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).
 
-## 9.3.1 (18/5/2021)
+## 9.3.1 (18/05/2021)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
 * Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 * Include an entry for 0% in the WorkContour curve definition.
