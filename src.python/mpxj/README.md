@@ -44,10 +44,9 @@ import mpxj
 
 jpype.startJVM()
 
-from jpype import *
-from java.lang import *
-from java.text import *
-from net.sf.mpxj import *
+from java.lang import Double
+from java.text import SimpleDateFormat
+from net.sf.mpxj import ProjectFile, TaskField, Duration, TimeUnit, RelationType
 
 # The helper class we use later to actually write the file
 # selects the file type based on the extension of the
