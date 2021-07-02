@@ -41,15 +41,7 @@ public final class Rate
     */
    public Rate(Number amount, TimeUnit time)
    {
-      if (amount == null)
-      {
-         m_amount = 0;
-      }
-      else
-      {
-         m_amount = amount.doubleValue();
-      }
-
+      m_amount = NumberHelper.getDouble(amount);
       m_units = time;
    }
 

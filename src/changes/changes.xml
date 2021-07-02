@@ -6,7 +6,8 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.5.1">
-			<action dev="joniles" type="update">When using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>
+			<action dev="joniles" type="update">When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>
+			<action dev="joniles" type="update">Handle missing values populating cost rate table from an MPP file.</action>
 		</release>
 		<release date="30/6/2021" version="9.5.0">
 			<action dev="joniles" type="update">Added support for reading baseline data from embedded baselines in PP files.</action>

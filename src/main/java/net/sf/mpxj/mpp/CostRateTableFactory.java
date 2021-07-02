@@ -65,13 +65,13 @@ final class CostRateTableFactory
          //
          if (index == 0)
          {
-            Rate standardRate = resource.getStandardRate();
+            Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : resource.getStandardRate();
             TimeUnit standardRateUnits = standardRate.getUnits();
 
-            Rate overtimeRate = resource.getOvertimeRate();
+            Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : resource.getOvertimeRate();
             TimeUnit overtimeRateUnits = overtimeRate.getUnits();
 
-            Number costPerUse = resource.getCostPerUse();
+            Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : resource.getCostPerUse();
             Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
             entries.add(new CostRateTableEntry(standardRate, standardRateUnits, overtimeRate, overtimeRateUnits, costPerUse, null, endDate));

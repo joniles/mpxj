@@ -1,7 +1,8 @@
 # Changelog
 
 ## 9.5.1 (git master)
-* When using ProjectFile.setBaseline, gracefully handle duplicate task key values.
+* When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.
+* Handle missing values populating cost rate table from an MPP file.
 
 ## 9.5.0 (30/6/2021)
 * Added support for reading baseline data from embedded baselines in PP files.
