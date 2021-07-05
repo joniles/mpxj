@@ -92,6 +92,7 @@ Microsoft Project Server URL|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Minutes per Day|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Minutes per Week|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Multiple Critical Paths| | | | | | |✓|✓| | | | | | | | | | | | | | | 
+Must Finish By| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Name|✓| | |✓|✓|✓|✓| | |✓|✓|✓|✓|✓|✓|✓| |✓| | | | | 
 New Tasj Start Is Project Start|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 New Tasks Are Effort Driven| | | | | | |✓| | |✓| | | | | | | | | | | | | 

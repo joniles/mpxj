@@ -2526,6 +2526,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_ID.getValue()] = "Project ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_PROJECT_UNIQUE_ID.getValue()] = "Baseline Project Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.CRITICAL_ACTIVITY_TYPE.getValue()] = "Critical Activity Type";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MUST_FINISH_BY.getValue()] = "Must Finish By";
 
       PROJECT_COLUMNS_ARRAY[ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       PROJECT_COLUMNS_ARRAY[ProjectField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";

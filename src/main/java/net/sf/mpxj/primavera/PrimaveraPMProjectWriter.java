@@ -432,6 +432,7 @@ final class PrimaveraPMProjectWriter
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
+      project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
       project.setPlannedStartDate(mpxj.getStartDate());
@@ -488,6 +489,7 @@ final class PrimaveraPMProjectWriter
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
+      project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
       project.setPlannedStartDate(mpxj.getStartDate());
@@ -501,7 +503,7 @@ final class PrimaveraPMProjectWriter
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);      
    }
 
    /**

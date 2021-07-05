@@ -677,7 +677,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-
+      properties.setMustFinishBy(project.getMustFinishByDate());
+      
       processScheduleOptions(project.getScheduleOptions());
    }
 
@@ -694,6 +695,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(false);
+      properties.setMustFinishBy(project.getMustFinishByDate());
    }
 
    /**

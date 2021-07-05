@@ -2752,6 +2752,26 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Sets the must finish by date for this project.
+    * 
+    * @param date must finish by date
+    */
+   public void setMustFinishBy(Date date)
+   {
+      set(ProjectField.MUST_FINISH_BY, date);
+   }
+
+   /**
+    * Retrieves the must finish by date for this project.
+    * 
+    * @return must finish by date 
+    */
+   public Date getMustFinishBy()
+   {
+      return (Date) getCachedValue(ProjectField.MUST_FINISH_BY);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)

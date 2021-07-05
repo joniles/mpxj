@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.5.2">
+			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
 		</release>
 		<release date="01/07/2021" version="9.5.1">
 			<action dev="joniles" type="update">When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>
