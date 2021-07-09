@@ -144,8 +144,8 @@ public final class SDEFWriter extends AbstractProjectWriter
       m_daysPerMonth = record.getDaysPerMonth().doubleValue();
 
       Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
-      Date startDate = record.getStartDate() == null ? m_projectFile.getStartDate() : record.getStartDate();
-      Date finishDate = record.getFinishDate() == null ? m_projectFile.getFinishDate() : record.getFinishDate();
+      Date startDate = record.getStartDate();
+      Date finishDate = record.getFinishDate();
 
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);

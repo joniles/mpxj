@@ -291,12 +291,23 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Find the earliest task start date. We treat this as the
-    * start date for the project.
+    * Find the earliest task start date.
+    *
+    * @return start date
+    *  
+    * @deprecated use ProjectFile.getEarliestStartDate() or ProjectProperties.getStartDate()
+    */
+   @Deprecated public Date getStartDate()
+   {
+      return getEarliestStartDate();
+   }
+
+   /**
+    * Find the earliest task start date.
     *
     * @return start date
     */
-   public Date getStartDate()
+   public Date getEarliestStartDate()
    {
       Date startDate = null;
 
@@ -354,12 +365,23 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Find the latest task finish date. We treat this as the
-    * finish date for the project.
+    * Find the latest task finish date.
+    *
+    * @return finish date
+    * 
+    * @deprecated use ProjectFile.getLatestFinishDate() or ProjectProperties.getFinishDate() 
+    */
+   @Deprecated public Date getFinishDate()
+   {
+      return getLatestFinishDate();
+   }
+
+   /**
+    * Find the latest task finish date.
     *
     * @return finish date
     */
-   public Date getFinishDate()
+   public Date getLatestFinishDate()
    {
       Date finishDate = null;
 

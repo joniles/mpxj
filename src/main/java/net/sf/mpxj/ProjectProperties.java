@@ -601,8 +601,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the project start date. If an explicit start date has not been
-    * set, this method calculates the start date by looking for
-    * the earliest task start date.
+    * set, we fall back on the earliest start date in the file.
     *
     * @return project start date
     */
@@ -611,24 +610,23 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       Date result = (Date) getCachedValue(ProjectField.START_DATE);
       if (result == null)
       {
-         result = getParentFile().getStartDate();
+         result = getParentFile().getEarliestStartDate();
       }
       return (result);
    }
 
    /**
-    * Retrieves the project finish date. If an explicit finish date has not been
-    * set, this method calculates the finish date by looking for
-    * the latest task finish date.
+    * Retrieves the project finish date. If an explicit finish date has not been set we
+    * fall back on the latest task finish date in the file.
     *
-    * @return Finish Date
+    * @return project finish date
     */
    public Date getFinishDate()
    {
       Date result = (Date) getCachedValue(ProjectField.FINISH_DATE);
       if (result == null)
       {
-         result = getParentFile().getFinishDate();
+         result = getParentFile().getLatestFinishDate();
       }
       return (result);
    }

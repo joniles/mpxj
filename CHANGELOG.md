@@ -2,6 +2,7 @@
 
 ## 9.5.2 (git master)
 * Add Must Finish By date to project properties.
+* Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
 
 ## 9.5.1 (01/07/2021)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.
