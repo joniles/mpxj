@@ -819,7 +819,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
+      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));      
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setFinishDate(mpxj.getFinish());

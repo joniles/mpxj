@@ -7,7 +7,8 @@
 	<body>
 		<release date="git master" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
-			<action dev="joniles" type="add">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>
+			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>			
+			<action dev="joniles" type="update">Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.</action>
 		</release>
 		<release date="01/07/2021" version="9.5.1">
 			<action dev="joniles" type="update">When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>
