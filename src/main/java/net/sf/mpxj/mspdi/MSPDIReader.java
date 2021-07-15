@@ -1629,7 +1629,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             }
 
             TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
-
             Duration lagDuration;
             int lag = NumberHelper.getInt(link.getLinkLag());
             if (lag == 0)
