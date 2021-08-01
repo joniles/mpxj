@@ -104,11 +104,13 @@ final class AstaReader
     * Process project properties.
     *
     * @param projectSummary project properties data.
+    * @param userSettings user settings
     * @param progressPeriods progress period data.
     */
-   public void processProjectProperties(Row projectSummary, List<Row> progressPeriods)
+   public void processProjectProperties(Row projectSummary, Row userSettings, List<Row> progressPeriods)
    {
       ProjectProperties ph = m_project.getProjectProperties();
+      final Integer currentProgressPeriodID;
 
       if (projectSummary != null)
       {
@@ -121,18 +123,39 @@ final class AstaReader
          ph.setLastSaved(projectSummary.getDate("LAST_EDITED_DATE"));
       }
 
+      if (userSettings == null)
+      {
+         currentProgressPeriodID = null;
+      }
+      else
+      {
+         currentProgressPeriodID = userSettings.getInteger("CURRENT_PROGRESS_PERIOD");
+      }
+
       if (progressPeriods != null)
       {
-         Collections.sort(progressPeriods, new Comparator<Row>()
+         Row progressPeriod;
+         if (currentProgressPeriodID == null)
          {
-            @Override public int compare(Row o1, Row o2)
+            Collections.sort(progressPeriods, new Comparator<Row>()
             {
-               return o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID"));
-            }
-         });
+               @Override public int compare(Row o1, Row o2)
+               {
+                  return o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID"));
+               }
+            });
 
-         Row lastProgressPeriod = progressPeriods.get(progressPeriods.size() - 1);
-         ph.setStatusDate(lastProgressPeriod.getDate("REPORT_DATE"));
+            progressPeriod = progressPeriods.get(progressPeriods.size() - 1);
+         }
+         else
+         {
+            progressPeriod = progressPeriods.stream().filter(r -> NumberHelper.equals(currentProgressPeriodID, r.getInteger("PROGRESS_PERIODID"))).findFirst().orElse(null);
+         }
+
+         if (progressPeriod != null)
+         {
+            ph.setStatusDate(progressPeriod.getDate("REPORT_DATE"));
+         }
       }
    }
 

@@ -4,6 +4,7 @@
 * Add Must Finish By date to project properties.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
 * Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.
+* Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.
 
 ## 9.5.1 (01/07/2021)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.

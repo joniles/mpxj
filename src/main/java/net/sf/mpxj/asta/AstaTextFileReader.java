@@ -239,9 +239,9 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    private void processProjectProperties() throws SQLException
    {
       List<Row> rows = getTable("PROJECT_SUMMARY");
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
-         m_reader.processProjectProperties(rows.get(0), null);
+         m_reader.processProjectProperties(rows.get(0), null, null);
       }
    }
 

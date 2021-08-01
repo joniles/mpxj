@@ -7,8 +7,9 @@
 	<body>
 		<release date="git master" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
-			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>			
+			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>
 			<action dev="joniles" type="update">Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.</action>
+			<action dev="joniles" type="update">Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.</action>
 		</release>
 		<release date="01/07/2021" version="9.5.1">
 			<action dev="joniles" type="update">When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>
@@ -17,20 +18,20 @@
 		<release date="30/06/2021" version="9.5.0">
 			<action dev="joniles" type="update">Added support for reading baseline data from embedded baselines in PP files.</action>
 			<action dev="joniles" type="update">Correct resource assignment percent complete values read from PP files.</action>
-			<action dev="joniles" type="update">JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).</action>			
+			<action dev="joniles" type="update">JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).</action>
 			<action dev="joniles" type="update">The MPXJ Ruby Gem now generates explicit methods to access attributes rather than relying on "method_missing" to intercept and act on attribute access.</action>
 			<action dev="joniles" type="update">Don't write Assignment Task GUID, Assignment Resource GUID or Resource Calendar GUID to JSON.</action>
 			<action dev="joniles" type="update">Don't write a value for Assignment Work Contour to JSON if the contour is the default value (i.e. flat).</action>
 			<action dev="joniles" type="update">Don't write a value for Assignment Resource Request Type to JSON if the type is the default value (i.e. none).</action>
 			<action dev="joniles" type="update">Don't write a value for Task Earned Value Method to JSON if the method matches the project default.</action>
-			<action dev="joniles" type="update">Don't write a value for Task Type to JSON if the type matches the project default.</action>			
-			<action dev="joniles" type="update">Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.</action>			
+			<action dev="joniles" type="update">Don't write a value for Task Type to JSON if the type matches the project default.</action>
+			<action dev="joniles" type="update">Stop writing a default value (-1) for Parent Task ID to JSON if the task does not have a parent.</action>
 			<action dev="joniles" type="update">Stop writing a default value (-1) for Task Calendar ID to JSON if the task does not have a calendar.</action>
-			<action dev="joniles" type="update">When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</action>			
+			<action dev="joniles" type="update">When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</action>
 			<action dev="joniles" type="update">For MPX and Planner files, don't write resource assignments for the "null" resource.</action>
 			<action dev="joniles" type="update">Handle missing status date when reading P6 schedules from XER files or database.</action>
 			<action dev="joniles" type="update">When reading MPP files, treat UUID's which are all zeros as null.</action>
-			<action dev="joniles" type="update">Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</action>			
+			<action dev="joniles" type="update">Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</action>
 			<action dev="joniles" type="update">Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.</action>
 		</release>
 		<release date="11/06/2021" version="9.4.0">
@@ -39,11 +40,11 @@
 			<action dev="joniles" type="update">Ensure short data type values are written to JSON files as numeric values.</action>
 			<action dev="joniles" type="update">Ensure delay data type values are written to JSON files as duration values.</action>
 			<action dev="joniles" type="update">Don't write zero rates to JSON files.</action>
-			<action dev="joniles" type="update">Introduced a separator into rate values when written to a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).</action>			
+			<action dev="joniles" type="update">Introduced a separator into rate values when written to a JSON file to make it clear that the value is a rate not a duration (for example: 5.00h is now 5.00/h).</action>
 			<action dev="joniles" type="update">When writing an enum value of a JSON file, ensure we write the original enum name rather than the value return by toString. This provides more meaningful output (Potentially breaking change if you use the Ruby gem or consume the JSON output directly. Affected attributes are project properties: currency symbol position, time format, date format, bar text date format, schedule from, mpx file version; resource attribute: type).</action>
-			<action dev="joniles" type="update">Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.</action>			
-			<action dev="joniles" type="update">Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</action>			
-			<action dev="joniles" type="update">Improve population of summary task names when reading from Powerproject PP files.</action>			
+			<action dev="joniles" type="update">Ensure invalid cost rate table data is handled gracefully when reading from MSPDI files.</action>
+			<action dev="joniles" type="update">Handle missing data when reading MSPDI files (based on a contribution by Lord Helmchen).</action>
+			<action dev="joniles" type="update">Improve population of summary task names when reading from Powerproject PP files.</action>
 			<action dev="joniles" type="update">Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).</action>
 		</release>
 		<release date="18/05/2021" version="9.3.1">
