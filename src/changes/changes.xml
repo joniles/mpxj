@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>
 			<action dev="joniles" type="update">Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.</action>
 			<action dev="joniles" type="update">Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.</action>
+			<action dev="joniles" type="update">Ensure that a task's Complete Through attribute is not advanced to the start of the next working day (the behaviour of Microsoft Project prior to 2007 was to report Complete Through as the start of the next working day. This change ensures MPXJ matches versions of Microsoft Project from 2007 onwards. Previous behaviour can be restored using the ProjectConfig.setCompleteThroughIsNextWorkStart() method).</action>
 		</release>
 		<release date="01/07/2021" version="9.5.1">
 			<action dev="joniles" type="update">When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</action>

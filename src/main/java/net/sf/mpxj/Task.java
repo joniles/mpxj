@@ -4296,7 +4296,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                   double durationValue = (duration.getDuration() * percentComplete) / 100d;
                   duration = Duration.getInstance(durationValue, duration.getUnits());
                   ProjectCalendar calendar = getEffectiveCalendar();
-                  value = calendar.getDate(actualStart, duration, true);
+                  value = calendar.getDate(actualStart, duration, getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart());
                }
                break;
             }
