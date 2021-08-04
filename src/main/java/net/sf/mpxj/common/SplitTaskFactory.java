@@ -121,7 +121,10 @@ public final class SplitTaskFactory
       if (splits.size() > 2)
       {
          task.setSplits(splits);
-         task.setSplitCompleteDuration(splitsComplete);
+         if (task.getActualFinish() == null)
+         {
+            task.setSplitCompleteDuration(splitsComplete);
+         }
       }
       else
       {
