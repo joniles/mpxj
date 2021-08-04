@@ -121,13 +121,12 @@ public final class SplitTaskFactory
       if (splits.size() > 2)
       {
          task.setSplits(splits);
-         task.setSplitCompleteDuration(splitsComplete);
+         task.setCompleteThrough(splitsComplete);
       }
       else
       {
          task.setSplits(null);
-         task.setSplitCompleteDuration(null);
+         task.setCompleteThrough(null);
       }
    }
-
 }
