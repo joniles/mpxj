@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.awt.ItemSelectable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -80,6 +81,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AssignmentFieldLists;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
@@ -1661,11 +1663,26 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
       List<CustomFieldValueItem> items = field.getLookupTable();
-      if (!items.isEmpty())
+      if(fieldType.name().startsWith("OUTLINE_CODE")) //If it is an outline code, then add the value, if it is not there. 
+      {
+         Map<String, CustomFieldValueItem> map = getCustomFieldValueItemMap(fieldType, items);
+         if(!items.isEmpty() && map.containsKey(formattedValue))
+            result = map.get(formattedValue);
+         else
+         {
+            int id = items.size();
+            CustomFieldValueItem item = new CustomFieldValueItem(new Integer(id + 1));
+            item.setParent(new Integer(0));
+            item.setValue(DatatypeConverter.parseOutlineCodeValue(formattedValue, fieldType.getDataType()));
+            items.add(item);
+            result = item;
+         }
+      }
+      else if (!items.isEmpty())
       {
          result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue);
       }
-
+      
       return result;
    }
 
