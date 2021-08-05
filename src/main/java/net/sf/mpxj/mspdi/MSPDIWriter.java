@@ -108,6 +108,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class MSPDIWriter extends AbstractProjectWriter
 {
+   private int m_lastOutlineCodeId;
    /**
     * Sets a flag to determine if the output is readable by MS Project, or
     * is "spec compliant".
@@ -215,6 +216,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_extendedAttributesInUse = new HashSet<>();
          m_customFieldValueItems = new HashMap<>();
+         m_lastOutlineCodeId = 0;
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -1668,8 +1670,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
             result = map.get(formattedValue);
          else
          {
-            int id = items.size();
-            CustomFieldValueItem item = new CustomFieldValueItem(new Integer(id + 1));
+            m_lastOutlineCodeId++;
+            CustomFieldValueItem item = new CustomFieldValueItem(new Integer(m_lastOutlineCodeId));
             item.setParent(new Integer(0));
             item.setValue(DatatypeConverter.parseOutlineCodeValue(formattedValue, fieldType.getDataType()));
             items.add(item);
