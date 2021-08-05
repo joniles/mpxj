@@ -211,7 +211,6 @@ Scheduled Duration| | | |✓
 Scheduled Finish| | | |✓
 Scheduled Start| | | |✓
 Splits| |✓|✓|✓
-Splits Complete| |✓|✓|✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓

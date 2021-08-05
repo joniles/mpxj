@@ -6,6 +6,7 @@
 * Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.
 * Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.
 * Ensure that a task's Complete Through attribute is not advanced to the start of the next working day (the behaviour of Microsoft Project prior to 2007 was to report Complete Through as the start of the next working day. This change ensures MPXJ matches versions of Microsoft Project from 2007 onwards. Previous behaviour can be restored using the ProjectConfig.setCompleteThroughIsNextWorkStart() method).
+* Deprecate task getSplitCompleteDuration() and setSplitCompleteDuration() in favour of getCompleteThrough() and setCompleteThrough().
 
 ## 9.5.1 (01/07/2021)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.

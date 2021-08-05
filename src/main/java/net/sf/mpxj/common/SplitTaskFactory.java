@@ -123,14 +123,14 @@ public final class SplitTaskFactory
          task.setSplits(splits);
          if (task.getActualFinish() == null)
          {
-            task.setSplitCompleteDuration(splitsComplete);
+            // TODO: this is not correct for partially complete splits. It is possible that this value is stored rather than calculated?
+            task.setCompleteThrough(splitsComplete);
          }
       }
       else
       {
          task.setSplits(null);
-         task.setSplitCompleteDuration(null);
+         task.setCompleteThrough(null);
       }
    }
-
 }

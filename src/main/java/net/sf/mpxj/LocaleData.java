@@ -653,7 +653,6 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.WARNING.getValue()] = "Warning";
       TASK_COLUMNS_ARRAY[TaskField.UNAVAILABLE.getValue()] = "<Unavailable>";
       TASK_COLUMNS_ARRAY[TaskField.SPLITS.getValue()] = "Splits";
-      TASK_COLUMNS_ARRAY[TaskField.SPLITS_COMPLETE.getValue()] = "Splits Complete";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT.getValue()] = "Subproject";
 
       TASK_COLUMNS_ARRAY[TaskField.DURATION_UNITS.getValue()] = "Duration Units";

@@ -665,7 +665,6 @@ public enum TaskField implements FieldType
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
    SPLITS(DataType.DATE_RANGE_LIST),
-   SPLITS_COMPLETE(DataType.DATE),
    SUBPROJECT(DataType.SUBPROJECT),
 
    START_TEXT(DataType.STRING),

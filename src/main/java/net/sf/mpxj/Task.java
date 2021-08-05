@@ -3829,20 +3829,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * Task splits contain the time up to which the splits are completed.
     *
     * @return Duration of completed time for the splits.
+    * @deprecated use getCompleteThrough()
     */
-   public Date getSplitCompleteDuration()
+   @Deprecated public Date getSplitCompleteDuration()
    {
-      return (Date) getCachedValue(TaskField.SPLITS_COMPLETE);
+      return getCompleteThrough();
    }
 
    /**
     * Set the time up to which the splits are completed.
     *
     * @param splitsComplete Duration of completed time for the splits.
+    * @deprecated use setCompleteThrough
     */
-   public void setSplitCompleteDuration(Date splitsComplete)
+   @Deprecated void setSplitCompleteDuration(Date splitsComplete)
    {
-      set(TaskField.SPLITS_COMPLETE, splitsComplete);
+      setCompleteThrough(splitsComplete);
    }
 
    /**
@@ -4264,7 +4266,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the "complete through" date.
+    * Retrieve the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
     *
     * @return complete through date
     */
@@ -4305,6 +4308,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          set(TaskField.COMPLETE_THROUGH, value);
       }
       return value;
+   }
+
+   /**
+    * Set the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
+    * 
+    * @param value complete through date
+    */
+   public void setCompleteThrough(Date value)
+   {
+      set(TaskField.COMPLETE_THROUGH, value);
    }
 
    /**
