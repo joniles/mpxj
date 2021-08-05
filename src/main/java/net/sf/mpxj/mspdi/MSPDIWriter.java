@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mspdi;
 
-import java.awt.ItemSelectable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -81,7 +80,6 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AssignmentFieldLists;
-import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
