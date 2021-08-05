@@ -4266,7 +4266,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the "complete through" date.
+    * Retrieve the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
     *
     * @return complete through date
     */
@@ -4310,7 +4311,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Set the "complete through" date.
+    * Set the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
     * 
     * @param value complete through date
     */

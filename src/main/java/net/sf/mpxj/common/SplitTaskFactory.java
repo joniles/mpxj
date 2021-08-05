@@ -123,6 +123,7 @@ public final class SplitTaskFactory
          task.setSplits(splits);
          if (task.getActualFinish() == null)
          {
+            // TODO: this is not correct for partially complete splits. It is possible that this value is stored rather than calculated?
             task.setCompleteThrough(splitsComplete);
          }
       }
