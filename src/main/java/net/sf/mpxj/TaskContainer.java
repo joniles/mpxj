@@ -123,15 +123,8 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public void synchronizeTaskIDToHierarchy()
    {
-      clear();
-
       int currentID = (getByID(Integer.valueOf(0)) == null ? 1 : 0);
-      for (Task task : m_projectFile.getChildTasks())
-      {
-         task.setID(Integer.valueOf(currentID++));
-         add(task);
-         currentID = synchroizeTaskIDToHierarchy(task, currentID);
-      }
+      synchroizeTaskIDToHierarchy(m_projectFile, currentID);
    }
 
    /**
@@ -141,12 +134,11 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     * @param currentID current task ID
     * @return updated current task ID
     */
-   private int synchroizeTaskIDToHierarchy(Task parentTask, int currentID)
+   private int synchroizeTaskIDToHierarchy(ChildTaskContainer parentTask, int currentID)
    {
       for (Task task : parentTask.getChildTasks())
       {
          task.setID(Integer.valueOf(currentID++));
-         add(task);
          currentID = synchroizeTaskIDToHierarchy(task, currentID);
       }
       return currentID;
