@@ -822,9 +822,13 @@ final class PrimaveraPMProjectWriter
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));      
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
+      xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
+      xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
+      // Note that P6 doesn't write this attribute to PMXML, but appears to read it
+      xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
       xml.setName(mpxj.getName());
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentCompleteType(getPercentCompleteType(mpxj.getPercentCompleteType()));

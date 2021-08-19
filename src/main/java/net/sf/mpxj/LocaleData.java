@@ -1036,7 +1036,11 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_TYPE.getValue()] = "Activity Type";
       TASK_COLUMNS_ARRAY[TaskField.PERCENT_COMPLETE_TYPE.getValue()] = "Percent Complete Type";
       TASK_COLUMNS_ARRAY[TaskField.OVERALL_PERCENT_COMPLETE.getValue()] = "Overall Percent Complete";
+      TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_EARLY_START.getValue()] = "External Early Start";
+      TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_LATE_FINISH.getValue()] = "External Late Finish";
+      TASK_COLUMNS_ARRAY[TaskField.LONGEST_PATH.getValue()] = "Longest Path";
 
+      
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";

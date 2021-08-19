@@ -5194,6 +5194,66 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the longest path.
+    *
+    * @return true if part of the longest path
+    */
+   public Boolean getLongestPath()
+   {
+      return (Boolean) getCachedValue(TaskField.LONGEST_PATH);
+   }
+
+   /**
+    * Set the longest path.
+    *
+    * @param value true if part of the longest path
+    */
+   public void setLongestPath(Boolean value)
+   {
+      set(TaskField.LONGEST_PATH, value);
+   }
+
+   /**
+    * Retrieve the external early start date.
+    *
+    * @return external early start date
+    */
+   public Date getExternalEarlyStart()
+   {
+      return (Date) getCachedValue(TaskField.EXTERNAL_EARLY_START);
+   }
+
+   /**
+    * Set the external early start date.
+    *
+    * @param value external early start date
+    */
+   public void setExternalEarlyStart(Date value)
+   {
+      set(TaskField.EXTERNAL_EARLY_START, value);
+   }
+
+   /**
+    * Retrieve the external late finish date.
+    *
+    * @return external late finish date
+    */
+   public Date getExternalLateFinish()
+   {
+      return (Date) getCachedValue(TaskField.EXTERNAL_LATE_FINISH);
+   }
+
+   /**
+    * Set the external late finish date.
+    *
+    * @param value external late finish date
+    */
+   public void setExternalLateFinish(Date value)
+   {
+      set(TaskField.EXTERNAL_LATE_FINISH, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

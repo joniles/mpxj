@@ -188,7 +188,7 @@ final class PrimaveraReader
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setUniqueID(row.getInteger("proj_id"));
          properties.setExportFlag(row.getBoolean("export_flag"));
-         properties.setMustFinishBy(row.getDate("scd_end_date"));         
+         properties.setMustFinishBy(row.getDate("scd_end_date"));
          // cannot assign actual calendar yet as it has not been read yet
 
          m_defaultCalendarID = row.getInteger("clndr_id");
@@ -2108,6 +2108,9 @@ final class PrimaveraReader
       map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
       map.put(TaskField.SUSPEND_DATE, "suspend_date");
       map.put(TaskField.RESUME, "resume_date");
+      map.put(TaskField.EXTERNAL_EARLY_START, "external_early_start_date");
+      map.put(TaskField.EXTERNAL_LATE_FINISH, "external_late_end_date");
+      map.put(TaskField.LONGEST_PATH, "driving_path_flag");
 
       return map;
    }
