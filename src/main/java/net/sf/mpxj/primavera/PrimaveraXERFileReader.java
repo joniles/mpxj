@@ -1122,9 +1122,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("day_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("decimal_digit_cnt", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("default_flag", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("driving_path_flag", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("early_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("early_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("expect_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("external_early_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("external_late_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("fk_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("free_float_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("fy_start_month_num", XerFieldType.INTEGER);

@@ -678,7 +678,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
       properties.setMustFinishBy(project.getMustFinishByDate());
-      
+
       processScheduleOptions(project.getScheduleOptions());
    }
 
@@ -1201,6 +1201,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setResume(row.getResumeDate());
          task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
+         task.setExternalEarlyStart(row.getExternalEarlyStartDate());
+         task.setExternalLateFinish(row.getExternalLateFinishDate());
+         task.setLongestPath(row.isIsLongestPath());
 
          //
          // This is an approximation. If the critical flag is being determined by total

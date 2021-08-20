@@ -2,6 +2,7 @@
 
 ## 9.5.2 (git master)
 * Add Must Finish By date to project properties.
+* Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
 * Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.
 * Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.

@@ -198,6 +198,8 @@ Earned Value Method| | | | | | | |✓| | | | | | | | | | | | 
 Effort Driven| | |✓| | | |✓|✓| |✓| | |✓| | | | |✓| | | | | 
 Estimated| | | | | | |✓|✓| |✓| | | | | | | |✓| | | | | 
 Expense Items| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
+External Early Start| | | | | | | | | | | | | |✓| |✓| | | | | | | 
+External Late Finish| | | | | | | | | | | | | |✓| | | | | | | | | 
 External Task| | | | | | | |✓| | | | | | | | | | | | | | | 
 Feature of Work| | | | | | | | | | | | | | | | | | |✓| | | | 
 Finish|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
@@ -221,6 +223,7 @@ Level Assignments| | | | | | |✓|✓| |✓| | | | | | | | | | 
 Leveling Can Split| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Leveling Delay| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Leveling Delay Units| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
+Longest Path| | | | | | | | | | | | | | |✓|✓| | | | | | | 
 Mail| | | | | | | | | | | | | | | | | | | | |✓| | 
 Manager| | | | | | | | | | | | | | | | | | | | |✓| | 
 Manual Duration| | | | | | | |✓| |✓| | | | | | | | | | | | | 
