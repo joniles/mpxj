@@ -62,7 +62,7 @@
 			<pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" />
 		</path>
 
-		<property name="jsoup.jar" value="jsoup-1.13.1" />
+		<property name="jsoup.jar" value="jsoup-1.14.2" />
 		<path id="jsoup.path">
 			<pathelement location="${lib.dir}/${jsoup.jar}.jar" />
 		</path>

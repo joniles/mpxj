@@ -9,6 +9,7 @@
 * Ensure that a task's Complete Through attribute is not advanced to the start of the next working day (the behaviour of Microsoft Project prior to 2007 was to report Complete Through as the start of the next working day. This change ensures MPXJ matches versions of Microsoft Project from 2007 onwards. Previous behaviour can be restored using the ProjectConfig.setCompleteThroughIsNextWorkStart() method).
 * Deprecate task getSplitCompleteDuration() and setSplitCompleteDuration() in favour of getCompleteThrough() and setCompleteThrough().
 * Improved the implementation of the TaskContainer.synchronizeTaskIDToHierarchy method.
+* Update jsoup to 1.14.2.
 
 ## 9.5.1 (01/07/2021)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.
