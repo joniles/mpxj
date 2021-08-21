@@ -165,7 +165,7 @@ public class ResourceAssignmentFactory
          {
             assignment.setResourceUniqueID(null);
          }
-         
+
          processHyperlinkData(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
 
          //

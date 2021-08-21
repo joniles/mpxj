@@ -142,7 +142,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    {
       List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
       List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
-      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);      
+      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;

@@ -503,7 +503,7 @@ final class PrimaveraPMProjectWriter
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);      
+      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
    }
 
    /**
@@ -819,7 +819,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));      
+      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
       xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());

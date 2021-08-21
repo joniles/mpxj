@@ -69,7 +69,7 @@ class BaselineManager
    public void populateBaseline(ProjectFile project, ProjectFile baseline, int index, Function<Task, Object> keyFunction)
    {
       TaskField[] baselineFields = getBaselineFields(index);
-      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> keyFunction.apply(t) != null).collect(Collectors.toMap(t -> keyFunction.apply(t), t -> t, (u,v) -> null));
+      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> keyFunction.apply(t) != null).collect(Collectors.toMap(t -> keyFunction.apply(t), t -> t, (u, v) -> null));
       project.getTasks().forEach(t -> populateBaseline(t, map.get(keyFunction.apply(t)), baselineFields));
    }
 
