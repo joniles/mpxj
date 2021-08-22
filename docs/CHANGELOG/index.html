@@ -247,8 +247,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#952-git-master" class="md-nav__link">
-    9.5.2 (git master)
+  <a href="#953-git-master" class="md-nav__link">
+    9.5.3 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#952-220821" class="md-nav__link">
+    9.5.2 (22/08/21)
   </a>
   
 </li>
@@ -2047,8 +2054,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#952-git-master" class="md-nav__link">
-    9.5.2 (git master)
+  <a href="#953-git-master" class="md-nav__link">
+    9.5.3 (git master)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#952-220821" class="md-nav__link">
+    9.5.2 (22/08/21)
   </a>
   
 </li>
@@ -3282,7 +3296,19 @@
                 
                 
                 <h1 id="changelog">Changelog</h1>
-<h2 id="952-git-master">9.5.2 (git master)</h2>
+<h2 id="953-git-master">9.5.3 (git master)</h2>
+<h2 id="952-220821">9.5.2 (22/08/21)</h2>
+<ul>
+<li>Add Must Finish By date to project properties.</li>
+<li>Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</li>
+<li>Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</li>
+<li>Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.</li>
+<li>Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.</li>
+<li>Ensure that a task's Complete Through attribute is not advanced to the start of the next working day (the behaviour of Microsoft Project prior to 2007 was to report Complete Through as the start of the next working day. This change ensures MPXJ matches versions of Microsoft Project from 2007 onwards. Previous behaviour can be restored using the ProjectConfig.setCompleteThroughIsNextWorkStart() method).</li>
+<li>Deprecate task getSplitCompleteDuration() and setSplitCompleteDuration() in favour of getCompleteThrough() and setCompleteThrough().</li>
+<li>Improved the implementation of the TaskContainer.synchronizeTaskIDToHierarchy method.</li>
+<li>Update jsoup to 1.14.2.</li>
+</ul>
 <h2 id="951-01072021">9.5.1 (01/07/2021)</h2>
 <ul>
 <li>When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.</li>
