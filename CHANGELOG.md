@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.5.2 (git master)
+## 9.5.3 (git master)
+
+## 9.5.2 (22/08/21)
 * Add Must Finish By date to project properties.
 * Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated

@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="git master" version="9.5.2">
+		<release date="git master" version="9.5.3">
+		</release>
+		<release date="22/08/21" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
 			<action dev="joniles" type="add">Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</action>
 			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>
