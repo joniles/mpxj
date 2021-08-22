@@ -2100,6 +2100,13 @@ module MPXJ
       get_boolean_value(attribute_values['multiple_critical_paths'])
     end
 
+    # Retrieve the Must Finish By value
+    #
+    # @return Must Finish By value
+    def must_finish_by
+      get_date_value(attribute_values['must_finish_by'])
+    end
+
     # Retrieve the Name value
     #
     # @return Name value

@@ -5999,6 +5999,20 @@ module MPXJ
       attribute_values['expense_items']
     end
 
+    # Retrieve the External Early Start value
+    #
+    # @return External Early Start value
+    def external_early_start
+      get_date_value(attribute_values['external_early_start'])
+    end
+
+    # Retrieve the External Late Finish value
+    #
+    # @return External Late Finish value
+    def external_late_finish
+      get_date_value(attribute_values['external_late_finish'])
+    end
+
     # Retrieve the External Task value
     #
     # @return External Task value
@@ -6452,6 +6466,13 @@ module MPXJ
     # @return Linked Fields value
     def linked_fields
       get_boolean_value(attribute_values['linked_fields'])
+    end
+
+    # Retrieve the Longest Path value
+    #
+    # @return Longest Path value
+    def longest_path
+      get_boolean_value(attribute_values['longest_path'])
     end
 
     # Retrieve the Mail value
@@ -7530,13 +7551,6 @@ module MPXJ
     # @return Splits value
     def splits
       attribute_values['splits']
-    end
-
-    # Retrieve the Splits Complete value
-    #
-    # @return Splits Complete value
-    def splits_complete
-      get_date_value(attribute_values['splits_complete'])
     end
 
     # Retrieve the Sprint value
