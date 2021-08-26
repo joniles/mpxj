@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.5.3">
+			<action dev="joniles" type="update">When reading PMXML files, ensure that the activity calendar is set before calculating slack.</action>
 		</release>
 		<release date="22/08/21" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>

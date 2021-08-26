@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.5.3 (git master)
+* When reading PMXML files, ensure that the activity calendar is set before calculating slack.
 
 ## 9.5.2 (22/08/21)
 * Add Must Finish By date to project properties.
