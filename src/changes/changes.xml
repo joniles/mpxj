@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.5.3">
+			<action dev="joniles" type="update">Updated to use POI 5.0.0.</action>
 			<action dev="joniles" type="update">When reading PMXML files, ensure that the activity calendar is set before calculating slack.</action>
 		</release>
 		<release date="22/08/21" version="9.5.2">
@@ -16,7 +17,7 @@
 			<action dev="joniles" type="update">Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.</action>
 			<action dev="joniles" type="update">Ensure that a task's Complete Through attribute is not advanced to the start of the next working day (the behaviour of Microsoft Project prior to 2007 was to report Complete Through as the start of the next working day. This change ensures MPXJ matches versions of Microsoft Project from 2007 onwards. Previous behaviour can be restored using the ProjectConfig.setCompleteThroughIsNextWorkStart() method).</action>
 			<action dev="joniles" type="update">Deprecate task getSplitCompleteDuration() and setSplitCompleteDuration() in favour of getCompleteThrough() and setCompleteThrough().</action>
-			<action dev="joniles" type="update">Improved the implementation of the TaskContainer.synchronizeTaskIDToHierarchy method.</action>			
+			<action dev="joniles" type="update">Improved the implementation of the TaskContainer.synchronizeTaskIDToHierarchy method.</action>
 			<action dev="joniles" type="update">Update jsoup to 1.14.2.</action>
 		</release>
 		<release date="01/07/2021" version="9.5.1">

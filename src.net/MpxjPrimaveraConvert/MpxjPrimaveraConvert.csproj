@@ -154,8 +154,8 @@
     <Reference Include="mssql-jdbc-6.4.0.jre8">
       <HintPath>..\..\lib.net\mssql-jdbc-6.4.0.jre8.dll</HintPath>
     </Reference>
-    <Reference Include="poi-4.1.2">
-      <HintPath>..\..\lib.net\poi-4.1.2.dll</HintPath>
+    <Reference Include="poi-5.0.0">
+      <HintPath>..\..\lib.net\poi-5.0.0.dll</HintPath>
     </Reference>
     <Reference Include="commons-collections4-4.4">
       <HintPath>..\..\lib.net\commons-collections4-4.4.dll</HintPath>
