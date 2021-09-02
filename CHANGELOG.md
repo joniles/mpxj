@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.5.3 (git master)
+* Updated to use POI 5.0.0.
 * When reading PMXML files, ensure that the activity calendar is set before calculating slack.
 
 ## 9.5.2 (22/08/21)
