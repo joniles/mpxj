@@ -367,13 +367,13 @@
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-math.jar}.jar" />
 		</exec>
 
+		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
+		     version of POI which removes the parts we don't use and avoids Java language constructs
+		     which IKVM doesn't like. https://github.com/joniles/poifs -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${poifs.jar}" />
 		</exec>
 
-		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
-		     version of POI which removes the parts we don't use and avoids Java language constructs
-		     which IKVM doesn't like. https://github.com/joniles/poifs -->
 		<exec executable="${ikvmc.exe}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
 		</exec>
