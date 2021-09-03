@@ -672,13 +672,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
-      properties.setStartDate(project.getPlannedStartDate());
+      properties.setStartDate(project.getStartDate());
       properties.setStatusDate(project.getDataDate());
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
-      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
+      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));      
+      properties.setPlannedStart(project.getPlannedStartDate());
+      properties.setScheduledFinish(project.getScheduledFinishDate());
       properties.setMustFinishBy(project.getMustFinishByDate());
-
+      
       processScheduleOptions(project.getScheduleOptions());
    }
 

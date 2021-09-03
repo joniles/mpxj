@@ -2770,6 +2770,46 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
+    * Sets the scheduled finish by date for this project.
+    * 
+    * @param date scheduled finish by date
+    */
+   public void setScheduledFinish(Date date)
+   {
+      set(ProjectField.SCHEDULED_FINISH, date);
+   }
+
+   /**
+    * Retrieves the scheduled finish by date for this project.
+    * 
+    * @return scheduled finish by date 
+    */
+   public Date getScheduledFinish()
+   {
+      return (Date) getCachedValue(ProjectField.SCHEDULED_FINISH);
+   }
+
+   /**
+    * Sets the planned start by date for this project.
+    *
+    * @param date planned start by date
+    */
+   public void setPlannedStart(Date date)
+   {
+      set(ProjectField.PLANNED_START, date);
+   }
+
+   /**
+    * Retrieves the planned start by date for this project.
+    *
+    * @return planned start by date
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(ProjectField.PLANNED_START);
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void addFieldListener(FieldListener listener)

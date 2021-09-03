@@ -178,17 +178,17 @@ final class PrimaveraReader
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
          properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
-         properties.setFinishDate(row.getDate("plan_end_date"));
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
-         properties.setStartDate(row.getDate("plan_start_date"));
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setUniqueID(row.getInteger("proj_id"));
-         properties.setExportFlag(row.getBoolean("export_flag"));
-         properties.setMustFinishBy(row.getDate("scd_end_date"));
+         properties.setExportFlag(row.getBoolean("export_flag"));  
+         properties.setPlannedStart(row.getDate("plan_start_date"));
+         properties.setScheduledFinish(row.getDate("scd_end_date"));
+         properties.setMustFinishBy(row.getDate("plan_end_date"));
          // cannot assign actual calendar yet as it has not been read yet
 
          m_defaultCalendarID = row.getInteger("clndr_id");

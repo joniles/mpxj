@@ -86,7 +86,7 @@ GanttProject writes GAN files which MPXJ can read.
 writes PEP files which MPXJ can read.
 
 * **CONECPTDRAW PROJECT:** ConceptDraw PROJECT is general purpose planning tool.
-ConceptDraw PROJECT writes CDPX, CPDZ and CPDTZ files which MPXJ can read.
+ConceptDraw PROJECT writes CDPX, CDPZ and CDPTZ files which MPXJ can read.
 
 * **SYNCHRO SCHEDULER:** Synchro Scheduler is general purpose planning tool.
 Synchro Scheduler writes SP files which MPXJ can read.
@@ -105,7 +105,7 @@ specification for the file format can be found
 from Sage 100 Contractor. MPXJ can read schedule grid files.
 
 * **PROJECT COMMANDER:** Project Commander files are are the native file format used
-by the Project Commander application. MPXJ can read Project Commander files.
+by the Project Commander application. Project Commander writes PC files which MPXJ can read.
 
 ## Supported Languages
 MPXJ is written and maintained in Java, however this is no barrier to using

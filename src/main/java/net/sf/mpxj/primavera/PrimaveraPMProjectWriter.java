@@ -435,7 +435,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(mpxj.getStartDate());
+      project.setPlannedStartDate(mpxj.getPlannedStart());
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
@@ -444,6 +444,7 @@ final class PrimaveraPMProjectWriter
       project.setResourcesCanMarkAssignmentAsCompleted(Boolean.FALSE);
       project.setResourcesCanViewInactiveActivities(Boolean.FALSE);
       project.setRiskLevel("Medium");
+      project.setScheduledFinishDate(mpxj.getScheduledFinish());
       project.setStartDate(mpxj.getStartDate());
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
@@ -492,7 +493,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(mpxj.getStartDate());
+      project.setPlannedStartDate(mpxj.getPlannedStart());
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
