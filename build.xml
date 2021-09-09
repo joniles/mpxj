@@ -7,7 +7,7 @@
 
 		<property environment="env"/>
 		<property name="current.version" value="9.5.2" />
-		<property name="maven.dir" value="c:/java/apache-maven-3.6.3"/>
+		<property name="maven.cmd" value="c:/java/apache-maven-3.6.3/bin/mvn.cmd"/>
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby23"/>
@@ -139,7 +139,7 @@
 	</target>
 
 	<target name="package" depends="init,update-version-numbers">
-		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true package" />
 		</exec>
 		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
@@ -159,6 +159,16 @@
 		</xslt>
 	</target>
 
+	<target name="gem-source" description="Generate source required by Ruby gem">
+		<java classname="net.sf.mpxj.ruby.MethodGenerator" failonerror="true">
+			<arg value="${basedir}/src.ruby/mpxj/lib/mpxj" />
+			<classpath>
+				<pathelement path="${classpath}" />
+				<pathelement path="${basedir}/mpxj.jar" />
+			</classpath>
+		</java>
+	</target>
+		
 	<!-- For deploy efficiency, assumes that the package target has been run -->
 	<target name="gem-setup" depends="init" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
@@ -168,13 +178,6 @@
 		<copy todir="${basedir}/src.ruby/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
-		<java classname="net.sf.mpxj.ruby.MethodGenerator" failonerror="true">
-			<arg value="${basedir}/src.ruby/mpxj/lib/mpxj" />
-			<classpath>
-				<pathelement path="${classpath}" />
-				<pathelement path="${basedir}/mpxj.jar" />
-			</classpath>
-		</java>
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
@@ -498,7 +501,7 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="archive" depends="package,ikvm-dll,vs-dll,changelog,releasenotes" description="Create library files"/>
+	<target name="archive" depends="package,ikvm-dll,vs-dll,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -606,7 +609,7 @@
 	</target>
 
 	<target name="maven-clean" depends="init" description="Cleans the maven directory">
-		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="clean" />
 		</exec>
 	</target>
@@ -624,7 +627,7 @@
 
 	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
 		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
-		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="post-site" />
 		</exec>
 
@@ -638,13 +641,13 @@
 	</target>
 
 	<target name="maven-test" depends="init" description="Execute maven and run tests">
-		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>
 	</target>
 
 	<target name="maven-deploy" depends="init" description="Execute maven and deploy to OSSRH">
-		<exec executable="${maven.dir}/bin/mvn.cmd" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="-DskipTests=true clean deploy" />
 		</exec>
 	</target>
@@ -654,12 +657,7 @@
 		<exec executable="hub">
 			<arg line="tag v${current.version}" />
 		</exec>
-<!--
-		<echo message="Pushing"/>
-		<exec executable="hub">
-			<arg line="push origin v${current.version}" />
-		</exec>
--->
+
 		<echo message="Releasing"/>
 		<exec executable="hub">
 			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
