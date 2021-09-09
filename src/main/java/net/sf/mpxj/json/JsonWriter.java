@@ -324,7 +324,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (!IGNORED_FIELDS.contains(field))
       {
-         writeField(container, field.name().toLowerCase(), field.getDataType(), value);
+         writeField(container, field, field.name().toLowerCase(), field.getDataType(), value);
       }
    }
 
@@ -332,18 +332,19 @@ public final class JsonWriter extends AbstractProjectWriter
     * Write the appropriate data for a field to the JSON file based on its type.
     *
     * @param container field container
-    * @param fieldName field name
     * @param fieldType field type
+    * @param fieldName field name
+    * @param dataType field type
     * @param value field value
     */
-   private void writeField(FieldContainer container, String fieldName, DataType fieldType, Object value) throws IOException
+   private void writeField(FieldContainer container, FieldType fieldType, String fieldName, DataType dataType, Object value) throws IOException
    {
-      switch (fieldType)
+      switch (dataType)
       {
          case SHORT:
          case INTEGER:
          {
-            writeIntegerField(fieldName, value);
+            writeIntegerField(fieldType, fieldName, value);
             break;
          }
 
@@ -473,10 +474,22 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeIntegerField(String fieldName, Object value) throws IOException
    {
+      writeIntegerField(null, fieldName, value);
+   }
+
+   /**
+    * Write an integer field to the JSON file.
+    *
+    * @param fieldType field type
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeIntegerField(FieldType fieldType, String fieldName, Object value) throws IOException
+   {
       if (value != null)
       {
          int val = ((Number) value).intValue();
-         if (val != 0)
+         if (val != 0 || MANDATORY_FIELDS.contains(fieldType))
          {
             m_writer.writeNameValuePair(fieldName, val);
          }
@@ -636,7 +649,7 @@ public final class JsonWriter extends AbstractProjectWriter
                type = DataType.STRING;
                entryValue = entryValue.toString();
             }
-            writeField(null, entry.getKey(), type, entryValue);
+            writeField(null, null, entry.getKey(), type, entryValue);
          }
       }
       m_writer.writeEndObject();
@@ -829,4 +842,5 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID));
+   private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID));
 }

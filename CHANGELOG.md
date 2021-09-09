@@ -6,6 +6,7 @@
 * Updated to use POI 5.0.0.
 * When reading PMXML files, ensure that the activity calendar is set before calculating slack.
 * Remove unused field TaskField.PARENT_TASK.
+* Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.
 
 ## 9.5.2 (22/08/21)
 * Add Must Finish By date to project properties.
