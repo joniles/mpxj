@@ -6867,13 +6867,6 @@ module MPXJ
       get_duration_value(attribute_values['overtime_work'])
     end
 
-    # Retrieve the Parent Task value
-    #
-    # @return Parent Task value
-    def parent_task
-      get_integer_value(attribute_values['parent_task'])
-    end
-
     # Retrieve the Parent Task Unique ID value
     #
     # @return Parent Task Unique ID value

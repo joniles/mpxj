@@ -2149,6 +2149,13 @@ module MPXJ
       get_float_value(attribute_values['percentage_complete'])
     end
 
+    # Retrieve the Planned Start value
+    #
+    # @return Planned Start value
+    def planned_start
+      get_date_value(attribute_values['planned_start'])
+    end
+
     # Retrieve the PM Text value
     #
     # @return PM Text value
@@ -2203,6 +2210,13 @@ module MPXJ
     # @return Revision value
     def revision
       get_integer_value(attribute_values['revision'])
+    end
+
+    # Retrieve the Scheduled Finish value
+    #
+    # @return Scheduled Finish value
+    def scheduled_finish
+      get_date_value(attribute_values['scheduled_finish'])
     end
 
     # Retrieve the Schedule From value
