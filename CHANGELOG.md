@@ -5,6 +5,7 @@
 * Corrected source of Must Finish By project property when reading XER files or P6 databases.
 * Updated to use POI 5.0.0.
 * When reading PMXML files, ensure that the activity calendar is set before calculating slack.
+* Remove unused field TaskField.PARENT_TASK.
 
 ## 9.5.2 (22/08/21)
 * Add Must Finish By date to project properties.

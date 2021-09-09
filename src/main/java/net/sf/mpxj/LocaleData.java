@@ -709,7 +709,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.BASELINE10_DURATION_UNITS.getValue()] = "Baseline10 Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.FIXED_DURATION.getValue()] = "Fixed Duration";
       TASK_COLUMNS_ARRAY[TaskField.RESUME_NO_EARLIER_THAN.getValue()] = "Resume No Earlier Than";
-      TASK_COLUMNS_ARRAY[TaskField.PARENT_TASK.getValue()] = "Parent Task";
+      // TASK_COLUMNS_ARRAY[TaskField.PARENT_TASK.getValue()] = "Parent Task";
       TASK_COLUMNS_ARRAY[TaskField.INDEX.getValue()] = "Index";
       TASK_COLUMNS_ARRAY[TaskField.DURATION1_ESTIMATED.getValue()] = "Duration1 Estimated";
       TASK_COLUMNS_ARRAY[TaskField.DURATION2_ESTIMATED.getValue()] = "Duration2 Estimated";

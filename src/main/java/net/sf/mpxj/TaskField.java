@@ -697,7 +697,7 @@ public enum TaskField implements FieldType
 
    FIXED_DURATION(DataType.BOOLEAN),
    RESUME_NO_EARLIER_THAN(DataType.DATE),
-   PARENT_TASK(DataType.INTEGER),
+   // PARENT_TASK(DataType.INTEGER), // Can't find where this came from originally
    INDEX(DataType.INTEGER),
    DURATION1_ESTIMATED(DataType.BOOLEAN),
    DURATION2_ESTIMATED(DataType.BOOLEAN),
