@@ -90,8 +90,8 @@ public class MethodGenerator
 
       try (Writer writer = new FileWriter(new File(directory, filename)))
       {
-         writer.write("module MPXJ\n");
-         writer.write("  module " + name + "Methods\n");
+         writer.write("module MPXJ\r\n");
+         writer.write("  module " + name + "Methods\r\n");
 
          boolean first = true;
          for (FieldType type : list)
@@ -102,12 +102,12 @@ public class MethodGenerator
             }
             else
             {
-               writer.write('\n');
+               writer.write("\r\n");
             }
             writeMethod(writer, type);
          }
-         writer.write("  end\n");
-         writer.write("end\n");
+         writer.write("  end\r\n");
+         writer.write("end\r\n");
       }
    }
 
@@ -122,23 +122,23 @@ public class MethodGenerator
       String methodName = getMethodName(field.getDataType());
       String attributeName = field.name().toLowerCase();
 
-      writer.write("    # Retrieve the " + field.getName() + " value\n");
-      writer.write("    #\n");
-      writer.write("    # @return " + field.getName() + " value\n");
+      writer.write("    # Retrieve the " + field.getName() + " value\r\n");
+      writer.write("    #\r\n");
+      writer.write("    # @return " + field.getName() + " value\r\n");
       writer.write("    def " + attributeName);
-      writer.write('\n');
+      writer.write("\r\n");
 
       if (methodName == null)
       {
-         writer.write("      attribute_values['" + attributeName + "']\n");
+         writer.write("      attribute_values['" + attributeName + "']\r\n");
       }
       else
       {
-         writer.write("      " + methodName + "(attribute_values['" + attributeName + "'])\n");
+         writer.write("      " + methodName + "(attribute_values['" + attributeName + "'])\r\n");
       }
 
       writer.write("    end");
-      writer.write("\n");
+      writer.write("\r\n");
    }
 
    /**
