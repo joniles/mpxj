@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">When reading PMXML files, ensure that the activity calendar is set before calculating slack.</action>
 			<action dev="joniles" type="update">Remove unused field TaskField.PARENT_TASK.</action>
 			<action dev="joniles" type="update">Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.</action>
+			<action dev="joniles" type="update">Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.</action>
 		</release>
 		<release date="22/08/21" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>

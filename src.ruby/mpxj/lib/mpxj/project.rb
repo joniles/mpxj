@@ -69,7 +69,7 @@ module MPXJ
     # @return [Task] if the requested task is found
     # @return [nil] if the requested task is not found
     def get_task_by_id(id)
-      @tasks_by_unique_id[id]
+      @tasks_by_id[id]
     end
 
     # For a particular entity type (task, resource, and so on), retrieve

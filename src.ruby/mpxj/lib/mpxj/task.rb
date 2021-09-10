@@ -21,7 +21,7 @@ module MPXJ
     # @return [Task] if this task is the child of another task
     # @return [nil] if this is the root task
     def parent_task
-      parent_project.get_task_by_unique_id(parent_task_unique_id)
+      parent_project.get_task_by_unique_id(attribute_values['parent_task_unique_id']&.to_i)
     end
 
     private
