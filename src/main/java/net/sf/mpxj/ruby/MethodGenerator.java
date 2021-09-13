@@ -98,7 +98,6 @@ public class MethodGenerator
          writer.write("    end\r\n");
          writer.write("\r\n");
 
-         boolean first = true;
          for (FieldType type : list)
          {
             writeMethod(writer, type);
