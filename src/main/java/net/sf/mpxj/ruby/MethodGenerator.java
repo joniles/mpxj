@@ -158,6 +158,10 @@ public class MethodGenerator
       writer.write("    }.freeze\r\n");
       writer.write("\r\n");
 
+      writer.write("    def attribute_types\r\n");
+      writer.write("      ATTRIBUTE_TYPES\r\n");
+      writer.write("    end\r\n");
+      writer.write("\r\n");
 
       writer.write("    module " + name + "ClassMethods\r\n");
       writer.write("      def attribute_types\r\n");

@@ -2695,6 +2695,10 @@ module MPXJ
       'work2' => :numeric,
     }.freeze
 
+    def attribute_types
+      ATTRIBUTE_TYPES
+    end
+
     module PropertyClassMethods
       def attribute_types
         ATTRIBUTE_TYPES

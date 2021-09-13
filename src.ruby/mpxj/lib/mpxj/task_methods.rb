@@ -9311,6 +9311,10 @@ module MPXJ
       'work_variance' => :duration,
     }.freeze
 
+    def attribute_types
+      ATTRIBUTE_TYPES
+    end
+
     module TaskClassMethods
       def attribute_types
         ATTRIBUTE_TYPES

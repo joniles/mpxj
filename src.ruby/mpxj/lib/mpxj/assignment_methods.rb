@@ -4351,6 +4351,10 @@ module MPXJ
       'work_variance' => :work,
     }.freeze
 
+    def attribute_types
+      ATTRIBUTE_TYPES
+    end
+
     module AssignmentClassMethods
       def attribute_types
         ATTRIBUTE_TYPES
