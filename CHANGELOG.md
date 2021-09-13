@@ -1,6 +1,6 @@
 # Changelog
 
-## 9.5.3 (git master)
+## 9.6.0 (git master)
 * Add Planned Start and Scheduled Finish to project properties.
 * Add attribute_types method to Ruby classes.
 * Updated to use POI 5.0.0.
