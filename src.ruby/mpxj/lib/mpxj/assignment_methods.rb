@@ -3,6 +3,7 @@ module MPXJ
     def self.included(base)
       base.extend(AssignmentClassMethods)
     end
+
     # Retrieve the Actual Cost value
     #
     # @return Actual Cost value

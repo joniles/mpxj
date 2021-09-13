@@ -3,6 +3,7 @@ module MPXJ
     def self.included(base)
       base.extend(TaskClassMethods)
     end
+
     # Retrieve the Active value
     #
     # @return Active value

@@ -3,6 +3,7 @@ module MPXJ
     def self.included(base)
       base.extend(PropertyClassMethods)
     end
+
     # Retrieve the Actuals In Sync value
     #
     # @return Actuals In Sync value

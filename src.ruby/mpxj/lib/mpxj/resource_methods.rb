@@ -3,6 +3,7 @@ module MPXJ
     def self.included(base)
       base.extend(ResourceClassMethods)
     end
+
     # Retrieve the Accrue At value
     #
     # @return Accrue At value

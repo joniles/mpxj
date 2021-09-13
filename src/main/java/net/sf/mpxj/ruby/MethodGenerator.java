@@ -96,6 +96,7 @@ public class MethodGenerator
          writer.write("    def self.included(base)\r\n");
          writer.write("      base.extend(" + name + "ClassMethods)\r\n");
          writer.write("    end\r\n");
+         writer.write("\r\n");
 
          boolean first = true;
          for (FieldType type : list)
