@@ -78,7 +78,7 @@ class MapRow implements Row
       Object result = getObject(name);
       if (result != null)
       {
-         if (result instanceof Integer == false)
+         if (!(result instanceof Integer))
          {
             result = Integer.valueOf(((Number) result).intValue());
          }

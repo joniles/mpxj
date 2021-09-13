@@ -447,7 +447,7 @@ public class MpxjQuery
     */
    private static void dumpRelationList(List<Relation> relations)
    {
-      if (relations != null && relations.isEmpty() == false)
+      if (relations != null && !relations.isEmpty())
       {
          if (relations.size() > 1)
          {

@@ -51,7 +51,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       super(file);
 
-      if (file.getProjectConfig().getAutoAssignmentUniqueID() == true)
+      if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }

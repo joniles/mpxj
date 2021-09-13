@@ -123,7 +123,7 @@ public class ResourceAssignmentFactory
 
          int id = MPPUtility.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
          final Integer varDataId = Integer.valueOf(id);
-         if (set.contains(varDataId) == false)
+         if (!set.contains(varDataId))
          {
             continue;
          }

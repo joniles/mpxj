@@ -294,7 +294,7 @@ public final class DateHelper
       {
          int savings;
 
-         if (HAS_DST_SAVINGS == true)
+         if (HAS_DST_SAVINGS)
          {
             savings = tz.getDSTSavings();
          }
@@ -323,7 +323,7 @@ public final class DateHelper
       {
          int savings;
 
-         if (HAS_DST_SAVINGS == true)
+         if (HAS_DST_SAVINGS)
          {
             savings = tz.getDSTSavings();
          }

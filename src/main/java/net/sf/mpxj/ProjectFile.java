@@ -328,7 +328,7 @@ public final class ProjectFile implements ChildTaskContainer
          // to reflect a missed deadline.
          //
          Date taskStartDate;
-         if (task.getMilestone() == true)
+         if (task.getMilestone())
          {
             taskStartDate = task.getActualFinish();
             if (taskStartDate == null)

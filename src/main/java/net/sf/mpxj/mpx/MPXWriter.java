@@ -77,7 +77,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_projectFile = projectFile;
       m_eventManager = projectFile.getEventManager();
 
-      if (m_useLocaleDefaults == true)
+      if (m_useLocaleDefaults)
       {
          LocaleUtility.setLocale(m_projectFile.getProjectProperties(), m_locale);
       }
@@ -116,7 +116,7 @@ public final class MPXWriter extends AbstractProjectWriter
       writeFileCreationRecord();
       writeProjectHeader(m_projectFile.getProjectProperties());
 
-      if (m_projectFile.getResources().isEmpty() == false)
+      if (!m_projectFile.getResources().isEmpty())
       {
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_writer.write(m_resourceModel.toString());
@@ -126,7 +126,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      if (m_projectFile.getTasks().isEmpty() == false)
+      if (!m_projectFile.getTasks().isEmpty())
       {
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_writer.write(m_taskModel.toString());
@@ -568,7 +568,7 @@ public final class MPXWriter extends AbstractProjectWriter
          int length = note.length();
          char c;
 
-         if (quote == true)
+         if (quote)
          {
             m_buffer.append('"');
          }
@@ -593,7 +593,7 @@ public final class MPXWriter extends AbstractProjectWriter
             }
          }
 
-         if (quote == true)
+         if (quote)
          {
             m_buffer.append('"');
          }
@@ -954,13 +954,13 @@ public final class MPXWriter extends AbstractProjectWriter
       }
       else
       {
-         if (o instanceof Boolean == true)
+         if ((o instanceof Boolean))
          {
-            result = LocaleData.getString(m_locale, (((Boolean) o).booleanValue() == true ? LocaleData.YES : LocaleData.NO));
+            result = LocaleData.getString(m_locale, (((Boolean) o).booleanValue() ? LocaleData.YES : LocaleData.NO));
          }
          else
          {
-            if (o instanceof Float == true || o instanceof Double == true)
+            if ((o instanceof Float) || (o instanceof Double))
             {
                result = (m_formats.getDecimalFormat().format(((Number) o).doubleValue()));
             }

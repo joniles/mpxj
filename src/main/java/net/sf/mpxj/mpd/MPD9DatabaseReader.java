@@ -165,7 +165,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processProjectProperties() throws SQLException
    {
       List<ResultSetRow> rows = getRows("SELECT * FROM MSP_PROJECTS WHERE PROJ_ID=?", m_projectID);
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
          processProjectProperties(rows.get(0));
       }

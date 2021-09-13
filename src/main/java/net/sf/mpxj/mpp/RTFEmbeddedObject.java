@@ -179,7 +179,7 @@ public final class RTFEmbeddedObject
    private int getInt(List<byte[]> blocks)
    {
       int result;
-      if (blocks.isEmpty() == false)
+      if (!blocks.isEmpty())
       {
          byte[] data = blocks.remove(0);
          result = MPPUtility.getInt(data, 0);
@@ -205,7 +205,7 @@ public final class RTFEmbeddedObject
    {
       byte[] result;
 
-      if (blocks.isEmpty() == false)
+      if (!blocks.isEmpty())
       {
          if (length < 4)
          {
@@ -260,12 +260,12 @@ public final class RTFEmbeddedObject
       RTFEmbeddedObject headerObject;
       RTFEmbeddedObject dataObject;
 
-      while (blocks.isEmpty() == false)
+      while (!blocks.isEmpty())
       {
          headerObject = new RTFEmbeddedObject(blocks, 2);
          objects.add(headerObject);
 
-         if (blocks.isEmpty() == false)
+         if (!blocks.isEmpty())
          {
             dataObject = new RTFEmbeddedObject(blocks, headerObject.getTypeFlag2());
             objects.add(dataObject);
@@ -288,7 +288,7 @@ public final class RTFEmbeddedObject
       char c;
       boolean finished = false;
 
-      while (finished == false)
+      while (!finished)
       {
          c = text.charAt(offset);
          switch (c)
@@ -332,7 +332,7 @@ public final class RTFEmbeddedObject
       boolean finished = false;
       char c;
 
-      while (finished == false)
+      while (!finished)
       {
          c = text.charAt(offset);
          switch (c)

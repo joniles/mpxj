@@ -320,7 +320,7 @@ final class FastTrackUtility
             sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
          }
 
-         if (ascii == true)
+         if (ascii)
          {
             sb.append("   ");
 

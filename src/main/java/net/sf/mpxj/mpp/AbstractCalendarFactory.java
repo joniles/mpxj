@@ -118,7 +118,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getCalendarIDOffset()));
                int baseCalendarID = MPPUtility.getInt(fixedData, offset + getBaseIDOffset());
 
-               if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
+               if (calendarID.intValue() > 0 && !calendarMap.containsKey(calendarID))
                {
                   byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
                   ProjectCalendar cal;

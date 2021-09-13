@@ -733,7 +733,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = ((m_fields[field].equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE);
+         result = (m_fields[field].equalsIgnoreCase(falseText) ? Boolean.FALSE : Boolean.TRUE);
       }
       else
       {

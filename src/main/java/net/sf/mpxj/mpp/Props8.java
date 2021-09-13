@@ -160,7 +160,7 @@ final class Props8 extends Props
       PrintWriter pw = new PrintWriter(sw);
 
       pw.println("BEGIN Props");
-      if (m_complete == true)
+      if (m_complete)
       {
          pw.println("   COMPLETE");
       }

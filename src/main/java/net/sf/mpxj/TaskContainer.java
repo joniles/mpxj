@@ -84,7 +84,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       // Remove all resource assignments
       //
       Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
          if (assignment.getTask() == task)
@@ -104,7 +104,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       while (true)
       {
          List<Task> childTaskList = task.getChildTasks();
-         if (childTaskList.isEmpty() == true)
+         if (childTaskList.isEmpty())
          {
             break;
          }

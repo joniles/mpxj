@@ -51,7 +51,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
       Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
       Integer resourceUniqueID = resource.getUniqueID();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
          if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))

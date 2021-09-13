@@ -116,13 +116,13 @@ public abstract class Tokenizer
             {
                if (c == m_quote)
                {
-                  if (quoted == false && startQuotedIsValid(m_buffer))
+                  if (!quoted && startQuotedIsValid(m_buffer))
                   {
                      quoted = true;
                   }
                   else
                   {
-                     if (quoted == false)
+                     if (!quoted)
                      {
                         m_buffer.append((char) c);
                      }
@@ -143,7 +143,7 @@ public abstract class Tokenizer
                }
                else
                {
-                  if (c == m_delimiter && quoted == false)
+                  if (c == m_delimiter && !quoted)
                   {
                      result = TT_WORD;
                   }

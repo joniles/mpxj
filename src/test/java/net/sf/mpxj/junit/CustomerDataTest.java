@@ -445,7 +445,7 @@ public class CustomerDataTest
    {
       ProjectFile mpxj = null;
 
-      if (name.endsWith(".MPX") == true)
+      if (name.endsWith(".MPX"))
       {
          m_mpxReader.setLocale(Locale.ENGLISH);
 
@@ -637,7 +637,7 @@ public class CustomerDataTest
    private void validateMpp(String name, ProjectFile mpp) throws Exception
    {
       File xmlFile = new File(name + ".xml");
-      if (xmlFile.exists() == true)
+      if (xmlFile.exists())
       {
          ProjectFile xml = new MSPDIReader().read(xmlFile);
          MppXmlCompare compare = new MppXmlCompare();

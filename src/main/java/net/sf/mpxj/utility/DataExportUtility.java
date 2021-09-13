@@ -112,7 +112,7 @@ public final class DataExportUtility
       pw.println("<database>");
 
       ResultSet tables = dmd.getTables(null, null, null, types);
-      while (tables.next() == true)
+      while (tables.next())
       {
          processTable(pw, connection, tables.getString("TABLE_NAME"));
       }
@@ -177,7 +177,7 @@ public final class DataExportUtility
       StringBuilder buffer = new StringBuilder(255);
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.UK);
 
-      while (rs.next() == true)
+      while (rs.next())
       {
          pw.println(" <row>");
 

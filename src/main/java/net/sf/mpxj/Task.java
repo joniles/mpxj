@@ -63,27 +63,27 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
 
-      if (config.getAutoTaskUniqueID() == true)
+      if (config.getAutoTaskUniqueID())
       {
          setUniqueID(Integer.valueOf(config.getNextTaskUniqueID()));
       }
 
-      if (config.getAutoTaskID() == true)
+      if (config.getAutoTaskID())
       {
          setID(Integer.valueOf(config.getNextTaskID()));
       }
 
-      if (config.getAutoWBS() == true)
+      if (config.getAutoWBS())
       {
          generateWBS(parent);
       }
 
-      if (config.getAutoOutlineNumber() == true)
+      if (config.getAutoOutlineNumber())
       {
          generateOutlineNumber(parent);
       }
 
-      if (config.getAutoOutlineLevel() == true)
+      if (config.getAutoOutlineLevel())
       {
          if (parent == null)
          {
@@ -254,7 +254,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       }
       else
       {
-         if (m_children.isEmpty() == false)
+         if (!m_children.isEmpty())
          {
             (m_children.get(m_children.size() - 1)).addChildTask(child, childOutlineLevel);
          }
@@ -275,7 +275,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_children.add(child);
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -302,7 +302,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       child.m_parent = this;
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -486,7 +486,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       Relation predecessorRelation = null;
       Iterator<Relation> iter = predecessorList.iterator();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          predecessorRelation = iter.next();
          if (predecessorRelation.getTargetTask() == targetTask)
@@ -520,7 +520,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       Relation successorRelation = null;
       iter = successorList.iterator();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          successorRelation = iter.next();
          if (successorRelation.getTargetTask() == this)

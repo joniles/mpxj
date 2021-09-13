@@ -294,7 +294,7 @@ final class MPP8Reader implements MPPVariantReader
                if (defaultFlag == 1)
                {
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
-                  if (cal.isWorkingDay(day) == true)
+                  if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(net.sf.mpxj.Day.getInstance(index + 1));
                      hours.addRange(new DateRange(defaultStart1, defaultEnd1));
@@ -1082,7 +1082,7 @@ final class MPP8Reader implements MPPVariantReader
    {
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       FixFix assnFixedData = new FixFix(204, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
-      if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(assnFixedData) == false))
+      if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && !testAssignmentTasks(assnFixedData)))
       {
          assnFixedData = new FixFix(238, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
       }
@@ -1294,7 +1294,7 @@ final class MPP8Reader implements MPPVariantReader
             }
          }
 
-         if (table.getResourceFlag() == false)
+         if (!table.getResourceFlag())
          {
             column.setFieldType(MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
          }

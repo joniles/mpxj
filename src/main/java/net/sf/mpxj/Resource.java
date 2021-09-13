@@ -54,12 +54,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       ProjectConfig config = file.getProjectConfig();
 
-      if (config.getAutoResourceUniqueID() == true)
+      if (config.getAutoResourceUniqueID())
       {
          setUniqueID(Integer.valueOf(config.getNextResourceUniqueID()));
       }
 
-      if (config.getAutoResourceID() == true)
+      if (config.getAutoResourceID())
       {
          setID(Integer.valueOf(config.getNextResourceID()));
       }
@@ -2711,7 +2711,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
             }
             parent.getResources().mapUniqueID((Integer) newValue, this);
 
-            if (m_assignments.isEmpty() == false)
+            if (!m_assignments.isEmpty())
             {
                for (ResourceAssignment assignment : m_assignments)
                {

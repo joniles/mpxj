@@ -863,7 +863,7 @@ final class MPP12Reader implements MPPVariantReader
                {
                   uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
                   key = Integer.valueOf(uniqueID);
-                  if (taskMap.containsKey(key) == false)
+                  if (!taskMap.containsKey(key))
                   {
                      taskMap.put(key, Integer.valueOf(loop));
                   }
@@ -919,7 +919,7 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, uniqueIdOffset));
-         if (resourceMap.containsKey(uniqueID) == false)
+         if (!resourceMap.containsKey(uniqueID))
          {
             resourceMap.put(uniqueID, Integer.valueOf(loop));
          }
@@ -1000,7 +1000,7 @@ final class MPP12Reader implements MPPVariantReader
          Integer uniqueID = (Integer) uniqueIdArray[loop];
 
          offset = taskMap.get(uniqueID);
-         if (taskFixedData.isValidOffset(offset) == false)
+         if (!taskFixedData.isValidOffset(offset))
          {
             continue;
          }

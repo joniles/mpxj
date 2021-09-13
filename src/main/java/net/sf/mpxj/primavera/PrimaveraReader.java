@@ -171,7 +171,7 @@ final class PrimaveraReader
     */
    public void processProjectProperties(List<Row> rows)
    {
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
          Row row = rows.get(0);
          ProjectProperties properties = m_project.getProjectProperties();

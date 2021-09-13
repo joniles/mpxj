@@ -57,7 +57,7 @@ final class RelationTypeUtility
       String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
       for (int loop = 0; loop < relationTypes.length; loop++)
       {
-         if (relationTypes[loop].equalsIgnoreCase(type) == true)
+         if (relationTypes[loop].equalsIgnoreCase(type))
          {
             index = loop;
             break;

@@ -86,7 +86,7 @@ final class ResourceModel
 
       for (int i = 0; i < length; i++)
       {
-         if (isText == true)
+         if (isText)
          {
             add(getResourceCode(record.getString(i)));
          }
@@ -128,7 +128,7 @@ final class ResourceModel
          {
             if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
             {
-               if (m_flags[loop] == false)
+               if (!m_flags[loop])
                {
                   m_flags[loop] = true;
                   m_fields[m_count] = loop;
@@ -195,7 +195,7 @@ final class ResourceModel
    {
       if (field < m_flags.length)
       {
-         if (m_flags[field] == false)
+         if (!m_flags[field])
          {
             m_flags[field] = true;
             m_fields[m_count] = field;

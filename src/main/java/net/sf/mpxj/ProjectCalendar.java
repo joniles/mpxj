@@ -53,7 +53,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       m_projectFile = file;
 
-      if (file.getProjectConfig().getAutoCalendarUniqueID() == true)
+      if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
       }
@@ -302,7 +302,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day) == true)
+         if (isWorkingDate(cal.getTime(), day))
          {
             ++duration;
          }
@@ -1210,7 +1210,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
             Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            while (isWorkingDate(currentDate, day) == false && currentDate.getTime() < canonicalEndDate.getTime())
+            while (!isWorkingDate(currentDate, day) && currentDate.getTime() < canonicalEndDate.getTime())
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentDate = cal.getTime();
@@ -1503,7 +1503,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          int diff = DateHelper.compare(startTime, endTime, target);
          if (diff == 0)
          {
-            if (after == true)
+            if (after)
             {
                total = (endTime.getTime() - target);
             }
@@ -1514,7 +1514,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
          else
          {
-            if ((after == true && diff < 0) || (after == false && diff > 0))
+            if ((after && diff < 0) || (!after && diff > 0))
             {
                total = (endTime.getTime() - startTime.getTime());
             }

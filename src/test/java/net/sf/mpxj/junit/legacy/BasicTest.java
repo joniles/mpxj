@@ -666,7 +666,7 @@ public class BasicTest
 
       for (Task task : mpp.getTasks())
       {
-         if (task.getName().startsWith("Parent") == false)
+         if (!task.getName().startsWith("Parent"))
          {
             flags = getFlagArray(task);
             assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
@@ -758,7 +758,7 @@ public class BasicTest
 
       for (Task task : mpp.getTasks())
       {
-         if (task.getUniqueID().intValue() != 0 && task.getName().startsWith("Parent") == false)
+         if (task.getUniqueID().intValue() != 0 && !task.getName().startsWith("Parent"))
          {
             flags = getFlagArray(task);
             assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
@@ -820,7 +820,7 @@ public class BasicTest
 
       for (int loop = 0; loop < flags.length; loop++)
       {
-         if (flags[loop] == true && loop != index)
+         if (flags[loop] && loop != index)
          {
             //System.out.println ("found flag at " + loop);
             result = false;

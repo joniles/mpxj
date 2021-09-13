@@ -116,12 +116,12 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       if (calendarName != null && calendarName.length() != 0)
       {
          Iterator<ProjectCalendar> iter = iterator();
-         while (iter.hasNext() == true)
+         while (iter.hasNext())
          {
             calendar = iter.next();
             String name = calendar.getName();
 
-            if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
+            if ((name != null) && name.equalsIgnoreCase(calendarName))
             {
                break;
             }

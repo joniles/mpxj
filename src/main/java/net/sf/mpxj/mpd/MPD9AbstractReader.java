@@ -243,7 +243,7 @@ abstract class MPD9AbstractReader
       {
          boolean baseCalendar = row.getBoolean("CAL_IS_BASE_CAL");
          ProjectCalendar cal;
-         if (baseCalendar == true)
+         if (baseCalendar)
          {
             cal = m_project.addCalendar();
             cal.setName(row.getString("CAL_NAME"));
@@ -315,7 +315,7 @@ abstract class MPD9AbstractReader
       Day day = Day.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
       calendar.setWorkingDay(day, working);
-      if (working == true)
+      if (working)
       {
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
 

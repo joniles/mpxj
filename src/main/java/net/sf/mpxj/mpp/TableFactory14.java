@@ -112,7 +112,7 @@ final class TableFactory14
          {
             column = new Column(file);
             int fieldType = MPPUtility.getShort(data, index);
-            if (table.getResourceFlag() == false)
+            if (!table.getResourceFlag())
             {
                column.setFieldType(MPPTaskField14.getInstance(fieldType));
             }

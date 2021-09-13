@@ -64,7 +64,7 @@ final class DurationUtility
          double duration;
          TimeUnit units;
 
-         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+         while ((index > 0) && !Character.isDigit(dur.charAt(index)))
          {
             --index;
          }

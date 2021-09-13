@@ -87,7 +87,7 @@ abstract class MPXJBaseFormat extends MultiDateFormat
    @Override protected Date parseNonNullDate(String str, ParsePosition pos)
    {
       Date result;
-      if (str.equals(m_null) == true)
+      if (str.equals(m_null))
       {
          result = null;
          pos.setIndex(-1);

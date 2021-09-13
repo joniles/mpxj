@@ -56,13 +56,13 @@ public class GraphicalIndicator
          Task task = (Task) container;
          if (NumberHelper.getInt(task.getUniqueID()) == 0)
          {
-            if (m_projectSummaryInheritsFromSummaryRows == false)
+            if (!m_projectSummaryInheritsFromSummaryRows)
             {
                criteria = m_projectSummaryCriteria;
             }
             else
             {
-               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               if (!m_summaryRowsInheritFromNonSummaryRows)
                {
                   criteria = m_summaryRowCriteria;
                }
@@ -74,9 +74,9 @@ public class GraphicalIndicator
          }
          else
          {
-            if (task.getSummary() == true)
+            if (task.getSummary())
             {
-               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               if (!m_summaryRowsInheritFromNonSummaryRows)
                {
                   criteria = m_summaryRowCriteria;
                }

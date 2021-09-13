@@ -189,7 +189,7 @@ public class GenericCriteria
       // Retrieve the RHS values
       //
       Object[] rhs;
-      if (m_symbolicValues == true)
+      if (m_symbolicValues)
       {
          rhs = processSymbolicValues(m_workingRightValues, container, promptValues);
       }

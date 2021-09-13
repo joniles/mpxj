@@ -303,7 +303,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setName(properties.getName());
       project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
-      project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
+      project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() ? BigInteger.ZERO : BigInteger.ONE);
       project.setNewTasksAreManual(Boolean.valueOf(properties.getNewTasksAreManual()));
       project.setProjectExternallyEdited(Boolean.valueOf(properties.getProjectExternallyEdited()));
       project.setRemoveFileProperties(Boolean.valueOf(properties.getRemoveFileProperties()));
@@ -1823,7 +1823,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (Task task : m_projectFile.getTasks())
       {
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-         if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
+         if (percentComplete != 0 && task.getResourceAssignments().isEmpty())
          {
             ResourceAssignment dummy = new ResourceAssignment(m_projectFile, task);
             Duration duration = task.getDuration();

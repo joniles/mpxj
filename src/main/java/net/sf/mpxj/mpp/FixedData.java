@@ -255,7 +255,7 @@ final class FixedData extends MPPComponent
    {
       int offset = 0;
       int itemCount = is.available() / itemSize;
-      if (readRemainderBlock == true && is.available() % itemSize != 0)
+      if (readRemainderBlock && is.available() % itemSize != 0)
       {
          ++itemCount;
       }
@@ -268,7 +268,7 @@ final class FixedData extends MPPComponent
          m_offset[loop] = offset;
 
          int currentItemSize = itemSize;
-         if (readRemainderBlock == true && is.available() < itemSize)
+         if (readRemainderBlock && is.available() < itemSize)
          {
             currentItemSize = is.available();
          }

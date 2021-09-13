@@ -87,7 +87,7 @@ final class XsdDuration
                index = readComponent(duration, index, length);
             }
 
-            if (negative == true)
+            if (negative)
             {
                m_years = -m_years;
                m_months = -m_months;
@@ -244,7 +244,7 @@ final class XsdDuration
 
          case 'M':
          {
-            if (m_hasTime == false)
+            if (!m_hasTime)
             {
                m_months = Integer.parseInt(number.toString());
             }
@@ -432,7 +432,7 @@ final class XsdDuration
       }
       buffer.append("S");
 
-      if (negative == true)
+      if (negative)
       {
          if (microsoftProjectCompatible)
          {

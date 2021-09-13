@@ -294,7 +294,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          case MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER:
          {
-            if ((m_resourceTableDefinition == false) && (m_ignoreTextModels == false))
+            if (!m_resourceTableDefinition && !m_ignoreTextModels)
             {
                m_resourceModel.update(record, true);
                m_resourceTableDefinition = true;
@@ -305,7 +305,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          case MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER:
          {
-            if (m_resourceTableDefinition == false)
+            if (!m_resourceTableDefinition)
             {
                m_resourceModel.update(record, false);
                m_resourceTableDefinition = true;
@@ -366,7 +366,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          case MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER:
          {
-            if ((m_taskTableDefinition == false) && (m_ignoreTextModels == false))
+            if (!m_taskTableDefinition && !m_ignoreTextModels)
             {
                m_taskModel.update(record, true);
                m_taskTableDefinition = true;
@@ -377,7 +377,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          case MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER:
          {
-            if (m_taskTableDefinition == false)
+            if (!m_taskTableDefinition)
             {
                m_taskModel.update(record, false);
                m_taskTableDefinition = true;
@@ -401,7 +401,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             if (outlineLevel != m_baseOutlineLevel)
             {
                List<Task> childTasks = m_projectFile.getChildTasks();
-               if (childTasks.isEmpty() == true)
+               if (childTasks.isEmpty())
                {
                   throw new MPXJException(MPXJException.INVALID_OUTLINE);
                }
@@ -711,7 +711,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void populateCalendar(Record record, ProjectCalendar calendar, boolean isBaseCalendar)
    {
-      if (isBaseCalendar == true)
+      if (isBaseCalendar)
       {
          calendar.setName(record.getString(0));
       }
@@ -844,12 +844,12 @@ public final class MPXReader extends AbstractProjectStreamReader
          }
       }
 
-      if (m_projectConfig.getAutoResourceUniqueID() == true)
+      if (m_projectConfig.getAutoResourceUniqueID())
       {
          resource.setUniqueID(Integer.valueOf(m_projectConfig.getNextResourceUniqueID()));
       }
 
-      if (m_projectConfig.getAutoResourceID() == true)
+      if (m_projectConfig.getAutoResourceID())
       {
          resource.setID(Integer.valueOf(m_projectConfig.getNextResourceID()));
       }
@@ -946,7 +946,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Extract the identifier
       //
-      while ((index < length) && (Character.isDigit(relationship.charAt(index)) == true))
+      while ((index < length) && Character.isDigit(relationship.charAt(index)))
       {
          ++index;
       }
@@ -1218,7 +1218,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             case ROLLUP:
             case UPDATE_NEEDED:
             {
-               task.set(taskField, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
+               task.set(taskField, (field.equalsIgnoreCase(falseText) ? Boolean.FALSE : Boolean.TRUE));
                break;
             }
 
@@ -1287,27 +1287,27 @@ public final class MPXReader extends AbstractProjectStreamReader
          }
       }
 
-      if (m_projectConfig.getAutoWBS() == true)
+      if (m_projectConfig.getAutoWBS())
       {
          task.generateWBS(null);
       }
 
-      if (m_projectConfig.getAutoOutlineNumber() == true)
+      if (m_projectConfig.getAutoOutlineNumber())
       {
          task.generateOutlineNumber(null);
       }
 
-      if (m_projectConfig.getAutoOutlineLevel() == true)
+      if (m_projectConfig.getAutoOutlineLevel())
       {
          task.setOutlineLevel(Integer.valueOf(1));
       }
 
-      if (m_projectConfig.getAutoTaskUniqueID() == true)
+      if (m_projectConfig.getAutoTaskUniqueID())
       {
          task.setUniqueID(Integer.valueOf(m_projectConfig.getNextTaskUniqueID()));
       }
 
-      if (task.getID() == null || m_projectConfig.getAutoTaskID() == true)
+      if (task.getID() == null || m_projectConfig.getAutoTaskID())
       {
          task.setID(Integer.valueOf(m_projectConfig.getNextTaskID()));
       }

@@ -64,15 +64,15 @@ public enum FileVersion implements MpxjEnum
 
       if (value != null)
       {
-         if (value.startsWith("4") == false)
+         if (!value.startsWith("4"))
          {
-            if (value.startsWith("3") == true)
+            if (value.startsWith("3"))
             {
                result = VERSION_3_0;
             }
             else
             {
-               if (value.startsWith("1") == true)
+               if (value.startsWith("1"))
                {
                   result = VERSION_1_0;
                }

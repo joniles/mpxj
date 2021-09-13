@@ -102,7 +102,7 @@ final class TaskModel
 
       for (int i = 0; i < length; i++)
       {
-         if (isText == true)
+         if (isText)
          {
             add(getTaskCode(record.getString(i)));
          }
@@ -124,7 +124,7 @@ final class TaskModel
    {
       if (field < m_flags.length)
       {
-         if (m_flags[field] == false)
+         if (!m_flags[field])
          {
             m_flags[field] = true;
             m_fields[m_count] = field;
