@@ -45,7 +45,7 @@ public class MethodGenerator
 
    /**
     * Main entry point.
-    * 
+    *
     * @param argv command line arguments
     */
    public static void main(String[] argv) throws IOException
@@ -63,7 +63,7 @@ public class MethodGenerator
 
    /**
     * Generate ruby class methods.
-    * 
+    *
     * @param directory target directory for method files.
     */
    public void process(File directory) throws IOException
@@ -76,7 +76,7 @@ public class MethodGenerator
 
    /**
     * Write attribute methods for a specific entity.
-    * 
+    *
     * @param directory target directory
     * @param name entity name
     * @param types entity attributes
@@ -93,19 +93,19 @@ public class MethodGenerator
          writer.write("module MPXJ\r\n");
          writer.write("  module " + name + "Methods\r\n");
 
+         writer.write("    def self.included(base)\r\n");
+         writer.write("      base.extend(" + name + "ClassMethods)\r\n");
+         writer.write("    end\r\n");
+         writer.write("\r\n");
+
          boolean first = true;
          for (FieldType type : list)
          {
-            if (first)
-            {
-               first = false;
-            }
-            else
-            {
-               writer.write("\r\n");
-            }
             writeMethod(writer, type);
          }
+
+         writeAttributeTypes(writer, name, list);
+
          writer.write("  end\r\n");
          writer.write("end\r\n");
       }
@@ -113,7 +113,7 @@ public class MethodGenerator
 
    /**
     * Write a single method definition.
-    * 
+    *
     * @param writer output writer
     * @param field attribute to write
     */
@@ -137,14 +137,43 @@ public class MethodGenerator
          writer.write("      " + methodName + "(attribute_values['" + attributeName + "'])\r\n");
       }
 
-      writer.write("    end");
+      writer.write("    end\r\n");
       writer.write("\r\n");
    }
 
    /**
+    * Write a hash containing the attribute types and a method to retrieve it.
+    *
+    * @param writer output writer
+    * @param name entity name
+    * @param list list of field types
+    */
+   private void writeAttributeTypes(Writer writer, String name, List<FieldType> list) throws IOException
+   {
+      writer.write("    ATTRIBUTE_TYPES = {\r\n");
+      for (FieldType type : list)
+      {
+         writer.write("      '" + type.name().toLowerCase() + "' => :" + type.getDataType().name().toLowerCase() + ",\r\n");
+      }
+      writer.write("    }.freeze\r\n");
+      writer.write("\r\n");
+
+      writer.write("    def attribute_types\r\n");
+      writer.write("      ATTRIBUTE_TYPES\r\n");
+      writer.write("    end\r\n");
+      writer.write("\r\n");
+
+      writer.write("    module " + name + "ClassMethods\r\n");
+      writer.write("      def attribute_types\r\n");
+      writer.write("        ATTRIBUTE_TYPES\r\n");
+      writer.write("      end\r\n");
+      writer.write("    end\r\n");
+   }
+
+   /**
     * Generate the name of the method used to process a specific data type.
-    * 
-    * @param type data type 
+    *
+    * @param type data type
     * @return method name
     */
    private String getMethodName(DataType type)

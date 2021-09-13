@@ -7,8 +7,9 @@
 	<body>
 		<release date="git master" version="9.5.3">
 			<action dev="joniles" type="add">Add Planned Start and Scheduled Finish to project properties.</action>
-			<action dev="joniles" type="update">Corrected source of Must Finish By project property when reading XER files or P6 databases.</action>
+			<action dev="joniles" type="add">Add attribute_types method to Ruby classes.</action>
 			<action dev="joniles" type="update">Updated to use POI 5.0.0.</action>
+			<action dev="joniles" type="update">Corrected source of Must Finish By project property when reading XER files or P6 databases.</action>
 			<action dev="joniles" type="update">When reading PMXML files, ensure that the activity calendar is set before calculating slack.</action>
 			<action dev="joniles" type="update">Remove unused field TaskField.PARENT_TASK.</action>
 			<action dev="joniles" type="update">Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.</action>

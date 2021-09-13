@@ -2,11 +2,13 @@
 
 ## 9.5.3 (git master)
 * Add Planned Start and Scheduled Finish to project properties.
-* Corrected source of Must Finish By project property when reading XER files or P6 databases.
+* Add attribute_types method to Ruby classes.
 * Updated to use POI 5.0.0.
+* Corrected source of Must Finish By project property when reading XER files or P6 databases.
 * When reading PMXML files, ensure that the activity calendar is set before calculating slack.
 * Remove unused field TaskField.PARENT_TASK.
 * Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.
+* Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.
 
 ## 9.5.2 (22/08/21)
 * Add Must Finish By date to project properties.
