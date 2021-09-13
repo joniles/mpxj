@@ -185,7 +185,7 @@ final class PrimaveraReader
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setUniqueID(row.getInteger("proj_id"));
-         properties.setExportFlag(row.getBoolean("export_flag"));  
+         properties.setExportFlag(row.getBoolean("export_flag"));
          properties.setPlannedStart(row.getDate("plan_start_date"));
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
