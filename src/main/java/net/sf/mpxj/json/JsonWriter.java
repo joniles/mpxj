@@ -111,7 +111,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Returns true of attribute type information is written to the JSON file.
-    * 
+    *
     * @return true if attribute types written
     */
    public boolean getWriteAttributeTypes()
@@ -121,7 +121,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Sets the flag used to determine if attribute types are written to the JSON file.
-    * 
+    *
     * @param writeAttributeTypes set to true to write attribute types
     */
    public void setWriteAttributeTypes(boolean writeAttributeTypes)
@@ -751,7 +751,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a resource request type field to the JSON file.
-    *  
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -769,7 +769,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a work contour field to the JSON file.
-    *  
+    *
     * @param fieldName field name
     * @param value field value
     */
@@ -787,7 +787,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write an earned value method field to the JSON file.
-    *  
+    *
     * @param container field container
     * @param fieldName field name
     * @param value field value
@@ -806,7 +806,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a task type field to the JSON file.
-    *  
+    *
     * @param container field container
     * @param fieldName field name
     * @param value field value

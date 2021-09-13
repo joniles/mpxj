@@ -38,7 +38,7 @@ class UserFieldDataType<E extends Enum<E> & FieldType>
 {
    /**
     * Constructor.
-    * 
+    *
     * @param clazz field type class
     */
    public UserFieldDataType(Class<E> clazz)
@@ -48,7 +48,7 @@ class UserFieldDataType<E extends Enum<E> & FieldType>
 
    /**
     * Retrieve the next available field.
-    * 
+    *
     * @param dataType Asta data type
     * @return FieldType instance or null if no field is available
     */
@@ -75,7 +75,7 @@ class UserFieldDataType<E extends Enum<E> & FieldType>
    private static final Map<Integer, String> TYPE_MAP = new HashMap<>();
    static
    {
-      TYPE_MAP.put(Integer.valueOf(0), "FLAG"); // Boolean      
+      TYPE_MAP.put(Integer.valueOf(0), "FLAG"); // Boolean
       TYPE_MAP.put(Integer.valueOf(6), "NUMBER"); // Integer
       TYPE_MAP.put(Integer.valueOf(8), "NUMBER"); // Float
       TYPE_MAP.put(Integer.valueOf(9), "TEXT"); // String

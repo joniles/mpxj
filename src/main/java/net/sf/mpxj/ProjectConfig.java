@@ -293,7 +293,7 @@ public class ProjectConfig
     * Returns true if a task's Complete Through attribute is reported as
     * the time work can next start. Defaults to false. When set to true this
     * matches the behaviour of MS Project versions prior to 2007.
-    * 
+    *
     * @return true if Complete Through is next work start date
     */
    public boolean getCompleteThroughIsNextWorkStart()
@@ -305,7 +305,7 @@ public class ProjectConfig
     * When set to true a task's Complete Through attribute is reported as
     * the time work can next start. Defaults to false. When set to true this
     * matches the behaviour of MS Project versions prior to 2007.
-    * 
+    *
     * @param completeThroughIsNextWorkStart true if Complete Through is next work start date
     */
    public void setCompleteThroughIsNextWorkStart(boolean completeThroughIsNextWorkStart)

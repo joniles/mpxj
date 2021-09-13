@@ -2751,7 +2751,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets the must finish by date for this project.
-    * 
+    *
     * @param date must finish by date
     */
    public void setMustFinishBy(Date date)
@@ -2761,8 +2761,8 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the must finish by date for this project.
-    * 
-    * @return must finish by date 
+    *
+    * @return must finish by date
     */
    public Date getMustFinishBy()
    {
@@ -2771,7 +2771,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Sets the scheduled finish by date for this project.
-    * 
+    *
     * @param date scheduled finish by date
     */
    public void setScheduledFinish(Date date)
@@ -2781,8 +2781,8 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the scheduled finish by date for this project.
-    * 
-    * @return scheduled finish by date 
+    *
+    * @return scheduled finish by date
     */
    public Date getScheduledFinish()
    {

@@ -4313,7 +4313,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Set the "complete through" date. This is the date at which
     * the percent complete progress line on a task finishes.
-    * 
+    *
     * @param value complete through date
     */
    public void setCompleteThrough(Date value)

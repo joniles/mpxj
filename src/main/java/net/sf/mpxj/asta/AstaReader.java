@@ -1640,7 +1640,7 @@ final class AstaReader
 
    /**
     * Extract custom field data.
-    *  
+    *
     * @param definitions custom field definitions
     * @param data custom field data
     */
@@ -1654,7 +1654,7 @@ final class AstaReader
 
    /**
     * Process custom field configuration.
-    * 
+    *
     * @param definitions field definitions
     * @param map custom field map
     */
@@ -1702,7 +1702,7 @@ final class AstaReader
 
    /**
     * Process custom field data.
-    * 
+    *
     * @param data custom field data
     * @param map field map
     */
@@ -1814,7 +1814,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */
@@ -1849,7 +1849,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */
@@ -1884,7 +1884,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */
@@ -1896,7 +1896,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */
@@ -1912,7 +1912,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */
@@ -1924,7 +1924,7 @@ final class AstaReader
 
    /**
     * Retrieve a value and handle inconsistent types.
-    * 
+    *
     * @param row result set row
     * @return value
     */

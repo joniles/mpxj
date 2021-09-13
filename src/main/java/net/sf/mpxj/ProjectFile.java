@@ -294,7 +294,7 @@ public final class ProjectFile implements ChildTaskContainer
     * Find the earliest task start date.
     *
     * @return start date
-    *  
+    *
     * @deprecated use ProjectFile.getEarliestStartDate() or ProjectProperties.getStartDate()
     */
    @Deprecated public Date getStartDate()
@@ -368,8 +368,8 @@ public final class ProjectFile implements ChildTaskContainer
     * Find the latest task finish date.
     *
     * @return finish date
-    * 
-    * @deprecated use ProjectFile.getLatestFinishDate() or ProjectProperties.getFinishDate() 
+    *
+    * @deprecated use ProjectFile.getLatestFinishDate() or ProjectProperties.getFinishDate()
     */
    @Deprecated public Date getFinishDate()
    {

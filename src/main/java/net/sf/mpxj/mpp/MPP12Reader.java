@@ -207,7 +207,7 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * This method extracts and collates the value list information
     * for custom column value lists for a specific entity.
-    * 
+    *
     * @param dir entity directory
     */
    private void processCustomValueLists(DirectoryEntry dir) throws IOException

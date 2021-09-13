@@ -40,7 +40,7 @@ interface Row
 {
    /**
     * Retrieve an Object representing the value of an attribute.
-    * 
+    *
     * @param name attribute name
     * @return attribute value
     */

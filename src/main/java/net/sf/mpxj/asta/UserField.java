@@ -32,7 +32,7 @@ class UserField
 {
    /**
     * Constructor.
-    * 
+    *
     * @param field MPXJ field
     * @param objectType Asta object
     * @param dataType Asta data type
@@ -46,7 +46,7 @@ class UserField
 
    /**
     * Retrieve the MPXJ field type.
-    * 
+    *
     * @return MPXJ field type
     */
    public FieldType getField()
@@ -56,7 +56,7 @@ class UserField
 
    /**
     * Retrieve the Asta object type.
-    * 
+    *
     * @return Asta object type
     */
    public int getObjectType()
@@ -66,7 +66,7 @@ class UserField
 
    /**
     * Retrieve the Asta data type.
-    * 
+    *
     * @return Asta data type
     */
    public int getDataType()
