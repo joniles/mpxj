@@ -94,7 +94,7 @@ public class MethodGenerator
          writer.write("  module " + name + "Methods\r\n");
 
          writer.write("    def self.included(base)\r\n");
-         writer.write("      base.extend(" + name + "ClassMethods)");
+         writer.write("      base.extend(" + name + "ClassMethods)\r\n");
          writer.write("    end\r\n");
 
          boolean first = true;
