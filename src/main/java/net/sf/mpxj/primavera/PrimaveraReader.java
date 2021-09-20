@@ -385,11 +385,32 @@ final class PrimaveraReader
 
       try
       {
-         calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("day_hr_cnt")) * 60)));
-         calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("week_hr_cnt")) * 60)));
-         calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("month_hr_cnt")) * 60)));
-         calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(row.getDouble("year_hr_cnt")) * 60)));
+         Double hoursPerDay = row.getDouble("day_hr_cnt");
+         Double hoursPerWeek = row.getDouble("week_hr_cnt");
+         Double hoursPerMonth = row.getDouble("month_hr_cnt");
+         Double hoursPerYear = row.getDouble("year_hr_cnt");
+
+         if (hoursPerDay != null)
+         {
+            calendar.setMinutesPerDay(Integer.valueOf((int) (hoursPerDay.doubleValue() * 60)));
+         }
+
+         if (hoursPerWeek != null)
+         {
+            calendar.setMinutesPerWeek(Integer.valueOf((int) (hoursPerWeek.doubleValue() * 60)));
+         }
+
+         if (hoursPerMonth != null)
+         {
+            calendar.setMinutesPerMonth(Integer.valueOf((int) (hoursPerMonth.doubleValue() * 60)));
+         }
+
+         if (hoursPerYear != null)
+         {
+            calendar.setMinutesPerYear(Integer.valueOf((int) (hoursPerYear.doubleValue() * 60)));
+         }
       }
+
       catch (ClassCastException ex)
       {
          // We have seen examples of malformed calendar data where fields have been missing
