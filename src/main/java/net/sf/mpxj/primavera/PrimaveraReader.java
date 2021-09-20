@@ -360,6 +360,11 @@ final class PrimaveraReader
          if (defaultCalendar != null)
          {
             m_project.setDefaultCalendar(defaultCalendar);
+            
+            // Use the default calendar to populate the project properties
+            ProjectProperties props = m_project.getProjectProperties();
+            props.setMinutesPerDay(Integer.valueOf(defaultCalendar.getMinutesPerDay()));
+            props.setMinutesPerWeek(Integer.valueOf(defaultCalendar.getMinutesPerWeek()));            
          }
       }
    }
