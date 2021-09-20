@@ -72,13 +72,13 @@ public class ProjectWriterUtilityTest
       }
 
       writer = ProjectWriterUtility.getProjectWriter("filename.mpx");
-      assertTrue(writer instanceof MPXWriter);
+      assertEquals(MPXWriter.class, writer.getClass());
 
       writer = ProjectWriterUtility.getProjectWriter("filename.xml");
-      assertTrue(writer instanceof MSPDIWriter);
-
+      assertEquals(MSPDIWriter.class, writer.getClass());
+      
       writer = ProjectWriterUtility.getProjectWriter("filename.planner");
-      assertTrue(writer instanceof PlannerWriter);
+      assertEquals(PlannerWriter.class, writer.getClass());
    }
 
    /**
