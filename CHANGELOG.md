@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.6.1 (git master)
+* Add Sprint ID and Board Status ID attributes to task.
 
 ## 9.6.0 (13/09/21)
 * Add Planned Start and Scheduled Finish to project properties.

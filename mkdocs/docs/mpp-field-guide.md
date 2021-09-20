@@ -140,6 +140,7 @@ Actual Overtime Work|✓|✓|✓|✓
 Actual Start|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
 Actual Work Protected| | |✓| 
+Board Status ID| | | |✓
 Budget Cost| |✓|✓|✓
 Budget Work| |✓|✓|✓
 Calendar Unique ID| |✓|✓|✓
@@ -211,6 +212,7 @@ Scheduled Duration| | | |✓
 Scheduled Finish| | | |✓
 Scheduled Start| | | |✓
 Splits| |✓|✓|✓
+Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓

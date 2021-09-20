@@ -1006,9 +1006,13 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.EXPENSE_ITEMS.getValue()] = "Expense Items";
 
       TASK_COLUMNS_ARRAY[TaskField.SPRINT.getValue()] = "Sprint";
+      TASK_COLUMNS_ARRAY[TaskField.SPRINT_ID.getValue()] = "Sprint ID";
+      TASK_COLUMNS_ARRAY[TaskField.SPRINT_START.getValue()] = "Sprint Start";
+      TASK_COLUMNS_ARRAY[TaskField.SPRINT_FINISH.getValue()] = "Sprint Finish";
       TASK_COLUMNS_ARRAY[TaskField.BOARD_STATUS.getValue()] = "Board Status";
-      TASK_COLUMNS_ARRAY[TaskField.TASK_SUMMARY.getValue()] = "Task Summary";
+      TASK_COLUMNS_ARRAY[TaskField.TASK_SUMMARY_NAME.getValue()] = "Task Summary Name";
       TASK_COLUMNS_ARRAY[TaskField.SHOW_ON_BOARD.getValue()] = "Show On Board";
+      TASK_COLUMNS_ARRAY[TaskField.BOARD_STATUS_ID.getValue()] = "Board Status ID";
 
       TASK_COLUMNS_ARRAY[TaskField.STORED_MATERIAL.getValue()] = "Stored Material";
       TASK_COLUMNS_ARRAY[TaskField.FEATURE_OF_WORK.getValue()] = "Feature of Work";

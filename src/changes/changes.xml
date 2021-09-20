@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="git master" version="9.6.1">
+			<action dev="joniles" type="add">Add Sprint ID and Board Status ID attributes to task.</action>
 		</release>
 		<release date="13/09/21" version="9.6.0">
 			<action dev="joniles" type="add">Add Planned Start and Scheduled Finish to project properties.</action>

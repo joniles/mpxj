@@ -5254,6 +5254,46 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the Sprint ID.
+    *
+    * @return sprint ID
+    */
+   public Integer getSprintID()
+   {
+      return (Integer) getCachedValue(TaskField.SPRINT_ID);
+   }
+
+   /**
+    * Set the sprint ID.
+    *
+    * @param value sprint ID
+    */
+   public void setSprintID(Integer value)
+   {
+      set(TaskField.SPRINT_ID, value);
+   }
+
+   /**
+    * Retrieve the Board Status ID.
+    *
+    * @return board status ID
+    */
+   public Integer getBoardStatusID()
+   {
+      return (Integer) getCachedValue(TaskField.BOARD_STATUS_ID);
+   }
+
+   /**
+    * Set the Board Status ID.
+    *
+    * @param value board status ID
+    */
+   public void setBoardStatusID(Integer value)
+   {
+      set(TaskField.BOARD_STATUS_ID, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
