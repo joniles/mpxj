@@ -2,6 +2,7 @@
 
 ## 9.6.1 (git master)
 * Add Sprint ID and Board Status ID attributes to task.
+* Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.
 * Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.
 
 ## 9.6.0 (13/09/21)

@@ -7,7 +7,7 @@
 	<body>
 		<release date="git master" version="9.6.1">
 			<action dev="joniles" type="add">Add Sprint ID and Board Status ID attributes to task.</action>
-			<action dev="joniles" type="update">Ensure default calendar is set corrcetly when reading PMXML files.</action>
+			<action dev="joniles" type="update">Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.</action>
 			<action dev="joniles" type="update">Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.</action>
 		</release>
 		<release date="13/09/21" version="9.6.0">
