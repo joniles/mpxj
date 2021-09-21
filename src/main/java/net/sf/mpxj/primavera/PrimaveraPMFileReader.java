@@ -893,8 +893,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Integer id = row.getObjectId();
       calendar.setName(row.getName());
       calendar.setUniqueID(id);
-      if (BooleanHelper.getBoolean(row.isIsDefault()))
+
+      if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
       {
+         // We don't have a default calendar set for the project, use the global default
          m_defaultCalendarObjectID = id;
       }
 
