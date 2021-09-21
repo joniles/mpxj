@@ -872,11 +872,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (defaultCalendar != null)
          {
             m_projectFile.setDefaultCalendar(defaultCalendar);
-
-            // Use the default calendar to populate the project properties
-            ProjectProperties props = m_projectFile.getProjectProperties();
-            props.setMinutesPerDay(Integer.valueOf(defaultCalendar.getMinutesPerDay()));
-            props.setMinutesPerWeek(Integer.valueOf(defaultCalendar.getMinutesPerWeek()));
          }
       }
 
@@ -898,6 +893,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Integer id = row.getObjectId();
       calendar.setName(row.getName());
       calendar.setUniqueID(id);
+      if (BooleanHelper.getBoolean(row.isIsDefault()))
+      {
+         m_defaultCalendarObjectID = id;
+      }
 
       calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerDay()) * 60)));
       calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerWeek()) * 60)));
