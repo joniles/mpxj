@@ -614,6 +614,7 @@
 		</exec>
 	</target>
 
+	<!-- Ensure mkdocs-material is installed: py -m pip install - -upgrade mkdocs-material -->
 	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build" description="Produce site content"/>
 
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
