@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -346,8 +347,9 @@ public class CustomerDataTest
       String runtime = System.getProperty("java.runtime.name");
       boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
       File[] fileList = parent.listFiles();
-      assertNotNull(fileList);
-
+      assertNotNull(fileList);      
+      Arrays.sort(fileList);
+      
       for (File file : fileList)
       {
          if (file.isDirectory())
@@ -363,7 +365,7 @@ public class CustomerDataTest
             }
             list.add(file);
          }
-      }
+      }          
    }
 
    /**

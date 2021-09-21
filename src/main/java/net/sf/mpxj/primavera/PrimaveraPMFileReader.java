@@ -484,6 +484,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_fieldTypeMap = null;
          m_notebookTopics = null;
          m_workContours = null;
+         m_defaultCalendarObjectID = null;
       }
    }
 
@@ -680,6 +681,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setPlannedStart(project.getPlannedStartDate());
       properties.setScheduledFinish(project.getScheduledFinishDate());
       properties.setMustFinishBy(project.getMustFinishByDate());
+      m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
       processScheduleOptions(project.getScheduleOptions());
    }
@@ -698,6 +700,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(false);
       properties.setMustFinishBy(project.getMustFinishByDate());
+      m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
    }
 
    /**
@@ -860,6 +863,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
       }
 
+      //
+      // Set the default calendar if we've read ID from the project properties
+      //
+      if (m_defaultCalendarObjectID != null)
+      {
+         ProjectCalendar defaultCalendar = m_projectFile.getCalendarByUniqueID(m_defaultCalendarObjectID);
+         if (defaultCalendar != null)
+         {
+            m_projectFile.setDefaultCalendar(defaultCalendar);
+         }
+      }
+
       // Ensure that resource calendars we create later have valid unique IDs
       ProjectConfig config = m_projectFile.getProjectConfig();
       config.updateCalendarUniqueCounter();
@@ -875,12 +890,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ProjectCalendar processCalendar(CalendarType row)
    {
       ProjectCalendar calendar = m_projectFile.addCalendar();
+      
       Integer id = row.getObjectId();
-      calendar.setName(row.getName());
       calendar.setUniqueID(id);
-      if (BooleanHelper.getBoolean(row.isIsDefault()))
+      calendar.setName(row.getName());      
+
+      if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
       {
-         m_projectFile.setDefaultCalendar(calendar);
+         // We don't have a default calendar set for the project, use the global default
+         m_defaultCalendarObjectID = id;
       }
 
       calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerDay()) * 60)));
@@ -2269,6 +2287,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
    private Map<Integer, WorkContour> m_workContours;
+   private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
