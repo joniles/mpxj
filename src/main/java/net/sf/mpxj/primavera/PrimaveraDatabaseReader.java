@@ -214,8 +214,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          ProjectProperties ph = m_reader.getProject().getProjectProperties();
          ph.setCreationDate(row.getDate("create_date"));
          ph.setLastSaved(row.getDate("update_date"));
-         
-         // Note that these will be overwritten by values from the default calendar if we have one
          ph.setMinutesPerDay(Double.valueOf(row.getDouble("day_hr_cnt").doubleValue() * 60));
          ph.setMinutesPerWeek(Double.valueOf(row.getDouble("week_hr_cnt").doubleValue() * 60));
          ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
