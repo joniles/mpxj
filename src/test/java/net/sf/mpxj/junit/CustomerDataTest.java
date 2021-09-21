@@ -171,7 +171,12 @@ public class CustomerDataTest
          return;
       }
 
-      File file = new File(m_primaveraFile);
+      // Accessing the database directly from (new) Google drive is too slow.
+      // Make a temporary local copy instead.
+      File file = File.createTempFile("primavera", "db");
+      file.deleteOnExit();
+      Files.copy(new File(m_primaveraFile).toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      
       Map<Integer, String> projects = new PrimaveraDatabaseFileReader().listProjects(file);
       long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(file, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
 
