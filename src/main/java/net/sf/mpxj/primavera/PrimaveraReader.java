@@ -378,6 +378,12 @@ final class PrimaveraReader
       calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
 
+      if (row.getBoolean("default_flag") && m_defaultCalendarID == null)
+      {
+         // We don't have a default calendar set for the project, use the global default
+         m_defaultCalendarID = id;
+      }
+     
       try
       {
          Double hoursPerDay = row.getDouble("day_hr_cnt");

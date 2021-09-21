@@ -890,9 +890,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ProjectCalendar processCalendar(CalendarType row)
    {
       ProjectCalendar calendar = m_projectFile.addCalendar();
+      
       Integer id = row.getObjectId();
-      calendar.setName(row.getName());
       calendar.setUniqueID(id);
+      calendar.setName(row.getName());      
 
       if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
       {
