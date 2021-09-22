@@ -383,7 +383,7 @@ final class PrimaveraReader
          // We don't have a default calendar set for the project, use the global default
          m_defaultCalendarID = id;
       }
-     
+
       try
       {
          Double hoursPerDay = row.getDouble("day_hr_cnt");
@@ -1350,6 +1350,41 @@ final class PrimaveraReader
    }
 
    /**
+    * This method sets the calendar used by a WBS entry. In P6 if all activities
+    * under a WBS entry use the same calendar, the WBS entry uses this calendar
+    * for date calculation. If the activities use different calendars, the WBS
+    * entry will use the project's default calendar.
+    *
+    * @param task task to validate
+    * @return calendar used by this task
+    */
+   private ProjectCalendar rollupCalendars(Task task)
+   {
+      ProjectCalendar result = null;
+
+      if (task.hasChildTasks())
+      {
+         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(t -> rollupCalendars(t)).distinct().collect(Collectors.toList());
+
+         if (calendars.size() == 1)
+         {
+            ProjectCalendar firstCalendar = calendars.get(0);
+            if (firstCalendar != null && firstCalendar != m_project.getDefaultCalendar())
+            {
+               result = firstCalendar;
+               task.setCalendar(result);
+            }
+         }
+      }
+      else
+      {
+         result = task.getCalendar();
+      }
+
+      return result;
+   }
+
+   /**
     * The Primavera WBS entries we read in as tasks have user-entered start and end dates
     * which aren't calculated or adjusted based on the child task dates. We try
     * to compensate for this by using these user-entered dates as baseline dates, and
@@ -1701,6 +1736,7 @@ final class PrimaveraReader
     */
    public void rollupValues()
    {
+      m_project.getChildTasks().forEach(t -> rollupCalendars(t));
       m_project.getChildTasks().forEach(t -> rollupDates(t));
       m_project.getChildTasks().forEach(t -> rollupWork(t));
       m_project.getChildTasks().forEach(t -> rollupCosts(t));

@@ -890,10 +890,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ProjectCalendar processCalendar(CalendarType row)
    {
       ProjectCalendar calendar = m_projectFile.addCalendar();
-      
+
       Integer id = row.getObjectId();
       calendar.setUniqueID(id);
-      calendar.setName(row.getName());      
+      calendar.setName(row.getName());
 
       if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
       {
@@ -1350,6 +1350,41 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Duration addDurations(Number... values)
    {
       return getDuration(NumberHelper.sumAsDouble(values));
+   }
+
+   /**
+    * This method sets the calendar used by a WBS entry. In P6 if all activities
+    * under a WBS entry use the same calendar, the WBS entry uses this calendar
+    * for date calculation. If the activities use different calendars, the WBS
+    * entry will use the project's default calendar.
+    *
+    * @param task task to validate
+    * @return calendar used by this task
+    */
+   private ProjectCalendar rollupCalendars(Task task)
+   {
+      ProjectCalendar result = null;
+
+      if (task.hasChildTasks())
+      {
+         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(t -> rollupCalendars(t)).distinct().collect(Collectors.toList());
+
+         if (calendars.size() == 1)
+         {
+            ProjectCalendar firstCalendar = calendars.get(0);
+            if (firstCalendar != null && firstCalendar != m_projectFile.getDefaultCalendar())
+            {
+               result = firstCalendar;
+               task.setCalendar(result);
+            }
+         }
+      }
+      else
+      {
+         result = task.getCalendar();
+      }
+
+      return result;
    }
 
    /**
@@ -2165,6 +2200,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void rollupValues()
    {
+      m_projectFile.getChildTasks().forEach(t -> rollupCalendars(t));
       m_projectFile.getChildTasks().forEach(t -> rollupDates(t));
       m_projectFile.getChildTasks().forEach(t -> rollupWork(t));
       m_projectFile.getChildTasks().forEach(t -> rollupCosts(t));
