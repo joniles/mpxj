@@ -1796,7 +1796,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       setName(cal.getName());
       setParent(cal.getParent());
+
+      m_minutesPerDay = cal.m_minutesPerDay;
+      m_minutesPerWeek = cal.m_minutesPerWeek;
+      m_minutesPerMonth = cal.m_minutesPerMonth;
+      m_minutesPerYear = cal.m_minutesPerYear;
+
       System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
+
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
          ProjectCalendarException copyException = addCalendarException(ex.getFromDate(), ex.getToDate());
