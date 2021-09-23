@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.</action>			
 			<action dev="joniles" type="update">Ensure that the minutes per day/week/month/year attributes are copied when a calendar is copied.</action>
 			<action dev="joniles" type="update">When reading P6 schedules, roll up calendar for WBS entries when child activities all share the same calendar.</action>
+			<action dev="joniles" type="update">Generate missing minutes per day/week/month/year for calendars read from P6 schedules.</action>
 		</release>
 		<release date="13/09/21" version="9.6.0">
 			<action dev="joniles" type="add">Add Planned Start and Scheduled Finish to project properties.</action>

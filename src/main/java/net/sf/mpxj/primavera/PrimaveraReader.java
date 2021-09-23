@@ -384,44 +384,6 @@ final class PrimaveraReader
          m_defaultCalendarID = id;
       }
 
-      try
-      {
-         Double hoursPerDay = row.getDouble("day_hr_cnt");
-         Double hoursPerWeek = row.getDouble("week_hr_cnt");
-         Double hoursPerMonth = row.getDouble("month_hr_cnt");
-         Double hoursPerYear = row.getDouble("year_hr_cnt");
-
-         if (hoursPerDay != null)
-         {
-            calendar.setMinutesPerDay(Integer.valueOf((int) (hoursPerDay.doubleValue() * 60)));
-         }
-
-         if (hoursPerWeek != null)
-         {
-            calendar.setMinutesPerWeek(Integer.valueOf((int) (hoursPerWeek.doubleValue() * 60)));
-         }
-
-         if (hoursPerMonth != null)
-         {
-            calendar.setMinutesPerMonth(Integer.valueOf((int) (hoursPerMonth.doubleValue() * 60)));
-         }
-
-         if (hoursPerYear != null)
-         {
-            calendar.setMinutesPerYear(Integer.valueOf((int) (hoursPerYear.doubleValue() * 60)));
-         }
-      }
-
-      catch (ClassCastException ex)
-      {
-         // We have seen examples of malformed calendar data where fields have been missing
-         // from the record. We'll typically get a class cast exception here as we're trying
-         // to process something which isn't a double.
-         // We'll just return at this point as it's not clear that we can salvage anything
-         // sensible from this record.
-         return calendar;
-      }
-
       // Process data
       String calendarData = row.getString("clndr_data");
       if (calendarData != null && !calendarData.isEmpty())
@@ -469,9 +431,93 @@ final class PrimaveraReader
          }
       }
 
+      //
+      // Try and extract minutes per period from the calendar row
+      //
+      Double rowHoursPerDay = getHoursPerPeriod(row, "day_hr_cnt");
+      Double rowHoursPerWeek = getHoursPerPeriod(row, "week_hr_cnt");
+      Double rowHoursPerMonth = getHoursPerPeriod(row, "month_hr_cnt");
+      Double rowHoursPerYear = getHoursPerPeriod(row, "year_hr_cnt");
+
+      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+
+      //
+      // If we're missing any of these figures, generate them.
+      // Note that P6 allows users to enter arbitrary hours per period,
+      // as far as I can see they aren't validated to see if they make sense,
+      // so the figures here won't necessarily match what you'd see in P6.
+      //
+      if (rowHoursPerDay == null || rowHoursPerWeek == null || rowHoursPerMonth == null || rowHoursPerYear == null)
+      {
+         int minutesPerWeek = 0;
+         int workingDays = 0;
+
+         for (ProjectCalendarHours hours : calendar.getHours())
+         {
+            if (hours == null)
+            {
+               continue;
+            }
+
+            if (hours.getRangeCount() > 0)
+            {
+               ++workingDays;
+               for (int index = 0; index < hours.getRangeCount(); index++)
+               {
+                  DateRange range = hours.getRange(index);
+                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
+                  minutesPerWeek += (milliseconds / (1000 * 60));
+               }
+            }
+         }
+
+         int minutesPerDay = minutesPerWeek / workingDays;
+         int minutesPerMonth = minutesPerWeek * 4;
+         int minutesPerYear = minutesPerMonth * 12;
+                  
+         if (rowHoursPerDay == null)
+         {
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));                        
+         }
+         
+         if (rowHoursPerWeek == null)
+         {
+            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+         }
+         
+         if (rowHoursPerMonth == null)
+         {
+            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+         }
+         
+         if (rowHoursPerYear == null)
+         {
+            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+         }
+      }
+
       m_eventManager.fireCalendarReadEvent(calendar);
 
       return calendar;
+   }
+
+   private Double getHoursPerPeriod(Row row, String name)
+   {
+      try
+      {
+         return row.getDouble(name);
+      }
+
+      catch (ClassCastException ex)
+      {
+         // We have seen examples of malformed calendar data where fields have been missing
+         // from the record. We'll typically get a class cast exception here as we're trying
+         // to process something which isn't a double.
+         return null;
+      }
    }
 
    /**

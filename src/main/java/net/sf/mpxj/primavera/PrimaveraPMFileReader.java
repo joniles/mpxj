@@ -901,11 +901,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_defaultCalendarObjectID = id;
       }
 
-      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerDay()) * 60)));
-      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerWeek()) * 60)));
-      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerMonth()) * 60)));
-      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(row.getHoursPerYear()) * 60)));
-
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
       {
@@ -950,6 +945,74 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   pce.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
+         }
+      }
+
+      //
+      // Try and extract minutes per period from the calendar row
+      //
+      Double rowHoursPerDay = row.getHoursPerDay();
+      Double rowHoursPerWeek = row.getHoursPerWeek();
+      Double rowHoursPerMonth = row.getHoursPerMonth();
+      Double rowHoursPerYear = row.getHoursPerYear();
+
+      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+
+      //
+      // If we're missing any of these figures, generate them.
+      // Note that P6 allows users to enter arbitrary hours per period,
+      // as far as I can see they aren't validated to see if they make sense,
+      // so the figures here won't necessarily match what you'd see in P6.
+      //
+      if (rowHoursPerDay == null || rowHoursPerWeek == null || rowHoursPerMonth == null || rowHoursPerYear == null)
+      {
+         int minutesPerWeek = 0;
+         int workingDays = 0;
+
+         for (ProjectCalendarHours hours : calendar.getHours())
+         {
+            if (hours == null)
+            {
+               continue;
+            }
+
+            if (hours.getRangeCount() > 0)
+            {
+               ++workingDays;
+               for (int index = 0; index < hours.getRangeCount(); index++)
+               {
+                  DateRange range = hours.getRange(index);
+                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
+                  minutesPerWeek += (milliseconds / (1000 * 60));
+               }
+            }
+         }
+
+         int minutesPerDay = minutesPerWeek / workingDays;
+         int minutesPerMonth = minutesPerWeek * 4;
+         int minutesPerYear = minutesPerMonth * 12;
+                  
+         if (rowHoursPerDay == null)
+         {
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));                        
+         }
+         
+         if (rowHoursPerWeek == null)
+         {
+            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+         }
+         
+         if (rowHoursPerMonth == null)
+         {
+            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+         }
+         
+         if (rowHoursPerYear == null)
+         {
+            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
       }
 
