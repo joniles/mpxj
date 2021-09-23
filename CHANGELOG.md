@@ -1,12 +1,13 @@
 # Changelog
 
-## 9.6.1 (git master)
+## 9.6.1 (unreleased)
 * Add Sprint ID and Board Status ID attributes to task.
 * Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.
 * Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.
 * Ensure that the minutes per day/week/month/year attributes are copied when a calendar is copied.
 * When reading P6 schedules, roll up calendar for WBS entries when child activities all share the same calendar.
 * Generate missing minutes per day/week/month/year for calendars read from P6 schedules.
+* Inherit minutes per day/week/month/year from base calendars (Note: minor method signature changes on ProjectProperties and ProjectCalendar).
 
 ## 9.6.0 (13/09/21)
 * Add Planned Start and Scheduled Finish to project properties.

@@ -536,10 +536,10 @@ final class PrimaveraPMProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setType(type);
 
-      xml.setHoursPerDay(Double.valueOf(mpxj.getMinutesPerDay() / 60.0));
-      xml.setHoursPerWeek(Double.valueOf(mpxj.getMinutesPerWeek() / 60.0));
-      xml.setHoursPerMonth(Double.valueOf(mpxj.getMinutesPerMonth() / 60.0));
-      xml.setHoursPerYear(Double.valueOf(mpxj.getMinutesPerYear() / 60.0));
+      xml.setHoursPerDay(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerDay()) / 60.0));
+      xml.setHoursPerWeek(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerWeek()) / 60.0));
+      xml.setHoursPerMonth(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerMonth()) / 60.0));
+      xml.setHoursPerYear(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerYear()) / 60.0));
 
       StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
       xml.setStandardWorkWeek(xmlStandardWorkWeek);

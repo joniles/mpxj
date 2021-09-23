@@ -64,9 +64,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per day
     */
-   public int getMinutesPerDay()
+   public Integer getMinutesPerDay()
    {
-      return m_minutesPerDay == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerDay()) : m_minutesPerDay.intValue();
+      Integer result = m_minutesPerDay;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerDay();
+         }
+         else
+         {
+            result = getParent().getMinutesPerDay();
+         }         
+      }
+      
+      return result;
    }
 
    /**
@@ -74,9 +87,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per week
     */
-   public int getMinutesPerWeek()
+   public Integer getMinutesPerWeek()
    {
-      return m_minutesPerWeek == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerWeek()) : m_minutesPerWeek.intValue();
+      Integer result = m_minutesPerWeek;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerWeek();
+         }
+         else
+         {
+            result = getParent().getMinutesPerWeek();
+         }         
+      }
+      
+      return result;
    }
 
    /**
@@ -84,9 +110,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per month
     */
-   public int getMinutesPerMonth()
+   public Integer getMinutesPerMonth()
    {
-      return m_minutesPerMonth == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerMonth()) : m_minutesPerMonth.intValue();
+      Integer result = m_minutesPerMonth;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerMonth();
+         }
+         else
+         {
+            result = getParent().getMinutesPerMonth();
+         }         
+      }
+      
+      return result;
    }
 
    /**
@@ -94,9 +133,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per year
     */
-   public int getMinutesPerYear()
+   public Integer getMinutesPerYear()
    {
-      return m_minutesPerYear == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerYear()) : m_minutesPerYear.intValue();
+      Integer result = m_minutesPerYear;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerYear();
+         }
+         else
+         {
+            result = getParent().getMinutesPerYear();
+         }         
+      }
+      
+      return result;
    }
 
    /**
@@ -1312,7 +1364,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case DAYS:
          {
-            double minutesPerDay = getMinutesPerDay();
+            double minutesPerDay = NumberHelper.getDouble(getMinutesPerDay());
             if (minutesPerDay != 0)
             {
                duration /= (minutesPerDay * 60 * 1000);
@@ -1326,7 +1378,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case WEEKS:
          {
-            double minutesPerWeek = getMinutesPerWeek();
+            double minutesPerWeek = NumberHelper.getDouble(getMinutesPerWeek());
             if (minutesPerWeek != 0)
             {
                duration /= (minutesPerWeek * 60 * 1000);
@@ -1341,7 +1393,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          case MONTHS:
          {
             double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
-            double minutesPerDay = getMinutesPerDay();
+            double minutesPerDay = NumberHelper.getDouble(getMinutesPerDay());
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
                duration /= (daysPerMonth * minutesPerDay * 60 * 1000);

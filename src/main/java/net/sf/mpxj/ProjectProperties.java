@@ -1269,9 +1269,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return days per month
     */
-   public Number getDaysPerMonth()
+   public Integer getDaysPerMonth()
    {
-      return (Number) getCachedValue(ProjectField.DAYS_PER_MONTH);
+      return (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
    }
 
    /**
@@ -1279,7 +1279,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param daysPerMonth days per month
     */
-   public void setDaysPerMonth(Number daysPerMonth)
+   public void setDaysPerMonth(Integer daysPerMonth)
    {
       if (daysPerMonth != null)
       {
@@ -1292,9 +1292,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per day
     */
-   public Number getMinutesPerDay()
+   public Integer getMinutesPerDay()
    {
-      return (Number) getCachedValue(ProjectField.MINUTES_PER_DAY);
+      return (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
    }
 
    /**
@@ -1302,7 +1302,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param minutesPerDay minutes per day
     */
-   public void setMinutesPerDay(Number minutesPerDay)
+   public void setMinutesPerDay(Integer minutesPerDay)
    {
       if (minutesPerDay != null)
       {
@@ -1315,9 +1315,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per week
     */
-   public Number getMinutesPerWeek()
+   public Integer getMinutesPerWeek()
    {
-      return (Number) getCachedValue(ProjectField.MINUTES_PER_WEEK);
+      return (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
    }
 
    /**
@@ -1325,7 +1325,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param minutesPerWeek minutes per week
     */
-   public void setMinutesPerWeek(Number minutesPerWeek)
+   public void setMinutesPerWeek(Integer minutesPerWeek)
    {
       if (minutesPerWeek != null)
       {
@@ -1338,7 +1338,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per month
     */
-   public Number getMinutesPerMonth()
+   public Integer getMinutesPerMonth()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
    }
@@ -1348,7 +1348,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per year
     */
-   public Number getMinutesPerYear()
+   public Integer getMinutesPerYear()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
