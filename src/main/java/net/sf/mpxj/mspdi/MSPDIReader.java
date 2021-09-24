@@ -258,9 +258,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      Integer minutesPerDay = project.getMinutesPerDay() == null ? ProjectProperties.DEFAULT_MINUTES_PER_DAY : NumberHelper.getInteger(project.getMinutesPerDay());
-      Integer minutesPerWeek = project.getMinutesPerWeek() == null ? ProjectProperties.DEFAULT_MINUTES_PER_WEEK : NumberHelper.getInteger(project.getMinutesPerWeek());
-
       properties.setActualsInSync(BooleanHelper.getBoolean(project.isActualsInSync()));
       properties.setAdminProject(BooleanHelper.getBoolean(project.isAdminProject()));
       properties.setApplicationVersion(NumberHelper.getInteger(project.getSaveVersion()));
@@ -299,8 +296,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setLastSaved(project.getLastSaved());
       properties.setManager(project.getManager());
       properties.setMicrosoftProjectServerURL(BooleanHelper.getBoolean(project.isMicrosoftProjectServerURL()));
-      properties.setMinutesPerDay(minutesPerDay);
-      properties.setMinutesPerWeek(minutesPerWeek);
+      properties.setMinutesPerDay(NumberHelper.getInteger(project.getMinutesPerDay()));
+      properties.setMinutesPerWeek(NumberHelper.getInteger(project.getMinutesPerWeek()));
       properties.setMoveCompletedEndsBack(BooleanHelper.getBoolean(project.isMoveCompletedEndsBack()));
       properties.setMoveCompletedEndsForward(BooleanHelper.getBoolean(project.isMoveCompletedEndsForward()));
       properties.setMoveRemainingStartsBack(BooleanHelper.getBoolean(project.isMoveRemainingStartsBack()));

@@ -77,7 +77,9 @@ MPX Program Name|✓|✓|✓|✓
 Manager|✓|✓|✓|✓
 Microsoft Project Server URL|✓|✓|✓|✓
 Minutes per Day|✓|✓|✓|✓
+Minutes per Month|✓|✓|✓|✓
 Minutes per Week|✓|✓|✓|✓
+Minutes per Year|✓|✓|✓|✓
 Multiple Critical Paths| |✓|✓|✓
 New Tasj Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓

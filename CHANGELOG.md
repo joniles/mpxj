@@ -8,6 +8,8 @@
 * When reading P6 schedules, roll up calendar for WBS entries when child activities all share the same calendar.
 * Generate missing minutes per day/week/month/year for calendars read from P6 schedules.
 * Inherit minutes per day/week/month/year from base calendars (Note: minor method signature changes on ProjectProperties and ProjectCalendar).
+* Allow explicit values to be set for project minutes per week and minutes per year.
+* Fall back on defaults for project minutes per day/week/month/year attributes.
 
 ## 9.6.0 (13/09/21)
 * Add Planned Start and Scheduled Finish to project properties.

@@ -1271,7 +1271,12 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getDaysPerMonth()
    {
-      return (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
+      Integer result = (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
+      if (result == null)
+      {
+         result = DEFAULT_DAYS_PER_MONTH;
+      }
+      return result;
    }
 
    /**
@@ -1281,10 +1286,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public void setDaysPerMonth(Integer daysPerMonth)
    {
-      if (daysPerMonth != null)
-      {
-         set(ProjectField.DAYS_PER_MONTH, daysPerMonth);
-      }
+      set(ProjectField.DAYS_PER_MONTH, daysPerMonth);
    }
 
    /**
@@ -1294,7 +1296,13 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getMinutesPerDay()
    {
-      return (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
+      if (result == null)
+      {
+         result = DEFAULT_MINUTES_PER_DAY;
+         set(ProjectField.MINUTES_PER_DAY, result);
+      }
+      return result;
    }
 
    /**
@@ -1314,7 +1322,13 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getMinutesPerWeek()
    {
-      return (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
+      if (result == null)
+      {
+         result = Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
+         set(ProjectField.MINUTES_PER_WEEK, result);
+      }
+      return result;
    }
 
    /**
@@ -1334,7 +1348,23 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getMinutesPerMonth()
    {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_MONTH);
+      if (result == null)
+      {
+         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+         set(ProjectField.MINUTES_PER_MONTH, result);
+      }
+      return result;
+   }
+
+   /**
+    * Set the default number of minutes per month.
+    * 
+    * @param minutesPerMonth minutes per month
+    */
+   public void setMinutesPerMonth(Integer minutesPerMonth)
+   {
+      set(ProjectField.MINUTES_PER_MONTH, minutesPerMonth);
    }
 
    /**
@@ -1344,7 +1374,23 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getMinutesPerYear()
    {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_YEAR);
+      if (result == null)
+      {
+         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+         set(ProjectField.MINUTES_PER_YEAR, result);
+      }
+      return result;
+   }
+
+   /**
+    * Set the default number of minutes per year.
+    * 
+    * @param minutesPerYear minutes per year
+    */
+   public void setMinutesPerYear(Integer minutesPerYear)
+   {
+      set(ProjectField.MINUTES_PER_YEAR, minutesPerYear);
    }
 
    /**
@@ -3010,9 +3056,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    private static final String DEFAULT_CALENDAR_NAME = "Standard";
 
    /**
-    * Default minutes per day.
+    * Default days per week.
     */
-   public static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
+   private static final int DEFAULT_DAYS_PER_WEEK = 5;
 
    /**
     * Default days per month.
@@ -3020,7 +3066,12 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    private static final Integer DEFAULT_DAYS_PER_MONTH = Integer.valueOf(20);
 
    /**
+    * Default minutes per day.
+    */
+   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
+
+   /**
     * Default minutes per week.
     */
-   public static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
+   private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 }
