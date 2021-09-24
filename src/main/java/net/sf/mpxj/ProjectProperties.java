@@ -86,8 +86,8 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
-      setMinutesPerDay(Integer.valueOf(480));
-      setMinutesPerWeek(Integer.valueOf(2400));
+      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY);
+      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
       setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
@@ -1304,10 +1304,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public void setMinutesPerDay(Integer minutesPerDay)
    {
-      if (minutesPerDay != null)
-      {
-         set(ProjectField.MINUTES_PER_DAY, minutesPerDay);
-      }
+      set(ProjectField.MINUTES_PER_DAY, minutesPerDay);
    }
 
    /**
@@ -1327,10 +1324,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public void setMinutesPerWeek(Integer minutesPerWeek)
    {
-      if (minutesPerWeek != null)
-      {
-         set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
-      }
+      set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
    }
 
    /**
@@ -3018,7 +3012,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Default minutes per day.
     */
-   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
+   public static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
 
    /**
     * Default days per month.
@@ -3028,5 +3022,5 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Default minutes per week.
     */
-   private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
+   public static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 }
