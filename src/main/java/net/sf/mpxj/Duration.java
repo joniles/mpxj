@@ -89,7 +89,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public Duration convertUnits(TimeUnit type, ProjectProperties defaults)
+   public Duration convertUnits(TimeUnit type, TimeUnitDefaultsContainer defaults)
    {
       return (convertUnits(m_duration, m_units, type, defaults));
    }
@@ -106,7 +106,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectProperties defaults)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, TimeUnitDefaultsContainer defaults)
    {
       return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue()));
    }

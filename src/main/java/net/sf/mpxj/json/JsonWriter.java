@@ -44,6 +44,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
@@ -367,7 +368,7 @@ public final class JsonWriter extends AbstractProjectWriter
          case WORK:
          case DURATION:
          {
-            writeDurationField(fieldName, value);
+            writeDurationField(container, fieldName, value);
             break;
          }
 
@@ -535,10 +536,11 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write a duration field to the JSON file.
     *
+    * @param container field container
     * @param fieldName field name
     * @param value field value
     */
-   private void writeDurationField(String fieldName, Object value) throws IOException
+   private void writeDurationField(FieldContainer container, String fieldName, Object value) throws IOException
    {
       if (value != null)
       {
@@ -551,7 +553,28 @@ public final class JsonWriter extends AbstractProjectWriter
             Duration val = (Duration) value;
             if (val.getDuration() != 0)
             {
-               Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectProperties());
+               // If we have a calendar associated with this container,
+               // we'll use any defaults it supplies to handle the time 
+               // units conversion.
+               TimeUnitDefaultsContainer defaults = null;
+               if (container instanceof Task)
+               {
+                  defaults = ((Task) container).getEffectiveCalendar();
+               }
+               else
+               {
+                  if (container instanceof Resource)
+                  {
+                     defaults = ((Resource) container).getResourceCalendar();
+                  }
+               }
+
+               if (defaults == null)
+               {
+                  defaults = m_projectFile.getProjectProperties();
+               }
+
+               Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
                long seconds = (long) (minutes.getDuration() * 60.0);
                m_writer.writeNameValuePair(fieldName, seconds);
             }
@@ -741,7 +764,7 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeStartObject(null);
             writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
-            writeDurationField("lag", relation.getLag());
+            writeDurationField(m_projectFile.getProjectProperties(), "lag", relation.getLag());
             writeStringField("type", relation.getType());
             m_writer.writeEndObject();
          }

@@ -1,7 +1,9 @@
 # Changelog
 
-## 9.6.1 (unreleased)
+## 9.7.0 (unreleased)
 * Add Sprint ID and Board Status ID attributes to task.
+* Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.
+* Update JsonWriter to use a relevant calendar when converting durations.
 * Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.
 * Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.
 * Ensure that the minutes per day/week/month/year attributes are copied when a calendar is copied.

@@ -5,8 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="9.6.1">
+		<release date="unreleased" version="9.7.0">
 			<action dev="joniles" type="add">Add Sprint ID and Board Status ID attributes to task.</action>
+			<action dev="joniles" type="add">Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.</action>
+			<action dev="joniles" type="update">Update JsonWriter to use a relevant calendar when converting durations.</action>
 			<action dev="joniles" type="update">Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.</action>
 			<action dev="joniles" type="update">Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.</action>			
 			<action dev="joniles" type="update">Ensure that the minutes per day/week/month/year attributes are copied when a calendar is copied.</action>
@@ -14,7 +16,7 @@
 			<action dev="joniles" type="update">Generate missing minutes per day/week/month/year for calendars read from P6 schedules.</action>
 			<action dev="joniles" type="update">Inherit minutes per day/week/month/year from base calendars (Note: minor method signature changes on ProjectProperties and ProjectCalendar).</action>			
 			<action dev="joniles" type="update">Allow explicit values to be set for project minutes per week and minutes per year.</action>
-			<action dev="joniles" type="update">Fall back on defaults for project minutes per day/week/month/year attributes.</action>
+			<action dev="joniles" type="update">Fall back on defaults for project minutes per day/week/month/year attributes.</action>			
 		</release>
 		<release date="13/09/21" version="9.6.0">
 			<action dev="joniles" type="add">Add Planned Start and Scheduled Finish to project properties.</action>
