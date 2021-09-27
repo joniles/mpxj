@@ -42,7 +42,7 @@ import net.sf.mpxj.common.NumberHelper;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID
+public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -64,7 +64,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per day
     */
-   public Integer getMinutesPerDay()
+   @Override public Integer getMinutesPerDay()
    {
       Integer result = m_minutesPerDay;
       if (result == null)
@@ -76,9 +76,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          else
          {
             result = getParent().getMinutesPerDay();
-         }         
+         }
       }
-      
+
       return result;
    }
 
@@ -87,7 +87,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per week
     */
-   public Integer getMinutesPerWeek()
+   @Override public Integer getMinutesPerWeek()
    {
       Integer result = m_minutesPerWeek;
       if (result == null)
@@ -99,9 +99,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          else
          {
             result = getParent().getMinutesPerWeek();
-         }         
+         }
       }
-      
+
       return result;
    }
 
@@ -110,7 +110,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per month
     */
-   public Integer getMinutesPerMonth()
+   @Override public Integer getMinutesPerMonth()
    {
       Integer result = m_minutesPerMonth;
       if (result == null)
@@ -122,9 +122,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          else
          {
             result = getParent().getMinutesPerMonth();
-         }         
+         }
       }
-      
+
       return result;
    }
 
@@ -133,7 +133,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per year
     */
-   public Integer getMinutesPerYear()
+   @Override public Integer getMinutesPerYear()
    {
       Integer result = m_minutesPerYear;
       if (result == null)
@@ -145,10 +145,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          else
          {
             result = getParent().getMinutesPerYear();
-         }         
+         }
       }
-      
+
       return result;
+   }
+
+   /**
+    * Retrieve the number of days per month for this calendar.
+    *
+    * @return days per month
+    */
+   @Override public Integer getDaysPerMonth()
+   {
+      // We actually don't store this as part of calendar presently,
+      // so we'll use the value from the project properties.
+      return getParentFile().getProjectProperties().getDaysPerMonth();
    }
 
    /**

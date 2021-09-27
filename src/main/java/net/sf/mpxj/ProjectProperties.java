@@ -42,7 +42,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a collection of properties relevant to the whole project.
  */
-public final class ProjectProperties extends ProjectEntity implements FieldContainer
+public final class ProjectProperties extends ProjectEntity implements FieldContainer, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -1269,7 +1269,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return days per month
     */
-   public Integer getDaysPerMonth()
+   @Override public Integer getDaysPerMonth()
    {
       Integer result = (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
       if (result == null)
@@ -1294,7 +1294,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per day
     */
-   public Integer getMinutesPerDay()
+   @Override public Integer getMinutesPerDay()
    {
       Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
       if (result == null)
@@ -1320,7 +1320,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per week
     */
-   public Integer getMinutesPerWeek()
+   @Override public Integer getMinutesPerWeek()
    {
       Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
       if (result == null)
@@ -1346,7 +1346,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per month
     */
-   public Integer getMinutesPerMonth()
+   @Override public Integer getMinutesPerMonth()
    {
       Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_MONTH);
       if (result == null)
@@ -1372,7 +1372,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per year
     */
-   public Integer getMinutesPerYear()
+   @Override public Integer getMinutesPerYear()
    {
       Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_YEAR);
       if (result == null)
