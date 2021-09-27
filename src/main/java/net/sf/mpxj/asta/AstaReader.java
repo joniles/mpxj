@@ -529,7 +529,7 @@ final class AstaReader
       // Note the conversion to hours is not strictly necessary, but matches the units previously used.
       //
       Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());
-      duration = Duration.convertUnits(duration.getDuration(), duration.getUnits(), TimeUnit.HOURS, m_project.getProjectProperties());
+      duration = duration.convertUnits(TimeUnit.HOURS, m_project.getProjectProperties());
       task.setDuration(duration);
 
       //

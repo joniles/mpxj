@@ -136,13 +136,6 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    private void writeProjectProperties(ProjectProperties record) throws IOException
    {
-      // the ProjectProperties class from MPXJ has the details of how many days per week etc....
-      // so I've assigned these variables in here, but actually use them in other methods
-      // see the write task method, that's where they're used, but that method only has a Task object
-      m_minutesPerDay = record.getMinutesPerDay().doubleValue();
-      m_minutesPerWeek = record.getMinutesPerWeek().doubleValue();
-      m_daysPerMonth = record.getDaysPerMonth().doubleValue();
-
       Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
       Date startDate = record.getStartDate();
       Date finishDate = record.getFinishDate();
@@ -273,10 +266,9 @@ public final class SDEFWriter extends AbstractProjectWriter
             dd = Duration.getInstance(0, TimeUnit.DAYS);
          }
 
-         double duration = dd.getDuration();
          if (dd.getUnits() != TimeUnit.DAYS)
-         {
-            dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
+         {           
+            dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
@@ -408,7 +400,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
             if (dd.getUnits() != TimeUnit.DAYS)
             {
-               dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
+               dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_projectFile.getProjectProperties());
             }
             Double days = Double.valueOf(dd.getDuration());
             Integer est = Integer.valueOf(days.intValue());
@@ -457,10 +449,9 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
 
          Duration dd = record.getRemainingDuration() == null ? Duration.getInstance(0, TimeUnit.DAYS) : record.getRemainingDuration();
-         double duration = dd.getDuration();
          if (dd.getUnits() != TimeUnit.DAYS)
          {
-            dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
+            dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
@@ -481,10 +472,9 @@ public final class SDEFWriter extends AbstractProjectWriter
          if (record.getActualFinish() == null)
          {
             dd = record.getTotalSlack();
-            duration = dd.getDuration();
             if (dd.getUnits() != TimeUnit.DAYS)
             {
-               dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_minutesPerDay, m_minutesPerWeek, m_daysPerMonth);
+               dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
             }
             days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
             est = Integer.valueOf(days.intValue());
@@ -577,9 +567,6 @@ public final class SDEFWriter extends AbstractProjectWriter
    private PrintStream m_writer; // line out to a text file
    private StringBuilder m_buffer; // used to accumulate characters
    private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
-   private double m_minutesPerDay;
-   private double m_minutesPerWeek; // needed to get everything into days
-   private double m_daysPerMonth;
 
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }
