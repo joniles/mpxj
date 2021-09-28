@@ -402,7 +402,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return a + b
     */
-   public static Duration add(Duration a, Duration b, ProjectProperties defaults)
+   public static Duration add(Duration a, Duration b, TimeUnitDefaultsContainer defaults)
    {
       if (a == null && b == null)
       {

@@ -1920,11 +1920,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
-         ProjectProperties props = getParentFile().getProjectProperties();
-         int criticalSlackLimit = NumberHelper.getInt(props.getCriticalSlackLimit());
+         int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
          if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
          {
-            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, props);
+            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, getEffectiveCalendar());
          }
          critical = Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
          set(TaskField.CRITICAL, critical);
