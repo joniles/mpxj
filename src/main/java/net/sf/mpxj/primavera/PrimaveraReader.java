@@ -1029,7 +1029,7 @@ final class PrimaveraReader
          populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
          populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
 
-         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), projectProperties);
+         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), task.getEffectiveCalendar());
          task.setWork(work);
 
          // Calculate actual duration
@@ -1056,7 +1056,7 @@ final class PrimaveraReader
          }
 
          // Calculate duration at completion
-         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), projectProperties);
+         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
          task.setDuration(durationAtCompletion);
 
          // Force calculation here to avoid later issues
@@ -1522,7 +1522,7 @@ final class PrimaveraReader
          Duration plannedDuration = null;
          if (plannedStartDate != null && plannedFinishDate != null)
          {
-            plannedDuration = m_project.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+            plannedDuration = parentTask.getEffectiveCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
             parentTask.setPlannedDuration(plannedDuration);
          }
 
@@ -1554,18 +1554,18 @@ final class PrimaveraReader
             {
                if (parentTask.getActualStart() != null)
                {
-                  actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
+                  actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
                }
 
                if (taskFinishDate != null)
                {
-                  remainingDuration = m_project.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+                  remainingDuration = parentTask.getEffectiveCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
                }
             }
          }
          else
          {
-            actualDuration = m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
+            actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
 
@@ -1581,7 +1581,7 @@ final class PrimaveraReader
 
          parentTask.setActualDuration(actualDuration);
          parentTask.setRemainingDuration(remainingDuration);
-         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, m_project.getProjectProperties()));
+         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
 
          if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
          {
@@ -1619,7 +1619,7 @@ final class PrimaveraReader
    {
       if (parentTask.hasChildTasks())
       {
-         ProjectProperties properties = m_project.getProjectProperties();
+         ProjectCalendar calendar = parentTask.getEffectiveCalendar();
 
          Duration actualWork = null;
          Duration plannedWork = null;
@@ -1630,10 +1630,10 @@ final class PrimaveraReader
          {
             rollupWork(task);
 
-            actualWork = Duration.add(actualWork, task.getActualWork(), properties);
-            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), properties);
-            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
-            work = Duration.add(work, task.getWork(), properties);
+            actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
+            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
+            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), calendar);
+            work = Duration.add(work, task.getWork(), calendar);
          }
 
          parentTask.setActualWork(actualWork);
@@ -1739,8 +1739,8 @@ final class PrimaveraReader
             Duration remainingWork = row.getDuration("remain_qty");
             Duration actualOvertimeWork = row.getDuration("act_ot_qty");
             Duration actualRegularWork = row.getDuration("act_reg_qty");
-            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, m_project.getProjectProperties());
-            Duration totalWork = Duration.add(actualWork, remainingWork, m_project.getProjectProperties());
+            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, task.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
             assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));

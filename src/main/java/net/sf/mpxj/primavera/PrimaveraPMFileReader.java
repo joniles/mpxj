@@ -1545,7 +1545,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Duration plannedDuration = null;
          if (plannedStartDate != null && plannedFinishDate != null)
          {
-            plannedDuration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+            plannedDuration = parentTask.getEffectiveCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
             parentTask.setPlannedDuration(plannedDuration);
          }
 
@@ -1577,18 +1577,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (parentTask.getActualStart() != null)
                {
-                  actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
+                  actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
                }
 
                if (taskFinishDate != null)
                {
-                  remainingDuration = m_projectFile.getDefaultCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+                  remainingDuration = parentTask.getEffectiveCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
                }
             }
          }
          else
          {
-            actualDuration = m_projectFile.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
+            actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
 
@@ -1604,7 +1604,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          parentTask.setActualDuration(actualDuration);
          parentTask.setRemainingDuration(remainingDuration);
-         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, m_projectFile.getProjectProperties()));
+         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
 
          if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
          {
@@ -1808,7 +1808,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate work
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualWork = assignment.getActualWork();
-            Duration totalWork = Duration.add(actualWork, remainingWork, m_projectFile.getProjectProperties());
+            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
             assignment.setWork(totalWork);
 
             // calculate cost
@@ -2318,7 +2318,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       if (parentTask.hasChildTasks())
       {
-         ProjectProperties properties = m_projectFile.getProjectProperties();
+         ProjectCalendar calendar = parentTask.getEffectiveCalendar();
 
          Duration actualWork = null;
          Duration plannedWork = null;
@@ -2329,10 +2329,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             rollupWork(task);
 
-            actualWork = Duration.add(actualWork, task.getActualWork(), properties);
-            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), properties);
-            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), properties);
-            work = Duration.add(work, task.getWork(), properties);
+            actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
+            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
+            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), calendar);
+            work = Duration.add(work, task.getWork(), calendar);
          }
 
          parentTask.setActualWork(actualWork);
