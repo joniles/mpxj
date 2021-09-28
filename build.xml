@@ -168,7 +168,7 @@
 			</classpath>
 		</java>
 	</target>
-		
+
 	<!-- For deploy efficiency, assumes that the package target has been run -->
 	<target name="gem-setup" depends="init" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
