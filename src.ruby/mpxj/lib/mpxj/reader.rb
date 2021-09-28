@@ -21,7 +21,7 @@ module MPXJ
 
       begin
         classpath = "#{File.dirname(__FILE__)}/*"
-        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
+        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.ruby.GenerateJson \"#{file_name}\" \"#{json_file.path}\"`
         if $?.exitstatus != 0
           report_error(java_output)
         end
