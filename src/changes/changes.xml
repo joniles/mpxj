@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="9.7.0">
+		<release date="unreleased" version="9.7.1">
+		</release>
+		<release date="28/09/2021" version="9.7.0">
 			<action dev="joniles" type="add">Add Sprint ID and Board Status ID attributes to task.</action>
 			<action dev="joniles" type="add">Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.</action>
 			<action dev="joniles" type="update">Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</action>
@@ -19,7 +21,7 @@
 			<action dev="joniles" type="update">Allow explicit values to be set for project minutes per week and minutes per year.</action>
 			<action dev="joniles" type="update">Fall back on defaults for project minutes per day/week/month/year attributes.</action>
 		</release>
-		<release date="13/09/21" version="9.6.0">
+		<release date="13/09/2021" version="9.6.0">
 			<action dev="joniles" type="add">Add Planned Start and Scheduled Finish to project properties.</action>
 			<action dev="joniles" type="add">Add attribute_types method to Ruby classes.</action>
 			<action dev="joniles" type="update">Updated to use POI 5.0.0.</action>
@@ -29,7 +31,7 @@
 			<action dev="joniles" type="update">Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.</action>
 			<action dev="joniles" type="update">Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.</action>
 		</release>
-		<release date="22/08/21" version="9.5.2">
+		<release date="22/08/2021" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
 			<action dev="joniles" type="add">Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</action>
 			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>

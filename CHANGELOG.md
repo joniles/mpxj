@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.7.0 (unreleased)
+## 9.7.1 (unreleased)
+
+## 9.7.0 (28/09/2021)
 * Add Sprint ID and Board Status ID attributes to task.
 * Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.
 * Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)
@@ -14,7 +16,7 @@
 * Allow explicit values to be set for project minutes per week and minutes per year.
 * Fall back on defaults for project minutes per day/week/month/year attributes.
 
-## 9.6.0 (13/09/21)
+## 9.6.0 (13/09/2021)
 * Add Planned Start and Scheduled Finish to project properties.
 * Add attribute_types method to Ruby classes.
 * Updated to use POI 5.0.0.
@@ -24,7 +26,7 @@
 * Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.
 * Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.
 
-## 9.5.2 (22/08/21)
+## 9.5.2 (22/08/2021)
 * Add Must Finish By date to project properties.
 * Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
