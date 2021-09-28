@@ -13,6 +13,7 @@ module MPXJ
     #
     # @param file_name [String] the name of the file to read
     # @param zone [ActiveSupport::TimeZone] an optional timezone
+    # @param time_units [Symbol] optional, specify the units for expressing durations. By default durations are in seconds, can pass :minutes, :hours, :days: weeks:, :months or :years
     # @return [Project] new Project instance
     def self.read(file_name, zone = nil, time_units = :seconds)
       project = nil
