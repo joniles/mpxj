@@ -63,6 +63,7 @@ like to be featured in this list.
 * Projec.to Online Microsoft Project Viewer [www.onlineprojectviewer.com/](http://www.onlineprojectviewer.com)
 * ProjExec [www.triloggroup.com](http://www.triloggroup.com)
 * RationalPlan [www.rationalplan.com](http://www.rationalplan.com)
+* Safran [www.safran.com](https://www.safran.com/)
 * SAP Conversion Agent by Informatica [help.sap.com](https://help.sap.com/saphelp_nwpi711/helpdata/en/43/fc39c16bfb025ee10000000a1553f7/frameset.htm)
 * SharedPlan [www.sharedplan.com](http://www.sharedplan.com)
 * SmartWorks [www.smartworks.us/](http://www.smartworks.us)
