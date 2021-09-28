@@ -1,4 +1,3 @@
-require 'duration'
 require 'time'
 
 module MPXJ
@@ -16,9 +15,9 @@ module MPXJ
 
     def get_duration_value(attribute_value)
       if attribute_value.nil?
-        Duration.new(0)
+        0.0
       else
-        Duration.new(attribute_value.to_i)
+        attribute_value.to_f
       end
     end
 

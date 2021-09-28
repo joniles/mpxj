@@ -13,15 +13,16 @@ module MPXJ
     #
     # @param file_name [String] the name of the file to read
     # @param zone [ActiveSupport::TimeZone] an optional timezone
+    # @param time_units [Symbol] optional, specify the units for expressing durations. By default durations are in seconds, can pass :minutes, :hours, :days: weeks:, :months or :years
     # @return [Project] new Project instance
-    def self.read(file_name, zone = nil)
+    def self.read(file_name, zone = nil, time_units = :seconds)
       project = nil
       json_file = Tempfile.new([File.basename(file_name, ".*"), '.json'])
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
 
       begin
         classpath = "#{File.dirname(__FILE__)}/*"
-        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.ruby.GenerateJson \"#{file_name}\" \"#{json_file.path}\"`
+        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.ruby.GenerateJson \"#{file_name}\" \"#{json_file.path}\" \"#{time_units}\"`
         if $?.exitstatus != 0
           report_error(java_output)
         end

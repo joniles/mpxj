@@ -3,6 +3,7 @@
 ## 9.7.0 (unreleased)
 * Add Sprint ID and Board Status ID attributes to task.
 * Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.
+* Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)
 * Update JsonWriter to use a relevant calendar when converting durations.
 * Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.
 * Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.

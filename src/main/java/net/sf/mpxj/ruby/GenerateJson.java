@@ -23,8 +23,13 @@
 
 package net.sf.mpxj.ruby;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -44,14 +49,14 @@ public final class GenerateJson
    {
       try
       {
-         if (args.length != 2)
+         if (args.length != 3)
          {
-            System.out.println("Usage: GenerateJson <input file name> <output file name>");
+            System.out.println("Usage: GenerateJson <input file name> <output file name> <time units>");
          }
          else
          {
             GenerateJson convert = new GenerateJson();
-            convert.process(args[0], args[1]);
+            convert.process(args[0], args[1], args[2]);
          }
 
          System.exit(0);
@@ -72,9 +77,9 @@ public final class GenerateJson
     *
     * @param inputFile input file
     * @param outputFile output file
-    * @throws Exception
+    * @param timeUnits time units for durations
     */
-   public void process(String inputFile, String outputFile) throws Exception
+   public void process(String inputFile, String outputFile, String timeUnits) throws Exception
    {
       System.out.println("Reading input file started.");
       long start = System.currentTimeMillis();
@@ -85,6 +90,7 @@ public final class GenerateJson
       System.out.println("Writing output file started.");
       start = System.currentTimeMillis();
       JsonWriter writer = new JsonWriter();
+      writer.setTimeUnits(TIME_UNIT_MAP.get(timeUnits.toUpperCase()));
       writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
       System.out.println("Writing output completed in " + elapsed + "ms.");
@@ -107,4 +113,6 @@ public final class GenerateJson
       }
       return projectFile;
    }
+   
+   private static final Map<String, TimeUnit> TIME_UNIT_MAP = Arrays.asList(TimeUnit.values()).stream().collect(Collectors.toMap(t -> t.name(), t -> t));
 }
