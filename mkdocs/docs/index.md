@@ -141,7 +141,7 @@ project:
 <dependency>
   <groupId>net.sf.mpxj</groupId>
   <artifactId>mpxj</artifactId>
-  <version>9.2.5</version>
+  <version>9.7.0</version>
 </dependency>
 ```
 

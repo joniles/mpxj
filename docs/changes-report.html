@@ -44,7 +44,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2021-09-13</li>
+        <li id="publishDate">Last Published: 2021-09-28</li>
           </ul>
         </div>
       </header>
@@ -79,9 +79,63 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a9.6.1">Release 9.6.1 &#x2013; git master</h3>
+<h3 id="a9.7.1">Release 9.7.1 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
-<h3 id="a9.6.0">Release 9.6.0 &#x2013; 13/09/21</h3>
+<h3 id="a9.7.0">Release 9.7.0 &#x2013; 28/09/2021</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/add.gif" alt="Add" title="Add" /></td>
+<td>Add Sprint ID and Board Status ID attributes to task.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/add.gif" alt="Add" title="Add" /></td>
+<td>Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Update JsonWriter to use a relevant calendar when converting durations.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that the minutes per day/week/month/year attributes are copied when a calendar is copied.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading P6 schedules, roll up calendar for WBS entries when child activities all share the same calendar.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Generate missing minutes per day/week/month/year for calendars read from P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Inherit minutes per day/week/month/year from base calendars (Note: minor method signature changes on ProjectProperties and ProjectCalendar).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Allow explicit values to be set for project minutes per week and minutes per year.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fall back on defaults for project minutes per day/week/month/year attributes.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a9.6.0">Release 9.6.0 &#x2013; 13/09/2021</h3>
 <table border="0" class="table table-striped">
 <tr class="b">
 <th>Type</th>
@@ -119,7 +173,7 @@
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
-<h3 id="a9.5.2">Release 9.5.2 &#x2013; 22/08/21</h3>
+<h3 id="a9.5.2">Release 9.5.2 &#x2013; 22/08/2021</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
 <th>Type</th>
