@@ -2027,11 +2027,25 @@ module MPXJ
       get_integer_value(attribute_values['minutes_per_day'])
     end
 
+    # Retrieve the Minutes per Month value
+    #
+    # @return Minutes per Month value
+    def minutes_per_month
+      get_integer_value(attribute_values['minutes_per_month'])
+    end
+
     # Retrieve the Minutes per Week value
     #
     # @return Minutes per Week value
     def minutes_per_week
       get_integer_value(attribute_values['minutes_per_week'])
+    end
+
+    # Retrieve the Minutes per Year value
+    #
+    # @return Minutes per Year value
+    def minutes_per_year
+      get_integer_value(attribute_values['minutes_per_year'])
     end
 
     # Retrieve the Move Completed Ends Back value
@@ -2646,7 +2660,9 @@ module MPXJ
       'manager' => :string,
       'microsoft_project_server_url' => :boolean,
       'minutes_per_day' => :integer,
+      'minutes_per_month' => :integer,
       'minutes_per_week' => :integer,
+      'minutes_per_year' => :integer,
       'move_completed_ends_back' => :boolean,
       'move_completed_ends_forward' => :boolean,
       'move_remaining_starts_back' => :boolean,

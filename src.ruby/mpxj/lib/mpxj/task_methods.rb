@@ -1397,6 +1397,13 @@ module MPXJ
       attribute_values['board_status']
     end
 
+    # Retrieve the Board Status ID value
+    #
+    # @return Board Status ID value
+    def board_status_id
+      get_integer_value(attribute_values['board_status_id'])
+    end
+
     # Retrieve the Budget Cost value
     #
     # @return Budget Cost value
@@ -7557,6 +7564,27 @@ module MPXJ
       attribute_values['sprint']
     end
 
+    # Retrieve the Sprint Finish value
+    #
+    # @return Sprint Finish value
+    def sprint_finish
+      get_date_value(attribute_values['sprint_finish'])
+    end
+
+    # Retrieve the Sprint ID value
+    #
+    # @return Sprint ID value
+    def sprint_id
+      get_integer_value(attribute_values['sprint_id'])
+    end
+
+    # Retrieve the Sprint Start value
+    #
+    # @return Sprint Start value
+    def sprint_start
+      get_date_value(attribute_values['sprint_start'])
+    end
+
     # Retrieve the Start value
     #
     # @return Start value
@@ -7795,11 +7823,11 @@ module MPXJ
       get_boolean_value(attribute_values['task_mode'])
     end
 
-    # Retrieve the Task Summary value
+    # Retrieve the Task Summary Name value
     #
-    # @return Task Summary value
-    def task_summary
-      attribute_values['task_summary']
+    # @return Task Summary Name value
+    def task_summary_name
+      attribute_values['task_summary_name']
     end
 
     # Retrieve the TCPI value
@@ -8345,6 +8373,7 @@ module MPXJ
       'bcws' => :currency,
       'bid_item' => :string,
       'board_status' => :string,
+      'board_status_id' => :integer,
       'budget_cost' => :currency,
       'budget_work' => :work,
       'calendar' => :binary,
@@ -9225,6 +9254,9 @@ module MPXJ
       'spi' => :numeric,
       'splits' => :date_range_list,
       'sprint' => :string,
+      'sprint_finish' => :date,
+      'sprint_id' => :integer,
+      'sprint_start' => :date,
       'start' => :date,
       'start1' => :date,
       'start10' => :date,
@@ -9259,7 +9291,7 @@ module MPXJ
       'task_calendar' => :string,
       'task_calendar_guid' => :guid,
       'task_mode' => :boolean,
-      'task_summary' => :string,
+      'task_summary_name' => :string,
       'tcpi' => :numeric,
       'teamstatus_pending' => :boolean,
       'text1' => :string,
