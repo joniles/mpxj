@@ -131,6 +131,27 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Set the time units to use for durations. Defaults to seconds.
+    * 
+    * @param value time units
+    */
+   public void setTimeUnits(TimeUnit value)
+   {
+      m_timeUnits = value;
+   }
+
+   /**
+    * Retrieve the time units used for durations. null indicates
+    * durations will be written in seconds.
+    * 
+    * @return time units
+    */
+   public TimeUnit getTimeUnits()
+   {
+      return m_timeUnits;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
@@ -574,9 +595,19 @@ public final class JsonWriter extends AbstractProjectWriter
                   defaults = m_projectFile.getProjectProperties();
                }
 
-               Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
-               long seconds = (long) (minutes.getDuration() * 60.0);
-               m_writer.writeNameValuePair(fieldName, seconds);
+               // If a specific TimeUnit hasn't been provided, we default
+               // to writing seconds for backward compatibility.
+               if (m_timeUnits == null)
+               {
+                  Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
+                  long seconds = (long) (minutes.getDuration() * 60.0);
+                  m_writer.writeNameValuePair(fieldName, seconds);
+               }
+               else
+               {
+                  Duration duration = val.convertUnits(m_timeUnits, defaults);
+                  m_writer.writeNameValuePair(fieldName, duration.getDuration());
+               }
             }
          }
       }
@@ -851,6 +882,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private boolean m_pretty;
    private Charset m_encoding = DEFAULT_ENCODING;
    private boolean m_writeAttributeTypes;
+   private TimeUnit m_timeUnits;
 
    private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
