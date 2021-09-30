@@ -396,7 +396,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
-
+         config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+         
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 

@@ -643,7 +643,7 @@ public final class ProjectFile implements ChildTaskContainer
       }
 
       m_baselines[index] = baseline;
-      new BaselineManager().populateBaseline(this, baseline, index, key);
+      m_config.getBaselineStrategy().populateBaseline(this, baseline, index, key);      
    }
 
    /**
@@ -661,7 +661,7 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void clearBaseline(int index)
    {
-      new BaselineManager().clearBaseline(this, index);
+      new DefaultBaselineStrategy().clearBaseline(this, index);
    }
 
    private final ProjectConfig m_config = new ProjectConfig(this);

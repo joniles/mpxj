@@ -126,7 +126,8 @@ final class PrimaveraReader
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
-
+      config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+      
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;
       m_wbsFields = wbsFields;

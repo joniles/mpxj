@@ -33,7 +33,7 @@ import net.sf.mpxj.common.TaskFieldLists;
 /**
  * Handles setting baseline fields in one project using values read from another project.
  */
-class BaselineManager
+public class DefaultBaselineStrategy implements BaselineStrategy
 {
    /**
     * Clear the requested baseline for the supplied project.
@@ -41,7 +41,7 @@ class BaselineManager
     * @param project target project
     * @param index baseline to populate (0-10)
     */
-   public void clearBaseline(ProjectFile project, int index)
+   @Override public void clearBaseline(ProjectFile project, int index)
    {
       TaskField[] baselineFields = getBaselineFields(index);
       project.getTasks().forEach(t -> populateBaseline(t, null, baselineFields));
@@ -66,7 +66,7 @@ class BaselineManager
     * @param index baseline to populate (0-10)
     * @param keyFunction generate a key used to match tasks
     */
-   public void populateBaseline(ProjectFile project, ProjectFile baseline, int index, Function<Task, Object> keyFunction)
+   @Override public void populateBaseline(ProjectFile project, ProjectFile baseline, int index, Function<Task, Object> keyFunction)
    {
       TaskField[] baselineFields = getBaselineFields(index);
       Map<Object, Task> map = baseline.getTasks().stream().filter(t -> keyFunction.apply(t) != null).collect(Collectors.toMap(t -> keyFunction.apply(t), t -> t, (u, v) -> null));
@@ -82,7 +82,8 @@ class BaselineManager
     */
    private void populateBaseline(Task task, Task baseline, TaskField[] baselineFields)
    {
-      IntStream.range(0, SOURCE_FIELDS.length).forEach(i -> task.set(baselineFields[i], baseline == null ? null : baseline.getCachedValue(SOURCE_FIELDS[i])));
+      TaskField[] sourceFields = getSourceFields();
+      IntStream.range(0, sourceFields.length).forEach(i -> task.set(baselineFields[i], baseline == null ? null : baseline.getCachedValue(sourceFields[i])));
    }
 
    /**
@@ -92,7 +93,7 @@ class BaselineManager
     * @param index index of the baseline to populate (0-10)
     * @return array of baseline fields
     */
-   private TaskField[] getBaselineFields(int index)
+   protected TaskField[] getBaselineFields(int index)
    {
       TaskField[] fields;
       if (index == 0)
@@ -116,6 +117,11 @@ class BaselineManager
       return fields;
    }
 
+   protected TaskField[] getSourceFields()
+   {
+      return SOURCE_FIELDS;
+   }
+   
    private static final TaskField[] SOURCE_FIELDS =
    {
       TaskField.COST,
