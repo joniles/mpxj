@@ -260,8 +260,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#971-unreleased" class="md-nav__link">
-    9.7.1 (unreleased)
+  <a href="#981-unreleased" class="md-nav__link">
+    9.8.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#980-30092021" class="md-nav__link">
+    9.8.0 (30/09/2021)
   </a>
   
 </li>
@@ -2081,8 +2088,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#971-unreleased" class="md-nav__link">
-    9.7.1 (unreleased)
+  <a href="#981-unreleased" class="md-nav__link">
+    9.8.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#980-30092021" class="md-nav__link">
+    9.8.0 (30/09/2021)
   </a>
   
 </li>
@@ -3337,7 +3351,12 @@
                 
                 
                 <h1 id="changelog">Changelog</h1>
-<h2 id="971-unreleased">9.7.1 (unreleased)</h2>
+<h2 id="981-unreleased">9.8.1 (unreleased)</h2>
+<h2 id="980-30092021">9.8.0 (30/09/2021)</h2>
+<ul>
+<li>Introduced the BaselineStrategy interface and implementing classes. (Note: this includes a breaking change if you were using the ProjectFile.setBaseline method and supplying a lambda. You will now need to implement a BaselineStrategy and set this in ProjectConfig before setting a baseline).</li>
+<li>Improved accuracy of baseline attributes for Primavera schedules.</li>
+</ul>
 <h2 id="970-28092021">9.7.0 (28/09/2021)</h2>
 <ul>
 <li>Add Sprint ID and Board Status ID attributes to task.</li>
