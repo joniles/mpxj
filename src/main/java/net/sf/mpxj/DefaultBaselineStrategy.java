@@ -1,5 +1,5 @@
 /*
- * file:       BaselineManager.java
+ * file:       DefaultBaselineStrategy.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       23/02/2021
@@ -24,7 +24,6 @@
 package net.sf.mpxj;
 
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,42 +34,17 @@ import net.sf.mpxj.common.TaskFieldLists;
  */
 public class DefaultBaselineStrategy implements BaselineStrategy
 {
-   /**
-    * Clear the requested baseline for the supplied project.
-    *
-    * @param project target project
-    * @param index baseline to populate (0-10)
-    */
    @Override public void clearBaseline(ProjectFile project, int index)
    {
       TaskField[] baselineFields = getBaselineFields(index);
       project.getTasks().forEach(t -> populateBaseline(t, null, baselineFields));
    }
 
-   /**
-    * Use the supplied baseline project to set the baselineN cost, duration, finish,
-    * fixed cost accrual, fixed cost, start and work attributes for the tasks
-    * in the supplied project.
-    *
-    * The supplied keyFunction is used to generate the key
-    * used to connect tasks from the current and baseline schedules. This key should
-    * be unique for each task in the schedule. Instances where the key is not unique
-    * will result in an incorrect baseline being applied to a task in the
-    * current schedule.
-    *
-    * The index argument selects which of the 10 baselines to populate. Passing
-    * an index of 0 populates the main baseline.
-    *
-    * @param project target project
-    * @param baseline baseline project
-    * @param index baseline to populate (0-10)
-    * @param keyFunction generate a key used to match tasks
-    */
-   @Override public void populateBaseline(ProjectFile project, ProjectFile baseline, int index, Function<Task, Object> keyFunction)
+   @Override public void populateBaseline(ProjectFile project, ProjectFile baseline, int index)
    {
       TaskField[] baselineFields = getBaselineFields(index);
-      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> keyFunction.apply(t) != null).collect(Collectors.toMap(t -> keyFunction.apply(t), t -> t, (u, v) -> null));
-      project.getTasks().forEach(t -> populateBaseline(t, map.get(keyFunction.apply(t)), baselineFields));
+      Map<Object, Task> map = baseline.getTasks().stream().filter(t -> getKeyForTask(t) != null).collect(Collectors.toMap(t -> getKeyForTask(t), t -> t, (u, v) -> null));
+      project.getTasks().forEach(t -> populateBaseline(t, map.get(getKeyForTask(t)), baselineFields));
    }
 
    /**
@@ -84,6 +58,29 @@ public class DefaultBaselineStrategy implements BaselineStrategy
    {
       TaskField[] sourceFields = getSourceFields();
       IntStream.range(0, sourceFields.length).forEach(i -> task.set(baselineFields[i], baseline == null ? null : baseline.getCachedValue(sourceFields[i])));
+   }
+
+   /**
+    * This method is used to generate the key which connect tasks from the
+    * current and baseline schedules. This key should be unique for each task
+    * in the schedule. Instances where the key is not unique will result in an
+    * incorrect baseline being applied to a task in the current schedule.
+    *
+    * If a task in the baseline schedule and a task in the main schedule both
+    * generate the same key value, they are treated as the same task and values
+    * from the task in the baseline schedule will be used to populate baseline
+    * attributes in the main schedule.
+    *
+    * This default implementation assumes that the task's GUID attribute is
+    * sufficient to match tasks in the baseline and main schedules. It is expected
+    * that this method is overridden for specific schedule types.
+    *
+    * @param task task from which a key is generated
+    * @return key value
+    */
+   protected Object getKeyForTask(Task task)
+   {
+      return task.getGUID();
    }
 
    /**
@@ -117,11 +114,17 @@ public class DefaultBaselineStrategy implements BaselineStrategy
       return fields;
    }
 
+   /**
+    * Fields from which values are retrieved in the baseline schedule
+    * before being applied as baseline attributes to the main schedule.
+    *
+    * @return source fields for baseline values
+    */
    protected TaskField[] getSourceFields()
    {
       return SOURCE_FIELDS;
    }
-   
+
    private static final TaskField[] SOURCE_FIELDS =
    {
       TaskField.COST,

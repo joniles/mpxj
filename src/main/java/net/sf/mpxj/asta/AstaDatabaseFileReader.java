@@ -476,10 +476,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
             {
                ProjectFile baselineProject = read(baselineProjectID);
 
-               // It looks like Powerproject uses a single ID generator for all entities,
-               // so we should be able to match on Unique ID only (no overlap between bar, task, milestone etc).
-               /// To be on the safe side we'll build a key which includes the summary and milestone flags.
-               project.setBaseline(baselineProject, t -> t.getUniqueID() + ":" + t.getSummary() + ":" + t.getMilestone());
+               project.setBaseline(baselineProject);
             }
          }
       }

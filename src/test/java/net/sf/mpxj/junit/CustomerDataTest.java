@@ -266,7 +266,7 @@ public class CustomerDataTest
          {
             PrimaveraDatabaseFileReader baselineReader = new PrimaveraDatabaseFileReader();
             baselineReader.setProjectID(baselineProjectID.intValue());
-            project.setBaseline(baselineReader.read(file), t -> t.getCanonicalActivityID());
+            project.setBaseline(baselineReader.read(file));
          }
 
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))

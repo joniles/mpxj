@@ -1,5 +1,5 @@
 /*
- * file:       BaselineManager.java
+ * file:       PrimaveraBaselineStrategy.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       23/02/2021
@@ -24,16 +24,27 @@
 package net.sf.mpxj.primavera;
 
 import net.sf.mpxj.DefaultBaselineStrategy;
+import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 
 /**
- * Handles setting baseline fields in one project using values read from another project.
+ * Strategy used to assign baselines for Primavera schedules.
  */
 public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
    @Override protected TaskField[] getSourceFields()
    {
       return SOURCE_FIELDS;
+   }
+
+   @Override protected Object getKeyForTask(Task task)
+   {
+      String activityID = task.getCanonicalActivityID();
+
+      // For Activities, the Activity ID is sufficient to uniquely identify a
+      // task. For WBS entries the value in Activity ID may not be unique.
+      // For WBS entries we include an additional value to get around this.
+      return task.getSummary() ? activityID + " " + task.getOutlineLevel() : activityID;
    }
 
    private static final TaskField[] SOURCE_FIELDS =

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -610,32 +609,26 @@ public final class ProjectFile implements ChildTaskContainer
    /**
     * Store the supplied project as the default baseline, and use it to set the
     * baseline cost, duration, finish, fixed cost accrual, fixed cost, start and
-    * work attributes for the tasks in the current project. The supplied
-    * key function generates a key which can be used to match tasks in the current
-    * project with tasks in the baseline project.
+    * work attributes for the tasks in the current project. 
     *
     * @param baseline baseline project
-    * @param key generates a key used to match tasks across projects
     */
-   public void setBaseline(ProjectFile baseline, Function<Task, Object> key)
+   public void setBaseline(ProjectFile baseline)
    {
-      setBaseline(baseline, 0, key);
+      setBaseline(baseline, 0);
    }
 
    /**
     * Store the supplied project as baselineN, and use it to set the
     * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
-    * work attributes for the tasks in the current project. The supplied
-    * key function generates a key which can be used to match tasks in the current
-    * project with tasks in the baseline project.
+    * work attributes for the tasks in the current project. 
     * The index argument selects which of the 10 baselines to populate. Passing
     * an index of 0 populates the default baseline.
     *
     * @param baseline baseline project
     * @param index baseline to populate (0-10)
-    * @param key generates a key used to match tasks across projects
     */
-   public void setBaseline(ProjectFile baseline, int index, Function<Task, Object> key)
+   public void setBaseline(ProjectFile baseline, int index)
    {
       if (index < 0 || index >= m_baselines.length)
       {
@@ -643,7 +636,7 @@ public final class ProjectFile implements ChildTaskContainer
       }
 
       m_baselines[index] = baseline;
-      m_config.getBaselineStrategy().populateBaseline(this, baseline, index, key);      
+      m_config.getBaselineStrategy().populateBaseline(this, baseline, index);      
    }
 
    /**

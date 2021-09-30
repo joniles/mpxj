@@ -306,7 +306,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ProjectFile baseline = map.get(project.getProjectProperties().getBaselineProjectUniqueID());
          if (baseline != null)
          {
-            project.setBaseline(baseline, PrimaveraHelper::baselineKey);
+            project.setBaseline(baseline);
          }
       }
    }
