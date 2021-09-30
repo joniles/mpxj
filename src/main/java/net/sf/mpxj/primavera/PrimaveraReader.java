@@ -127,7 +127,7 @@ final class PrimaveraReader
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
       config.setBaselineStrategy(new PrimaveraBaselineStrategy());
-      
+
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;
       m_wbsFields = wbsFields;
@@ -478,22 +478,22 @@ final class PrimaveraReader
          int minutesPerDay = minutesPerWeek / workingDays;
          int minutesPerMonth = minutesPerWeek * 4;
          int minutesPerYear = minutesPerMonth * 12;
-                  
+
          if (rowHoursPerDay == null)
          {
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));                        
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
          }
-         
+
          if (rowHoursPerWeek == null)
          {
             calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
          }
-         
+
          if (rowHoursPerMonth == null)
          {
             calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
          }
-         
+
          if (rowHoursPerYear == null)
          {
             calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));

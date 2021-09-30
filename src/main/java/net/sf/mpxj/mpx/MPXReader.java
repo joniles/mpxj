@@ -506,8 +506,8 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setDefaultDurationUnits(record.getTimeUnit(0));
       properties.setDefaultDurationIsFixed(record.getNumericBoolean(1));
       properties.setDefaultWorkUnits(record.getTimeUnit(2));
-      properties.setMinutesPerDay(Integer.valueOf((int)(NumberHelper.getDouble(record.getFloat(3)) * 60)));
-      properties.setMinutesPerWeek(Integer.valueOf((int)(NumberHelper.getDouble(record.getFloat(4)) * 60)));
+      properties.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(record.getFloat(3)) * 60)));
+      properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(record.getFloat(4)) * 60)));
       properties.setDefaultStandardRate(record.getRate(5));
       properties.setDefaultOvertimeRate(record.getRate(6));
       properties.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));

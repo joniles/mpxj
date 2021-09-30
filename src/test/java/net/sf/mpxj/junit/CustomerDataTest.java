@@ -176,7 +176,7 @@ public class CustomerDataTest
       File file = File.createTempFile("primavera", "db");
       file.deleteOnExit();
       Files.copy(new File(m_primaveraFile).toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      
+
       Map<Integer, String> projects = new PrimaveraDatabaseFileReader().listProjects(file);
       long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(file, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
 
@@ -352,9 +352,9 @@ public class CustomerDataTest
       String runtime = System.getProperty("java.runtime.name");
       boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
       File[] fileList = parent.listFiles();
-      assertNotNull(fileList);      
+      assertNotNull(fileList);
       Arrays.sort(fileList);
-      
+
       for (File file : fileList)
       {
          if (file.isDirectory())
@@ -370,7 +370,7 @@ public class CustomerDataTest
             }
             list.add(file);
          }
-      }          
+      }
    }
 
    /**
@@ -667,5 +667,5 @@ public class CustomerDataTest
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 
-   private static final boolean DEBUG_FAILURES = true;
+   private static final boolean DEBUG_FAILURES = false;
 }

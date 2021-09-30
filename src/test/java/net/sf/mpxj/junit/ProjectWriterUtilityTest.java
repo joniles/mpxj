@@ -76,7 +76,7 @@ public class ProjectWriterUtilityTest
 
       writer = ProjectWriterUtility.getProjectWriter("filename.xml");
       assertEquals(MSPDIWriter.class, writer.getClass());
-      
+
       writer = ProjectWriterUtility.getProjectWriter("filename.planner");
       assertEquals(PlannerWriter.class, writer.getClass());
    }

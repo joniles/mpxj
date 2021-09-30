@@ -397,7 +397,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
          config.setBaselineStrategy(new PrimaveraBaselineStrategy());
-         
+
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
@@ -646,7 +646,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          properties.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
          properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
          properties.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerMonth()) * 60)));
-         properties.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerYear()) * 60)));         
+         properties.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerYear()) * 60)));
          properties.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
@@ -997,22 +997,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int minutesPerDay = minutesPerWeek / workingDays;
          int minutesPerMonth = minutesPerWeek * 4;
          int minutesPerYear = minutesPerMonth * 12;
-                  
+
          if (rowHoursPerDay == null)
          {
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));                        
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
          }
-         
+
          if (rowHoursPerWeek == null)
          {
             calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
          }
-         
+
          if (rowHoursPerMonth == null)
          {
             calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
          }
-         
+
          if (rowHoursPerYear == null)
          {
             calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));

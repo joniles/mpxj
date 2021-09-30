@@ -388,7 +388,7 @@ public class ProjectConfig
 
    /**
     * Retrieve the strategy used by this project to populate baseline attributes from another schedule.
-    * 
+    *
     * @return baseline strategy
     */
    public BaselineStrategy getBaselineStrategy()
@@ -398,7 +398,7 @@ public class ProjectConfig
 
    /**
     * Set the strategy used by this project to populate baseline attributes from another schedule.
-    * 
+    *
     * @param strategy baseline strategy
     */
    public void setBaselineStrategy(BaselineStrategy strategy)

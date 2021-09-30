@@ -267,7 +267,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
 
          if (dd.getUnits() != TimeUnit.DAYS)
-         {           
+         {
             dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation

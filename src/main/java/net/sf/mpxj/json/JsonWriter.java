@@ -132,7 +132,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Set the time units to use for durations. Defaults to seconds.
-    * 
+    *
     * @param value time units
     */
    public void setTimeUnits(TimeUnit value)
@@ -143,7 +143,7 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Retrieve the time units used for durations. null indicates
     * durations will be written in seconds.
-    * 
+    *
     * @return time units
     */
    public TimeUnit getTimeUnits()
@@ -575,7 +575,7 @@ public final class JsonWriter extends AbstractProjectWriter
             if (val.getDuration() != 0)
             {
                // If we have a calendar associated with this container,
-               // we'll use any defaults it supplies to handle the time 
+               // we'll use any defaults it supplies to handle the time
                // units conversion.
                TimeUnitDefaultsContainer defaults = null;
                if (container instanceof Task)

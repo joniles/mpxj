@@ -113,6 +113,6 @@ public final class GenerateJson
       }
       return projectFile;
    }
-   
+
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = Arrays.asList(TimeUnit.values()).stream().collect(Collectors.toMap(t -> t.name(), t -> t));
 }

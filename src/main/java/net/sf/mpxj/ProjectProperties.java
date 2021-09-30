@@ -1359,7 +1359,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the default number of minutes per month.
-    * 
+    *
     * @param minutesPerMonth minutes per month
     */
    public void setMinutesPerMonth(Integer minutesPerMonth)
@@ -1385,7 +1385,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Set the default number of minutes per year.
-    * 
+    *
     * @param minutesPerYear minutes per year
     */
    public void setMinutesPerYear(Integer minutesPerYear)

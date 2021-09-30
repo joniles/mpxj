@@ -609,7 +609,7 @@ public final class ProjectFile implements ChildTaskContainer
    /**
     * Store the supplied project as the default baseline, and use it to set the
     * baseline cost, duration, finish, fixed cost accrual, fixed cost, start and
-    * work attributes for the tasks in the current project. 
+    * work attributes for the tasks in the current project.
     *
     * @param baseline baseline project
     */
@@ -621,7 +621,7 @@ public final class ProjectFile implements ChildTaskContainer
    /**
     * Store the supplied project as baselineN, and use it to set the
     * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
-    * work attributes for the tasks in the current project. 
+    * work attributes for the tasks in the current project.
     * The index argument selects which of the 10 baselines to populate. Passing
     * an index of 0 populates the default baseline.
     *
@@ -636,7 +636,7 @@ public final class ProjectFile implements ChildTaskContainer
       }
 
       m_baselines[index] = baseline;
-      m_config.getBaselineStrategy().populateBaseline(this, baseline, index);      
+      m_config.getBaselineStrategy().populateBaseline(this, baseline, index);
    }
 
    /**
