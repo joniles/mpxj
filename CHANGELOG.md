@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.8.0 (unreleased)
+## 9.8.1 (unreleased)
+
+## 9.8.0 (30/09/2021)
 * Introduced the BaselineStrategy interface and implementing classes. (Note: this includes a breaking change if you were using the ProjectFile.setBaseline method and supplying a lambda. You will now need to implement a BaselineStrategy and set this in ProjectConfig before setting a baseline).
 * Improved accuracy of baseline attributes for Primavera schedules.
 
