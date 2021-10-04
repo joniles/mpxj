@@ -63,21 +63,21 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.phoenix.schema.Project;
-import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout;
-import net.sf.mpxj.phoenix.schema.Project.Layouts.Layout.CodeOptions.CodeOption;
-import net.sf.mpxj.phoenix.schema.Project.Settings;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calendar;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Relationships.Relationship;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources;
-import net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout.CodeOptions.CodeOption;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Settings;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Relationships.Relationship;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -257,7 +257,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
       Resources resources = phoenixProject.getResources();
       if (resources != null)
       {
-         for (net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res : resources.getResource())
+         for (net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources.Resource res : resources.getResource())
          {
             Resource resource = readResource(res);
             readAssignments(resource, res);
@@ -271,7 +271,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
     * @param phoenixResource resource data
     * @return Resource instance
     */
-   private Resource readResource(net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
+   private Resource readResource(net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources.Resource phoenixResource)
    {
       Resource mpxjResource = m_projectFile.addResource();
 
@@ -677,7 +677,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
     * @param mpxjResource MPXJ resource
     * @param res Phoenix resource
     */
-   private void readAssignments(Resource mpxjResource, net.sf.mpxj.phoenix.schema.Project.Storepoints.Storepoint.Resources.Resource res)
+   private void readAssignments(Resource mpxjResource, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources.Resource res)
    {
       for (Assignment assignment : res.getAssignment())
       {
@@ -945,7 +945,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema", PhoenixReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema.phoenix4", PhoenixReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)
