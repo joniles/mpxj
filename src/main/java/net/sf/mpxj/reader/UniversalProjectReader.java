@@ -245,7 +245,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             return readProjectFile(new PhoenixReader(), new PhoenixInputStream(bis));
          }
 
-         if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT))
+         if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT1) || matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT2))
          {
             return readProjectFile(new PhoenixReader(), bis);
          }
@@ -1029,7 +1029,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private static final Pattern MSPDI_FINGERPRINT_3 = Pattern.compile(".*<Project.*<Title>.*", Pattern.DOTALL);
 
-   private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
+   private static final Pattern PHOENIX_XML_FINGERPRINT1 = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
+
+   private static final Pattern PHOENIX_XML_FINGERPRINT2 = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*application=\"Phoenix.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
 
