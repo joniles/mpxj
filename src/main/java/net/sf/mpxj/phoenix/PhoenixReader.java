@@ -65,13 +65,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
 
          Matcher matcher = VERSION_PATTERN.matcher(new String(buffer, CharsetHelper.UTF8));
          SemVer version = matcher.find() ? new SemVer(matcher.group(1)) : VERSION_4;
-
-         if (version.before(VERSION_5))
-         {
-            return new Phoenix4Reader().read(bis);
-         }
-
-         return null;
+         return (version.before(VERSION_5) ? new Phoenix4Reader() : new Phoenix5Reader()).read(bis);
       }
 
       catch (Exception ex)

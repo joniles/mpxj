@@ -255,6 +255,9 @@
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 ${basedir}/jaxb/phoenix-4.xsd" />
 		</exec>
 		<exec executable="${xjc}" dir="${basedir}">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 ${basedir}/jaxb/phoenix-5.xsd" />
+		</exec>
+		<exec executable="${xjc}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="${xjc}" dir="${basedir}">
