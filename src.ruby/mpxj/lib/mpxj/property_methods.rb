@@ -424,9 +424,9 @@ module MPXJ
       get_date_value(attribute_values['default_start_time'])
     end
 
-    # Retrieve the Default Tssk Earned Value Method value
+    # Retrieve the Default Task Earned Value Method value
     #
-    # @return Default Tssk Earned Value Method value
+    # @return Default Task Earned Value Method value
     def default_task_earned_value_method
       attribute_values['default_task_earned_value_method']
     end

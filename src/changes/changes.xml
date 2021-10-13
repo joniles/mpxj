@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="9.8.1">
+		<release date="unreleased" version="9.8.2">
+		</release>
+		<release date="13/10/2021" version="9.8.1">
 			<action dev="joniles" type="add">Added support for Phoenix 5 schedules.</action>
 			<action dev="joniles" type="update">Improve handling of null tasks read from MPP files.</action>
 		</release>

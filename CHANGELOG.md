@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.8.1 (unreleased)
+## 9.8.2 (unreleased)
+
+## 9.8.1 (13/10/2021)
 * Added support for Phoenix 5 schedules.
 * Improve handling of null tasks read from MPP files.
 

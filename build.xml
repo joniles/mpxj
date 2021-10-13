@@ -6,7 +6,7 @@
 		<tstamp />
 
 		<property environment="env"/>
-		<property name="current.version" value="9.8.0" />
+		<property name="current.version" value="9.8.1" />
 		<property name="maven.cmd" value="c:/java/apache-maven-3.6.3/bin/mvn.cmd"/>
 		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="nuget.dir" value="${basedir}/../nuget" />
@@ -303,6 +303,7 @@
 		<replace dir="${ikvm.src.dir}" token="public class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ">
 			<include name="**/*.java" />
 			<exclude name="**/schema/*.java" />
+			<exclude name="**/schema/phoenix*/*.java" />
 			<exclude name="**/FieldMap.java" />
 		</replace>
 
