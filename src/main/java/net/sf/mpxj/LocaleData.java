@@ -2459,7 +2459,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.MINUTES_PER_MONTH.getValue()] = "Minutes per Month";
       PROJECT_COLUMNS_ARRAY[ProjectField.MINUTES_PER_YEAR.getValue()] = "Minutes per Year";
       PROJECT_COLUMNS_ARRAY[ProjectField.FISCAL_YEAR_START.getValue()] = "Fiscal Year Start";
-      PROJECT_COLUMNS_ARRAY[ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD.getValue()] = "Default Tssk Earned Value Method";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD.getValue()] = "Default Task Earned Value Method";
       PROJECT_COLUMNS_ARRAY[ProjectField.REMOVE_FILE_PROPERTIES.getValue()] = "Remove File Properties";
       PROJECT_COLUMNS_ARRAY[ProjectField.MOVE_COMPLETED_ENDS_BACK.getValue()] = "Move Completed Ends Back";
       PROJECT_COLUMNS_ARRAY[ProjectField.NEW_TASKS_ESTIMATED.getValue()] = "New Tasks Estimated";
