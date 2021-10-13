@@ -897,11 +897,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the settings property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Settings }
-    *     
+    *
     */
    public Project.Settings getSettings()
    {
@@ -910,11 +910,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the settings property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Settings }
-    *     
+    *
     */
    public void setSettings(Project.Settings value)
    {
@@ -923,11 +923,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the storepoints property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Storepoints }
-    *     
+    *
     */
    public Project.Storepoints getStorepoints()
    {
@@ -936,11 +936,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the storepoints property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Storepoints }
-    *     
+    *
     */
    public void setStorepoints(Project.Storepoints value)
    {
@@ -949,11 +949,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the layouts property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Layouts }
-    *     
+    *
     */
    public Project.Layouts getLayouts()
    {
@@ -962,11 +962,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the layouts property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Layouts }
-    *     
+    *
     */
    public void setLayouts(Project.Layouts value)
    {
@@ -975,11 +975,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the filters property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Project.Filters }
-    *     
+    *
     */
    public Project.Filters getFilters()
    {
@@ -988,11 +988,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the filters property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Project.Filters }
-    *     
+    *
     */
    public void setFilters(Project.Filters value)
    {
@@ -1001,11 +1001,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the application property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getApplication()
    {
@@ -1014,11 +1014,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the application property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setApplication(String value)
    {
@@ -1027,11 +1027,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the applicationVersion property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getApplicationVersion()
    {
@@ -1040,11 +1040,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the applicationVersion property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setApplicationVersion(String value)
    {
@@ -1053,11 +1053,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Gets the value of the version property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Double }
-    *     
+    *
     */
    public Double getVersion()
    {
@@ -1066,11 +1066,11 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * Sets the value of the version property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Double }
-    *     
+    *
     */
    public void setVersion(Double value)
    {
@@ -1079,9 +1079,9 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -1126,8 +1126,8 @@ import net.sf.mpxj.TimeUnit;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -1139,25 +1139,25 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the filter property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the filter property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getFilter().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Filters.Filter }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Filters.Filter> getFilter()
       {
@@ -1170,9 +1170,9 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -1207,8 +1207,8 @@ import net.sf.mpxj.TimeUnit;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -1222,11 +1222,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the containerCriteria property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Filters.Filter.ContainerCriteria }
-          *     
+          *
           */
          public Project.Filters.Filter.ContainerCriteria getContainerCriteria()
          {
@@ -1235,11 +1235,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the containerCriteria property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Filters.Filter.ContainerCriteria }
-          *     
+          *
           */
          public void setContainerCriteria(Project.Filters.Filter.ContainerCriteria value)
          {
@@ -1248,11 +1248,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -1261,11 +1261,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -1274,11 +1274,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the uuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public UUID getUuid()
          {
@@ -1287,11 +1287,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the uuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUuid(UUID value)
          {
@@ -1300,9 +1300,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -1325,8 +1325,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -1339,11 +1339,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the binaryCriteria property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link Project.Filters.Filter.ContainerCriteria.BinaryCriteria }
-             *     
+             *
              */
             public Project.Filters.Filter.ContainerCriteria.BinaryCriteria getBinaryCriteria()
             {
@@ -1352,11 +1352,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the binaryCriteria property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link Project.Filters.Filter.ContainerCriteria.BinaryCriteria }
-             *     
+             *
              */
             public void setBinaryCriteria(Project.Filters.Filter.ContainerCriteria.BinaryCriteria value)
             {
@@ -1365,11 +1365,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the reduceOperator property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getReduceOperator()
             {
@@ -1378,11 +1378,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the reduceOperator property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setReduceOperator(String value)
             {
@@ -1391,9 +1391,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -1405,8 +1405,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class BinaryCriteria
             {
@@ -1417,11 +1417,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the leftDataTag property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getLeftDataTag()
                {
@@ -1430,11 +1430,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the leftDataTag property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLeftDataTag(String value)
                {
@@ -1443,11 +1443,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the operator property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getOperator()
                {
@@ -1456,11 +1456,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the operator property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setOperator(String value)
                {
@@ -1469,11 +1469,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the rightDataTag property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getRightDataTag()
                {
@@ -1482,11 +1482,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the rightDataTag property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRightDataTag(String value)
                {
@@ -1503,9 +1503,9 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -2025,8 +2025,8 @@ import net.sf.mpxj.TimeUnit;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -2041,25 +2041,25 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the ganttLayout property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the ganttLayout property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getGanttLayout().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Layouts.GanttLayout }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Layouts.GanttLayout> getGanttLayout()
       {
@@ -2072,25 +2072,25 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the networkLayout property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the networkLayout property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getNetworkLayout().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Layouts.NetworkLayout }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Layouts.NetworkLayout> getNetworkLayout()
       {
@@ -2103,11 +2103,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the networkLineHeight property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Integer getNetworkLineHeight()
       {
@@ -2116,11 +2116,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the networkLineHeight property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setNetworkLineHeight(Integer value)
       {
@@ -2129,9 +2129,9 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -2386,8 +2386,8 @@ import net.sf.mpxj.TimeUnit;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -2441,11 +2441,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the dateFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.DateFormat }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.DateFormat getDateFormat()
          {
@@ -2454,11 +2454,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the dateFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.DateFormat }
-          *     
+          *
           */
          public void setDateFormat(Project.Layouts.GanttLayout.DateFormat value)
          {
@@ -2467,11 +2467,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the pageLayout property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.PageLayout }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.PageLayout getPageLayout()
          {
@@ -2480,11 +2480,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the pageLayout property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.PageLayout }
-          *     
+          *
           */
          public void setPageLayout(Project.Layouts.GanttLayout.PageLayout value)
          {
@@ -2493,11 +2493,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the currency property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Currency }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Currency getCurrency()
          {
@@ -2506,11 +2506,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the currency property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Currency }
-          *     
+          *
           */
          public void setCurrency(Project.Layouts.GanttLayout.Currency value)
          {
@@ -2519,11 +2519,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the timescale property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Timescale }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Timescale getTimescale()
          {
@@ -2532,11 +2532,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the timescale property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Timescale }
-          *     
+          *
           */
          public void setTimescale(Project.Layouts.GanttLayout.Timescale value)
          {
@@ -2545,11 +2545,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the bars property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Bars }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Bars getBars()
          {
@@ -2558,11 +2558,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the bars property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Bars }
-          *     
+          *
           */
          public void setBars(Project.Layouts.GanttLayout.Bars value)
          {
@@ -2571,11 +2571,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the codeOptions property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.CodeOptions }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.CodeOptions getCodeOptions()
          {
@@ -2584,11 +2584,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the codeOptions property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.CodeOptions }
-          *     
+          *
           */
          public void setCodeOptions(Project.Layouts.GanttLayout.CodeOptions value)
          {
@@ -2597,11 +2597,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the sort property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Sort }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Sort getSort()
          {
@@ -2610,11 +2610,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the sort property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Sort }
-          *     
+          *
           */
          public void setSort(Project.Layouts.GanttLayout.Sort value)
          {
@@ -2623,11 +2623,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the columns property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Columns }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Columns getColumns()
          {
@@ -2636,11 +2636,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the columns property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Columns }
-          *     
+          *
           */
          public void setColumns(Project.Layouts.GanttLayout.Columns value)
          {
@@ -2649,11 +2649,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the comparisons property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.GanttLayout.Comparisons }
-          *     
+          *
           */
          public Project.Layouts.GanttLayout.Comparisons getComparisons()
          {
@@ -2662,11 +2662,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the comparisons property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.GanttLayout.Comparisons }
-          *     
+          *
           */
          public void setComparisons(Project.Layouts.GanttLayout.Comparisons value)
          {
@@ -2675,11 +2675,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the activeStorepoint property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActiveStorepoint()
          {
@@ -2688,11 +2688,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the activeStorepoint property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActiveStorepoint(String value)
          {
@@ -2701,11 +2701,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the autoRowSizing property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getAutoRowSizing()
          {
@@ -2714,11 +2714,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the autoRowSizing property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setAutoRowSizing(String value)
          {
@@ -2727,11 +2727,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the baseline property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getBaseline()
          {
@@ -2740,11 +2740,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the baseline property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBaseline(String value)
          {
@@ -2753,11 +2753,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalBarOutlines property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalBarOutlines()
          {
@@ -2766,11 +2766,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalBarOutlines property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalBarOutlines(String value)
          {
@@ -2779,11 +2779,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalBars property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalBars()
          {
@@ -2792,11 +2792,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalBars property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalBars(String value)
          {
@@ -2805,11 +2805,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalColor property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalColor()
          {
@@ -2818,11 +2818,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalColor property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalColor(String value)
          {
@@ -2831,11 +2831,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalMilestones property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalMilestones()
          {
@@ -2844,11 +2844,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalMilestones property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalMilestones(String value)
          {
@@ -2857,11 +2857,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalRelationships()
          {
@@ -2870,11 +2870,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalRelationships(String value)
          {
@@ -2883,11 +2883,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalTasks property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalTasks()
          {
@@ -2896,11 +2896,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalTasks property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalTasks(String value)
          {
@@ -2909,11 +2909,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalThreshold property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getCriticalThreshold()
          {
@@ -2922,11 +2922,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalThreshold property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalThreshold(Integer value)
          {
@@ -2935,11 +2935,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalityMethod property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalityMethod()
          {
@@ -2948,11 +2948,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalityMethod property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalityMethod(String value)
          {
@@ -2961,11 +2961,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the customRowSize property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getCustomRowSize()
          {
@@ -2974,11 +2974,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the customRowSize property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCustomRowSize(Integer value)
          {
@@ -2987,11 +2987,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the groupHeadings property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getGroupHeadings()
          {
@@ -3000,11 +3000,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the groupHeadings property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setGroupHeadings(String value)
          {
@@ -3013,11 +3013,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the groupSummaryCells property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getGroupSummaryCells()
          {
@@ -3026,11 +3026,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the groupSummaryCells property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setGroupSummaryCells(String value)
          {
@@ -3039,11 +3039,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -3052,11 +3052,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -3065,11 +3065,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the rowBackground property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRowBackground()
          {
@@ -3078,11 +3078,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the rowBackground property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRowBackground(String value)
          {
@@ -3091,11 +3091,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the rowFont property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRowFont()
          {
@@ -3104,11 +3104,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the rowFont property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRowFont(String value)
          {
@@ -3117,11 +3117,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the rowForeground property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRowForeground()
          {
@@ -3130,11 +3130,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the rowForeground property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRowForeground(String value)
          {
@@ -3143,11 +3143,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the rowGridLinesColor property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRowGridLinesColor()
          {
@@ -3156,11 +3156,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the rowGridLinesColor property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRowGridLinesColor(String value)
          {
@@ -3169,11 +3169,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showNondrivingRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowNondrivingRelationships()
          {
@@ -3182,11 +3182,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showNondrivingRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowNondrivingRelationships(String value)
          {
@@ -3195,11 +3195,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showOnlyCritical property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowOnlyCritical()
          {
@@ -3208,11 +3208,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showOnlyCritical property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowOnlyCritical(String value)
          {
@@ -3221,11 +3221,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowRelationships()
          {
@@ -3234,11 +3234,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowRelationships(String value)
          {
@@ -3247,11 +3247,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showRetainedLogicRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowRetainedLogicRelationships()
          {
@@ -3260,11 +3260,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showRetainedLogicRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowRetainedLogicRelationships(String value)
          {
@@ -3273,11 +3273,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the trackNewest property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getTrackNewest()
          {
@@ -3286,11 +3286,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the trackNewest property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setTrackNewest(String value)
          {
@@ -3299,11 +3299,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the uuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public UUID getUuid()
          {
@@ -3312,11 +3312,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the uuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUuid(UUID value)
          {
@@ -3325,11 +3325,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the workRemaining property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWorkRemaining()
          {
@@ -3338,11 +3338,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the workRemaining property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkRemaining(String value)
          {
@@ -3351,9 +3351,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -3402,8 +3402,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -3415,25 +3415,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the bar property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the bar property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getBar().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.GanttLayout.Bars.Bar }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.GanttLayout.Bars.Bar> getBar()
             {
@@ -3446,9 +3446,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -3487,8 +3487,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -3513,25 +3513,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the barPoint property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the barPoint property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getBarPoint().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Layouts.GanttLayout.Bars.Bar.BarPoint }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Layouts.GanttLayout.Bars.Bar.BarPoint> getBarPoint()
                {
@@ -3544,11 +3544,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushBackgroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushBackgroundColor()
                {
@@ -3557,11 +3557,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushBackgroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushBackgroundColor(String value)
                {
@@ -3570,11 +3570,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushForegroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushForegroundColor()
                {
@@ -3583,11 +3583,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushForegroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushForegroundColor(String value)
                {
@@ -3596,11 +3596,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushHatch property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushHatch()
                {
@@ -3609,11 +3609,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushHatch property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushHatch(String value)
                {
@@ -3622,11 +3622,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushStyle property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushStyle()
                {
@@ -3635,11 +3635,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushStyle property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushStyle(String value)
                {
@@ -3648,11 +3648,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the colorOverrides property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getColorOverrides()
                {
@@ -3661,11 +3661,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the colorOverrides property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setColorOverrides(String value)
                {
@@ -3674,11 +3674,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the comparisonTemplate property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getComparisonTemplate()
                {
@@ -3687,11 +3687,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the comparisonTemplate property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setComparisonTemplate(String value)
                {
@@ -3700,11 +3700,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the filterUuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getFilterUuid()
                {
@@ -3713,11 +3713,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the filterUuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFilterUuid(UUID value)
                {
@@ -3726,11 +3726,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the height property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getHeight()
                {
@@ -3739,11 +3739,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the height property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setHeight(Integer value)
                {
@@ -3752,11 +3752,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -3765,11 +3765,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -3778,11 +3778,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the row property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getRow()
                {
@@ -3791,11 +3791,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the row property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRow(Integer value)
                {
@@ -3804,11 +3804,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the storepointFilter property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getStorepointFilter()
                {
@@ -3817,11 +3817,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the storepointFilter property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setStorepointFilter(String value)
                {
@@ -3830,11 +3830,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the style property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getStyle()
                {
@@ -3843,11 +3843,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the style property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setStyle(String value)
                {
@@ -3856,11 +3856,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the visible property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getVisible()
                {
@@ -3869,11 +3869,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the visible property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setVisible(String value)
                {
@@ -3882,9 +3882,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -3900,8 +3900,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class BarPoint
                {
@@ -3916,11 +3916,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the brushColor property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getBrushColor()
                   {
@@ -3929,11 +3929,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the brushColor property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setBrushColor(String value)
                   {
@@ -3942,11 +3942,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the brushStyle property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getBrushStyle()
                   {
@@ -3955,11 +3955,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the brushStyle property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setBrushStyle(String value)
                   {
@@ -3968,11 +3968,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the colorOverrides property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getColorOverrides()
                   {
@@ -3981,11 +3981,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the colorOverrides property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setColorOverrides(String value)
                   {
@@ -3994,11 +3994,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the endpointStyle property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getEndpointStyle()
                   {
@@ -4007,11 +4007,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the endpointStyle property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setEndpointStyle(String value)
                   {
@@ -4020,11 +4020,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the expression property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getExpression()
                   {
@@ -4033,11 +4033,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the expression property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setExpression(String value)
                   {
@@ -4046,11 +4046,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the relatable property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getRelatable()
                   {
@@ -4059,11 +4059,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the relatable property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setRelatable(String value)
                   {
@@ -4072,11 +4072,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the type property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getType()
                   {
@@ -4085,11 +4085,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the type property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setType(String value)
                   {
@@ -4104,9 +4104,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -4130,8 +4130,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -4143,25 +4143,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the codeOption property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the codeOption property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getCodeOption().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.GanttLayout.CodeOptions.CodeOption }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.GanttLayout.CodeOptions.CodeOption> getCodeOption()
             {
@@ -4174,9 +4174,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -4190,8 +4190,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class CodeOption
             {
@@ -4204,11 +4204,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the codeUuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getCodeUuid()
                {
@@ -4217,11 +4217,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the codeUuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCodeUuid(UUID value)
                {
@@ -4230,11 +4230,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the color property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getColor()
                {
@@ -4243,11 +4243,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the color property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setColor(String value)
                {
@@ -4256,11 +4256,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the font property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFont()
                {
@@ -4269,11 +4269,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the font property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFont(String value)
                {
@@ -4282,11 +4282,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontColor()
                {
@@ -4295,11 +4295,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontColor(String value)
                {
@@ -4308,11 +4308,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the shown property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public Boolean isShown()
                {
@@ -4321,11 +4321,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the shown property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public void setShown(Boolean value)
                {
@@ -4338,9 +4338,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -4367,8 +4367,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -4385,25 +4385,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the column property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the column property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getColumn().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.GanttLayout.Columns.Column }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.GanttLayout.Columns.Column> getColumn()
             {
@@ -4416,11 +4416,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the backgroundColor property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getBackgroundColor()
             {
@@ -4429,11 +4429,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the backgroundColor property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBackgroundColor(String value)
             {
@@ -4442,11 +4442,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the fontColor property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFontColor()
             {
@@ -4455,11 +4455,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the fontColor property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFontColor(String value)
             {
@@ -4468,11 +4468,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the font property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFont()
             {
@@ -4481,11 +4481,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the font property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFont(String value)
             {
@@ -4494,11 +4494,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the verticalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getVerticalAlign()
             {
@@ -4507,11 +4507,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the verticalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setVerticalAlign(String value)
             {
@@ -4520,11 +4520,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the horizontalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getHorizontalAlign()
             {
@@ -4533,11 +4533,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the horizontalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setHorizontalAlign(String value)
             {
@@ -4546,9 +4546,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -4560,8 +4560,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Column
             {
@@ -4572,11 +4572,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the label property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getLabel()
                {
@@ -4585,11 +4585,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the label property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLabel(String value)
                {
@@ -4598,11 +4598,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the width property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getWidth()
                {
@@ -4611,11 +4611,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the width property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setWidth(Integer value)
                {
@@ -4624,11 +4624,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the data property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getData()
                {
@@ -4637,11 +4637,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the data property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setData(String value)
                {
@@ -4654,9 +4654,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -4680,8 +4680,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -4695,11 +4695,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the comparison property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link Project.Layouts.GanttLayout.Comparisons.Comparison }
-             *     
+             *
              */
             public Project.Layouts.GanttLayout.Comparisons.Comparison getComparison()
             {
@@ -4708,11 +4708,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the comparison property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link Project.Layouts.GanttLayout.Comparisons.Comparison }
-             *     
+             *
              */
             public void setComparison(Project.Layouts.GanttLayout.Comparisons.Comparison value)
             {
@@ -4721,11 +4721,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the matchBy property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getMatchBy()
             {
@@ -4734,11 +4734,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the matchBy property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setMatchBy(String value)
             {
@@ -4747,11 +4747,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the rowFormatting property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getRowFormatting()
             {
@@ -4760,11 +4760,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the rowFormatting property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setRowFormatting(String value)
             {
@@ -4773,9 +4773,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -4787,8 +4787,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Comparison
             {
@@ -4799,11 +4799,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the color property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getColor()
                {
@@ -4812,11 +4812,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the color property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setColor(String value)
                {
@@ -4825,11 +4825,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the listName property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getListName()
                {
@@ -4838,11 +4838,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the listName property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setListName(String value)
                {
@@ -4851,11 +4851,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the uuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getUuid()
                {
@@ -4864,11 +4864,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the uuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUuid(UUID value)
                {
@@ -4881,9 +4881,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -4897,8 +4897,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Currency
          {
@@ -4911,11 +4911,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the decimal property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDecimal()
             {
@@ -4924,11 +4924,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the decimal property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDecimal(String value)
             {
@@ -4937,11 +4937,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the digits property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getDigits()
             {
@@ -4950,11 +4950,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the digits property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDigits(Integer value)
             {
@@ -4963,11 +4963,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the position property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getPosition()
             {
@@ -4976,11 +4976,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the position property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setPosition(Integer value)
             {
@@ -4989,11 +4989,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the symbol property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getSymbol()
             {
@@ -5002,11 +5002,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the symbol property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setSymbol(String value)
             {
@@ -5015,11 +5015,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the thousands property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getThousands()
             {
@@ -5028,11 +5028,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the thousands property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setThousands(String value)
             {
@@ -5043,9 +5043,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -5060,8 +5060,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class DateFormat
          {
@@ -5075,11 +5075,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the dateSeparator property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDateSeparator()
             {
@@ -5088,11 +5088,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the dateSeparator property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDateSeparator(String value)
             {
@@ -5101,11 +5101,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the fullYear property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFullYear()
             {
@@ -5114,11 +5114,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the fullYear property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFullYear(String value)
             {
@@ -5127,11 +5127,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the military property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getMilitary()
             {
@@ -5140,11 +5140,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the military property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setMilitary(String value)
             {
@@ -5153,11 +5153,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the monthFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getMonthFormat()
             {
@@ -5166,11 +5166,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the monthFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setMonthFormat(String value)
             {
@@ -5179,11 +5179,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the order property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getOrder()
             {
@@ -5192,11 +5192,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the order property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setOrder(String value)
             {
@@ -5205,11 +5205,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the timeSeparator property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getTimeSeparator()
             {
@@ -5218,11 +5218,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the timeSeparator property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setTimeSeparator(String value)
             {
@@ -5233,9 +5233,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -5263,8 +5263,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class PageLayout
          {
@@ -5291,11 +5291,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the buffer property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getBuffer()
             {
@@ -5304,11 +5304,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the buffer property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBuffer(Integer value)
             {
@@ -5317,11 +5317,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the customFinishDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCustomFinishDate()
             {
@@ -5330,11 +5330,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the customFinishDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCustomFinishDate(String value)
             {
@@ -5343,11 +5343,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the customStartDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCustomStartDate()
             {
@@ -5356,11 +5356,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the customStartDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCustomStartDate(String value)
             {
@@ -5369,11 +5369,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the description property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescription()
             {
@@ -5382,11 +5382,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the description property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescription(String value)
             {
@@ -5395,11 +5395,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionFont property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionFont()
             {
@@ -5408,11 +5408,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionFont property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionFont(String value)
             {
@@ -5421,11 +5421,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionForeground property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionForeground()
             {
@@ -5434,11 +5434,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionForeground property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionForeground(String value)
             {
@@ -5447,11 +5447,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionHorizontalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionHorizontalAlign()
             {
@@ -5460,11 +5460,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionHorizontalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionHorizontalAlign(String value)
             {
@@ -5473,11 +5473,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionVerticalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionVerticalAlign()
             {
@@ -5486,11 +5486,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionVerticalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionVerticalAlign(String value)
             {
@@ -5499,11 +5499,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the fitPages property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getFitPages()
             {
@@ -5512,11 +5512,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the fitPages property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFitPages(Integer value)
             {
@@ -5525,11 +5525,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the footerLocation property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFooterLocation()
             {
@@ -5538,11 +5538,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the footerLocation property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFooterLocation(String value)
             {
@@ -5551,11 +5551,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the footerPages property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFooterPages()
             {
@@ -5564,11 +5564,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the footerPages property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFooterPages(String value)
             {
@@ -5577,11 +5577,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the rangeFinish property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getRangeFinish()
             {
@@ -5590,11 +5590,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the rangeFinish property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setRangeFinish(String value)
             {
@@ -5603,11 +5603,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the rangeStart property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getRangeStart()
             {
@@ -5616,11 +5616,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the rangeStart property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setRangeStart(String value)
             {
@@ -5629,11 +5629,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showDataDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowDataDate()
             {
@@ -5642,11 +5642,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showDataDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowDataDate(String value)
             {
@@ -5655,11 +5655,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showFilename property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowFilename()
             {
@@ -5668,11 +5668,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showFilename property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowFilename(String value)
             {
@@ -5681,11 +5681,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showFinishDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowFinishDate()
             {
@@ -5694,11 +5694,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showFinishDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowFinishDate(String value)
             {
@@ -5707,11 +5707,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showRunDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowRunDate()
             {
@@ -5720,11 +5720,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showRunDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowRunDate(String value)
             {
@@ -5733,11 +5733,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showStartDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowStartDate()
             {
@@ -5746,11 +5746,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showStartDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowStartDate(String value)
             {
@@ -5759,11 +5759,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the userScale property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getUserScale()
             {
@@ -5772,11 +5772,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the userScale property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setUserScale(Integer value)
             {
@@ -5787,9 +5787,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -5810,8 +5810,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -5823,11 +5823,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the sortColumn property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link Project.Layouts.GanttLayout.Sort.SortColumn }
-             *     
+             *
              */
             public Project.Layouts.GanttLayout.Sort.SortColumn getSortColumn()
             {
@@ -5836,11 +5836,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the sortColumn property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link Project.Layouts.GanttLayout.Sort.SortColumn }
-             *     
+             *
              */
             public void setSortColumn(Project.Layouts.GanttLayout.Sort.SortColumn value)
             {
@@ -5849,9 +5849,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -5862,8 +5862,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class SortColumn
             {
@@ -5873,11 +5873,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the ascending property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getAscending()
                {
@@ -5886,11 +5886,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the ascending property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAscending(String value)
                {
@@ -5899,11 +5899,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the data property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getData()
                {
@@ -5912,11 +5912,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the data property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setData(String value)
                {
@@ -5929,9 +5929,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -5956,8 +5956,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -5969,25 +5969,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the tier property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the tier property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getTier().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.GanttLayout.Timescale.Tier }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.GanttLayout.Timescale.Tier> getTier()
             {
@@ -6000,9 +6000,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -6017,8 +6017,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Tier
             {
@@ -6032,11 +6032,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the backgroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBackgroundColor()
                {
@@ -6045,11 +6045,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the backgroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBackgroundColor(String value)
                {
@@ -6058,11 +6058,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the font property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFont()
                {
@@ -6071,11 +6071,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the font property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFont(String value)
                {
@@ -6084,11 +6084,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontColor()
                {
@@ -6097,11 +6097,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontColor(String value)
                {
@@ -6110,11 +6110,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the level property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getLevel()
                {
@@ -6123,11 +6123,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the level property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLevel(Integer value)
                {
@@ -6136,11 +6136,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the show property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getShow()
                {
@@ -6149,11 +6149,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the show property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setShow(String value)
                {
@@ -6162,11 +6162,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the unit property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getUnit()
                {
@@ -6175,11 +6175,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the unit property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUnit(String value)
                {
@@ -6194,9 +6194,9 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -6451,8 +6451,8 @@ import net.sf.mpxj.TimeUnit;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -6498,11 +6498,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the dateFormat property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.DateFormat }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.DateFormat getDateFormat()
          {
@@ -6511,11 +6511,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the dateFormat property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.DateFormat }
-          *     
+          *
           */
          public void setDateFormat(Project.Layouts.NetworkLayout.DateFormat value)
          {
@@ -6524,11 +6524,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the pageLayout property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.PageLayout }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.PageLayout getPageLayout()
          {
@@ -6537,11 +6537,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the pageLayout property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.PageLayout }
-          *     
+          *
           */
          public void setPageLayout(Project.Layouts.NetworkLayout.PageLayout value)
          {
@@ -6550,11 +6550,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the currency property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.Currency }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.Currency getCurrency()
          {
@@ -6563,11 +6563,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the currency property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.Currency }
-          *     
+          *
           */
          public void setCurrency(Project.Layouts.NetworkLayout.Currency value)
          {
@@ -6576,11 +6576,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the timescale property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.Timescale }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.Timescale getTimescale()
          {
@@ -6589,11 +6589,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the timescale property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.Timescale }
-          *     
+          *
           */
          public void setTimescale(Project.Layouts.NetworkLayout.Timescale value)
          {
@@ -6602,11 +6602,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the bars property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.Bars }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.Bars getBars()
          {
@@ -6615,11 +6615,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the bars property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.Bars }
-          *     
+          *
           */
          public void setBars(Project.Layouts.NetworkLayout.Bars value)
          {
@@ -6628,11 +6628,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the codeOptions property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.CodeOptions }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.CodeOptions getCodeOptions()
          {
@@ -6641,11 +6641,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the codeOptions property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.CodeOptions }
-          *     
+          *
           */
          public void setCodeOptions(Project.Layouts.NetworkLayout.CodeOptions value)
          {
@@ -6654,11 +6654,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the networkLines property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.NetworkLines }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.NetworkLines getNetworkLines()
          {
@@ -6667,11 +6667,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the networkLines property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.NetworkLines }
-          *     
+          *
           */
          public void setNetworkLines(Project.Layouts.NetworkLayout.NetworkLines value)
          {
@@ -6680,11 +6680,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the networkStartNodeDates property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.NetworkStartNodeDates }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.NetworkStartNodeDates getNetworkStartNodeDates()
          {
@@ -6693,11 +6693,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the networkStartNodeDates property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.NetworkStartNodeDates }
-          *     
+          *
           */
          public void setNetworkStartNodeDates(Project.Layouts.NetworkLayout.NetworkStartNodeDates value)
          {
@@ -6706,11 +6706,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the networkFinishNodeDates property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Layouts.NetworkLayout.NetworkFinishNodeDates }
-          *     
+          *
           */
          public Project.Layouts.NetworkLayout.NetworkFinishNodeDates getNetworkFinishNodeDates()
          {
@@ -6719,11 +6719,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the networkFinishNodeDates property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Layouts.NetworkLayout.NetworkFinishNodeDates }
-          *     
+          *
           */
          public void setNetworkFinishNodeDates(Project.Layouts.NetworkLayout.NetworkFinishNodeDates value)
          {
@@ -6732,11 +6732,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -6745,11 +6745,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -6758,11 +6758,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the activeStorepoint property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getActiveStorepoint()
          {
@@ -6771,11 +6771,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the activeStorepoint property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setActiveStorepoint(String value)
          {
@@ -6784,11 +6784,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the baseline property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getBaseline()
          {
@@ -6797,11 +6797,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the baseline property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setBaseline(String value)
          {
@@ -6810,11 +6810,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalBarOutlines property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalBarOutlines()
          {
@@ -6823,11 +6823,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalBarOutlines property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalBarOutlines(String value)
          {
@@ -6836,11 +6836,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalBars property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalBars()
          {
@@ -6849,11 +6849,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalBars property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalBars(String value)
          {
@@ -6862,11 +6862,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalColor property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalColor()
          {
@@ -6875,11 +6875,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalColor property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalColor(String value)
          {
@@ -6888,11 +6888,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalMilestones property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalMilestones()
          {
@@ -6901,11 +6901,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalMilestones property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalMilestones(String value)
          {
@@ -6914,11 +6914,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalRelationships()
          {
@@ -6927,11 +6927,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalRelationships(String value)
          {
@@ -6940,11 +6940,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalTasks property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalTasks()
          {
@@ -6953,11 +6953,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalTasks property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalTasks(String value)
          {
@@ -6966,11 +6966,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalThreshold property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getCriticalThreshold()
          {
@@ -6979,11 +6979,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalThreshold property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalThreshold(Integer value)
          {
@@ -6992,11 +6992,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the criticalityMethod property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getCriticalityMethod()
          {
@@ -7005,11 +7005,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the criticalityMethod property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCriticalityMethod(String value)
          {
@@ -7018,11 +7018,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showNondrivingRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowNondrivingRelationships()
          {
@@ -7031,11 +7031,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showNondrivingRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowNondrivingRelationships(String value)
          {
@@ -7044,11 +7044,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showOnlyCritical property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowOnlyCritical()
          {
@@ -7057,11 +7057,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showOnlyCritical property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowOnlyCritical(String value)
          {
@@ -7070,11 +7070,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowRelationships()
          {
@@ -7083,11 +7083,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowRelationships(String value)
          {
@@ -7096,11 +7096,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the showRetainedLogicRelationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getShowRetainedLogicRelationships()
          {
@@ -7109,11 +7109,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the showRetainedLogicRelationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setShowRetainedLogicRelationships(String value)
          {
@@ -7122,11 +7122,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the trackNewest property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getTrackNewest()
          {
@@ -7135,11 +7135,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the trackNewest property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setTrackNewest(String value)
          {
@@ -7148,11 +7148,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the uuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public UUID getUuid()
          {
@@ -7161,11 +7161,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the uuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUuid(UUID value)
          {
@@ -7174,11 +7174,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the workRemaining property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getWorkRemaining()
          {
@@ -7187,11 +7187,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the workRemaining property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setWorkRemaining(String value)
          {
@@ -7200,9 +7200,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -7251,8 +7251,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -7264,25 +7264,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the bar property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the bar property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getBar().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.Bars.Bar }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.Bars.Bar> getBar()
             {
@@ -7295,9 +7295,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -7336,8 +7336,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -7362,25 +7362,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the barPoint property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the barPoint property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getBarPoint().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Layouts.NetworkLayout.Bars.Bar.BarPoint }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Layouts.NetworkLayout.Bars.Bar.BarPoint> getBarPoint()
                {
@@ -7393,11 +7393,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushBackgroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushBackgroundColor()
                {
@@ -7406,11 +7406,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushBackgroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushBackgroundColor(String value)
                {
@@ -7419,11 +7419,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushForegroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushForegroundColor()
                {
@@ -7432,11 +7432,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushForegroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushForegroundColor(String value)
                {
@@ -7445,11 +7445,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushHatch property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushHatch()
                {
@@ -7458,11 +7458,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushHatch property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushHatch(String value)
                {
@@ -7471,11 +7471,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the brushStyle property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBrushStyle()
                {
@@ -7484,11 +7484,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the brushStyle property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBrushStyle(String value)
                {
@@ -7497,11 +7497,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the colorOverrides property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getColorOverrides()
                {
@@ -7510,11 +7510,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the colorOverrides property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setColorOverrides(String value)
                {
@@ -7523,11 +7523,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the comparisonTemplate property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getComparisonTemplate()
                {
@@ -7536,11 +7536,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the comparisonTemplate property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setComparisonTemplate(String value)
                {
@@ -7549,11 +7549,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the filterUuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFilterUuid()
                {
@@ -7562,11 +7562,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the filterUuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFilterUuid(String value)
                {
@@ -7575,11 +7575,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the height property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getHeight()
                {
@@ -7588,11 +7588,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the height property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setHeight(Integer value)
                {
@@ -7601,11 +7601,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -7614,11 +7614,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -7627,11 +7627,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the row property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getRow()
                {
@@ -7640,11 +7640,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the row property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRow(Integer value)
                {
@@ -7653,11 +7653,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the storepointFilter property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getStorepointFilter()
                {
@@ -7666,11 +7666,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the storepointFilter property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setStorepointFilter(String value)
                {
@@ -7679,11 +7679,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the style property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getStyle()
                {
@@ -7692,11 +7692,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the style property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setStyle(String value)
                {
@@ -7705,11 +7705,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the visible property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getVisible()
                {
@@ -7718,11 +7718,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the visible property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setVisible(String value)
                {
@@ -7731,9 +7731,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -7749,8 +7749,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class BarPoint
                {
@@ -7765,11 +7765,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the brushColor property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getBrushColor()
                   {
@@ -7778,11 +7778,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the brushColor property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setBrushColor(String value)
                   {
@@ -7791,11 +7791,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the brushStyle property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getBrushStyle()
                   {
@@ -7804,11 +7804,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the brushStyle property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setBrushStyle(String value)
                   {
@@ -7817,11 +7817,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the colorOverrides property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getColorOverrides()
                   {
@@ -7830,11 +7830,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the colorOverrides property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setColorOverrides(String value)
                   {
@@ -7843,11 +7843,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the endpointStyle property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getEndpointStyle()
                   {
@@ -7856,11 +7856,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the endpointStyle property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setEndpointStyle(String value)
                   {
@@ -7869,11 +7869,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the expression property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getExpression()
                   {
@@ -7882,11 +7882,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the expression property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setExpression(String value)
                   {
@@ -7895,11 +7895,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the relatable property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getRelatable()
                   {
@@ -7908,11 +7908,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the relatable property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setRelatable(String value)
                   {
@@ -7921,11 +7921,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the type property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getType()
                   {
@@ -7934,11 +7934,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the type property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setType(String value)
                   {
@@ -7953,9 +7953,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -7982,8 +7982,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -7998,25 +7998,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the codeOption property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the codeOption property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getCodeOption().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.CodeOptions.CodeOption }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.CodeOptions.CodeOption> getCodeOption()
             {
@@ -8029,11 +8029,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the networkLabelsVisible property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getNetworkLabelsVisible()
             {
@@ -8042,11 +8042,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the networkLabelsVisible property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setNetworkLabelsVisible(String value)
             {
@@ -8055,11 +8055,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the networkOutlinesVisible property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getNetworkOutlinesVisible()
             {
@@ -8068,11 +8068,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the networkOutlinesVisible property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setNetworkOutlinesVisible(String value)
             {
@@ -8081,11 +8081,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the networkBackgroundsVisible property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getNetworkBackgroundsVisible()
             {
@@ -8094,11 +8094,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the networkBackgroundsVisible property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setNetworkBackgroundsVisible(String value)
             {
@@ -8107,9 +8107,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -8123,8 +8123,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class CodeOption
             {
@@ -8137,11 +8137,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the shown property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public Boolean isShown()
                {
@@ -8150,11 +8150,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the shown property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public void setShown(Boolean value)
                {
@@ -8163,11 +8163,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the color property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getColor()
                {
@@ -8176,11 +8176,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the color property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setColor(String value)
                {
@@ -8189,11 +8189,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the codeUuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getCodeUuid()
                {
@@ -8202,11 +8202,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the codeUuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCodeUuid(UUID value)
                {
@@ -8215,11 +8215,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontColor()
                {
@@ -8228,11 +8228,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontColor(String value)
                {
@@ -8241,11 +8241,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the font property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFont()
                {
@@ -8254,11 +8254,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the font property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFont(String value)
                {
@@ -8271,9 +8271,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -8287,8 +8287,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Currency
          {
@@ -8301,11 +8301,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the decimal property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDecimal()
             {
@@ -8314,11 +8314,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the decimal property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDecimal(String value)
             {
@@ -8327,11 +8327,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the digits property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getDigits()
             {
@@ -8340,11 +8340,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the digits property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDigits(Integer value)
             {
@@ -8353,11 +8353,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the position property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getPosition()
             {
@@ -8366,11 +8366,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the position property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setPosition(Integer value)
             {
@@ -8379,11 +8379,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the symbol property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getSymbol()
             {
@@ -8392,11 +8392,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the symbol property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setSymbol(String value)
             {
@@ -8405,11 +8405,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the thousands property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getThousands()
             {
@@ -8418,11 +8418,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the thousands property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setThousands(String value)
             {
@@ -8433,9 +8433,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -8450,8 +8450,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class DateFormat
          {
@@ -8465,11 +8465,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the order property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getOrder()
             {
@@ -8478,11 +8478,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the order property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setOrder(String value)
             {
@@ -8491,11 +8491,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the military property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getMilitary()
             {
@@ -8504,11 +8504,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the military property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setMilitary(String value)
             {
@@ -8517,11 +8517,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the dateSeparator property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDateSeparator()
             {
@@ -8530,11 +8530,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the dateSeparator property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDateSeparator(String value)
             {
@@ -8543,11 +8543,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the timeSeparator property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getTimeSeparator()
             {
@@ -8556,11 +8556,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the timeSeparator property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setTimeSeparator(String value)
             {
@@ -8569,11 +8569,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the fullYear property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFullYear()
             {
@@ -8582,11 +8582,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the fullYear property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFullYear(String value)
             {
@@ -8595,11 +8595,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the monthFormat property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getMonthFormat()
             {
@@ -8608,11 +8608,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the monthFormat property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setMonthFormat(String value)
             {
@@ -8623,9 +8623,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -8653,8 +8653,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -8666,25 +8666,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the nodeDate property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the nodeDate property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getNodeDate().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.NetworkFinishNodeDates.NodeDate }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.NetworkFinishNodeDates.NodeDate> getNodeDate()
             {
@@ -8697,9 +8697,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -8717,8 +8717,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class NodeDate
             {
@@ -8735,11 +8735,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the alignment property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getAlignment()
                {
@@ -8748,11 +8748,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the alignment property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAlignment(String value)
                {
@@ -8761,11 +8761,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontface property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontface()
                {
@@ -8774,11 +8774,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontface property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontface(String value)
                {
@@ -8787,11 +8787,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontfamily property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontfamily()
                {
@@ -8800,11 +8800,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontfamily property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontfamily(String value)
                {
@@ -8813,11 +8813,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontpoint property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getFontpoint()
                {
@@ -8826,11 +8826,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontpoint property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontpoint(Integer value)
                {
@@ -8839,11 +8839,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontstyle property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontstyle()
                {
@@ -8852,11 +8852,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontstyle property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontstyle(String value)
                {
@@ -8865,11 +8865,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontunderline property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontunderline()
                {
@@ -8878,11 +8878,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontunderline property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontunderline(String value)
                {
@@ -8891,11 +8891,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontweight property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontweight()
                {
@@ -8904,11 +8904,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontweight property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontweight(String value)
                {
@@ -8917,11 +8917,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the foregroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getForegroundColor()
                {
@@ -8930,11 +8930,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the foregroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setForegroundColor(String value)
                {
@@ -8943,11 +8943,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the id property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getId()
                {
@@ -8956,11 +8956,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the id property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setId(Integer value)
                {
@@ -8973,9 +8973,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -8996,8 +8996,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -9009,25 +9009,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the networkActivity property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the networkActivity property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getNetworkActivity().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.NetworkLines.NetworkActivity }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.NetworkLines.NetworkActivity> getNetworkActivity()
             {
@@ -9040,9 +9040,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -9053,8 +9053,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class NetworkActivity
             {
@@ -9064,11 +9064,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the line property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getLine()
                {
@@ -9077,11 +9077,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the line property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLine(Integer value)
                {
@@ -9090,11 +9090,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the uuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getUuid()
                {
@@ -9103,11 +9103,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the uuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUuid(UUID value)
                {
@@ -9120,9 +9120,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -9150,8 +9150,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -9163,25 +9163,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the nodeDate property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the nodeDate property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getNodeDate().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.NetworkStartNodeDates.NodeDate }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.NetworkStartNodeDates.NodeDate> getNodeDate()
             {
@@ -9194,9 +9194,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -9214,8 +9214,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class NodeDate
             {
@@ -9232,11 +9232,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the alignment property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getAlignment()
                {
@@ -9245,11 +9245,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the alignment property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setAlignment(String value)
                {
@@ -9258,11 +9258,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontface property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontface()
                {
@@ -9271,11 +9271,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontface property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontface(String value)
                {
@@ -9284,11 +9284,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontfamily property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontfamily()
                {
@@ -9297,11 +9297,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontfamily property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontfamily(String value)
                {
@@ -9310,11 +9310,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontpoint property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getFontpoint()
                {
@@ -9323,11 +9323,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontpoint property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontpoint(Integer value)
                {
@@ -9336,11 +9336,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontstyle property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontstyle()
                {
@@ -9349,11 +9349,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontstyle property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontstyle(String value)
                {
@@ -9362,11 +9362,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontunderline property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontunderline()
                {
@@ -9375,11 +9375,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontunderline property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontunderline(String value)
                {
@@ -9388,11 +9388,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontweight property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontweight()
                {
@@ -9401,11 +9401,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontweight property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontweight(String value)
                {
@@ -9414,11 +9414,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the foregroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getForegroundColor()
                {
@@ -9427,11 +9427,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the foregroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setForegroundColor(String value)
                {
@@ -9440,11 +9440,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the id property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getId()
                {
@@ -9453,11 +9453,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the id property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setId(Integer value)
                {
@@ -9470,9 +9470,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -9500,8 +9500,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class PageLayout
          {
@@ -9528,11 +9528,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the rangeStart property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getRangeStart()
             {
@@ -9541,11 +9541,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the rangeStart property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setRangeStart(String value)
             {
@@ -9554,11 +9554,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the rangeFinish property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getRangeFinish()
             {
@@ -9567,11 +9567,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the rangeFinish property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setRangeFinish(String value)
             {
@@ -9580,11 +9580,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the customFinishDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCustomFinishDate()
             {
@@ -9593,11 +9593,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the customFinishDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCustomFinishDate(String value)
             {
@@ -9606,11 +9606,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the fitPages property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getFitPages()
             {
@@ -9619,11 +9619,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the fitPages property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFitPages(Integer value)
             {
@@ -9632,11 +9632,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the userScale property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getUserScale()
             {
@@ -9645,11 +9645,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the userScale property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setUserScale(Integer value)
             {
@@ -9658,11 +9658,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the buffer property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public Integer getBuffer()
             {
@@ -9671,11 +9671,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the buffer property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setBuffer(Integer value)
             {
@@ -9684,11 +9684,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the footerLocation property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFooterLocation()
             {
@@ -9697,11 +9697,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the footerLocation property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFooterLocation(String value)
             {
@@ -9710,11 +9710,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the footerPages property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getFooterPages()
             {
@@ -9723,11 +9723,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the footerPages property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setFooterPages(String value)
             {
@@ -9736,11 +9736,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the description property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescription()
             {
@@ -9749,11 +9749,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the description property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescription(String value)
             {
@@ -9762,11 +9762,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the customStartDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getCustomStartDate()
             {
@@ -9775,11 +9775,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the customStartDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setCustomStartDate(String value)
             {
@@ -9788,11 +9788,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionFont property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionFont()
             {
@@ -9801,11 +9801,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionFont property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionFont(String value)
             {
@@ -9814,11 +9814,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionForeground property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionForeground()
             {
@@ -9827,11 +9827,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionForeground property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionForeground(String value)
             {
@@ -9840,11 +9840,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionHorizontalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionHorizontalAlign()
             {
@@ -9853,11 +9853,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionHorizontalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionHorizontalAlign(String value)
             {
@@ -9866,11 +9866,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the descriptionVerticalAlign property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getDescriptionVerticalAlign()
             {
@@ -9879,11 +9879,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the descriptionVerticalAlign property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setDescriptionVerticalAlign(String value)
             {
@@ -9892,11 +9892,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showDataDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowDataDate()
             {
@@ -9905,11 +9905,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showDataDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowDataDate(String value)
             {
@@ -9918,11 +9918,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showFilename property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowFilename()
             {
@@ -9931,11 +9931,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showFilename property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowFilename(String value)
             {
@@ -9944,11 +9944,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showFinishDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowFinishDate()
             {
@@ -9957,11 +9957,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showFinishDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowFinishDate(String value)
             {
@@ -9970,11 +9970,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showRunDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowRunDate()
             {
@@ -9983,11 +9983,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showRunDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowRunDate(String value)
             {
@@ -9996,11 +9996,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the showStartDate property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getShowStartDate()
             {
@@ -10009,11 +10009,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the showStartDate property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setShowStartDate(String value)
             {
@@ -10024,9 +10024,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -10051,8 +10051,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -10064,25 +10064,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the tier property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the tier property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getTier().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Layouts.NetworkLayout.Timescale.Tier }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Layouts.NetworkLayout.Timescale.Tier> getTier()
             {
@@ -10095,9 +10095,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -10112,8 +10112,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Tier
             {
@@ -10127,11 +10127,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the backgroundColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBackgroundColor()
                {
@@ -10140,11 +10140,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the backgroundColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBackgroundColor(String value)
                {
@@ -10153,11 +10153,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the font property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFont()
                {
@@ -10166,11 +10166,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the font property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFont(String value)
                {
@@ -10179,11 +10179,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the fontColor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getFontColor()
                {
@@ -10192,11 +10192,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the fontColor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFontColor(String value)
                {
@@ -10205,11 +10205,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the level property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getLevel()
                {
@@ -10218,11 +10218,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the level property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLevel(Integer value)
                {
@@ -10231,11 +10231,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the show property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getShow()
                {
@@ -10244,11 +10244,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the show property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setShow(String value)
                {
@@ -10257,11 +10257,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the unit property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getUnit()
                {
@@ -10270,11 +10270,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the unit property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUnit(String value)
                {
@@ -10291,9 +10291,9 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -10340,8 +10340,8 @@ import net.sf.mpxj.TimeUnit;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -10359,11 +10359,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the export property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link Project.Settings.Export }
-       *     
+       *
        */
       public Project.Settings.Export getExport()
       {
@@ -10372,11 +10372,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the export property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link Project.Settings.Export }
-       *     
+       *
        */
       public void setExport(Project.Settings.Export value)
       {
@@ -10385,11 +10385,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the title property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getTitle()
       {
@@ -10398,11 +10398,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the title property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setTitle(String value)
       {
@@ -10411,11 +10411,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the description property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getDescription()
       {
@@ -10424,11 +10424,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the description property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setDescription(String value)
       {
@@ -10437,11 +10437,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the baseunit property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public TimeUnit getBaseunit()
       {
@@ -10450,11 +10450,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the baseunit property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseunit(TimeUnit value)
       {
@@ -10463,11 +10463,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the costToDateCalculation property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getCostToDateCalculation()
       {
@@ -10476,11 +10476,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the costToDateCalculation property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCostToDateCalculation(String value)
       {
@@ -10489,11 +10489,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the remainingDurationLink property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getRemainingDurationLink()
       {
@@ -10502,11 +10502,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the remainingDurationLink property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingDurationLink(String value)
       {
@@ -10515,11 +10515,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the resourceStatusing property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getResourceStatusing()
       {
@@ -10528,11 +10528,11 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Sets the value of the resourceStatusing property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setResourceStatusing(String value)
       {
@@ -10541,9 +10541,9 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -10574,8 +10574,8 @@ import net.sf.mpxj.TimeUnit;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -10587,11 +10587,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the sdef property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Settings.Export.Sdef }
-          *     
+          *
           */
          public Project.Settings.Export.Sdef getSdef()
          {
@@ -10600,11 +10600,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the sdef property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Settings.Export.Sdef }
-          *     
+          *
           */
          public void setSdef(Project.Settings.Export.Sdef value)
          {
@@ -10613,9 +10613,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -10636,8 +10636,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -10658,11 +10658,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the codeMapping property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link Object }
-             *     
+             *
              */
             public Object getCodeMapping()
             {
@@ -10671,11 +10671,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the codeMapping property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link Object }
-             *     
+             *
              */
             public void setCodeMapping(Object value)
             {
@@ -10684,11 +10684,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the projectName property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getProjectName()
             {
@@ -10697,11 +10697,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the projectName property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setProjectName(String value)
             {
@@ -10710,11 +10710,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the projectIdentifier property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getProjectIdentifier()
             {
@@ -10723,11 +10723,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the projectIdentifier property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setProjectIdentifier(String value)
             {
@@ -10736,11 +10736,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the contractNumber property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getContractNumber()
             {
@@ -10749,11 +10749,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the contractNumber property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setContractNumber(String value)
             {
@@ -10762,11 +10762,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the contractorName property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getContractorName()
             {
@@ -10775,11 +10775,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the contractorName property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setContractorName(String value)
             {
@@ -10788,11 +10788,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the yearlessHolidays property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getYearlessHolidays()
             {
@@ -10801,11 +10801,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the yearlessHolidays property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setYearlessHolidays(String value)
             {
@@ -10814,11 +10814,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the alphanumericCalendarCodes property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getAlphanumericCalendarCodes()
             {
@@ -10827,11 +10827,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the alphanumericCalendarCodes property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setAlphanumericCalendarCodes(String value)
             {
@@ -10840,11 +10840,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the alphanumericActivityIds property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getAlphanumericActivityIds()
             {
@@ -10853,11 +10853,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the alphanumericActivityIds property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setAlphanumericActivityIds(String value)
             {
@@ -10866,11 +10866,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the negativeLag property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getNegativeLag()
             {
@@ -10879,11 +10879,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the negativeLag property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setNegativeLag(String value)
             {
@@ -10892,11 +10892,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the extendedConstraintTypes property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link String }
-             *     
+             *
              */
             public String getExtendedConstraintTypes()
             {
@@ -10905,11 +10905,11 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Sets the value of the extendedConstraintTypes property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link String }
-             *     
+             *
              */
             public void setExtendedConstraintTypes(String value)
             {
@@ -10924,9 +10924,9 @@ import net.sf.mpxj.TimeUnit;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -11150,8 +11150,8 @@ import net.sf.mpxj.TimeUnit;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -11163,25 +11163,25 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * Gets the value of the storepoint property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the storepoint property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getStorepoint().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link Project.Storepoints.Storepoint }
-       * 
-       * 
+       *
+       *
        */
       public List<Project.Storepoints.Storepoint> getStorepoint()
       {
@@ -11194,9 +11194,9 @@ import net.sf.mpxj.TimeUnit;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -11410,8 +11410,8 @@ import net.sf.mpxj.TimeUnit;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -11449,11 +11449,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the calendars property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Storepoints.Storepoint.Calendars }
-          *     
+          *
           */
          public Project.Storepoints.Storepoint.Calendars getCalendars()
          {
@@ -11462,11 +11462,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the calendars property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Storepoints.Storepoint.Calendars }
-          *     
+          *
           */
          public void setCalendars(Project.Storepoints.Storepoint.Calendars value)
          {
@@ -11475,11 +11475,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the activityCodes property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Storepoints.Storepoint.ActivityCodes }
-          *     
+          *
           */
          public Project.Storepoints.Storepoint.ActivityCodes getActivityCodes()
          {
@@ -11488,11 +11488,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the activityCodes property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Storepoints.Storepoint.ActivityCodes }
-          *     
+          *
           */
          public void setActivityCodes(Project.Storepoints.Storepoint.ActivityCodes value)
          {
@@ -11501,11 +11501,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the activities property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Storepoints.Storepoint.Activities }
-          *     
+          *
           */
          public Project.Storepoints.Storepoint.Activities getActivities()
          {
@@ -11514,11 +11514,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the activities property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Storepoints.Storepoint.Activities }
-          *     
+          *
           */
          public void setActivities(Project.Storepoints.Storepoint.Activities value)
          {
@@ -11527,11 +11527,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the resources property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Storepoints.Storepoint.Resources }
-          *     
+          *
           */
          public Project.Storepoints.Storepoint.Resources getResources()
          {
@@ -11540,11 +11540,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the resources property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Storepoints.Storepoint.Resources }
-          *     
+          *
           */
          public void setResources(Project.Storepoints.Storepoint.Resources value)
          {
@@ -11553,11 +11553,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the relationships property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link Project.Storepoints.Storepoint.Relationships }
-          *     
+          *
           */
          public Project.Storepoints.Storepoint.Relationships getRelationships()
          {
@@ -11566,11 +11566,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the relationships property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link Project.Storepoints.Storepoint.Relationships }
-          *     
+          *
           */
          public void setRelationships(Project.Storepoints.Storepoint.Relationships value)
          {
@@ -11579,11 +11579,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the name property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getName()
          {
@@ -11592,11 +11592,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the name property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setName(String value)
          {
@@ -11605,11 +11605,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the uuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public UUID getUuid()
          {
@@ -11618,11 +11618,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the uuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setUuid(UUID value)
          {
@@ -11631,11 +11631,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the parentUuid property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public UUID getParentUuid()
          {
@@ -11644,11 +11644,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the parentUuid property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setParentUuid(UUID value)
          {
@@ -11657,11 +11657,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the creationTime property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getCreationTime()
          {
@@ -11670,11 +11670,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the creationTime property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setCreationTime(Date value)
          {
@@ -11683,11 +11683,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the start property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getStart()
          {
@@ -11696,11 +11696,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the start property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStart(Date value)
          {
@@ -11709,11 +11709,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the dataDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getDataDate()
          {
@@ -11722,11 +11722,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the dataDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDataDate(Date value)
          {
@@ -11735,11 +11735,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the proposedDataDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Date getProposedDataDate()
          {
@@ -11748,11 +11748,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the proposedDataDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setProposedDataDate(Date value)
          {
@@ -11761,11 +11761,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the defaultCalendar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDefaultCalendar()
          {
@@ -11774,11 +11774,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the defaultCalendar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDefaultCalendar(String value)
          {
@@ -11787,11 +11787,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the idIncrement property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public Integer getIdIncrement()
          {
@@ -11800,11 +11800,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the idIncrement property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIdIncrement(Integer value)
          {
@@ -11813,11 +11813,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the contiguous property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getContiguous()
          {
@@ -11826,11 +11826,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the contiguous property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setContiguous(String value)
          {
@@ -11839,11 +11839,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the ignoreActuals property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getIgnoreActuals()
          {
@@ -11852,11 +11852,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the ignoreActuals property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIgnoreActuals(String value)
          {
@@ -11865,11 +11865,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the ignoreDataDate property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getIgnoreDataDate()
          {
@@ -11878,11 +11878,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the ignoreDataDate property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setIgnoreDataDate(String value)
          {
@@ -11891,11 +11891,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the interruptible property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getInterruptible()
          {
@@ -11904,11 +11904,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the interruptible property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setInterruptible(String value)
          {
@@ -11917,11 +11917,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the lagCalendar property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getLagCalendar()
          {
@@ -11930,11 +11930,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the lagCalendar property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setLagCalendar(String value)
          {
@@ -11943,11 +11943,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the progressOverride property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getProgressOverride()
          {
@@ -11956,11 +11956,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the progressOverride property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setProgressOverride(String value)
          {
@@ -11969,11 +11969,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the retainedLogic property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getRetainedLogic()
          {
@@ -11982,11 +11982,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the retainedLogic property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setRetainedLogic(String value)
          {
@@ -11995,11 +11995,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the statusOnCurrent property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getStatusOnCurrent()
          {
@@ -12008,11 +12008,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the statusOnCurrent property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStatusOnCurrent(String value)
          {
@@ -12021,11 +12021,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Gets the value of the statusOnMaster property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getStatusOnMaster()
          {
@@ -12034,11 +12034,11 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * Sets the value of the statusOnMaster property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setStatusOnMaster(String value)
          {
@@ -12047,9 +12047,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -12108,8 +12108,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -12121,25 +12121,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the activity property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the activity property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getActivity().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Storepoints.Storepoint.Activities.Activity }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Storepoints.Storepoint.Activities.Activity> getActivity()
             {
@@ -12152,9 +12152,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -12203,8 +12203,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -12244,25 +12244,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the codeAssignment property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the codeAssignment property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getCodeAssignment().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment> getCodeAssignment()
                {
@@ -12275,11 +12275,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the id property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getId()
                {
@@ -12288,11 +12288,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the id property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setId(String value)
                {
@@ -12301,11 +12301,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getType()
                {
@@ -12314,11 +12314,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setType(String value)
                {
@@ -12327,11 +12327,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the description property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getDescription()
                {
@@ -12340,11 +12340,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the description property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDescription(String value)
                {
@@ -12353,11 +12353,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the uuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getUuid()
                {
@@ -12366,11 +12366,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the uuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUuid(UUID value)
                {
@@ -12379,11 +12379,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the creationTime property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getCreationTime()
                {
@@ -12392,11 +12392,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the creationTime property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCreationTime(Date value)
                {
@@ -12405,11 +12405,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the totalCost property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getTotalCost()
                {
@@ -12418,11 +12418,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the totalCost property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setTotalCost(Integer value)
                {
@@ -12431,11 +12431,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the billed property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getBilled()
                {
@@ -12444,11 +12444,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the billed property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBilled(Integer value)
                {
@@ -12457,11 +12457,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the explicit property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public Boolean isExplicit()
                {
@@ -12470,11 +12470,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the explicit property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link Boolean }
-                *     
+                *
                 */
                public void setExplicit(Boolean value)
                {
@@ -12483,11 +12483,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the currentStart property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getCurrentStart()
                {
@@ -12496,11 +12496,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the currentStart property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCurrentStart(Date value)
                {
@@ -12509,11 +12509,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the currentFinish property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getCurrentFinish()
                {
@@ -12522,11 +12522,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the currentFinish property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCurrentFinish(Date value)
                {
@@ -12535,11 +12535,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the actualStart property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getActualStart()
                {
@@ -12548,11 +12548,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the actualStart property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setActualStart(Date value)
                {
@@ -12561,11 +12561,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the actualFinish property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getActualFinish()
                {
@@ -12574,11 +12574,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the actualFinish property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setActualFinish(Date value)
                {
@@ -12587,11 +12587,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the earlyStart property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getEarlyStart()
                {
@@ -12600,11 +12600,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the earlyStart property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setEarlyStart(Date value)
                {
@@ -12613,11 +12613,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the earlyFinish property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getEarlyFinish()
                {
@@ -12626,11 +12626,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the earlyFinish property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setEarlyFinish(Date value)
                {
@@ -12639,11 +12639,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the lateStart property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getLateStart()
                {
@@ -12652,11 +12652,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the lateStart property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLateStart(Date value)
                {
@@ -12665,11 +12665,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the lateFinish property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Date getLateFinish()
                {
@@ -12678,11 +12678,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the lateFinish property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLateFinish(Date value)
                {
@@ -12691,11 +12691,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the originalDuration property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getOriginalDuration()
                {
@@ -12704,11 +12704,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the originalDuration property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setOriginalDuration(Duration value)
                {
@@ -12717,11 +12717,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the actualDuration property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getActualDuration()
                {
@@ -12730,11 +12730,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the actualDuration property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setActualDuration(Duration value)
                {
@@ -12743,11 +12743,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the durationAtCompletion property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getDurationAtCompletion()
                {
@@ -12756,11 +12756,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the durationAtCompletion property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setDurationAtCompletion(Duration value)
                {
@@ -12769,11 +12769,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the remainingDuration property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getRemainingDuration()
                {
@@ -12782,11 +12782,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the remainingDuration property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setRemainingDuration(Duration value)
                {
@@ -12795,11 +12795,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the physicalPercentComplete property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getPhysicalPercentComplete()
                {
@@ -12808,11 +12808,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the physicalPercentComplete property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setPhysicalPercentComplete(Integer value)
                {
@@ -12821,11 +12821,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the calendar property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getCalendar()
                {
@@ -12834,11 +12834,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the calendar property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCalendar(String value)
                {
@@ -12847,11 +12847,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the costAccount property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getCostAccount()
                {
@@ -12860,11 +12860,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the costAccount property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setCostAccount(UUID value)
                {
@@ -12873,11 +12873,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the notes property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getNotes()
                {
@@ -12886,11 +12886,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the notes property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setNotes(String value)
                {
@@ -12899,11 +12899,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the freeFloat property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getFreeFloat()
                {
@@ -12912,11 +12912,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the freeFloat property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setFreeFloat(Duration value)
                {
@@ -12925,11 +12925,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the totalFloat property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getTotalFloat()
                {
@@ -12938,11 +12938,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the totalFloat property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setTotalFloat(Duration value)
                {
@@ -12951,11 +12951,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the pathFloat property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getPathFloat()
                {
@@ -12964,11 +12964,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the pathFloat property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setPathFloat(Duration value)
                {
@@ -12977,11 +12977,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the baseunit property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getBaseunit()
                {
@@ -12990,11 +12990,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the baseunit property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setBaseunit(String value)
                {
@@ -13003,9 +13003,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -13016,8 +13016,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class CodeAssignment
                {
@@ -13027,11 +13027,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the codeUuid property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public UUID getCodeUuid()
                   {
@@ -13040,11 +13040,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the codeUuid property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setCodeUuid(UUID value)
                   {
@@ -13053,11 +13053,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the valueUuid property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public UUID getValueUuid()
                   {
@@ -13066,11 +13066,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the valueUuid property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setValueUuid(UUID value)
                   {
@@ -13085,9 +13085,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -13121,8 +13121,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -13134,25 +13134,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the code property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the code property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getCode().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Storepoints.Storepoint.ActivityCodes.Code }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Storepoints.Storepoint.ActivityCodes.Code> getCode()
             {
@@ -13165,9 +13165,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -13191,8 +13191,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -13207,25 +13207,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the value property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the value property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getValue().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Storepoints.Storepoint.ActivityCodes.Code.Value }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Storepoints.Storepoint.ActivityCodes.Code.Value> getValue()
                {
@@ -13238,11 +13238,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -13251,11 +13251,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -13264,11 +13264,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the uuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getUuid()
                {
@@ -13277,11 +13277,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the uuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUuid(UUID value)
                {
@@ -13290,11 +13290,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the noneUuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getNoneUuid()
                {
@@ -13303,11 +13303,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the noneUuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setNoneUuid(UUID value)
                {
@@ -13316,9 +13316,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -13329,8 +13329,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Value
                {
@@ -13340,11 +13340,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the name property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getName()
                   {
@@ -13353,11 +13353,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the name property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setName(String value)
                   {
@@ -13366,11 +13366,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the uuid property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public UUID getUuid()
                   {
@@ -13379,11 +13379,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the uuid property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setUuid(UUID value)
                   {
@@ -13398,9 +13398,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -13432,8 +13432,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -13445,25 +13445,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the calendar property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the calendar property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getCalendar().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Storepoints.Storepoint.Calendars.Calendar }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Storepoints.Storepoint.Calendars.Calendar> getCalendar()
             {
@@ -13476,9 +13476,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -13500,8 +13500,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -13514,25 +13514,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the nonWork property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the nonWork property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getNonWork().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Storepoints.Storepoint.Calendars.Calendar.NonWork }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Storepoints.Storepoint.Calendars.Calendar.NonWork> getNonWork()
                {
@@ -13545,11 +13545,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -13558,11 +13558,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -13571,9 +13571,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -13584,8 +13584,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class NonWork
                {
@@ -13595,11 +13595,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the type property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getType()
                   {
@@ -13608,11 +13608,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the type property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setType(String value)
                   {
@@ -13621,11 +13621,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the weekday property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Day getWeekday()
                   {
@@ -13634,11 +13634,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the weekday property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setWeekday(Day value)
                   {
@@ -13653,9 +13653,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -13678,8 +13678,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -13691,25 +13691,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the relationship property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the relationship property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getRelationship().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Storepoints.Storepoint.Relationships.Relationship }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Storepoints.Storepoint.Relationships.Relationship> getRelationship()
             {
@@ -13722,9 +13722,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -13737,8 +13737,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Relationship
             {
@@ -13750,11 +13750,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the predecessor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getPredecessor()
                {
@@ -13763,11 +13763,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the predecessor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setPredecessor(String value)
                {
@@ -13776,11 +13776,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the successor property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getSuccessor()
                {
@@ -13789,11 +13789,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the successor property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setSuccessor(String value)
                {
@@ -13802,11 +13802,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the lag property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Duration getLag()
                {
@@ -13815,11 +13815,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the lag property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setLag(Duration value)
                {
@@ -13828,11 +13828,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public RelationType getType()
                {
@@ -13841,11 +13841,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setType(RelationType value)
                {
@@ -13858,9 +13858,9 @@ import net.sf.mpxj.TimeUnit;
 
          /**
           * &lt;p&gt;Java class for anonymous complex type.
-          * 
+          *
           * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-          * 
+          *
           * &lt;pre&gt;
           * &amp;lt;complexType&amp;gt;
           *   &amp;lt;complexContent&amp;gt;
@@ -13902,8 +13902,8 @@ import net.sf.mpxj.TimeUnit;
           *   &amp;lt;/complexContent&amp;gt;
           * &amp;lt;/complexType&amp;gt;
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
          {
@@ -13915,25 +13915,25 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * Gets the value of the resource property.
-             * 
+             *
              * &lt;p&gt;
              * This accessor method returns a reference to the live list,
              * not a snapshot. Therefore any modification you make to the
              * returned list will be present inside the JAXB object.
              * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the resource property.
-             * 
+             *
              * &lt;p&gt;
              * For example, to add a new item, do as follows:
              * &lt;pre&gt;
              *    getResource().add(newItem);
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              * &lt;p&gt;
              * Objects of the following type(s) are allowed in the list
              * {@link Project.Storepoints.Storepoint.Resources.Resource }
-             * 
-             * 
+             *
+             *
              */
             public List<Project.Storepoints.Storepoint.Resources.Resource> getResource()
             {
@@ -13946,9 +13946,9 @@ import net.sf.mpxj.TimeUnit;
 
             /**
              * &lt;p&gt;Java class for anonymous complex type.
-             * 
+             *
              * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-             * 
+             *
              * &lt;pre&gt;
              * &amp;lt;complexType&amp;gt;
              *   &amp;lt;complexContent&amp;gt;
@@ -13980,8 +13980,8 @@ import net.sf.mpxj.TimeUnit;
              *   &amp;lt;/complexContent&amp;gt;
              * &amp;lt;/complexType&amp;gt;
              * &lt;/pre&gt;
-             * 
-             * 
+             *
+             *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
             {
@@ -14002,25 +14002,25 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the assignment property.
-                * 
+                *
                 * &lt;p&gt;
                 * This accessor method returns a reference to the live list,
                 * not a snapshot. Therefore any modification you make to the
                 * returned list will be present inside the JAXB object.
                 * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the assignment property.
-                * 
+                *
                 * &lt;p&gt;
                 * For example, to add a new item, do as follows:
                 * &lt;pre&gt;
                 *    getAssignment().add(newItem);
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 * &lt;p&gt;
                 * Objects of the following type(s) are allowed in the list
                 * {@link Project.Storepoints.Storepoint.Resources.Resource.Assignment }
-                * 
-                * 
+                *
+                *
                 */
                public List<Project.Storepoints.Storepoint.Resources.Resource.Assignment> getAssignment()
                {
@@ -14033,11 +14033,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the name property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getName()
                {
@@ -14046,11 +14046,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the name property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setName(String value)
                {
@@ -14059,11 +14059,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the uuid property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public UUID getUuid()
                {
@@ -14072,11 +14072,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the uuid property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUuid(UUID value)
                {
@@ -14085,11 +14085,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the type property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public ResourceType getType()
                {
@@ -14098,11 +14098,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the type property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setType(ResourceType value)
                {
@@ -14111,11 +14111,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the unitslabel property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public String getUnitslabel()
                {
@@ -14124,11 +14124,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the unitslabel property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUnitslabel(String value)
                {
@@ -14137,11 +14137,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the maximum property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getMaximum()
                {
@@ -14150,11 +14150,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the maximum property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setMaximum(Integer value)
                {
@@ -14163,11 +14163,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the monetarybase property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public TimeUnit getMonetarybase()
                {
@@ -14176,11 +14176,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the monetarybase property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setMonetarybase(TimeUnit value)
                {
@@ -14189,11 +14189,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the unitsperbase property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getUnitsperbase()
                {
@@ -14202,11 +14202,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the unitsperbase property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setUnitsperbase(Integer value)
                {
@@ -14215,11 +14215,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the monetaryrate property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getMonetaryrate()
                {
@@ -14228,11 +14228,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the monetaryrate property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setMonetaryrate(Integer value)
                {
@@ -14241,11 +14241,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Gets the value of the monetarycostperuse property.
-                * 
+                *
                 * @return
                 *     possible object is
                 *     {@link String }
-                *     
+                *
                 */
                public Integer getMonetarycostperuse()
                {
@@ -14254,11 +14254,11 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * Sets the value of the monetarycostperuse property.
-                * 
+                *
                 * @param value
                 *     allowed object is
                 *     {@link String }
-                *     
+                *
                 */
                public void setMonetarycostperuse(Integer value)
                {
@@ -14267,9 +14267,9 @@ import net.sf.mpxj.TimeUnit;
 
                /**
                 * &lt;p&gt;Java class for anonymous complex type.
-                * 
+                *
                 * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-                * 
+                *
                 * &lt;pre&gt;
                 * &amp;lt;complexType&amp;gt;
                 *   &amp;lt;complexContent&amp;gt;
@@ -14282,8 +14282,8 @@ import net.sf.mpxj.TimeUnit;
                 *   &amp;lt;/complexContent&amp;gt;
                 * &amp;lt;/complexType&amp;gt;
                 * &lt;/pre&gt;
-                * 
-                * 
+                *
+                *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Assignment
                {
@@ -14295,11 +14295,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the activity property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getActivity()
                   {
@@ -14308,11 +14308,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the activity property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setActivity(String value)
                   {
@@ -14321,11 +14321,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the fixedfield property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getFixedfield()
                   {
@@ -14334,11 +14334,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the fixedfield property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setFixedfield(String value)
                   {
@@ -14347,11 +14347,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the allocation property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public Integer getAllocation()
                   {
@@ -14360,11 +14360,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the allocation property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setAllocation(Integer value)
                   {
@@ -14373,11 +14373,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Gets the value of the accrueat property.
-                   * 
+                   *
                    * @return
                    *     possible object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public String getAccrueat()
                   {
@@ -14386,11 +14386,11 @@ import net.sf.mpxj.TimeUnit;
 
                   /**
                    * Sets the value of the accrueat property.
-                   * 
+                   *
                    * @param value
                    *     allowed object is
                    *     {@link String }
-                   *     
+                   *
                    */
                   public void setAccrueat(String value)
                   {
