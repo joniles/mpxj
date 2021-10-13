@@ -1294,9 +1294,10 @@ final class MPP9Reader implements MPPVariantReader
             m_file.removeTask(task);
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(uniqueID);
-            task.setID(id);
+            task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
+            
             continue;
          }
 
