@@ -19,7 +19,6 @@ net.sf.mpxj.mpx
 net.sf.mpxj.mspdi
 net.sf.mpxj.mspdi.schema
 net.sf.mpxj.phoenix
-net.sf.mpxj.phoenix.schema
 net.sf.mpxj.planner
 net.sf.mpxj.planner.schema
 net.sf.mpxj.primavera
