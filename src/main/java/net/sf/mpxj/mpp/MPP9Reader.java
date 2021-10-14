@@ -900,7 +900,6 @@ final class MPP9Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
-      Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
       int uniqueID;
       Integer key;
@@ -961,8 +960,8 @@ final class MPP9Reader implements MPPVariantReader
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
 
-                     // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but the name is not null
-                     if (!taskMap.containsKey(key) || taskVarData.getUnicodeString(key, taskNameKey) != null)
+                     // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but it has var data entries
+                     if (!taskMap.containsKey(key) || !taskVarData.getVarMeta().getTypes(key).isEmpty())
                      {
                         taskMap.put(key, Integer.valueOf(loop));
                      }
