@@ -895,7 +895,12 @@ final class MPP14Reader implements MPPVariantReader
                      // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but it has var data entries
                      if (!taskMap.containsKey(key) || !taskVarData.getVarMeta().getTypes(key).isEmpty())
                      {
-                        taskMap.put(key, Integer.valueOf(loop));
+                        // If a task is already in the map, overwrite it as long as flags is not 0x04.
+                        // TODO: gain a better understanding of why this works.
+                        if (!taskMap.containsKey(key) || (flags & 0x04) == 0)
+                        {
+                           taskMap.put(key, Integer.valueOf(loop));
+                        }
                      }
                   }
                }
