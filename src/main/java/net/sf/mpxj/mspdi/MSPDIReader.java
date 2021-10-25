@@ -1011,11 +1011,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
          {
-            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
-            if (item != null)
-            {
-               mpx.set(mpxFieldID, item.getValue());
-            }
+            mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
          }
       }
    }
@@ -1519,13 +1515,31 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
          if (customField != null)
          {
-            CustomFieldValueItem item = getValueItem(mpxFieldID, attrib.getValueID());
-            if (item != null)
+            mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
+         }
+      }
+   }
+
+   private String getOutlineCodeValue(FieldType mpxFieldID, BigInteger valueID)
+   {
+      String result = null;
+      CustomFieldValueItem item = getValueItem(mpxFieldID, valueID);
+      if (item != null && item.getValue() != null)
+      {
+         result = item.getValue().toString();
+
+         Integer parentID = item.getParent();
+         if (parentID != null)
+         {
+            String parentResult = getOutlineCodeValue(mpxFieldID, BigInteger.valueOf(parentID.longValue()));
+            if (parentResult != null)
             {
-               mpx.set(mpxFieldID, item.getValue());
+               // TODO: use the code mask
+               result = parentResult + "." + result;
             }
          }
       }
+      return result;
    }
 
    /**

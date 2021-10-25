@@ -1,8 +1,9 @@
 # Changelog
 
 ## 9.8.2 (unreleased)
-* Improve accuracy of identifying null tasks in certain MPP files
-* Improve accuracy of identifying valid tasks in certain MPP files
+* Improve accuracy of identifying null tasks in certain MPP files.
+* Improve accuracy of identifying valid tasks in certain MPP files.
+* Ensure hierarchical outline code values are read correctly from MSPDI files.
 
 ## 9.8.1 (13/10/2021)
 * Added support for Phoenix 5 schedules.
