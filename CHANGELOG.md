@@ -1,6 +1,8 @@
 # Changelog
 
-## 9.8.2 (unreleased)
+## 9.8.3 (unreleased)
+
+## 9.8.2 (01/11/2021)
 * Improve accuracy of identifying null tasks in certain MPP files.
 * Improve accuracy of identifying valid tasks in certain MPP files.
 * Ensure hierarchical outline code values are read correctly from MSPDI files.

@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="9.8.2">
+		<release date="unreleased" version="9.8.3">
+		</release>
+		<release date="01/11/2021" version="9.8.2">
 			<action dev="joniles" type="update">Improve accuracy of identifying null tasks in certain MPP files.</action>
 			<action dev="joniles" type="update">Improve accuracy of identifying valid tasks in certain MPP files.</action>
 			<action dev="joniles" type="update">Ensure hierarchical outline code values are read correctly from MSPDI files.</action>
