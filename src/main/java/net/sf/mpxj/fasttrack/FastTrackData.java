@@ -121,7 +121,8 @@ class FastTrackData
             break;
          }
 
-         case 144:
+         case 144: // 10.2
+         case 145: // 11.0 / 2020?
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF8;
