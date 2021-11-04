@@ -12,7 +12,7 @@
 		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby23"/>
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
-		<property name="msbuild.dir" value="C:/Windows/Microsoft.NET/Framework/v3.5" />
+		<property name="msbuild.dir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319" />
 		<property name="junit.jar" value="${basedir}/lib/junit-4.13.1.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/lib/hamcrest-core-1.3.jar"/>
 		<property name="poifs.jar" value="${basedir}/../poifs/target/poifs-5.0.0.jar"/>
@@ -25,7 +25,7 @@
 		<property name="conceptdraw.xsd" value="document.xsd" />
 
 		<property name="lib.dir" value="${basedir}/lib" />
-		<property name="lib.net.dir" value="${basedir}/lib.net" />
+		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="bak.dir" value="${basedir}/bak" />
@@ -80,18 +80,18 @@
 		<property name="jsoup.classpath" refid="jsoup.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
-		<property name="poi.dll" value="${lib.net.dir}\${poi.jar}.dll" />
-		<property name="commons-collections.dll" value="${lib.net.dir}\${commons-collections.jar}.dll" />
-		<property name="commons-math.dll" value="${lib.net.dir}\${commons-math.jar}.dll" />
-		<property name="rtfparserkit.dll" value="${lib.net.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.dll" value="${lib.net.dir}\${sqlite-jdbc.jar}.dll" />
-		<property name="jsoup.dll" value="${lib.net.dir}\${jsoup.jar}.dll" />
-		<property name="junit.dll" value="${lib.net.dir}\junit.dll" />
-		<property name="mpxj.dll" value="${lib.net.dir}\mpxj.dll" />
-		<property name="mpxj-test.dll" value="${lib.net.dir}\mpxj-test.dll" />
-		<property name="mpxj-for-vb.dll" value="${lib.net.dir}\mpxj-for-vb.dll" />
-		<property name="mpxj-for-csharp.dll" value="${lib.net.dir}\mpxj-for-csharp.dll" />
-		<property name="mpxj-utilities.dll" value="${lib.net.dir}\MpxjUtilities.dll" />
+		<property name="poi.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
+		<property name="commons-collections.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-math.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
+		<property name="rtfparserkit.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
+		<property name="jsoup.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
+		<property name="junit.dll" value="${lib.net45.dir}\junit.dll" />
+		<property name="mpxj.dll" value="${lib.net45.dir}\mpxj.dll" />
+		<property name="mpxj-test.dll" value="${lib.net45.dir}\mpxj-test.dll" />
+		<property name="mpxj-for-vb.dll" value="${lib.net45.dir}\mpxj-for-vb.dll" />
+		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
+		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
 
 		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.exe" value="${ikvm.dir}/bin/ikvmstub.exe" />
@@ -417,7 +417,7 @@
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
-		<apply executable="${tlbexp.exe}" parallel="false" relative="true" dir="${lib.net.dir}" failifexecutionfails="true">
+		<apply executable="${tlbexp.exe}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
 			<arg value="/nologo"/>
 			<arg value="/silence:000017CE"/>
 			<arg value="/silence:001311D9"/>
@@ -427,60 +427,60 @@
 			<arg value="/silence:801311B0"/>
 			<arg value="/silence:80131172"/>
 			<srcfile />
-			<fileset dir="${lib.net.dir}">
+			<fileset dir="${lib.net45.dir}">
 				<include name="**/*.dll" />
 				<exclude name="**/ikvm-native*.dll" />
 			</fileset>
 		</apply>
 
 		<!-- Generate a batch file which installs the assemblies in the GAC -->
-		<echo file="${lib.net.dir}\mpxj-gac-install.bat" message="@echo off${line.separator}echo This batch file installs the DLLs required to use MPXJ into the GAC${line.separator}pause${line.separator}"/>
+		<echo file="${lib.net45.dir}\mpxj-gac-install.bat" message="@echo off${line.separator}echo This batch file installs the DLLs required to use MPXJ into the GAC${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true">
 			<arg value="/c" />
 			<srcfile prefix="echo gacutil /i " />
-			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-gac-install.bat" />
-			<fileset dir="${lib.net.dir}">
+			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-gac-install.bat" />
+			<fileset dir="${lib.net45.dir}">
 				<include name="*.dll" />
 			</fileset>
 		</apply>
-		<replace file="${lib.net.dir}\mpxj-gac-install.bat" token='" "' value="" />
+		<replace file="${lib.net45.dir}\mpxj-gac-install.bat" token='" "' value="" />
 
 		<!-- Generate a batch file which removes the assemblies from the GAC -->
-		<echo file="${lib.net.dir}\mpxj-gac-uninstall.bat" message="@echo off${line.separator}echo This batch file uninstalls the DLLs required to use MPXJ from the GAC${line.separator}pause${line.separator}"/>
+		<echo file="${lib.net45.dir}\mpxj-gac-uninstall.bat" message="@echo off${line.separator}echo This batch file uninstalls the DLLs required to use MPXJ from the GAC${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true" addsourcefile="false">
 			<arg value="/c" />
 			<targetfile prefix="echo gacutil /u " />
-			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-gac-uninstall.bat" />
-			<fileset dir="${lib.net.dir}">
+			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-gac-uninstall.bat" />
+			<fileset dir="${lib.net45.dir}">
 				<include name="**/*.dll" />
 			</fileset>
 			<mapper type="glob" from="*.dll" to="*"/>
 		</apply>
-		<replace file="${lib.net.dir}\mpxj-gac-uninstall.bat" token='" "' value="" />
+		<replace file="${lib.net45.dir}\mpxj-gac-uninstall.bat" token='" "' value="" />
 
 		<!-- Generate a batch file to register the assemblies -->
-		<echo file="${lib.net.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>
+		<echo file="${lib.net45.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true">
 			<arg value="/c" />
 			<srcfile prefix="echo regasm " />
-			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-register-assemblies.bat" />
-			<fileset dir="${lib.net.dir}">
+			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-register-assemblies.bat" />
+			<fileset dir="${lib.net45.dir}">
 				<include name="**/*.dll" />
 			</fileset>
 		</apply>
-		<replace file="${lib.net.dir}\mpxj-register-assemblies.bat" token='" "' value="" />
+		<replace file="${lib.net45.dir}\mpxj-register-assemblies.bat" token='" "' value="" />
 
 		<!-- Generate a batch file to unregister the assemblies -->
-		<echo file="${lib.net.dir}\mpxj-unregister-assemblies.bat" message="@echo off${line.separator}echo This batch file deregisters the .Net assemblies used by MPXJ so that they are no longer available to be called from COM${line.separator}pause${line.separator}"/>
+		<echo file="${lib.net45.dir}\mpxj-unregister-assemblies.bat" message="@echo off${line.separator}echo This batch file deregisters the .Net assemblies used by MPXJ so that they are no longer available to be called from COM${line.separator}pause${line.separator}"/>
 		<apply executable="cmd.exe" parallel="false" relative="true">
 			<arg value="/c" />
 			<srcfile prefix="echo regasm /u " />
-			<arg value="&gt;&gt; ${lib.net.dir}\mpxj-unregister-assemblies.bat" />
-			<fileset dir="${lib.net.dir}">
+			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-unregister-assemblies.bat" />
+			<fileset dir="${lib.net45.dir}">
 				<include name="**/*.dll" />
 			</fileset>
 		</apply>
-		<replace file="${lib.net.dir}\mpxj-unregister-assemblies.bat" token='" "' value="" />
+		<replace file="${lib.net45.dir}\mpxj-unregister-assemblies.bat" token='" "' value="" />
 
 		<delete dir="${ikvm.working.dir}" />
 	</target>
@@ -576,7 +576,7 @@
 		<delete file="${mpxj-utilities.dll}" />
 
 		<delete>
-			<fileset dir="${lib.net.dir}">
+			<fileset dir="${lib.net45.dir}">
 				<include name="*.tlb"/>
 				<include name="*.bat"/>
 			</fileset>

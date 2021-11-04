@@ -12,11 +12,11 @@
         <summary>Dependencies required by MPXJ</summary>
     </metadata>
     <files>
-        <file src="..\lib.net\commons-*.*" target="lib\net45"/>
-        <file src="..\lib.net\poi*.*" target="lib\net45"/>
-        <file src="..\lib.net\rtfparserkit*.*" target="lib\net45"/>
-        <file src="..\lib.net\sqlite-jdbc*.*" target="lib\net45"/>
-        <file src="..\lib.net\jsoup*.*" target="lib\net45"/>
-        <file src="..\lib.net\MpxjUtilities.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\commons-*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\poi*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\rtfparserkit*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\sqlite-jdbc*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\jsoup*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\MpxjUtilities.*" target="lib\net45"/>
     </files>
 </package>
