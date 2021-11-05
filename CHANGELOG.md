@@ -1,6 +1,7 @@
 # Changelog
 
 ## 9.8.3 (unreleased)
+* Improve reliability when reading certain Phoenix files.
 
 ## 9.8.2 (01/11/2021)
 * Improve accuracy of identifying null tasks in certain MPP files.

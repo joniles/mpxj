@@ -65,16 +65,19 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout.CodeOptions;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout.CodeOptions.CodeOption;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Settings;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Relationships;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources.Resource.Assignment;
@@ -318,16 +321,20 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    private void processActivityCodes(Storepoint storepoint)
    {
-      for (Code code : storepoint.getActivityCodes().getCode())
+      ActivityCodes activityCodes = storepoint.getActivityCodes();
+      if (activityCodes != null)
       {
-         int sequence = 0;
-         UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
-         for (Value value : code.getValue())
+         for (Code code : activityCodes.getCode())
          {
-            String name = value.getName();
-            UUID uuid = getValueUUID(codeUUID, value.getUuid(), name);
-            m_activityCodeValues.put(uuid, name);
-            m_activityCodeSequence.put(uuid, Integer.valueOf(++sequence));
+            int sequence = 0;
+            UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
+            for (Value value : code.getValue())
+            {
+               String name = value.getName();
+               UUID uuid = getValueUUID(codeUUID, value.getUuid(), name);
+               m_activityCodeValues.put(uuid, name);
+               m_activityCodeSequence.put(uuid, Integer.valueOf(++sequence));
+            }
          }
       }
    }
@@ -347,11 +354,15 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       //
       // Create a list of the visible codes in the correct order
       //
-      for (CodeOption option : activeLayout.getCodeOptions().getCodeOption())
+      CodeOptions codeOptions = activeLayout.getCodeOptions();
+      if (codeOptions != null)
       {
-         if (option.isShown().booleanValue())
+         for (CodeOption option : codeOptions.getCodeOption())
          {
-            m_codeSequence.add(getCodeUUID(option.getCodeUuid(), option.getCode()));
+            if (option.isShown().booleanValue())
+            {
+               m_codeSequence.add(getCodeUUID(option.getCodeUuid(), option.getCode()));
+            }
          }
       }
    }
@@ -396,7 +407,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private void processActivities(Storepoint phoenixProject)
    {
       final AlphanumComparator comparator = new AlphanumComparator();
-      List<Activity> activities = phoenixProject.getActivities().getActivity();
+      List<Activity> activities = phoenixProject.getActivities() == null ? Collections.emptyList() : phoenixProject.getActivities().getActivity();
 
       // If logging enabled, dump detail to investigate "Comparison method violates its general contract!" error
       if (m_log != null)
@@ -707,9 +718,13 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    private void readRelationships(Storepoint phoenixProject)
    {
-      for (Relationship relation : phoenixProject.getRelationships().getRelationship())
+      Relationships relationships = phoenixProject.getRelationships();
+      if (relationships != null)
       {
-         readRelation(relation);
+         for (Relationship relation : relationships.getRelationship())
+         {
+            readRelation(relation);
+         }
       }
    }
 
@@ -761,7 +776,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
-      List<Storepoint> storepoints = phoenixProject.getStorepoints().getStorepoint();
+      List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
       Collections.sort(storepoints, new Comparator<Storepoint>()
       {
          @Override public int compare(Storepoint o1, Storepoint o2)
