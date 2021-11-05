@@ -6,7 +6,7 @@
         <version>0.0.0</version>
         <authors>Jon Iles</authors>
         <license type="expression">LGPL-2.1-or-later</license>
-        <projectUrl>http://mpxj.sf.net</projectUrl>
+        <projectUrl>http://www.mpxj.org/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Dependencies required by MPXJ</description>
         <summary>Dependencies required by MPXJ</summary>

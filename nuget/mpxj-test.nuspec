@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>net.sf.mpxj-test</id>
+        <title>MPXJ Tests</title>
+        <version>0.0.0</version>
+        <authors>Jon Iles</authors>
+        <license type="expression">LGPL-2.1-or-later</license>
+        <projectUrl>http://www.mpxj.org/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Tests for MPXJ</description>
+        <summary>Tests for MPXJ</summary>
+        <dependencies>
+            <dependency id="net.sf.mpxj" version="0.0.0"/>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\lib.net\net45\mpxj-test*.*" target="lib\net45"/>
+        <file src="..\lib.net\net45\junit*.*" target="lib\net45"/>
+    </files>
+</package>

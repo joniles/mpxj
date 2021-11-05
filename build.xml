@@ -699,6 +699,10 @@
 			<param name="nuget.spec" value="mpxj-for-vb"/>
 		</antcall>
 
+		<antcall target="nuget-pack">
+			<param name="nuget.spec" value="mpxj-test"/>
+		</antcall>
+
 		<replace dir="nuget" token="${current.version}" value="0.0.0">
 			<include name="*.nuspec" />
 		</replace>
