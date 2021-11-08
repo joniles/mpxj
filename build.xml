@@ -15,11 +15,10 @@
 		<property name="python.cmd" value="c:/windows/py.exe" />
 		<property name="nuget.cmd" value="${basedir}/../nuget/nuget.exe" />
 		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
-		<property name="ikvmc.exe" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
-		<property name="ikvmstub.exe" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
-
+		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
+		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="tlbexp.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
-		<property name="msbuild.dir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319" />
+		<property name="msbuild.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
 		<property name="lib.dir" value="${basedir}/lib" />
@@ -32,11 +31,6 @@
 
 		<!-- .Net Framework -->
 		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
-
-		<!-- JAXB -->
-		<property name="mspdi.xsd" value="mspdi_pj15-correct.xsd" />
-		<property name="primavera.xsd" value="p6apibo.xsd" />
-		<property name="conceptdraw.xsd" value="document.xsd" />
 
 		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="docs.dir" value="${basedir}/docs" />
@@ -106,14 +100,13 @@
 
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
 		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
-		<available file="${ikvmc.exe}" property="ikvm.available" />
+		<available file="${ikvmc.net45.cmd}" property="ikvm.available" />
 
 		<available file="${tlbexp.cmd}" property="tlbexp.available" />
 
-		<property name="msbuild.exe" value="${msbuild.dir}/msbuild.exe" />
 		<condition property="msbuild.available">
 		    <and>
-				<available file="${msbuild.exe}" property="msbuild.available" />
+				<available file="${msbuild.cmd}" property="msbuild.available" />
 		  		<isset property="ikvm.available"/>
 		    </and>
 		</condition>
@@ -251,13 +244,13 @@
 		</copy>
 
 		<exec executable="${xjc.cmd}" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-correct.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema ${primavera.xsd}" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema p6apibo.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 ${basedir}/jaxb/phoenix-4.xsd" />
@@ -269,7 +262,7 @@
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema document.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
@@ -296,7 +289,7 @@
 		<mkdir dir="${ikvm.classes.test.dir}" />
 		<mkdir dir="${ikvm.lib.dir}" />
 
-		<exec executable="${ikvmstub.exe}" dir="${basedir}">
+		<exec executable="${ikvmstub.net45.cmd}" dir="${basedir}">
 			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
 		</exec>
 
@@ -374,53 +367,53 @@
 			</classpath>
 		</java>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-collections.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-math.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
 		     version of POI which removes the parts we don't use and avoids Java language constructs
 		     which IKVM doesn't like. https://github.com/joniles/poifs -->
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${poifs.jar}" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${jsoup.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${hamcrest.jar} ${junit.jar}" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
-		<exec executable="${ikvmc.exe}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
 			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
@@ -504,7 +497,7 @@
 			<fileset dir="${basedir}/src.net" includes="**" />
 		</copy>
 
-		<exec executable="${msbuild.exe}" dir="${basedir}">
+		<exec executable="${msbuild.cmd}" dir="${basedir}">
 			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
 
