@@ -1,6 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <NativeLibs Include="$(MSBuildThisFileDirectory)**\*.dll"/>
+
+  <!-- .Net Framework (https://github.com/MicrosoftDocs/visualstudio-docs/issues/4869) -->
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\net45\*.dll"/>
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
