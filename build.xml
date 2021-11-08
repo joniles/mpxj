@@ -24,7 +24,6 @@
 		<property name="lib.dir" value="${basedir}/lib" />
 
 		<!-- .Net -->
-		<property name="poifs.jar" value="${basedir}/../poifs/target/poifs-5.0.0.jar"/>
 		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
 		<!-- .Net Framework -->
@@ -41,6 +40,7 @@
 		<property name="target-jvm-version" value="1.8" />
 
 		<property name="poi.jar" value="poi-5.0.0" />
+		<property name="poifs.jar" value="poifs-5.0.0"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
 		<property name="commons-math.jar" value="commons-math3-3.6.1" />
 		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
@@ -359,7 +359,7 @@
 		     version of POI which removes the parts we don't use and avoids Java language constructs
 		     which IKVM doesn't like. https://github.com/joniles/poifs -->
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${poifs.jar}" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
