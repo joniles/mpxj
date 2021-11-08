@@ -11,13 +11,16 @@
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.6.3/bin/mvn.cmd"/>
-		<property name="ruby.dir" value="C:/Ruby23"/>
-		<property name="python" value="c:/windows/py.exe" />
-		<property name="nuget.dir" value="${basedir}/../nuget" />
+		<property name="ruby.cmd" value="C:/Ruby23/bin/bundle.bat"/>
+		<property name="python.cmd" value="c:/windows/py.exe" />
+		<property name="nuget.cmd" value="${basedir}/../nuget/nuget.exe" />
 		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
-		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
+		<property name="ikvmc.exe" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
+		<property name="ikvmstub.exe" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
+
+		<property name="tlbexp.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
 		<property name="msbuild.dir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319" />
-		<property name="xjc" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
+		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
 		<property name="lib.dir" value="${basedir}/lib" />
 
@@ -101,14 +104,11 @@
 		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
 		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
 
-		<property name="ikvmc.exe" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
-		<property name="ikvmstub.exe" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
 		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
 		<available file="${ikvmc.exe}" property="ikvm.available" />
 
-		<property name="tlbexp.exe" value="${windows.tools.dir}/tlbexp.exe" />
-		<available file="${tlbexp.exe}" property="tlbexp.available" />
+		<available file="${tlbexp.cmd}" property="tlbexp.available" />
 
 		<property name="msbuild.exe" value="${msbuild.dir}/msbuild.exe" />
 		<condition property="msbuild.available">
@@ -189,13 +189,13 @@
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
-		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
 
 	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
-		<exec executable="${ruby.dir}/bin/bundle.bat" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
@@ -219,7 +219,7 @@
 
 	<!-- Ensure build is installed: py -m pip install - -upgrade build -->
 	<target name="python-build" depends="python-setup" description="Build python package">
-		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m build" />
 		</exec>
 	</target>
@@ -231,14 +231,14 @@
 	</target>
 
 	<target name="python-deploy-test" depends="python-build" description="Deploy python package to PyPI">
-		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m twine upload -r pypitest dist/*" />
 		</exec>
 	</target>
 
 	<!-- Ensure twine is installed py -m pip install twine -->
 	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
-		<exec executable="${python}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
 			<arg line="-m twine upload -r pypi dist/*" />
 		</exec>
 	</target>
@@ -250,28 +250,28 @@
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
 
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.xsd" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema ${primavera.xsd}" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 ${basedir}/jaxb/phoenix-4.xsd" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 ${basedir}/jaxb/phoenix-5.xsd" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema ${conceptdraw.xsd}" />
 		</exec>
-		<exec executable="${xjc}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
 		</exec>
 
@@ -425,7 +425,7 @@
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
-		<apply executable="${tlbexp.exe}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
+		<apply executable="${tlbexp.cmd}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
 			<arg value="/nologo"/>
 			<arg value="/silence:000017CE"/>
 			<arg value="/silence:001311D9"/>
@@ -631,7 +631,7 @@
 
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
 		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs/CHANGELOG.md"/>
-		<exec executable="${python}" dir="${basedir}/mkdocs">
+		<exec executable="${python.cmd}" dir="${basedir}/mkdocs">
 			<arg line="-m mkdocs build -d ${docs.dir}" />
 		</exec>
 		<delete file="${basedir}/docs/sitemap.xml" />
@@ -678,7 +678,7 @@
 	</target>
 
 	<target name="nuget-package" depends="init" description="Create NuGet packages">
-		<exec executable="${nuget.dir}/nuget.exe">
+		<exec executable="${nuget.cmd}">
 			<arg value="update"/>
 			<arg value="-self"/>
 		</exec>
@@ -717,7 +717,7 @@
 	</target>
 
 	<target name="nuget-pack">
-		<exec executable="${nuget.dir}/nuget.exe">
+		<exec executable="${nuget.cmd}">
 			<arg value="pack"/>
 			<arg value="nuget/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
@@ -731,7 +731,7 @@
 	</target>
 
 	<target name="nuget-push">
-		<exec executable="${nuget.dir}/nuget.exe">
+		<exec executable="${nuget.cmd}">
 			<arg value="push"/>
 			<arg value="-Source"/>
 			<arg value="https://www.nuget.org/api/v2/package"/>
