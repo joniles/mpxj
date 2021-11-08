@@ -4,33 +4,41 @@
 
 	<target name="init" description="Initialize properties">
 		<tstamp />
-
 		<property environment="env"/>
+
+		<!-- Build Configuration -->
 		<property name="current.version" value="9.8.2" />
+
+		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.6.3/bin/mvn.cmd"/>
-		<property name="ikvm.dir" value="${basedir}/../ikvm-8.1.5717.0" />
-		<property name="nuget.dir" value="${basedir}/../nuget" />
 		<property name="ruby.dir" value="C:/Ruby23"/>
+		<property name="python" value="c:/windows/py.exe" />
+		<property name="nuget.dir" value="${basedir}/../nuget" />
+		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="windows.tools.dir" value="${basedir}/../NETFX 4.5.1 Tools" />
 		<property name="msbuild.dir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319" />
+		<property name="xjc" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
+
+		<property name="lib.dir" value="${basedir}/lib" />
+
+		<!-- .Net -->
+		<property name="poifs.jar" value="${basedir}/../poifs/target/poifs-5.0.0.jar"/>
 		<property name="junit.jar" value="${basedir}/lib/junit-4.13.1.jar"/>
 		<property name="hamcrest.jar" value="${basedir}/lib/hamcrest-core-1.3.jar"/>
-		<property name="poifs.jar" value="${basedir}/../poifs/target/poifs-5.0.0.jar"/>
-		<property name="python" value="c:/windows/py.exe" />
+		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
-		<!-- These properties are only required if rebuilding JAXB generated source -->
-		<property name="xjc" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
+		<!-- .Net Framework -->
+		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
+
+		<!-- JAXB -->
 		<property name="mspdi.xsd" value="mspdi_pj15-correct.xsd" />
 		<property name="primavera.xsd" value="p6apibo.xsd" />
 		<property name="conceptdraw.xsd" value="document.xsd" />
 
-		<property name="lib.dir" value="${basedir}/lib" />
-		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
 		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="bak.dir" value="${basedir}/bak" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
-		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 
 		<!--
 		MPXJ is targeted at Java 1.8, so to ensure that the builds we distribute
@@ -93,8 +101,8 @@
 		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
 		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
 
-		<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
-		<property name="ikvmstub.exe" value="${ikvm.dir}/bin/ikvmstub.exe" />
+		<property name="ikvmc.exe" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
+		<property name="ikvmstub.exe" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
 		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
 		<available file="${ikvmc.exe}" property="ikvm.available" />
