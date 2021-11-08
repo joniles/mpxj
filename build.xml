@@ -17,8 +17,8 @@
 		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
-		<property name="tlbexp.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
-		<property name="msbuild.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
+		<property name="tlbexp.net45.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
+		<property name="msbuild.net45.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
 		<property name="lib.dir" value="${basedir}/lib" />
@@ -80,14 +80,13 @@
 
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
 		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
-		<available file="${ikvmc.net45.cmd}" property="ikvm.available" />
 
-		<available file="${tlbexp.cmd}" property="tlbexp.available" />
-
-		<condition property="msbuild.available">
+		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
+		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
+		<condition property="msbuild.net45.available">
 		    <and>
-				<available file="${msbuild.cmd}" property="msbuild.available" />
-		  		<isset property="ikvm.available"/>
+				<available file="${msbuild.net45.cmd}" property="msbuild.net45.available" />
+		  		<isset property="ikvm.net45.available"/>
 		    </and>
 		</condition>
 	</target>
@@ -154,7 +153,7 @@
 	<target name="gem-setup" depends="init" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
-			<fileset dir="${basedir}/lib" includes="*.jar" />
+			<fileset dir="${lib.dir}" includes="*.jar" />
 		</copy>
 		<copy todir="${basedir}/src.ruby/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
@@ -183,7 +182,7 @@
 	<target name="python-setup" depends="init" description="Build jars required by python package and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.python/mpxj/mpxj/lib"/>
 		<copy todir="${basedir}/src.python/mpxj/mpxj/lib">
-			<fileset dir="${basedir}/lib" includes="*.jar" />
+			<fileset dir="${lib.dir}" includes="*.jar" />
 		</copy>
 		<copy todir="${basedir}/src.python/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
@@ -253,7 +252,7 @@
 		</delete>
 	</target>
 
-	<target name="ikvm-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.available">
+	<target name="ikvm-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
 
 		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
 		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
@@ -316,7 +315,7 @@
 		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
 	</target>
 
-	<target name="ikvm-dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.available">
+	<target name="ikvm-dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.net45.available">
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
 			<arg value="${ikvm.working.dir}/mpxj.jar" />
 			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
@@ -348,11 +347,11 @@
 		</java>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-collections.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-collections.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${commons-math.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-math.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
@@ -363,19 +362,19 @@
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${rtfparserkit.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${rtfparserkit.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${sqlite-jdbc.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${sqlite-jdbc.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${jsoup.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${jsoup.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
-			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}\lib\${hamcrest.jar}.jar ${basedir}\lib\${junit.jar}.jar" />
+			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${hamcrest.jar}.jar ${lib.dir}\${junit.jar}.jar" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->
@@ -398,7 +397,7 @@
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
-		<apply executable="${tlbexp.cmd}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
+		<apply executable="${tlbexp.net45.cmd}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
 			<arg value="/nologo"/>
 			<arg value="/silence:000017CE"/>
 			<arg value="/silence:001311D9"/>
@@ -466,7 +465,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="vs-dll" depends="ikvm-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.available">
+	<target name="vs-dll" depends="ikvm-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
 
 		<property name="vs.src.dir" value="${vs.working.dir}" />
 
@@ -477,7 +476,7 @@
 			<fileset dir="${basedir}/src.net" includes="**" />
 		</copy>
 
-		<exec executable="${msbuild.cmd}" dir="${basedir}">
+		<exec executable="${msbuild.net45.cmd}" dir="${basedir}">
 			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
 
