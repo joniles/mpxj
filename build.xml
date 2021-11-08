@@ -23,11 +23,6 @@
 
 		<property name="lib.dir" value="${basedir}/lib" />
 
-		<!-- .Net -->
-		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
-
-		<!-- .Net Framework -->
-		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
 
 		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="docs.dir" value="${basedir}/docs" />
@@ -65,6 +60,11 @@
 		<property name="jsoup.classpath" refid="jsoup.path" />
 		<property name="junit.classpath" refid="junit.path" />
 
+		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
+		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
+		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
+
+		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
 		<property name="poi.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
 		<property name="commons-math.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
@@ -77,9 +77,6 @@
 		<property name="mpxj-for-vb.dll" value="${lib.net45.dir}\mpxj-for-vb.dll" />
 		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
 		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
-
-		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
-		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
 
 		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
 		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
@@ -252,7 +249,7 @@
 		</delete>
 	</target>
 
-	<target name="ikvm-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
+	<target name="ikvm-net45-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
 
 		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
 		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
@@ -315,7 +312,7 @@
 		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
 	</target>
 
-	<target name="ikvm-dll" depends="ikvm-compile" description="Build .net DLLs" if="ikvm.net45.available">
+	<target name="ikvm-net45-dll" depends="ikvm-net45-compile" description="Build .net DLLs" if="ikvm.net45.available">
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
 			<arg value="${ikvm.working.dir}/mpxj.jar" />
 			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
@@ -465,7 +462,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="vs-dll" depends="ikvm-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
+	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
 
 		<property name="vs.src.dir" value="${vs.working.dir}" />
 
@@ -485,7 +482,7 @@
 		<delete dir="${vs.working.dir}" />
 	</target>
 
-	<target name="archive" depends="package,ikvm-dll,vs-dll,gem-source,changelog,releasenotes" description="Create library files"/>
+	<target name="archive" depends="package,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
