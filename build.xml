@@ -34,6 +34,7 @@
 		-->
 		<property name="target-jvm-version" value="1.8" />
 
+		<!-- Dependencies -->
 		<property name="poi.jar" value="poi-5.0.0" />
 		<property name="poifs.jar" value="poifs-5.0.0"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
@@ -44,6 +45,7 @@
 		<property name="junit.jar" value="junit-4.13.1"/>
 		<property name="hamcrest.jar" value="hamcrest-core-1.3"/>
 
+		<!-- Dependency Paths -->
 		<path id="poi.path"><pathelement location="${lib.dir}/${poi.jar}.jar" /></path>
 		<path id="commons-collections.path"><pathelement location="${lib.dir}/${commons-collections.jar}.jar" /></path>
 		<path id="commons-math.path"><pathelement location="${lib.dir}/${commons-math.jar}.jar" /></path>
@@ -52,6 +54,7 @@
 		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
 		<path id="junit.path"><pathelement location="${lib.dir}/${junit.jar}.jar" /></path>
 
+		<!-- Dependency Classpaths -->
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="commons-collections.classpath" refid="commons-collections.path" />
 		<property name="commons-math.classpath" refid="commons-math.path" />
@@ -59,33 +62,6 @@
 		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="jsoup.classpath" refid="jsoup.path" />
 		<property name="junit.classpath" refid="junit.path" />
-
-		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
-		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
-		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
-
-		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
-		<property name="poi.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
-		<property name="commons-collections.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
-		<property name="commons-math.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
-		<property name="rtfparserkit.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
-		<property name="jsoup.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
-		<property name="junit.dll" value="${lib.net45.dir}\junit.dll" />
-		<property name="mpxj.dll" value="${lib.net45.dir}\mpxj.dll" />
-		<property name="mpxj-test.dll" value="${lib.net45.dir}\mpxj-test.dll" />
-		<property name="mpxj-for-vb.dll" value="${lib.net45.dir}\mpxj-for-vb.dll" />
-		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
-		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
-
-		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
-		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
-		<condition property="msbuild.net45.available">
-		    <and>
-				<available file="${msbuild.net45.cmd}" property="msbuild.net45.available" />
-		  		<isset property="ikvm.net45.available"/>
-		    </and>
-		</condition>
 	</target>
 
 	<target name="update-version-numbers" depends="init" description="Ensure that version numbers in the code are up-to-date">
@@ -249,7 +225,38 @@
 		</delete>
 	</target>
 
-	<target name="ikvm-net45-compile" depends="init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
+	<target name="ikvm-init" depends="init">
+		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
+		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
+		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
+	</target>
+
+	<target name="ikvm-net45-init" depends="ikvm-init">
+		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
+		<property name="poi.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
+		<property name="commons-collections.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-math.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
+		<property name="rtfparserkit.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
+		<property name="jsoup.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
+		<property name="junit.dll" value="${lib.net45.dir}\junit.dll" />
+		<property name="mpxj.dll" value="${lib.net45.dir}\mpxj.dll" />
+		<property name="mpxj-test.dll" value="${lib.net45.dir}\mpxj-test.dll" />
+		<property name="mpxj-for-vb.dll" value="${lib.net45.dir}\mpxj-for-vb.dll" />
+		<property name="mpxj-for-csharp.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
+		<property name="mpxj-utilities.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
+
+		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
+		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
+		<condition property="msbuild.net45.available">
+			<and>
+				<available file="${msbuild.net45.cmd}" property="msbuild.net45.available" />
+				<isset property="ikvm.net45.available"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="ikvm-net45-compile" depends="ikvm-net45-init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
 
 		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
 		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
@@ -496,13 +503,20 @@
 		</delete>
 	</target>
 
-	<target name="clean-dot-net" depends="init" description="Clean up .Net build files">
+	<target name="clean-dot-net" depends="ikvm-net45-init" description="Clean up .Net build files">
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.net" defaultexcludes="false">
 				<include name="**/bin/**" />
 				<include name="**/obj/**" />
 				<include name="**/*.suo" />
 				<include name="**/*.user" />
+			</fileset>
+		</delete>
+
+		<delete>
+			<fileset dir="${lib.net45.dir}">
+				<include name="*.tlb"/>
+				<include name="*.bat"/>
 			</fileset>
 		</delete>
 
@@ -550,13 +564,6 @@
 		<delete file="${sqlite-jdbc.dll}" />
 		<delete file="${jsoup.dll}" />
 		<delete file="${mpxj-utilities.dll}" />
-
-		<delete>
-			<fileset dir="${lib.net45.dir}">
-				<include name="*.tlb"/>
-				<include name="*.bat"/>
-			</fileset>
-		</delete>
 
 		<delete>
 			<fileset dir="${lib.dir}">

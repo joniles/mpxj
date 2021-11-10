@@ -54,7 +54,7 @@
 		    <artifactId>jakarta.xml.bind-api</artifactId>
 		    <version>2.3.2</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.glassfish.jaxb</groupId>
 		    <artifactId>jaxb-runtime</artifactId>
@@ -183,10 +183,10 @@
 		</contributor>
 		<contributor>
 			<name>Gary McKenney</name>
-		</contributor>				
+		</contributor>
 		<contributor>
 			<name>Tiago de Mello</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Scott Melville</name>
 		</contributor>
@@ -195,10 +195,10 @@
 		</contributor>
 		<contributor>
 			<name>Andrei Missine</name>
-		</contributor>				
+		</contributor>
 		<contributor>
 			<name>ninthwaveltd</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Jari Niskala</name>
 		</contributor>
@@ -210,16 +210,16 @@
 		</contributor>
 		<contributor>
 			<name>Daniel Schmidt</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Rohit Sinha</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Sruthi-Ganesh</name>
 		</contributor>
 		<contributor>
 			<name>Sebastian Stock</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>James Styles</name>
 		</contributor>
@@ -237,7 +237,7 @@
 		</contributor>
 		<contributor>
 			<name>ztravis</name>
-		</contributor>		
+		</contributor>
 	</contributors>
 
 	<licenses>
@@ -307,7 +307,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir> 
+			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir>
 				to allow unit tests to run -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
