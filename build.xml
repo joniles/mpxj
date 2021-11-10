@@ -23,8 +23,6 @@
 
 		<property name="lib.dir" value="${basedir}/lib" />
 
-
-		<property name="doc.dir" value="${basedir}/doc/api" />
 		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 
@@ -553,7 +551,6 @@
 
 	<target name="clean" depends="init, clean-temp, clean-dot-net, clean-ruby, clean-python, maven-clean" description="Clean up all files">
 
-		<delete dir="${doc.dir}" />
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
 
