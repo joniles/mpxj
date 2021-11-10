@@ -28,12 +28,6 @@
 		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 
-		<!--
-		MPXJ is targeted at Java 1.8, so to ensure that the builds we distribute
-		match this, we use this setting.
-		-->
-		<property name="target-jvm-version" value="1.8" />
-
 		<!-- Dependencies -->
 		<property name="poi.jar" value="poi-5.0.0" />
 		<property name="poifs.jar" value="poifs-5.0.0"/>
@@ -264,6 +258,17 @@
 		<property name="ikvm.classes.test.dir" value="${ikvm.working.dir}/classes.test" />
 		<property name="ikvm.lib.dir" value="${ikvm.working.dir}/lib" />
 
+		<!-- Extract the target JVM version from pom.xml -->
+		<loadfile encoding="UTF-8" property="target-jvm-version" srcFile="${basedir}/pom.xml" >
+	        <filterchain>
+	            <tokenfilter>
+	                <containsregex
+	                    pattern="(\s*&lt;target&gt;)(.+)(&lt;/target&gt;\s*)"
+	                    replace="\2" />
+	            </tokenfilter>
+	            <striplinebreaks />
+	        </filterchain>
+		</loadfile>
 
 		<delete dir="${ikvm.working.dir}" />
 		<mkdir dir="${ikvm.src.dir}" />
