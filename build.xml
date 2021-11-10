@@ -21,9 +21,8 @@
 		<property name="msbuild.net45.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
+		<!-- Common properties -->
 		<property name="lib.dir" value="${basedir}/lib" />
-
-		<property name="docs.dir" value="${basedir}/docs" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 
 		<!-- Dependencies -->
@@ -607,16 +606,17 @@
 	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build" description="Produce site content"/>
 
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
+		<property name="docs.dir" value="${basedir}/docs" />
 		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs/CHANGELOG.md"/>
 		<exec executable="${python.cmd}" dir="${basedir}/mkdocs">
 			<arg line="-m mkdocs build -d ${docs.dir}" />
 		</exec>
 		<delete file="${basedir}/docs/sitemap.xml" />
 		<delete file="${basedir}/docs/sitemap.xml.gz" />
+		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
 	</target>
 
 	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
-		<echo file="${docs.dir}/CNAME" append="false">www.mpxj.org</echo>
 		<exec executable="${maven.cmd}" dir="${basedir}">
 			<arg line="post-site" />
 		</exec>
