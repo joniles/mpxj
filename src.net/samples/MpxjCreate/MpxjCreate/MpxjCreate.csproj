@@ -34,107 +34,110 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-collections4-4.4">
-      <HintPath>..\..\..\lib.net\net45\commons-collections4-4.4.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\commons-collections4-4.4.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.AWT.WinForms">
-      <HintPath>..\..\..\lib.net\net45\IKVM.AWT.WinForms.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.AWT.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Beans">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Beans.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Beans.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Charsets">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Charsets.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Charsets.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Cldrdata">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Cldrdata.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Cldrdata.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Corba">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Corba.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Corba.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Core.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Jdbc">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Jdbc.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Jdbc.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Localedata">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Localedata.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Localedata.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Management">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Management.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Management.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Media">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Media.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Media.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Misc">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Misc.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Misc.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Naming">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Naming.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Naming.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Nashorn">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Nashorn.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Nashorn.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Remoting">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Remoting.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Remoting.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Security">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Security.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Security.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.SwingAWT">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.SwingAWT.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Text">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Text.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Text.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Tools">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Tools.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Tools.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Util">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.Util.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.Util.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.API">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.API.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.API.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.Bind">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.Bind.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.Bind.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.Crypto">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.Parse">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.Parse.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.Transform">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.Transform.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.Transform.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.WebServices">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.XPath">
-      <HintPath>..\..\..\lib.net\net45\IKVM.OpenJDK.XML.XPath.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.OpenJDK.XML.XPath.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.Reflection">
-      <HintPath>..\..\..\lib.net\net45\IKVM.Reflection.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.Runtime">
-      <HintPath>..\..\..\lib.net\net45\IKVM.Runtime.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.Runtime.JNI">
-      <HintPath>..\..\..\lib.net\net45\IKVM.Runtime.JNI.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
     <Reference Include="jsoup-1.14.2">
-      <HintPath>..\..\..\lib.net\net45\jsoup-1.14.2.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\jsoup-1.14.2.dll</HintPath>
     </Reference>
     <Reference Include="mpxj-for-csharp">
-      <HintPath>..\..\..\lib.net\net45\mpxj-for-csharp.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\mpxj-for-csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MpxjUtilities">
+      <HintPath>..\..\..\lib\net45\MpxjUtilities.dll</HintPath>
     </Reference>
     <Reference Include="poi-5.0.0">
-      <HintPath>..\..\..\lib.net\net45\poi-5.0.0.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\poi-5.0.0.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.16.0, Version=7.5.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib.net\net45\rtfparserkit-1.16.0.dll</HintPath>
+      <HintPath>..\..\..\lib\net45\rtfparserkit-1.16.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -146,12 +149,6 @@
   <ItemGroup>
     <Compile Include="MpxjCreate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MpxjUtilities\MpxjUtilities.csproj">
-      <Project>{cdf7e45a-bcbf-48ae-96c7-75d29e592230}</Project>
-      <Name>MpxjUtilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

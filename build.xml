@@ -66,7 +66,7 @@
 		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
 		               replace='\1${current.version}.0\3'
 		               byline="true">
-			<fileset dir="${basedir}/src.net" includes="**/*.cs" />
+			<fileset dir="${basedir}/src.net/samples" includes="**/*.cs" />
 		</replaceregexp>
 
 		<replaceregexp file="${basedir}/src.ruby/mpxj/lib/mpxj/version.rb"
@@ -223,7 +223,7 @@
 	</target>
 
 	<target name="ikvm-net45-init" depends="ikvm-init">
-		<property name="lib.net45.dir" value="${basedir}/lib.net/net45" />
+		<property name="lib.net45.dir" value="${basedir}/src.net/lib/net45" />
 		<property name="poi.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
 		<property name="commons-math.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
@@ -479,14 +479,14 @@
 		<mkdir dir="${vs.src.dir}" />
 
 		<copy todir="${vs.src.dir}">
-			<fileset dir="${basedir}/src.net" includes="**" />
+			<fileset dir="${basedir}/src.net/utilities" includes="**" />
 		</copy>
 
 		<exec executable="${msbuild.net45.cmd}" dir="${basedir}">
-			<arg line="${vs.src.dir}/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
+			<arg line="src.net/utilities/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
 
-		<copy file="${vs.src.dir}/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
+		<copy file="src.net/utilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
 
 		<delete dir="${vs.working.dir}" />
 	</target>
@@ -655,12 +655,14 @@
 	</target>
 
 	<target name="nuget-package" depends="init" description="Create NuGet packages">
+		<property name="nuspec.dir" value="${basedir}/src.net/nuget"/>
+
 		<exec executable="${nuget.cmd}">
 			<arg value="update"/>
 			<arg value="-self"/>
 		</exec>
 
-		<replace dir="nuget" token="0.0.0" value="${current.version}">
+		<replace dir="${nuspec.dir}" token="0.0.0" value="${current.version}">
 			<include name="*.nuspec" />
 		</replace>
 
@@ -688,7 +690,7 @@
 			<param name="nuget.spec" value="mpxj-test"/>
 		</antcall>
 
-		<replace dir="nuget" token="${current.version}" value="0.0.0">
+		<replace dir="${nuspec.dir}" token="${current.version}" value="0.0.0">
 			<include name="*.nuspec" />
 		</replace>
 	</target>
@@ -696,7 +698,7 @@
 	<target name="nuget-pack">
 		<exec executable="${nuget.cmd}">
 			<arg value="pack"/>
-			<arg value="nuget/${nuget.spec}.nuspec"/>
+			<arg value="${nuspec.dir}/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
 			<arg value="${basedir}/.."/>
 			<arg value="-version"/>
@@ -743,7 +745,6 @@
 			<param name="nuget.package" value="mpxj-for-vb"/>
 		</antcall>
 	</target>
-
 
 	<!-- Experimental - work in progress -->
 	<target name="j2objc">

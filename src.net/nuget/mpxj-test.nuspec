@@ -15,7 +15,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="..\lib.net\net45\mpxj-test*.*" target="lib\net45"/>
-        <file src="..\lib.net\net45\junit*.*" target="lib\net45"/>
+        <file src="..\lib\net45\mpxj-test*.*" target="lib\net45"/>
+        <file src="..\lib\net45\junit*.*" target="lib\net45"/>
     </files>
 </package>

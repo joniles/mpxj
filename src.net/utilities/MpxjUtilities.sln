@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjUtilities", "MpxjUtilities\MpxjUtilities.csproj", "{CDF7E45A-BCBF-48AE-96C7-75D29E592230}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

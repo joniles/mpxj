@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjConvert", "MpxjConvert\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest", "MpxjTest\MpxjTest.csproj", "{15C569A0-4B30-4E74-BC99-A13788F53244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjUtilities", "MpxjUtilities\MpxjUtilities.csproj", "{CDF7E45A-BCBF-48AE-96C7-75D29E592230}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MpxjQueryVB", "MpxjQueryVB\MpxjQueryVB.vbproj", "{3391E99A-6CB5-407C-B4E7-803338444738}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjCreate", "MpxjCreate\MpxjCreate\MpxjCreate.csproj", "{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}"
@@ -56,16 +54,6 @@ Global
 		{15C569A0-4B30-4E74-BC99-A13788F53244}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{15C569A0-4B30-4E74-BC99-A13788F53244}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{15C569A0-4B30-4E74-BC99-A13788F53244}.Release|x86.ActiveCfg = Release|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{CDF7E45A-BCBF-48AE-96C7-75D29E592230}.Release|x86.ActiveCfg = Release|Any CPU
 		{3391E99A-6CB5-407C-B4E7-803338444738}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3391E99A-6CB5-407C-B4E7-803338444738}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{3391E99A-6CB5-407C-B4E7-803338444738}.Debug|Mixed Platforms.Build.0 = Debug|x86
