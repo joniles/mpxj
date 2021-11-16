@@ -219,7 +219,6 @@
 	<target name="ikvm-init" depends="init">
 		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
 		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
-		<property name="vs.working.dir" value="${basedir}/vs.tmp" />
 	</target>
 
 	<target name="ikvm-net45-init" depends="ikvm-init">
@@ -472,23 +471,10 @@
 	</target>
 
 	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
-
-		<property name="vs.src.dir" value="${vs.working.dir}" />
-
-		<delete dir="${vs.working.dir}" />
-		<mkdir dir="${vs.src.dir}" />
-
-		<copy todir="${vs.src.dir}">
-			<fileset dir="${basedir}/src.net/utilities" includes="**" />
-		</copy>
-
 		<exec executable="${msbuild.net45.cmd}" dir="${basedir}">
 			<arg line="src.net/utilities/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
-
 		<copy file="src.net/utilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
-
-		<delete dir="${vs.working.dir}" />
 	</target>
 
 	<target name="archive" depends="package,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
@@ -523,7 +509,6 @@
 		</delete>
 
 		<delete dir="${ikvm.working.dir}" />
-		<delete dir="${vs.working.dir}" />
 	</target>
 
 	<target name="clean-ruby" depends="init" description="Clean up Ruby files">
