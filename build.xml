@@ -19,6 +19,9 @@
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="tlbexp.net45.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
 		<property name="msbuild.net45.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
+		<property name="ikvm.nca31.dir" value="${basedir}/../ikvm-netcoreapp3.1" />
+		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
+		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
 		<!-- Common properties -->
@@ -83,7 +86,7 @@
 	</target>
 
 	<target name="package" depends="init,update-version-numbers">
-		<exec executable="${maven.cmd}" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true package" />
 		</exec>
 		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
@@ -125,13 +128,13 @@
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
-		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj" failonerror="true">
 			<arg line="exec rspec spec" />
 		</exec>
 	</target>
 
 	<target name="gem-deploy" depends="gem-setup" description="Deploy rubygem to rubygems.org">
-		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj">
+		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj" failonerror="true">
 			<arg line="exec rake build release:rubygem_push" />
 		</exec>
 	</target>
@@ -155,7 +158,7 @@
 
 	<!-- Ensure build is installed: py -m pip install - -upgrade build -->
 	<target name="python-build" depends="python-setup" description="Build python package">
-		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj" failonerror="true">
 			<arg line="-m build" />
 		</exec>
 	</target>
@@ -167,14 +170,14 @@
 	</target>
 
 	<target name="python-deploy-test" depends="python-build" description="Deploy python package to PyPI">
-		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj" failonerror="true">
 			<arg line="-m twine upload -r pypitest dist/*" />
 		</exec>
 	</target>
 
 	<!-- Ensure twine is installed py -m pip install twine -->
 	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
-		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj">
+		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj" failonerror="true">
 			<arg line="-m twine upload -r pypi dist/*" />
 		</exec>
 	</target>
@@ -186,28 +189,28 @@
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
 
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-correct.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema p6apibo.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 ${basedir}/jaxb/phoenix-4.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 ${basedir}/jaxb/phoenix-5.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema document.xsd" />
 		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}">
+		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
 		</exec>
 
@@ -246,6 +249,24 @@
 		</condition>
 	</target>
 
+	<target name="ikvm-nca31-init" depends="ikvm-init">
+		<property name="lib.nca31.dir" value="${basedir}/src.net/lib/netcoreapp31" />
+		<property name="poi.dll" value="${lib.nca31.dir}\${poi.jar}.dll" />
+		<property name="commons-collections.dll" value="${lib.nca31.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-math.dll" value="${lib.nca31.dir}\${commons-math.jar}.dll" />
+		<property name="rtfparserkit.dll" value="${lib.nca31.dir}\${rtfparserkit.jar}.dll" />
+		<property name="sqlite-jdbc.dll" value="${lib.nca31.dir}\${sqlite-jdbc.jar}.dll" />
+		<property name="jsoup.dll" value="${lib.nca31.dir}\${jsoup.jar}.dll" />
+		<property name="junit.dll" value="${lib.nca31.dir}\junit.dll" />
+		<property name="mpxj.dll" value="${lib.nca31.dir}\mpxj.dll" />
+		<property name="mpxj-test.dll" value="${lib.nca31.dir}\mpxj-test.dll" />
+		<property name="mpxj-for-vb.dll" value="${lib.nca31.dir}\mpxj-for-vb.dll" />
+		<property name="mpxj-for-csharp.dll" value="${lib.nca31.dir}\mpxj-for-csharp.dll" />
+		<property name="mpxj-utilities.dll" value="${lib.nca31.dir}\MpxjUtilities.dll" />
+
+		<available file="${ikvmc.nca31.cmd}" property="ikvm.nca31.available" />
+	</target>
+
 	<target name="ikvm-net45-compile" depends="ikvm-net45-init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
 
 		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
@@ -273,7 +294,7 @@
 		<mkdir dir="${ikvm.classes.test.dir}" />
 		<mkdir dir="${ikvm.lib.dir}" />
 
-		<exec executable="${ikvmstub.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmstub.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
 		</exec>
 
@@ -320,6 +341,57 @@
 		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
 	</target>
 
+	<target name="ikvm-nca31-compile" depends="ikvm-nca31-init" description="Compile everything ready for use with IKVM" if="ikvm.nca31.available">
+
+		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
+		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
+		<property name="ikvm.classes.dir" value="${ikvm.working.dir}/classes" />
+		<property name="ikvm.classes.test.dir" value="${ikvm.working.dir}/classes.test" />
+		<property name="ikvm.lib.dir" value="${ikvm.working.dir}/lib" />
+
+		<!-- Extract the target JVM version from pom.xml -->
+		<loadfile encoding="UTF-8" property="target-jvm-version" srcFile="${basedir}/pom.xml" >
+	        <filterchain>
+	            <tokenfilter>
+	                <containsregex
+	                    pattern="(\s*&lt;target&gt;)(.+)(&lt;/target&gt;\s*)"
+	                    replace="\2" />
+	            </tokenfilter>
+	            <striplinebreaks />
+	        </filterchain>
+		</loadfile>
+
+		<delete dir="${ikvm.working.dir}" />
+		<mkdir dir="${ikvm.src.dir}" />
+		<mkdir dir="${ikvm.src.test.dir}" />
+		<mkdir dir="${ikvm.classes.dir}" />
+		<mkdir dir="${ikvm.classes.test.dir}" />
+		<mkdir dir="${ikvm.lib.dir}" />
+
+		<exec executable="${ikvmstub.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
+		</exec>
+
+		<copy todir="${ikvm.src.dir}">
+			<fileset dir="${basedir}/src/main/java" includes="**" />
+		</copy>
+
+		<copy todir="${ikvm.src.test.dir}">
+			<fileset dir="${basedir}/src/test/java" includes="**" />
+		</copy>
+
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+			<compilerarg line="-encoding cp1252" />
+		</javac>
+
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+			<compilerarg line="-encoding cp1252" />
+		</javac>
+
+		<jar jarfile="${ikvm.working.dir}/mpxj.jar" basedir="${ikvm.classes.dir}" />
+		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
+	</target>
+
 	<target name="ikvm-net45-dll" depends="ikvm-net45-compile" description="Build .net DLLs" if="ikvm.net45.available">
 		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
 			<arg value="${ikvm.working.dir}/mpxj.jar" />
@@ -351,53 +423,53 @@
 			</classpath>
 		</java>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-collections.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-math.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
 		     version of POI which removes the parts we don't use and avoids Java language constructs
 		     which IKVM doesn't like. https://github.com/joniles/poifs -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.dll} -reference:${commons-math.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${rtfparserkit.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${sqlite-jdbc.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${jsoup.jar}.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${hamcrest.jar}.jar ${lib.dir}\${junit.jar}.jar" />
 		</exec>
 
 		<!-- Generate the original unmapped DLL -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}">
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
@@ -470,14 +542,98 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
+	<target name="ikvm-nca31-dll" depends="ikvm-nca31-compile" description="Build .net DLLs" if="ikvm.nca31.available">
+		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
+			<arg value="${ikvm.working.dir}/mpxj.jar" />
+			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
+			<arg value="False" />
+			<classpath>
+				<pathelement path="${classpath}" />
+				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
+				<pathelement location="${junit.classpath}" />
+				<pathelement location="${poi.classpath}" />
+				<pathelement location="${rtfparserkit.classpath}" />
+				<pathelement location="${sqlite-jdbc.classpath}" />
+				<pathelement location="${jsoup.classpath}" />
+			</classpath>
+		</java>
+
+		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
+			<arg value="${ikvm.working.dir}/mpxj.jar" />
+			<arg value="${ikvm.working.dir}/ikvm-remap-csharp.xml" />
+			<arg value="True" />
+			<classpath>
+				<pathelement path="${classpath}" />
+				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
+				<pathelement location="${junit.classpath}" />
+				<pathelement location="${poi.classpath}" />
+				<pathelement location="${rtfparserkit.classpath}" />
+				<pathelement location="${sqlite-jdbc.classpath}" />
+				<pathelement location="${jsoup.classpath}" />
+			</classpath>
+		</java>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-collections.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-math.jar}.jar" />
+		</exec>
+
+		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
+		     version of POI which removes the parts we don't use and avoids Java language constructs
+		     which IKVM doesn't like. https://github.com/joniles/poifs -->
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${commons-collections.dll} -reference:${commons-math.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${rtfparserkit.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${jsoup.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${lib.dir}\${hamcrest.jar}.jar ${lib.dir}\${junit.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:System.Console.dll ${lib.dir}\${sqlite-jdbc.jar}.jar" />
+		</exec>
+
+		<!-- Generate the original unmapped DLL -->
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0003 -out:${mpxj-test.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:${mpxj.dll} -reference:${junit.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+		</exec>
+
+		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+		</exec>
+
+		<!-- Generate a mapped DLL for C# and other .Net languages -->
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.dll} -reference:${rtfparserkit.dll} -reference:${sqlite-jdbc.dll} -reference:${jsoup.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+		</exec>
+
+		<delete dir="${ikvm.working.dir}" />
+	</target>
+
 	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
-		<exec executable="${msbuild.net45.cmd}" dir="${basedir}">
+		<exec executable="${msbuild.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="src.net/utilities/MpxjUtilities/MpxjUtilities.csproj /p:Configuration=Debug /target:'Clean;Rebuild'" />
 		</exec>
 		<copy file="src.net/utilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.dll}"/>
 	</target>
 
-	<target name="archive" depends="package,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
+	<target name="archive" depends="package,ikvm-nca31-dll,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
@@ -576,13 +732,13 @@
 
 		<property name="filter" value="-javax.*,-com.*,-org.*,-junit.*,-net.sf.mpxj.mspdi.schema.*" />
 
-		<exec executable="java" dir="${basedir}">
+		<exec executable="java" dir="${basedir}" failonerror="true">
 			<arg line="-Xms64m -Xmx512m -Dmpxj.junit.datadir=${basedir}/junit/data -cp ${emma.dir}/lib/emma.jar emmarun -cp ${emmarun.classpath} -r html -sp ${basedir}/src -ix ${filter} junit.textui.TestRunner net.sf.mpxj.junit.MPXJTest" />
 		</exec>
 	</target>
 
 	<target name="maven-clean" depends="init" description="Cleans the maven directory">
-		<exec executable="${maven.cmd}" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="clean" />
 		</exec>
 	</target>
@@ -593,7 +749,7 @@
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
 		<property name="docs.dir" value="${basedir}/docs" />
 		<copy file="${basedir}/CHANGELOG.md" tofile="${basedir}/mkdocs/docs/CHANGELOG.md"/>
-		<exec executable="${python.cmd}" dir="${basedir}/mkdocs">
+		<exec executable="${python.cmd}" dir="${basedir}/mkdocs" failonerror="true">
 			<arg line="-m mkdocs build -d ${docs.dir}" />
 		</exec>
 		<delete file="${basedir}/docs/sitemap.xml" />
@@ -602,7 +758,7 @@
 	</target>
 
 	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
-		<exec executable="${maven.cmd}" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="post-site" />
 		</exec>
 
@@ -616,25 +772,25 @@
 	</target>
 
 	<target name="maven-test" depends="init" description="Execute maven and run tests">
-		<exec executable="${maven.cmd}" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>
 	</target>
 
 	<target name="maven-deploy" depends="init" description="Execute maven and deploy to OSSRH">
-		<exec executable="${maven.cmd}" dir="${basedir}">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-DskipTests=true clean deploy" />
 		</exec>
 	</target>
 
 	<target name="github-deploy" depends="init" description="Deploy to GitHub">
 		<echo message="Tagging"/>
-		<exec executable="hub">
+		<exec executable="hub" failonerror="true">
 			<arg line="tag v${current.version}" />
 		</exec>
 
 		<echo message="Releasing"/>
-		<exec executable="hub">
+		<exec executable="hub" failonerror="true">
 			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
 		</exec>
 	</target>
@@ -642,7 +798,7 @@
 	<target name="nuget-package" depends="init" description="Create NuGet packages">
 		<property name="nuspec.dir" value="${basedir}/src.net/nuget"/>
 
-		<exec executable="${nuget.cmd}">
+		<exec executable="${nuget.cmd}" failonerror="true">
 			<arg value="update"/>
 			<arg value="-self"/>
 		</exec>
@@ -681,7 +837,7 @@
 	</target>
 
 	<target name="nuget-pack">
-		<exec executable="${nuget.cmd}">
+		<exec executable="${nuget.cmd}" failonerror="true">
 			<arg value="pack"/>
 			<arg value="${nuspec.dir}/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
@@ -695,7 +851,7 @@
 	</target>
 
 	<target name="nuget-push">
-		<exec executable="${nuget.cmd}">
+		<exec executable="${nuget.cmd}" failonerror="true">
 			<arg value="push"/>
 			<arg value="-Source"/>
 			<arg value="https://www.nuget.org/api/v2/package"/>
