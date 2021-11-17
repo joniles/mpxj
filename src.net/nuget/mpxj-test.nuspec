@@ -17,5 +17,8 @@
     <files>
         <file src="..\lib\net45\mpxj-test*.*" target="lib\net45"/>
         <file src="..\lib\net45\junit*.*" target="lib\net45"/>
+
+        <file src="..\lib\netcoreapp3.1\mpxj-test*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\junit*.*" target="lib\netcoreapp3.1"/>
     </files>
 </package>

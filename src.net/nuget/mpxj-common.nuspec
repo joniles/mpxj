@@ -18,5 +18,12 @@
         <file src="..\lib\net45\sqlite-jdbc*.*" target="lib\net45"/>
         <file src="..\lib\net45\jsoup*.*" target="lib\net45"/>
         <file src="..\lib\net45\MpxjUtilities.*" target="lib\net45"/>
+
+        <file src="..\lib\netcoreapp3.1\commons-*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\poi*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\rtfparserkit*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\sqlite-jdbc*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\jsoup*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\MpxjUtilities.*" target="lib\netcoreapp3.1"/>
     </files>
 </package>
