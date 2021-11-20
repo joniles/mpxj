@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -353,6 +355,7 @@ public class GenericCriteria
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       sb.append("(");
 
       switch (m_operator)
@@ -381,11 +384,11 @@ public class GenericCriteria
             sb.append(" ");
             sb.append(m_operator);
             sb.append(" ");
-            sb.append(m_definedRightValues[0]);
+            sb.append(m_definedRightValues[0] instanceof Date ? df.format(m_definedRightValues[0]) : m_definedRightValues[0]);
             if (m_definedRightValues[1] != null)
             {
                sb.append(",");
-               sb.append(m_definedRightValues[1]);
+               sb.append(m_definedRightValues[1] instanceof Date ? df.format(m_definedRightValues[1]) : m_definedRightValues[1]);
             }
          }
       }
