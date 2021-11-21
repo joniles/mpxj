@@ -6,7 +6,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\mpxj.snk</AssemblyOriginatorKeyFile>
-    <Version>10.0.4.0</Version>
+    <Version>10.0.5.0</Version>
     <Copyright>xyz</Copyright>
   </PropertyGroup>
 

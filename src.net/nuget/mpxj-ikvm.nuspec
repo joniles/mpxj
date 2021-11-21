@@ -22,8 +22,8 @@
         <file src="..\lib\net45\ikvm-native-win32-x64.dll" target="build\net45"/>
 
         <file src="..\lib\netcoreapp3.1\IKVM.*" target="lib\netcoreapp3.1"/>
-        <file src="..\lib\netcoreapp3.1\ikvm-native-win32-x86.dll" target="build\netcoreapp3.1"/>
-        <file src="..\lib\netcoreapp3.1\ikvm-native-win32-x64.dll" target="build\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\windows\*" target="build\netcoreapp3.1\windows"/>
+        <file src="..\lib\netcoreapp3.1\osx\*" target="build\netcoreapp3.1\osx"/>
 
         <file src="net.sf.mpxj-ikvm.targets" target="build"/>
     </files>

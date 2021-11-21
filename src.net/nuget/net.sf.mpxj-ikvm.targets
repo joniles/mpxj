@@ -9,8 +9,16 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
-    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\*.dll"/>
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows')) And '$(TargetFrameworkIdentifier)' != '.NETFramework'">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\windows\*"/>
+    <None Include="@(NativeLibs)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\osx\*"/>
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
