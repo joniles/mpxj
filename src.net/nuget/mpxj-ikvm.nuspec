@@ -24,6 +24,7 @@
         <file src="..\lib\netcoreapp3.1\IKVM.*" target="lib\netcoreapp3.1"/>
         <file src="..\lib\netcoreapp3.1\windows\*" target="build\netcoreapp3.1\windows"/>
         <file src="..\lib\netcoreapp3.1\osx\*" target="build\netcoreapp3.1\osx"/>
+        <file src="..\lib\netcoreapp3.1\linux\*" target="build\netcoreapp3.1\linux"/>
 
         <file src="net.sf.mpxj-ikvm.targets" target="build"/>
     </files>
