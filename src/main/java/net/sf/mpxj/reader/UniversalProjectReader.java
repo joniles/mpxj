@@ -53,6 +53,7 @@ import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
@@ -430,7 +431,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getCanonicalPath();
-         Set<String> tableNames = populateTableNames(url);
+         Set<String> tableNames = populateJdbcTableNames(url);
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
@@ -465,9 +466,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Class.forName("org.sqlite.JDBC");
-         String url = "jdbc:sqlite:" + file.getCanonicalPath();
-         Set<String> tableNames = populateTableNames(url);
+         Set<String> tableNames = populateSqliteTableNames(file);
 
          if (tableNames.contains("EXCEPTIONN"))
          {
@@ -760,22 +759,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
          FileHelper.deleteQuietly(file);
       }
    }
-
-   /**
-    * Open a database and build a set of table names.
-    *
-    * @param url database URL
-    * @return set containing table names
-    */
-   private Set<String> populateTableNames(String url) throws SQLException
+   private Set<String> populateTableNames(Connection connection) throws SQLException
    {
       Set<String> tableNames = new HashSet<>();
-      Connection connection = null;
       ResultSet rs = null;
 
       try
       {
-         connection = DriverManager.getConnection(url);
          DatabaseMetaData dmd = connection.getMetaData();
          rs = dmd.getTables(null, null, null, null);
          while (rs.next())
@@ -791,6 +781,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
 
       return tableNames;
+   }
+
+   private Set<String> populateJdbcTableNames(String url) throws SQLException
+   {
+      return populateTableNames(DriverManager.getConnection(url));
+   }
+
+   private Set<String> populateSqliteTableNames(File file) throws Exception
+   {
+      return populateTableNames(SQLite.createConnection(file));
    }
 
    private int m_skipBytes;

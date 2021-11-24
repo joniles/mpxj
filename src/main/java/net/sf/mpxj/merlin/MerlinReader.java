@@ -38,7 +38,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -76,6 +75,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -123,10 +123,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    {
       try
       {
-         String url = "jdbc:sqlite:" + file.getAbsolutePath();
-         Properties props = new Properties();
-         m_connection = org.sqlite.JDBC.createConnection(url, props);
-
+         m_connection = SQLite.createConnection(file);
          m_documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
          XPathFactory xPathfactory = XPathFactory.newInstance();
