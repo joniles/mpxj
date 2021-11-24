@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest", "MpxjTest\MpxjTe
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MpxjQueryVB", "MpxjQueryVB\MpxjQueryVB.vbproj", "{3391E99A-6CB5-407C-B4E7-803338444738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjCreate", "MpxjCreate\MpxjCreate\MpxjCreate.csproj", "{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjCreate", "MpxjCreate\MpxjCreate.csproj", "{0D962D97-40B5-4DB1-B6FB-543DB5CE34A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjPrimaveraConvert", "MpxjPrimaveraConvert\MpxjPrimaveraConvert.csproj", "{9B6FF9FE-9E28-474A-AB35-03B74D9A2CE9}"
 EndProject
