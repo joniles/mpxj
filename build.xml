@@ -692,6 +692,7 @@
 			<fileset dir="${basedir}/src.net" defaultexcludes="false">
 				<include name="**/bin/**" />
 				<include name="**/obj/**" />
+				<include name="**/.vs/**" />
 				<include name="**/*.suo" />
 				<include name="**/*.user" />
 			</fileset>
