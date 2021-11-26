@@ -9,7 +9,7 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows')) And '$(TargetFrameworkIdentifier)' != '.NETFramework'">
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('Windows'))">
     <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\windows\*"/>
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -17,7 +17,7 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('OSX'))">
     <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\osx\*"/>
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -25,7 +25,7 @@
     </None>
   </ItemGroup>
 
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('Linux'))">
     <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\linux\*"/>
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
