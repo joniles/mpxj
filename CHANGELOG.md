@@ -1,7 +1,10 @@
 # Changelog
 
-## 9.8.3 (unreleased)
+## 10.0.0 (unreleased)
+
+## 9.8.3 (30/11/2021)
 * Improve reliability when reading certain Phoenix files.
+* Ensure multiple trailing nul characters are stripped from text when reading schedules from a Primavera database.
 
 ## 9.8.2 (01/11/2021)
 * Improve accuracy of identifying null tasks in certain MPP files.
