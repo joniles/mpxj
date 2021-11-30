@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="9.8.3">
 			<action dev="joniles" type="update">Improve reliability when reading certain Phoenix files.</action>
+			<action dev="joniles" type="update">Ensure multiple trailing nul characters are stripped from text when reading schedules from a Primavera database.</action>
 		</release>
 		<release date="01/11/2021" version="9.8.2">
 			<action dev="joniles" type="update">Improve accuracy of identifying null tasks in certain MPP files.</action>

@@ -160,14 +160,10 @@ final class ResultSetRow extends MapRow
     */
    private String stripTrailingNul(String value)
    {
-      String result;
-      if (value != null && !value.isEmpty() && value.charAt(value.length() - 1) == 0)
+      String result = value;
+      while (result != null && !result.isEmpty() && result.charAt(result.length() - 1) == 0)
       {
-         result = value.substring(0, value.length() - 1);
-      }
-      else
-      {
-         result = value;
+         result = result.substring(0, result.length() - 1);
       }
       return result;
    }
