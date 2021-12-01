@@ -124,3 +124,16 @@ Older versions of JAXB were known to have issues with the JUnit classloader, so
 running the JUnit test runner with the -noloading command line option, other
 taking other steps to disable JUnit classloading was recommended. This problem
 is not believed to affect the more recent version of JAXB now used by MPXJ.
+
+## .NET Core
+**When using MPXJ from .NET Core I get an error similar to `No data is available
+  for encoding 437. For information on defining a custom encoding, see the
+  documentation for the Encoding.RegisterProvider method.`**
+
+By default .NET Core does not include all of the character encodings which may
+be used by MPXJ (and which are present by default in .NET Framework). To
+resolve this issue add the following to your code:
+
+```c#
+System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+```
