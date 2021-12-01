@@ -1,6 +1,10 @@
 # Changelog
 
-## 10.0.0 (unreleased)
+## 10.0.1 (unreleased)
+
+## 10.0.0 (01/12/2021)
+* Added support for .NET Core 3.1
+* Nuget packages now explicitly target .NET Framework 4.5 (`net45`) and .NET Core 3.1 (`netcoreapp3.1`)
 
 ## 9.8.3 (30/11/2021)
 * Improve reliability when reading certain Phoenix files.

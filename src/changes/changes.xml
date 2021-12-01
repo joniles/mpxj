@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.0.0">
+		<release date="unreleased" version="10.0.1">
+		</release>
+		<release date="01/12/2021" version="10.0.0">
 			<action dev="joniles" type="add">Added support for .NET Core 3.1</action>
 			<action dev="joniles" type="update">Nuget packages now explicitly target .NET Framework 4.5 (`net45`) and .NET Core 3.1 (`netcoreapp3.1`)</action>
 		</release>
