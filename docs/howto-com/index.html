@@ -830,17 +830,18 @@
                 
                 
                 <h1 id="mpxj-and-com">MPXJ and COM</h1>
-<p>The .Net assemblies provided in the DLLs described <a href="../howto-dotnet/">here</a> are
-accessible from COM. This should allow you to, for example, write VBA code which
-utilises MPXJ functionality. To assist with this, type libraries  in the form of
-<code>TLB</code> files are provided in the <code>lib.net</code> directory for each of the DLLs
-distributed with MPXJ.  You will also need to register the MPXJ assemblies in
-order to use them from COM,  using the <code>regasm</code> <a href="http://msdn.microsoft.com/en-us/library/tzat5yw6(v=vs.110).aspx">assembly registration
-tool</a>. For your
-convenience two batch files have been provided in the lib.net directory:
-<code>mpxj-register-assemblies.bat</code> and <code>mpxj-unregister-assemblies.bat</code>. These batch
-files will register and unreigster the MPXJ assemblies respectively. These batch
-files assume that <code>regasm</code> is available on the path.</p>
+<p>The .Net Framework assemblies provided in the DLLs described [here]
+(howto-dotnet.md) are accessible from COM. This should allow you to, for
+example, write VBA code which utilises MPXJ functionality. To assist with this,
+for each ofthe DLLs distributed with MPXJ type libraries in the form of <code>TLB</code>
+files are provided in the <code>src.net\lib\net45</code> directory.  You will also need to
+register the MPXJ assemblies in order to use them from COM,  using the
+<code>regasm</code> <a href="http://msdn.microsoft.com/en-us/library/tzat5yw6(v=vs.110).aspx">assembly registration tool</a>. </p>
+<p>For your convenience two batch files have been provided in the
+<code>src.net\lib\net45</code> directory: <code>mpxj-register-assemblies.bat</code> and
+<code>mpxj-unregister-assemblies.bat</code>. These batch files will register and
+unreigster the MPXJ assemblies respectively. These batch files assume that
+<code>regasm</code> is available on the path.</p>
                 
               
               

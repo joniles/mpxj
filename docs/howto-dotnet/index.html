@@ -932,10 +932,11 @@
                 
                 <h1 id="mpxj-and-net">MPXJ and .Net</h1>
 <h2 id="mpxj-assemblies">MPXJ assemblies</h2>
-<p>MPXJ ships with both a Java library (mpxj.jar) and a set of .Net assemblies, 
-which can be found in the lib.net folder of the distribution.
-MPXJ is also available through
-<a href="http://www.nuget.org/packages?q=mpxj">NuGet</a>. </p>
+<p>MPXJ ships with both a Java library (<code>mpxj.jar</code>) and a set of .Net Framework
+and .Net Core assemblies, which can be found in the <code>src.net\lib\net45</code> and
+<code>src.net\lib\netcoreapp3.1</code> folders of the distribution respectively. MPXJ is
+also available through<a href="http://www.nuget.org/packages?q=mpxj">NuGet</a>. This is
+the recommeded way to use MPXJ.</p>
 <p>There are actually three different .Net DLLs shipped with MPXJ - you only need
 one of these:</p>
 <ul>
@@ -971,20 +972,21 @@ something like this:</p>
 </code></pre></div>
 <h2 id="mpxj-dependencies">MPXJ dependencies</h2>
 <p>Once you have selected the version of the MPXJ DLL most suitable for your
-project, you will need to add its dependencies. If you are using NuGet to manage
-your dependencies, this is done for you automatically. The files you need will
-all be in the <code>lib.net</code> folder of the MPXJ distribution.</p>
+project, you will need to add its dependencies. If you are using NuGet to
+manage your dependencies, this is done for you automatically. The files you
+need will all be in the relevant sub folder with the <code>src.net\lib</code> folder of
+the MPXJ distribution.</p>
 <h2 id="net-samples">.Net samples</h2>
-<p>MPXJ ships with some sample files which can be found in the <code>src.net</code>
+<p>MPXJ ships with some sample files which can be found in the <code>src.net\samples</code>
 folder of the distribution. These files illustrate how the MPXJ API can be 
-used to manipulate project data. In particular the <code>MpxjQuery</code> sample files
-show how various elements which make up the project data can be queried.
-Two versions of this utility are present in <code>src.net</code>, one written in C#,
+used to manipulate project data. In particular the <code>MpxjQuery</code> example
+shows how various elements which make up the project data can be queried.
+Two versions of this utility are present in <code>src.net\samples</code>, one written in C#,
 and the other written in Visual Basic (VB) to illustrate the basics of using
 MPXJ in either language. Even if you are developing software in a .Net
 language you may still find it useful to refer to the Java examples, and
 indeed the original Java source of MPXJ, to give you an insight into how the
-API may be used.</p>
+API can be used.</p>
 <h2 id="net-and-java-types">.Net and Java types</h2>
 <p>The .Net version of MPXJ has been generated directly from the Java
 version using a tool called IKVM. One of the side effects of using IKVM to
@@ -993,18 +995,18 @@ original Java data types, so for example you will find that the API returns
 a type called <code>Date</code> rather than a .Net <code>DateTime</code>, and collections which 
 don't expose the familiar <code>IEnumerable</code> interface.</p>
 <p>To simplify the translation between Java and .Net types, a set of extension
-methods have been provided. You'll find these extension methods in the <code>src.net</code>
-folder, in a project called <code>MpxjExtensionMethods</code>. This project contains
+methods have been provided. You'll find these extension methods in the <code>src.net\utilities</code>
+folder, in a project called <code>MpxjUtilities</code>. This project contains
 extension methods which enhance both Java and .Net classes to make it easier to
 pass data to and from the API. For example the extension method <code>ToIEnumerable</code> 
 is added to Java collection data types which allows them to be iterated using 
-the familiar foreach .Net syntax.</p>
+the familiar <code>foreach</code> .Net syntax.</p>
 <p>To use these extension methods, simply add a reference to the 
-<code>MpxjExtensionMethods</code> assembly in your own project. The methods themselves are
+<code>MpxjUtilities</code> assembly in your own project. The methods themselves are
 documented in the source, and examples of their use can be seen in the samples
-provided in the <code>src.net</code> folder.</p>
+provided in the <code>src.net\samples</code> folder.</p>
 <h2 id="mpxj-and-the-gac">MPXJ and the GAC</h2>
-<p>For your convenience two batch files are provided in the <code>lib.net</code> directory:
+<p>For your convenience two batch files are provided in the <code>src.net\lib\net45</code> directory:
 <code>mpxj-gac-install.bat</code> and <code>mpxj-gac-uninstall.bat</code>. These batch files install
 the MPXJ assemblies into the GAC and uninstall the MPXJ assemblies from the GAC 
 using the <a href="http://msdn.microsoft.com/en-us/library/ex0ss12c(v=vs.110)"><code>gacutil</code></a>
