@@ -28,12 +28,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -144,13 +144,7 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
     */
    private Connection getDatabaseConnection(File file) throws SQLException
    {
-      String url = "jdbc:sqlite:" + file.getAbsolutePath();
-      Properties props = new Properties();
-      props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-      // Note that we use the JDBC driver class directly here.
-      // This ensures that it is an explicit dependency of MPXJ
-      // and will work as expected in .Net.
-      return org.sqlite.JDBC.createConnection(url, props);
+      return SQLite.createConnection(file, SQLite.dateFormatProperties());
    }
 
    private Integer m_projectID;

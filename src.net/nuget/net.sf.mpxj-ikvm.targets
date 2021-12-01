@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- .Net Framework (https://github.com/MicrosoftDocs/visualstudio-docs/issues/4869) -->
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\net45\*.dll"/>
+    <None Include="@(NativeLibs)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('Windows'))">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\windows\*"/>
+    <None Include="@(NativeLibs)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('OSX'))">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\osx\*"/>
+    <None Include="@(NativeLibs)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' And $([MSBuild]::IsOSPlatform('Linux'))">
+    <NativeLibs Include="$(MSBuildThisFileDirectory)\netcoreapp3.1\linux\*"/>
+    <None Include="@(NativeLibs)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

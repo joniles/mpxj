@@ -36,13 +36,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -58,13 +58,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    {
       try
       {
-         String url = "jdbc:sqlite:" + file.getAbsolutePath();
-         Properties props = new Properties();
-         props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-         // Note that we use the JDBC driver class directly here.
-         // This ensures that it is an explicit dependency of MPXJ
-         // and will work as expected in .Net.
-         m_connection = org.sqlite.JDBC.createConnection(url, props);
+         m_connection = SQLite.createConnection(file, SQLite.dateFormatProperties());
          return read();
       }
 

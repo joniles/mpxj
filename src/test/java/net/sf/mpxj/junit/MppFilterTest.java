@@ -156,7 +156,7 @@ public class MppFilterTest
       assertEquals("(Flag1 EQUALS true)", filter.getCriteria().toString());
 
       filter = filters.getFilterByName("Filter 7");
-      assertEquals("(Date1 EQUALS Tue Jul 18 00:00:00 BST 2006)", filter.getCriteria().toString());
+      assertEquals("(Date1 EQUALS 18/07/2006 00:00)", filter.getCriteria().toString());
 
       //
       // Test all operators
