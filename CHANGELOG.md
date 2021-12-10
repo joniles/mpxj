@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.0.1 (unreleased)
+## 10.0.2 (unreleased)
+
+## 10.0.1 (2021-12-10)
 * Avoid false positives when detecting password protected MPP files.
 
 ## 10.0.0 (2021-12-01)
