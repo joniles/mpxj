@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -130,17 +131,10 @@ public class FieldReporter
       pw.println("The tables are not hand-crafted: they have been generated from test data and are therefore may be missing some details.");
       pw.println();
 
-      pw.println("## Project");
-      writeTables(pw, keys, map, e -> isProjectField(e.getKey()));
-
-      pw.println("## Task");
-      writeTables(pw, keys, map, e -> isTaskField(e.getKey()));
-
-      pw.println("## Resource");
-      writeTables(pw, keys, map, e -> isResourceField(e.getKey()));
-
-      pw.println("## Resource Assignment");
-      writeTables(pw, keys, map, e -> isAssignmentField(e.getKey()));
+      writeTables("Project", pw, keys, map, e -> isProjectField(e.getKey()));
+      writeTables("Task", pw, keys, map, e -> isTaskField(e.getKey()));
+      writeTables("Resource", pw, keys, map, e -> isResourceField(e.getKey()));
+      writeTables("Resource Assignment", pw, keys, map, e -> isAssignmentField(e.getKey()));
 
       pw.flush();
       pw.close();
@@ -181,29 +175,25 @@ public class FieldReporter
       return type.toString().contains("Enterprise");
    }
 
-   private void writeTables(PrintWriter pw, Set<String> keys, Map<FieldType, Set<String>> map, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
+   private void writeTables(String title, PrintWriter pw, Set<String> keys, Map<FieldType, Set<String>> map, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
    {
+      List<Entry<FieldType, Set<String>>> coreFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> baselineFields = map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> extendedFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> enterpriseFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).collect(Collectors.toList());
+
+      if (coreFields.isEmpty() && baselineFields.isEmpty() && extendedFields.isEmpty() && enterpriseFields.isEmpty())
+      {
+         return;
+      }
+
       String tableHeader = populateTableHeader(keys);
+      pw.println("## " + title);
 
-      pw.println("### Core Fields");
-      pw.println(tableHeader);
-      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
-      pw.println();
-
-      pw.println("### Baseline Fields");
-      pw.println(tableHeader);
-      map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
-      pw.println();
-
-      pw.println("### Extended Fields");
-      pw.println(tableHeader);
-      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
-      pw.println();
-
-      pw.println("### Enterprise Fields");
-      pw.println(tableHeader);
-      map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).forEach(e -> writeTableRow(pw, keys, e));
-      pw.println();
+      writeTable("Core Fields", coreFields, pw, tableHeader, keys);
+      writeTable("Baseline Fields", baselineFields, pw, tableHeader, keys);
+      writeTable("Extended Fields", extendedFields, pw, tableHeader, keys);
+      writeTable("Enterprise Fields", enterpriseFields, pw, tableHeader, keys);     
    }
 
    private String populateTableHeader(Set<String> keys)
@@ -217,6 +207,17 @@ public class FieldReporter
       sb.append(keys.stream().map(v -> "---").collect(Collectors.joining("|")));
 
       return sb.toString();
+   }
+
+   private void writeTable(String title, List<Entry<FieldType, Set<String>>> fields, PrintWriter pw, String tableHeader, Set<String> keys)
+   {
+      if (!fields.isEmpty())
+      {
+         pw.println("### " + title);
+         pw.println(tableHeader);
+         fields.forEach(e -> writeTableRow(pw, keys, e));
+         pw.println();
+      }
    }
 
    private void writeTableRow(PrintWriter pw, Set<String> keys, Entry<FieldType, Set<String>> entry)

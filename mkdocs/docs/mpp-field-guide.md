@@ -118,14 +118,6 @@ Baseline9 Date| |✓| | 
 Baseline10 Date| | |✓| 
 Baseline Date| |✓|✓|✓
 
-### Extended Fields
-Field|MPP8|MPP9|MPP12|MPP14
----|---|---|---|---
-
-### Enterprise Fields
-Field|MPP8|MPP9|MPP12|MPP14
----|---|---|---|---
-
 ## Task
 ### Core Fields
 Field|MPP8|MPP9|MPP12|MPP14
@@ -1150,8 +1142,4 @@ Text27| |✓|✓|✓
 Text28| |✓|✓|✓
 Text29| |✓|✓|✓
 Text30| |✓|✓|✓
-
-### Enterprise Fields
-Field|MPP8|MPP9|MPP12|MPP14
----|---|---|---|---
 
