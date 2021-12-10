@@ -1,6 +1,7 @@
 # Changelog
 
 ## 10.0.1 (unreleased)
+* Avoid false positives when detecting password protected MPP files.
 
 ## 10.0.0 (01/12/2021)
 * Added support for .NET Core 3.1

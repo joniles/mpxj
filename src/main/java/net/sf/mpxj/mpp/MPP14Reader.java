@@ -149,8 +149,15 @@ final class MPP14Reader implements MPPVariantReader
       byte passwordProtectionFlag = props.getByte(Props.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
+      boolean encryptionXmlPresent = props.getByteArray(Props.PROTECTION_PASSWORD_HASH) != null;
 
-      if (passwordRequiredToRead)
+      //
+      // I've come across an example where the password flag was set, but the encryption XML
+      // was missing. In this case the file is unencrypted and MS Project opens it without
+      // prompting for a password. Checking for encryptionXmlPresent allows us to open
+      // this file successfully.
+      //
+      if (passwordRequiredToRead && encryptionXmlPresent)
       {
          // Couldn't figure out how to get the password for MPP14 files so for now we just need to block the reading
          throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
