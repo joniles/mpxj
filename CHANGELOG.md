@@ -3,29 +3,29 @@
 ## 10.0.1 (unreleased)
 * Avoid false positives when detecting password protected MPP files.
 
-## 10.0.0 (01/12/2021)
+## 10.0.0 (2021-12-01)
 * Added support for .NET Core 3.1
 * Nuget packages now explicitly target .NET Framework 4.5 (`net45`) and .NET Core 3.1 (`netcoreapp3.1`)
 
-## 9.8.3 (30/11/2021)
+## 9.8.3 (2021-11-30)
 * Improve reliability when reading certain Phoenix files.
 * Ensure multiple trailing nul characters are stripped from text when reading schedules from a Primavera database.
 
-## 9.8.2 (01/11/2021)
+## 9.8.2 (2021-11-01)
 * Improve accuracy of identifying null tasks in certain MPP files.
 * Improve accuracy of identifying valid tasks in certain MPP files.
 * Ensure hierarchical outline code values are read correctly from MSPDI files.
 * Improve support for files produced by recent versions of FastTrack.
 
-## 9.8.1 (13/10/2021)
+## 9.8.1 (2021-10-13)
 * Added support for Phoenix 5 schedules.
 * Improve handling of null tasks read from MPP files.
 
-## 9.8.0 (30/09/2021)
+## 9.8.0 (2021-09-30)
 * Introduced the BaselineStrategy interface and implementing classes. (Note: this includes a breaking change if you were using the ProjectFile.setBaseline method and supplying a lambda. You will now need to implement a BaselineStrategy and set this in ProjectConfig before setting a baseline).
 * Improved accuracy of baseline attributes for Primavera schedules.
 
-## 9.7.0 (28/09/2021)
+## 9.7.0 (2021-09-28)
 * Add Sprint ID and Board Status ID attributes to task.
 * Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.
 * Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)
@@ -39,7 +39,7 @@
 * Allow explicit values to be set for project minutes per week and minutes per year.
 * Fall back on defaults for project minutes per day/week/month/year attributes.
 
-## 9.6.0 (13/09/2021)
+## 9.6.0 (2021-09-13)
 * Add Planned Start and Scheduled Finish to project properties.
 * Add attribute_types method to Ruby classes.
 * Updated to use POI 5.0.0.
@@ -49,7 +49,7 @@
 * Ensure task Unique ID and task Parent Unique ID attributes are treated as mandatory when written to JSON.
 * Fix an issue with Ruby gem where a task's parent was not being retrieved correctly in some circumstances.
 
-## 9.5.2 (22/08/2021)
+## 9.5.2 (2021-08-22)
 * Add Must Finish By date to project properties.
 * Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
@@ -60,11 +60,11 @@
 * Improved the implementation of the TaskContainer.synchronizeTaskIDToHierarchy method.
 * Update jsoup to 1.14.2.
 
-## 9.5.1 (01/07/2021)
+## 9.5.1 (2021-07-01)
 * When applying a baseline using ProjectFile.setBaseline, gracefully handle duplicate task key values.
 * Handle missing values populating cost rate table from an MPP file.
 
-## 9.5.0 (30/06/2021)
+## 9.5.0 (2021-06-30)
 * Added support for reading baseline data from embedded baselines in PP files.
 * Correct resource assignment percent complete values read from PP files.
 * JsonWriter no longer writes attribute type information by default. (The original behaviour can be restored by calling setWriteAttributeTypes(true) on your JsonWriter instance).
@@ -83,7 +83,7 @@
 * Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.
 * Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.
 
-## 9.4.0 (11/06/2021)
+## 9.4.0 (2021-06-11)
 * Read custom value lists for resource custom fields from MPP files (based on a suggestion by Markus Höger).
 * Added support for reading custom fields from Asta Powerproject files.
 * Ensure short data type values are written to JSON files as numeric values.
@@ -96,43 +96,43 @@
 * Improve population of summary task names when reading from Powerproject PP files.
 * Correctly read hierarchical resource outline codes from MPP files (based on a suggestion by Markus Höger).
 
-## 9.3.1 (18/05/2021)
+## 9.3.1 (2021-05-18)
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
 * Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 * Include an entry for 0% in the WorkContour curve definition.
 * Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.
 
-## 9.3.0 (06/05/2021)
+## 9.3.0 (2021-05-06)
 * Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
 * Add support for reading resource curves from P6 databases, XER and PMXML files, and for writing resource curves to PMXML files. The WorkContour enum is now a class, and instance of this class are used to represent resource curves. The curves are available via the work contour attribute of resource assignments.
 * Corrected the data type of the task physical percent complete attribute.
 * Improve handling of non-standard relationship type representations encountered in XER files and P6 databases.
 
-## 9.2.6 (26/04/2021)
+## 9.2.6 (2021-04-26)
 * Handle invalid baseline numbers when reading MSPDI files.
 * Improve custom field handling when reading GanttProject files.
 
-## 9.2.5 (20/04/2021)
+## 9.2.5 (2021-04-20)
 * Add launcher batch file and shell script.
 * Improve handling of calculated task attributes when writing a project to a different format.
 * Ensure that dates are rolled up to summary tasks when reading FastTrack files.
 * Improve support for Synchro 6.3 SP files.
 
-## 9.2.4 (09/04/2021)
+## 9.2.4 (2021-04-09)
 * Fix an issue reading resource rate information GanttProject files.
 
-## 9.2.3 (08/04/2021)
+## 9.2.3 (2021-04-08)
 * Fix an issue reading Planned Duration from P6 databases and XER files.
 * Ensure Duration and Actual Duration are populated for WBS entries when reading P6 schedules.
 
-## 9.2.2 (07/04/2021)
+## 9.2.2 (2021-04-07)
 * Fix issue with WBS ordering when writing PMXML files.
 
-## 9.2.1 (04/04/2021)
+## 9.2.1 (2021-04-04)
 * Improve Task critical flag calculation when reading PMXML files.
 * Improve support for Synchro 6.3 SP files.
 
-## 9.2.0 (30/03/2021)
+## 9.2.0 (2021-03-30)
 * Improve accuracy when reading subprojects from MPP files.
 * Add Remaining Late Start and Remaining Late Finish attributes to Task.
 * Add Critical Activity Type attribute to Project Properties
@@ -143,7 +143,7 @@
 * Ensure cost, duration, date and work attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.
 * Populate baseline cost, duration, finish, start and work when reading from XER files, PMXML files and P6 databases where the "Project Baseline" has been set to "Current Project".
 
-## 9.1.0 (11/03/2021)
+## 9.1.0 (2021-03-11)
 * Add methods to the ProjectFile class to attach a ProjectFile instance as a baseline. The baselines attached to the ProjectFile will be used to populate the relevant baseline attributes in the current schedule.
 * Added experimental support for writing baseline projects to PMXML files. 
 * Added the Project GUID attribute.
@@ -156,7 +156,7 @@
 * Ensure that the Activity ID field is populated consistently for WBS entries in PMXML files compared to the same schedule read from an XER file or P6 database.
 * Ensure duration of manually scheduled tasks in MPP files is represented correctly.
 
-## 9.0.0 (18/02/2020)
+## 9.0.0 (2020-02-18)
 * NOTE: this release introduces breaking changes!
 * All fields which are non-user defined, but were previously being returned by MPXJ as custom fields are now represented as explicit field types. Custom fields now only contain values for user-defined custom fields.
 * All code previously marked as deprecated has been removed.
@@ -176,24 +176,24 @@
 * General improvements to the SDEF writer.
 * Updated to rtfparserkit 1.16.0.
 
-## 8.5.1 (07/01/2021)
+## 8.5.1 (2021-01-07)
 * Don't write unused enterprise custom field definitions to MSPDI files. This ensures that MS Project will open these files correctly.
 
-## 8.5.0 (06/01/2021)
+## 8.5.0 (2021-01-06)
 * Notes in their original format (HTML from P6, RTF from MS Project) can now be retrieved via the getNotesObject method on Task, Resource, and ResourceAssignment. Plain text notes can still be retrieved via the getNotes method. If you were previously using the "preserve note formatting" flag to retrieve the original formated version of a note, you will now need to use the getNotesObject method.
 * Write WBS and Activity notes to PMXML files.
 * PMXML compatibility improvements to ensure files can be successfully imported into P6.
 
-## 8.4.0 (29/12/2020)
+## 8.4.0 (2020-12-29)
 * Previously when reading PMXML files, XER files, and P6 databases, a set of baseline attributes on tasks and assignments (including Start, Finish, Duration, Cost and Work) were being populated with planned values rather than baseline values. These baseline attributes are no longer being set. The values they previously contained are now available as custom fields.
 * Read activity notepad entries for XER, PMXML files and P6 databases.
 * Read schedule and leveling options from PMXML files and P6 databases.
 * Improve support for reading activity cost and work from PMXML files.
 
-## 8.3.5 (15/12/2020)
+## 8.3.5 (2020-12-15)
 * Fix CVE-2020-35460: zip slip vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 
-## 8.3.4 (10/12/2020)
+## 8.3.4 (2020-12-10)
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
 * Updated the getPopulatedFields methods to ignore fields with default values.
@@ -204,7 +204,7 @@
 * Read assignment actual overtime cost and work attributes from PMXML files.
 * Update calculation of assignment work, cost and units attributes for PMXML files.
 
-## 8.3.3 (24/11/2020)
+## 8.3.3 (2020-11-24)
 * Added cost rate table support when reading from and writing to PMXML files.
 * Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. 
 * Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
@@ -214,7 +214,7 @@
 * Handle Planner files which don't contain an allocations tag.
 * Gracefully handle MPP files with missing view or table data.
 
-## 8.3.2 (22/10/2020)
+## 8.3.2 (2020-10-22)
 * Added support for "new tasks are manual" project property (Contributed by Rohit Sinha)
 * Improved support for reading and writing outline codes and extended attributes for MSPDI files (Based on a contribution by Dave McKay)
 * Improved handling of enterprise custom fields when reading MPP files
@@ -224,10 +224,10 @@
 * Gracefully handle MPP files with missing view data.
 * Update junit to 4.13.1.
 
-## 8.3.1 (14/10/2020)
+## 8.3.1 (2020-10-14)
 * Minor updates to PlannerReader.
 
-## 8.3.0 (13/10/2020)
+## 8.3.0 (2020-10-13)
 * Add the "userDefined" attribute to the CustomField class to allow caller to determine if the field has been created by a user or MPXJ.
 * Add support for reading expense items, expense categories and cost accounts from XER files, PMXML files and Primavera databases.
 * Add support for writing expense items, expense categories and cost accounts to PMXML files.
@@ -238,7 +238,7 @@
 * Updated PMXML reader to add setProjectID and listProjects methods.
 * Update the .net extension method ToIEnumerable to work with java.lang.Iterable rather than java.util.Collection
 
-## 8.2.0 (09/09/2020)
+## 8.2.0 (2020-09-09)
 * All readers, including the UniversalProjectReader, now support a readAll method. If a file or database contains more than one project the readAll method can be used to retrieve them all in one operation. If the file format doesn't support multiple schedules, readAll will just return a single schedule.
 * Add PrimaveraDatabaseFileReader to encapsulate access to SQLite Primavera databases.
 * Ensure that the summary flag is true for WBS items in Primavera schedules, even if they have no child activities.
@@ -248,7 +248,7 @@
 * Corrected data type of resource fields: BCWS, BCWP, ACWP, SV, CV, and Work Contour.
 * Corrected data type of task fields: CV, ACWP, VAC, CPI, EAC, SPI, TCPI, and Work Contour.
 
-## 8.1.4 (31/08/2020)
+## 8.1.4 (2020-08-31)
 * Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 * Import milestone constraints from Asta schedules (Contributed by Dave McKay)
 * Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)
@@ -260,7 +260,7 @@
 * Ensure project calendars are read from PMXML files.
 * Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.
 
-## 8.1.3 (25/06/2020)
+## 8.1.3 (2020-06-25)
 * Improve reliability when reading custom field values from certain MPP12 files.
 * Improve accuracy of activity percent complete when reading from certain XER files or P6 databases.
 * Improve accuracy of WBS percent complete when reading from certain XER files or P6 databases.
@@ -270,14 +270,14 @@
 * Populate percent complete, duration, actual start, actual finish, early start, late start, early finish and late finish attributes for summary tasks when reading Asta schedules.
 * The percent complete value reported for tasks when reading Asta schedules is now Duration Percent Complete. The Overall Percent Complete value originally being returned is available in a custom field. 
 
-## 8.1.2 (18/06/2020)
+## 8.1.2 (2020-06-18)
 * Improve detection of unusual MSPDI file variants.
 * Updated to read task notes from FastTrack FTS files.
 
-## 8.1.1 (17/06/2020)
+## 8.1.1 (2020-06-17)
 * Improve support for Synchro 6.2 SP files.
 
-## 8.1.0 (11/06/2020)
+## 8.1.0 (2020-06-11)
 * Experimental support for reading Project Commander schedules.
 * Update to use JAXB 2.3.2.
 * Avoid failures caused by unreadable OLE compound documents when the UniversalProjectReader is trying to determine the file type.
@@ -286,51 +286,51 @@
 * Improve accuracy of task data when reading some MPP file variants.
 * Improve reliability when reading certain SureTrak files.
 
-## 8.0.8 (20/04/2020)
+## 8.0.8 (2020-04-20)
 * Improve handling of numeric character references invalid for XML 1.0 in PMXML files.
 * Improve handling of resource calendars read from Planner files.
 * Improve handling of resource calendars read from MPX files.
 * Ignore the milestone flag when reading MPX files if the task has a non-zero duration.
 * Ensure JSON files can be written when Unique ID predecessor/successor attributes have been read from an MPX file.
 
-## 8.0.7 (17/04/2020)
+## 8.0.7 (2020-04-17)
 * Updated to rtfparserkit 1.15.0.
 * Improve handling of PMXML files with empty calendar exception time ranges.
 
-## 8.0.6 (05/03/2020)
+## 8.0.6 (2020-03-05)
 * Updated to use POI 4.1.2.
 * Improve handling of some XER file variants.
 
-## 8.0.5 (07/02/2020)
+## 8.0.5 (2020-02-07)
 * Allow users to determine WBS attribute content with "wbs is full path" flag for Primavera readers.
 * Ensure summary task start and finish dates are populated when reading PMXML files.
 * Use baseline start and finish dates as planned start and finish dates when writing PMXML files.
 * Late start and late finish dates are now written to PMXML files.
 
-## 8.0.4 (06/02/2020)
+## 8.0.4 (2020-02-06)
 * Update sqlite-jdbc dependency to 3.30.1
 * Improve handling of characters invalid for XML 1.0 in PMXML files generated by P6.
 
-## 8.0.3 (27/01/2020)
+## 8.0.3 (2020-01-27)
 * Improve handling of zero value durations, costs and units from certain MPP files.
 * Improve percent complete calculation for certain XER file and P6 Database schedules.
 * Improve percent complete calculation for certain P3 schedules.
 * Improve handling of incorrectly encoded characters in PMXML files generated by P6.
 * Ensure that negative durations can be written to and read from MSPDI files in the format understood by MS Project.
 
-## 8.0.2 (16/01/2020)
+## 8.0.2 (2020-01-16)
 * Improve handling of zero duration tasks read from Phoenix files.
 
-## 8.0.1 (05/01/2020)
+## 8.0.1 (2020-01-05)
 * Add missing nuget dependency
 
-## 8.0.0 (02/01/2020)
+## 8.0.0 (2020-01-02)
 * MPXJ now requires Java 8 or later.
 * Removed deprecated methods.
 * Updated to use POI 4.1.1.
 * Updated to use IKVM 8.1.5717.0.
 
-## 7.9.8 (27/12/2019)
+## 7.9.8 (2019-12-27)
 * Added support for reading and writing outline code/custom field lookup tables for MSPDI files.
 * Added sample code to demonstrate creation of timephased work.
 * Populate project status date attribute when reading Asta schedules.
@@ -338,24 +338,24 @@
 * Improve configurability of PrimaveraDatabaseReader and PrimaveraXERFileReader.
 * Made JAXB JARs an explicit dependency to avoid issues with recent Java versions which do not include them.
 
-## 7.9.7 (25/11/2019)
+## 7.9.7 (2019-11-25)
 * Round percent complete values read from Asta files to two decimal places to avoid values like 99.9999999%.
 
-## 7.9.6 (22/11/2019)
+## 7.9.6 (2019-11-22)
 * Improve support for FastTrack files.
 
-## 7.9.5 (19/11/2019)
+## 7.9.5 (2019-11-19)
 * Added flag to manage compliance with password protection. (Contributed by ztravis)
 * Improve support for Synchro 6.1 SP files.
 * Fix an issue where the task hierarchy was not correctly represented when reading a PMXML file.
 
-## 7.9.4 (08/11/2019)
+## 7.9.4 (2019-11-08)
 * Add support for reading Sage 100 Contractor schedule grid files.
 * Ensure attribute names are valid when exporting JSON.
 * Improve handling of custom field lookup values (Based on a contribution by Nick Darlington).
 * Fix an issue when copying a calendar which has exceptions defined.
 
-## 7.9.3 (10/09/2019)
+## 7.9.3 (2019-09-10)
 * Add support for reading task early finish and late finish attributes from Asta PP files.
 * Ensure XER files containing secondary constraints can be read correctly.
 * Preserve calendar IDs when reading from XER files and P6 database (Based on a contribution by forenpm).
@@ -364,7 +364,7 @@
 * Preserve leveling delay format when reading tasks from MSPDI files.
 * Ensure unexpected structure of timephased data is handled gracefully when reading MPP files.
 
-## 7.9.2 (19/08/2019)
+## 7.9.2 (2019-08-19)
 * Add support for reading and writing secondary constraints from P6 schedules (Based on a contribution by Sruthi-Ganesh)
 * Improve support for Synchro SP files containing blank tasks.
 * Make constraint type mapping consistent when reading and writing PMXML files.
@@ -375,13 +375,13 @@
 * Improve handling of certain MPP files containing large numbers of blank tasks.
 * Improve handling of certain MPX files containing trailing delimiters.
 
-## 7.9.1 (01/07/2019)
+## 7.9.1 (2019-07-01)
 * Set task start, finish and percent complete when reading SDEF files.
 
-## 7.9.0 (01/07/2019)
+## 7.9.0 (2019-07-01)
 * Add support for reading SDEF files.
 
-## 7.8.4 (27/06/2019)
+## 7.8.4 (2019-06-27)
 * Add support for reading data links (linked fields) configuration from MPP files.
 * Updated to avoid an infinite loop when processing certain corrupt files (Contributed by ninthwaveltd).
 * Update MSPDI generation to ensure MS Project correctly recognises complete tasks without resource assignments.
@@ -389,10 +389,10 @@
 * Improve support for reading custom field values derived from custom field lookup tables in MPP files.
 * Improve support for MPP files written with the June 2019 update of Microsoft Project.
 
-## 7.8.3 (24/05/2019)
+## 7.8.3 (2019-05-24)
 * Improve handling of task baseline start, start, baseline finish, finish and slack fields read from FTS files.
 
-## 7.8.2 (19/05/2019)
+## 7.8.2 (2019-05-19)
 * Improve handling of MPP files with missing Props.
 * Improve handling of custom field lookup tables for MPP12 files.
 * Correctly write activity duration type to a PMXML file (Contributed by Sebastian Stock)
@@ -406,7 +406,7 @@
 * Added Task.hasChildTasks() method.
 * Fixed [Issue 330](https://sourceforge.net/p/mpxj/bugs/330): Splits data coming in as null for all tasks
 
-## 7.8.1 (13/02/2019)
+## 7.8.1 (2019-02-13)
 * Improve support for reading the Synchro Scheduler 2018 SP files.
 * Add support for reading Gantt Designer GNT files.
 * Improve handling of non-standard MSPDI files.
@@ -415,7 +415,7 @@
 * Improve support for reading user defined fields from PMXML files.
 * Ignore hammock tasks when reading PP files.
 
-## 7.8.0 (18/01/2019)
+## 7.8.0 (2019-01-18)
 * Added support for reading and writing GUIDs for Tasks, Resources, and Assignments in MSPDI files.
 * Updated Java build to use Maven
 * Updated to provide a general performance improvement (Based on a contribution by Tiago de Mello)
@@ -424,7 +424,7 @@
 * Fixed [Issue 333](https://sourceforge.net/p/mpxj/bugs/333): Asta constraints lost (Contributed by Dave McKay)
 * Fixed [Issue 335](https://sourceforge.net/p/mpxj/bugs/335): MSDPI into Asta doesn't import Calendar exceptions (Contributed by Dave McKay)
 
-## 7.7.1 (23/10/2018)
+## 7.7.1 (2018-10-23)
 * Read additional schedule options from XER files. (Contributed by forenpm)
 * Improve handling of some types of MPP file with missing resource assignment data.
 * Ensure that resource assignment flag fields are read correctly for all MPP file types (Based on a contribution by Vadim Gerya).
@@ -432,24 +432,24 @@
 * Improve accuracy when reading resource type from MPP files.
 * Improve compatibility of generated MSPDI files with Asta Powerproject (Contributed by Dave McKay).
 
-## 7.7.0 (12/10/2018)
+## 7.7.0 (2018-10-12)
 * Add support for reading the Synchro Scheduler SP files.
 * Add support for reading the activity code (ID) from Asta files.
 * When reading a Phoenix file, set the project's status date to the data date from the storepoint.
 * Handle MSPDI files with timephased assignments that don't specify a start and end date.
 
-## 7.6.3 (04/10/2018)
+## 7.6.3 (2018-10-04)
 * Add support for reading Remaining Early Start and Remaining Early Finish task attributes from P6. (Contributed by forenpm)
 * Add support for reading Retained Logic and Progressive Override project attributes from P6. (Contributed by forenpm)
 * Fix incorrect sign when calculating start and finish slack (Contributed by Brian Leach).
 * Correctly read predecessors and successors from Phoenix files.
 
-## 7.6.2 (30/08/2018)
+## 7.6.2 (2018-08-30)
 * Add support for nvarchar columns when reading from a P6 database.
 * Updated to correctly read percent lag durations from MSPDI files (based on a contribution by Lord Helmchen).
 * Updated the data type for the ValueGUID tag in an MSPDI file (based on a contribution by Lord Helmchen).
 
-## 7.6.1 (29/08/2018)
+## 7.6.1 (2018-08-29)
 * Improve handling of MPP files where MPXJ is unable to read the filter definitions.
 * Improve handling of SureTrak projects without a WBS.
 * Improve handling of SureTrak and P3 WBS extraction.
@@ -457,13 +457,13 @@
 * Improve detection of non MS Project compound OLE documents.
 * Gracefully handle XER files which contain no projects.
 
-## 7.6.0 (13/07/2018)
+## 7.6.0 (2018-07-13)
 * Added support for reading ConceptDraw PROJECT CDPX, CPDZ and CPDTZ files.
 * Add support for reading the export_flag attribute from XER files. (Contributed by forenpm)
 * Use correct licence details in Maven pom.xml (contributed by Mark Atwood).
 * Improve UniversalProjectReader's handling of XER files containing multiple projects.
 
-## 7.5.0 (19/06/2018)
+## 7.5.0 (2018-06-19)
 * Added support for reading activity codes from P6 databases, XER files, and PMXML files.
 * Added support for reading user defined values from a P6 database.
 * Added support for PRX files which contain a SureTrak database.
@@ -472,42 +472,42 @@
 * Improved support for older Primavera PMXML files.
 * Updated to rtfparserkit 1.11.0 for improved RTF parsing.
 
-## 7.4.4 (06/06/2018)
+## 7.4.4 (2018-06-06)
 * Improve handling of calendar exceptions in MPX files.
 * Improve handling of MPP files with large numbers of null tasks.
 * Improve robustness when reading timephased data.
 * Correctly sort Primavera schedules containing WBS entries with no child activities.
 
-## 7.4.3 (25/05/2018)
+## 7.4.3 (2018-05-25)
 * Add support for reading the resource "generic" attribute from MPP files.
 * Add a Unique ID attribute to the Relation class and populate for schedule types which support this concept.
 * Store the Primavera Project ID as Unique ID in the project properties.
 * Update MerlinReader to ensure support for Merlin Project Pro 5.
 
-## 7.4.2 (30/04/2018)
+## 7.4.2 (2018-04-30)
 * Gracefully handle malformed duration values in MSPDI files.
 * Gracefully handle unexpected calendar exception data structure in certain MPP files.
 * Improve handling of certain unusual MPP12 files.
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.
 
-## 7.4.1 (16/04/2018)
+## 7.4.1 (2018-04-16)
 * Add methods to list projects available in P3 and SureTrak database directories.
 * Avoid NPE when a work pattern can't be located in an Asta Powerproject PP file.
 * Avoid array bounds exception when reading certain PRX files.
 * Read outline code value lists from MPP9 files.
 * Handle SureTrak projects without a WBS.
 
-## 7.4.0 (23/03/2018)
+## 7.4.0 (2018-03-23)
 * Added support for reading Primavera SureTrak databases from directories, zip files, and STX files.
 * Added support for PP files generated by Asta Powerproject from version 13.0.0.1
 
-## 7.3.0 (12/03/2018)
+## 7.3.0 (2018-03-12)
 * Added support for reading Primavera P3 databases from directories, zip files, and PRX files.
 * Improve robustness when reading MPP files containing apparently invalid custom field data.
 * Improve UniversalProjectReader byte order mark handling.
 * Fixed [Issue 324](https://sourceforge.net/p/mpxj/bugs/324): Fields with lookup unreadable when a field has custom name.
 
-## 7.2.1 (26/01/2018)
+## 7.2.1 (2018-01-26)
 * More work to gracefully handle POI issue 61677, allowing affected MPP files to be read successfully.
 * Avoid divide by zero when calculating percent complete from certain Primavera PMXML files.
 * UniversalProjectReader updated to recognise MPX files with non-default separator characters.
@@ -515,35 +515,35 @@
 * Update FastTrack reader to handle variations in UUID format.
 * Read the full project name from XER files and the Primavera database and store it in the project title attribute.
 
-## 7.2.0 (18/01/2018)
+## 7.2.0 (2018-01-18)
 * Added support for reading TurboProject PEP files.
 * Handle numeric values with leading spaces in XER files.
 * Fix array bounds error when reading constraints from certain MPP files.
 
-## 7.1.0 (03/01/2018)
+## 7.1.0 (2018-01-03)
 * Added support for reading GanttProject GAN files.
 * Ensure that calendar exception dates are read correctly from XER files and P6 databases regardless of the user's timezone.
 * Read working day calendar exceptions from XER files and P6 database.
 * Mark some ProjectFile methods as deprecated.
 
-## 7.0.3 (21/12/2017)
+## 7.0.3 (2017-12-21)
 * Use the Windows-1252 character set as the default when reading XER files.
 * Gracefully handle POI issue 61677 to allow MPP affected MPP files to be read successfully.
 * Handle recurring calendar exceptions read from MSPDI files without an occurrence count.
 * Improve robustness of FastTrack schedule reader.
 * Avoid reading empty calendar exceptions from MPX files.
 
-## 7.0.2 (20/11/2017)
+## 7.0.2 (2017-11-20)
 * Further improvements to task pruning for Asta PP files.
 
-## 7.0.1 (20/11/2017)
+## 7.0.1 (2017-11-20)
 * Improve robustness when reading MPP files when using certain 64 bit Java runtimes.
 * Populate the project's comments property when reading an MSPDI file.
 * Ensure that tasks are not discarded when reading PP files from older Asta versions.
 * Fixed [Issue 319](https://sourceforge.net/p/mpxj/bugs/319): Wrong date ranges for split tasks
 * Fixed [Issue 222](https://sourceforge.net/p/mpxj/bugs/222): getDefaultTaskType() not returning correct default task type
 
-## 7.0.0 (08/11/2017)
+## 7.0.0 (2017-11-08)
 * Added support for reading recurring exceptions from MPP and MSPDI files.
 * Updated RecurringTask class interface (Note: this is a breaking API change)
 * MSPDI writer now uses save version 14 by default (Note: this may affect applications which consume MSPDI files you generate)
@@ -554,13 +554,13 @@
 * Prevent POI from closing the input stream when using UniversalProjectReader
 * Fixed [Issue 321](https://sourceforge.net/p/mpxj/bugs/321): Cannot read mpp file using getProjectReader.
 
-## 6.2.1 (11/10/2017)
+## 6.2.1 (2017-10-11)
 * Gracefully handle corrupt MPP files.
 * Improve reading and writing slack values for MSPDI files.
 * Improve activity hierarchy extraction from Phoenix files.
 * Fixed [Issue 243](https://sourceforge.net/p/mpxj/bugs/243): MSPDI Slack values not correctly set while loading.
 
-## 6.2.0 (06/10/2017)
+## 6.2.0 (2017-10-06)
 * Added support for reading Work Weeks from MPP files.
 * Add support for calendar exception names for MPP and MSPDI files.
 * Updated to use POI 3.17.
@@ -574,17 +574,17 @@
 * Fixed [Issue 318](https://sourceforge.net/p/mpxj/bugs/318): TimephasedWork Negative TotalAmount.
 * Fixed [Issue 320](https://sourceforge.net/p/mpxj/bugs/320): Date conversion fails in PrimaveraReader.
 
-## 6.1.2 (12/09/2017)
+## 6.1.2 (2017-09-12)
 * Gracefully handle incomplete records in XER files.
 
-## 6.1.1 (30/08/2017)
+## 6.1.1 (2017-08-30)
 * Ensure all classes in the gem are required
 
-## 6.1.0 (28/07/2017)
+## 6.1.0 (2017-07-28)
 * Provide Task.getEffectiveCalendar() method
 * Populate missing finish dates in MSPDI files
 
-## 6.0.0 (22/07/2017)
+## 6.0.0 (2017-07-22)
 * Gracefully handle invalid calendar data in XER files.
 * Handle XER files containing blank lines.
 * Add support for reading resource rates and availability tables from P6 (Contributed by Brandon Herzog).
@@ -611,7 +611,7 @@
 * Reading the lag calendar scheduling option as the "LagCalendar" custom project property when reading from P6 (Contributed by Brandon Herzog).
 * Updated UDF parsing to handle values as booleans if the user chooses to map them to Flag fields (Contributed by Brandon Herzog).
 
-## 5.14.0 (13/07/2017)
+## 5.14.0 (2017-07-13)
 * Improve handling of activity codes read from Phoenix files
 * Calculate percent complete for tasks read from Phoenix files
 * Populate task duration with Original Duration attribute when reading from XER files or P6 databases.
@@ -619,80 +619,80 @@
 * Improve UniversalProjectReader's handling of non-MPP OLE compound documents.
 * Improve task hierarchy and ordering when reading some MPP files.
 
-## 5.13.0 (27/06/2017)
+## 5.13.0 (2017-06-27)
 * Further improve handling of WBS, bar, and task structure from Asta files.
 
-## 5.12.0 (26/06/2017)
+## 5.12.0 (2017-06-26)
 * Improve handling of WBS, bar, and task structure from Asta files.
 
-## 5.11.0 (20/06/2017)
+## 5.11.0 (2017-06-20)
 * Improve handling of malformed durations in MSPDI files.
 * Improve performance when reading MPP files with certain kinds of timephased data.
 * Raise a specific "password protected" exception type from the Ruby gem.
 * Fix an issue with the storage of the "earned value method" task attribute.
 
-## 5.10.0 (23/05/2017)
+## 5.10.0 (2017-05-23)
 * Improve handling of deleted tasks in MPP files.
 * Improve handling of invalid predecessor tasks in MPX files.
 * Improve handling of invalid saved view state in MPP files.
 * Fixed [Issue 313](https://sourceforge.net/p/mpxj/bugs/313): Empty baseline dates populated with garbage date instead of null.
 
-## 5.9.0 (27/04/2017)
+## 5.9.0 (2017-04-27)
 * Add support for reading ProjectLibre POD files (from ProjectLibre version 1.5.5 onwards).
 * Correct getter method name for "file application" project property.
 
-## 5.8.0 (21/04/2017)
+## 5.8.0 (2017-04-21)
 * Updated to use POI 3.16 (note new dependency on Apache Commons Collections required by POI).
 * Improve support for estimated durations in Merlin files.
 * Read task notes from Asta files.
 * Improve support for reading resource rates from Phoenix files.
 * Add "file application" and "file type" to project properties to determine source of schedule data.
 
-## 5.7.1 (22/03/2017)
+## 5.7.1 (2017-03-22)
 * Improve support for Phoenix Project Manager XML files.
 
-## 5.7.0 (20/03/2017)
+## 5.7.0 (2017-03-20)
 * Add support for FastTrack Schedule files.
 * Ensure that timephased data calculations correctly handle entry to and exit from DST.
 * Fixed [Issue 306](https://sourceforge.net/p/mpxj/bugs/306): Microsoft Project 2016:  Issue with assignment 'Work Contour' attribute.
 
-## 5.6.5 (07/03/2017)
+## 5.6.5 (2017-03-07)
 * Improve handling of invalid calendar data in MSPDI files
 * Improve handling of XER files containing multi-line records
 * Improve handling of malformed MPX files
 * Fixed [Issue 308](https://sourceforge.net/p/mpxj/bugs/308): Add support for elapsed percent to MSPDI writer
 * Fixed [Issue 310](https://sourceforge.net/p/mpxj/bugs/310): MPX percent lag incorrect
 
-## 5.6.4 (16/02/2017)
+## 5.6.4 (2017-02-16)
 * UniversalProjectReader now recognises and handles byte order marks
 * Fixed [Issue 307](https://sourceforge.net/p/mpxj/bugs/307): TimeUnit.ELAPSED_PERCENT read incorrectly from MPP files
 
-## 5.6.3 (08/02/2017)
+## 5.6.3 (2017-02-08)
 * Added a parameter to the Ruby gem to allow the maximum JVM memory size to be set.
 * Updated to rtfparserkit 1.10.0 for improved RTF parsing.
 
-## 5.6.2 (06/02/2017)
+## 5.6.2 (2017-02-06)
 * Fixed [Issue 305](https://sourceforge.net/p/mpxj/bugs/305): Failed to Parse error with Primavera 15.2 or 16.1 XML files
 
-## 5.6.1 (03/02/2017)
+## 5.6.1 (2017-02-03)
 * Correct resource assignment handling for Phoenix Project Manager schedules.
 
-## 5.6.0 (29/01/2017)
+## 5.6.0 (2017-01-29)
 * Add support for Phoenix Project Manager schedules.
 
-## 5.5.9 (27/01/2017)
+## 5.5.9 (2017-01-27)
 * Improve robustness of date parsing for MPX files.
 
-## 5.5.8 (23/01/2017)
+## 5.5.8 (2017-01-23)
 * Fix NPE when reading graphical indicators with unknown field type.
 
-## 5.5.7 (13/01/2017)
+## 5.5.7 (2017-01-13)
 * Fix percent complete NaN value for some Primavera schedules.
 
-## 5.5.6 (06/01/2017)
+## 5.5.6 (2017-01-06)
 * Fix incorrectly set critical flag for primavera schedules.
 
-## 5.5.5 (06/01/2017)
+## 5.5.5 (2017-01-06)
 * Updated to rtfparserkit 1.9.0 for improved RTF parsing
 * Improve calendar exception parsing for Primavera XER and database readers.
 * Ensure the task summary flag is set correctly for Primavera schedules.
@@ -701,14 +701,14 @@
 * Use the project's critical slack limit value when setting the critical flag on a task.
 * Experimental support for reading Merlin Project schedules.
 
-## 5.5.4 (01/12/2016)
+## 5.5.4 (2016-12-01)
 * Default to UTF-8 encoding when generating JSON files
 
-## 5.5.3 (29/11/2016)
+## 5.5.3 (2016-11-29)
 * Correctly read text from MPP files when default charset is not UTF-8.
 * Improve accuracy when reading MPP9 files.
 
-## 5.5.2 (02/11/2016)
+## 5.5.2 (2016-11-02)
 * Add Primavera Parent Resource ID as a specific resource attribute (Based on a contribution by Dave McKay).
 * PMXML writer generates currency record (Based on a contribution by Dave McKay).
 * PMXML writer defaults Activity PercentCompleteType to Duration (Based on a contribution by Dave McKay).
@@ -718,84 +718,84 @@
 * PMXML writer: gracefully handle missing data.
 * Planner writer: gracefully handle missing data.
 
-## 5.5.1 (14/10/2016)
+## 5.5.1 (2016-10-14)
 * Update universal project reader to support zip files.
 * Update ruby to align error handling with universal project reader.
 
-## 5.5.0 (13/10/2016)
+## 5.5.0 (2016-10-13)
 * Universal project reader.
 * Avoid NPE when reading PMXML files.
 * Fixed [Issue 297](https://sourceforge.net/p/mpxj/bugs/297): Missing extended attributes
 * Fixed [Issue 300](https://sourceforge.net/p/mpxj/bugs/300): CrossProject field omission causes issues when importing to P6
 
-## 5.4.0 (06/10/2016)
+## 5.4.0 (2016-10-06)
 * Updated to use POI 3.15.
 
-## 5.3.3 (31/08/2016)
+## 5.3.3 (2016-08-31)
 * Avoid NPE when field type is unknown.
 * Improve Ruby error reporting.
 * Improve support for non-standard time formats in MPX files
 * Improve support for MPP14 files with very large numbers of blank tasks
 
-## 5.3.2 (31/08/2016)
+## 5.3.2 (2016-08-31)
 * When reading an XER file, treat FT_STATICTPYE user defined fields as text.
 
-## 5.3.1 (01/07/2016)
+## 5.3.1 (2016-07-01)
 * Add data date attribute to PMXML output.
 * Update PMXML writer to avoid NPE.
 * Update PMXML writer to allow task field used for Activity ID to be chosen.
 * Updated to avoid NPE when reading an XER file where project not under EPS.
 * Generate Task IDs if missing from MSPDI file
 
-## 5.3.0 (10/06/2016)
+## 5.3.0 (2016-06-10)
 * Add support for PP files generated by Asta Powerproject from version 13.0.0.3 onwards
 * Minor improvements to SDEF support.
 * Updated to rtfparserkit 1.8.0
 * Improve finish time handling in PMXML files (contributed by lobmeleon)
 
-## 5.2.2 (11/03/2016)
+## 5.2.2 (2016-03-11)
 * Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files
 * Fixed [Issue 291](https://sourceforge.net/p/mpxj/bugs/291): PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException
 * Fixed [Issue 292](https://sourceforge.net/p/mpxj/bugs/292): Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment
 
-## 5.2.1 (11/02/2016)
+## 5.2.1 (2016-02-11)
 * Add support for PP files generated by Asta Powerproject up to version 13.0.0.3
 
-## 5.2.0 (08/02/2016)
+## 5.2.0 (2016-02-08)
 * Add support for PP files generated by Asta Powerproject 11, Powerproject 12, Easyplan 2, Easyplan 3, Easyplan 4, Easyplan 5 and Easyplan 6
 * Fixed [Issue 285](https://sourceforge.net/p/mpxj/bugs/285): Unsupported encoding command ansicpg949
 * Fixed [Issue 288](https://sourceforge.net/p/mpxj/bugs/288): AvailabilityTable getEntryByDate does not work properly
 
-## 5.1.18 (25/01/2016)
+## 5.1.18 (2016-01-25)
 * Fixed [Issue 285](https://sourceforge.net/p/mpxj/bugs/285): Unsupported encoding command ansicpg1254
 * Fixed [Issue 286](https://sourceforge.net/p/mpxj/bugs/286): NullPointerException in CriteriaReader.getConstantValue
 * Fixed [Issue 287](https://sourceforge.net/p/mpxj/bugs/287): Allow a character encoding to be specified when reading an XER file
 * Write Primavera Primary Resource Unique ID to Task field Number1
 
-## 5.1.17 (30/12/2015)
+## 5.1.17 (2015-12-30)
 * Improve support for reading MPP files generated by Project 2016
 * Handle missing time component of a time stamp field when reading an MPX file.
 
-## 5.1.16 (18/12/2015)
+## 5.1.16 (2015-12-18)
 * Improve support for reading MPX files generated by SureTrak
 
-## 5.1.15 (16/12/2015)
+## 5.1.15 (2015-12-16)
 * Fix WBS and Activity ordering for tasks from Primavera.
 
-## 5.1.14 (09/12/2015)
+## 5.1.14 (2015-12-09)
 * Strip unescaped control characters from JSON output.
 
-## 5.1.13 (26/11/2015)
+## 5.1.13 (2015-11-26)
 * For schedules imported from Primavera ensure tasks representing activities are ordered by Activity ID within the WBS to match Primavera.
 
-## 5.1.12 (16/11/2015)
+## 5.1.12 (2015-11-16)
 * Avoid NPE when writing MSPDI files with timephased data  (contributed by Bruno Gasnier)
 * Improve resource assignment constructor (based on a contribution by Bruno Gasnier)
 * Improve MPX French translations (contributed by Bruno Gasnier)
 * Add calendar specific minutes per day, week, month, and year (based on a contribution by Bruno Gasnier)
 * Add support for reading and writing GUID attribute for PMXML, XER files and Primavera database.
 
-## 5.1.11 (12/11/2015)
+## 5.1.11 (2015-11-12)
 * Avoid NPE when reading MPP14 custom properties.
 * Ensure calculated task attributes are present in JSON output.
 * Handle MSPDI files written by German versions of Microsoft Project (based on a contribution by Lord Helmchen)
@@ -804,10 +804,10 @@
 * Fixed [Issue 281](https://sourceforge.net/p/mpxj/bugs/281): Parent task is always null when reading a Primavera XER file
 * Ensure that Task.getSuccesors() and Task.getPredecessors() return an empty list rather than null.
 
-## 5.1.10 (09/09/2015)
+## 5.1.10 (2015-09-09)
 * Improve FixedMeta2 block size heuristic to improve reliability when reading MPP14 files.
 
-## 5.1.9 (29/08/2015)
+## 5.1.9 (2015-08-29)
 * Ensure Resource BookingType is read correctly from MPP files
 * Added basic custom field attributes to JSON output
 * Added Ruby methods to work with custom field aliases
@@ -819,39 +819,39 @@
 * Added UDF support to PMXML file reader and writer(contributed by lobmeleon)
 * Updated to rtfparserkit 1.4.0
 
-## 5.1.8 (13/07/2015)
+## 5.1.8 (2015-07-13)
 * Another attempt at getting tzinfo-data dependency working
 
-## 5.1.7 (13/07/2015)
+## 5.1.7 (2015-07-13)
 * Updated ruby gem to make tzinfo-data dependency conditional on platform
 
-## 5.1.6 (13/07/2015)
+## 5.1.6 (2015-07-13)
 * Updated ruby gem to allow timezone to be provided
 
-## 5.1.5 (05/06/2015)
+## 5.1.5 (2015-06-05)
 * Updated to use IKVM 8.0.5449.1
 
-## 5.1.4 (03/06/2015)
+## 5.1.4 (2015-06-03)
 * Updated to generate Activity ID for Primavera WBS.
 * Updated to correct Primavera duration percent complete calculation.
 
-## 5.1.3 (18/05/2015)
+## 5.1.3 (2015-05-18)
 * Updated to ensure Ruby reads Boolean attributes correctly.
 
-## 5.1.2 (18/05/2015)
+## 5.1.2 (2015-05-18)
 * Updated to ensure Ruby recognises short type as an integer.
 
-## 5.1.1 (18/05/2015)
+## 5.1.1 (2015-05-18)
 * Updated to use ruby-duration gem to avoid conflict with ActiveSupport::Duration.
 
-## 5.1.0 (17/05/2015)
+## 5.1.0 (2015-05-17)
 * Updated to ensure that PrimaveraDatabaseReader.setSchema accepts null or empty string
 * Ensure conversion to/from .Net DateTime takes account of timezone and daylight savings (based on a contribution by Timour Koupeev)
 * Updated to use POI 3.12.
 * Removed ProjectFile.getTaskFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias
 * Removed ProjectFile.getResourceFieldAliases, replaced by ProjectFile.getCustomField().getFieldByAlias
 
-## 5.0.0 (06/05/2015)
+## 5.0.0 (2015-05-06)
 * Added project properties to the JSON output
 * Added support for project properties to the Ruby wrapper
 * Added support for reading data from a standalone Primavera P6 SQLite database
@@ -941,7 +941,7 @@
 * Removed ProjectFile.addGraphicalIndicator
 * Removed ProjectFile.getGraphicalIndicator, replaced by ProjectFile.getCustomFields().getCustomField().getGraphicalIndicator()
 
-## 4.7.6 (18/03/2015)
+## 4.7.6 (2015-03-18)
 * Added a Ruby wrapper for MPXJ
 * Added the ability to export project data as JSON, to make it easier to work with in languages other than Java
 * Added support for the Assignment attribute Resource Request Type
@@ -950,10 +950,10 @@
 * Read Task Earned Value Method correctly from MPP files
 * Fix issue where some floating point attributes were returning NaN
 
-## 4.7.5 (27/02/2015)
+## 4.7.5 (2015-02-27)
 * Handle invalid Primavera calendar data gracefully
 
-## 4.7.4 (25/02/2015)
+## 4.7.4 (2015-02-25)
 * Fixed [Issue 257](https://sourceforge.net/p/mpxj/bugs/257): Failed to read project containing CodePage 1250 text.
 * Fixed [Issue 259](https://sourceforge.net/p/mpxj/bugs/259): MS Project 2010: tasks with null baseline dates
 * Incorrect task end date read from Primavera XER and database
@@ -964,17 +964,17 @@
 * Added Task Activity Type and Task Status as additional fields read from Primavera database and XER and files
 * Changed Task physical percent complete methods for consistency to use Number rather than Integer
 
-## 4.7.3 (23/12/2014)
+## 4.7.3 (2014-12-23)
 * Updated to use POI 3.11.
 * Updated to use rtfparserkit 1.1.0 for Java 6 compatibility.
 
-## 4.7.2 (15/12/2014)
+## 4.7.2 (2014-12-15)
 * Updated to fix Maven dependency issue.
 
-## 4.7.1 (08/12/2014)
+## 4.7.1 (2014-12-08)
 * Added a flag to MPPReader to indicate that only the project header should be read.
 
-## 4.7.0 (04/12/2014)
+## 4.7.0 (2014-12-04)
 * Implemented new RTF parser for stripping RTF to improve performance and accuracy
 * Removed non-API code from the top level package
 * Improved support for reading built-in and custom project properties from MPP files.
@@ -982,7 +982,7 @@
 * Fixed issue which could cause an infinite loop when ordering tasks in a file containing multiple consecutive blank tasks
 * Fixed issue where free text versions of task start, finish, and duration fields were not being read correctly from MPP14 files
 
-## 4.6.2 (11/11/2014)
+## 4.6.2 (2014-11-11)
 * Fixed issue with custom duration field units not read correctly from MSPDI files
 * Fixed [Issue 223](https://sourceforge.net/p/mpxj/bugs/223): Problems with the lag calculated in the relation
 * Outline code not read correctly from MPP file written by Project 2013
@@ -991,10 +991,10 @@
 * Added DotNetInputStream and DotNetOutputStream classes for ease of use under .Net.
 * Updated to automatically generate and package MpxjUtilities.dll
 
-## 4.6.1 (17/10/2014)
+## 4.6.1 (2014-10-17)
 * Fixed NuGet metadata
 
-## 4.6.0 (17/10/2014)
+## 4.6.0 (2014-10-17)
 * Added support for NuGet.
 * Fixed an issue where the ID and Unique ID resource attributes were being read incorrectly from MPP14 files.
 * Fixed an issue where the project's default duration format was not being used
@@ -1013,7 +1013,7 @@
 * Fixed [Issue 247](https://sourceforge.net/p/mpxj/bugs/247): Updated Primavera XER/Database readers to read task Start and End correctly (contributed by Nathaniel Marrin)
 * Migrated tests to JUnit 4
 
-## 4.5.0 (01/03/2014)
+## 4.5.0 (2014-03-01)
 * Added the ability to call the .Net version of MPXJ from COM.
 * Added support Primavera decimal database columns.
 * Added support for user defined task fields (contributed by Mario Fuentes).
@@ -1030,7 +1030,7 @@
 * Updated to set the StatusDate attribute in the project header from a Primavera database, XER file or PM XML file.
 * Updated to use (a patched version of) POI 3.10.
 
-## 4.4.0 (14/03/2013)
+## 4.4.0 (2013-03-14)
 * Added support for writing Primavera PM XML files.
 * Added support for reading Asta Powerproject PP and MDB files.
 * Added support for writing SDEF files (Contributed by William Iverson).
@@ -1047,7 +1047,7 @@
 * Updated to fix an issue where derived calendars were not being read correctly from MPP files
 * Updated to use IKVM 7.2.
 
-## 4.3.0 (08/02/2012)
+## 4.3.0 (2012-02-08)
 * Added support for reading Primavera PM XML files.
 * Added support for reading timephased cost, and timephased baseline cost and baseline work from MPP files.
 * Added support for Work Weeks in MSPDI files (SourceForge feature request 23).
@@ -1076,7 +1076,7 @@
 * Updated to fix an issue where the Task summary attribute was not set correctly when using certain methods to add or remove child tasks.
 * Updated to fix an issue where subprojects were not read correctly (Contributed by Gary McKenney).
 
-## 4.2.0 (23/06/2011)
+## 4.2.0 (2011-06-23)
 * Added support for resource assignment fields Baseline Cost 1-n, Baseline Work 1-n, Baseline Start 1-n, Baseline Finish 1-n, Start 1-n, Finish 1-n, Date 1-n, Duration 1-n, Cost 1-n, Text 1-n, Number 1-n, Flag 1-n, for MPP, MPD, and MSPDI files.
 * Added support for task suspend date, task resume date, and task code read from Primavera, and represented in MS Project custom fields Date1, Date2, and Text1 respectively.
 * Added support for retrieving the table associated with any view.
@@ -1087,7 +1087,7 @@
 * Fixed [Issue 153](https://sourceforge.net/p/mpxj/bugs/153): Wrong task start.
 * Fixed [Issue 156](https://sourceforge.net/p/mpxj/bugs/156): Wrong start and finish dates for 2010 files.
 
-## 4.1.0 (30/05/2011)
+## 4.1.0 (2011-05-30)
 * Updated ProjectFile class to change default value for "auto" flags to simplify programmatic creation of project files.
 * Added support for Manual, Start Text, Finish Text, and Duration Text attributes in MSPDI files.
 * Added support cost resource type for MPP12, MPP14 and MSPDI files.
@@ -1126,7 +1126,7 @@
 * Updated to use POI 3.7.
 * Updated to make task, resource, and assignment fields read from MPP files data-driven, rather than hard coded.
 
-## 4.0.0 (25/05/2010)
+## 4.0.0 (2010-05-25)
 * Added support for reading Microsoft Project 2010 MPP files.
 * Added support for reading Primavera P6 XER files.
 * Added support for reading Primavera P6 databases.
@@ -1134,7 +1134,7 @@
 * Added Russian locale (Contributed by Roman Bilous).
 * Relation.getDuration() is always giving result in 'HOUR' fmt.
 
-## 3.2.0 (20/01/2010)
+## 3.2.0 (2010-01-20)
 * Added support for Resource cost rate tables (Based on code by Andrei Missine).
 * Added support for Resource availability (Based on code by Andrei Missine).
 * Added support for successors (Based on an idea by John D. Lewis).
@@ -1162,7 +1162,7 @@
 * Updated to refactor the Relation class (note minor method name changes).
 * Updated to add default calendar to Planner output.
 
-## 3.1.0 (20/05/2009)
+## 3.1.0 (2009-05-20)
 * Fixed [Issue 73](https://sourceforge.net/p/mpxj/bugs/73): Plan file fails to load.
 * Fixed [Issue 72](https://sourceforge.net/p/mpxj/bugs/72): Resource Assignment Normaliser rounding problem.
 * Fixed [Issue 78](https://sourceforge.net/p/mpxj/bugs/78): Column alignment values are incorrect.
@@ -1181,7 +1181,7 @@
 * Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)
 * Updated to provide strong names for .Net DLLs.
 
-## 3.0.0 (25/01/2009)
+## 3.0.0 (2009-01-25)
 * Updated to the Project 2007 MSPDI schema.
 * Updated to POI 3.2.
 * Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.
@@ -1207,7 +1207,7 @@
 * Added support for durations with percentage time lag (Contributed by Jonas Tampier).
 * Added support MSPDI file split tasks.
 
-## 2.1.0 (23/03/2008)
+## 2.1.0 (2008-03-23)
 * Updated to POI 3.0.2
 * Updated to address an out of memory exception raised when processing certain MPP12 files.
 * Updated to fix a problem caused by duplicate ID values in MPP12 files.
@@ -1233,7 +1233,7 @@
 * Improved support for hyperlinks (Contributed by Jari Niskala)
 * Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)
 
-## 2.0.0 (07/10/2007)
+## 2.0.0 (2007-10-07)
 * Migrated to Java 5
 * Introduced generics
 * Introduced enums
@@ -1241,7 +1241,7 @@
 * Updated to JAXB 2.1.4
 * Changed company details from Tapster Rock to Packwood Software
 
-## 1.0.0 (30/08/2007)
+## 1.0.0 (2007-08-30)
 * Added support for reading MPD files via JDBC
 * Added support for reading Planner files
 * Added support for over allocated flag to all MPP file formats.
@@ -1269,7 +1269,7 @@
 * Updated to add another condition to the test for deleted tasks in MPP8 files.
 * Updated to significantly improve the performance of writing MSPDI files.
 
-## 0.9.2 (07/03/2006)
+## 0.9.2 (2006-03-07)
 * Added support for split views.
 * Added support for graphical indicators.
 * Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.
@@ -1284,7 +1284,7 @@
 * Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.
 * Fixed a bug where split tasks were not being reported correctly.
 
-## 0.9.1 (26/01/2006)
+## 0.9.1 (2006-01-26)
 * Major API rewrite.
 * Added a flag called "expanded" to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.
 * Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).
@@ -1314,7 +1314,7 @@
 * Fixed split task support.
 * Enhanced TableFontStyle implementation.
 
-## 0.0.25 (11/08/2005)
+## 0.0.25 (2005-08-11)
 * Added support for reading all properties from an MPP9 file which define the visual appearance of the Gantt Chart view shown in Microsoft Project (development funding courtesy of Steelray).
 * Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.
 * Fixed incorrect value in WorkGroup enumerated type.
@@ -1357,7 +1357,7 @@
 * Fixed a bug when reading durations in elapsed days from an MPP file.
 * Tasks can now have arbitrary priority values. These values are mapped to/from the fixed MPP8/MPX priority values where necessary.
 
-## 0.0.24 (10/01/2005)
+## 0.0.24 (2005-01-10)
 * Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.
 * Updated to use class instances instead of primitives to represent some enumerated types.
 * Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.
@@ -1366,7 +1366,7 @@
 * Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.
 * Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.
 
-## 0.0.23 (17/11/2004)
+## 0.0.23 (2004-11-17)
 * Fixed a bug where MPXJ was still using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.
 * Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.
 * Fixed a bug where the method Task.getText21 was not retrieving the correct text value.
@@ -1389,7 +1389,7 @@
 * Added support reading and writing extended attributes (apart from outline codes) for MSPDI files.
 * Added support for the Resource Type attribute.
 
-## 0.0.22 (27/07/2004)
+## 0.0.22 (2004-07-27)
 * Fixed a bug where task data was not being read correctly from very large MPP9 files.
 * Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.
 * Fixed a bug where certain MPP9 files were not read correctly.
@@ -1407,7 +1407,7 @@
 * Added new JUnit test for confidential customer data.
 * Added support for the resource assignment remaining work attribute for MPP8, MPP9 and MSPDI files.
 
-## 0.0.21 (06/05/2004)
+## 0.0.21 (2004-05-06)
 * Fixed a bug where the task start date attribute was not always correct for MPP8 files.
 * Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.
 * Fixed a bug causing an exception when reading certain MPP9 files.
@@ -1419,7 +1419,7 @@
 * Implemented resource field alias read/write for MSPDI files.
 * Implemented resource field alias read for MPP9 files.
 
-## 0.0.20 (15/03/2004)
+## 0.0.20 (2004-03-15)
 * Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.
 * Fixed a bug causing a null pointer exception when writing an MSPDI file.
 * Fixed a bug in MSPDI files where default values were being written incorrectly for some task attributes.
@@ -1431,7 +1431,7 @@
 * Updated to include version 2.5 of the POI library.
 * Added support for task calendars.
 
-## 0.0.19 (02/12/2003)
+## 0.0.19 (2003-12-02)
 * Fixed a bug reading table data from certain MPP8 files
 * Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)
 * Re-implemented base and resource calendars as a single MPXCalendar class
@@ -1440,7 +1440,7 @@
 * Removed unnecessary use of ByteArray.java
 * Added support for the following task fields: ActualOvertimeCost, ActualOvertimeWork, FixedCostAccrual, Hyperlink, HyperlinkAddress, HyperlinkSubAddress, LevelAssignments, LevelingCanSplit, LevelingDelay, PreleveledStart, PreleveledFinish, RemainingOvertimeCost, RemainingOvertimeWork.
 
-## 0.0.18 (13/11/2003)
+## 0.0.18 (2003-11-13)
 * Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.
 * Fixed a bug with writing MSPDI XML files in non-GMT timezones.
 * Fixed a bug causing an exception when zero length calendar names were present
@@ -1460,18 +1460,18 @@
 * Added support for resource "available from" and "available to" fields.
 * Verified that MPXJ will read MPP files written by Microsoft Project 2003 (they are still MPP9 files).
 
-## 0.0.17 (05/08/2003)
+## 0.0.17 (2003-08-05)
 * Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
 * Fixed a bug where special characters appearing in the currency symbol were not being quoted.
 * Fixed a bug that caused resource assignments to be incorrectly read from some MPP8 files.
 * Added a new write method to MPXFile allowing the user control over the character encoding used when writing an MPX file.
 
-## 0.0.16 (04/07/2003)
+## 0.0.16 (2003-07-04)
 * Fixed bug causing some extended boolean attributes to be read incorrectly.
 * Fixed bug causing MPP8 file task data to be read incorrectly under certain circumstances.
 * Updated calendar duration code to account for calendar exceptions.
 
-## 0.0.15 (17/06/2003)
+## 0.0.15 (2003-06-17)
 * Fixed a bug causing resource assignments to be duplicated in an MPX file created programmatically.
 * Fixed a bug causing an incorrect duration value to be read from an MPP9 file.
 * Fixed a bug causing invalid MPX files to be written in locales which don't use a period as the decimal separator.
@@ -1484,7 +1484,7 @@
 * Updated Task.get/set ResourceInitials and Task.get/set ResourceNames method documentation.
 * Updated to extract the following fields from resource assignment data in MPP files which were previously not imported: ActualCost, ActualWork, Cost, Finish, Start, Units, Work.
 
-## 0.0.14 (28/05/2003)
+## 0.0.14 (2003-05-28)
 * Updated to extract the following fields from resource data in an MPP9 file which were previously not imported: Flag1-Flag20.
 * Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.
 * Updated API to make classes final and constructors package access only where appropriate.
@@ -1498,13 +1498,13 @@
 * Updated resource notes to fix end of line handling problem.
 * Added functionality to read default settings and currency settings data from MPP files.
 
-## 0.0.13 (22/05/2003)
+## 0.0.13 (2003-05-22)
 * Implemented support for the Microsoft Project 98 file format.
 * Fixed a bug that prevented task and resource note text from being read.
 * Updated to remove a Java 1.4 dependency introduced in 0.0.12. Will now work with Java 1.3.
 * Updated to correct handling of carriage returns embedded in note fields.
 
-## 0.0.12 (08/05/2003)
+## 0.0.12 (2003-05-08)
 * Fixed incorrect handling of timezones and daylight saving time.
 * Fixed incorrect task structure generated from outline levels.
 * Updated to extract the notes fields from tasks and resources read from an MPP file.
@@ -1512,26 +1512,26 @@
 * Updated to extract the following fields from task data in an MPP file which were previously not imported: Text11-Text30, Number6-Number20, Duration4-Duration10, Date1-Date10, Cost4-Cost10, Start6-Start10, Finish6-Finish10
 * Updated to extract the following fields from resource data in an MPP file which were previously not imported: Text6-Text30, Start1-Start10, Finish1-Finish10, Number1-Number20, Duration1-Duration10, Date1-Date10, Cost1-Cost10
 
-## 0.0.11 (15/04/2003)
+## 0.0.11 (2003-04-15)
 * Fixed error in format string used in one of the example files.
 * Fixed error where double byte characters were being read incorrectly.
 * Fixed error where deleted constraints were being resurrected when read from an MPP file.
 * Updated to extract the following fields from task data in an MPP file which were previously not imported: Flag11-Flag20, Rollup, HideBar, EffortDriven.
 
-## 0.0.10 (08/04/2003)
+## 0.0.10 (2003-04-08)
 * Corrected Actual Start and Actual End fields from MPP file.
 * Fixed bug where time values were being broken by daylight saving time in the user's default locale.
 * Updated to extract the following fields from task data in an MPP file which were previously not imported: Actual Work, Baseline Work, Cost Variance, Deadline, Remaining Work, Work.
 * Updated to extract the following fields from resource data in an MPP file which were previously not imported: Actual Cost, Actual Overtime Cost, Actual Work, Baseline Work, Cost, Cost Variance, Max Units, Overtime Cost, Overtime Rate, Overtime Work, Peak, Regular work, Remaining Cost, Remaining Overtime Cost, Remaining Work, Standard Rate, Work, Work Variance
 
-## 0.0.9 ()
+## 0.0.9 (2003-04-03)
 * Fixed bug when handling certain types of modified MPP file where resources have been updated.
 * Added sample MPP files for bugs to the JUnit tests.
 * Added support for summary flag import from MPP files.
 * Added automatic summary flag update when creating an MPX file programmatically.
 * Added new constructor to the MSPDIFile class to allow MSPDI files to be created from scratch.
 
-## 0.0.8 (27/03/2003)
+## 0.0.8 (2003-03-27)
 * Added support for estimated durations.
 * Fixed bug in handling certain types of modified MPP file where tasks have been updated.
 * Added the facility to auto generate outline numbers.
