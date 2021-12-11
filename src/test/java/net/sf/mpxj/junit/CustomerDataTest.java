@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.common.JvmHelper;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -234,9 +235,7 @@ public class CustomerDataTest
     */
    @AfterClass public static void generateFieldReport() throws Exception
    {
-      String runtime = System.getProperty("java.runtime.name");
-      boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
-      if (!isIKVM)
+      if (!JvmHelper.isIkvm())
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
@@ -350,7 +349,6 @@ public class CustomerDataTest
    private void listFiles(List<File> list, File parent)
    {
       String runtime = System.getProperty("java.runtime.name");
-      boolean isIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
       File[] fileList = parent.listFiles();
       assertNotNull(fileList);
       Arrays.sort(fileList);
@@ -364,7 +362,7 @@ public class CustomerDataTest
          else
          {
             String name = file.getName().toLowerCase();
-            if (isIKVM && (name.endsWith(".mpd") || name.endsWith(".mdb")))
+            if (JvmHelper.isIkvm() && (name.endsWith(".mpd") || name.endsWith(".mdb")))
             {
                continue;
             }

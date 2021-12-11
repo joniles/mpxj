@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 
+import net.sf.mpxj.common.JvmHelper;
 import org.junit.Assume;
 
 /**
@@ -46,8 +47,7 @@ public final class MpxjAssert
     */
    public static void assumeJvm()
    {
-      String runtime = System.getProperty("java.runtime.name");
-      Assume.assumeFalse(runtime != null && runtime.indexOf("IKVM") != -1);
+      Assume.assumeFalse(JvmHelper.isIkvm());
    }
 
    /**

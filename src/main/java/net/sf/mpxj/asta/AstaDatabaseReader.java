@@ -43,6 +43,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
@@ -324,16 +325,10 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
+         String url = JdbcOdbcHelper.getJdbcUrl(file);
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
          return DriverManager.getConnection(url, props);
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
       }
 
       catch (SQLException ex)

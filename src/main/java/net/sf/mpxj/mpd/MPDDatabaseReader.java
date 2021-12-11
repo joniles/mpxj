@@ -37,6 +37,7 @@ import javax.sql.DataSource;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -154,14 +155,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
-         return DriverManager.getConnection(url);
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
+         return DriverManager.getConnection(JdbcOdbcHelper.getJdbcUrl(file));
       }
 
       catch (SQLException ex)

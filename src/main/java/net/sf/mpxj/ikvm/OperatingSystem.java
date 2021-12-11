@@ -27,6 +27,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.common.JvmHelper;
+
 /**
  * Mono does not accurately identify the host operating system, which means that IKVM doesn't
  * usefully set the `os.name` property. This causes issues when loading native libraries
@@ -76,14 +78,10 @@ public final class OperatingSystem
    static
    {
       String replacementOsName = null;
-
-      String runtime = System.getProperty("java.runtime.name");
-      boolean usingIKVM = runtime != null && runtime.indexOf("IKVM") != -1;
-
       String osname = System.getProperty("os.name");
       boolean osNotKnown = !Stream.of(KNOWN_OS_NAMES).anyMatch(name -> osname.contains(name));
 
-      if (usingIKVM && osNotKnown)
+      if (JvmHelper.isIkvm() && osNotKnown)
       {
          // Based on https://stackoverflow.com/questions/38790802/determine-operating-system-in-net-core
          File ostype = new File("/proc/sys/kernel/ostype");
