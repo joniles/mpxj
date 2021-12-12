@@ -25,7 +25,7 @@ package net.sf.mpxj.junit;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.JvmHelper;
 import org.junit.Assume;
 
@@ -40,6 +40,16 @@ public final class MpxjAssert
    private MpxjAssert()
    {
 
+   }
+
+   /**
+    * Returns true if Microsoft Access can be used via JDBC.
+    * 
+    * @return true if Microsoft Access can be used via JDBC
+    */
+   public static boolean isMicrosoftAccessJdbcAvailable()
+   {
+      return !JvmHelper.isIkvm() && JdbcOdbcHelper.jdbcOdbcAvailable();
    }
 
    /**

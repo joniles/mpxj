@@ -67,9 +67,9 @@ public class TaskLinksTest
    private void testTaskLinks(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       ProjectFile project = reader.read(file);

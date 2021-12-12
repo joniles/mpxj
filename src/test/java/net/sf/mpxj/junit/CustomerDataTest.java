@@ -48,6 +48,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.FileHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -361,7 +362,7 @@ public class CustomerDataTest
          else
          {
             String name = file.getName().toLowerCase();
-            if (JvmHelper.isIkvm() && (name.endsWith(".mpd") || name.endsWith(".mdb")))
+            if ((JvmHelper.isIkvm() || !JdbcOdbcHelper.jdbcOdbcAvailable())&& (name.endsWith(".mpd") || name.endsWith(".mdb")))
             {
                continue;
             }

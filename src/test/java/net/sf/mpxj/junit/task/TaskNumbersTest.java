@@ -64,9 +64,9 @@ public class TaskNumbersTest
    private void testTaskNumbers(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       int maxIndex = reader instanceof MPXReader ? 5 : 20;
