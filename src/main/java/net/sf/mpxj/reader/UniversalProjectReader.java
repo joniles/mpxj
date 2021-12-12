@@ -430,7 +430,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getJdbcUrl(file));
+         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
 
          if (tableNames.contains("MSP_PROJECTS"))
          {

@@ -325,7 +325,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         String url = JdbcOdbcHelper.getJdbcUrl(file);
+         String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
          return DriverManager.getConnection(url, props);

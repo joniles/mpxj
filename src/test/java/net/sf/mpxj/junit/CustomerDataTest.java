@@ -348,7 +348,6 @@ public class CustomerDataTest
     */
    private void listFiles(List<File> list, File parent)
    {
-      String runtime = System.getProperty("java.runtime.name");
       File[] fileList = parent.listFiles();
       assertNotNull(fileList);
       Arrays.sort(fileList);

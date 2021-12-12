@@ -64,7 +64,7 @@ public final class DataExportUtility
 
          try
          {
-            connection = DriverManager.getConnection(JdbcOdbcHelper.getJdbcUrl(argv[0]));
+            connection = DriverManager.getConnection(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(argv[0]));
 
             DataExportUtility dx = new DataExportUtility();
             dx.process(connection, argv[1]);

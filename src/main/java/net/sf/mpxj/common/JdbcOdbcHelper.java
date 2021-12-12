@@ -25,19 +25,39 @@ package net.sf.mpxj.common;
 
 import java.io.File;
 
+/**
+ * Helper methods for working with  the JDBC-ODBC bridge.
+ */
 public final class JdbcOdbcHelper
 {
+   /**
+    * Returns true if the JDBC-ODBC bridge is available.
+    * 
+    * @return true if the JDBC-ODBC bridge is available
+    */
    public static boolean jdbcOdbcAvailable()
    {
       return JDBC_ODBC_AVAILABLE;
    }
 
-   public static String getJdbcUrl(File file)
+   /**
+    * Generates a JDBC URL for a Microsoft Access database.
+    * 
+    * @param file database file
+    * @return JDBC URL
+    */
+   public static String getMicrosoftAccessJdbcUrl(File file)
    {
-      return getJdbcUrl(file.getAbsolutePath());
+      return getMicrosoftAccessJdbcUrl(file.getAbsolutePath());
    }
 
-   public static String getJdbcUrl(String filename)
+   /**
+    * Generates a JDBC URL for a Microsoft Access database.
+    * 
+    * @param filename database file
+    * @return JDBC URL
+    */
+   public static String getMicrosoftAccessJdbcUrl(String filename)
    {
       if (!JDBC_ODBC_AVAILABLE)
       {
@@ -60,6 +80,7 @@ public final class JdbcOdbcHelper
 
       catch (ClassNotFoundException ex)
       {
+         // We can't find the class...
       }
 
       JDBC_ODBC_AVAILABLE = available;

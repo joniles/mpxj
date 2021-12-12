@@ -155,7 +155,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         return DriverManager.getConnection(JdbcOdbcHelper.getJdbcUrl(file));
+         return DriverManager.getConnection(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
       }
 
       catch (SQLException ex)

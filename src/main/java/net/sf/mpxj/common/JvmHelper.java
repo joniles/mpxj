@@ -23,8 +23,16 @@
 
 package net.sf.mpxj.common;
 
+/**
+ * Helper methods relating to the JVM.
+ */
 public final class JvmHelper
 {
+   /**
+    * Returns true if we are using IKVM.
+    * 
+    * @return true if we are using IKVM
+    */
    public static boolean isIkvm()
    {
       return IKVM;
