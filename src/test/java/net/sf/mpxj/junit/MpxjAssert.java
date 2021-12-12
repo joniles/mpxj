@@ -52,6 +52,10 @@ public final class MpxjAssert
       return !JvmHelper.isIkvm() && JdbcOdbcHelper.jdbcOdbcAvailable();
    }
 
+   /**
+    * Allows a test to be ignored if it requires the JDBC-ODBC bridge,
+    * if this is not available.
+    */
    public static void assumeMicrosoftAccessJdbcAvailable()
    {
       Assume.assumeTrue(isMicrosoftAccessJdbcAvailable());
