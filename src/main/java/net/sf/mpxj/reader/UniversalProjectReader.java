@@ -758,6 +758,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          FileHelper.deleteQuietly(file);
       }
    }
+
    private Set<String> populateTableNames(Connection connection) throws SQLException
    {
       Set<String> tableNames = new HashSet<>();

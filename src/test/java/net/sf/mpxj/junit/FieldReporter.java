@@ -193,7 +193,7 @@ public class FieldReporter
       writeTable("Core Fields", coreFields, pw, tableHeader, keys);
       writeTable("Baseline Fields", baselineFields, pw, tableHeader, keys);
       writeTable("Extended Fields", extendedFields, pw, tableHeader, keys);
-      writeTable("Enterprise Fields", enterpriseFields, pw, tableHeader, keys);     
+      writeTable("Enterprise Fields", enterpriseFields, pw, tableHeader, keys);
    }
 
    private String populateTableHeader(Set<String> keys)
