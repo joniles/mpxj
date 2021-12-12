@@ -108,7 +108,7 @@ public class DurationTest
     */
    @Test public void testMpd() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpdduration.mpd"));
       testDurations(mpp);
    }

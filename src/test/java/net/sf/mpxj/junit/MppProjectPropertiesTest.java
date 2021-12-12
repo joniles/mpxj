@@ -117,7 +117,7 @@ public class MppProjectPropertiesTest
     */
    @Test public void testMpd9() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9header.mpd"));
       testProperties(mpp, false);
    }

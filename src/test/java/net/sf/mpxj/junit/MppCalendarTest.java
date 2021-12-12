@@ -121,7 +121,7 @@ public class MppCalendarTest
     */
    @Test public void testMpd9Calendar() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9calendar.mpd"));
       testCalendars(mpp);
    }

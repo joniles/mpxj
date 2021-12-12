@@ -62,9 +62,9 @@ public class AssignmentTextTest
    private void testAssignmentText(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       int maxIndex = 30;

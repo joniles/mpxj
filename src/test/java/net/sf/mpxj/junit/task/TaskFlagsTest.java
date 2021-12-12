@@ -63,9 +63,9 @@ public class TaskFlagsTest
    private void testTaskFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       int maxIndex = reader instanceof MPXReader ? 10 : 20;

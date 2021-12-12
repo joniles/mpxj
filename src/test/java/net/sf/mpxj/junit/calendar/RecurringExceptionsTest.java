@@ -70,9 +70,9 @@ public class RecurringExceptionsTest
    {
       //System.out.println(file);
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

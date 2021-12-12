@@ -66,9 +66,9 @@ public class TaskFinishesTest
    private void testTaskFinishDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       boolean isMpxFile = reader instanceof MPXReader;

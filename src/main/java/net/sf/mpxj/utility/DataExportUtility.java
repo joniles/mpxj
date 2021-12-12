@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 
 /**
  * Simple utility to export data to an XML file from an arbitrary database
@@ -63,9 +64,7 @@ public final class DataExportUtility
 
          try
          {
-            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-            String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + argv[0];
-            connection = DriverManager.getConnection(url);
+            connection = DriverManager.getConnection(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(argv[0]));
 
             DataExportUtility dx = new DataExportUtility();
             dx.process(connection, argv[1]);

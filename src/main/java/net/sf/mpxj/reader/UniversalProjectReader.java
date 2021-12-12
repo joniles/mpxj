@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.util.CloseIgnoringInputStream;
 
@@ -429,9 +430,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getCanonicalPath();
-         Set<String> tableNames = populateJdbcTableNames(url);
+         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
