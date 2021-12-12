@@ -165,7 +165,7 @@ public class MppResourceTest
     */
    @Test public void testMpd9Resource() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       MPDDatabaseReader reader = new MPDDatabaseReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpd"));
       testResources(mpp);

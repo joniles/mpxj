@@ -113,7 +113,7 @@ public class MppNullTaskTest
     */
    @Test public void testMpd9NullTasks() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile project = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9nulltasks.mpd"));
       testNullTasks(project);
    }

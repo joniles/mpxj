@@ -140,7 +140,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Task() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9task.mpd"));
       testBasicTask(mpp);
    }
@@ -218,7 +218,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Baseline() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9baseline.mpd"));
       testBaselineTasks(mpp);
    }
@@ -353,7 +353,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Relations() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9relations.mpd"));
       testRelations(mpp);
    }

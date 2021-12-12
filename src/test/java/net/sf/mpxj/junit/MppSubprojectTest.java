@@ -112,7 +112,7 @@ public class MppSubprojectTest
     */
    @Test public void testMpd9Subproject() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9subproject.mpd"));
       testSubprojects(mpp, false);
    }

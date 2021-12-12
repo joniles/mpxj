@@ -52,6 +52,11 @@ public final class MpxjAssert
       return !JvmHelper.isIkvm() && JdbcOdbcHelper.jdbcOdbcAvailable();
    }
 
+   public static void assumeMicrosoftAccessJdbcAvailable()
+   {
+      Assume.assumeTrue(isMicrosoftAccessJdbcAvailable());
+   }
+
    /**
     * Allows a test to be ignored if it is running under IKVM (i.e. not a regular JVM)
     */

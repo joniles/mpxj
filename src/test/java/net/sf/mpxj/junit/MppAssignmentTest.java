@@ -129,7 +129,7 @@ public class MppAssignmentTest
     */
    @Test public void testMpdCustomFields() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       MPDDatabaseReader reader = new MPDDatabaseReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentcustom.mpd"));
       testCustomFields(mpp);
@@ -284,7 +284,7 @@ public class MppAssignmentTest
     */
    @Test public void testMpdFields() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       MPDDatabaseReader reader = new MPDDatabaseReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentfields.mpd"));
       testFields(mpp, null, null);
