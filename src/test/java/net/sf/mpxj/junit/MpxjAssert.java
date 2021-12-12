@@ -44,7 +44,7 @@ public final class MpxjAssert
 
    /**
     * Returns true if Microsoft Access can be used via JDBC.
-    * 
+    *
     * @return true if Microsoft Access can be used via JDBC
     */
    public static boolean isMicrosoftAccessJdbcAvailable()

@@ -33,7 +33,7 @@ import net.sf.mpxj.common.JvmHelper;
  * Mono does not accurately identify the host operating system, which means that IKVM doesn't
  * usefully set the `os.name` property. This causes issues when loading native libraries
  * where `os.name` is used to identify the correct version to load.
- * 
+ *
  * The code in this class attempts to identify the operating system when IKVM
  * is running on a non-Windows host, and provides methods to temporarily set `os.name`
  * to what we believe is actually the current operating system.

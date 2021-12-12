@@ -30,7 +30,7 @@ public final class JvmHelper
 {
    /**
     * Returns true if we are using IKVM.
-    * 
+    *
     * @return true if we are using IKVM
     */
    public static boolean isIkvm()

@@ -37,7 +37,7 @@ public final class SQLite
 {
    /**
     * Returns a `Properties` instance with date format used by SQLite databases.
-    *   
+    *
     * @return Properties instance
     */
    public static Properties dateFormatProperties()
@@ -49,7 +49,7 @@ public final class SQLite
 
    /**
     * Create a connection to a SQLite database.
-    * 
+    *
     * @param file SQLite database file
     * @return Connection instance
     */
@@ -60,7 +60,7 @@ public final class SQLite
 
    /**
     * Create a connection to a SQLite database, allowing properties to be passed.
-    * 
+    *
     * @param file SQLite database file
     * @param props Properties instance
     * @return Connection instance

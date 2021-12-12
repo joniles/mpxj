@@ -32,7 +32,7 @@ public final class JdbcOdbcHelper
 {
    /**
     * Returns true if the JDBC-ODBC bridge is available.
-    * 
+    *
     * @return true if the JDBC-ODBC bridge is available
     */
    public static boolean jdbcOdbcAvailable()
@@ -42,7 +42,7 @@ public final class JdbcOdbcHelper
 
    /**
     * Generates a JDBC URL for a Microsoft Access database.
-    * 
+    *
     * @param file database file
     * @return JDBC URL
     */
@@ -53,7 +53,7 @@ public final class JdbcOdbcHelper
 
    /**
     * Generates a JDBC URL for a Microsoft Access database.
-    * 
+    *
     * @param filename database file
     * @return JDBC URL
     */
