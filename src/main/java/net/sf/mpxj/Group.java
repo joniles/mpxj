@@ -98,9 +98,6 @@ public final class Group
       return (m_clauses);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();

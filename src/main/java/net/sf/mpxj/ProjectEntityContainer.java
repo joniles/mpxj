@@ -69,7 +69,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Validate that the Unique IDs for the entities in this container are valid for MS Project.
-    * If they are not valid, i.e one or more of them are too large, renumber them.
+    * If they are not valid, i.e. one or more of them are too large, renumber them.
     */
    public void validateUniqueIDsForMicrosoftProject()
    {

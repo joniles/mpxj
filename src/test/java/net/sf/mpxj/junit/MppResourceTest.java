@@ -55,8 +55,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Resource() throws Exception
    {
@@ -70,8 +68,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ResourceFrom12() throws Exception
    {
@@ -85,8 +81,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ResourceFrom14() throws Exception
    {
@@ -100,8 +94,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Resource() throws Exception
    {
@@ -115,8 +107,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP1 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ResourceFrom14() throws Exception
    {
@@ -130,8 +120,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Resource() throws Exception
    {
@@ -145,8 +133,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiResource() throws Exception
    {
@@ -160,8 +146,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Resource() throws Exception
    {
@@ -178,12 +162,11 @@ public class MppResourceTest
     * Tests fields related to Resources.
     *
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
     */
    private void testResources(ProjectFile mpp) throws Exception
    {
 
-      /** MPP9 fields that return null:
+      /* MPP9 fields that return null:
        *
        * (would like these fixed in MPP9 as well)
        *
@@ -373,7 +356,6 @@ public class MppResourceTest
     * Test resource outline codes.
     *
     * @param mpp project file
-    * @throws Exception
     */
    private void testResourceOutlineCodes(ProjectFile mpp) throws Exception
    {

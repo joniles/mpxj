@@ -126,7 +126,7 @@ public abstract class CustomFieldValueReader
    }
 
    /**
-    * Try to convert a bute array into a string. In the event of a
+    * Try to convert a byte array into a string. In the event of a
     * failure, fall back to dumping the byte array contents as
     * as string of hex bytes.
     *

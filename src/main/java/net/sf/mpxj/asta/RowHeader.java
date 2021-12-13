@@ -113,7 +113,7 @@ class RowHeader
    }
 
    /**
-    * Retrieve the "sub type" of this row.
+    * Retrieve the "subtype" of this row.
     *
     * @return row sub type
     */

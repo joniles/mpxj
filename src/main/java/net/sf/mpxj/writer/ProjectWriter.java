@@ -40,7 +40,6 @@ public interface ProjectWriter
     *
     * @param projectFile project file instance
     * @param fileName file name
-    * @throws IOException
     */
    public void write(ProjectFile projectFile, String fileName) throws IOException;
 
@@ -49,7 +48,6 @@ public interface ProjectWriter
     *
     * @param projectFile project file instance
     * @param file File instance
-    * @throws IOException
     */
    public void write(ProjectFile projectFile, File file) throws IOException;
 
@@ -58,7 +56,6 @@ public interface ProjectWriter
     *
     * @param projectFile project file instance
     * @param outputStream OutputStream instance
-    * @throws IOException
     */
    public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException;
 }

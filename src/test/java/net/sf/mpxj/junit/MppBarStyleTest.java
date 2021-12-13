@@ -53,8 +53,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9DefaultBarStyles() throws Exception
    {
@@ -64,8 +62,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9DefaultBarStylesFrom12() throws Exception
    {
@@ -75,8 +71,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9DefaultBarStylesFrom14() throws Exception
    {
@@ -86,8 +80,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12DefaultBarStyles() throws Exception
    {
@@ -97,8 +89,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12DefaultBarStylesFrom14() throws Exception
    {
@@ -108,8 +98,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14DefaultBarStyles() throws Exception
    {
@@ -119,8 +107,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ExceptionBarStyles() throws Exception
    {
@@ -130,8 +116,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ExceptionBarStylesFrom12() throws Exception
    {
@@ -141,8 +125,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ExceptionBarStylesFrom14() throws Exception
    {
@@ -152,8 +134,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ExceptionBarStyles() throws Exception
    {
@@ -163,8 +143,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ExceptionBarStylesFrom14() throws Exception
    {
@@ -174,8 +152,6 @@ public class MppBarStyleTest
 
    /**
     * Test bar styles read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14ExceptionBarStyles() throws Exception
    {
@@ -188,7 +164,6 @@ public class MppBarStyleTest
     *
     * @param mpp The ProjectFile being tested.
     * @param styles styles to test
-    * @throws Exception
     */
    private void testDefaultBarStyles(ProjectFile mpp, Object[][] styles) throws Exception
    {
@@ -219,7 +194,6 @@ public class MppBarStyleTest
     * Tests exception bar styles.
     *
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
     */
    private void testExceptionBarStyles(ProjectFile mpp) throws Exception
    {

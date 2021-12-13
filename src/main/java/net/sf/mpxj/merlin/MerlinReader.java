@@ -568,7 +568,6 @@ public final class MerlinReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param values bind variable values
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
@@ -592,8 +591,6 @@ public final class MerlinReader extends AbstractProjectFileReader
 
    /**
     * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
     */
    private void populateMetaData() throws SQLException
    {

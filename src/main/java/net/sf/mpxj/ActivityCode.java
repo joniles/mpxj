@@ -80,7 +80,7 @@ public class ActivityCode
    }
 
    /**
-    * Retrieve a list of values for this actibity code.
+    * Retrieve a list of values for this activity code.
     *
     * @return list of ActivityCodeValue instances
     */

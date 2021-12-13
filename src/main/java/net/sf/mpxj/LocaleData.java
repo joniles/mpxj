@@ -32,9 +32,6 @@ import java.util.ResourceBundle;
  */
 public final class LocaleData extends ListResourceBundle
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object[][] getContents()
    {
       return (RESOURCES);

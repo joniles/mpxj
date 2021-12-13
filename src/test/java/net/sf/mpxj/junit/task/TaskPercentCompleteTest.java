@@ -38,7 +38,7 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 /**
- * Tests to ensure task task baseline values are correctly handled.
+ * Tests to ensure task baseline values are correctly handled.
  */
 public class TaskPercentCompleteTest
 {

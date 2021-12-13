@@ -93,7 +93,7 @@ public final class Filter
    }
 
    /**
-    * Sets the criteria associted with this filter.
+    * Sets the criteria associated with this filter.
     *
     * @param criteria filter criteria
     */
@@ -157,7 +157,7 @@ public final class Filter
     * instance matches the filter criteria.
     *
     * @param container Task or Resource instance
-    * @param promptValues respose to prompts
+    * @param promptValues response to prompts
     * @return boolean flag
     */
    public boolean evaluate(FieldContainer container, Map<GenericCriteriaPrompt, Object> promptValues)
@@ -208,9 +208,6 @@ public final class Filter
       return m_prompts;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

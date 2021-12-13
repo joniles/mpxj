@@ -88,7 +88,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POIFSFileSystem instance
     * @return file format name
-    * @throws IOException
     */
    public static String getFileFormat(POIFSFileSystem fs) throws IOException
    {
@@ -108,7 +107,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POI file stream
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
    {

@@ -211,7 +211,6 @@ public final class JsonWriter extends AbstractProjectWriter
     * entry.
     *
     * @param field custom field to write
-    * @throws IOException
     */
    private void writeCustomField(CustomField field) throws IOException
    {
@@ -519,7 +518,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write an double field to the JSON file.
+    * Write a double field to the JSON file.
     *
     * @param fieldName field name
     * @param value field value

@@ -24,7 +24,7 @@
 package net.sf.mpxj;
 
 /**
- * One element of the mask used to defined the structured content of a custom field.
+ * One element of the mask used to define the structured content of a custom field.
  */
 public class CustomFieldValueMask
 {
@@ -84,9 +84,6 @@ public class CustomFieldValueMask
       return m_type;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return String.format("[CustomFieldValueMask length=%d level=%d separator=%s type=%s]", Integer.valueOf(m_length), Integer.valueOf(m_level), m_separator, m_type);

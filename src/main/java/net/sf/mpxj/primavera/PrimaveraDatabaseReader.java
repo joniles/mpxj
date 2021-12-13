@@ -63,7 +63,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -92,7 +91,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
@@ -146,7 +144,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * be read in a single operation.
     *
     * @return list of ProjectFile instances
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll() throws MPXJException
    {
@@ -193,8 +190,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Select the project properties from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
@@ -308,8 +303,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -320,8 +313,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process roles.
-    *
-    * @throws SQLException
     */
    private void processRoles() throws SQLException
    {
@@ -332,8 +323,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process resource rates.
-    *
-    * @throws SQLException
     */
    private void processResourceRates() throws SQLException
    {
@@ -343,8 +332,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process role rates.
-    *
-    * @throws SQLException
     */
    private void processRoleRates() throws SQLException
    {
@@ -354,8 +341,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -370,8 +355,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
    private void processPredecessors() throws SQLException
    {
@@ -381,8 +364,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process calendars.
-    *
-    * @throws SQLException
     */
    private void processCalendars() throws SQLException
    {
@@ -392,8 +373,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {
@@ -513,7 +492,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     *
     * @param sql query statement
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql) throws SQLException
    {
@@ -547,7 +525,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * @param sql query statement
     * @param var bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
@@ -577,8 +554,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Allocates a database connection.
-    *
-    * @throws SQLException
     */
    private void allocateConnection() throws SQLException
    {
@@ -604,8 +579,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    /**
     * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
     */
    private void populateMetaData() throws SQLException
    {

@@ -38,8 +38,6 @@ public class MppColumnsTest
 {
    /**
     * Test MPP9 file columns.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9() throws Exception
    {
@@ -68,8 +66,6 @@ public class MppColumnsTest
 
    /**
     * Test MPP12 file columns.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12() throws Exception
    {
@@ -98,8 +94,6 @@ public class MppColumnsTest
 
    /**
     * Test MPP14 file columns.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14() throws Exception
    {

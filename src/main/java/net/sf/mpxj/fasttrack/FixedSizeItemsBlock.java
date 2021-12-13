@@ -1,5 +1,5 @@
 /*
- * file:       FixdSizeItemsBlock.java
+ * file:       FixedSizeItemsBlock.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       14/03/2016

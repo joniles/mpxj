@@ -973,8 +973,6 @@ final class MPP14Reader implements MPPVariantReader
     *
     * The missing boolean attributes are probably represented in the Props
     * section of the task data, which we have yet to decode.
-    *
-    * @throws java.io.IOException
     */
    private void processTaskData() throws IOException
    {
@@ -1590,8 +1588,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates constraint data.
-    *
-    * @throws java.io.IOException
     */
    private void processConstraintData() throws IOException
    {
@@ -1601,8 +1597,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource data.
-    *
-    * @throws java.io.IOException
     */
    private void processResourceData() throws IOException
    {
@@ -1769,8 +1763,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource assignment data.
-    *
-    * @throws IOException
     */
    private void processAssignmentData() throws IOException
    {
@@ -1806,8 +1798,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * This method extracts view data from the MPP file.
-    *
-    * @throws java.io.IOException
     */
    private void processViewData() throws IOException
    {
@@ -1844,8 +1834,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * This method extracts table data from the MPP file.
-    *
-    * @throws java.io.IOException
     */
    private void processTableData() throws IOException
    {
@@ -1875,8 +1863,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * Read filter definitions.
-    *
-    * @throws IOException
     */
    private void processFilterData() throws IOException
    {
@@ -1930,8 +1916,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * Read saved view state from an MPP file.
-    *
-    * @throws IOException
     */
    private void processSavedViewState() throws IOException
    {
@@ -1956,8 +1940,6 @@ final class MPP14Reader implements MPPVariantReader
 
    /**
     * Read group definitions.
-    *
-    * @throws IOException
     */
    private void processGroupData() throws IOException
    {

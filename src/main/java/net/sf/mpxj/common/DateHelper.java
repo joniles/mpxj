@@ -398,7 +398,7 @@ public final class DateHelper
          // the "start of day" date (midnight) for the required day
          // then added the milliseconds from the canonical time
          // to move the time forward to the required point. Unfortunately
-         // if the date we'e trying to do this for is the entry or
+         // if the date we're trying to do this for is the entry or
          // exit from DST, the result is wrong, hence I've switched to
          // the approach below.
          //

@@ -1,5 +1,5 @@
 /*
- * file:       AutoCloseablehelper
+ * file:       AutoCloseableHelper
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2020
  * date:       10/067/2020

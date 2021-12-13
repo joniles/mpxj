@@ -952,7 +952,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Used for Cost type Resources.
     *
-    * Generates a TimphasedCost block for the total amount on the start date. This is useful
+    * Generates a TimephasedCost block for the total amount on the start date. This is useful
     * for Cost resources that have an AccrueAt value of Start.
     *
     * @param calendar calendar used by this assignment
@@ -974,7 +974,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Used for Cost type Resources.
     *
-    * Generates a TimphasedCost block for the total amount on the finish date. This is useful
+    * Generates a TimephasedCost block for the total amount on the finish date. This is useful
     * for Cost resources that have an AccrueAt value of End.
     *
     * @param calendar calendar used by this assignment
@@ -1995,7 +1995,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * of the assignment's timephased percent complete multiplied by
     * the assignments
     * timephased baseline cost. BCWP is calculated up to the status
-    * date or todays
+    * date or today's
     * date. This information is also known as earned value.
     *
     * @param val the amount to be set
@@ -2780,7 +2780,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return AssignmnetField instance
+    * @return AssignmentField instance
     */
    private AssignmentField selectField(AssignmentField[] fields, int index)
    {
@@ -2791,17 +2791,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return (fields[index - 1]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -2914,9 +2908,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -2926,9 +2917,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -2937,17 +2925,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;

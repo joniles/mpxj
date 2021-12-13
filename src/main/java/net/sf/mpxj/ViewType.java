@@ -119,9 +119,6 @@ public enum ViewType implements MpxjEnum
       return (m_name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_name);

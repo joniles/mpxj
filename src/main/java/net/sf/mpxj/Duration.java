@@ -288,7 +288,7 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
-    * Retrieve an Duration instance. Use shared objects to
+    * Retrieve a Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     *
     * @param duration duration value
@@ -310,7 +310,7 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
-    * Retrieve an Duration instance. Use shared objects to
+    * Retrieve a Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     *
     * @param duration duration value
@@ -331,9 +331,6 @@ public final class Duration implements Comparable<Duration>
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -345,17 +342,11 @@ public final class Duration implements Comparable<Duration>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return (m_units.getValue() + (int) m_duration);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(Duration rhs)
    {
       if (m_units != rhs.m_units)
@@ -425,9 +416,6 @@ public final class Duration implements Comparable<Duration>
       return Duration.getInstance(a.getDuration() + b.getDuration(), unit);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_duration + m_units.toString());

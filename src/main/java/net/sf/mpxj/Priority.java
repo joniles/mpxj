@@ -27,7 +27,7 @@ package net.sf.mpxj;
  * This class is used to represent a priority. It provides a mapping
  * between the textual description of a priority found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
- * programatically.
+ * programmatically.
  */
 public final class Priority
 {
@@ -85,9 +85,6 @@ public final class Priority
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Priority value=" + m_value + "]");

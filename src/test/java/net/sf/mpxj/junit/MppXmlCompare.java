@@ -48,8 +48,6 @@ public final class MppXmlCompare
 
    /**
     * Compares sets of tasks between files.
-    *
-    * @throws Exception
     */
    private void compareTasks() throws Exception
    {
@@ -291,8 +289,6 @@ public final class MppXmlCompare
 
    /**
     * Compares sets of resources between files.
-    *
-    * @throws Exception
     */
    private void compareResources() throws Exception
    {
@@ -505,7 +501,6 @@ public final class MppXmlCompare
     *
     * @param message failure message
     * @param object test parameter
-    * @throws Exception
     */
    private void assertNotNull(String message, Object object) throws Exception
    {
@@ -520,7 +515,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Object expected, Object actual) throws Exception
    {
@@ -543,7 +537,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(String expected, String actual) throws Exception
    {
@@ -565,7 +558,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(boolean expected, boolean actual) throws Exception
    {
@@ -581,7 +573,6 @@ public final class MppXmlCompare
     * @param expected expected value
     * @param actual actual value
     * @param delta delta allowance
-    * @throws Exception
     */
    private void assertEquals(double expected, double actual, double delta) throws Exception
    {
@@ -606,7 +597,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Number expected, Number actual) throws Exception
    {
@@ -638,7 +628,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Duration expected, Duration actual) throws Exception
    {
@@ -671,7 +660,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Rate expected, Rate actual) throws Exception
    {

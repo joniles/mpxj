@@ -43,7 +43,6 @@ public class GenericView14 extends GenericView
     * @param parent parent file
     * @param data fixed data
     * @param varData var data
-    * @throws IOException
     */
    public GenericView14(ProjectFile parent, byte[] data, Var2Data varData)
       throws IOException

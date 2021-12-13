@@ -77,7 +77,6 @@ public final class PrimaveraConvert
     * @param connectionString JDBC connection string
     * @param projectID project ID
     * @param outputFile output file
-    * @throws Exception
     */
    public void process(String driverClass, String connectionString, String projectID, String outputFile) throws Exception
    {

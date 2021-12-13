@@ -51,7 +51,6 @@ public interface ProjectReader
     *
     * @param fileName file name
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(String fileName) throws MPXJException;
 
@@ -60,7 +59,6 @@ public interface ProjectReader
     *
     * @param fileName file name
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll(String fileName) throws MPXJException;
 
@@ -69,7 +67,6 @@ public interface ProjectReader
     *
     * @param file File instance
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(File file) throws MPXJException;
 
@@ -78,7 +75,6 @@ public interface ProjectReader
     *
     * @param file File instance
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll(File file) throws MPXJException;
 
@@ -88,7 +84,6 @@ public interface ProjectReader
     *
     * @param inputStream InputStream instance
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(InputStream inputStream) throws MPXJException;
 
@@ -98,7 +93,6 @@ public interface ProjectReader
     *
     * @param inputStream InputStream instance
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
 

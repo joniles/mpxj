@@ -116,9 +116,6 @@ public final class Relation
       m_uniqueID = uniqueID;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_sourceTask + " -> " + m_targetTask + "]");

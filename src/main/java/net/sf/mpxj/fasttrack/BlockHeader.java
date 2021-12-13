@@ -102,7 +102,7 @@ class BlockHeader
    }
 
    /**
-    * Retreve additional flags present in the header.
+    * Retrieve additional flags present in the header.
     *
     * @return flags
     */

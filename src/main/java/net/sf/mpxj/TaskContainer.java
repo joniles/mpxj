@@ -59,9 +59,6 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       return task;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removed(Task task)
    {
       //

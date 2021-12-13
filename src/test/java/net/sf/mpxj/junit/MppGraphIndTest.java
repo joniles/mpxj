@@ -45,8 +45,6 @@ public class MppGraphIndTest
 {
    /**
     * Test the graphical indicator evaluation code for an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9GraphInd() throws Exception
    {
@@ -56,8 +54,6 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9GraphIndFrom12() throws Exception
    {
@@ -67,8 +63,6 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9GraphIndFrom14() throws Exception
    {
@@ -78,8 +72,6 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12GraphInd() throws Exception
    {
@@ -89,8 +81,6 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12GraphIndFrom14() throws Exception
    {
@@ -100,8 +90,6 @@ public class MppGraphIndTest
 
    /**
     * Test the graphical indicator evaluation code for an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14GraphInd() throws Exception
    {

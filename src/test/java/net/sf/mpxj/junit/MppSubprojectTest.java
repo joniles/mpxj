@@ -41,8 +41,6 @@ public class MppSubprojectTest
 {
    /**
     * Test subproject data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Subproject() throws Exception
    {
@@ -52,8 +50,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9SubprojectFrom12() throws Exception
    {
@@ -63,8 +59,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9SubprojectFrom14() throws Exception
    {
@@ -74,8 +68,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Subproject() throws Exception
    {
@@ -85,8 +77,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12SubprojectFrom14() throws Exception
    {
@@ -96,8 +86,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Subproject() throws Exception
    {
@@ -107,8 +95,6 @@ public class MppSubprojectTest
 
    /**
     * Test subproject data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Subproject() throws Exception
    {
@@ -122,7 +108,6 @@ public class MppSubprojectTest
     *
     * @param mpp The ProjectFile being tested.
     * @param isMPP is the source an MPP file
-    * @throws Exception
     */
    private void testSubprojects(ProjectFile mpp, boolean isMPP) throws Exception
    {

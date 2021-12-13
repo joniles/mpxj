@@ -1029,8 +1029,6 @@ final class MPP9Reader implements MPPVariantReader
     *
     * The missing boolean attributes are probably represented in the Props
     * section of the task data, which we have yet to decode.
-    *
-    * @throws IOException
     */
    private void processTaskData() throws IOException
    {
@@ -1717,8 +1715,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates constraint data.
-    *
-    * @throws IOException
     */
    private void processConstraintData() throws IOException
    {
@@ -1728,8 +1724,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource data.
-    *
-    * @throws IOException
     */
    private void processResourceData() throws IOException
    {
@@ -1860,8 +1854,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource assignment data.
-    *
-    * @throws IOException
     */
    private void processAssignmentData() throws IOException
    {
@@ -1896,8 +1888,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts view data from the MPP file.
-    *
-    * @throws IOException
     */
    private void processViewData() throws IOException
    {
@@ -1936,10 +1926,7 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @todo This implementation does not deal with MPP9 files saved by later
-    * versions of MS Project
-    *
-    * @throws IOException
+    * TODO: This implementation does not deal with MPP9 files saved by later versions of MS Project
     */
    private void processTableData() throws IOException
    {
@@ -1969,8 +1956,7 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read filter definitions.
     *
-    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
-    * @throws IOException
+    * TODO: Doesn't work correctly with MPP9 files saved by Project 2007 and 2010
     */
    private void processFilterData() throws IOException
    {
@@ -1998,8 +1984,7 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read group definitions.
     *
-    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
-    * @throws IOException
+    * TODO: Doesn't work correctly with MPP9 files saved by Project 2007 and 2010
     */
    private void processGroupData() throws IOException
    {
@@ -2023,8 +2008,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * Read saved view state from an MPP file.
-    *
-    * @throws IOException
     */
    private void processSavedViewState() throws IOException
    {

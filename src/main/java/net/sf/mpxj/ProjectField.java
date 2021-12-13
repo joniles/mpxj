@@ -396,25 +396,16 @@ public enum ProjectField implements FieldType
       this(dataType, null);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.PROJECT;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.PROJECT_COLUMNS);
@@ -428,25 +419,16 @@ public enum ProjectField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
       return m_unitsType;

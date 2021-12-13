@@ -41,7 +41,6 @@ public class SplitView9 extends GenericView9
     * @param parent parent file
     * @param fixedData fixed data block
     * @param varData var data block
-    * @throws IOException
     */
    SplitView9(ProjectFile parent, byte[] fixedData, Var2Data varData)
       throws IOException

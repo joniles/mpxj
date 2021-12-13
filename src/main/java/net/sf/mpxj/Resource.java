@@ -526,7 +526,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Gets the Accrue at type.The Accrue At field provides choices for how and
     * when resource standard and overtime costs are to be charged, or accrued,
-    * to the cost of a task. The options are: Start, End and Proraetd (Default)
+    * to the cost of a task. The options are: Start, End and Prorated (Default)
     *
     * @return accrue type
     */
@@ -2608,17 +2608,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (fields[index - 1]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
@@ -2670,9 +2664,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -2774,9 +2765,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -2786,9 +2774,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -2842,9 +2827,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -2855,17 +2837,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return (NumberHelper.getInt(getID()));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Resource id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");

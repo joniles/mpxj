@@ -652,7 +652,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Recursively read a task, and any sub tasks.
+    * Recursively read a task, and any sub-tasks.
     *
     * @param mpxjParent Parent for the MPXJ tasks
     * @param gpTask GanttProject task

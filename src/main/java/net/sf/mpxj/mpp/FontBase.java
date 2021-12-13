@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 /**
  * The standard font definitions used by MS Project are split into two parts,
- * the base fonr (i.e. the name and the size) and the styles applied to that
+ * the base font (i.e. the name and the size) and the styles applied to that
  * font. This class represents the base font information.
  */
 public class FontBase

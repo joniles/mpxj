@@ -132,17 +132,11 @@ public abstract class TimephasedItem<T>
       m_finish = finish;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerDay=" + m_amountPerDay + " modified=" + m_modified + "]";
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @SuppressWarnings("unchecked") @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -156,9 +150,6 @@ public abstract class TimephasedItem<T>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return m_start.hashCode() + m_finish.hashCode() + m_totalAmount.hashCode() + m_amountPerDay.hashCode();

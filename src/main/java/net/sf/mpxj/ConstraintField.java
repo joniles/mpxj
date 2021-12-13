@@ -45,25 +45,16 @@ public enum ConstraintField implements FieldType
       m_dataType = dataType;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.CONSTRAINT;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.CONSTRAINT_COLUMNS);
@@ -77,25 +68,16 @@ public enum ConstraintField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
       return m_unitsType;

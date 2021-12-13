@@ -176,7 +176,6 @@ final class FixedData extends MPPComponent
     * @param meta meta data about the contents of this fixed data block
     * @param itemSize expected item size
     * @param is input stream from which the data is read
-    * @throws IOException
     */
    FixedData(FixedMeta meta, int itemSize, InputStream is)
       throws IOException

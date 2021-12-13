@@ -76,7 +76,7 @@ public final class WorkContour
     * The method returns an array of 21 doubles, each representing 5% of the duration.
     * This includes an entry for 0%. The total of the values in the array must be 100%.
     * Note that the CONTOURED enum will return null as the values for the work or cost
-    * per time period have been hand crafted and do not use a curve.
+    * per time period have been handcrafted and do not use a curve.
     *
     * @return curve values
     */

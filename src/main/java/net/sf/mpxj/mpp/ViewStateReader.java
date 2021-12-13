@@ -40,7 +40,6 @@ public abstract class ViewStateReader
     *
     * @param varData var data block
     * @return props data
-    * @throws IOException
     */
    protected abstract Props getProps(Var2Data varData) throws IOException;
 
@@ -50,7 +49,6 @@ public abstract class ViewStateReader
     * @param file project file
     * @param varData view state var data
     * @param fixedData view state fixed data
-    * @throws IOException
     */
    public void process(ProjectFile file, Var2Data varData, byte[] fixedData) throws IOException
    {

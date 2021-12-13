@@ -98,7 +98,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
     * Tokenizes the input file and extracts the required data.
     *
     * @param is input stream
-    * @throws MPXJException
     */
    private void processFile(InputStream is) throws MPXJException
    {
@@ -207,7 +206,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
     * Reads the file version and configures the expected file format.
     *
     * @param token token containing the file version
-    * @throws MPXJException
     */
    private void processFileType(String token) throws MPXJException
    {
@@ -233,8 +231,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Select the project properties row from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
@@ -247,8 +243,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Extract calendar data from the file.
-    *
-    * @throws SQLException
     */
    private void processCalendars() throws SQLException
    {
@@ -283,8 +277,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -299,8 +291,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -314,8 +304,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
    private void processPredecessors() throws SQLException
    {
@@ -327,8 +315,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {

@@ -58,7 +58,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -87,7 +86,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
@@ -126,8 +124,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Select the project properties row from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
@@ -142,8 +138,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process calendars.
-    *
-    * @throws SQLException
     */
    private void processCalendars() throws SQLException
    {
@@ -194,8 +188,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -206,8 +198,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -220,8 +210,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
    private void processPredecessors() throws SQLException
    {
@@ -232,8 +220,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {
@@ -342,7 +328,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     *
     * @param sql query statement
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql) throws SQLException
    {
@@ -376,7 +361,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param var bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
@@ -406,8 +390,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Allocates a database connection.
-    *
-    * @throws SQLException
     */
    private void allocateConnection() throws SQLException
    {
@@ -432,9 +414,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    }
 
    /**
-    * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
+    * Retrieves basic metadata from the result set.
     */
    private void populateMetaData() throws SQLException
    {

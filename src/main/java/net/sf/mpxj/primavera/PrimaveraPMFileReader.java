@@ -200,7 +200,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param is input stream used to read XER file
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects(InputStream is) throws MPXJException
    {
@@ -243,7 +242,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param is input stream
     * @return list of ProjectFile instances
-    * @throws MPXJException
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {

@@ -34,8 +34,8 @@ public class AstaBaselineStrategy extends DefaultBaselineStrategy
    @Override protected Object getKeyForTask(Task task)
    {
       // It looks like Powerproject uses a single ID generator for all entities,
-      // so we should be able to match on Unique ID only (no overlap between bar, task, milestone etc).
-      /// To be on the safe side we'll build a key which includes the summary and milestone flags.
+      // so we should be able to match on Unique ID only (no overlap between bar, task, milestone etc.)
+      // To be on the safe side we'll build a key which includes the summary and milestone flags.
       return task.getUniqueID() + ":" + task.getSummary() + ":" + task.getMilestone();
    }
 }

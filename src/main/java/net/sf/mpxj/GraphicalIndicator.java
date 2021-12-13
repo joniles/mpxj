@@ -38,7 +38,7 @@ import net.sf.mpxj.common.NumberHelper;
 public class GraphicalIndicator
 {
    /**
-    * This method evaluates a if a graphical indicator should
+    * This method evaluates if a graphical indicator should
     * be displayed, given a set of Task or Resource data. The
     * method will return -1 if no indicator should be displayed.
     *
@@ -291,9 +291,6 @@ public class GraphicalIndicator
       m_projectSummaryCriteria.add(criteria);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();

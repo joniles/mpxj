@@ -100,8 +100,6 @@ public final class SDEFWriter extends AbstractProjectWriter
 
    /**
     * Writes the contents of the project file as MPX records.
-    *
-    * @throws IOException
     */
    private void write() throws IOException
    {
@@ -119,8 +117,6 @@ public final class SDEFWriter extends AbstractProjectWriter
 
    /**
     * Write file creation record.
-    *
-    * @throws IOException
     */
    private void writeFileCreationRecord() throws IOException
    {
@@ -131,7 +127,6 @@ public final class SDEFWriter extends AbstractProjectWriter
     * Write project properties.
     *
     * @param record project properties
-    * @throws IOException
     *
     */
    private void writeProjectProperties(ProjectProperties record) throws IOException
@@ -183,7 +178,6 @@ public final class SDEFWriter extends AbstractProjectWriter
     * Write calendar exceptions.
     *
     * @param records list of ProjectCalendars
-    * @throws IOException
     */
    private void writeExceptions(List<ProjectCalendar> records) throws IOException
    {
@@ -247,7 +241,6 @@ public final class SDEFWriter extends AbstractProjectWriter
     * Write a task.
     *
     * @param record task instance
-    * @throws IOException
     */
    private void writeTask(Task record) throws IOException
    {
@@ -334,7 +327,6 @@ public final class SDEFWriter extends AbstractProjectWriter
     * Write an SDEF line for each task ACTV.
     *
     * @param tasks list of Task instances
-    * @throws IOException
     */
    private void writeTasks(List<Task> tasks) throws IOException
    {

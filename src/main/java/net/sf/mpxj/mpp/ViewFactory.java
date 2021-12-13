@@ -44,7 +44,6 @@ interface ViewFactory
     * @param varData view var data
     * @param fontBases map of font bases
     * @return View instance
-    * @throws IOException
     */
    public View createView(ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases) throws IOException;
 }

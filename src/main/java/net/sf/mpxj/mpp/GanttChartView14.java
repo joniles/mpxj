@@ -403,7 +403,6 @@ public final class GanttChartView14 extends GanttChartView
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
-    * @throws IOException
     */
    GanttChartView14(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException

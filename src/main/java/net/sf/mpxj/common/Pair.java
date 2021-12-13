@@ -44,7 +44,7 @@ public final class Pair<L, R>
    }
 
    /**
-    * Retrieve the the first object.
+    * Retrieve the first object.
     *
     * @return first object
     */

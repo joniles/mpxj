@@ -466,7 +466,7 @@ public final class ProjectFile implements ChildTaskContainer
    /**
     * Retrieves all the subprojects for this project.
     *
-    * @return all sub project details
+    * @return all subproject details
     */
    public SubProjectContainer getSubProjects()
    {

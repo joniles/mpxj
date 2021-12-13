@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * This class implements a tokenizer based loosely on
  * java.io.StreamTokenizer. This tokenizer is designed to parse records from
- * an MPX file correctly. In particular it will handle empty fields,
+ * an MPX file correctly. In particular, it will handle empty fields,
  * represented by adjacent field delimiters.
  */
 public abstract class Tokenizer
@@ -38,7 +38,6 @@ public abstract class Tokenizer
     * data source.
     *
     * @return next character
-    * @throws IOException
     */
    protected abstract int read() throws IOException;
 
@@ -165,7 +164,7 @@ public abstract class Tokenizer
     * This method allows us to control the behaviour of the tokenizer for
     * quoted text. Normally quoted text begins with a quote character
     * at the first position within a field. As this method is protected,
-    * sub classes can alter this behaviour if required.
+    * subclasses can alter this behaviour if required.
     *
     * @param buffer the field contents read so far
     * @return true if it is valid to treat the subsequent text as quoted

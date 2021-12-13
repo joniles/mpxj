@@ -78,9 +78,6 @@ public final class DateRange implements Comparable<DateRange>
       return DateHelper.compare(m_start, m_end, date);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(DateRange o)
    {
       int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
@@ -91,9 +88,6 @@ public final class DateRange implements Comparable<DateRange>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -105,9 +99,6 @@ public final class DateRange implements Comparable<DateRange>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       long start = m_start.getTime();
@@ -116,9 +107,6 @@ public final class DateRange implements Comparable<DateRange>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[DateRange start=" + m_start + " end=" + m_end + "]");

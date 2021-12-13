@@ -282,9 +282,7 @@ final class PrimaveraPMProjectWriter
     * Add UDFType objects to a PM XML file.
     *
     * @author kmahan
-    * @date 2014-09-24
     * @author lsong
-    * @date 2015-7-24
     */
    private void writeUserFieldDefinitions()
    {

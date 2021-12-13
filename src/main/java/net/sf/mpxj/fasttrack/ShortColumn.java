@@ -26,7 +26,7 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 
 /**
- * Column containing two byte integr values.
+ * Column containing two byte integer values.
  */
 class ShortColumn extends AbstractColumn
 {

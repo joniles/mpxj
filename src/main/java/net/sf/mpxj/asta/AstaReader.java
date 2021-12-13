@@ -1272,7 +1272,7 @@ final class AstaReader
 
       //
       // Set the default calendar for the project
-      // and remove it's use as a task-specific calendar.
+      // and remove its use as a task-specific calendar.
       //
       if (defaultCalendar != null)
       {
@@ -1307,7 +1307,7 @@ final class AstaReader
             {
                // If the task has no predecessors, the constraint type will be START_NO_EARLIER_THAN.
                // If the task has predecessors, the constraint type will be AS_LATE_AS_POSSIBLE.
-               // We don't have the predecessor information at this point so we note the task Unique ID
+               // We don't have the predecessor information at this point, so we note the task Unique ID
                // to allow us to update the constraint type later if necessary.
                // https://github.com/joniles/mpxj/issues/161
                m_deferredConstraintType.add(task.getUniqueID());

@@ -68,7 +68,6 @@ abstract class AbstractCalendarFactory implements CalendarFactory
     * @param projectProps project properties
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
-    * @throws IOException
     */
    @Override public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {

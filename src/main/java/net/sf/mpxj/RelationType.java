@@ -30,7 +30,7 @@ import net.sf.mpxj.common.NumberHelper;
  * This class is used to represent a relation type. It provides a mapping
  * between the textual description of a relation type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
- * programatically.
+ * programmatically.
  */
 public enum RelationType implements MpxjEnum
 {
@@ -96,9 +96,6 @@ public enum RelationType implements MpxjEnum
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_name);

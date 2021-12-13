@@ -258,7 +258,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     * Reads the XER file table and row structure ready for processing.
     *
     * @param is input stream
-    * @throws MPXJException
     */
    private void processFile(InputStream is) throws MPXJException
    {
@@ -372,7 +371,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @param is input stream used to read XER file
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects(InputStream is) throws MPXJException
    {
@@ -609,7 +607,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @param tk tokenizer
     * @param record list of tokens
-    * @throws IOException
     */
    private void readRecord(Tokenizer tk, List<String> record) throws IOException
    {

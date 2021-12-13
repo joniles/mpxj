@@ -1,5 +1,5 @@
 /*
- * file:       GanttarStyleFactory14.java
+ * file:       GantBarStyleFactory14.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2010
  * date:       19/04/2010

@@ -91,7 +91,6 @@ final class DatatypeConverter
     *
     * @param value string representation
     * @return Java representation
-    * @throws ParseException
     */
    public static Number parseDouble(String value) throws ParseException
    {

@@ -51,7 +51,7 @@ public final class Table
    }
 
    /**
-    * This method is used to to set the unique identifier associated with
+    * This method is used to set the unique identifier associated with
     * this table.
     *
     * @param id unique table identifier

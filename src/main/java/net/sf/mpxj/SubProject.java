@@ -123,7 +123,7 @@ public final class SubProject
    }
 
    /**
-    * Set the the offset applied to task unique IDs
+    * Set the offset applied to task unique IDs
     * from the sub project.
     *
     * @param uniqueIDOffset unique ID offset
@@ -185,9 +185,6 @@ public final class SubProject
       return (m_externalTaskUniqueIDs);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + " externalTaskUniqueIDs=" + m_externalTaskUniqueIDs + "]");
