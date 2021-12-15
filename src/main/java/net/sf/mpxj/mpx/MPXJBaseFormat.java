@@ -81,9 +81,6 @@ abstract class MPXJBaseFormat extends MultiDateFormat
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Date parseNonNullDate(String str, ParsePosition pos)
    {
       Date result;

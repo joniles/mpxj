@@ -28,7 +28,7 @@ import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class is used to represent an accrue type. It provides a mapping
- * between the textual description of a accrue type found in an MPX
+ * between the textual description of an accrue type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
  * programmatically.
  */

@@ -247,9 +247,6 @@ class Record
       return text.indexOf('(', position + 1);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return this.toString(1);

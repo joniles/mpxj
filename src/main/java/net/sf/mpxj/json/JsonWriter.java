@@ -151,9 +151,6 @@ public final class JsonWriter extends AbstractProjectWriter
       return m_timeUnits;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try

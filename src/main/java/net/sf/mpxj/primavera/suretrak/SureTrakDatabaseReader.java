@@ -209,9 +209,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File directory) throws MPXJException
    {
       List<ProjectFile> projects = new ArrayList<>();

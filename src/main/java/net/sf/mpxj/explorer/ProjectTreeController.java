@@ -576,7 +576,7 @@ public class ProjectTreeController
    }
 
    /**
-    * Create an anonymized version of the orignal file.
+    * Create an anonymized version of the original file.
     *
     * @param file output file
     */

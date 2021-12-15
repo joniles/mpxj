@@ -37,7 +37,7 @@ interface BlockPatternValidator
     * the location it appears in the file.
     *
     * @param matchedPatternNames set of block names read so far
-    * @return try if the block strat is valid
+    * @return true if the block start is valid
     */
    public boolean valid(Set<String> matchedPatternNames);
 }

@@ -49,9 +49,6 @@ public class MultiDateFormat extends DateFormat
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Date parse(String str, ParsePosition pos)
    {
       Date result;
@@ -91,9 +88,6 @@ public class MultiDateFormat extends DateFormat
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
    {
       return (m_formats[0].format(date, toAppendTo, fieldPosition));

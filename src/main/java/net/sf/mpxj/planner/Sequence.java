@@ -29,7 +29,7 @@ package net.sf.mpxj.planner;
 public class Sequence
 {
    /**
-    * Constructor. Defines the starting value of the seqence.
+    * Constructor. Defines the starting value of the sequence.
     *
     * @param initialValue initial sequence value
     */

@@ -196,9 +196,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return m_saveVersion;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try

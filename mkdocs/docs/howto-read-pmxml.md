@@ -8,7 +8,7 @@ The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.xml");
@@ -32,7 +32,7 @@ the code for the current WBS entry (in the example above `wbs2`) call the
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-...
+// ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 reader.setWbsIsFullPath(false);
@@ -47,7 +47,7 @@ PMXML file, as shown below:
 ```java
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-...
+// ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 FileInputStream is = new FileInputStream("my-sample.xml");
@@ -68,7 +68,7 @@ call `setProjectID` to tell the reader which project to open, as shown below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-...
+// ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 reader.setProjectID(123);
@@ -81,7 +81,7 @@ Alternatively you can ask MPXJ to read all of the projects contained in the file
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-...
+// ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 InputStream is = new FileInputStream("my-sample.xml");
@@ -101,7 +101,7 @@ MPXJ will attempt to link these relations across projects:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-...
+// ...
 
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
 reader.setLinkCrossProjectRelations(true);

@@ -37,81 +37,51 @@ import net.sf.mpxj.Task;
  */
 public class DefaultProjectListener implements ProjectListener
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void taskRead(Task task)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void taskWritten(Task task)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void resourceRead(Resource resource)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void resourceWritten(Resource resource)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void calendarRead(ProjectCalendar calendar)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void calendarWritten(ProjectCalendar calendar)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void assignmentRead(ResourceAssignment assignment)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void assignmentWritten(ResourceAssignment assignment)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void relationRead(Relation relation)
    {
       // default implementation
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void relationWritten(Relation relation)
    {
       // default implementation

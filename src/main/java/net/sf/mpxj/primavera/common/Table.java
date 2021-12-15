@@ -33,9 +33,6 @@ import java.util.TreeMap;
  */
 public class Table implements Iterable<MapRow>
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Iterator<MapRow> iterator()
    {
       return m_rows.values().iterator();

@@ -31,9 +31,6 @@ import java.io.IOException;
  */
 public final class ViewStateReader12 extends ViewStateReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Props getProps(Var2Data varData) throws IOException
    {
       Props props = null;

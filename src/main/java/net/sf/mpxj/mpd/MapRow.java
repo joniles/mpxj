@@ -46,9 +46,6 @@ class MapRow implements Row
       m_map = map;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final String getString(String name)
    {
       Object value = getObject(name);
@@ -64,9 +61,6 @@ class MapRow implements Row
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Integer getInteger(String name)
    {
       Object result = getObject(name);
@@ -80,9 +74,6 @@ class MapRow implements Row
       return ((Integer) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Double getDouble(String name)
    {
       Object result = getObject(name);
@@ -96,9 +87,6 @@ class MapRow implements Row
       return ((Double) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Double getCurrency(String name)
    {
       Double value = getDouble(name);
@@ -109,9 +97,6 @@ class MapRow implements Row
       return (value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final boolean getBoolean(String name)
    {
       boolean result = false;
@@ -130,25 +115,16 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final int getInt(String name)
    {
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Date getDate(String name)
    {
       return ((Date) getObject(name));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Duration getDuration(String name)
    {
       return (Duration.getInstance(NumberHelper.getDouble(getDouble(name)) / 60000, TimeUnit.HOURS));

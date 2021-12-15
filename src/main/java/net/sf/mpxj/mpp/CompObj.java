@@ -118,9 +118,6 @@ final class CompObj extends MPPComponent
       return (m_fileFormat);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[CompObj applicationName=" + m_applicationName + " applicationID=" + m_applicationID + " fileFormat=" + m_fileFormat);

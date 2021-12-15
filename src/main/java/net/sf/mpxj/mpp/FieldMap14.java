@@ -50,33 +50,21 @@ class FieldMap14 extends FieldMap
       super(properties, customFields);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldType getFieldType(int fieldID)
    {
       return FieldTypeHelper.getInstance14(fieldID);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected boolean useTypeAsVarDataKey()
    {
       return true;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer substituteVarDataKey(FieldType type)
    {
       return VAR_DATA_MAP.get(type);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldItem[] getDefaultTaskData()
    {
       FieldItem[] result = new FieldItem[]
@@ -721,9 +709,6 @@ class FieldMap14 extends FieldMap
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldItem[] getDefaultResourceData()
    {
       FieldItem[] result = new FieldItem[]
@@ -1089,9 +1074,6 @@ class FieldMap14 extends FieldMap
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldItem[] getDefaultAssignmentData()
    {
       FieldItem[] result = new FieldItem[]
@@ -1431,9 +1413,6 @@ class FieldMap14 extends FieldMap
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldItem[] getDefaultRelationData()
    {
       return new FieldItem[0];

@@ -49,9 +49,6 @@ final class EncryptedDocumentInputStream extends InputStream
       m_mask = mask;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int read() throws IOException
    {
       int value = m_dis.read();
@@ -59,9 +56,6 @@ final class EncryptedDocumentInputStream extends InputStream
       return (value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int read(byte[] b, int off, int len) throws IOException
    {
       int result = m_dis.read(b, off, len);
@@ -72,49 +66,31 @@ final class EncryptedDocumentInputStream extends InputStream
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int available()
    {
       return m_dis.available();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void close()
    {
       m_dis.close();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public synchronized void mark(int readlimit)
    {
       m_dis.mark(readlimit);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean markSupported()
    {
       return m_dis.markSupported();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public synchronized void reset()
    {
       m_dis.reset();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public long skip(long n) throws IOException
    {
       return m_dis.skip(n);

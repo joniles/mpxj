@@ -39,7 +39,7 @@ import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
 /**
- * Provides a trivial example of adding timephased work to a resourc eassignment.
+ * Provides a trivial example of adding timephased work to a resource assignment.
  */
 public class MpxjCreateTimephased
 {

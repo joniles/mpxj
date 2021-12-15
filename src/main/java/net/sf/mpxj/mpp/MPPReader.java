@@ -50,9 +50,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPPReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -73,9 +70,6 @@ public final class MPPReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

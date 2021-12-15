@@ -122,9 +122,6 @@ class RowHeader
       return m_subtype;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return "[RowHeader id=" + m_id + " sequence=" + m_sequence + " type=" + m_type + " subtype=" + m_subtype + "]";

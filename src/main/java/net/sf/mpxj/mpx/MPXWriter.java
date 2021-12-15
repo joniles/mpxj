@@ -69,9 +69,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
@@ -992,7 +989,7 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * This method removes trailing delimiter characters.
     *
-    * @param buffer input sring buffer
+    * @param buffer input string buffer
     */
    private void stripTrailingDelimiters(StringBuilder buffer)
    {

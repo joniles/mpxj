@@ -211,9 +211,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       ProjectFile project = null;

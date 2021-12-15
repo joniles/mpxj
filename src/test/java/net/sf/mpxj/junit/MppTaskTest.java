@@ -380,7 +380,7 @@ public class MppTaskTest
     * Task Calendar<br>
     * Team Status Pending<br>
     * Type<br>
-    * Unique ID Predecessors, Unique ID Succeessors<br>
+    * Unique ID Predecessors, Unique ID Successors<br>
     * Update Needed<br>
     * WBS Predecessors, WBS Succeessors<br>
     * Work Contour<br><br><br>

@@ -14,7 +14,7 @@ import java.sql.DriverManager;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-...
+// ...
 
 //
 // Load the JDBC driver
@@ -132,7 +132,7 @@ to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-...
+// ...
 
 PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
 reader.setMatchPrimaveraWBS(false);
@@ -151,7 +151,7 @@ the code for the current WBS entry (in the example above `wbs2`) call the
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-...
+// ...
 
 PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
 reader.setWbsIsFullPath(false);

@@ -50,9 +50,6 @@ public class GenericView9 extends GenericView
       super(parent, data, varData);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getPropertiesID()
    {
       return (PROPERTIES);

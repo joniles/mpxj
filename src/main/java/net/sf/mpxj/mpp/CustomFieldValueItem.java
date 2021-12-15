@@ -193,9 +193,6 @@ public final class CustomFieldValueItem
       m_collapsed = collapsed;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s description=%s]", m_uniqueID, m_guid, m_parentId, String.valueOf(m_value), m_description);

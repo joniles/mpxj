@@ -42,35 +42,23 @@ import net.sf.mpxj.ProjectFile;
  */
 public final class GanttChartView12 extends GanttChartView
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getPropertiesID()
    {
       return (PROPERTIES);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processDefaultBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
       m_barStyles = f.processDefaultStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processExceptionBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
       m_barStyleExceptions = f.processExceptionStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processAutoFilters(byte[] data)
    {
       //System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
@@ -130,9 +118,6 @@ public final class GanttChartView12 extends GanttChartView
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
@@ -244,9 +229,6 @@ public final class GanttChartView12 extends GanttChartView
       return new GridLines(normalLineColor, normalLineStyle, intervalNumber, intervalLineStyle, intervalLineColor);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
    {
       m_tableFontStyles = new TableFontStyle[columnData.length / 16];
@@ -258,9 +240,6 @@ public final class GanttChartView12 extends GanttChartView
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(progressLineData, false, 16, "").getBytes());

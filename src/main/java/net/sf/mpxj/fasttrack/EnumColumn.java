@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class EnumColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 34;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
@@ -67,9 +61,6 @@ class EnumColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Options");

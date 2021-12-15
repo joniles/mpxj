@@ -61,9 +61,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class ProjectCommanderReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -108,9 +105,6 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -231,7 +225,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Read a valid start and end time from a byte aray.
+    * Read a valid start and end time from a byte array.
     *
     * @param ranges target DateRange list
     * @param startMinutes start time in minutes

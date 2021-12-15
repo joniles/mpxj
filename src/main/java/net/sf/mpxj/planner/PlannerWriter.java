@@ -84,9 +84,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class PlannerWriter extends AbstractProjectWriter
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try
@@ -372,8 +369,8 @@ public final class PlannerWriter extends AbstractProjectWriter
             DateHelper.pushCalendar(cal);
          }
 
-         /**
-          * @TODO we need to deal with date ranges here
+         /*
+          * TODO: we need to deal with date ranges here
           */
       }
    }

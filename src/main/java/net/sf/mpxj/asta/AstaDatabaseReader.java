@@ -259,9 +259,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       m_connection = connection;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -277,9 +274,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       try

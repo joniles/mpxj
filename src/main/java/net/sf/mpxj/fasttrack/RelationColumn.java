@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class RelationColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 16;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);
@@ -50,9 +44,6 @@ class RelationColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");

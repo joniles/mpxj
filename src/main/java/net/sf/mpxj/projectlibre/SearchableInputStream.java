@@ -43,9 +43,6 @@ public class SearchableInputStream extends InputStream
       m_pattern = pattern.getBytes();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int read() throws IOException
    {
       int c;

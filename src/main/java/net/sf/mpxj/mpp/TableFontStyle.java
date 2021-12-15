@@ -174,9 +174,6 @@ public class TableFontStyle extends FontStyle
       return (m_backgroundPatternChanged);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_strikethroughChanged ? " strikethrough=" + getStrikethrough() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + (m_backgroundColorChanged ? " backgroundColor=" + getBackgroundColor() : "") + (m_backgroundPatternChanged ? " backgroundPattern=" + getBackgroundPattern() : "") + "]");

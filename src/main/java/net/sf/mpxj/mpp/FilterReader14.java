@@ -28,17 +28,11 @@ package net.sf.mpxj.mpp;
  */
 public final class FilterReader14 extends FilterReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getVarDataType()
    {
       return (FILTER_DATA);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected CriteriaReader getCriteriaReader()
    {
       return m_criteraReader;

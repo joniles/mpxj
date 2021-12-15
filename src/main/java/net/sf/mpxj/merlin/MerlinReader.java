@@ -87,9 +87,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class MerlinReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       File databaseFile;
@@ -104,9 +101,6 @@ public final class MerlinReader extends AbstractProjectFileReader
       return readFile(databaseFile);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       return Arrays.asList(read(file));

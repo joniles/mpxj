@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class DoubleColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 16;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       m_data = new Double[FastTrackUtility.getInt(buffer, offset)];
@@ -55,9 +49,6 @@ class DoubleColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");

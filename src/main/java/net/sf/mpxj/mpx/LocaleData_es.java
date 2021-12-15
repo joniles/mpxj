@@ -39,9 +39,6 @@ import net.sf.mpxj.ProjectTimeFormat;
  */
 public final class LocaleData_es extends ListResourceBundle
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);

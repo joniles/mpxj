@@ -51,9 +51,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -73,9 +70,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       return Arrays.asList(read(file));

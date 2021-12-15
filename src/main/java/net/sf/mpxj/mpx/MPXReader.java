@@ -70,9 +70,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPXReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       int line = 1;
@@ -209,9 +206,6 @@ public final class MPXReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -1548,7 +1542,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    private Locale m_locale = Locale.ENGLISH;
    private boolean m_ignoreTextModels = true;
 
-   /**
+   /*
     * Transient working data.
     */
 

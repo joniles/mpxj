@@ -35,9 +35,6 @@ import net.sf.mpxj.ViewType;
  */
 class ViewFactory12 implements ViewFactory
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public View createView(ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases) throws IOException
    {
       View view;

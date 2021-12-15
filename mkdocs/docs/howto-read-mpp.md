@@ -17,7 +17,7 @@ The simplest way to read an MPP file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.mpp");
@@ -39,7 +39,7 @@ how you would supply the password:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-...
+// ...
 
 MPPReader reader = new MPPReader();
 reader.setReadPassword("my secret password");
@@ -54,7 +54,7 @@ the MPP9 password protection.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-...
+// ...
 
 MPPReader reader = new MPPReader();
 reader.setRespectPasswordProtection(false);
@@ -72,7 +72,7 @@ To do this you will use the `setReadPresentationData` method, as shown below:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-...
+// ...
 
 MPPReader reader = new MPPReader();
 reader.setReadPresentationData(false);
@@ -88,7 +88,7 @@ as shown below:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-...
+// ...
 
 MPPReader reader = new MPPReader();
 reader.setReadPropertiesOnly(true);
@@ -111,7 +111,7 @@ work with the raw data directly from the MPP file, you can use the
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-...
+// ...
 
 MPPReader reader = new MPPReader();
 reader.setUseRawTimephasedData(true);

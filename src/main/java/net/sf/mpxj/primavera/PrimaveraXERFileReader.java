@@ -111,9 +111,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       m_linkCrossProjectRelations = linkCrossProjectRelations;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       ProjectFile project = null;

@@ -34,9 +34,6 @@ import net.sf.mpxj.primavera.schema.WBSType;
  */
 class WbsRowComparatorPMXML implements Comparator<WBSType>
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compare(WBSType o1, WBSType o2)
    {
       Integer parent1 = o1.getParentObjectId();

@@ -666,9 +666,6 @@ abstract class FieldMap
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringWriter sw = new StringWriter();
@@ -1250,9 +1247,6 @@ abstract class FieldMap
          return result;
       }
 
-      /**
-       * {@inheritDoc}
-       */
       @Override public String toString()
       {
          StringBuilder buffer = new StringBuilder();

@@ -382,9 +382,6 @@ public final class RTFEmbeddedObject
       return (offset);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
