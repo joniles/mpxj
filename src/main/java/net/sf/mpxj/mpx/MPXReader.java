@@ -70,9 +70,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPXReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       int line = 1;
@@ -209,9 +206,6 @@ public final class MPXReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -222,7 +216,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param recordNumber record number
     * @param record record data
-    * @throws MPXJException
     */
    private void parseRecord(Integer recordNumber, Record record) throws MPXJException
    {
@@ -499,7 +492,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param properties project properties
-    * @throws MPXJException
     */
    private void populateDefaultSettings(Record record, ProjectProperties properties) throws MPXJException
    {
@@ -582,7 +574,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param properties project properties
-    * @throws MPXJException
     */
    private void populateProjectHeader(Record record, ProjectProperties properties) throws MPXJException
    {
@@ -622,7 +613,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param hours calendar hours instance
-    * @throws MPXJException
     */
    private void populateCalendarHours(Record record, ProjectCalendarHours hours) throws MPXJException
    {
@@ -663,7 +653,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param calendar calendar to which the exception will be added
-    * @throws MPXJException
     */
    private void populateCalendarException(Record record, ProjectCalendar calendar) throws MPXJException
    {
@@ -736,7 +725,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param resource resource instance
     * @param record MPX record
-    * @throws MPXJException
     */
    private void populateResource(Resource resource, Record record) throws MPXJException
    {
@@ -882,8 +870,6 @@ public final class MPXReader extends AbstractProjectStreamReader
    /**
     * This method iterates through the deferred relationships,
     * parsing the data and setting up relationships between tasks.
-    *
-    * @throws MPXJException
     */
    private void processDeferredRelationships() throws MPXJException
    {
@@ -897,7 +883,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     * This method processes a single deferred relationship list.
     *
     * @param dr deferred relationship list data
-    * @throws MPXJException
     */
    private void processDeferredRelationship(DeferredRelationship dr) throws MPXJException
    {
@@ -936,7 +921,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param field which task field source of data
     * @param sourceTask relationship source task
     * @param relationship relationship string
-    * @throws MPXJException
     */
    private void populateRelation(TaskField field, Task sourceTask, String relationship) throws MPXJException
    {
@@ -1032,7 +1016,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param task task instance
-    * @throws MPXJException
     */
    private void populateTask(Record record, Task task) throws MPXJException
    {
@@ -1350,7 +1333,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param task recurring task
-    * @throws MPXJException
     */
    private void populateRecurringTask(Record record, RecurringTask task) throws MPXJException
    {
@@ -1424,7 +1406,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param assignment resource assignment
-    * @throws MPXJException
     */
    private void populateResourceAssignment(Record record, ResourceAssignment assignment) throws MPXJException
    {
@@ -1479,7 +1460,6 @@ public final class MPXReader extends AbstractProjectStreamReader
     *
     * @param record MPX record
     * @param workgroup workgroup instance
-    * @throws MPXJException
     */
    private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup) throws MPXJException
    {
@@ -1562,7 +1542,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    private Locale m_locale = Locale.ENGLISH;
    private boolean m_ignoreTextModels = true;
 
-   /**
+   /*
     * Transient working data.
     */
 

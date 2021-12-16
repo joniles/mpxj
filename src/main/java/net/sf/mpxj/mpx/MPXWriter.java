@@ -69,9 +69,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
@@ -106,8 +103,6 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Writes the contents of the project file as MPX records.
-    *
-    * @throws IOException
     */
    private void write() throws IOException
    {
@@ -138,8 +133,6 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Write file creation record.
-    *
-    * @throws IOException
     */
    private void writeFileCreationRecord() throws IOException
    {
@@ -161,7 +154,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write project header.
     *
     * @param properties project properties
-    * @throws IOException
     */
    private void writeProjectHeader(ProjectProperties properties) throws IOException
    {
@@ -320,7 +312,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write a calendar.
     *
     * @param record calendar instance
-    * @throws IOException
     */
    private void writeCalendar(ProjectCalendar record) throws IOException
    {
@@ -392,7 +383,6 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @param parentCalendar parent calendar instance
     * @param record calendar hours instance
-    * @throws IOException
     */
    private void writeCalendarHours(ProjectCalendar parentCalendar, ProjectCalendarHours record) throws IOException
    {
@@ -453,7 +443,6 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @param parentCalendar parent calendar instance
     * @param record calendar exception instance
-    * @throws IOException
     */
    private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record) throws IOException
    {
@@ -495,7 +484,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write a resource.
     *
     * @param record resource instance
-    * @throws IOException
     */
    private void writeResource(Resource record) throws IOException
    {
@@ -552,7 +540,6 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @param recordNumber record number
     * @param text note text
-    * @throws IOException
     */
    private void writeNotes(int recordNumber, String text) throws IOException
    {
@@ -608,7 +595,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write a task.
     *
     * @param record task instance
-    * @throws IOException
     */
    private void writeTask(Task record) throws IOException
    {
@@ -676,7 +662,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write a recurring task.
     *
     * @param record recurring task instance
-    * @throws IOException
     */
    private void writeRecurringTask(RecurringTask record) throws IOException
    {
@@ -751,7 +736,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write resource assignment.
     *
     * @param record resource assignment instance
-    * @throws IOException
     */
    private void writeResourceAssignment(ResourceAssignment record) throws IOException
    {
@@ -802,7 +786,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write resource assignment workgroup.
     *
     * @param record resource assignment workgroup instance
-    * @throws IOException
     */
    private void writeResourceAssignmentWorkgroupFields(ResourceAssignmentWorkgroupFields record) throws IOException
    {
@@ -832,7 +815,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * Recursively write tasks.
     *
     * @param tasks list of tasks
-    * @throws IOException
     */
    private void writeTasks(List<Task> tasks) throws IOException
    {
@@ -1007,7 +989,7 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * This method removes trailing delimiter characters.
     *
-    * @param buffer input sring buffer
+    * @param buffer input string buffer
     */
    private void stripTrailingDelimiters(StringBuilder buffer)
    {

@@ -69,7 +69,6 @@ final class FixedMeta extends MPPComponent
     *
     * @param is input stream from which the meta data is read
     * @param itemSizeProvider item size provider used to calculate the item size
-    * @throws IOException
     */
    FixedMeta(InputStream is, FixedMetaItemSizeProvider itemSizeProvider)
       throws IOException

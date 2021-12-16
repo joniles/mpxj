@@ -39,7 +39,7 @@ import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
 /**
- * This class represents a task record from an project file.
+ * This class represents a task record from a project file.
  */
 public final class Task extends ProjectEntity implements Comparable<Task>, ProjectEntityWithID, FieldContainer, ChildTaskContainer
 {
@@ -713,7 +713,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * of the assignment's timephased percent complete multiplied by
     * the assignments
     * timephased baseline cost. BCWP is calculated up to the status
-    * date or todays
+    * date or today's
     * date. This information is also known as earned value.
     *
     * @param val the amount to be set
@@ -1291,7 +1291,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * resources assigned to a task. These initials can serve as substitutes
     * for the names.
     *
-    * Note that MS Project 98 does no normally populate this field when
+    * Note that MS Project 98 does not normally populate this field when
     * it generates an MPX file, and will therefore not expect to see values
     * in this field when it reads an MPX file. Supplying values for this
     * field will cause MS Project 98, 2000, and 2002 to create new resources
@@ -2868,7 +2868,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * This method retrieves a list of child tasks relative to the
-    * current task, as defined by the outine level. If there
+    * current task, as defined by the outline level. If there
     * are no child tasks, this method will return an empty list.
     *
     * @return child tasks
@@ -5368,7 +5368,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Internal method used to locate an remove an item from a list Relations.
+    * Internal method used to locate and remove an item from a list Relations.
     *
     * @param relationList list of Relation instances
     * @param targetTask target relationship task
@@ -5409,17 +5409,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (fields[index - 1]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
@@ -5517,9 +5511,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -5664,9 +5655,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       Stream.of(fields).forEach(f -> m_array[f.getValue()] = null);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -5676,9 +5664,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -5698,9 +5683,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]") + (getSubProject() == null ? "" : (" project=" + getSubProject())));

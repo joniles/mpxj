@@ -47,15 +47,13 @@ import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
- * Tests to ensure task task baseline values are correctly handled.
+ * Tests to ensure task baseline values are correctly handled.
  */
 public class TaskBaselinesTest
 {
 
    /**
-    * Test to verify SourceForeg issue is fixed.
-    *
-    * @throws MPXJException
+    * Test to verify SourceForge issue is fixed.
     */
    @Test public void testSourceForgeIssue259() throws MPXJException
    {

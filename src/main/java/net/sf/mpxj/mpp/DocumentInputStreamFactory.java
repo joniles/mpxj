@@ -54,7 +54,6 @@ class DocumentInputStreamFactory
     * @param directory directory entry
     * @param name file name
     * @return new input stream
-    * @throws IOException
     */
    public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
    {

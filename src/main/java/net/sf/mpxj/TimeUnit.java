@@ -169,9 +169,6 @@ public enum TimeUnit implements MpxjEnum
       return (m_name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (getName());

@@ -87,9 +87,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class MerlinReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       File databaseFile;
@@ -104,9 +101,6 @@ public final class MerlinReader extends AbstractProjectFileReader
       return readFile(databaseFile);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       return Arrays.asList(read(file));
@@ -568,7 +562,6 @@ public final class MerlinReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param values bind variable values
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
@@ -592,8 +585,6 @@ public final class MerlinReader extends AbstractProjectFileReader
 
    /**
     * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
     */
    private void populateMetaData() throws SQLException
    {

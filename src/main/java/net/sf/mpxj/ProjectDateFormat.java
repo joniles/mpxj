@@ -107,7 +107,7 @@ public enum ProjectDateFormat implements MpxjEnum
    HH_MM(14),
 
    /**
-    * This format represents dates in the form Wed 23 Mar..
+    * This format represents dates in the form Wed 23 Mar.
     */
    EEE_DD_MMM(15),
 

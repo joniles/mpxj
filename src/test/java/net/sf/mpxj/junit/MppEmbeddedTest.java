@@ -44,8 +44,6 @@ public class MppEmbeddedTest
 {
    /**
     * Test MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Embedded() throws Exception
    {
@@ -56,8 +54,6 @@ public class MppEmbeddedTest
 
    /**
     * Test MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From12Embedded() throws Exception
    {
@@ -68,8 +64,6 @@ public class MppEmbeddedTest
 
    /**
     * Test MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From14Embedded() throws Exception
    {
@@ -80,8 +74,6 @@ public class MppEmbeddedTest
 
    /**
     * Test MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Embedded() throws Exception
    {
@@ -92,8 +84,6 @@ public class MppEmbeddedTest
 
    /**
     * Test MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12From14Embedded() throws Exception
    {
@@ -104,8 +94,6 @@ public class MppEmbeddedTest
 
    /**
     * Test MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Embedded() throws Exception
    {

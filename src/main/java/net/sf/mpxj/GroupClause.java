@@ -195,9 +195,6 @@ public final class GroupClause
       m_startAt = startAt;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

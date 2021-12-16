@@ -35,9 +35,6 @@ import net.sf.mpxj.TimeUnit;
  */
 class TableCONTAB extends Table
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       if (data[0] != (byte) 0xFF)

@@ -41,8 +41,6 @@ public class MppFilterLogicTest
 {
    /**
     * Exercise an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FilterLogic() throws Exception
    {
@@ -52,8 +50,6 @@ public class MppFilterLogicTest
 
    /**
     * Exercise an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FilterLogicFrom12() throws Exception
    {
@@ -63,8 +59,6 @@ public class MppFilterLogicTest
 
    /**
     * Exercise an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FilterLogicFrom14() throws Exception
    {
@@ -74,8 +68,6 @@ public class MppFilterLogicTest
 
    /**
     * Exercise an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FilterLogic() throws Exception
    {
@@ -85,8 +77,6 @@ public class MppFilterLogicTest
 
    /**
     * Exercise an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FilterLogicFrom14() throws Exception
    {
@@ -96,8 +86,6 @@ public class MppFilterLogicTest
 
    /**
     * Exercise an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14FilterLogic() throws Exception
    {
@@ -109,7 +97,6 @@ public class MppFilterLogicTest
     * Common filter logic tests.
     *
     * @param mpp project file
-    * @throws Exception
     */
    private void testFilterLogic(ProjectFile mpp)
    {

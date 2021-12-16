@@ -36,17 +36,11 @@ import net.sf.mpxj.common.DateHelper;
  */
 class DateColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 0;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       // Unknown
@@ -93,9 +87,6 @@ class DateColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

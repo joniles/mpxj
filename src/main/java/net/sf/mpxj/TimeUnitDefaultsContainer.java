@@ -24,7 +24,7 @@
 package net.sf.mpxj;
 
 /**
- * Classes implementing this interface provide access to defaults used
+ * Classes implementing this interface provide access to the defaults used
  * when converting duration time units.
  */
 public interface TimeUnitDefaultsContainer

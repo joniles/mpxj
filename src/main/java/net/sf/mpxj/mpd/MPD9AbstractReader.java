@@ -396,7 +396,7 @@ abstract class MPD9AbstractReader
          //resource.setActualOvertimeWorkProtected();
          resource.setActualWork(row.getDuration("RES_ACT_WORK"));
          //resource.setActualWorkProtected();
-         //resource.setActveDirectoryGUID();
+         //resource.setActiveDirectoryGUID();
          resource.setACWP(row.getCurrency("RES_ACWP"));
          resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
          resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
@@ -1247,7 +1247,7 @@ abstract class MPD9AbstractReader
       config.updateUniqueCounters();
    }
 
-   /**
+   /*
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
     *

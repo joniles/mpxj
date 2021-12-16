@@ -43,8 +43,6 @@ public class SplitTaskTest
 {
    /**
     * Exercise split task functionality.
-    *
-    * @throws Exception
     */
    @Test public void testSplits1() throws Exception
    {
@@ -79,8 +77,6 @@ public class SplitTaskTest
 
    /**
     * Exercise split task functionality.
-    *
-    * @throws Exception
     */
    @Test public void testSplits2() throws Exception
    {

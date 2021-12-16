@@ -12,7 +12,7 @@ The simplest way to read a PRX file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.prx");
@@ -32,7 +32,7 @@ use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-p3-directory");
@@ -50,7 +50,7 @@ import java.util.List;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 
-...
+// ...
 
 // Find a list of the project names
 String directory = "my-p3-directory";

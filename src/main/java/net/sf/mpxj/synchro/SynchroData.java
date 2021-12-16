@@ -75,7 +75,6 @@ class SynchroData
     *
     * @param name table name
     * @return InputStream instance
-    * @throws IOException
     */
    public StreamReader getTableData(String name) throws IOException
    {

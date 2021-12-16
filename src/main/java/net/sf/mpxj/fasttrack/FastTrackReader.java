@@ -64,9 +64,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class FastTrackReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -92,9 +89,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       return Arrays.asList(read(file));

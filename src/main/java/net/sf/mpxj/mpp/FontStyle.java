@@ -135,9 +135,6 @@ public class FontStyle
       return m_backgroundPattern;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " strikethrough=" + m_strikethrough + " color=" + m_color + " backgroundColor=" + m_backgroundColor + " backgroundPattern=" + m_backgroundPattern + "]");

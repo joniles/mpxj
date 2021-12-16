@@ -138,9 +138,6 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();
@@ -148,9 +145,6 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

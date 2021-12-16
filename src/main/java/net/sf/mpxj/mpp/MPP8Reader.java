@@ -171,9 +171,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates calendar data.
-    *
-    * @throws MPXJException
-    * @throws IOException
     */
    private void processCalendarData() throws MPXJException, IOException
    {
@@ -384,8 +381,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates task data.
-    *
-    * @throws IOException
     */
    private void processTaskData() throws IOException
    {
@@ -798,8 +793,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates constraint data.
-    *
-    * @throws IOException
     */
    private void processConstraintData() throws IOException
    {
@@ -857,8 +850,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource data.
-    *
-    * @throws IOException
     */
    private void processResourceData() throws IOException
    {
@@ -1075,8 +1066,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource assignment data.
-    *
-    * @throws IOException
     */
    private void processAssignmentData() throws IOException
    {
@@ -1183,8 +1172,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts view data from the MPP file.
-    *
-    * @throws IOException
     */
    private void processViewData() throws IOException
    {
@@ -1207,8 +1194,6 @@ final class MPP8Reader implements MPPVariantReader
 
    /**
     * This method extracts table data from the MPP file.
-    *
-    * @throws IOException
     */
    private void processTableData() throws IOException
    {

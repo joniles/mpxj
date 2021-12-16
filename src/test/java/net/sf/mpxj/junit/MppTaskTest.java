@@ -58,8 +58,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Task() throws Exception
    {
@@ -69,8 +67,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9TaskFrom12() throws Exception
    {
@@ -80,8 +76,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9TaskFrom14() throws Exception
    {
@@ -91,8 +85,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Task() throws Exception
    {
@@ -102,8 +94,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12TaskFrom14() throws Exception
    {
@@ -113,8 +103,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Task() throws Exception
    {
@@ -124,8 +112,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14TaskFromProject2013() throws Exception
    {
@@ -135,8 +121,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Task() throws Exception
    {
@@ -147,8 +131,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Baseline() throws Exception
    {
@@ -158,8 +140,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved from Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9BaselineFrom12() throws Exception
    {
@@ -169,8 +149,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP9 file saved from Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9BaselineFrom14() throws Exception
    {
@@ -180,8 +158,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Baseline() throws Exception
    {
@@ -191,8 +167,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12BaselineFrom14() throws Exception
    {
@@ -202,8 +176,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Baseline() throws Exception
    {
@@ -213,8 +185,6 @@ public class MppTaskTest
 
    /**
     * Test task data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Baseline() throws Exception
    {
@@ -225,8 +195,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Splits() throws Exception
    {
@@ -236,8 +204,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9SplitsFrom12() throws Exception
    {
@@ -247,8 +213,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9SplitsFrom14() throws Exception
    {
@@ -258,8 +222,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Splits() throws Exception
    {
@@ -269,8 +231,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12SplitsFrom14() throws Exception
    {
@@ -280,8 +240,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Splits() throws Exception
    {
@@ -291,8 +249,6 @@ public class MppTaskTest
 
    /**
     * Test Split Tasks in an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiSplits() throws Exception
    {
@@ -304,8 +260,6 @@ public class MppTaskTest
     * Test Split Tasks in an MPD9 file.
     *
     * Currently split tasks are not supported in MPD files.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Splits() throws Exception
    {
@@ -315,8 +269,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Relations() throws Exception
    {
@@ -326,8 +278,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9RelationsFrom12() throws Exception
    {
@@ -337,8 +287,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9RelationsFrom14() throws Exception
    {
@@ -348,8 +296,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Relations() throws Exception
    {
@@ -360,8 +306,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Relations() throws Exception
    {
@@ -371,8 +315,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12RelationsFrom14() throws Exception
    {
@@ -382,8 +324,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Relations() throws Exception
    {
@@ -393,8 +333,6 @@ public class MppTaskTest
 
    /**
     * Tests Relations in an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiRelations() throws Exception
    {
@@ -405,7 +343,6 @@ public class MppTaskTest
    /**
     * Tests dozens of basic fields of a Task.
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
     *
     * <br><br>
     * Columns not tested:<br><br>
@@ -443,7 +380,7 @@ public class MppTaskTest
     * Task Calendar<br>
     * Team Status Pending<br>
     * Type<br>
-    * Unique ID Predecessors, Unique ID Succeessors<br>
+    * Unique ID Predecessors, Unique ID Successors<br>
     * Update Needed<br>
     * WBS Predecessors, WBS Succeessors<br>
     * Work Contour<br><br><br>
@@ -812,7 +749,7 @@ public class MppTaskTest
     */
    private void testBaselineTasks(ProjectFile mpp) throws Exception
    {
-      /**
+      /*
        * Columns tested:
        *
        * Actual Start

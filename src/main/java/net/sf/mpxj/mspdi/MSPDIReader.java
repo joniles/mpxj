@@ -152,9 +152,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -241,9 +238,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

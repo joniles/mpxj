@@ -9,7 +9,7 @@ The sample code below illustrates how to write data to an MSPDI file.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-...
+// ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.write(projectFile, outputFileName);
@@ -40,7 +40,8 @@ Project you can set this flag to `false`:
 ```java
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
-...
+
+// ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.setMicrosoftProjectCompatibleOutput(false);
@@ -53,7 +54,7 @@ Microsoft Project used to save the file. The value of `SaveVersion` is defined
 by the `net.sf.mpxj.mspdi.SaveVersion` enum,  which provides the following
 values:
 
-```java
+```
 Project2002
 Project2003
 Project2007
@@ -76,7 +77,8 @@ the older style of calendar exceptions is written to the MSPDI file:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.mspdi.SaveVersion;
-...
+
+// ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.setSaveVersion(SaveVersion.Project2002);
@@ -108,7 +110,7 @@ day-by-dat breakdown:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-...
+// ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.setWriteTimephasedData(true);
@@ -122,7 +124,7 @@ write an aggregated form of the timephased data:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-...
+// ...
 
 MSPDIWriter writer = new MSPDIWriter();
 writer.setWriteTimephasedData(true);

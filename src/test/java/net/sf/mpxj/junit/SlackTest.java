@@ -39,8 +39,6 @@ public class SlackTest
 {
    /**
     * Exercise slack duration functionality.
-    *
-    * @throws Exception
     */
    @Test public void testSlack() throws Exception
    {

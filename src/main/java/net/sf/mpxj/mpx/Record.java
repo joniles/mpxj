@@ -775,9 +775,6 @@ final class Record
       return (m_fields.length);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (Arrays.toString(m_fields));

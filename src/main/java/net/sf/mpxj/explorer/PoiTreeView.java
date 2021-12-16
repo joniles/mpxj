@@ -42,9 +42,6 @@ public class PoiTreeView extends JTree
       setModel(model);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
    {
       String result = "";

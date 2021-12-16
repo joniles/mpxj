@@ -39,7 +39,7 @@ import net.sf.mpxj.mpp.MPPReader;
 import org.junit.Test;
 
 /**
- * Testsb to exercise MPP file read functionality for various versions of
+ * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
 public class MppViewTest
@@ -47,8 +47,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9View() throws Exception
    {
@@ -58,8 +56,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ViewFrom12() throws Exception
    {
@@ -69,8 +65,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ViewFrom14() throws Exception
    {
@@ -80,8 +74,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12View() throws Exception
    {
@@ -91,8 +83,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ViewFrom14() throws Exception
    {
@@ -102,8 +92,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14View() throws Exception
    {
@@ -112,7 +100,7 @@ public class MppViewTest
    }
 
    /**
-    * Tests MPP's Views. Not an in-depth test, but covers the basics of
+    * Tests MPP Views. Not an in-depth test, but covers the basics of
     * Views, like View Names, Column Names, and Column Widths
     *
     * @param mpp The ProjectFile being tested.
@@ -177,5 +165,4 @@ public class MppViewTest
       assertTrue(setViewNames.contains("Task Usage"));
       //assertTrue(setViewNames.contains("")); // why blank?
    }
-
 }

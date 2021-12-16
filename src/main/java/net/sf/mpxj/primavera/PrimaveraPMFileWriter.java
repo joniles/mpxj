@@ -73,9 +73,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return m_writeBaselines;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try

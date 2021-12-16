@@ -46,25 +46,16 @@ public abstract class AbstractView implements View
       m_tables = parent.getTables();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Integer getID()
    {
       return (m_id);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (m_name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ViewType getType()
    {
       return (m_type);

@@ -76,7 +76,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * If this week is derived from a another week, this method
+    * If this week is derived from another week, this method
     * will return the parent week.
     *
     * @return parent week
@@ -165,7 +165,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       if (result == null)
       {
          //
-         // If this is a base calendar and we have no hours, then we
+         // If this is a base calendar, and we have no hours, then we
          // have a problem - so we add the default hours and try again
          //
          if (m_parent == null)
@@ -371,9 +371,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       m_days[day.getValue() - 1] = value;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(ProjectCalendarWeek o)
    {
       long fromTime1 = m_dateRange.getStart().getTime();
@@ -381,9 +378,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();

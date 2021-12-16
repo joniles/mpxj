@@ -30,9 +30,6 @@ import java.util.ListResourceBundle;
  */
 public final class LocaleData_en extends ListResourceBundle
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);

@@ -1,5 +1,5 @@
 /*
- * file:       FileCleanerrView.java
+ * file:       FileCleanerView.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
  * date:       2021-04-03

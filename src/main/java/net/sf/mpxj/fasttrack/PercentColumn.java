@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class PercentColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 0;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       // Unknown
@@ -65,9 +59,6 @@ class PercentColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");

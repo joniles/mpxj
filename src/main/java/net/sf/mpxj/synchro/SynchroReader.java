@@ -57,9 +57,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SynchroReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       try
@@ -93,9 +90,6 @@ public final class SynchroReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -554,7 +548,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Common mechanism to convert Synchro commentary recorss into notes.
+    * Common mechanism to convert Synchro commentary records into notes.
     *
     * @param rows commentary table rows
     * @return note text

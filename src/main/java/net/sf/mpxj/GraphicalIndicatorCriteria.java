@@ -73,9 +73,6 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
       return (evaluate(container, null) ? m_indicator : -1);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

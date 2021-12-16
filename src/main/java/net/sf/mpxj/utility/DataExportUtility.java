@@ -87,7 +87,6 @@ public final class DataExportUtility
     *
     * @param connection database connection
     * @param directory target directory
-    * @throws Exception
     */
    public void process(Connection connection, String directory) throws Exception
    {
@@ -129,7 +128,6 @@ public final class DataExportUtility
     * @param pw output print writer
     * @param connection database connection
     * @param name table name
-    * @throws Exception
     */
    private void processTable(PrintWriter pw, Connection connection, String name) throws Exception
    {

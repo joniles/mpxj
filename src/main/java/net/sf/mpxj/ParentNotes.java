@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represents a note which is composed from one or more child notes.
+ * Represents a note which is composed of one or more child notes.
  */
 public class ParentNotes extends Notes
 {

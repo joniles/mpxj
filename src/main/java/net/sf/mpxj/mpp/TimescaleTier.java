@@ -130,7 +130,7 @@ public final class TimescaleTier
    }
 
    /**
-    * Retrieve the timescale lable alignment.
+    * Retrieve the timescale label alignment.
     *
     * @return label alignment
     */

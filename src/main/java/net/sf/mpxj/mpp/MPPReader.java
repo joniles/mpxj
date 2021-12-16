@@ -50,9 +50,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPPReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -73,9 +70,6 @@ public final class MPPReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -88,7 +82,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POIFSFileSystem instance
     * @return file format name
-    * @throws IOException
     */
    public static String getFileFormat(POIFSFileSystem fs) throws IOException
    {
@@ -108,7 +101,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POI file stream
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
    {

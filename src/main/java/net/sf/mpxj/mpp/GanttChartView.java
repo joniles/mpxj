@@ -100,7 +100,6 @@ public abstract class GanttChartView extends GenericView
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
-    * @throws IOException
     */
    GanttChartView(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
@@ -512,7 +511,7 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve the width ofthe table part of the view.
+    * Retrieve the width of the table part of the view.
     *
     * @return table width
     */

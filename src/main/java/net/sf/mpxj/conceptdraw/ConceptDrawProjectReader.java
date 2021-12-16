@@ -73,9 +73,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -144,9 +141,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

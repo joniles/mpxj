@@ -31,9 +31,6 @@ import java.util.Map;
  */
 class TableA3TAB extends Table
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       Map<String, Object> map = new HashMap<>();

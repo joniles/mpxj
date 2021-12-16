@@ -154,9 +154,6 @@ final class SqliteResultSetRow extends MapRow
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Duration getDuration(String name)
    {
       String value = getString(name);

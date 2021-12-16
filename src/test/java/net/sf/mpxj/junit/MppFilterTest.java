@@ -48,8 +48,6 @@ public class MppFilterTest
 {
    /**
     * Test filter data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Filters() throws Exception
    {
@@ -59,8 +57,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FiltersFrom12() throws Exception
    {
@@ -70,8 +66,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FiltersFrom14() throws Exception
    {
@@ -81,8 +75,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Filters() throws Exception
    {
@@ -92,8 +84,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FiltersFrom14() throws Exception
    {
@@ -103,8 +93,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Filters() throws Exception
    {

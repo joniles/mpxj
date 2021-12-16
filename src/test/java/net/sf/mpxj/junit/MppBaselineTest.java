@@ -45,8 +45,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9BaselineFields() throws Exception
    {
@@ -56,8 +54,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9BaselineFieldsFrom12() throws Exception
    {
@@ -67,8 +63,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9BaselineFieldsFrom14() throws Exception
    {
@@ -78,8 +72,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiBaselineFields() throws Exception
    {
@@ -89,8 +81,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12BaselineFields() throws Exception
    {
@@ -100,8 +90,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP1 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12BaselineFieldsFrom14() throws Exception
    {
@@ -111,8 +99,6 @@ public class MppBaselineTest
 
    /**
     * Test baseline data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14BaselineFields() throws Exception
    {
@@ -124,7 +110,6 @@ public class MppBaselineTest
     * Tests baseline fields.
     *
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
     */
    private void testBaselineFields(ProjectFile mpp) throws Exception
    {

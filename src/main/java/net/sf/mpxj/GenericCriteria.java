@@ -224,7 +224,7 @@ public class GenericCriteria
    }
 
    /**
-    * Evalutes AND and OR operators.
+    * Evaluates AND and OR operators.
     *
     * @param container data context
     * @param promptValues responses to prompts
@@ -340,7 +340,7 @@ public class GenericCriteria
    }
 
    /**
-    * Adds a an item to the list of child criteria.
+    * Adds an item to the list of child criteria.
     *
     * @param criteria criteria item to add
     */
@@ -349,9 +349,6 @@ public class GenericCriteria
       m_criteriaList.add(criteria);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

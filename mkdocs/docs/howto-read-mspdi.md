@@ -9,7 +9,7 @@ The simplest way to read an MSPDI file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.xml");
@@ -36,7 +36,7 @@ are shown below:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
-...
+// ...
 
 MSPDIReader reader = new MSPDIReader();
 
@@ -60,7 +60,7 @@ below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
-...
+// ...
 
 MSPDIReader reader = new MSPDIReader();
 reader.setMicrosoftProjectCompatibleInput(false);

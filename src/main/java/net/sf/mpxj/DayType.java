@@ -27,7 +27,7 @@ import net.sf.mpxj.common.EnumHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
- * This class is used to represent a the day type used by the project calendar.
+ * This class is used to represent the day type used by the project calendar.
  */
 public enum DayType implements MpxjEnum
 {

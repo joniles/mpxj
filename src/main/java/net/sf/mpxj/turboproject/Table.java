@@ -42,9 +42,6 @@ import net.sf.mpxj.common.StreamHelper;
  */
 class Table implements Iterable<MapRow>
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Iterator<MapRow> iterator()
    {
       return m_rows.values().iterator();
@@ -101,7 +98,7 @@ class Table implements Iterable<MapRow>
     * Adds a row to the internal storage, indexed by primary key.
     *
     * @param uniqueID unique ID of the row
-    * @param map row data as a simpe map
+    * @param map row data as a simple map
     */
    protected void addRow(int uniqueID, Map<String, Object> map)
    {

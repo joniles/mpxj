@@ -196,9 +196,6 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File directory) throws MPXJException
    {
       List<ProjectFile> projects = new ArrayList<>();

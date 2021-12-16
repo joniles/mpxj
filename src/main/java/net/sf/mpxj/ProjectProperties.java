@@ -152,7 +152,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Gets Default Duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
+    * duration units are defined by the {@code TimeUnit} class.
     *
     * @return default duration units
     * @see TimeUnit
@@ -164,7 +164,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
+    * duration units are defined by the {@code TimeUnit} class.
     *
     * @param units default duration units
     * @see TimeUnit
@@ -196,7 +196,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
+    * work units are defined by the {@code TimeUnit} class.
     *
     * @return default work units
     * @see TimeUnit
@@ -208,7 +208,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
+    * work units are defined by the {@code TimeUnit} class.
     *
     * @param units  default work units
     * @see TimeUnit
@@ -2849,9 +2849,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return (Date) getCachedValue(ProjectField.PLANNED_START);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -2861,9 +2858,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -2901,25 +2895,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return c == null ? defaultValue : c.charValue();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       return (getCachedValue(field));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)

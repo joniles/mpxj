@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * <code>InputStream</code> with a fixed amount of bytes available to read.
+ * {@code InputStream} with a fixed amount of bytes available to read.
  * When the stream is closed the remaining bytes that have not been read are
  * read or skipped.
  *

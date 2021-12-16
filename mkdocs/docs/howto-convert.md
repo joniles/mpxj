@@ -24,7 +24,7 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile projectFile = reader.read(inputFile);
@@ -42,7 +42,8 @@ import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXWriter;
-...
+
+// ...
 
 ProjectReader reader = new MPPReader();
 ProjectFile projectFile = reader.read(inputFile);

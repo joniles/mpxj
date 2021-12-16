@@ -11,7 +11,7 @@ The simplest way to read an SDEF file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.sdef");

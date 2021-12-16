@@ -53,7 +53,6 @@ final class DurationUtility
     * @param format number format
     * @param locale target locale
     * @return Duration instance
-    * @throws MPXJException
     */
    public static Duration getInstance(String dur, NumberFormat format, Locale locale) throws MPXJException
    {

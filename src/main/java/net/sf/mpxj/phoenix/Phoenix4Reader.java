@@ -88,9 +88,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class Phoenix4Reader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       openLogFile();
@@ -165,9 +162,6 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

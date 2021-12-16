@@ -113,7 +113,7 @@ class RowHeader
    }
 
    /**
-    * Retrieve the "sub type" of this row.
+    * Retrieve the "subtype" of this row.
     *
     * @return row sub type
     */
@@ -122,9 +122,6 @@ class RowHeader
       return m_subtype;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return "[RowHeader id=" + m_id + " sequence=" + m_sequence + " type=" + m_type + " subtype=" + m_subtype + "]";

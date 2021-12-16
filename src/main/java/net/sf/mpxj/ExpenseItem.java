@@ -379,7 +379,7 @@ public final class ExpenseItem
    }
 
    /**
-    * Set the acrue type for this expense item.
+    * Set the accrue type for this expense item.
     *
     * @param accrueType accrue type
     */

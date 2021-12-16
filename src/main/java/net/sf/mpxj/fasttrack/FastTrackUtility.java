@@ -167,7 +167,7 @@ final class FastTrackUtility
     * Retrieve a single byte from an input array.
     *
     * @param data input array
-    * @param offset offset into inut array
+    * @param offset offset into input array
     * @return byte value
     */
    public static final int getByte(byte[] data, int offset)

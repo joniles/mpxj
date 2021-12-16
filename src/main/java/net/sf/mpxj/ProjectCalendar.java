@@ -37,7 +37,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
- * This class represents the a Calendar Definition record. Both base calendars
+ * This class represents a Calendar Definition record. Both base calendars
  * and calendars derived from base calendars are represented by instances
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
@@ -1627,7 +1627,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param start1 start of first range
     * @param end1 end of first range
-    * @param start2 start start of second range
+    * @param start2 start of second range
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
@@ -1697,9 +1697,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       return (m_derivedCalendars);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -1840,7 +1837,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             }
          }
       }
-      // For now just combine the exceptions. Probably overkill (although would be more accurate) to also merge the exceptions.
+      // For now just combine the exceptions. Probably overkill (although it would be more accurate) to also merge the exceptions.
       m_exceptions.addAll(taskCalendar.getCalendarExceptions());
       m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
       m_expandedExceptions.clear();

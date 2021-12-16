@@ -36,17 +36,11 @@ import net.sf.mpxj.common.DateHelper;
  */
 class TimeColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 48;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
@@ -72,9 +66,6 @@ class TimeColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       DateFormat df = new SimpleDateFormat("HH:mm:ss");

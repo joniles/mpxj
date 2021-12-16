@@ -51,7 +51,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -62,7 +61,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
     * Read project data from a database.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
@@ -103,9 +101,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       m_connection = connection;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -121,9 +116,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       try

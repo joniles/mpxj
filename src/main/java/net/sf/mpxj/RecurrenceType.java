@@ -72,9 +72,6 @@ public enum RecurrenceType implements MpxjEnum
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_name);

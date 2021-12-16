@@ -41,9 +41,6 @@ import net.sf.mpxj.reader.ProjectReader;
  */
 public final class AstaFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       try
@@ -75,9 +72,6 @@ public final class AstaFileReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

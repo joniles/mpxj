@@ -81,9 +81,6 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
       m_projectID = Integer.valueOf(projectID);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       Connection connection = null;
@@ -109,9 +106,6 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       Connection connection = null;

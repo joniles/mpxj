@@ -93,9 +93,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class GanttProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -172,9 +169,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));
@@ -652,7 +646,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Recursively read a task, and any sub tasks.
+    * Recursively read a task, and any sub-tasks.
     *
     * @param mpxjParent Parent for the MPXJ tasks
     * @param gpTask GanttProject task

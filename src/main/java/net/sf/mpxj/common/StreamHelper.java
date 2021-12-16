@@ -32,7 +32,7 @@ import java.io.InputStream;
 public final class StreamHelper
 {
    /**
-    * The documentation for InputStream.skip indicates that it can bail out early, and not skip
+    * The documentation for {@code InputStream.skip} indicates that it can bail out early, and not skip
     * the requested number of bytes. I've encountered this in practice, hence this helper method.
     *
     * @param stream InputStream instance

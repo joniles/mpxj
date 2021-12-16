@@ -47,8 +47,6 @@ public class TimephasedTest
 {
    /**
     * Test MPP9 file timephased resource assignments.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9() throws Exception
    {
@@ -58,8 +56,6 @@ public class TimephasedTest
 
    /**
     * Test MPP9 file timephased resource assignments saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
    {
@@ -69,8 +65,6 @@ public class TimephasedTest
 
    /**
     * Test MPP9 file timephased resource assignments saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
    {
@@ -80,8 +74,6 @@ public class TimephasedTest
 
    /**
     * Test MPP12 file timephased resource assignments.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12() throws Exception
    {
@@ -91,8 +83,6 @@ public class TimephasedTest
 
    /**
     * Test MPP12 file timephased resource assignments saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
    {
@@ -102,8 +92,6 @@ public class TimephasedTest
 
    /**
     * Test MPP14 file timephased resource assignments.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14() throws Exception
    {
@@ -113,8 +101,6 @@ public class TimephasedTest
 
    /**
     * Test MSPDI file timephased resource assignments.
-    *
-    * @throws Exception
     */
    @Test public void testMspdi() throws Exception
    {

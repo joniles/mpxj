@@ -141,9 +141,6 @@ public final class ExternalRelation
       return m_predecessor;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[ExternalPredecessor " + m_externalTaskUniqueID + " -> " + m_targetTask + "]");

@@ -78,9 +78,6 @@ public final class Rate
       return (m_units);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object obj)
    {
       boolean result = false;
@@ -104,17 +101,11 @@ public final class Rate
       return NumberHelper.equals(m_amount, rhs.m_amount, 0.00001);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return ((int) m_amount + m_units.hashCode());
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_amount + m_units.toString());

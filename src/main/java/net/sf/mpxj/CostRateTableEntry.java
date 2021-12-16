@@ -136,17 +136,11 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return m_costPerUse;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(CostRateTableEntry o)
    {
       return DateHelper.compare(m_endDate, o.m_endDate);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return "[CostRateTableEntry standardRate=" + m_standardRate + " overtimeRate=" + m_overtimeRate + " costPerUse=" + m_costPerUse + " startDate=" + m_startDate + " endDate=" + m_endDate + "]";

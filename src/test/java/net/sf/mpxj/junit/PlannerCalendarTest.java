@@ -37,8 +37,6 @@ public class PlannerCalendarTest
 
    /**
     * Test calendar data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testPlannerCalendar() throws Exception
    {

@@ -31,84 +31,54 @@ import net.sf.mpxj.common.FieldTypeHelper;
  */
 public final class FilterCriteriaReader14 extends CriteriaReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getCriteriaBlockSize()
    {
       return 36;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getCriteriaStartOffset()
    {
       return 20;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected byte[] getChildBlock(byte[] block)
    {
       int offset = MPPUtility.getShort(block, 32);
       return m_criteriaBlockMap.get(Integer.valueOf(offset));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected byte[] getListNextBlock(byte[] block)
    {
       int offset = MPPUtility.getShort(block, 34);
       return m_criteriaBlockMap.get(Integer.valueOf(offset));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected FieldType getFieldType(byte[] block)
    {
       int fieldIndex = MPPUtility.getInt(block, 8);
       return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(fieldIndex));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getTextOffset(byte[] block)
    {
       return MPPUtility.getShort(block, 26);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getPromptOffset(byte[] block)
    {
       return MPPUtility.getShort(block, 30);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getValueOffset()
    {
       return 14;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getTimeUnitsOffset()
    {
       return 24;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getCriteriaTextStartOffset()
    {
       return 16;

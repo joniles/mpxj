@@ -97,7 +97,7 @@ public class AbstractWbsFormat
    }
 
    /**
-    * Joins the individual WBS elements to make the formated value.
+    * Joins the individual WBS elements to make the formatted value.
     *
     * @param length number of elements to join
     * @return formatted WBS value

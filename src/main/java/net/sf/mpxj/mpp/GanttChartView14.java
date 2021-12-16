@@ -42,35 +42,23 @@ import net.sf.mpxj.common.MPPTaskField14;
  */
 public final class GanttChartView14 extends GanttChartView
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getPropertiesID()
    {
       return (PROPERTIES);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processDefaultBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyles = f.processDefaultStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processExceptionBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyleExceptions = f.processExceptionStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processAutoFilters(byte[] data)
    {
       //System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
@@ -138,9 +126,6 @@ public final class GanttChartView14 extends GanttChartView
       return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(fieldIndex));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
@@ -288,9 +273,6 @@ public final class GanttChartView14 extends GanttChartView
       return fontStyle;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(columnData, false, 44, "").getBytes());
@@ -336,9 +318,6 @@ public final class GanttChartView14 extends GanttChartView
       return tfs;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(progressLineData, false, 16, "").getBytes());
@@ -403,7 +382,6 @@ public final class GanttChartView14 extends GanttChartView
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
-    * @throws IOException
     */
    GanttChartView14(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException

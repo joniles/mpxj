@@ -1,5 +1,5 @@
 /*
- * file:       GanttarStyleFactory14.java
+ * file:       GantBarStyleFactory14.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2010
  * date:       19/04/2010
@@ -31,9 +31,6 @@ import net.sf.mpxj.common.MPPTaskField14;
  */
 public class GanttBarStyleFactory14 implements GanttBarStyleFactory
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public GanttBarStyle[] processDefaultStyles(Props props)
    {
       GanttBarStyle[] barStyles = null;
@@ -86,9 +83,6 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       return barStyles;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public GanttBarStyleException[] processExceptionStyles(Props props)
    {
       GanttBarStyleException[] barStyle = null;

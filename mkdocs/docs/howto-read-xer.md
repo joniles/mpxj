@@ -10,7 +10,7 @@ The simplest way to read an XER file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.xer");
@@ -37,7 +37,7 @@ are shown below:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 
@@ -59,7 +59,7 @@ MPXJ to list the projects contained in an XER file, as shown below:
 ```java
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 FileInputStream is = new FileInputStream("my-sample.xer");
@@ -80,7 +80,7 @@ call `setProjectID` to tell the reader which project to open, as shown below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setProjectID(123);
@@ -93,7 +93,7 @@ Alternatively you can ask MPXJ to read all of the projects contained in the file
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 InputStream is = new FileInputStream("my-sample.xer");
@@ -113,7 +113,7 @@ MPXJ will attempt to link these relations across projects:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setLinkCrossProjectRelations(true);
@@ -133,7 +133,7 @@ to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setMatchPrimaveraWBS(false);
@@ -153,7 +153,7 @@ method, passing in `false`, as illustrated below.
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setWbsIsFullPath(false);
@@ -191,7 +191,7 @@ custom fields using the the methods shown in the code sample below:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-...
+// ...
 
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setFieldNamesForTaskUdfType(UserFieldDataType.FT_TEXT, "ENTERPRISE_TEXT", "TEXT");

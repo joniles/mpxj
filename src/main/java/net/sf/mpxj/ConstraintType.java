@@ -30,7 +30,7 @@ import net.sf.mpxj.common.NumberHelper;
  * This class is used to represent a constraint type. It provides a mapping
  * between the textual description of a constraint type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
- * programatically.
+ * programmatically.
  */
 public enum ConstraintType implements MpxjEnum
 {

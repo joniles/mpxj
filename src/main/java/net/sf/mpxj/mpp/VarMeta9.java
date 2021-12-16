@@ -41,7 +41,7 @@ final class VarMeta9 extends AbstractVarMeta
    /**
     * Constructor. Extracts that makes up this block from the input stream.
     *
-    * @param is Input stream from whic data is read
+    * @param is Input stream from which data is read
     * @throws IOException on file read error
     */
    VarMeta9(InputStream is)

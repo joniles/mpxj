@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class IntegerColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 40;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
@@ -56,9 +50,6 @@ class IntegerColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");

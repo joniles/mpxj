@@ -173,7 +173,7 @@ public class CustomerDataTest
          return;
       }
 
-      // Accessing the database directly from (new) Google drive is too slow.
+      // Accessing the database directly from (new) Google Drive is too slow.
       // Make a temporary local copy instead.
       File file = File.createTempFile("primavera", "db");
       file.deleteOnExit();
@@ -550,7 +550,7 @@ public class CustomerDataTest
     * @param name name of the project under test
     * @param project ProjectFile instance
     * @param baselineDir baseline directory location
-    * @param subDir sub directory name
+    * @param subDir subdirectory name
     * @param suffix file suffix
     * @param writerClass file writer class
     * @param config optional writer configuration

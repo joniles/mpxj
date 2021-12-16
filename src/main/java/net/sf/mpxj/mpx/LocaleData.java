@@ -42,9 +42,6 @@ import net.sf.mpxj.TimeUnit;
  */
 public final class LocaleData extends ListResourceBundle
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);

@@ -50,57 +50,36 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
       super(file);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getCalendarIDOffset()
    {
       return 0;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getBaseIDOffset()
    {
       return 4;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getResourceIDOffset()
    {
       return 8;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int getCalendarHoursOffset()
    {
       return 4;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getCalendarNameVarDataType()
    {
       return CALENDAR_NAME;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getCalendarDataVarDataType()
    {
       return CALENDAR_DATA;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
    {
       return new VarMeta9(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));

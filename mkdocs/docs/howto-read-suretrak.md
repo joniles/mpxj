@@ -12,7 +12,7 @@ The simplest way to read an STX file is to use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.stx");
@@ -32,7 +32,7 @@ can use the `UniversalProjectReader`:
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-suretrak-directory");
@@ -50,7 +50,7 @@ import java.util.List;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 
-...
+// ...
 
 // Find a list of the project names
 String directory = "my-suretrak-directory";

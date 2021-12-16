@@ -41,9 +41,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SDEFReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       Context context = new Context();
@@ -72,9 +69,6 @@ public final class SDEFReader extends AbstractProjectStreamReader
       return project;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Arrays.asList(read(inputStream));

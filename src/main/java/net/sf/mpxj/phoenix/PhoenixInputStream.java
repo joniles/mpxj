@@ -50,9 +50,6 @@ public class PhoenixInputStream extends InputStream
       //Files.copy(m_stream, new File("c:/temp/project1.ppx").toPath(), StandardCopyOption.REPLACE_EXISTING);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int read() throws IOException
    {
       return m_stream.read();

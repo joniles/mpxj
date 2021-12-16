@@ -60,9 +60,6 @@ public final class GenericCriteriaPrompt
       return m_prompt;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();

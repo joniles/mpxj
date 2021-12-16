@@ -33,9 +33,6 @@ import net.sf.mpxj.common.NumberHelper;
  */
 class WbsRowComparatorXER implements Comparator<Row>
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compare(Row o1, Row o2)
    {
       Integer parent1 = o1.getInteger("parent_wbs_id");

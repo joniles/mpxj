@@ -9,7 +9,7 @@ The simplest way to read a  CDPX, CPDZ or CPDTZ file is to use the
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
+// ...
 
 UniversalProjectReader reader = new UniversalProjectReader();
 ProjectFile project = reader.read("my-sample.cdpx");

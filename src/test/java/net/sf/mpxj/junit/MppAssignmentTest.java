@@ -50,8 +50,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CustomFields() throws Exception
    {
@@ -62,8 +60,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CustomFieldsFrom12() throws Exception
    {
@@ -74,8 +70,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12CustomFields() throws Exception
    {
@@ -84,7 +78,7 @@ public class MppAssignmentTest
       testCustomFields(mpp);
    }
 
-   /**
+   /*
     * Test assignment data read from an MPP12 file saved  by Project 2010.
     *
     * @throws Exception
@@ -100,8 +94,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14CustomFields() throws Exception
    {
@@ -112,8 +104,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiCustomFields() throws Exception
    {
@@ -124,8 +114,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment data read from an MPD file.
-    *
-    * @throws Exception
     */
    @Test public void testMpdCustomFields() throws Exception
    {
@@ -139,7 +127,6 @@ public class MppAssignmentTest
     * Validate custom field values.
     *
     * @param mpp project file
-    * @throws Exception
     */
    private void testCustomFields(ProjectFile mpp) throws Exception
    {
@@ -207,8 +194,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Fields() throws Exception
    {
@@ -219,8 +204,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPP9 file, saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FieldsFrom14() throws Exception
    {
@@ -231,8 +214,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Fields() throws Exception
    {
@@ -243,8 +224,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPP12 file, saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FieldsFrom14() throws Exception
    {
@@ -255,8 +234,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Fields() throws Exception
    {
@@ -267,8 +244,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiFields() throws Exception
    {
@@ -279,8 +254,6 @@ public class MppAssignmentTest
 
    /**
     * Test assignment fields read from an MPD file.
-    *
-    * @throws Exception
     */
    @Test public void testMpdFields() throws Exception
    {

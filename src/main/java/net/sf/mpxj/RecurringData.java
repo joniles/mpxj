@@ -732,9 +732,6 @@ public class RecurringData
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       DateFormatSymbols dfs = new DateFormatSymbols();
