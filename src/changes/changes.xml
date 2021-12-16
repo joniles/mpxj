@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.0.2">
+			<action dev="joniles" type="update">Improve identification of null tasks for certain MPP files.</action>
 		</release>
 		<release date="2021-12-10" version="10.0.1">
 			<action dev="joniles" type="update">Avoid false positives when detecting password protected MPP files.</action>
