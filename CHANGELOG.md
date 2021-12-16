@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.0.2 (unreleased)
+## 10.0.3 (unreleased)
+
+## 10.0.2 (2021-12-16)
 * Improve identification of null tasks for certain MPP files.
 
 ## 10.0.1 (2021-12-10)
