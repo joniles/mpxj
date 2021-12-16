@@ -950,7 +950,7 @@ read and write an XML-based data interchange format called MSPDI.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">);</span>
@@ -974,7 +974,8 @@ correctly formatted XSD durations for consumption by applications other than
 Project you can set this flag to <code>false</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
-<span class="p">...</span>
+
+<span class="c1">// ...</span>
 
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">setMicrosoftProjectCompatibleOutput</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
@@ -985,12 +986,12 @@ Project you can set this flag to <code>false</code>:</p>
 Microsoft Project used to save the file. The value of <code>SaveVersion</code> is defined
 by the <code>net.sf.mpxj.mspdi.SaveVersion</code> enum,  which provides the following
 values:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Project2002</span>
-<span class="n">Project2003</span>
-<span class="n">Project2007</span>
-<span class="n">Project2010</span>
-<span class="n">Project2013</span>
-<span class="n">Project2016</span>
+<div class="highlight"><pre><span></span><code>Project2002
+Project2003
+Project2007
+Project2010
+Project2013
+Project2016
 </code></pre></div>
 <p>By default <code>MSPDIWriter</code> sets the <code>SaveVersion</code> value to <code>Project2016</code>. The only
 functional difference this setting makes when writing MSPDI files is that the
@@ -1003,7 +1004,8 @@ the older style of calendar exceptions is written to the MSPDI file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.SaveVersion</span><span class="p">;</span>
-<span class="p">...</span>
+
+<span class="c1">// ...</span>
 
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">setSaveVersion</span><span class="p">(</span><span class="n">SaveVersion</span><span class="p">.</span><span class="na">Project2002</span><span class="p">);</span>
@@ -1030,7 +1032,7 @@ day-by-dat breakdown:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">setWriteTimephasedData</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
@@ -1041,7 +1043,7 @@ write an aggregated form of the timephased data: </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MSPDIWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">setWriteTimephasedData</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>

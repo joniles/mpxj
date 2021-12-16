@@ -851,7 +851,7 @@ file to determine the type of file written.</p>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.writer.ProjectWriter</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.writer.ProjectWriterUtility</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">projectFile</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
@@ -866,7 +866,8 @@ you can use the specific Reader and Writer classes, as shown below.</p>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.writer.ProjectWriter</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpx.MPXWriter</span><span class="p">;</span>
-<span class="p">...</span>
+
+<span class="c1">// ...</span>
 
 <span class="n">ProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">projectFile</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>

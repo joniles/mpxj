@@ -973,7 +973,7 @@ Microsoft Project which produce them:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpp&quot;</span><span class="p">);</span>
@@ -990,7 +990,7 @@ how you would supply the password:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPPReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setReadPassword</span><span class="p">(</span><span class="s">&quot;my secret password&quot;</span><span class="p">);</span>
@@ -1002,7 +1002,7 @@ the MPP9 password protection.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPPReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setRespectPasswordProtection</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
@@ -1017,7 +1017,7 @@ To do this you will use the <code>setReadPresentationData</code> method, as show
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPPReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setReadPresentationData</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
@@ -1030,7 +1030,7 @@ as shown below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPPReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setReadPropertiesOnly</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
@@ -1049,7 +1049,7 @@ work with the raw data directly from the MPP file, you can use the
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPPReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPPReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setUseRawTimephasedData</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>

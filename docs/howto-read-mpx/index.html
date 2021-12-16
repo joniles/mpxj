@@ -938,7 +938,7 @@ Other third party project planning applications continue to use MPX as a data in
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">UniversalProjectReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span> <span class="n">project</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.mpx&quot;</span><span class="p">);</span>
@@ -963,7 +963,7 @@ The sample below shows how this is done:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpx.MPXReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPXReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPXReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setLocale</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
@@ -984,7 +984,7 @@ The sample below shows how this is done:</p>
 <p>You can retrieve a list of supported locales programmatically using the code shown below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.mpx.MPXReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">Locale</span><span class="o">[]</span> <span class="n">locales</span> <span class="o">=</span> <span class="n">MPXReader</span><span class="p">.</span><span class="na">getSupportedLocales</span><span class="p">();</span>
 </code></pre></div>
@@ -1004,7 +1004,7 @@ shown in the example below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.mpx.MPXReader</span><span class="p">;</span>
 
-<span class="p">...</span>
+<span class="c1">// ...</span>
 
 <span class="n">MPXReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MPXReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreTextModels</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
