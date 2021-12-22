@@ -33,7 +33,6 @@
 
 package net.sf.mpxj.sdef;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
@@ -71,7 +70,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     * @param projectFile ProjectFile instance
     * @param out output stream
     */
-   @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
+   @Override public void write(ProjectFile projectFile, OutputStream out)
    {
       m_projectFile = projectFile;
       m_eventManager = projectFile.getEventManager();
@@ -101,7 +100,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    /**
     * Writes the contents of the project file as MPX records.
     */
-   private void write() throws IOException
+   private void write()
    {
       // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
       writeFileCreationRecord(); // VOLM
@@ -118,7 +117,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    /**
     * Write file creation record.
     */
-   private void writeFileCreationRecord() throws IOException
+   private void writeFileCreationRecord()
    {
       m_writer.println("VOLM  1"); // first line in file
    }
@@ -129,7 +128,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     * @param record project properties
     *
     */
-   private void writeProjectProperties(ProjectProperties record) throws IOException
+   private void writeProjectProperties(ProjectProperties record)
    {
       Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
       Date startDate = record.getStartDate();
@@ -179,7 +178,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param records list of ProjectCalendars
     */
-   private void writeExceptions(List<ProjectCalendar> records) throws IOException
+   private void writeExceptions(List<ProjectCalendar> records)
    {
       for (ProjectCalendar record : records)
       {
@@ -242,7 +241,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param record task instance
     */
-   private void writeTask(Task record) throws IOException
+   private void writeTask(Task record)
    {
       m_buffer.setLength(0);
       if (!record.getSummary())
@@ -328,7 +327,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param tasks list of Task instances
     */
-   private void writeTasks(List<Task> tasks) throws IOException
+   private void writeTasks(List<Task> tasks)
    {
       for (Task task : tasks)
       {

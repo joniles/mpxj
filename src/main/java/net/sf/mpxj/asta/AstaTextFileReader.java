@@ -25,7 +25,6 @@ package net.sf.mpxj.asta;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,11 +69,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
          // TODO: custom field support
 
          return project;
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
 
       finally
@@ -226,7 +220,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Select the project properties row from the database.
     */
-   private void processProjectProperties() throws SQLException
+   private void processProjectProperties()
    {
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (!rows.isEmpty())
@@ -238,7 +232,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Extract calendar data from the file.
     */
-   private void processCalendars() throws SQLException
+   private void processCalendars()
    {
       List<Row> rows = getTable("EXCEPTIONN");
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
@@ -272,7 +266,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Process resources.
     */
-   private void processResources() throws SQLException
+   private void processResources()
    {
       List<Row> permanentRows = getTable("PERMANENT_RESOURCE");
       List<Row> consumableRows = getTable("CONSUMABLE_RESOURCE");
@@ -286,7 +280,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Process tasks.
     */
-   private void processTasks() throws SQLException
+   private void processTasks()
    {
       List<Row> bars = getTable("BAR");
       List<Row> expandedTasks = getTable("EXPANDED_TASK");
@@ -299,7 +293,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Process predecessors.
     */
-   private void processPredecessors() throws SQLException
+   private void processPredecessors()
    {
       List<Row> rows = getTable("LINK");
       List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
@@ -310,7 +304,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    /**
     * Process resource assignments.
     */
-   private void processAssignments() throws SQLException
+   private void processAssignments()
    {
       List<Row> allocationRows = getTable("PERMANENT_SCHEDUL_ALLOCATION");
       List<Row> skillRows = getTable("PERM_RESOURCE_SKILL");
