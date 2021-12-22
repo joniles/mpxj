@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.0.3 (unreleased)
+## 10.0.4 (unreleased)
+
+## 10.0.3 (2021-12-22)
 * Fix issue with null tasks from certain MPP files introduced in 10.0.2.
 
 ## 10.0.2 (2021-12-16)
