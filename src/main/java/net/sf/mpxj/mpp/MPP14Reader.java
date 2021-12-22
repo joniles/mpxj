@@ -1057,10 +1057,10 @@ final class MPP14Reader implements MPPVariantReader
             if (!m_nullTaskOrder.containsKey(nullTaskID))
             {
                task = m_file.addTask();
+               task.setNull(true);
                task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
                task.setID(nullTaskID);
                m_nullTaskOrder.put(task.getID(), task.getUniqueID());
-               System.out.println(task);
             }
             continue;
          }
