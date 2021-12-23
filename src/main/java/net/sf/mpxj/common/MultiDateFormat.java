@@ -76,9 +76,9 @@ public class MultiDateFormat extends DateFormat
    protected Date parseNonNullDate(String str, ParsePosition pos)
    {
       Date result = null;
-      for (SimpleDateFormat m_format : m_formats)
+      for (SimpleDateFormat format : m_formats)
       {
-         result = m_format.parse(str, pos);
+         result = format.parse(str, pos);
          if (pos.getIndex() != 0)
          {
             break;

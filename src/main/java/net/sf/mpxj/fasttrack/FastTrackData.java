@@ -99,8 +99,8 @@ class FastTrackData
     */
    private void configureVersion()
    {
-      int m_version = FastTrackUtility.getInt(m_buffer, 4);
-      switch (m_version)
+      int version = FastTrackUtility.getInt(m_buffer, 4);
+      switch (version)
       {
          //         case 138:
          //         {

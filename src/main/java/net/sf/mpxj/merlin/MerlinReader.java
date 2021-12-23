@@ -567,13 +567,13 @@ public final class MerlinReader extends AbstractProjectFileReader
    {
       List<Row> result = new ArrayList<>();
 
-      PreparedStatement m_ps = m_connection.prepareStatement(sql);
+      PreparedStatement ps = m_connection.prepareStatement(sql);
       int bindIndex = 1;
       for (Integer value : values)
       {
-         m_ps.setInt(bindIndex++, NumberHelper.getInt(value));
+         ps.setInt(bindIndex++, NumberHelper.getInt(value));
       }
-      m_rs = m_ps.executeQuery();
+      m_rs = ps.executeQuery();
       populateMetaData();
       while (m_rs.next())
       {

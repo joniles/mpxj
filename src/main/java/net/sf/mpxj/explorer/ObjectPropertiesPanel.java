@@ -46,12 +46,12 @@ public class ObjectPropertiesPanel extends JPanel
    {
       setLayout(new GridLayout(0, 1, 0, 0));
 
-      ObjectPropertiesModel m_objectPropertiesModel = new ObjectPropertiesModel();
-      ObjectPropertiesController m_objectPropertiesController = new ObjectPropertiesController(m_objectPropertiesModel);
-      ObjectPropertiesView m_objectPropertiesView = new ObjectPropertiesView(m_objectPropertiesModel);
+      ObjectPropertiesModel objectPropertiesModel = new ObjectPropertiesModel();
+      ObjectPropertiesController objectPropertiesController = new ObjectPropertiesController(objectPropertiesModel);
+      ObjectPropertiesView objectPropertiesView = new ObjectPropertiesView(objectPropertiesModel);
 
-      add(m_objectPropertiesView);
+      add(objectPropertiesView);
 
-      m_objectPropertiesController.loadObject(object, excludedMethods);
+      objectPropertiesController.loadObject(object, excludedMethods);
    }
 }

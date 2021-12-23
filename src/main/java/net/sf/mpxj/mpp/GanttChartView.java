@@ -1328,25 +1328,25 @@ public abstract class GanttChartView extends GenericView
 
       if (m_tableFontStyles != null)
       {
-         for (TableFontStyle m_tableFontStyle : m_tableFontStyles)
+         for (TableFontStyle tableFontStyle : m_tableFontStyles)
          {
-            pw.println("   ColumnFontStyle=" + m_tableFontStyle);
+            pw.println("   ColumnFontStyle=" + tableFontStyle);
          }
       }
 
       if (m_barStyles != null)
       {
-         for (GanttBarStyle m_barStyle : m_barStyles)
+         for (GanttBarStyle barStyle : m_barStyles)
          {
-            pw.println("   BarStyle=" + m_barStyle);
+            pw.println("   BarStyle=" + barStyle);
          }
       }
 
       if (m_barStyleExceptions != null)
       {
-         for (GanttBarStyleException m_barStyleException : m_barStyleExceptions)
+         for (GanttBarStyleException barStyleException : m_barStyleExceptions)
          {
-            pw.println("   BarStyleException=" + m_barStyleException);
+            pw.println("   BarStyleException=" + barStyleException);
          }
       }
 

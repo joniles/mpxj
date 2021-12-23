@@ -109,10 +109,8 @@ public final class Pair<L, R>
       {
          return other.m_second == null;
       }
-      else
-      {
-         return m_second.equals(other.m_second);
-      }
+      
+      return m_second.equals(other.m_second);
    }
 
    private final L m_first;

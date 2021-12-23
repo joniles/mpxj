@@ -97,9 +97,9 @@ public final class MPXJNumberFormat extends DecimalFormat
 
                if (m_alternativeFormats != null)
                {
-                  for (DecimalFormat m_alternativeFormat : m_alternativeFormats)
+                  for (DecimalFormat alternativeFormat : m_alternativeFormats)
                   {
-                     result = m_alternativeFormat.parse(str, parsePosition);
+                     result = alternativeFormat.parse(str, parsePosition);
                      if (parsePosition.getIndex() != 0)
                      {
                         break;
@@ -154,10 +154,8 @@ public final class MPXJNumberFormat extends DecimalFormat
       {
          return other.m_symbols == null;
       }
-      else
-      {
-         return m_symbols.equals(other.m_symbols);
-      }
+      
+      return m_symbols.equals(other.m_symbols);
    }
 
    /**

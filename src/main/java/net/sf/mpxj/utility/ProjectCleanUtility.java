@@ -204,24 +204,24 @@ public class ProjectCleanUtility
       // Locate the root of the project file system
       //
       DirectoryEntry root = fs.getRoot();
-      DirectoryEntry m_projectDir = (DirectoryEntry) root.getEntry(projectDirName);
+      DirectoryEntry projectDir = (DirectoryEntry) root.getEntry(projectDirName);
 
       //
       // Process Tasks
       //
-      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
+      processFile((DirectoryEntry) projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
 
       //
       // Process Resources
       //
-      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
+      processFile((DirectoryEntry) projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
 
       //
       // Process project properties
       //
       List<ProjectProperties> projectProperties = Collections.singletonList(m_project.getProjectProperties());
 
-      processFile(m_projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
+      processFile(projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
       processFile(root, "\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
       processFile(root, "\005DocumentSummaryInformation", projectProperties, false, PROJECT_FIELDS);
 

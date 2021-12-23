@@ -52,28 +52,28 @@ public class MppFilePanel extends JPanel
     */
    public MppFilePanel(File file)
    {
-      PoiTreeModel m_treeModel = new PoiTreeModel();
-      PoiTreeController m_treeController = new PoiTreeController(m_treeModel);
-      PoiTreeView m_treeView = new PoiTreeView(m_treeModel);
-      m_treeView.setShowsRootHandles(true);
+      PoiTreeModel treeModel = new PoiTreeModel();
+      PoiTreeController treeController = new PoiTreeController(treeModel);
+      PoiTreeView treeView = new PoiTreeView(treeModel);
+      treeView.setShowsRootHandles(true);
 
-      HexDumpModel m_hexDumpModel = new HexDumpModel();
-      m_hexDumpController = new HexDumpController(m_hexDumpModel);
+      HexDumpModel hexDumpModel = new HexDumpModel();
+      m_hexDumpController = new HexDumpController(hexDumpModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      HexDumpView m_hexDumpView = new HexDumpView(m_hexDumpModel);
+      HexDumpView hexDumpView = new HexDumpView(hexDumpModel);
 
       JSplitPane splitPane = new JSplitPane();
       splitPane.setDividerLocation(0.3);
       add(splitPane);
 
-      JScrollPane scrollPane = new JScrollPane(m_treeView);
+      JScrollPane scrollPane = new JScrollPane(treeView);
       splitPane.setLeftComponent(scrollPane);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       splitPane.setRightComponent(tabbedPane);
-      tabbedPane.add("Hex Dump", m_hexDumpView);
+      tabbedPane.add("Hex Dump", hexDumpView);
 
-      m_treeView.addTreeSelectionListener(new TreeSelectionListener()
+      treeView.addTreeSelectionListener(new TreeSelectionListener()
       {
          @Override public void valueChanged(TreeSelectionEvent e)
          {
@@ -86,7 +86,7 @@ public class MppFilePanel extends JPanel
          }
       });
 
-      m_treeController.loadFile(file);
+      treeController.loadFile(file);
    }
 
 }

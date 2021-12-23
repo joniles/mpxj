@@ -113,8 +113,8 @@ public abstract class Tokenizer
 
             default:
             {
-               char m_quote = '"';
-               if (c == m_quote)
+               char quote = '"';
+               if (c == quote)
                {
                   if (!quoted && startQuotedIsValid(m_buffer))
                   {
@@ -129,7 +129,7 @@ public abstract class Tokenizer
                      else
                      {
                         nextc = read();
-                        if (nextc == m_quote)
+                        if (nextc == quote)
                         {
                            m_buffer.append((char) c);
                            nextc = -1;
