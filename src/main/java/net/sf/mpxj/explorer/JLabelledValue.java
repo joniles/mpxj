@@ -35,7 +35,7 @@ import javax.swing.JPanel;
  */
 public class JLabelledValue extends JPanel
 {
-   private JLabel m_valueLabel;
+   private final JLabel m_valueLabel;
 
    /**
     * Constructor.

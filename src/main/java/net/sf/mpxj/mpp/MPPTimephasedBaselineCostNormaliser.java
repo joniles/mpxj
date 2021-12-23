@@ -144,14 +144,13 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
          double splitCost;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitStart = assignmentStart;
-            Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
-            Duration calendarSplitWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES);
+            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
+            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
             splitCost = (assignment.getTotalAmount().doubleValue() * calendarSplitWork.getDuration()) / calendarWork.getDuration();
 
             TimephasedCost split = new TimephasedCost();
-            split.setStart(splitStart);
+            split.setStart(assignmentStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(Double.valueOf(splitCost));
 

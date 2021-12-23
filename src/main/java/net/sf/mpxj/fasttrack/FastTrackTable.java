@@ -108,7 +108,7 @@ class FastTrackTable implements Iterable<MapRow>
 
       if (index == m_rows.size())
       {
-         result = new MapRow(this, new HashMap<FastTrackField, Object>());
+         result = new MapRow(this, new HashMap<>());
          m_rows.add(result);
       }
       else

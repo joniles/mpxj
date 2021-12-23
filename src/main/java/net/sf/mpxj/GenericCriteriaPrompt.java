@@ -69,6 +69,6 @@ public final class GenericCriteriaPrompt
       return sb.toString();
    }
 
-   private DataType m_type;
-   private String m_prompt;
+   private final DataType m_type;
+   private final String m_prompt;
 }

@@ -107,22 +107,14 @@ public final class Pair<L, R>
 
       if (m_second == null)
       {
-         if (other.m_second != null)
-         {
-            return false;
-         }
+         return other.m_second == null;
       }
       else
       {
-         if (!m_second.equals(other.m_second))
-         {
-            return false;
-         }
+         return m_second.equals(other.m_second);
       }
-
-      return true;
    }
 
-   private L m_first;
-   private R m_second;
+   private final L m_first;
+   private final R m_second;
 }

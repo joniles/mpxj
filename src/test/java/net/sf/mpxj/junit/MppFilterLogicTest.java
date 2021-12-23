@@ -51,7 +51,7 @@ public class MppFilterLogicTest
    /**
     * Exercise an MPP9 file saved by Project 2007.
     */
-   @Test public void testMpp9FilterLogicFrom12() throws Exception
+   @Test public void testMpp9FilterLogicFrom12()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filterlogic-from12.mpp"));
       //testFilterLogic(mpp);
@@ -60,7 +60,7 @@ public class MppFilterLogicTest
    /**
     * Exercise an MPP9 file saved by Project 2010.
     */
-   @Test public void testMpp9FilterLogicFrom14() throws Exception
+   @Test public void testMpp9FilterLogicFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filterlogic-from14.mpp"));
       //testFilterLogic(mpp);

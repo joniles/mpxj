@@ -137,7 +137,7 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   private final Object getObject(String name)
+   private Object getObject(String name)
    {
       if (!m_map.containsKey(name))
       {
@@ -147,5 +147,5 @@ class MapRow implements Row
       return m_map.get(name);
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

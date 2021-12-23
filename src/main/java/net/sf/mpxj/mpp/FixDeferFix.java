@@ -263,5 +263,5 @@ final class FixDeferFix extends MPPComponent
       return (sw.toString());
    }
 
-   private byte[] m_data;
+   private final byte[] m_data;
 }

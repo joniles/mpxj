@@ -1060,9 +1060,9 @@ final class MPP9Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Object o : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
+         Integer uniqueID = (Integer) o;
 
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
@@ -1124,9 +1124,8 @@ final class MPP9Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
-         {
-            data
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
+                  data
          }, taskVarData);
          task.enableEvents();
 
@@ -1750,9 +1749,9 @@ final class MPP9Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer integer : uniqueid)
       {
-         id = uniqueid[loop];
+         id = integer;
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1766,9 +1765,8 @@ final class MPP9Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
-         {
-            data
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
+                  data
          }, rscVarData);
          resource.enableEvents();
 

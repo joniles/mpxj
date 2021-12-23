@@ -783,7 +783,7 @@ final class Record
    /**
     * Target locale.
     */
-   private Locale m_locale;
+   private final Locale m_locale;
 
    /**
     * Current record number.
@@ -795,5 +795,5 @@ final class Record
     */
    private String[] m_fields;
 
-   private MPXJFormats m_formats;
+   private final MPXJFormats m_formats;
 }

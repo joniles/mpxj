@@ -3,7 +3,6 @@ package net.sf.mpxj.primavera;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
@@ -340,12 +339,12 @@ final class PrimaveraPMProjectWriter
 
    private void writeResourceCurves()
    {
-      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(r -> r.getWorkContour()).filter(w -> w != null && !w.isContourManual() && !w.isContourFlat()).collect(Collectors.toSet());
+      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(ResourceAssignment::getWorkContour).filter(w -> w != null && !w.isContourManual() && !w.isContourFlat()).collect(Collectors.toSet());
       if (!workContours.isEmpty())
       {
          ObjectSequence id = new ObjectSequence(1);
          List<WorkContour> sortedWorkContours = new ArrayList<>(workContours);
-         Collections.sort(sortedWorkContours, (c1, c2) -> c1.getName().compareTo(c2.getName()));
+         sortedWorkContours.sort(Comparator.comparing(WorkContour::getName));
 
          List<ResourceCurveType> curves = m_apibo.getResourceCurve();
          for (WorkContour contour : sortedWorkContours)
@@ -598,7 +597,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResources()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(r -> writeResource(r));
+      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
    }
 
    /**
@@ -635,7 +634,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoles()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(r -> writeRole(r));
+      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
    }
 
    /**
@@ -695,7 +694,7 @@ final class PrimaveraPMProjectWriter
 
       // Sort the tasks into unique ID order
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
-      Collections.sort(tasks, (t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
+      tasks.sort((t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
 
       // Write the tasks
       tasks.forEach(t -> writeTask(t, wbsSequence.get(t)));
@@ -987,9 +986,9 @@ final class PrimaveraPMProjectWriter
    private void writeExpenseItems()
    {
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
-      Collections.sort(tasks, (t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
+      tasks.sort((t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
 
-      tasks.forEach(t -> writeExpenseItems(t));
+      tasks.forEach(this::writeExpenseItems);
    }
 
    /**
@@ -1066,7 +1065,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceRates()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole())).forEach(r -> writeResourceRates(r));
+      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole())).forEach(this::writeResourceRates);
    }
 
    /**
@@ -1117,7 +1116,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleRates()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole())).forEach(r -> writeRoleRates(r));
+      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole())).forEach(this::writeRoleRates);
    }
 
    /**
@@ -1687,7 +1686,7 @@ final class PrimaveraPMProjectWriter
       }
 
       // Sort to ensure consistent order in file
-      Collections.sort(m_sortedCustomFieldsList, new Comparator<CustomField>()
+      m_sortedCustomFieldsList.sort(new Comparator<CustomField>()
       {
          @Override public int compare(CustomField customField1, CustomField customField2)
          {

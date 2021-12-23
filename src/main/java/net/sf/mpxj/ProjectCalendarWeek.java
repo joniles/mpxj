@@ -375,7 +375,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    {
       long fromTime1 = m_dateRange.getStart().getTime();
       long fromTime2 = o.m_dateRange.getStart().getTime();
-      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+      return (Long.compare(fromTime1, fromTime2));
    }
 
    @Override public String toString()
@@ -417,12 +417,12 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    /**
     * Working hours for each day.
     */
-   private ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
+   private final ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
 
    /**
     * Working/non-working/default flag for each day.
     */
-   private DayType[] m_days = new DayType[7];
+   private final DayType[] m_days = new DayType[7];
 
    /**
     * Constants representing the default working morning and afternoon hours.

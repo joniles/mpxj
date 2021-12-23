@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import net.sf.mpxj.AssignmentField;
@@ -84,7 +85,7 @@ public class MethodGenerator
    private void writeAttributeMethods(File directory, String name, FieldType[] types) throws IOException
    {
       List<FieldType> list = Arrays.asList(types);
-      list.sort((t1, t2) -> t1.name().compareTo(t2.name()));
+      list.sort(Comparator.comparing(FieldType::name));
 
       String filename = name.toLowerCase() + "_methods.rb";
 

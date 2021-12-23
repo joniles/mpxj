@@ -154,7 +154,7 @@ public class BasicTest
    /**
     * This test exercises the automatic generation of WBS and outline levels.
     */
-   @Test public void testAutomaticGeneration() throws Exception
+   @Test public void testAutomaticGeneration()
    {
       ProjectFile file = new ProjectFile();
 
@@ -242,7 +242,7 @@ public class BasicTest
     * Test to ensure that the basic task hierarchy is
     * represented correctly.
     */
-   @Test public void testStructure() throws Exception
+   @Test public void testStructure()
    {
       ProjectFile file = new ProjectFile();
 
@@ -336,7 +336,7 @@ public class BasicTest
 
             default:
             {
-               assertTrue("Unexpected resource", false);
+               fail("Unexpected resource");
                break;
             }
          }
@@ -1285,7 +1285,7 @@ public class BasicTest
       {
          in = new File(MpxjTestData.filePath("legacy/readpassword9.mpp"));
          new MPPReader().read(in);
-         assertTrue(false);
+         fail();
       }
 
       catch (MPXJException ex)
@@ -1312,7 +1312,7 @@ public class BasicTest
       {
          in = new File(MpxjTestData.filePath("legacy/bothpassword9.mpp"));
          new MPPReader().read(in);
-         assertTrue(false);
+         fail();
       }
 
       catch (MPXJException ex)

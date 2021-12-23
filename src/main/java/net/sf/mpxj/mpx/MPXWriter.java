@@ -352,11 +352,11 @@ public final class MPXWriter extends AbstractProjectWriter
          m_writer.write(m_buffer.toString());
 
          ProjectCalendarHours[] hours = record.getHours();
-         for (int loop = 0; loop < hours.length; loop++)
+         for (ProjectCalendarHours hour : hours)
          {
-            if (hours[loop] != null)
+            if (hour != null)
             {
-               writeCalendarHours(record, hours[loop]);
+               writeCalendarHours(record, hour);
             }
          }
 
@@ -495,9 +495,8 @@ public final class MPXWriter extends AbstractProjectWriter
       int[] fields = m_resourceModel.getModel();
 
       m_buffer.append(MPXConstants.RESOURCE_RECORD_NUMBER);
-      for (int loop = 0; loop < fields.length; loop++)
+      for (int mpxFieldType : fields)
       {
-         int mpxFieldType = fields[loop];
          if (mpxFieldType == -1)
          {
             break;
@@ -607,9 +606,9 @@ public final class MPXWriter extends AbstractProjectWriter
       int field;
 
       m_buffer.append(MPXConstants.TASK_RECORD_NUMBER);
-      for (int loop = 0; loop < fields.length; loop++)
+      for (int i : fields)
       {
-         field = fields[loop];
+         field = i;
          if (field == -1)
          {
             break;

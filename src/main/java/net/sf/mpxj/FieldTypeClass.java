@@ -33,5 +33,5 @@ public enum FieldTypeClass
    ASSIGNMENT,
    CONSTRAINT,
    PROJECT,
-   UNKNOWN;
+   UNKNOWN
 }

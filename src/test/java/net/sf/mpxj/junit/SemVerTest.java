@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -37,10 +38,10 @@ public class SemVerTest
    /**
     * Ensure that versions constructed from integers behave as expected.
     */
-   @Test public void testIntegerSemVer() throws Exception
+   @Test public void testIntegerSemVer()
    {
-      assertTrue(new SemVer(1, 0, 0).compareTo(new SemVer(1, 0, 0)) == 0);
-      assertTrue(new SemVer(1, 0, 0).compareTo(new SemVer(1, 0)) == 0);
+      assertEquals(0, new SemVer(1, 0, 0).compareTo(new SemVer(1, 0, 0)));
+      assertEquals(0, new SemVer(1, 0, 0).compareTo(new SemVer(1, 0)));
       assertTrue(new SemVer(1, 1, 0).compareTo(new SemVer(1, 0, 0)) > 0);
       assertTrue(new SemVer(1, 0, 0).compareTo(new SemVer(1, 1, 0)) < 0);
    }
@@ -48,10 +49,10 @@ public class SemVerTest
    /**
     * Ensure that versions constructed from strings behave as expected.
     */
-   @Test public void testStringSemVer() throws Exception
+   @Test public void testStringSemVer()
    {
-      assertTrue(new SemVer("1.0.0").compareTo(new SemVer("1.0.0")) == 0);
-      assertTrue(new SemVer("1.0.0").compareTo(new SemVer("1.0")) == 0);
+      assertEquals(0, new SemVer("1.0.0").compareTo(new SemVer("1.0.0")));
+      assertEquals(0, new SemVer("1.0.0").compareTo(new SemVer("1.0")));
       assertTrue(new SemVer("1.1.0").compareTo(new SemVer("1.0.0")) > 0);
       assertTrue(new SemVer("1.0.0").compareTo(new SemVer("1.1.0")) < 0);
    }

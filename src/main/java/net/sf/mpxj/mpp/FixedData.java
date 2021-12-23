@@ -144,14 +144,7 @@ final class FixedData extends MPPComponent
             }
             else
             {
-               if (maxExpectedSize < available)
-               {
-                  itemSize = maxExpectedSize;
-               }
-               else
-               {
-                  itemSize = available;
-               }
+               itemSize = Math.min(maxExpectedSize, available);
             }
          }
 
@@ -383,11 +376,11 @@ final class FixedData extends MPPComponent
    /**
     * An array containing all of the items of data held in this block.
     */
-   private Object[] m_array;
+   private final Object[] m_array;
 
    /**
     * Array containing offset values for each item in the array.
     */
-   private int[] m_offset;
+   private final int[] m_offset;
 
 }

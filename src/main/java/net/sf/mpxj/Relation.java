@@ -126,12 +126,12 @@ public final class Relation
    /**
     * Parent task file.
     */
-   private Task m_sourceTask;
+   private final Task m_sourceTask;
 
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Task m_targetTask;
+   private final Task m_targetTask;
 
    /**
     * Type of relationship.

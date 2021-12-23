@@ -239,12 +239,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       for (MapRow row : m_tables.get("TTL"))
       {
          Integer id = row.getInteger("DEFINITION_ID");
-         List<MapRow> list = m_definitions.get(id);
-         if (list == null)
-         {
-            list = new ArrayList<>();
-            m_definitions.put(id, list);
-         }
+         List<MapRow> list = m_definitions.computeIfAbsent(id, k -> new ArrayList<>());
          list.add(row);
       }
 
@@ -505,7 +500,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             }
 
             final AlphanumComparator comparator = new AlphanumComparator();
-            Collections.sort(items, new Comparator<MapRow>()
+            items.sort(new Comparator<MapRow>()
             {
                @Override public int compare(MapRow o1, MapRow o2)
                {
@@ -549,7 +544,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          items.add(row);
       }
       final AlphanumComparator comparator = new AlphanumComparator();
-      Collections.sort(items, new Comparator<MapRow>()
+      items.sort(new Comparator<MapRow>()
       {
          @Override public int compare(MapRow o1, MapRow o2)
          {

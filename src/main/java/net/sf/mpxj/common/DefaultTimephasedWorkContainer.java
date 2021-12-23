@@ -100,8 +100,8 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       return new DefaultTimephasedWorkContainer(this, perDayFactor, totalFactor);
    }
 
-   private List<TimephasedWork> m_data;
+   private final List<TimephasedWork> m_data;
    private boolean m_raw;
-   private TimephasedWorkNormaliser m_normaliser;
-   private ProjectCalendar m_calendar;
+   private final TimephasedWorkNormaliser m_normaliser;
+   private final ProjectCalendar m_calendar;
 }

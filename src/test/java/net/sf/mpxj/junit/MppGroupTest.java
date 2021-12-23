@@ -59,7 +59,7 @@ public class MppGroupTest
    /**
     * Test group data read from an MPP9 file saved by Project 2007.
     */
-   @Test public void testMpp9GroupsFrom12() throws Exception
+   @Test public void testMpp9GroupsFrom12()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9group-from12.mpp"));
       //testGroups(mpp);
@@ -68,7 +68,7 @@ public class MppGroupTest
    /**
     * Test group data read from an MPP9 file saved by Project 2010.
     */
-   @Test public void testMpp9GroupsFrom14() throws Exception
+   @Test public void testMpp9GroupsFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9group-from14.mpp"));
       //testGroups(mpp);
@@ -86,7 +86,7 @@ public class MppGroupTest
    /**
     * Test group data read from an MPP12 file saved by Project 2010.
     */
-   @Test public void testMpp12GroupsFrom14() throws Exception
+   @Test public void testMpp12GroupsFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12group-from14.mpp"));
       //testGroups(mpp);

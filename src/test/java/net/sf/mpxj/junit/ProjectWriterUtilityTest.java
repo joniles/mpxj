@@ -50,7 +50,7 @@ public class ProjectWriterUtilityTest
       try
       {
          writer = ProjectWriterUtility.getProjectWriter("filename.xxx");
-         assertTrue("Failed to throw exception", false);
+         fail("Failed to throw exception");
       }
 
       catch (Exception ex)
@@ -61,7 +61,7 @@ public class ProjectWriterUtilityTest
       try
       {
          writer = ProjectWriterUtility.getProjectWriter("filename");
-         assertTrue("Failed to throw exception", false);
+         fail("Failed to throw exception");
       }
 
       catch (Exception ex)

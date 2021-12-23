@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -712,7 +713,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
 
       //takes care of the situation where there is no timephased overtime work
-      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? java.util.Collections.<TimephasedWork> emptyList().iterator() : overtimeWorkList.iterator();
+      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? Collections.emptyIterator() : overtimeWorkList.iterator();
 
       for (TimephasedWork standardWork : standardWorkList)
       {
@@ -2963,7 +2964,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[AssignmentField.MAX_VALUE];
+   private final Object[] m_array = new Object[AssignmentField.MAX_VALUE];
 
    private boolean m_eventsEnabled = true;
 
@@ -2977,8 +2978,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
    private List<FieldListener> m_listeners;
-   private TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
-   private TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
+   private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
+   private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    /**
     * Reference to the parent task of this assignment.

@@ -44,9 +44,7 @@ import net.sf.mpxj.ProjectFile;
  */
 public class ProjectFilePanel extends JPanel
 {
-   private final ProjectTreeModel m_treeModel;
    private final ProjectTreeController m_treeController;
-   private final ProjectTreeView m_treeView;
    final Map<MpxjTreeNode, ObjectPropertiesPanel> m_openTabs;
 
    /**
@@ -57,10 +55,10 @@ public class ProjectFilePanel extends JPanel
     */
    public ProjectFilePanel(File file, ProjectFile projectFile)
    {
-      m_treeModel = new ProjectTreeModel();
+      ProjectTreeModel m_treeModel = new ProjectTreeModel();
       m_treeController = new ProjectTreeController(m_treeModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      m_treeView = new ProjectTreeView(m_treeModel);
+      ProjectTreeView m_treeView = new ProjectTreeView(m_treeModel);
       m_treeView.setShowsRootHandles(true);
 
       JSplitPane splitPane = new JSplitPane();

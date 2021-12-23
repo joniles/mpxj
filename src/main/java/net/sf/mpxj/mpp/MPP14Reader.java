@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -122,7 +121,7 @@ final class MPP14Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws FileNotFoundException, IOException, MPXJException
+   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws IOException, MPXJException
    {
       m_reader = reader;
       m_file = file;
@@ -169,9 +168,9 @@ final class MPP14Reader implements MPPVariantReader
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
       m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+      FixedMeta m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+      FixedMeta m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
       m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props14(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
@@ -1037,9 +1036,9 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_TASK_META_DATA2_BIT_FLAGS;
       }
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Object o : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
+         Integer uniqueID = (Integer) o;
 
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
@@ -1111,10 +1110,8 @@ final class MPP14Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
-         {
-            data,
-            data2
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
+                  data, data2
          }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
@@ -1667,9 +1664,9 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS;
       }
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer integer : uniqueid)
       {
-         id = uniqueid[loop];
+         id = integer;
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1688,10 +1685,8 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.disableEvents();
 
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
-         {
-            data,
-            data2
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
+                  data, data2
          }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
@@ -2090,9 +2085,7 @@ final class MPP14Reader implements MPPVariantReader
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
    private FixedData m_outlineCodeFixedData;
-   private FixedMeta m_outlineCodeFixedMeta;
    private FixedData m_outlineCodeFixedData2;
-   private FixedMeta m_outlineCodeFixedMeta2;
    private Props m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;

@@ -29,7 +29,6 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -240,7 +239,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -1087,7 +1086,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          DateHelper.pushCalendar(cal);
-         tables.forEach(t -> Collections.sort(t));
+         tables.forEach(Collections::sort);
       }
    }
 

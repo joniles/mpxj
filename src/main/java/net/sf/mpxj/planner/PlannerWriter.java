@@ -154,9 +154,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * This method writes calendar data to a Planner file.
     *
-    * @throws JAXBException on xml creation errors
     */
-   private void writeCalendars() throws JAXBException
+   private void writeCalendars()
    {
       //
       // Create the new Planner calendar list
@@ -215,9 +214,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     *
     * @param mpxjCalendar MPXJ calendar instance
     * @param plannerCalendar Planner calendar instance
-    * @throws JAXBException on xml creation errors
     */
-   private void writeCalendar(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws JAXBException
+   private void writeCalendar(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       //
       // Populate basic details
@@ -421,9 +419,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * This method writes task data to a Planner file.
     *
-    * @throws JAXBException on xml creation errors
     */
-   private void writeTasks() throws JAXBException
+   private void writeTasks()
    {
       Tasks tasks = m_factory.createTasks();
       m_plannerProject.setTasks(tasks);
@@ -440,7 +437,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param mpxjTask MPXJ Task instance
     * @param taskList list of child tasks for current parent
     */
-   private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList) throws JAXBException
+   private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList)
    {
       net.sf.mpxj.planner.schema.Task plannerTask = m_factory.createTask();
       taskList.add(plannerTask);
@@ -939,10 +936,10 @@ public final class PlannerWriter extends AbstractProjectWriter
    private ObjectFactory m_factory;
    private Project m_plannerProject;
 
-   private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
+   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
 
-   private static Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
+   private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {
       RELATIONSHIP_TYPES.put(RelationType.FINISH_FINISH, "FF");

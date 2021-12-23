@@ -127,7 +127,7 @@ class BlockHeader
 
    }
 
-   private byte[] m_header = new byte[8];
+   private final byte[] m_header = new byte[8];
    private byte[] m_skip;
    private int m_offset;
    private String m_name;

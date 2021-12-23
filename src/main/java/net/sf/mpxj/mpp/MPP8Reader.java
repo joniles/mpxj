@@ -1269,14 +1269,7 @@ final class MPP8Reader implements MPPVariantReader
 
          if (loop == 0)
          {
-            if (MPPUtility.getShort(data, index) == 0)
-            {
-               table.setResourceFlag(true);
-            }
-            else
-            {
-               table.setResourceFlag(false);
-            }
+            table.setResourceFlag(MPPUtility.getShort(data, index) == 0);
          }
 
          if (!table.getResourceFlag())

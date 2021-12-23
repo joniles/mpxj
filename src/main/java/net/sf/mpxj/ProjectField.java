@@ -380,7 +380,7 @@ public enum ProjectField implements FieldType
     * @param dataType field data type
     * @param unitsType field units type
     */
-   private ProjectField(DataType dataType, FieldType unitsType)
+   ProjectField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -391,7 +391,7 @@ public enum ProjectField implements FieldType
     *
     * @param dataType field data type
     */
-   private ProjectField(DataType dataType)
+   ProjectField(DataType dataType)
    {
       this(dataType, null);
    }
@@ -476,6 +476,6 @@ public enum ProjectField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

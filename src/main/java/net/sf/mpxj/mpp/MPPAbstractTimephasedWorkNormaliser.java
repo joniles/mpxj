@@ -169,12 +169,11 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          double splitMinutes;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitStart = assignmentStart;
-            Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
+            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
+            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
 
-            Duration calendarSplitWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES);
-            Duration calendarWorkPerDay = calendar.getWork(splitStart, TimeUnit.MINUTES);
+            Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
+            Duration calendarWorkPerDay = calendar.getWork(assignmentStart, TimeUnit.MINUTES);
             Duration assignmentWorkPerDay = assignment.getAmountPerDay();
             Duration splitWork;
 
@@ -204,7 +203,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             }
 
             TimephasedWork split = new TimephasedWork();
-            split.setStart(splitStart);
+            split.setStart(assignmentStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(splitWork);
 
@@ -260,13 +259,11 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
    {
-      Date assignmentStart = assignment.getStart();
 
-      Date splitStart = assignmentStart;
-      Date splitFinishTime = calendar.getFinishTime(splitStart);
-      Date splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
+      Date splitFinishTime = calendar.getFinishTime(assignment.getStart());
+      Date splitFinish = DateHelper.setTime(assignment.getStart(), splitFinishTime);
 
-      Duration calendarSplitWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES);
+      Duration calendarSplitWork = calendar.getWork(assignment.getStart(), splitFinish, TimeUnit.MINUTES);
       Duration assignmentWorkPerDay = assignment.getAmountPerDay();
       Duration splitWork;
 

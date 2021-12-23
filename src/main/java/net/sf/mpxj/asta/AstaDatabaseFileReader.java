@@ -31,7 +31,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +72,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
@@ -462,7 +462,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
+   private final Map<String, Integer> m_meta = new HashMap<>();
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(0);
 }

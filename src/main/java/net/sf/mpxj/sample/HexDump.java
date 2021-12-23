@@ -60,7 +60,7 @@ public class HexDump
 
       catch (Exception ex)
       {
-         System.out.println("Caught " + ex.toString());
+         System.out.println("Caught " + ex);
       }
    }
 

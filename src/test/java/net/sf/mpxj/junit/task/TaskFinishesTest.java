@@ -103,8 +103,8 @@ public class TaskFinishesTest
       }
    }
 
-   private DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
    private static final String[] DATES = new String[]
    {

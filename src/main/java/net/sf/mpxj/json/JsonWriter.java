@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -184,7 +183,7 @@ public final class JsonWriter extends AbstractProjectWriter
       List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).collect(Collectors.toList());
 
       // Sort to ensure consistent order in file
-      Collections.sort(sortedCustomFieldsList, (f1, f2) -> {
+      sortedCustomFieldsList.sort((f1, f2) -> {
          FieldType o1 = f1.getFieldType();
          FieldType o2 = f2.getFieldType();
          String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();

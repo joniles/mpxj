@@ -4,7 +4,6 @@ package net.sf.mpxj.explorer;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -66,21 +65,9 @@ public class JTablePanel extends JPanel
       m_leftTable.setSelectionModel(m_rightTable.getSelectionModel());
       m_leftTable.setColumnModel(m_rightTable.getColumnModel());
 
-      m_leftTable.addPropertyChangeListener("selectedCell", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            firePropertyChange(evt);
-         }
-      });
+      m_leftTable.addPropertyChangeListener("selectedCell", this::firePropertyChange);
 
-      m_rightTable.addPropertyChangeListener("selectedCell", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            firePropertyChange(evt);
-         }
-      });
+      m_rightTable.addPropertyChangeListener("selectedCell", this::firePropertyChange);
    }
 
    /**

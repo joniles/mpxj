@@ -226,5 +226,5 @@ public class RecurringDataTest
       data.setFinishDate(null);
    }
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
 }

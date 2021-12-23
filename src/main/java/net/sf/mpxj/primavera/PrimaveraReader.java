@@ -28,7 +28,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -298,12 +297,7 @@ final class PrimaveraReader
       {
          Integer typeID = row.getInteger("udf_type_id");
          String tableName = tableNameMap.get(typeID);
-         Map<Integer, List<Row>> tableData = m_udfValues.get(tableName);
-         if (tableData == null)
-         {
-            tableData = new HashMap<>();
-            m_udfValues.put(tableName, tableData);
-         }
+         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
 
          Integer id = row.getInteger("fk_id");
          List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
@@ -746,7 +740,7 @@ final class PrimaveraReader
    public void processResourceRates(List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      Collections.sort(rows, new Comparator<Row>()
+      rows.sort(new Comparator<Row>()
       {
          @Override public int compare(Row r1, Row r2)
          {
@@ -825,7 +819,7 @@ final class PrimaveraReader
    public void processRoleRates(List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      Collections.sort(rows, new Comparator<Row>()
+      rows.sort(new Comparator<Row>()
       {
          @Override public int compare(Row r1, Row r2)
          {
@@ -1309,7 +1303,7 @@ final class PrimaveraReader
          List<Notes> list = new ArrayList<>();
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            topicEntry.getValue().stream().map(s -> getHtmlNote(s)).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), topics.get(topicEntry.getKey()), n)));
+            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), topics.get(topicEntry.getKey()), n)));
          }
          result.put(entry.getKey(), new ParentNotes(list));
       }
@@ -1411,7 +1405,7 @@ final class PrimaveraReader
 
       if (task.hasChildTasks())
       {
-         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(t -> rollupCalendars(t)).distinct().collect(Collectors.toList());
+         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(this::rollupCalendars).distinct().collect(Collectors.toList());
 
          if (calendars.size() == 1)
          {
@@ -1783,14 +1777,14 @@ final class PrimaveraReader
     */
    public void rollupValues()
    {
-      m_project.getChildTasks().forEach(t -> rollupCalendars(t));
-      m_project.getChildTasks().forEach(t -> rollupDates(t));
-      m_project.getChildTasks().forEach(t -> rollupWork(t));
-      m_project.getChildTasks().forEach(t -> rollupCosts(t));
+      m_project.getChildTasks().forEach(this::rollupCalendars);
+      m_project.getChildTasks().forEach(this::rollupDates);
+      m_project.getChildTasks().forEach(this::rollupWork);
+      m_project.getChildTasks().forEach(this::rollupCosts);
 
       if (m_project.getProjectProperties().getBaselineProjectUniqueID() == null)
       {
-         m_project.getTasks().stream().filter(t -> t.getSummary()).forEach(t -> populateBaselineFromCurrentProject(t));
+         m_project.getTasks().stream().filter(Task::getSummary).forEach(this::populateBaselineFromCurrentProject);
       }
    }
 
@@ -2251,8 +2245,8 @@ final class PrimaveraReader
       return map;
    }
 
-   private ProjectFile m_project;
-   private EventManager m_eventManager;
+   private final ProjectFile m_project;
+   private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
    private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
@@ -2261,11 +2255,11 @@ final class PrimaveraReader
    private final UserFieldCounters m_taskUdfCounters;
    private final UserFieldCounters m_resourceUdfCounters;
    private final UserFieldCounters m_assignmentUdfCounters;
-   private Map<FieldType, String> m_resourceFields;
-   private Map<FieldType, String> m_roleFields;
-   private Map<FieldType, String> m_wbsFields;
-   private Map<FieldType, String> m_taskFields;
-   private Map<FieldType, String> m_assignmentFields;
+   private final Map<FieldType, String> m_resourceFields;
+   private final Map<FieldType, String> m_roleFields;
+   private final Map<FieldType, String> m_wbsFields;
+   private final Map<FieldType, String> m_taskFields;
+   private final Map<FieldType, String> m_assignmentFields;
    private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;

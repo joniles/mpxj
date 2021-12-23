@@ -660,7 +660,7 @@ public enum ResourceField implements FieldType
     * @param dataType field data type
     * @param unitsType units type
     */
-   private ResourceField(DataType dataType, FieldType unitsType)
+   ResourceField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -671,7 +671,7 @@ public enum ResourceField implements FieldType
     *
     * @param dataType field data type
     */
-   private ResourceField(DataType dataType)
+   ResourceField(DataType dataType)
    {
       this(dataType, null);
    }
@@ -756,6 +756,6 @@ public enum ResourceField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

@@ -362,7 +362,7 @@ public class JsonStreamWriter
    private final Deque<Boolean> m_firstNameValuePair = new ArrayDeque<>();
    private boolean m_pretty;
    private String m_indent = "";
-   private DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
+   private final DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
 
    private static final String INDENT = "  ";
 }

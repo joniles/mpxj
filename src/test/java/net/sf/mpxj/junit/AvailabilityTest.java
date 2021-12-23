@@ -179,5 +179,5 @@ public class AvailabilityTest
       assertEquals(units, entry.getUnits().doubleValue(), 0);
    }
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

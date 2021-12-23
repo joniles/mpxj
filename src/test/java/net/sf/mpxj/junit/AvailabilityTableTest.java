@@ -50,17 +50,17 @@ public class AvailabilityTableTest
       table.add(availability1);
       table.add(availability2);
 
-      assertEquals(null, table.getEntryByDate(df.parse("01/01/2015 09:00")));
-      assertEquals(null, table.getEntryByDate(df.parse("01/02/2015 07:00")));
+      assertNull(table.getEntryByDate(df.parse("01/01/2015 09:00")));
+      assertNull(table.getEntryByDate(df.parse("01/02/2015 07:00")));
 
       assertEquals(availability1, table.getEntryByDate(df.parse("01/02/2015 08:00")));
       assertEquals(availability1, table.getEntryByDate(df.parse("02/02/2015 08:00")));
       assertEquals(availability1, table.getEntryByDate(df.parse("03/02/2015 08:00")));
-      assertEquals(null, table.getEntryByDate(df.parse("03/02/2015 18:00")));
+      assertNull(table.getEntryByDate(df.parse("03/02/2015 18:00")));
 
       assertEquals(availability2, table.getEntryByDate(df.parse("01/03/2015 08:00")));
       assertEquals(availability2, table.getEntryByDate(df.parse("02/03/2015 08:00")));
       assertEquals(availability2, table.getEntryByDate(df.parse("03/03/2015 08:00")));
-      assertEquals(null, table.getEntryByDate(df.parse("03/03/2015 18:00")));
+      assertNull(table.getEntryByDate(df.parse("03/03/2015 18:00")));
    }
 }

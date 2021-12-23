@@ -140,12 +140,12 @@ public class FontStyle
       return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " strikethrough=" + m_strikethrough + " color=" + m_color + " backgroundColor=" + m_backgroundColor + " backgroundPattern=" + m_backgroundPattern + "]");
    }
 
-   private FontBase m_fontBase;
-   private boolean m_italic;
-   private boolean m_bold;
-   private boolean m_underline;
-   private boolean m_strikethrough;
-   private Color m_color;
-   private Color m_backgroundColor;
-   private BackgroundPattern m_backgroundPattern;
+   private final FontBase m_fontBase;
+   private final boolean m_italic;
+   private final boolean m_bold;
+   private final boolean m_underline;
+   private final boolean m_strikethrough;
+   private final Color m_color;
+   private final Color m_backgroundColor;
+   private final BackgroundPattern m_backgroundPattern;
 }

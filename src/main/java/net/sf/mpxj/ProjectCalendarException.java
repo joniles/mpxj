@@ -142,7 +142,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    {
       long fromTime1 = m_fromDate.getTime();
       long fromTime2 = o.m_fromDate.getTime();
-      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+      return (Long.compare(fromTime1, fromTime2));
    }
 
    @Override public String toString()
@@ -171,8 +171,8 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (sb.toString());
    }
 
-   private Date m_fromDate;
-   private Date m_toDate;
+   private final Date m_fromDate;
+   private final Date m_toDate;
    private String m_name;
    private RecurringData m_recurring;
 }

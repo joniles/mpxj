@@ -122,9 +122,8 @@ final class FixedMeta extends MPPComponent
             int distance = Integer.MIN_VALUE;
             int otherFixedBlockCount = otherFixedBlock.getItemCount();
 
-            for (int index = 0; index < itemSizes.length; index++)
+            for (int testItemSize : itemSizes)
             {
-               int testItemSize = itemSizes[index];
                if (available % testItemSize == 0)
                {
                   //
@@ -229,17 +228,17 @@ final class FixedMeta extends MPPComponent
    /**
     * Number of items in the data block, as reported in the block header.
     */
-   private int m_itemCount;
+   private final int m_itemCount;
 
    /**
     * Number of items in the data block, adjusted based on block size and item size.
     */
-   private int m_adjustedItemCount;
+   private final int m_adjustedItemCount;
 
    /**
     * Unknown data items relating to each entry in the fixed data block.
     */
-   private Object[] m_array;
+   private final Object[] m_array;
 
    /**
     * Constant representing the magic number appearing

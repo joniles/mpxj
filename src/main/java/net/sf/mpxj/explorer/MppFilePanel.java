@@ -42,13 +42,8 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
  */
 public class MppFilePanel extends JPanel
 {
-   private PoiTreeModel m_treeModel;
-   private PoiTreeController m_treeController;
-   private PoiTreeView m_treeView;
 
-   private HexDumpModel m_hexDumpModel;
-   protected HexDumpController m_hexDumpController;
-   private HexDumpView m_hexDumpView;
+   protected final HexDumpController m_hexDumpController;
 
    /**
     * Constructor.
@@ -57,15 +52,15 @@ public class MppFilePanel extends JPanel
     */
    public MppFilePanel(File file)
    {
-      m_treeModel = new PoiTreeModel();
-      m_treeController = new PoiTreeController(m_treeModel);
-      m_treeView = new PoiTreeView(m_treeModel);
+      PoiTreeModel m_treeModel = new PoiTreeModel();
+      PoiTreeController m_treeController = new PoiTreeController(m_treeModel);
+      PoiTreeView m_treeView = new PoiTreeView(m_treeModel);
       m_treeView.setShowsRootHandles(true);
 
-      m_hexDumpModel = new HexDumpModel();
+      HexDumpModel m_hexDumpModel = new HexDumpModel();
       m_hexDumpController = new HexDumpController(m_hexDumpModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      m_hexDumpView = new HexDumpView(m_hexDumpModel);
+      HexDumpView m_hexDumpView = new HexDumpView(m_hexDumpModel);
 
       JSplitPane splitPane = new JSplitPane();
       splitPane.setDividerLocation(0.3);

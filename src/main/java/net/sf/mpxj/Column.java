@@ -251,5 +251,5 @@ public final class Column
    private int m_alignTitle;
    private int m_alignData;
    private String m_title;
-   private ProjectFile m_project;
+   private final ProjectFile m_project;
 }

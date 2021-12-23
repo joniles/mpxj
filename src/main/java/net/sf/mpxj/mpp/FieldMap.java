@@ -588,7 +588,7 @@ abstract class FieldMap
          {
             System.out.println("KEY: " + key);
             createFieldMap(fieldMapData);
-            System.out.println(toString());
+            System.out.println(this);
             clear();
          }
       }
@@ -1295,21 +1295,21 @@ abstract class FieldMap
 
          return buffer.toString();
       }
-      private FieldType m_type;
-      private FieldLocation m_location;
-      private int m_fixedDataBlockIndex;
-      private int m_fixedDataOffset;
-      private Integer m_varDataKey;
-      private long m_mask;
-      private int m_metaBlock;
+      private final FieldType m_type;
+      private final FieldLocation m_location;
+      private final int m_fixedDataBlockIndex;
+      private final int m_fixedDataOffset;
+      private final Integer m_varDataKey;
+      private final long m_mask;
+      private final int m_metaBlock;
    }
 
    private final ProjectProperties m_properties;
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;
-   private Map<FieldType, FieldItem> m_map = new HashMap<>();
-   private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
+   private final Map<FieldType, FieldItem> m_map = new HashMap<>();
+   private final int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
 
    private static final Integer[] TASK_KEYS =

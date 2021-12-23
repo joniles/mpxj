@@ -220,7 +220,7 @@ public final class DataExportUtility
                      pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
                      if (data != null)
                      {
-                        pw.print(data.toString());
+                        pw.print(data);
                      }
                      pw.println("</column>");
                   }

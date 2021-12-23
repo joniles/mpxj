@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.mpxj.AccrueType;
@@ -79,14 +78,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
       for (FieldContainer item : m_collection)
       {
-         Iterator<E> iter = unusedFields.iterator();
-         while (iter.hasNext())
-         {
-            if (fieldIsPopulated(item, (FieldType) iter.next()))
-            {
-               iter.remove();
-            }
-         }
+         unusedFields.removeIf(e -> fieldIsPopulated(item, (FieldType) e));
       }
 
       Set<E> usedFields = EnumSet.allOf(m_fieldEnumType);
@@ -168,13 +160,13 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
          case TIME_UNITS:
          {
-            result = ((TimeUnit) value) != m_defaultDurationUnits;
+            result = value != m_defaultDurationUnits;
             break;
          }
 
          case TASK_TYPE:
          {
-            result = ((TaskType) value) != m_defaultTaskType;
+            result = value != m_defaultTaskType;
             break;
          }
 
@@ -186,13 +178,13 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
 
          case EARNED_VALUE_METHOD:
          {
-            result = ((EarnedValueMethod) value) != m_defaultTaskEarnedValueMethod;
+            result = value != m_defaultTaskEarnedValueMethod;
             break;
          }
 
          case ACCRUE:
          {
-            result = ((AccrueType) value) != m_defaultFixedCostAccrual;
+            result = value != m_defaultFixedCostAccrual;
             break;
          }
 

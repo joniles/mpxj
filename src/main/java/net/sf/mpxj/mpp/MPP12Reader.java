@@ -156,9 +156,9 @@ final class MPP12Reader implements MPPVariantReader
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
       m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+      FixedMeta m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
       m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+      FixedMeta m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
       m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
@@ -997,9 +997,9 @@ final class MPP12Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Object o : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
+         Integer uniqueID = (Integer) o;
 
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
@@ -1078,10 +1078,8 @@ final class MPP12Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
-         {
-            data,
-            data2
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
+                  data, data2
          }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
@@ -1249,7 +1247,7 @@ final class MPP12Reader implements MPPVariantReader
          if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) /*|| (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())*//* Valid tasks can have a null create date */))
          {
             m_file.removeTask(task);
-            
+
             Integer nullTaskID = Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET));
             if (!m_nullTaskOrder.containsKey(nullTaskID))
             {
@@ -1602,9 +1600,9 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer integer : uniqueid)
       {
-         id = uniqueid[loop];
+         id = integer;
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1622,10 +1620,8 @@ final class MPP12Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
-         {
-            data,
-            data2
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
+                  data, data2
          }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
@@ -2004,9 +2000,7 @@ final class MPP12Reader implements MPPVariantReader
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
    private FixedData m_outlineCodeFixedData;
-   private FixedMeta m_outlineCodeFixedMeta;
    private FixedData m_outlineCodeFixedData2;
-   private FixedMeta m_outlineCodeFixedMeta2;
    private Props m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;

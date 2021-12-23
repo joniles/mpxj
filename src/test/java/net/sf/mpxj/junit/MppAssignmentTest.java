@@ -128,7 +128,7 @@ public class MppAssignmentTest
     *
     * @param mpp project file
     */
-   private void testCustomFields(ProjectFile mpp) throws Exception
+   private void testCustomFields(ProjectFile mpp)
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
       Task task = mpp.getTaskByID(Integer.valueOf(1));

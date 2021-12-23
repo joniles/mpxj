@@ -186,6 +186,6 @@ class MapRow implements Row
          m_map.put(prefix + entry.getKey(), entry.getValue());
       }
    }
-   protected Map<String, Object> m_map;
-   private List<Row> m_childRows = new ArrayList<>();
+   protected final Map<String, Object> m_map;
+   private final List<Row> m_childRows = new ArrayList<>();
 }

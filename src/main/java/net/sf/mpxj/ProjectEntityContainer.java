@@ -119,7 +119,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    protected final ProjectFile m_projectFile;
-   protected Map<Integer, T> m_uniqueIDMap = new HashMap<>();
+   protected final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
 
    /**
     * Maximum unique ID value MS Project will accept.

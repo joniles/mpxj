@@ -43,7 +43,7 @@ public enum AccrueType implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private AccrueType(int type)
+   AccrueType(int type)
    {
       m_value = type;
    }
@@ -101,5 +101,5 @@ public enum AccrueType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

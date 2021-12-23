@@ -97,7 +97,7 @@ public class TaskOutlineCodesTest
    {
       for (int index = 1; index <= maxIndex; index++)
       {
-         String expectedValue = testIndex == index ? "OC" + Integer.toString(index) + "A" : null;
+         String expectedValue = testIndex == index ? "OC" + index + "A" : null;
          String actualValue = task.getOutlineCode(index);
 
          assertEquals(file.getName() + " Outline Code" + index, expectedValue, actualValue);
@@ -116,7 +116,7 @@ public class TaskOutlineCodesTest
    {
       for (int index = 1; index <= maxIndex; index++)
       {
-         String expectedValue = testIndex == index ? "OC" + Integer.toString(index) + "A.OC" + Integer.toString(index) + "B" : null;
+         String expectedValue = testIndex == index ? "OC" + index + "A.OC" + index + "B" : null;
          String actualValue = task.getOutlineCode(index);
 
          assertEquals(file.getName() + " Outline Code" + index, expectedValue, actualValue);

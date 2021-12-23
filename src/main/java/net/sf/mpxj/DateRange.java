@@ -103,8 +103,7 @@ public final class DateRange implements Comparable<DateRange>
    {
       long start = m_start.getTime();
       long end = m_end.getTime();
-      int result = ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
-      return result;
+      return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
    @Override public String toString()
@@ -114,6 +113,6 @@ public final class DateRange implements Comparable<DateRange>
 
    public static final DateRange EMPTY_RANGE = new DateRange(null, null);
 
-   private Date m_start;
-   private Date m_end;
+   private final Date m_start;
+   private final Date m_end;
 }

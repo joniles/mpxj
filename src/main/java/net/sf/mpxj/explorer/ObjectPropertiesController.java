@@ -114,15 +114,13 @@ public class ObjectPropertiesController
          ++rowIndex;
       }
 
-      TableModel tableModel = new DefaultTableModel(data, headings)
+      return new DefaultTableModel(data, headings)
       {
          @Override public boolean isCellEditable(int r, int c)
          {
             return false;
          }
       };
-
-      return tableModel;
    }
 
    /**

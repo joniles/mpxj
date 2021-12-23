@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -1147,7 +1146,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       // Read WBS entries and create tasks
       //
-      Collections.sort(wbs, WBS_ROW_COMPARATOR);
+      wbs.sort(WBS_ROW_COMPARATOR);
 
       for (WBSType row : wbs)
       {
@@ -1428,7 +1427,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       if (task.hasChildTasks())
       {
-         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(t -> rollupCalendars(t)).distinct().collect(Collectors.toList());
+         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(this::rollupCalendars).distinct().collect(Collectors.toList());
 
          if (calendars.size() == 1)
          {
@@ -1730,7 +1729,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContours(APIBusinessObjects apibo)
    {
-      apibo.getResourceCurve().forEach(c -> processWorkContour(c));
+      apibo.getResourceCurve().forEach(this::processWorkContour);
    }
 
    private void processWorkContour(ResourceCurveType curve)
@@ -1847,7 +1846,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      Collections.sort(rates, new Comparator<ResourceRateType>()
+      rates.sort(new Comparator<ResourceRateType>()
       {
          @Override public int compare(ResourceRateType r1, ResourceRateType r2)
          {
@@ -1927,7 +1926,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      Collections.sort(rates, new Comparator<RoleRateType>()
+      rates.sort(new Comparator<RoleRateType>()
       {
          @Override public int compare(RoleRateType r1, RoleRateType r2)
          {
@@ -2045,7 +2044,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<Notes> list = new ArrayList<>();
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            topicEntry.getValue().stream().map(s -> getHtmlNote(s)).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
+            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
          }
          result.put(entry.getKey(), new ParentNotes(list));
       }
@@ -2261,14 +2260,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void rollupValues()
    {
-      m_projectFile.getChildTasks().forEach(t -> rollupCalendars(t));
-      m_projectFile.getChildTasks().forEach(t -> rollupDates(t));
-      m_projectFile.getChildTasks().forEach(t -> rollupWork(t));
-      m_projectFile.getChildTasks().forEach(t -> rollupCosts(t));
+      m_projectFile.getChildTasks().forEach(this::rollupCalendars);
+      m_projectFile.getChildTasks().forEach(this::rollupDates);
+      m_projectFile.getChildTasks().forEach(this::rollupWork);
+      m_projectFile.getChildTasks().forEach(this::rollupCosts);
 
       if (m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null)
       {
-         m_projectFile.getTasks().stream().filter(t -> t.getSummary()).forEach(t -> populateBaselineFromCurrentProject(t));
+         m_projectFile.getTasks().stream().filter(Task::getSummary).forEach(this::populateBaselineFromCurrentProject);
       }
    }
 

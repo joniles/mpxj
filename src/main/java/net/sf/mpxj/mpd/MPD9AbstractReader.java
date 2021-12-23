@@ -1312,8 +1312,8 @@ abstract class MPD9AbstractReader
 
    private boolean m_autoWBS = true;
 
-   private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
-   private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();
-   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
-   private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
+   private final Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
+   private final List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();
+   private final Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
+   private final Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
 }

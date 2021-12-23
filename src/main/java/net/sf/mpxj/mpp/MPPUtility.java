@@ -124,9 +124,8 @@ public final class MPPUtility
          StringBuilder buffer = new StringBuilder();
          char c;
 
-         for (int i = 0; i < PASSWORD_MASK.length; i++)
+         for (int index : PASSWORD_MASK)
          {
-            int index = PASSWORD_MASK[i];
             c = (char) data[index];
 
             if (c == 0)
@@ -166,8 +165,7 @@ public final class MPPUtility
     */
    public static final int getByte(byte[] data, int offset)
    {
-      int result = (data[offset] & 0xFF);
-      return result;
+      return (data[offset] & 0xFF);
    }
 
    /**
@@ -283,7 +281,7 @@ public final class MPPUtility
          long1 |= ((long) (data[offset + 5] & 0xFF)) << 24;
          long1 |= ((long) (data[offset + 4] & 0xFF)) << 16;
          long1 |= ((long) (data[offset + 7] & 0xFF)) << 8;
-         long1 |= ((long) (data[offset + 6] & 0xFF)) << 0;
+         long1 |= ((long) (data[offset + 6] & 0xFF));
 
          long long2 = 0;
          long2 |= ((long) (data[offset + 8] & 0xFF)) << 56;
@@ -293,7 +291,7 @@ public final class MPPUtility
          long2 |= ((long) (data[offset + 12] & 0xFF)) << 24;
          long2 |= ((long) (data[offset + 13] & 0xFF)) << 16;
          long2 |= ((long) (data[offset + 14] & 0xFF)) << 8;
-         long2 |= ((long) (data[offset + 15] & 0xFF)) << 0;
+         long2 |= ((long) (data[offset + 15] & 0xFF));
 
          if (long1 != 0 || long2 != 0)
          {
@@ -459,7 +457,7 @@ public final class MPPUtility
     * @param offset offset into string data
     * @return length in bytes
     */
-   private static final int getUnicodeStringLengthInBytes(byte[] data, int offset)
+   private static int getUnicodeStringLengthInBytes(byte[] data, int offset)
    {
       int result;
       if (data == null || offset >= data.length)
@@ -1083,7 +1081,7 @@ public final class MPPUtility
                   Date d = MPPUtility.getTimestamp(data, i);
                   if (d != null)
                   {
-                     System.out.println(i + ":" + d.toString());
+                     System.out.println(i + ":" + d);
                   }
                }
                catch (Exception ex)
@@ -1110,7 +1108,7 @@ public final class MPPUtility
                   Date d = MPPUtility.getDate(data, i);
                   if (d != null)
                   {
-                     System.out.println(i + ":" + d.toString());
+                     System.out.println(i + ":" + d);
                   }
                }
                catch (Exception ex)
@@ -1123,7 +1121,7 @@ public final class MPPUtility
                try
                {
                   Date d = MPPUtility.getTime(data, i);
-                  System.out.println(i + ":" + d.toString());
+                  System.out.println(i + ":" + d);
                }
                catch (Exception ex)
                {
@@ -1207,7 +1205,7 @@ public final class MPPUtility
                Date d = data.getTimestamp(id, Integer.valueOf(i));
                if (d != null)
                {
-                  System.out.println(i + ":" + d.toString());
+                  System.out.println(i + ":" + d);
                }
             }
             catch (Exception ex)
@@ -1289,7 +1287,7 @@ public final class MPPUtility
    /**
     * Epoch Date as a Date instance.
     */
-   private static Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
+   private static final Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
 
    /**
     * Mask used to remove flags from the duration units field.

@@ -110,7 +110,7 @@ public class MppEnterpriseTest
     *
     * @param mpp The ProjectFile being tested.
     */
-   private void testEnterpriseFields(ProjectFile mpp) throws Exception
+   private void testEnterpriseFields(ProjectFile mpp)
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       Task task = mpp.getTaskByID(Integer.valueOf(1));

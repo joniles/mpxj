@@ -28,5 +28,5 @@ public enum PercentCompleteType
    DURATION,
    PHYSICAL,
    UNITS,
-   SCOPE;
+   SCOPE
 }

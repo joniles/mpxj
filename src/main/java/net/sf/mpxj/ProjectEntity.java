@@ -54,5 +54,5 @@ class ProjectEntity
    /**
     * Reference to parent ProjectFile.
     */
-   private ProjectFile m_mpx;
+   private final ProjectFile m_mpx;
 }

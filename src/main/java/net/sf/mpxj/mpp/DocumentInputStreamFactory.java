@@ -81,6 +81,6 @@ class DocumentInputStreamFactory
       return m_encryptionCode;
    }
 
-   private boolean m_encrypted;
-   private byte m_encryptionCode;
+   private final boolean m_encrypted;
+   private final byte m_encryptionCode;
 }

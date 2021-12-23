@@ -196,14 +196,7 @@ public final class SDEFWriter extends AbstractProjectWriter
             int endIndex;
             while (startIndex < formattedExceptions.size())
             {
-               if (startIndex + MAX_EXCEPTIONS_PER_RECORD <= formattedExceptions.size())
-               {
-                  endIndex = startIndex + MAX_EXCEPTIONS_PER_RECORD;
-               }
-               else
-               {
-                  endIndex = formattedExceptions.size();
-               }
+               endIndex = Math.min(startIndex + MAX_EXCEPTIONS_PER_RECORD, formattedExceptions.size());
 
                m_writer.print(recordPrefix);
                m_writer.println(formattedExceptions.subList(startIndex, endIndex).stream().collect(Collectors.joining(" ")));
@@ -557,7 +550,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private EventManager m_eventManager;
    private PrintStream m_writer; // line out to a text file
    private StringBuilder m_buffer; // used to accumulate characters
-   private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
+   private final Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
 
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }

@@ -179,7 +179,7 @@ final class ResourceModel
       textual.append(MPXConstants.EOL);
       numeric.append(MPXConstants.EOL);
 
-      textual.append(numeric.toString());
+      textual.append(numeric);
 
       return (textual.toString());
    }
@@ -240,18 +240,18 @@ final class ResourceModel
       return (result.intValue());
    }
 
-   private ProjectFile m_parentFile;
+   private final ProjectFile m_parentFile;
 
    /**
     * Array of flags indicating whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean[MPXResourceField.MAX_FIELDS];
+   private final boolean[] m_flags = new boolean[MPXResourceField.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int[MPXResourceField.MAX_FIELDS + 1];
+   private final int[] m_fields = new int[MPXResourceField.MAX_FIELDS + 1];
 
    /**
     * Count of the number of fields present.
@@ -266,5 +266,5 @@ final class ResourceModel
    /**
     * Map to store Resource field Numbers.
     */
-   private HashMap<String, Integer> m_resourceNumbers = new HashMap<>();
+   private final HashMap<String, Integer> m_resourceNumbers = new HashMap<>();
 }

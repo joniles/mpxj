@@ -394,11 +394,11 @@ public class GenericCriteria
       return (sb.toString());
    }
 
-   private ProjectProperties m_properties;
+   private final ProjectProperties m_properties;
    private FieldType m_leftValue;
    private TestOperator m_operator;
-   private Object[] m_definedRightValues = new Object[2];
-   private Object[] m_workingRightValues = new Object[2];
+   private final Object[] m_definedRightValues = new Object[2];
+   private final Object[] m_workingRightValues = new Object[2];
    private boolean m_symbolicValues;
-   private List<GenericCriteria> m_criteriaList = new ArrayList<>();
+   private final List<GenericCriteria> m_criteriaList = new ArrayList<>();
 }

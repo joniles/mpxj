@@ -550,7 +550,7 @@ public final class MppXmlCompare
          actual = null;
       }
 
-      assertEquals((Object) expected, (Object) actual);
+      assertEquals(expected, (Object) actual);
    }
 
    /**
@@ -618,7 +618,7 @@ public final class MppXmlCompare
                expected = null;
             }
 
-            assertEquals((Object) expected, (Object) actual);
+            assertEquals(expected, (Object) actual);
          }
       }
    }
@@ -649,7 +649,7 @@ public final class MppXmlCompare
          {
             if ((actual == null && expected != null && expected.getDuration() != 0) || (actual != null && actual.getDuration() != 0 && expected == null))
             {
-               assertEquals((Object) expected, (Object) actual);
+               assertEquals(expected, (Object) actual);
             }
          }
       }
@@ -679,7 +679,7 @@ public final class MppXmlCompare
             actual = null;
          }
 
-         assertEquals((Object) expected, (Object) actual);
+         assertEquals(expected, (Object) actual);
       }
    }
 

@@ -88,6 +88,6 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
       return (sb.toString());
    }
 
-   private ProjectCalendarWeek m_parentCalendar;
+   private final ProjectCalendarWeek m_parentCalendar;
    private Day m_day;
 }

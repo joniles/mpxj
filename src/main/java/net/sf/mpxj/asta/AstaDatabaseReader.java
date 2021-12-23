@@ -431,5 +431,5 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
+   private final Map<String, Integer> m_meta = new HashMap<>();
 }

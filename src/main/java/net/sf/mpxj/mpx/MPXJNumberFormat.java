@@ -97,9 +97,9 @@ public final class MPXJNumberFormat extends DecimalFormat
 
                if (m_alternativeFormats != null)
                {
-                  for (int loop = 0; loop < m_alternativeFormats.length; loop++)
+                  for (DecimalFormat m_alternativeFormat : m_alternativeFormats)
                   {
-                     result = m_alternativeFormats[loop].parse(str, parsePosition);
+                     result = m_alternativeFormat.parse(str, parsePosition);
                      if (parsePosition.getIndex() != 0)
                      {
                         break;
@@ -152,25 +152,17 @@ public final class MPXJNumberFormat extends DecimalFormat
 
       if (m_symbols == null)
       {
-         if (other.m_symbols != null)
-         {
-            return false;
-         }
+         return other.m_symbols == null;
       }
       else
       {
-         if (!m_symbols.equals(other.m_symbols))
-         {
-            return false;
-         }
+         return m_symbols.equals(other.m_symbols);
       }
-
-      return true;
    }
 
    /**
     * Number formatter.
     */
-   private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols();
+   private final DecimalFormatSymbols m_symbols = new DecimalFormatSymbols();
    private DecimalFormat[] m_alternativeFormats;
 }

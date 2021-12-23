@@ -179,14 +179,14 @@ public class TableFontStyle extends FontStyle
       return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_strikethroughChanged ? " strikethrough=" + getStrikethrough() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + (m_backgroundColorChanged ? " backgroundColor=" + getBackgroundColor() : "") + (m_backgroundPatternChanged ? " backgroundPattern=" + getBackgroundPattern() : "") + "]");
    }
 
-   private int m_rowUniqueID;
-   private FieldType m_fieldType;
-   private boolean m_italicChanged;
-   private boolean m_boldChanged;
-   private boolean m_underlineChanged;
-   private boolean m_strikethroughChanged;
-   private boolean m_colorChanged;
-   private boolean m_fontChanged;
-   private boolean m_backgroundColorChanged;
-   private boolean m_backgroundPatternChanged;
+   private final int m_rowUniqueID;
+   private final FieldType m_fieldType;
+   private final boolean m_italicChanged;
+   private final boolean m_boldChanged;
+   private final boolean m_underlineChanged;
+   private final boolean m_strikethroughChanged;
+   private final boolean m_colorChanged;
+   private final boolean m_fontChanged;
+   private final boolean m_backgroundColorChanged;
+   private final boolean m_backgroundPatternChanged;
 }

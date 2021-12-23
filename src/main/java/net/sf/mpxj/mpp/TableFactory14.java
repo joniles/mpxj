@@ -180,7 +180,7 @@ final class TableFactory14
       }
    }
 
-   private Integer m_tableColumnDataStandard;
-   private Integer m_tableColumnDataEnterprise;
-   private Integer m_tableColumnDataBaseline;
+   private final Integer m_tableColumnDataStandard;
+   private final Integer m_tableColumnDataEnterprise;
+   private final Integer m_tableColumnDataBaseline;
 }

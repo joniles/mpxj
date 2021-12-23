@@ -252,7 +252,7 @@ final class DatatypeConverter
       long1 |= ((long) (data[5] & 0xFF)) << 24;
       long1 |= ((long) (data[4] & 0xFF)) << 16;
       long1 |= ((long) (data[7] & 0xFF)) << 8;
-      long1 |= ((long) (data[6] & 0xFF)) << 0;
+      long1 |= ((long) (data[6] & 0xFF));
 
       long long2 = 0;
       long2 |= ((long) (data[8] & 0xFF)) << 56;
@@ -262,7 +262,7 @@ final class DatatypeConverter
       long2 |= ((long) (data[12] & 0xFF)) << 24;
       long2 |= ((long) (data[13] & 0xFF)) << 16;
       long2 |= ((long) (data[14] & 0xFF)) << 8;
-      long2 |= ((long) (data[15] & 0xFF)) << 0;
+      long2 |= ((long) (data[15] & 0xFF));
 
       return new UUID(long1, long2);
    }
@@ -327,7 +327,7 @@ final class DatatypeConverter
     * @param durationInSeconds duration in seconds
     * @return Duration instance
     */
-   private static final Duration getDurationFromSeconds(int durationInSeconds)
+   private static Duration getDurationFromSeconds(int durationInSeconds)
    {
       if (durationInSeconds == NULL_SECONDS)
       {

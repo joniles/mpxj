@@ -424,12 +424,12 @@ public final class Duration implements Comparable<Duration>
    /**
     * Duration amount.
     */
-   private double m_duration;
+   private final double m_duration;
 
    /**
     * Duration type.
     */
-   private TimeUnit m_units;
+   private final TimeUnit m_units;
 
    private static final Duration[] ZERO_DURATIONS =
    {

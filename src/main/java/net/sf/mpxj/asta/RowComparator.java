@@ -62,5 +62,5 @@ class RowComparator implements Comparator<Row>
       return result;
    }
 
-   private String[] m_sortColumns;
+   private final String[] m_sortColumns;
 }

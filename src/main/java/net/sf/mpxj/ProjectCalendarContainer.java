@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Iterator;
-
 /**
  * Manages the collection of calendars belonging to a project.
  */
@@ -115,10 +113,9 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
       if (calendarName != null && calendarName.length() != 0)
       {
-         Iterator<ProjectCalendar> iter = iterator();
-         while (iter.hasNext())
+         for (ProjectCalendar projectCalendar : this)
          {
-            calendar = iter.next();
+            calendar = projectCalendar;
             String name = calendar.getName();
 
             if ((name != null) && name.equalsIgnoreCase(calendarName))

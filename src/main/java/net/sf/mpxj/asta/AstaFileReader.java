@@ -26,7 +26,7 @@ package net.sf.mpxj.asta;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -74,7 +74,7 @@ public final class AstaFileReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    private static final String SQLITE_TEXT = "SQLite format";

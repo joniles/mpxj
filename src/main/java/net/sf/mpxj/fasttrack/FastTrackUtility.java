@@ -172,8 +172,7 @@ final class FastTrackUtility
     */
    public static final int getByte(byte[] data, int offset)
    {
-      int result = (data[offset] & 0xFF);
-      return result;
+      return (data[offset] & 0xFF);
    }
 
    /**

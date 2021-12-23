@@ -628,7 +628,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
+   private final Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private boolean m_hasResourceBaselines;
    private boolean m_hasTaskBaselines;

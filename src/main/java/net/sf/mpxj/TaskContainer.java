@@ -53,7 +53,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public Task add()
    {
-      Task task = new Task(m_projectFile, (Task) null);
+      Task task = new Task(m_projectFile, null);
       add(task);
       m_projectFile.getChildTasks().add(task);
       return task;

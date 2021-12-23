@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -121,7 +122,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          if (m_writeBaselines)
          {
-            projectFile.getBaselines().stream().filter(f -> f != null).forEach(baseline -> {
+            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> {
                Integer baselineProjectObjectID = baseline.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : baseline.getProjectProperties().getUniqueID();
                new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline();
             });

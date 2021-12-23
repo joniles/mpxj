@@ -26,7 +26,6 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -143,7 +142,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -302,7 +301,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      Collections.sort(projects, new Comparator<Project>()
+      projects.sort(new Comparator<Project>()
       {
          @Override public int compare(Project o1, Project o2)
          {
@@ -353,9 +352,9 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Document.Projects.Project.Task> tasks = new ArrayList<>(project.getTask());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      Collections.sort(tasks, new Comparator<Document.Projects.Project.Task>()
+      tasks.sort(new Comparator<Project.Task>()
       {
-         @Override public int compare(Document.Projects.Project.Task o1, Document.Projects.Project.Task o2)
+         @Override public int compare(Project.Task o1, Project.Task o2)
          {
             return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
          }

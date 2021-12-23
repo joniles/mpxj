@@ -26,7 +26,6 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -164,7 +163,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -427,7 +426,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       }
 
       // First pass: sort the activities by ID to avoid "Comparison method violates its general contract!" error
-      Collections.sort(activities, new Comparator<Activity>()
+      activities.sort(new Comparator<Activity>()
       {
          @Override public int compare(Activity o1, Activity o2)
          {
@@ -436,7 +435,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       });
 
       // Second pass: perform the main sort
-      Collections.sort(activities, new Comparator<Activity>()
+      activities.sort(new Comparator<Activity>()
       {
          @Override public int compare(Activity o1, Activity o2)
          {
@@ -595,7 +594,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private boolean activityIsMilestone(Activity activity)
    {
       String type = activity.getType();
-      return type != null && type.indexOf("Milestone") != -1;
+      return type != null && type.contains("Milestone");
    }
 
    /**
@@ -607,7 +606,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private boolean activityIsStartMilestone(Activity activity)
    {
       String type = activity.getType();
-      return type != null && type.indexOf("StartMilestone") != -1;
+      return type != null && type.contains("StartMilestone");
    }
 
    /**
@@ -747,7 +746,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    Map<UUID, UUID> getActivityCodes(Activity activity)
    {
-      return m_activityCodeCache.computeIfAbsent(activity, k -> getActivityCodesForCache(k));
+      return m_activityCodeCache.computeIfAbsent(activity, this::getActivityCodesForCache);
    }
 
    private Map<UUID, UUID> getActivityCodesForCache(Activity activity)
@@ -771,7 +770,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      Collections.sort(storepoints, new Comparator<Storepoint>()
+      storepoints.sort(new Comparator<Storepoint>()
       {
          @Override public int compare(Storepoint o1, Storepoint o2)
          {

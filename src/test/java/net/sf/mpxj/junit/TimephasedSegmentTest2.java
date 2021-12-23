@@ -863,6 +863,6 @@ public class TimephasedSegmentTest2
          System.out.println("}");
       }
    */
-   private TimescaleUtility m_timescale = new TimescaleUtility();
-   private TimephasedUtility m_timephased = new TimephasedUtility();
+   private final TimescaleUtility m_timescale = new TimescaleUtility();
+   private final TimephasedUtility m_timephased = new TimephasedUtility();
 }

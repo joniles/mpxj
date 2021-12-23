@@ -766,7 +766,7 @@ public class RecurringData
                   sb.append(dfs.getWeekdays()[day.getValue()]);
                }
             }
-            pw.print(sb.toString());
+            pw.print(sb);
             break;
          }
 
@@ -857,5 +857,5 @@ public class RecurringData
    private Integer m_frequency;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
-   private EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
+   private final EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
 }

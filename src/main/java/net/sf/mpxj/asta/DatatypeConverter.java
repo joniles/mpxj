@@ -285,45 +285,15 @@ final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("yyyyMMdd HHmmss");
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmmss"));
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("yyyyMMdd 0");
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd 0"));
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("yyyyMMdd");
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("HHmmss");
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("HHmmss"));
 
-   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = new ThreadLocal<DecimalFormat>()
-   {
-      @Override protected DecimalFormat initialValue()
-      {
-         return new DecimalFormat("#.#E0");
-      }
-   };
+   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
 
    private static final long JAVA_EPOCH = -2208988800000L;
    private static final long ASTA_EPOCH = 2415021L;

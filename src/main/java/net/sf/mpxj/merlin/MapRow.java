@@ -392,7 +392,7 @@ class MapRow implements Row
       return result;
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 
    /**
     * 07/01/2001 00:00.

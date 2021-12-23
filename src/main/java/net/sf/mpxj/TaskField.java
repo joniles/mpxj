@@ -1232,7 +1232,7 @@ public enum TaskField implements FieldType
     * @param dataType field data type
     * @param unitsType field units type
     */
-   private TaskField(DataType dataType, FieldType unitsType)
+   TaskField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -1243,7 +1243,7 @@ public enum TaskField implements FieldType
     *
     * @param dataType field data type
     */
-   private TaskField(DataType dataType)
+   TaskField(DataType dataType)
    {
       this(dataType, null);
    }
@@ -1328,6 +1328,6 @@ public enum TaskField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

@@ -253,7 +253,7 @@ public class FieldReporter
    private final Set<String> m_keys = new TreeSet<>();
    private final Map<FieldType, Set<String>> m_map = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
 
-   private final Set<String> m_mppKeys = new TreeSet<>((k1, k2) -> COMPARATOR.compare(k1, k2));
+   private final Set<String> m_mppKeys = new TreeSet<>(COMPARATOR);
    private final Map<FieldType, Set<String>> m_mppMap = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
 
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();

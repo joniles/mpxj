@@ -31,7 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +91,7 @@ public final class SageReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -367,13 +367,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("MM/dd/yyyy");
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/dd/yyyy"));
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

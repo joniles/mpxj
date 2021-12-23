@@ -40,7 +40,7 @@ public enum DayType implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private DayType(int type)
+   DayType(int type)
    {
       m_value = type;
    }
@@ -98,5 +98,5 @@ public enum DayType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

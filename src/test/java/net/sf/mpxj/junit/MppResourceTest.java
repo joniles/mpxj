@@ -163,7 +163,7 @@ public class MppResourceTest
     *
     * @param mpp The ProjectFile being tested.
     */
-   private void testResources(ProjectFile mpp) throws Exception
+   private void testResources(ProjectFile mpp)
    {
 
       /* MPP9 fields that return null:
@@ -177,7 +177,7 @@ public class MppResourceTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       List<Resource> listAllResources = mpp.getResources();
-      assertTrue(listAllResources != null);
+      assertNotNull(listAllResources);
       // Fails for MPP12 as there is a summary resource
       //assertEquals(4, listAllResources.size());
 
@@ -357,7 +357,7 @@ public class MppResourceTest
     *
     * @param mpp project file
     */
-   private void testResourceOutlineCodes(ProjectFile mpp) throws Exception
+   private void testResourceOutlineCodes(ProjectFile mpp)
    {
       Resource resourceWade = mpp.getResourceByID(Integer.valueOf(1));
       assertEquals("AAA", resourceWade.getOutlineCode(1));

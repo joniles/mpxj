@@ -36,7 +36,7 @@ public class PrimaveraDatabaseReaderTest
    /**
     * Ensure the schema attribute is working as expected.
     */
-   @Test public void testSchema() throws Exception
+   @Test public void testSchema()
    {
       PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       assertEquals("", reader.getSchema());

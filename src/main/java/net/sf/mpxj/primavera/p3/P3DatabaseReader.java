@@ -264,12 +264,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       for (MapRow row : m_tables.get("STR"))
       {
          Integer level = row.getInteger("LEVEL_NUMBER");
-         List<MapRow> items = levelMap.get(level);
-         if (items == null)
-         {
-            items = new ArrayList<>();
-            levelMap.put(level, items);
-         }
+         List<MapRow> items = levelMap.computeIfAbsent(level, k -> new ArrayList<>());
          items.add(row);
       }
 
@@ -292,7 +287,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          }
 
          final AlphanumComparator comparator = new AlphanumComparator();
-         Collections.sort(items, new Comparator<MapRow>()
+         items.sort(new Comparator<MapRow>()
          {
             @Override public int compare(MapRow o1, MapRow o2)
             {
@@ -352,7 +347,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          items.add(row);
       }
       final AlphanumComparator comparator = new AlphanumComparator();
-      Collections.sort(items, new Comparator<MapRow>()
+      items.sort(new Comparator<MapRow>()
       {
          @Override public int compare(MapRow o1, MapRow o2)
          {

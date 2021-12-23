@@ -109,7 +109,7 @@ public class MppSubprojectTest
     * @param mpp The ProjectFile being tested.
     * @param isMPP is the source an MPP file
     */
-   private void testSubprojects(ProjectFile mpp, boolean isMPP) throws Exception
+   private void testSubprojects(ProjectFile mpp, boolean isMPP)
    {
       Task taskNormal = mpp.getTaskByUniqueID(Integer.valueOf(1));
       Task taskSubprojectA = mpp.getTaskByUniqueID(Integer.valueOf(2));
@@ -124,9 +124,9 @@ public class MppSubprojectTest
       assertNotNull(subprojectA);
       final String expectedFilenameA = "\\SubprojectA-9.mpp";
       //assertEquals(expectedFilenameA, subprojectA.getDosFileName());
-      assertTrue(expectedFilenameA.indexOf(subprojectA.getFileName()) != -1);
+      assertTrue(expectedFilenameA.contains(subprojectA.getFileName()));
       //subprojectA.getDosFullPath(); don't need to test
-      assertTrue(subprojectA.getFullPath().indexOf(expectedFilenameA) != -1);
+      assertTrue(subprojectA.getFullPath().contains(expectedFilenameA));
       assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
 
       //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?

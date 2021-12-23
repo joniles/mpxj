@@ -192,7 +192,7 @@ public final class SubProject
 
    private Integer m_taskUniqueID;
    private Integer m_uniqueIDOffset;
-   private List<Integer> m_externalTaskUniqueIDs = new ArrayList<>();
+   private final List<Integer> m_externalTaskUniqueIDs = new ArrayList<>();
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

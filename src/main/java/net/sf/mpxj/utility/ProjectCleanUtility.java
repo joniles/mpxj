@@ -27,15 +27,14 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.common.CharsetHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -137,7 +136,7 @@ public class ProjectCleanUtility
       is.read(data);
       is.close();
 
-      processReplacements(data, Arrays.asList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
+      processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
       processReplacements(data, m_project.getTasks(), false, false, TASK_FIELDS);
       processReplacements(data, m_project.getResources(), false, false, RESOURCE_FIELDS);
 
@@ -205,7 +204,7 @@ public class ProjectCleanUtility
       // Locate the root of the project file system
       //
       DirectoryEntry root = fs.getRoot();
-      m_projectDir = (DirectoryEntry) root.getEntry(projectDirName);
+      DirectoryEntry m_projectDir = (DirectoryEntry) root.getEntry(projectDirName);
 
       //
       // Process Tasks
@@ -220,7 +219,7 @@ public class ProjectCleanUtility
       //
       // Process project properties
       //
-      List<ProjectProperties> projectProperties = Arrays.asList(m_project.getProjectProperties());
+      List<ProjectProperties> projectProperties = Collections.singletonList(m_project.getProjectProperties());
 
       processFile(m_projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
       processFile(root, "\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
@@ -264,7 +263,7 @@ public class ProjectCleanUtility
       // Populate a list of keys and sort into descending order of length
       //
       List<String> keys = new ArrayList<>(replacements.keySet());
-      Collections.sort(keys, new Comparator<String>()
+      keys.sort(new Comparator<String>()
       {
          @Override public int compare(String o1, String o2)
          {
@@ -424,16 +423,7 @@ public class ProjectCleanUtility
       {
          int start = 0;
          // Get the bytes in UTF-16
-         byte[] bytes;
-
-         try
-         {
-            bytes = value.getBytes("UTF-16");
-         }
-         catch (UnsupportedEncodingException e)
-         {
-            bytes = value.getBytes();
-         }
+         byte[] bytes = value.getBytes(CharsetHelper.UTF16);
 
          if (bytes.length > 2 && bytes[0] == -2 && bytes[1] == -1)
          {
@@ -480,7 +470,6 @@ public class ProjectCleanUtility
    }
 
    private ProjectFile m_project;
-   private DirectoryEntry m_projectDir;
 
    private static final ProjectField[] PROJECT_FIELDS =
    {

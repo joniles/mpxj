@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -113,7 +112,7 @@ class SynchroData
       }
 
       // Ensure sorted by offset
-      Collections.sort(tables, new Comparator<SynchroTable>()
+      tables.sort(new Comparator<SynchroTable>()
       {
          @Override public int compare(SynchroTable o1, SynchroTable o2)
          {
@@ -266,6 +265,6 @@ class SynchroData
 
    private SemVer m_version;
    private int m_offset;
-   private Map<String, byte[]> m_tableData = new HashMap<>();
+   private final Map<String, byte[]> m_tableData = new HashMap<>();
    private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies", "Resources"));
 }

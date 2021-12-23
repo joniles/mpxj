@@ -2824,7 +2824,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       int id1 = NumberHelper.getInt(getID());
       int id2 = NumberHelper.getInt(o.getID());
-      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
+      return (Integer.compare(id1, id2));
    }
 
    @Override public boolean equals(Object o)
@@ -2850,12 +2850,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[ResourceField.MAX_VALUE];
+   private final Object[] m_array = new Object[ResourceField.MAX_VALUE];
 
    /**
     * List of all assignments for this resource.
     */
-   private List<ResourceAssignment> m_assignments = new ArrayList<>();
+   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;

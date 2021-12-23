@@ -122,5 +122,5 @@ public class SplitTaskTest
       assertEquals(end, m_df.format(range.getEnd()));
    }
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

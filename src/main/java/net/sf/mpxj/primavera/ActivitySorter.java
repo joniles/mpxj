@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +59,7 @@ class ActivitySorter
          //
          // Sort child activities
          //
-         tasks.stream().forEach(task -> sort(task));
+         tasks.stream().forEach(this::sort);
 
          //
          // Sort Order:
@@ -69,7 +68,7 @@ class ActivitySorter
          // 3. Activities ordered by activity ID
          // 4. WBS ordered by ID
          //
-         Collections.sort(tasks, new Comparator<Task>()
+         tasks.sort(new Comparator<Task>()
          {
             @Override public int compare(Task t1, Task t2)
             {
