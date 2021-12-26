@@ -679,7 +679,7 @@ public final class MPXJFormats
          }
       }
 
-      return patterns.toArray(new String[patterns.size()]);
+      return patterns.toArray(new String[0]);
    }
 
    /**

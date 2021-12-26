@@ -3,7 +3,7 @@
     <module name="mpxj" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="net.sf.mpxj.junit.*" />
+        <option name="PATTERN" value="net.sf.mpxj.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

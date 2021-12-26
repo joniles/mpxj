@@ -670,7 +670,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             }
             else
             {
-               m_currentFieldNames = record.toArray(new String[record.size()]);
+               m_currentFieldNames = record.toArray(new String[0]);
                for (int loop = 0; loop < m_currentFieldNames.length; loop++)
                {
                   m_currentFieldNames[loop] = m_currentFieldNames[loop].toLowerCase();

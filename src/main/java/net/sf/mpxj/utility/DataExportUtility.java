@@ -349,7 +349,7 @@ public final class DataExportUtility
                {
                   if (c > 127)
                   {
-                     sb.append("&#" + (int) c + ";");
+                     sb.append("&#").append((int) c).append(";");
                   }
                   else
                   {

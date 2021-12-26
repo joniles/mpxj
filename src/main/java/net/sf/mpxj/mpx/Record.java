@@ -78,7 +78,7 @@ final class Record
          if (list.size() > 0)
          {
             setRecordNumber(list);
-            m_fields = list.toArray(new String[list.size()]);
+            m_fields = list.toArray(new String[0]);
          }
       }
 

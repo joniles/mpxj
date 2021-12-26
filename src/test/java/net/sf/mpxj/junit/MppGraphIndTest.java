@@ -105,7 +105,7 @@ public class MppGraphIndTest
    private void testGraphicalIndicators(ProjectFile project)
    {
       List<Task> taskList = project.getTasks();
-      Task[] tasks = taskList.toArray(new Task[taskList.size()]);
+      Task[] tasks = taskList.toArray(new Task[0]);
 
       testIndicator(project, TaskField.COST1, tasks, COST1_RESULTS);
       testIndicator(project, TaskField.COST2, tasks, COST2_RESULTS);

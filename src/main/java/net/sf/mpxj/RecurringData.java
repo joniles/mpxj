@@ -359,7 +359,7 @@ public class RecurringData
 
       DateHelper.pushCalendar(calendar);
 
-      return dates.toArray(new Date[dates.size()]);
+      return dates.toArray(new Date[0]);
    }
 
    /**
