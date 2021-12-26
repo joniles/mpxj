@@ -281,7 +281,7 @@ public final class MPPUtility
          long1 |= ((long) (data[offset + 5] & 0xFF)) << 24;
          long1 |= ((long) (data[offset + 4] & 0xFF)) << 16;
          long1 |= ((long) (data[offset + 7] & 0xFF)) << 8;
-         long1 |= ((long) (data[offset + 6] & 0xFF));
+         long1 |= (data[offset + 6] & 0xFF);
 
          long long2 = 0;
          long2 |= ((long) (data[offset + 8] & 0xFF)) << 56;
@@ -291,7 +291,7 @@ public final class MPPUtility
          long2 |= ((long) (data[offset + 12] & 0xFF)) << 24;
          long2 |= ((long) (data[offset + 13] & 0xFF)) << 16;
          long2 |= ((long) (data[offset + 14] & 0xFF)) << 8;
-         long2 |= ((long) (data[offset + 15] & 0xFF));
+         long2 |= (data[offset + 15] & 0xFF);
 
          if (long1 != 0 || long2 != 0)
          {
