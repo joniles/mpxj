@@ -1431,7 +1431,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case ELAPSED_MONTHS:
          {
-            duration /= (30 * 24 * 60 * 60 * 1000);
+            duration /= (30.0 * 24.0 * 60.0 * 60.0 * 1000.0);
             break;
          }
 
