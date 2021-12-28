@@ -66,7 +66,7 @@ class DatabaseReader
             }
 
             int typeIndex = name.lastIndexOf('.');
-            String type = name.substring(typeIndex + 1, name.length());
+            String type = name.substring(typeIndex + 1);
             TableDefinition definition = TABLE_DEFINITIONS.get(type);
             if (definition != null)
             {

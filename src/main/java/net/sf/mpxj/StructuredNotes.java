@@ -91,12 +91,7 @@ public class StructuredNotes extends Notes
       }
       else
       {
-         StringBuilder sb = new StringBuilder();
-         sb.append(topicName);
-         sb.append("\n");
-         sb.append(text);
-         sb.append("\n");
-         result = sb.toString();
+         result = topicName + "\n" + text + "\n";
       }
 
       return result;

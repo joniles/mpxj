@@ -719,12 +719,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
       DateHelper.pushCalendar(cal);
-
-      StringBuilder sb = new StringBuilder(4);
-      sb.append(m_twoDigitFormat.format(hours));
-      sb.append(m_twoDigitFormat.format(minutes));
-
-      return (sb.toString());
+      return m_twoDigitFormat.format(hours) + m_twoDigitFormat.format(minutes);
    }
 
    /**
@@ -742,13 +737,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
       DateHelper.pushCalendar(cal);
-
-      StringBuilder sb = new StringBuilder(8);
-      sb.append(m_fourDigitFormat.format(year));
-      sb.append(m_twoDigitFormat.format(month));
-      sb.append(m_twoDigitFormat.format(day));
-
-      return (sb.toString());
+      return m_fourDigitFormat.format(year) + m_twoDigitFormat.format(month) + m_twoDigitFormat.format(day);
    }
 
    /**
@@ -765,16 +754,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       if (value != null)
       {
          Calendar cal = DateHelper.popCalendar(value);
-         StringBuilder sb = new StringBuilder(16);
-         sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
-         sb.append('T');
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
-         sb.append('Z');
-         result = sb.toString();
+         result = m_fourDigitFormat.format(cal.get(Calendar.YEAR)) + m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1) + m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)) + 'T' + m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)) + m_twoDigitFormat.format(cal.get(Calendar.MINUTE)) + m_twoDigitFormat.format(cal.get(Calendar.SECOND)) + 'Z';
          DateHelper.pushCalendar(cal);
       }
       return result;

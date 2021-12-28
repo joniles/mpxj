@@ -104,7 +104,7 @@ final class DatatypeConverter
          int index = value.indexOf("E+");
          if (index != -1)
          {
-            value = value.substring(0, index) + 'E' + value.substring(index + 2, value.length());
+            value = value.substring(0, index) + 'E' + value.substring(index + 2);
          }
 
          if (value.indexOf('E') != -1)

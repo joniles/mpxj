@@ -1188,7 +1188,7 @@ final class PrimaveraReader
       Integer fieldId = row.getInteger("udf_type_id");
       String fieldName = m_udfFields.get(fieldId);
 
-      Object value = null;
+      Object value;
       FieldType field = m_project.getCustomFields().getFieldByAlias(fieldType, fieldName);
       if (field != null)
       {

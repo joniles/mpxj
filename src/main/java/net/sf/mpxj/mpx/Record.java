@@ -662,7 +662,7 @@ final class Record
     */
    public ProjectDateFormat getDateFormat(int field)
    {
-      ProjectDateFormat result = null;
+      ProjectDateFormat result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {

@@ -74,7 +74,7 @@ class TextFileRow extends MapRow
    {
       try
       {
-         Object value = null;
+         Object value;
 
          switch (type)
          {

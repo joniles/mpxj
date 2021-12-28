@@ -859,10 +859,9 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
             parentTask.setActualFinish(actualFinishDate);
          }
 
-         Duration duration = null;
          if (plannedStartDate != null && plannedFinishDate != null)
          {
-            duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
+            Duration duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
             parentTask.setDuration(duration);
          }
 

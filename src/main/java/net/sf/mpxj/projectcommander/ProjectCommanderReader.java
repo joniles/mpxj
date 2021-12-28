@@ -400,7 +400,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       {
          if (cUsageTaskBaselineData.length != 0)
          {
-            Duration durationInHours = null;
+            Duration durationInHours;
 
             // If we're not the first bar, is our duration different to the first bar?
             // This is very much a heuristic!
