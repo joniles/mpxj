@@ -24,8 +24,6 @@
 package net.sf.mpxj.explorer;
 
 import java.awt.Component;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JFileChooser;
 

@@ -24,8 +24,6 @@
 package net.sf.mpxj.explorer;
 
 import java.awt.Point;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;

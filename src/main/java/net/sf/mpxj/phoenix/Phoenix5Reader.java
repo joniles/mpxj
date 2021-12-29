@@ -395,13 +395,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       }
 
       // First pass: sort the activities by ID to avoid "Comparison method violates its general contract!" error
-      activities.sort(new Comparator<Activity>()
-      {
-         @Override public int compare(Activity o1, Activity o2)
-         {
-            return comparator.compare(o1.getId(), o2.getId());
-         }
-      });
+      activities.sort((o1, o2) -> comparator.compare(o1.getId(), o2.getId()));
 
       // Second pass: perform the main sort
       activities.sort(new Comparator<Activity>()
@@ -732,13 +726,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      storepoints.sort(new Comparator<Storepoint>()
-      {
-         @Override public int compare(Storepoint o1, Storepoint o2)
-         {
-            return DateHelper.compare(o2.getCreationTime(), o1.getCreationTime());
-         }
-      });
+      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
 

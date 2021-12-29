@@ -24,7 +24,6 @@
 package net.sf.mpxj.sample;
 
 import java.io.File;
-import java.io.FileFilter;
 
 /**
  * This is a general utility designed to multiple files in one directory

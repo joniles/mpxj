@@ -137,7 +137,7 @@ final class AstaReader
          Row progressPeriod;
          if (currentProgressPeriodID == null)
          {
-            progressPeriods.sort((o1, o2) -> o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID")));
+            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("PROGRESS_PERIODID")));
 
             progressPeriod = progressPeriods.get(progressPeriods.size() - 1);
          }

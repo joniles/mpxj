@@ -263,13 +263,7 @@ public class ProjectCleanUtility
       // Populate a list of keys and sort into descending order of length
       //
       List<String> keys = new ArrayList<>(replacements.keySet());
-      keys.sort(new Comparator<String>()
-      {
-         @Override public int compare(String o1, String o2)
-         {
-            return (o2.length() - o1.length());
-         }
-      });
+      keys.sort((o1, o2) -> (o2.length() - o1.length()));
 
       //
       // Perform the replacement

@@ -26,7 +26,6 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 
 /**
