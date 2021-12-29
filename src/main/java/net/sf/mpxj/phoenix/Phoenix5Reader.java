@@ -380,7 +380,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeSequence.entrySet().forEach(entry -> sequenceJoiner.add("\"" + entry.getKey() + "\": " + entry.getValue() + ""));
+         m_activityCodeSequence.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1 + ""));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");
@@ -388,7 +388,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             Map<UUID, UUID> codes = getActivityCodes(activity);
             StringJoiner activityCodeJoiner = new StringJoiner(",");
-            codes.entrySet().forEach(entry -> activityCodeJoiner.add("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\""));
+            codes.forEach((key, value) -> activityCodeJoiner.add("\"" + key + "\": \"" + value + "\""));
             activityJoiner.add("\"" + activity.getId() + "\": {" + activityCodeJoiner + "}");
          }
          m_log.println("\"activityCodes\": {" + activityJoiner + "}}");
