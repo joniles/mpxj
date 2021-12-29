@@ -1160,10 +1160,7 @@ public final class MPXWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         StringBuilder buffer = new StringBuilder(m_formats.getCurrencyFormat().format(value.getAmount()));
-         buffer.append("/");
-         buffer.append(formatTimeUnit(value.getUnits()));
-         result = buffer.toString();
+         result = m_formats.getCurrencyFormat().format(value.getAmount()) + "/" + formatTimeUnit(value.getUnits());
       }
       return (result);
    }

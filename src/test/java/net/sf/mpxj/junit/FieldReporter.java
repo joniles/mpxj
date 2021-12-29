@@ -198,15 +198,7 @@ public class FieldReporter
 
    private String populateTableHeader(Set<String> keys)
    {
-      StringBuilder sb = new StringBuilder();
-      sb.append("Field|");
-      sb.append(String.join("|", keys));
-      sb.append("\r\n");
-
-      sb.append("---|");
-      sb.append(keys.stream().map(v -> "---").collect(Collectors.joining("|")));
-
-      return sb.toString();
+      return "Field|" + String.join("|", keys) + "\r\n" + "---|" + keys.stream().map(v -> "---").collect(Collectors.joining("|"));
    }
 
    private void writeTable(String title, List<Entry<FieldType, Set<String>>> fields, PrintWriter pw, String tableHeader, Set<String> keys)

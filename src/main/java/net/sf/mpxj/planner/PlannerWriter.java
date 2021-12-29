@@ -871,7 +871,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getScheduling(TaskType value)
    {
       String result = "fixed-work";
-      if (value != null && value == TaskType.FIXED_DURATION)
+      if (value == TaskType.FIXED_DURATION)
       {
          result = "fixed-duration";
       }

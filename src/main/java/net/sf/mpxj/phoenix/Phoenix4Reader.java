@@ -397,11 +397,11 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       {
          m_log.println("{");
          StringJoiner codeJoiner = new StringJoiner(",");
-         m_codeSequence.stream().forEach(code -> codeJoiner.add("\"" + code + "\""));
+         m_codeSequence.forEach(code -> codeJoiner.add("\"" + code + "\""));
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeSequence.entrySet().stream().forEach(entry -> sequenceJoiner.add("\"" + entry.getKey() + "\": " + entry.getValue() + ""));
+         m_activityCodeSequence.entrySet().forEach(entry -> sequenceJoiner.add("\"" + entry.getKey() + "\": " + entry.getValue() + ""));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");
@@ -409,7 +409,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          {
             Map<UUID, UUID> codes = getActivityCodes(activity);
             StringJoiner activityCodeJoiner = new StringJoiner(",");
-            codes.entrySet().stream().forEach(entry -> activityCodeJoiner.add("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\""));
+            codes.entrySet().forEach(entry -> activityCodeJoiner.add("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\""));
             activityJoiner.add("\"" + activity.getId() + "\": {" + activityCodeJoiner + "}");
          }
          m_log.println("\"activityCodes\": {" + activityJoiner + "}}");
