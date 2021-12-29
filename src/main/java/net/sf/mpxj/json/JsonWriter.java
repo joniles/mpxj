@@ -183,13 +183,7 @@ public final class JsonWriter extends AbstractProjectWriter
       List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).collect(Collectors.toList());
 
       // Sort to ensure consistent order in file
-      sortedCustomFieldsList.sort((f1, f2) -> {
-         FieldType o1 = f1.getFieldType();
-         FieldType o2 = f2.getFieldType();
-         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();
-         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + f2.getAlias();
-         return name1.compareTo(name2);
-      });
+      sortedCustomFieldsList.sort(this::compareCustomFields);
 
       m_writer.writeStartList("custom_fields");
       for (CustomField field : sortedCustomFieldsList)
@@ -197,6 +191,22 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomField(field);
       }
       m_writer.writeEndList();
+   }
+
+   /**
+    * Comparator to ensure consistent ordering.
+    *
+    * @param f1 CustomField instance
+    * @param f2 CustomField instance
+    * @return comparison result
+    */
+   private int compareCustomFields(CustomField f1, CustomField f2)
+   {
+      FieldType o1 = f1.getFieldType();
+      FieldType o2 = f2.getFieldType();
+      String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();
+      String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + f2.getAlias();
+      return name1.compareTo(name2);
    }
 
    /**

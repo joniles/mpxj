@@ -183,7 +183,7 @@ public class RecurringDataTest
       data.setRelative(false);
       data.setStartDate(df.parse("01/11/2017"));
       data.setDayNumber(Integer.valueOf(15));
-      data.setMonthNumber(Integer.valueOf(06));
+      data.setMonthNumber(Integer.valueOf(6));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "15/06/2018", "15/06/2019", "15/06/2020");
    }
