@@ -199,7 +199,7 @@ public final class SDEFWriter extends AbstractProjectWriter
                endIndex = Math.min(startIndex + MAX_EXCEPTIONS_PER_RECORD, formattedExceptions.size());
 
                m_writer.print(recordPrefix);
-               m_writer.println(formattedExceptions.subList(startIndex, endIndex).stream().collect(Collectors.joining(" ")));
+               m_writer.println(String.join(" ", formattedExceptions.subList(startIndex, endIndex)));
                startIndex = endIndex;
             }
          }

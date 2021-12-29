@@ -200,7 +200,7 @@ public class FieldReporter
    {
       StringBuilder sb = new StringBuilder();
       sb.append("Field|");
-      sb.append(keys.stream().collect(Collectors.joining("|")));
+      sb.append(String.join("|", keys));
       sb.append("\r\n");
 
       sb.append("---|");

@@ -59,7 +59,7 @@ class ActivitySorter
          //
          // Sort child activities
          //
-         tasks.stream().forEach(this::sort);
+         tasks.forEach(this::sort);
 
          //
          // Sort Order:
