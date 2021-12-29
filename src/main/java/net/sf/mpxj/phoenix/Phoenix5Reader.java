@@ -133,17 +133,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          return (m_projectFile);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
+      catch (ParserConfigurationException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }

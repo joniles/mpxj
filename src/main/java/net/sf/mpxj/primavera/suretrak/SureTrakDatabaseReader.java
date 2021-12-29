@@ -111,13 +111,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    {
       List<String> result = new ArrayList<>();
 
-      File[] files = directory.listFiles(new FilenameFilter()
-      {
-         @Override public boolean accept(File dir, String name)
-         {
-            return name.toUpperCase().endsWith(".DIR");
-         }
-      });
+      File[] files = directory.listFiles((dir, name) -> name.toUpperCase().endsWith(".DIR"));
 
       if (files != null)
       {
@@ -500,13 +494,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             }
 
             final AlphanumComparator comparator = new AlphanumComparator();
-            items.sort(new Comparator<MapRow>()
-            {
-               @Override public int compare(MapRow o1, MapRow o2)
-               {
-                  return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
-               }
-            });
+            items.sort((o1, o2) -> comparator.compare(o1.getString("WBS"), o2.getString("WBS")));
 
             for (MapRow row : items)
             {
@@ -544,13 +532,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          items.add(row);
       }
       final AlphanumComparator comparator = new AlphanumComparator();
-      items.sort(new Comparator<MapRow>()
-      {
-         @Override public int compare(MapRow o1, MapRow o2)
-         {
-            return comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID"));
-         }
-      });
+      items.sort((o1, o2) -> comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID")));
 
       for (MapRow row : items)
       {

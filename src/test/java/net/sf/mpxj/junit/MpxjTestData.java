@@ -84,13 +84,7 @@ public class MpxjTestData
    public static File[] listFiles(String path, final String name)
    {
       File testDataDir = new File(filePath(path));
-      File[] result = testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith(name);
-         }
-      });
+      File[] result = testDataDir.listFiles(pathname -> pathname.getName().startsWith(name));
       if (result == null)
       {
          result = new File[0];

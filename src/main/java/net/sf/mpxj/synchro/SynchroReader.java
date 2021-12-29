@@ -579,14 +579,10 @@ public final class SynchroReader extends AbstractProjectStreamReader
     */
    private List<MapRow> sort(List<MapRow> rows, final String attribute)
    {
-      rows.sort(new Comparator<MapRow>()
-      {
-         @Override public int compare(MapRow o1, MapRow o2)
-         {
-            String value1 = o1.getString(attribute);
-            String value2 = o2.getString(attribute);
-            return value1.compareTo(value2);
-         }
+      rows.sort((o1, o2) -> {
+         String value1 = o1.getString(attribute);
+         String value2 = o2.getString(attribute);
+         return value1.compareTo(value2);
       });
       return rows;
    }

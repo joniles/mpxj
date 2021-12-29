@@ -55,22 +55,10 @@ public class FileChooserView
       m_model = model;
 
       PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<>(m_model, "showDialog", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            openFileChooser();
-         }
-      });
+      adapter.addValueChangeListener(evt -> openFileChooser());
 
       PropertyAdapter<FileChooserModel> extensionsAdaptor = new PropertyAdapter<>(m_model, "extensions", true);
-      extensionsAdaptor.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            setFileFilter();
-         }
-      });
+      extensionsAdaptor.addValueChangeListener(evt -> setFileFilter());
    }
 
    /**

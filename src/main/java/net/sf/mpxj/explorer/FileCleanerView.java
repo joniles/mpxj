@@ -53,13 +53,7 @@ public class FileCleanerView
       m_model = model;
 
       PropertyAdapter<FileCleanerModel> adapter = new PropertyAdapter<>(m_model, "showDialog", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            openFileChooser();
-         }
-      });
+      adapter.addValueChangeListener(evt -> openFileChooser());
    }
 
    /**

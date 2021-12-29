@@ -54,13 +54,7 @@ final class FixedMeta extends MPPComponent
    FixedMeta(InputStream is, final int itemSize)
       throws IOException
    {
-      this(is, new FixedMetaItemSizeProvider()
-      {
-         @Override public int getItemSize(int fileSize, int itemCount)
-         {
-            return itemSize;
-         }
-      });
+      this(is, (fileSize, itemCount) -> itemSize);
    }
 
    /**

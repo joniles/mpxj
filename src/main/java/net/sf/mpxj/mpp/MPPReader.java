@@ -188,17 +188,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          return (projectFile);
       }
 
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (IllegalAccessException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (InstantiationException ex)
+      catch (IOException | InstantiationException | IllegalAccessException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }

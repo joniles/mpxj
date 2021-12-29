@@ -346,22 +346,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          return (APIBusinessObjects) UnmarshalHelper.unmarshal(CONTEXT, configureInputSource(stream), new NamespaceFilter(), false);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }

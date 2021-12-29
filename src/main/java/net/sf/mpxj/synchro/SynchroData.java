@@ -112,13 +112,7 @@ class SynchroData
       }
 
       // Ensure sorted by offset
-      tables.sort(new Comparator<SynchroTable>()
-      {
-         @Override public int compare(SynchroTable o1, SynchroTable o2)
-         {
-            return o1.getOffset() - o2.getOffset();
-         }
-      });
+      tables.sort(Comparator.comparingInt(SynchroTable::getOffset));
 
       // Calculate lengths
       SynchroTable previousTable = null;

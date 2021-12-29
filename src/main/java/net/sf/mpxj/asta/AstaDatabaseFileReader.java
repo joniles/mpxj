@@ -109,12 +109,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          return project;
       }
 
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (ParseException ex)
+      catch (SQLException | ParseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }

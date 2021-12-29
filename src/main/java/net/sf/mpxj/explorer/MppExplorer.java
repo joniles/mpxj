@@ -109,13 +109,7 @@ public class MppExplorer
       //
       // Open file
       //
-      mntmOpen.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileChooserController.openFileChooser();
-         }
-      });
+      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);

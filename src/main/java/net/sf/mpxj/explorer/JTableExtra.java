@@ -75,14 +75,7 @@ public class JTableExtra extends JTable
                case KeyEvent.VK_UP:
                case KeyEvent.VK_DOWN:
                {
-                  SwingUtilities.invokeLater(new Runnable()
-                  {
-
-                     @Override public void run()
-                     {
-                        setSelectedCell(new Point(getSelectedColumn(), getSelectedRow()));
-                     }
-                  });
+                  SwingUtilities.invokeLater(() -> setSelectedCell(new Point(getSelectedColumn(), getSelectedRow())));
 
                   break;
                }

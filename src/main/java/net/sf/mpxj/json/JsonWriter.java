@@ -180,11 +180,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).collect(Collectors.toList());
-
-      // Sort to ensure consistent order in file
-      sortedCustomFieldsList.sort(this::compareCustomFields);
-
+      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).sorted(this::compareCustomFields).collect(Collectors.toList());
       m_writer.writeStartList("custom_fields");
       for (CustomField field : sortedCustomFieldsList)
       {

@@ -54,22 +54,10 @@ public class FileSaverView
       m_model = model;
 
       PropertyAdapter<FileSaverModel> adapter = new PropertyAdapter<>(m_model, "showDialog", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            openFileChooser();
-         }
-      });
+      adapter.addValueChangeListener(evt -> openFileChooser());
 
       PropertyAdapter<FileSaverModel> extensionsAdaptor = new PropertyAdapter<>(m_model, "extensions", true);
-      extensionsAdaptor.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            setFileFilter();
-         }
-      });
+      extensionsAdaptor.addValueChangeListener(evt -> setFileFilter());
    }
 
    /**

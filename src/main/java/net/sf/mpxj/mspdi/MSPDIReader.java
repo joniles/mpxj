@@ -209,22 +209,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          return (m_projectFile);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }

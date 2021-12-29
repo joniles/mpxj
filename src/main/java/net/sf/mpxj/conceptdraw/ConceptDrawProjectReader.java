@@ -111,22 +111,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          return m_projectFile;
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -301,13 +286,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      projects.sort(new Comparator<Project>()
-      {
-         @Override public int compare(Project o1, Project o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
+      projects.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
 
       for (Project project : cdp.getProjects().getProject())
       {
@@ -352,13 +331,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Document.Projects.Project.Task> tasks = new ArrayList<>(project.getTask());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      tasks.sort(new Comparator<Project.Task>()
-      {
-         @Override public int compare(Project.Task o1, Project.Task o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
+      tasks.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
 
       Map<String, Task> map = new HashMap<>();
       map.put("", mpxjTask);

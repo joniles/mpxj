@@ -587,7 +587,7 @@ public final class DateHelper
 
       try
       {
-         tz.getMethod("getDSTSavings", (Class[]) null);
+         tz.getMethod("getDSTSavings", (Class<?>[]) null);
          HAS_DST_SAVINGS = true;
       }
 

@@ -79,29 +79,11 @@ public class HexDumpController
    {
       m_model = model;
 
-      model.addPropertyChangeListener("columns", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateTables();
-         }
-      });
+      model.addPropertyChangeListener("columns", evt -> updateTables());
 
-      model.addPropertyChangeListener("offset", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateTables();
-         }
-      });
+      model.addPropertyChangeListener("offset", evt -> updateTables());
 
-      model.addPropertyChangeListener("selectedCell", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateSelection();
-         }
-      });
+      model.addPropertyChangeListener("selectedCell", evt -> updateSelection());
    }
 
    /**

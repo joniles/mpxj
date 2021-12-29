@@ -131,12 +131,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          marshaller.marshal(apibo, handler);
       }
 
-      catch (JAXBException ex)
-      {
-         throw new IOException(ex.toString());
-      }
-
-      catch (TransformerConfigurationException ex)
+      catch (JAXBException | TransformerConfigurationException ex)
       {
          throw new IOException(ex.toString());
       }

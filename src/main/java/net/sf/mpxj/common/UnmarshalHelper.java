@@ -86,13 +86,7 @@ public final class UnmarshalHelper
 
       if (ignoreValidationErrors)
       {
-         unmarshaller.setEventHandler(new ValidationEventHandler()
-         {
-            @Override public boolean handleEvent(ValidationEvent event)
-            {
-               return true;
-            }
-         });
+         unmarshaller.setEventHandler(event -> true);
       }
 
       UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();
