@@ -97,7 +97,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
    private boolean fieldIsPopulated(FieldContainer item, FieldType type)
    {
       Object value = item.getCachedValue(type);
-      return value == null ? false : fieldIsNotDefaultValue(value, type);
+      return value != null && fieldIsNotDefaultValue(value, type);
    }
 
    /**

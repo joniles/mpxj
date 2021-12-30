@@ -33,6 +33,7 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
@@ -96,8 +97,7 @@ public class HexDumpController
       try
       {
          is = new DocumentInputStream(entry);
-         byte[] data = new byte[is.available()];
-         is.read(data);
+         byte[] data = InputStreamHelper.read(is, is.available());
          m_model.setData(data);
          updateTables();
       }

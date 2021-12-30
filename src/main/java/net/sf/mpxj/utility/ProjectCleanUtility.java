@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -131,8 +132,7 @@ public class ProjectCleanUtility
    private void processFile(String input, String output) throws IOException
    {
       FileInputStream is = new FileInputStream(input);
-      byte[] data = new byte[is.available()];
-      is.read(data);
+      byte[] data = InputStreamHelper.read(is, is.available());
       is.close();
 
       processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
@@ -286,8 +286,7 @@ public class ProjectCleanUtility
       DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
       DocumentInputStream dis = new DocumentInputStream(targetFile);
       int dataSize = dis.available();
-      byte[] data = new byte[dataSize];
-      dis.read(data);
+      byte[] data = InputStreamHelper.read(dis, dataSize);
       dis.close();
       targetFile.delete();
       return data;

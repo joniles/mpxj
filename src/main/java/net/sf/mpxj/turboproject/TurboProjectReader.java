@@ -52,6 +52,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -131,8 +132,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
       while (true)
       {
-         byte[] table = new byte[32];
-         is.read(table);
+         byte[] table = InputStreamHelper.read(is, 32);
          index += 32;
 
          int offset = PEPUtility.getInt(table, 0);

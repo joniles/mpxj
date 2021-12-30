@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.common.ByteArray;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SemVer;
 
 /**
@@ -180,9 +181,7 @@ class StreamReader
     */
    public ByteArray readBytes(int size) throws IOException
    {
-      byte[] data = new byte[size];
-      m_stream.read(data);
-      return new ByteArray(data);
+      return new ByteArray(InputStreamHelper.read(m_stream, size));
    }
 
    /**

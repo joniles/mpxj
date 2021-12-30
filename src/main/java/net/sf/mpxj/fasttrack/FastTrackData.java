@@ -38,6 +38,7 @@ import java.util.TreeSet;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Read tables of data from a FastTrack file.
@@ -55,14 +56,9 @@ class FastTrackData
 
       int blockIndex = 0;
       int length = (int) file.length();
-      m_buffer = new byte[length];
       try (FileInputStream is = new FileInputStream(file))
       {
-         int bytesRead = is.read(m_buffer);
-         if (bytesRead != length)
-         {
-            throw new RuntimeException("Read count different");
-         }
+         m_buffer = InputStreamHelper.read(is, length);
       }
 
       configureVersion();

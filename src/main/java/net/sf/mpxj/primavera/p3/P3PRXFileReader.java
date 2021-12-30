@@ -35,6 +35,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.FixedLengthInputStream;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
@@ -99,13 +100,9 @@ public final class P3PRXFileReader extends AbstractProjectStreamReader
     */
    private void extractFile(InputStream stream, File dir) throws IOException
    {
-      byte[] header = new byte[8];
-      byte[] fileName = new byte[13];
-      byte[] dataSize = new byte[4];
-
-      stream.read(header);
-      stream.read(fileName);
-      stream.read(dataSize);
+      byte[] header = InputStreamHelper.read(stream, 8);
+      byte[] fileName = InputStreamHelper.read(stream, 13);
+      byte[] dataSize = InputStreamHelper.read(stream, 4);
 
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);

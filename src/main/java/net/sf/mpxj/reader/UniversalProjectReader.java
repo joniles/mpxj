@@ -717,16 +717,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
             StreamHelper.skip(is, 1024);
 
             // Bytes at offset 1024
-            byte[] data = new byte[2];
-            is.read(data);
-
+            byte[] data = InputStreamHelper.read(is, 2);
             if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
             {
                StreamHelper.skip(is, 286);
 
                // Bytes at offset 1312
-               data = new byte[34];
-               is.read(data);
+               data = InputStreamHelper.read(is, 34);
                if (matchesFingerprint(data, PRX_FINGERPRINT))
                {
                   is.close();
@@ -739,8 +736,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             {
                StreamHelper.skip(is, 31742);
                // Bytes at offset 32768
-               data = new byte[4];
-               is.read(data);
+               data = InputStreamHelper.read(is, 4);
                if (matchesFingerprint(data, PRX3_FINGERPRINT))
                {
                   is.close();

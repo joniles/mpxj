@@ -623,7 +623,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean processRecord(List<String> record)
    {
       XerRecordType type = RECORD_TYPE_MAP.get(record.get(0));
-      return type == null ? false : processRecord(type, record);
+      return type != null && processRecord(type, record);
    }
 
    /**

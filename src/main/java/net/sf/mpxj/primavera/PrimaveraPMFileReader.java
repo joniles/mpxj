@@ -44,6 +44,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -484,8 +485,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       int bufferSize = 512;
       BufferedInputStream bis = new BufferedInputStream(stream);
       bis.mark(bufferSize);
-      byte[] buffer = new byte[bufferSize];
-      bis.read(buffer);
+      byte[] buffer = InputStreamHelper.read(bis, bufferSize);
       bis.reset();
 
       // Handle trailing nul character following HTML content expressed as &#0;

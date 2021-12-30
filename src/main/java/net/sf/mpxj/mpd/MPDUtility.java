@@ -34,6 +34,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class implements common utility methods used when processing
@@ -489,8 +490,7 @@ public final class MPDUtility
    {
       try
       {
-         byte[] data = new byte[is.available()];
-         is.read(data);
+         byte[] data = InputStreamHelper.read(is, is.available());
          fileHexDump(fileName, data);
       }
 

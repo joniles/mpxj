@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.primavera.common.ColumnDefinition;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.primavera.common.TableDefinition;
@@ -80,11 +81,8 @@ class TableReader
     */
    private void read(InputStream is, Table table) throws IOException
    {
-      byte[] headerBytes = new byte[6];
-      is.read(headerBytes);
-
-      byte[] recordCountBytes = new byte[2];
-      is.read(recordCountBytes);
+      byte[] headerBytes = InputStreamHelper.read(is, 6);
+      byte[] recordCountBytes = InputStreamHelper.read(is, 2);
       //int recordCount = getShort(recordCountBytes, 0);
       //System.out.println("Header: " + new String(headerBytes) + " Record count:" + recordCount);
 

@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class is used to represent the "FixedData" file entries that are
@@ -98,8 +99,7 @@ final class FixedData extends MPPComponent
    FixedData(FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
       throws IOException
    {
-      byte[] buffer = new byte[is.available()];
-      is.read(buffer);
+      byte[] buffer = InputStreamHelper.read(is, is.available());
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
@@ -173,8 +173,7 @@ final class FixedData extends MPPComponent
    FixedData(FixedMeta meta, int itemSize, InputStream is)
       throws IOException
    {
-      byte[] buffer = new byte[is.available()];
-      is.read(buffer);
+      byte[] buffer = InputStreamHelper.read(is, is.available());
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
@@ -310,7 +309,7 @@ final class FixedData extends MPPComponent
     */
    public boolean isValidOffset(Integer offset)
    {
-      return (offset == null ? false : isValidOffset(offset.intValue()));
+      return (offset != null && isValidOffset(offset.intValue()));
    }
 
    /**

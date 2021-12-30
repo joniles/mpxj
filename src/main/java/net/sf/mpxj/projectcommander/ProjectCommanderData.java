@@ -44,6 +44,7 @@ import java.util.stream.IntStream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Reads a Project Commander file an returns a hierarchical list of blocks.
@@ -131,17 +132,11 @@ final class ProjectCommanderData
     */
    private void populateBuffer(InputStream is) throws IOException
    {
-      int length = is.available();
-      m_buffer = new byte[length];
-
       try
       {
-         int bytesRead = is.read(m_buffer);
-         if (bytesRead != length)
-         {
-            throw new RuntimeException("Read count different");
-         }
+         m_buffer = InputStreamHelper.read(is, is.available());
       }
+
       finally
       {
          is.close();

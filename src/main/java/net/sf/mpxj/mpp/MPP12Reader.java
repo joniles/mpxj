@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1856,8 +1857,7 @@ final class MPP12Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
-         byte[] fixedData = new byte[is.available()];
-         is.read(fixedData);
+         byte[] fixedData = InputStreamHelper.read(is, is.available());
          is.close();
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -2018,8 +2019,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
-         byte[] fixedData = new byte[is.available()];
-         is.read(fixedData);
+         byte[] fixedData = InputStreamHelper.read(is, is.available());
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
          ViewStateReader reader = new ViewStateReader9();

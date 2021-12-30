@@ -107,6 +107,30 @@ public class InputStreamHelper
    }
 
    /**
+    * Reads a specified number of bytes from the input stream and populates
+    * a new byte array. If the required number of bytes can't be read
+    * an exception will be raised.
+    *
+    * @param is InputStream instance
+    * @param size number of bytes to read
+    * @return new byte array instance
+    */
+   public static byte[] read(InputStream is, int size) throws IOException
+   {
+      return read(is, new byte[size]);
+   }
+
+   public static byte[] read(InputStream is, byte[] data) throws IOException
+   {
+      int bytesRead = is.read(data);
+      if (bytesRead != data.length)
+      {
+         throw new RuntimeException("Unable to read the required number of bytes");
+      }
+      return data;
+   }
+
+   /**
     * Expands a zip file input stream into a temporary directory.
     *
     * @param dir temporary directory

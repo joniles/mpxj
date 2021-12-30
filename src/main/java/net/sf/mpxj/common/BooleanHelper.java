@@ -37,6 +37,6 @@ public final class BooleanHelper
     */
    public static final boolean getBoolean(Boolean value)
    {
-      return ((value == null ? false : value.booleanValue()));
+      return ((value != null && value.booleanValue()));
    }
 }

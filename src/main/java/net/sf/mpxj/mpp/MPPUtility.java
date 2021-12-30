@@ -38,6 +38,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -981,9 +982,7 @@ public final class MPPUtility
    {
       try
       {
-         byte[] data = new byte[is.available()];
-         is.read(data);
-         fileHexDump(fileName, data);
+         fileHexDump(fileName, InputStreamHelper.read(is, is.available()));
       }
 
       catch (IOException ex)

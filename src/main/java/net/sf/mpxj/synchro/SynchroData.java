@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SemVer;
 import net.sf.mpxj.common.StreamHelper;
 
@@ -80,9 +81,7 @@ class SynchroData
       InputStream stream = new ByteArrayInputStream(m_tableData.get(name));
       if (m_version.atLeast(Synchro.VERSION_6_0_0))
       {
-         byte[] header = new byte[24];
-         stream.read(header);
-         SynchroLogger.log("TABLE HEADER", header);
+         SynchroLogger.log("TABLE HEADER", InputStreamHelper.read(stream, 24));
       }
       return new StreamReader(m_version, stream);
    }
@@ -101,7 +100,7 @@ class SynchroData
       byte[] header = new byte[48];
       while (true)
       {
-         is.read(header);
+         InputStreamHelper.read(is, header);
          m_offset += 48;
          SynchroTable table = readTableHeader(header);
          if (table == null)
@@ -200,8 +199,7 @@ class SynchroData
 
       SynchroLogger.log("READ", tableName);
 
-      byte[] compressedTableData = new byte[dataLength];
-      is.read(compressedTableData);
+      byte[] compressedTableData = InputStreamHelper.read(is, dataLength);
       m_offset += dataLength;
 
       Inflater inflater = new Inflater();
@@ -237,8 +235,7 @@ class SynchroData
     */
    private void readHeader(InputStream is) throws IOException
    {
-      byte[] header = new byte[20];
-      is.read(header);
+      byte[] header = InputStreamHelper.read(is, 20);
       m_offset += 20;
       SynchroLogger.log("HEADER", header);
    }

@@ -33,6 +33,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Common data extraction/conversion conversion methods.
@@ -131,9 +132,7 @@ final class DatatypeConverter
     */
    public static final int getInt(InputStream is) throws IOException
    {
-      byte[] data = new byte[4];
-      is.read(data);
-      return getInt(data, 0);
+      return getInt(InputStreamHelper.read(is, 4), 0);
    }
 
    /**
@@ -155,9 +154,7 @@ final class DatatypeConverter
     */
    public static final int getShort(InputStream is) throws IOException
    {
-      byte[] data = new byte[2];
-      is.read(data);
-      return getShort(data, 0);
+      return getShort(InputStreamHelper.read(is, 2), 0);
    }
 
    /**
@@ -168,9 +165,7 @@ final class DatatypeConverter
     */
    public static final long getLong(InputStream is) throws IOException
    {
-      byte[] data = new byte[8];
-      is.read(data);
-      return getLong(data, 0);
+      return getLong(InputStreamHelper.read(is, 8), 0);
    }
 
    /**
@@ -214,9 +209,7 @@ final class DatatypeConverter
       }
       else
       {
-         byte[] stringData = new byte[length];
-         is.read(stringData);
-         result = new String(stringData, charset);
+         result = new String(InputStreamHelper.read(is, length), charset);
       }
       return result;
    }
@@ -241,8 +234,7 @@ final class DatatypeConverter
     */
    public static final UUID getUUID(InputStream is) throws IOException
    {
-      byte[] data = new byte[16];
-      is.read(data);
+      byte[] data = InputStreamHelper.read(is, 16);
 
       long long1 = 0;
       long1 |= ((long) (data[3] & 0xFF)) << 56;

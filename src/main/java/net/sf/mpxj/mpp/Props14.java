@@ -27,6 +27,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 
 /**
@@ -45,9 +46,8 @@ final class Props14 extends Props
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props14." + System.currentTimeMillis() + ".txt");
       //PrintWriter pw = new PrintWriter (fos);
 
-      byte[] header = new byte[16];
+      byte[] header = InputStreamHelper.read(is, 16);
       byte[] data;
-      is.read(header);
 
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
@@ -74,11 +74,9 @@ final class Props14 extends Props
             break;
          }
 
-         data = new byte[attrib1];
-
          try
          {
-            is.read(data);
+            data = InputStreamHelper.read(is, attrib1);
          }
 
          catch (IndexOutOfBoundsException ex)

@@ -27,6 +27,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 
 /**
@@ -45,9 +46,8 @@ final class Props12 extends Props
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props12." + System.currentTimeMillis() + ".txt");
       //PrintWriter pw = new PrintWriter (fos);
 
-      byte[] header = new byte[16];
+      byte[] header = InputStreamHelper.read(is, 16);
       byte[] data;
-      is.read(header);
 
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
@@ -65,8 +65,7 @@ final class Props12 extends Props
             break;
          }
 
-         data = new byte[attrib1];
-         is.read(data);
+         data = InputStreamHelper.read(is, attrib1);
          availableBytes -= attrib1;
 
          m_map.put(Integer.valueOf(attrib2), data);
