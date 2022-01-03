@@ -79,7 +79,7 @@ public final class OperatingSystem
    {
       String replacementOsName = null;
       String osname = System.getProperty("os.name");
-      boolean osNotKnown = Stream.of(KNOWN_OS_NAMES).noneMatch(osname::contains);
+      boolean osNotKnown = !Stream.of(KNOWN_OS_NAMES).anyMatch(name -> osname.contains(name));
 
       if (JvmHelper.isIkvm() && osNotKnown)
       {
