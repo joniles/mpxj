@@ -585,7 +585,7 @@ public class CustomerDataTest
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
 
-         if (success || !DEBUG_FAILURES)
+         if (success)
          {
             FileHelper.deleteQuietly(out);
          }
@@ -670,6 +670,4 @@ public class CustomerDataTest
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
-
-   private static final boolean DEBUG_FAILURES = false;
 }
