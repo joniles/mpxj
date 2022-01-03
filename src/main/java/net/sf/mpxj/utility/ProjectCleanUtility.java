@@ -35,6 +35,9 @@ import java.util.Map;
 
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.utility.clean.CleanByRedactStrategy;
+import net.sf.mpxj.utility.clean.CleanByReplacementStrategy;
+import net.sf.mpxj.utility.clean.CleanStrategy;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -80,16 +83,33 @@ public class ProjectCleanUtility
    {
       try
       {
-         if (args.length != 2)
+         if (args.length < 2 || args.length > 3)
          {
-            System.out.println("Usage: ProjectCleanUtility <input file name> <output file name>");
+            System.out.println("Usage: ProjectCleanUtility [redact] <input file name> <output file name>");
          }
          else
          {
+            String inputFile;
+            String outputFile;
+            CleanStrategy strategy;
+
+            if (args.length == 2)
+            {
+               strategy = new CleanByReplacementStrategy();
+               inputFile = args[0];
+               outputFile = args[1];
+            }
+            else
+            {
+               strategy = args[0].equalsIgnoreCase("redact") ? new CleanByRedactStrategy() : new CleanByReplacementStrategy();
+               inputFile = args[1];
+               outputFile = args[2];
+            }
+
             System.out.println("Clean started.");
             long start = System.currentTimeMillis();
             ProjectCleanUtility clean = new ProjectCleanUtility();
-            clean.process(args[0], args[1]);
+            clean.process(strategy, inputFile, outputFile);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Clean completed in " + elapsed + "ms");
          }
@@ -109,6 +129,20 @@ public class ProjectCleanUtility
     */
    public void process(String input, String output) throws MPXJException, IOException
    {
+      process(new CleanByReplacementStrategy(), input, output);
+   }
+
+   /**
+    * Process a project file to make it anonymous, allowing a strategy to be supplied.
+    *
+    * @param strategy strategy used to make anonymous
+    * @param input input file name
+    * @param output output file name
+    */
+   public void process(CleanStrategy strategy, String input, String output) throws MPXJException, IOException
+   {
+      m_strategy = strategy;
+
       //
       // Extract the project data
       //
@@ -254,7 +288,11 @@ public class ProjectCleanUtility
       {
          for (FieldType field : fields)
          {
-            mapText((String) item.getCachedValue(field), replacements);
+            String oldText = (String) item.getCachedValue(field);
+            if (oldText != null && oldText.length() > 1 && !replacements.containsKey(oldText))
+            {
+               replacements.put(oldText, m_strategy.generateReplacementText(oldText));
+            }
          }
       }
 
@@ -306,65 +344,6 @@ public class ProjectCleanUtility
       byte[] data = extractFile(parentDirectory, fileName);
       processReplacements(data, items, unicode, true, fields);
       parentDirectory.createDocument(fileName, new ByteArrayInputStream(data));
-   }
-
-   /**
-    * Converts plan text into anonymous text. Preserves upper case, lower case,
-    * punctuation, whitespace and digits while making the text unreadable.
-    *
-    * @param oldText text to replace
-    * @param replacements map of find/replace pairs
-    */
-   private void mapText(String oldText, Map<String, String> replacements)
-   {
-      char c2 = 0;
-      if (oldText != null && oldText.length() > 1 && !replacements.containsKey(oldText))
-      {
-         StringBuilder newText = new StringBuilder(oldText.length());
-         for (int loop = 0; loop < oldText.length(); loop++)
-         {
-            char c = oldText.charAt(loop);
-            if (Character.isUpperCase(c))
-            {
-               newText.append('X');
-            }
-            else
-            {
-               if (Character.isLowerCase(c))
-               {
-                  newText.append('x');
-               }
-               else
-               {
-                  if (Character.isDigit(c))
-                  {
-                     newText.append('0');
-                  }
-                  else
-                  {
-                     if (Character.isLetter(c))
-                     {
-                        // Handle other codepages etc. If possible find a way to
-                        // maintain the same code page as original.
-                        // E.g. replace with a character from the same alphabet.
-                        // This 'should' work for most cases
-                        if (c2 == 0)
-                        {
-                           c2 = c;
-                        }
-                        newText.append(c2);
-                     }
-                     else
-                     {
-                        newText.append(c);
-                     }
-                  }
-               }
-            }
-         }
-
-         replacements.put(oldText, newText.toString());
-      }
    }
 
    /**
@@ -461,29 +440,30 @@ public class ProjectCleanUtility
       return (result);
    }
 
+   private CleanStrategy m_strategy;
    private ProjectFile m_project;
 
    private static final ProjectField[] PROJECT_FIELDS =
-   {
-      ProjectField.AUTHOR,
-      ProjectField.SUBJECT,
-      ProjectField.COMPANY,
-      ProjectField.PROJECT_TITLE,
-      ProjectField.KEYWORDS,
-      ProjectField.COMMENTS,
-      ProjectField.LAST_AUTHOR,
-      ProjectField.MANAGER,
-      ProjectField.CATEGORY
-   };
+            {
+                     ProjectField.AUTHOR,
+                     ProjectField.SUBJECT,
+                     ProjectField.COMPANY,
+                     ProjectField.PROJECT_TITLE,
+                     ProjectField.KEYWORDS,
+                     ProjectField.COMMENTS,
+                     ProjectField.LAST_AUTHOR,
+                     ProjectField.MANAGER,
+                     ProjectField.CATEGORY
+            };
 
    private static final TaskField[] TASK_FIELDS =
-   {
-      TaskField.NAME
-   };
+            {
+                     TaskField.NAME
+            };
 
    private static final ResourceField[] RESOURCE_FIELDS =
-   {
-      ResourceField.NAME,
-      ResourceField.INITIALS
-   };
+            {
+                     ResourceField.NAME,
+                     ResourceField.INITIALS
+            };
 }
