@@ -109,7 +109,7 @@ public final class Pair<L, R>
       {
          return other.m_second == null;
       }
-      
+
       return m_second.equals(other.m_second);
    }
 

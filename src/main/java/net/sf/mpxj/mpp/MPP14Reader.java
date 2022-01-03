@@ -1111,8 +1111,10 @@ final class MPP14Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
-                  data, data2
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         {
+            data,
+            data2
          }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
@@ -1686,8 +1688,10 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.disableEvents();
 
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
-                  data, data2
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         {
+            data,
+            data2
          }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);

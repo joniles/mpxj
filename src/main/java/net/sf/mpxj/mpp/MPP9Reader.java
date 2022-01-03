@@ -1125,8 +1125,9 @@ final class MPP9Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
-                  data
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         {
+            data
          }, taskVarData);
          task.enableEvents();
 
@@ -1766,8 +1767,9 @@ final class MPP9Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
-                  data
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         {
+            data
          }, rscVarData);
          resource.enableEvents();
 

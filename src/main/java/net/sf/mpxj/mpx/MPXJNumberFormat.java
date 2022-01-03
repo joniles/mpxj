@@ -154,7 +154,7 @@ public final class MPXJNumberFormat extends DecimalFormat
       {
          return other.m_symbols == null;
       }
-      
+
       return m_symbols.equals(other.m_symbols);
    }
 
