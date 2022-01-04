@@ -120,6 +120,14 @@ public class InputStreamHelper
       return read(is, new byte[size]);
    }
 
+   /**
+    * Read bytes from the input stream to fill the provided array.
+    * If the array can't be filled an exception will be raised.
+    *
+    * @param is InputStream instance
+    * @param data array to fill
+    * @return filled byte array
+    */
    public static byte[] read(InputStream is, byte[] data) throws IOException
    {
       int bytesRead = is.read(data);

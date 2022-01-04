@@ -1052,7 +1052,7 @@ final class MPP9Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
+      Integer[] uniqueIdArray = taskMap.keySet().toArray(new Integer[0]); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1061,10 +1061,8 @@ final class MPP9Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
 
-      for (Object o : uniqueIdArray)
+      for (Integer uniqueID : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) o;
-
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
          {
@@ -1125,8 +1123,9 @@ final class MPP9Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
-                  data
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         {
+            data
          }, taskVarData);
          task.enableEvents();
 
@@ -1744,15 +1743,13 @@ final class MPP9Reader implements MPPVariantReader
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
-      Integer id;
       Integer offset;
       byte[] data;
       byte[] metaData;
       Resource resource;
 
-      for (Integer integer : uniqueid)
+      for (Integer id : uniqueid)
       {
-         id = integer;
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1766,8 +1763,9 @@ final class MPP9Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
-                  data
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         {
+            data
          }, rscVarData);
          resource.enableEvents();
 

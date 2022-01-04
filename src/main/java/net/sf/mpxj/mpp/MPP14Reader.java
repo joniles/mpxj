@@ -1010,7 +1010,7 @@ final class MPP14Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
+      Integer[] uniqueIdArray = taskMap.keySet().toArray(new Integer[0]); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1037,10 +1037,8 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_TASK_META_DATA2_BIT_FLAGS;
       }
 
-      for (Object o : uniqueIdArray)
+      for (Integer uniqueID : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) o;
-
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
          {
@@ -1111,8 +1109,10 @@ final class MPP14Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]{
-                  data, data2
+         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         {
+            data,
+            data2
          }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
@@ -1635,7 +1635,6 @@ final class MPP14Reader implements MPPVariantReader
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
-      Integer id;
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1665,9 +1664,8 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS;
       }
 
-      for (Integer integer : uniqueid)
+      for (Integer id : uniqueid)
       {
-         id = integer;
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1686,8 +1684,10 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.disableEvents();
 
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]{
-                  data, data2
+         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         {
+            data,
+            data2
          }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
