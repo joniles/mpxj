@@ -47,5 +47,5 @@ public class InputStreamTokenizer extends Tokenizer
       return (m_stream.read());
    }
 
-   private InputStream m_stream;
+   private final InputStream m_stream;
 }

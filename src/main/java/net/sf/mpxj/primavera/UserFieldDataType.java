@@ -80,7 +80,7 @@ public enum UserFieldDataType
     * @param fieldNames default field names used to
     * store user defined data of this type.
     */
-   private UserFieldDataType(String[] fieldNames)
+   UserFieldDataType(String[] fieldNames)
    {
       this.m_defaultFieldNames = fieldNames;
    }

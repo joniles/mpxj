@@ -586,7 +586,7 @@ public enum AssignmentField implements FieldType
     * @param dataType field data type
     * @param unitsType units type
     */
-   private AssignmentField(DataType dataType, FieldType unitsType)
+   AssignmentField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -597,7 +597,7 @@ public enum AssignmentField implements FieldType
     *
     * @param dataType field data type
     */
-   private AssignmentField(DataType dataType)
+   AssignmentField(DataType dataType)
    {
       this(dataType, null);
    }
@@ -682,6 +682,6 @@ public enum AssignmentField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

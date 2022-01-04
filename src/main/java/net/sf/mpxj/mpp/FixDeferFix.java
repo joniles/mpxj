@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.util.TreeSet;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents the a block of variable length data items that appears
@@ -46,8 +47,7 @@ final class FixDeferFix extends MPPComponent
    FixDeferFix(InputStream is)
       throws IOException
    {
-      m_data = new byte[is.available()];
-      is.read(m_data);
+      m_data = InputStreamHelper.read(is, is.available());
    }
 
    /**
@@ -263,5 +263,5 @@ final class FixDeferFix extends MPPComponent
       return (sw.toString());
    }
 
-   private byte[] m_data;
+   private final byte[] m_data;
 }

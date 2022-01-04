@@ -44,9 +44,7 @@ import net.sf.mpxj.ProjectFile;
  */
 public class ProjectFilePanel extends JPanel
 {
-   private final ProjectTreeModel m_treeModel;
    private final ProjectTreeController m_treeController;
-   private final ProjectTreeView m_treeView;
    final Map<MpxjTreeNode, ObjectPropertiesPanel> m_openTabs;
 
    /**
@@ -57,17 +55,17 @@ public class ProjectFilePanel extends JPanel
     */
    public ProjectFilePanel(File file, ProjectFile projectFile)
    {
-      m_treeModel = new ProjectTreeModel();
-      m_treeController = new ProjectTreeController(m_treeModel);
+      ProjectTreeModel treeModel = new ProjectTreeModel();
+      m_treeController = new ProjectTreeController(treeModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      m_treeView = new ProjectTreeView(m_treeModel);
-      m_treeView.setShowsRootHandles(true);
+      ProjectTreeView treeView = new ProjectTreeView(treeModel);
+      treeView.setShowsRootHandles(true);
 
       JSplitPane splitPane = new JSplitPane();
       splitPane.setDividerLocation(0.3);
       add(splitPane);
 
-      JScrollPane scrollPane = new JScrollPane(m_treeView);
+      JScrollPane scrollPane = new JScrollPane(treeView);
       splitPane.setLeftComponent(scrollPane);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -75,7 +73,7 @@ public class ProjectFilePanel extends JPanel
 
       m_openTabs = new HashMap<>();
 
-      m_treeView.addTreeSelectionListener(new TreeSelectionListener()
+      treeView.addTreeSelectionListener(new TreeSelectionListener()
       {
          @Override public void valueChanged(TreeSelectionEvent e)
          {

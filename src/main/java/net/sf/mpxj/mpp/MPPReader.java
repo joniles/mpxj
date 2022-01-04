@@ -26,7 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +72,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -188,17 +188,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          return (projectFile);
       }
 
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (IllegalAccessException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (InstantiationException ex)
+      catch (IOException | InstantiationException | IllegalAccessException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }

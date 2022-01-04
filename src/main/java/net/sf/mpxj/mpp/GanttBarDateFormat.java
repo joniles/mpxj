@@ -61,7 +61,7 @@ public enum GanttBarDateFormat implements MpxjEnum
     * @param type int version of the enum
     * @param name enum name
     */
-   private GanttBarDateFormat(int type, String name)
+   GanttBarDateFormat(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -141,6 +141,6 @@ public enum GanttBarDateFormat implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
-   private String m_name;
+   private final int m_value;
+   private final String m_name;
 }

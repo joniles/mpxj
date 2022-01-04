@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -137,13 +136,13 @@ public final class SDEFWriter extends AbstractProjectWriter
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);
       m_buffer.append("PROJ ");
-      m_buffer.append(formatDate(dataDate) + " "); // DataDate
-      m_buffer.append(SDEFmethods.lset(record.getManager(), 4) + " "); // ProjIdent
-      m_buffer.append(SDEFmethods.lset(record.getProjectTitle(), 48) + " "); // ProjName
-      m_buffer.append(SDEFmethods.lset(record.getSubject(), 36) + " "); // ContrName
+      m_buffer.append(formatDate(dataDate)).append(" "); // DataDate
+      m_buffer.append(SDEFmethods.lset(record.getManager(), 4)).append(" "); // ProjIdent
+      m_buffer.append(SDEFmethods.lset(record.getProjectTitle(), 48)).append(" "); // ProjName
+      m_buffer.append(SDEFmethods.lset(record.getSubject(), 36)).append(" "); // ContrName
       m_buffer.append("P "); // ArrowP
       m_buffer.append(SDEFmethods.lset(record.getKeywords(), 7)); // ContractNum
-      m_buffer.append(formatDate(startDate) + " "); // ProjStart
+      m_buffer.append(formatDate(startDate)).append(" "); // ProjStart
       m_buffer.append(formatDate(finishDate)); // ProjEnd
       m_writer.println(m_buffer);
    }
@@ -196,17 +195,10 @@ public final class SDEFWriter extends AbstractProjectWriter
             int endIndex;
             while (startIndex < formattedExceptions.size())
             {
-               if (startIndex + MAX_EXCEPTIONS_PER_RECORD <= formattedExceptions.size())
-               {
-                  endIndex = startIndex + MAX_EXCEPTIONS_PER_RECORD;
-               }
-               else
-               {
-                  endIndex = formattedExceptions.size();
-               }
+               endIndex = Math.min(startIndex + MAX_EXCEPTIONS_PER_RECORD, formattedExceptions.size());
 
                m_writer.print(recordPrefix);
-               m_writer.println(formattedExceptions.subList(startIndex, endIndex).stream().collect(Collectors.joining(" ")));
+               m_writer.println(String.join(" ", formattedExceptions.subList(startIndex, endIndex)));
                startIndex = endIndex;
             }
          }
@@ -248,8 +240,8 @@ public final class SDEFWriter extends AbstractProjectWriter
       {
          m_buffer.append("ACTV ");
 
-         m_buffer.append(getActivityID(record) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getName(), 30) + " ");
+         m_buffer.append(getActivityID(record)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getName(), 30)).append(" ");
 
          // Following just makes certain we have days for duration, as per USACE spec.
          Duration dd = record.getDuration();
@@ -264,7 +256,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
-         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
+         m_buffer.append(SDEFmethods.rset(est.toString(), 3)).append(" "); // task duration in days required by USACE
 
          String conType;
          String formattedConstraintDate;
@@ -296,7 +288,7 @@ public final class SDEFWriter extends AbstractProjectWriter
             }
          }
 
-         m_buffer.append(formattedConstraintDate + " ");
+         m_buffer.append(formattedConstraintDate).append(" ");
          m_buffer.append(conType);
          if (record.getCalendar() == null)
          {
@@ -304,17 +296,17 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            m_buffer.append(SDEFmethods.lset(record.getCalendar().getUniqueID().toString(), 1) + " ");
+            m_buffer.append(SDEFmethods.lset(record.getCalendar().getUniqueID().toString(), 1)).append(" ");
          }
 
          m_buffer.append(BooleanHelper.getBoolean(record.getHammockCode()) ? "Y " : "  ");
-         m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getWorkAreaCode(), 4) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getModOrClaimNumber(), 6) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getBidItem(), 6) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getPhaseOfWork(), 2) + " ");
-         m_buffer.append(SDEFmethods.lset(record.getCategoryOfWork(), 1) + " ");
+         m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getWorkAreaCode(), 4)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getModOrClaimNumber(), 6)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getBidItem(), 6)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getPhaseOfWork(), 2)).append(" ");
+         m_buffer.append(SDEFmethods.lset(record.getCategoryOfWork(), 1)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getFeatureOfWork(), 30));
 
          m_writer.println(m_buffer.toString());
@@ -367,14 +359,14 @@ public final class SDEFWriter extends AbstractProjectWriter
          {
             m_buffer.setLength(0);
             m_buffer.append("PRED ");
-            m_buffer.append(getActivityID(pred.getSourceTask()) + " ");
-            m_buffer.append(getActivityID(pred.getTargetTask()) + " ");
+            m_buffer.append(getActivityID(pred.getSourceTask())).append(" ");
+            m_buffer.append(getActivityID(pred.getTargetTask())).append(" ");
             String type = "C"; // default finish-to-start
             if (!pred.getType().toString().equals("FS"))
             {
                type = pred.getType().toString().substring(0, 1);
             }
-            m_buffer.append(type + " ");
+            m_buffer.append(type).append(" ");
 
             Duration dd = pred.getLag();
             double duration = dd.getDuration();
@@ -419,7 +411,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       if (!record.getSummary())
       { // I don't use summary tasks for SDEF
          m_buffer.append("PROG ");
-         m_buffer.append(getActivityID(record) + " ");
+         m_buffer.append(getActivityID(record)).append(" ");
          Date temp = record.getActualStart();
          if (temp == null)
          {
@@ -427,7 +419,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            m_buffer.append(m_formatter.format(record.getActualStart()).toUpperCase() + " "); // ACTUAL START DATE
+            m_buffer.append(m_formatter.format(record.getActualStart()).toUpperCase()).append(" "); // ACTUAL START DATE
          }
          temp = record.getActualFinish();
          if (temp == null)
@@ -436,7 +428,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            m_buffer.append(m_formatter.format(record.getActualFinish()).toUpperCase() + " "); // ACTUAL FINISH DATE
+            m_buffer.append(m_formatter.format(record.getActualFinish()).toUpperCase()).append(" "); // ACTUAL FINISH DATE
          }
 
          Duration dd = record.getRemainingDuration() == null ? Duration.getInstance(0, TimeUnit.DAYS) : record.getRemainingDuration();
@@ -446,16 +438,16 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
          Integer est = Integer.valueOf(days.intValue());
-         m_buffer.append(SDEFmethods.rset(est.toString(), 3) + " "); // task duration in days required by USACE
+         m_buffer.append(SDEFmethods.rset(est.toString(), 3)).append(" "); // task duration in days required by USACE
 
          DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getCost())), 12) + " ");
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getActualCost())), 12) + " ");
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getStoredMaterial())), 12) + " ");
-         m_buffer.append(formatDate(record.getEarlyStart()) + " ");
-         m_buffer.append(formatDate(record.getEarlyFinish()) + " ");
-         m_buffer.append(formatDate(record.getLateStart()) + " ");
-         m_buffer.append(formatDate(record.getLateFinish()) + " ");
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getCost())), 12)).append(" ");
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getActualCost())), 12)).append(" ");
+         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getStoredMaterial())), 12)).append(" ");
+         m_buffer.append(formatDate(record.getEarlyStart())).append(" ");
+         m_buffer.append(formatDate(record.getEarlyFinish())).append(" ");
+         m_buffer.append(formatDate(record.getLateStart())).append(" ");
+         m_buffer.append(formatDate(record.getLateFinish())).append(" ");
 
          char floatSign;
          String floatValue;
@@ -486,7 +478,7 @@ public final class SDEFWriter extends AbstractProjectWriter
             floatValue = "";
          }
 
-         m_buffer.append(floatSign + " ");
+         m_buffer.append(floatSign).append(" ");
          m_buffer.append(SDEFmethods.rset(floatValue, 3)); // task duration in days required by USACE
          m_writer.println(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
@@ -557,7 +549,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private EventManager m_eventManager;
    private PrintStream m_writer; // line out to a text file
    private StringBuilder m_buffer; // used to accumulate characters
-   private Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
+   private final Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
 
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }

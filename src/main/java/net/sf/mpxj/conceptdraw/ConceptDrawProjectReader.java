@@ -26,9 +26,7 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,22 +110,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          return m_projectFile;
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -143,7 +126,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -302,13 +285,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      Collections.sort(projects, new Comparator<Project>()
-      {
-         @Override public int compare(Project o1, Project o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
+      projects.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
 
       for (Project project : cdp.getProjects().getProject())
       {
@@ -353,13 +330,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Document.Projects.Project.Task> tasks = new ArrayList<>(project.getTask());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      Collections.sort(tasks, new Comparator<Document.Projects.Project.Task>()
-      {
-         @Override public int compare(Document.Projects.Project.Task o1, Document.Projects.Project.Task o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
+      tasks.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
 
       Map<String, Task> map = new HashMap<>();
       map.put("", mpxjTask);

@@ -150,7 +150,7 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   private final Object getObject(String name)
+   private Object getObject(String name)
    {
       return m_map.get(name);
    }
@@ -162,10 +162,10 @@ class MapRow implements Row
     * @param value string representation
     * @return Boolean value
     */
-   private final boolean parseBoolean(String value)
+   private boolean parseBoolean(String value)
    {
       return value != null && (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("y") || value.equalsIgnoreCase("yes"));
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

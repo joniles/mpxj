@@ -24,7 +24,6 @@
 package net.sf.mpxj.sample;
 
 import java.io.File;
-import java.io.FileFilter;
 
 /**
  * This is a general utility designed to multiple files in one directory
@@ -52,13 +51,7 @@ public final class MpxjBatchConvert
             String targetDirectory = args[2];
             String targetSuffix = args[3];
 
-            File[] fileList = sourceDirectory.listFiles(new FileFilter()
-            {
-               @Override public boolean accept(File pathname)
-               {
-                  return pathname.getName().endsWith(sourceSuffix);
-               }
-            });
+            File[] fileList = sourceDirectory.listFiles(pathname -> pathname.getName().endsWith(sourceSuffix));
 
             if (fileList != null)
             {

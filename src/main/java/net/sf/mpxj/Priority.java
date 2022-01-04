@@ -160,5 +160,5 @@ public final class Priority
    /**
     * Internal representation of the priority.
     */
-   private int m_value;
+   private final int m_value;
 }

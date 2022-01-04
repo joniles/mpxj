@@ -261,7 +261,7 @@ public class MppTaskTest
     *
     * Currently split tasks are not supported in MPD files.
     */
-   @Test public void testMpd9Splits() throws Exception
+   @Test public void testMpd9Splits()
    {
       //       ProjectFile mpp = new MPDDatabaseReader().read (MpxjTestData.filePath("mpp9splittask.mpd");
       //       testSplitTasks(mpp);
@@ -402,7 +402,7 @@ public class MppTaskTest
     * VAC<br>
     *
     */
-   private void testBasicTask(ProjectFile mpp) throws Exception
+   private void testBasicTask(ProjectFile mpp)
    {
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -729,25 +729,9 @@ public class MppTaskTest
     * dates, estimated, and other fields (see below).
     *
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
-    *
-    * <br><br>
-    * Columns tested:<br><br>
-    *
-    * Actual Start<br>
-    * Actual Finish<br>
-    * Baseline Start<br>
-    * Baseline Finish<br>
-    * Baseline Duration<br>
-    * Baseline Work<br>
-    * Estimated<br>
-    * Predecessors<br>
-    * Summary<br>
-    * Outline Number<br>
-    * WBS<br>
     *
     */
-   private void testBaselineTasks(ProjectFile mpp) throws Exception
+   private void testBaselineTasks(ProjectFile mpp)
    {
       /*
        * Columns tested:
@@ -812,7 +796,7 @@ public class MppTaskTest
 
       // Actual for 'Base Task'
       assertEquals("24/08/2006", df.format(baseTask.getActualStart()));
-      assertEquals(null, baseTask.getActualFinish());
+      assertNull(baseTask.getActualFinish());
 
       // % Complete
       assertEquals(Double.valueOf(57), baseTask.getPercentageComplete());
@@ -985,5 +969,5 @@ public class MppTaskTest
       assertEquals(RelationType.START_FINISH, relation.getType());
    }
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

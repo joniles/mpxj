@@ -73,6 +73,6 @@ public final class Availability implements Comparable<Availability>
       return "[Availability range=" + m_range + " units=" + m_units + "]";
    }
 
-   private DateRange m_range;
-   private Number m_units;
+   private final DateRange m_range;
+   private final Number m_units;
 }

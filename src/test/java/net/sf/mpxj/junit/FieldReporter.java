@@ -198,15 +198,7 @@ public class FieldReporter
 
    private String populateTableHeader(Set<String> keys)
    {
-      StringBuilder sb = new StringBuilder();
-      sb.append("Field|");
-      sb.append(keys.stream().collect(Collectors.joining("|")));
-      sb.append("\r\n");
-
-      sb.append("---|");
-      sb.append(keys.stream().map(v -> "---").collect(Collectors.joining("|")));
-
-      return sb.toString();
+      return "Field|" + String.join("|", keys) + "\r\n" + "---|" + keys.stream().map(v -> "---").collect(Collectors.joining("|"));
    }
 
    private void writeTable(String title, List<Entry<FieldType, Set<String>>> fields, PrintWriter pw, String tableHeader, Set<String> keys)
@@ -253,7 +245,7 @@ public class FieldReporter
    private final Set<String> m_keys = new TreeSet<>();
    private final Map<FieldType, Set<String>> m_map = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
 
-   private final Set<String> m_mppKeys = new TreeSet<>((k1, k2) -> COMPARATOR.compare(k1, k2));
+   private final Set<String> m_mppKeys = new TreeSet<>(COMPARATOR);
    private final Map<FieldType, Set<String>> m_mppMap = new TreeMap<>((f1, f2) -> COMPARATOR.compare(getTypeFullName(f1), getTypeFullName(f2)));
 
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();

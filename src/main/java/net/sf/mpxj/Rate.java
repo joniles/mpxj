@@ -114,10 +114,10 @@ public final class Rate
    /**
     * Rate amount.
     */
-   private double m_amount;
+   private final double m_amount;
 
    /**
     * Time type.
     */
-   private TimeUnit m_units;
+   private final TimeUnit m_units;
 }

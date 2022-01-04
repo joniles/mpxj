@@ -65,12 +65,6 @@ class DateField extends StringField
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("ddMMMyy");
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
 
 }

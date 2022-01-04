@@ -25,7 +25,6 @@ package net.sf.mpxj.asta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,13 +137,7 @@ final class AstaReader
          Row progressPeriod;
          if (currentProgressPeriodID == null)
          {
-            Collections.sort(progressPeriods, new Comparator<Row>()
-            {
-               @Override public int compare(Row o1, Row o2)
-               {
-                  return o1.getInteger("PROGRESS_PERIODID").compareTo(o2.getInteger("PROGRESS_PERIODID"));
-               }
-            });
+            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("PROGRESS_PERIODID")));
 
             progressPeriod = progressPeriods.get(progressPeriods.size() - 1);
          }
@@ -279,8 +272,8 @@ final class AstaReader
       //
       // Sort the bars and the leaves
       //
-      Collections.sort(bars, BAR_COMPARATOR);
-      Collections.sort(leaves, LEAF_COMPARATOR);
+      bars.sort(BAR_COMPARATOR);
+      leaves.sort(LEAF_COMPARATOR);
 
       //
       // Map bar IDs to bars
@@ -854,7 +847,7 @@ final class AstaReader
     */
    private void updateDates()
    {
-      m_project.getChildTasks().forEach(task -> updateDates(task));
+      m_project.getChildTasks().forEach(this::updateDates);
    }
 
    /**
@@ -1630,7 +1623,7 @@ final class AstaReader
          }
          else
          {
-            if (notes.indexOf(LINE_BREAK) != -1)
+            if (notes.contains(LINE_BREAK))
             {
                notes = notes.replace(LINE_BREAK, "\n");
             }
@@ -1722,26 +1715,26 @@ final class AstaReader
          {
             case BAR_OBJECT_TYPE:
             {
-               mapper = i -> m_barMap.get(i);
+               mapper = m_barMap::get;
                break;
             }
 
             case TASK_OBJECT_TYPE:
             {
-               mapper = i -> m_taskMap.get(i);
+               mapper = m_taskMap::get;
                break;
             }
 
             case MILESTONE_OBJECT_TYPE:
             {
-               mapper = i -> m_milestoneMap.get(i);
+               mapper = m_milestoneMap::get;
                break;
             }
 
             case PERMANENT_RESOURCE_OBJECT_TYPE:
             case CONSUMABLE_RESOURCE_OBJECT_TYPE:
             {
-               mapper = i -> m_project.getResourceByUniqueID(i);
+               mapper = m_project::getResourceByUniqueID;
                break;
             }
 
@@ -1935,8 +1928,8 @@ final class AstaReader
       return value == null ? null : value.toString();
    }
 
-   private ProjectFile m_project;
-   private EventManager m_eventManager;
+   private final ProjectFile m_project;
+   private final EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
    private final Set<Integer> m_deferredConstraintType = new HashSet<>();
    private final Map<Integer, Task> m_barMap = new HashMap<>();

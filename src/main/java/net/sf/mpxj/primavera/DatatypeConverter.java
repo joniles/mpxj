@@ -264,33 +264,21 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = new ThreadLocal<NumberFormat>()
-   {
-      @Override protected NumberFormat initialValue()
-      {
-         DecimalFormat format = new DecimalFormat("#.##");
-         format.setGroupingUsed(false);
-         return format;
-      }
-   };
+   private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
+      DecimalFormat format = new DecimalFormat("#.##");
+      format.setGroupingUsed(false);
+      return format;
+   });
 }

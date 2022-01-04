@@ -86,7 +86,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData1() throws Exception
+   @Test public void testCustomerData1()
    {
       testCustomerData(1, 10);
    }
@@ -94,7 +94,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData2() throws Exception
+   @Test public void testCustomerData2()
    {
       testCustomerData(2, 10);
    }
@@ -102,7 +102,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData3() throws Exception
+   @Test public void testCustomerData3()
    {
       testCustomerData(3, 10);
    }
@@ -110,7 +110,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData4() throws Exception
+   @Test public void testCustomerData4()
    {
       testCustomerData(4, 10);
    }
@@ -118,7 +118,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData5() throws Exception
+   @Test public void testCustomerData5()
    {
       testCustomerData(5, 10);
    }
@@ -126,7 +126,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData6() throws Exception
+   @Test public void testCustomerData6()
    {
       testCustomerData(6, 10);
    }
@@ -134,7 +134,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData7() throws Exception
+   @Test public void testCustomerData7()
    {
       testCustomerData(7, 10);
    }
@@ -142,7 +142,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData8() throws Exception
+   @Test public void testCustomerData8()
    {
       testCustomerData(8, 10);
    }
@@ -150,7 +150,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData9() throws Exception
+   @Test public void testCustomerData9()
    {
       testCustomerData(9, 10);
    }
@@ -158,7 +158,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData10() throws Exception
+   @Test public void testCustomerData10()
    {
       testCustomerData(10, 10);
    }
@@ -195,7 +195,7 @@ public class CustomerDataTest
    /**
     * Populate field report from JUnit test data.
     */
-   @Test public void testFieldCoverage() throws Exception
+   @Test public void testFieldCoverage()
    {
       List<File> files = new ArrayList<>();
       listFiles(files, new File(MpxjTestData.DATA_DIR));
@@ -318,7 +318,7 @@ public class CustomerDataTest
     * @param index current chunk
     * @param max maximum number of chunks
     */
-   private void testCustomerData(int index, int max) throws Exception
+   private void testCustomerData(int index, int max)
    {
       if (m_privateDirectory != null)
       {
@@ -366,6 +366,12 @@ public class CustomerDataTest
             {
                continue;
             }
+
+            if (name.endsWith(".ds_store"))
+            {
+               continue;
+            }
+
             list.add(file);
          }
       }
@@ -454,12 +460,12 @@ public class CustomerDataTest
       {
          m_mpxReader.setLocale(Locale.ENGLISH);
 
-         if (name.indexOf(".DE.") != -1)
+         if (name.contains(".DE."))
          {
             m_mpxReader.setLocale(Locale.GERMAN);
          }
 
-         if (name.indexOf(".SV.") != -1)
+         if (name.contains(".SV."))
          {
             m_mpxReader.setLocale(new Locale("sv"));
          }
@@ -579,7 +585,7 @@ public class CustomerDataTest
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
 
-         if (success || !DEBUG_FAILURES)
+         if (success)
          {
             FileHelper.deleteQuietly(out);
          }
@@ -655,15 +661,13 @@ public class CustomerDataTest
    private final String m_primaveraFile;
    private final File m_primaveraBaselineDir;
 
-   private UniversalProjectReader m_universalReader;
-   private MPXReader m_mpxReader;
-   private PrimaveraXERFileReader m_xerReader;
+   private final UniversalProjectReader m_universalReader;
+   private final MPXReader m_mpxReader;
+   private final PrimaveraXERFileReader m_xerReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
 
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
 
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
-
-   private static final boolean DEBUG_FAILURES = false;
 }

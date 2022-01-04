@@ -96,5 +96,5 @@ public class AssignmentAssignmentsTest
 
    }
 
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

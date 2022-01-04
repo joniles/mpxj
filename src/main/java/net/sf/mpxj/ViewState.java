@@ -77,8 +77,8 @@ public final class ViewState
       return m_file.getFilters().getFilterByID(m_filterID);
    }
 
-   private ProjectFile m_file;
-   private String m_viewName;
-   private List<Integer> m_uniqueIdList;
-   private Integer m_filterID;
+   private final ProjectFile m_file;
+   private final String m_viewName;
+   private final List<Integer> m_uniqueIdList;
+   private final Integer m_filterID;
 }

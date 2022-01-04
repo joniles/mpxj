@@ -579,13 +579,7 @@ public final class DateHelper
     */
    private static boolean HAS_DST_SAVINGS;
 
-   private static final ThreadLocal<Deque<Calendar>> CALENDARS = new ThreadLocal<Deque<Calendar>>()
-   {
-      @Override protected Deque<Calendar> initialValue()
-      {
-         return new ArrayDeque<>();
-      }
-   };
+   private static final ThreadLocal<Deque<Calendar>> CALENDARS = ThreadLocal.withInitial(ArrayDeque::new);
 
    static
    {
@@ -593,7 +587,7 @@ public final class DateHelper
 
       try
       {
-         tz.getMethod("getDSTSavings", (Class[]) null);
+         tz.getMethod("getDSTSavings", (Class<?>[]) null);
          HAS_DST_SAVINGS = true;
       }
 

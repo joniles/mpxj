@@ -44,11 +44,7 @@ public final class HtmlHelper
     */
    public static String getHtmlFromPlainText(String text)
    {
-      StringBuilder html = new StringBuilder();
-      html.append("<html><body>");
-      html.append(text.replace("\n", "<br/>\n"));
-      html.append("</body></html>");
-      return html.toString();
+      return "<html><body>" + text.replace("\n", "<br/>\n") + "</body></html>";
    }
 
    /**

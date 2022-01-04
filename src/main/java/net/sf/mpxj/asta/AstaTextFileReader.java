@@ -26,7 +26,6 @@ package net.sf.mpxj.asta;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +78,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -250,7 +249,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      Collections.sort(rows, CALENDAR_COMPARATOR);
+      rows.sort(CALENDAR_COMPARATOR);
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
@@ -271,8 +270,8 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> permanentRows = getTable("PERMANENT_RESOURCE");
       List<Row> consumableRows = getTable("CONSUMABLE_RESOURCE");
 
-      Collections.sort(permanentRows, PERMANENT_RESOURCE_COMPARATOR);
-      Collections.sort(consumableRows, CONSUMABLE_RESOURCE_COMPARATOR);
+      permanentRows.sort(PERMANENT_RESOURCE_COMPARATOR);
+      consumableRows.sort(CONSUMABLE_RESOURCE_COMPARATOR);
 
       m_reader.processResources(permanentRows, consumableRows);
    }
@@ -297,7 +296,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    {
       List<Row> rows = getTable("LINK");
       List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
-      Collections.sort(rows, LINK_COMPARATOR);
+      rows.sort(LINK_COMPARATOR);
       m_reader.processPredecessors(rows, completedSections);
    }
 
@@ -309,7 +308,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> allocationRows = getTable("PERMANENT_SCHEDUL_ALLOCATION");
       List<Row> skillRows = getTable("PERM_RESOURCE_SKILL");
       List<Row> permanentAssignments = join(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
-      Collections.sort(permanentAssignments, ALLOCATION_COMPARATOR);
+      permanentAssignments.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -327,16 +326,10 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    {
       List<Row> result = new ArrayList<>();
 
-      RowComparator leftComparator = new RowComparator(new String[]
-      {
-         leftColumn
-      });
-      RowComparator rightComparator = new RowComparator(new String[]
-      {
-         rightColumn
-      });
-      Collections.sort(leftRows, leftComparator);
-      Collections.sort(rightRows, rightComparator);
+      RowComparator leftComparator = new RowComparator(leftColumn);
+      RowComparator rightComparator = new RowComparator(rightColumn);
+      leftRows.sort(leftComparator);
+      rightRows.sort(rightComparator);
 
       ListIterator<Row> rightIterator = rightRows.listIterator();
       Row rightRow = rightIterator.hasNext() ? rightIterator.next() : null;

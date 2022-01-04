@@ -28,8 +28,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -130,17 +130,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          return (m_projectFile);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
+      catch (ParserConfigurationException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -154,7 +144,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -420,9 +410,8 @@ public final class PlannerReader extends AbstractProjectStreamReader
                ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
                if (getInt(day.getId()) == 0)
                {
-                  for (int hoursIndex = 0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
+                  for (DateRange range : m_defaultWorkingHours)
                   {
-                     DateRange range = m_defaultWorkingHours.get(hoursIndex);
                      exception.addRange(range);
                   }
                }
@@ -1021,11 +1010,11 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private ProjectCalendar m_defaultCalendar;
-   private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-   private List<DateRange> m_defaultWorkingHours = new ArrayList<>();
+   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
+   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final List<DateRange> m_defaultWorkingHours = new ArrayList<>();
 
-   private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
+   private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {
       RELATIONSHIP_TYPES.put("FF", RelationType.FINISH_FINISH);

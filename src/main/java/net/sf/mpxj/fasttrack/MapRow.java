@@ -211,7 +211,7 @@ class MapRow
    {
       String value = getString(type);
       UUID result = null;
-      if (value != null && !value.isEmpty() && value.length() >= 36)
+      if (value != null && value.length() >= 36)
       {
          if (value.startsWith("{"))
          {

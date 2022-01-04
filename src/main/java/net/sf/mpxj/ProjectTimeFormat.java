@@ -40,7 +40,7 @@ public enum ProjectTimeFormat implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private ProjectTimeFormat(int type)
+   ProjectTimeFormat(int type)
    {
       m_value = type;
    }
@@ -109,5 +109,5 @@ public enum ProjectTimeFormat implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

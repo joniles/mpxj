@@ -24,8 +24,6 @@
 package net.sf.mpxj.explorer;
 
 import java.awt.Component;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -55,22 +53,10 @@ public class FileChooserView
       m_model = model;
 
       PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<>(m_model, "showDialog", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            openFileChooser();
-         }
-      });
+      adapter.addValueChangeListener(evt -> openFileChooser());
 
       PropertyAdapter<FileChooserModel> extensionsAdaptor = new PropertyAdapter<>(m_model, "extensions", true);
-      extensionsAdaptor.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            setFileFilter();
-         }
-      });
+      extensionsAdaptor.addValueChangeListener(evt -> setFileFilter());
    }
 
    /**

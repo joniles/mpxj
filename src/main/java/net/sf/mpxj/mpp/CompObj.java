@@ -126,7 +126,7 @@ final class CompObj extends MPPComponent
    /**
     * Application name.
     */
-   private String m_applicationName;
+   private final String m_applicationName;
 
    /**
     * Application version.

@@ -40,7 +40,7 @@ public class LocaleDataTest
    /**
     * Ensure that all field enums have a locale entry.
     */
-   @Test public void testLocaleData() throws Exception
+   @Test public void testLocaleData()
    {
       for (ProjectField field : ProjectField.values())
       {

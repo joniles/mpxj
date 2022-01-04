@@ -375,7 +375,7 @@ public class ProjectTreeController
       // Function to generate a name for each custom field
       Function<CustomField, String> name = f -> {
          FieldType type = f.getFieldType();
-         String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
+         String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type;
          result = f.getAlias() == null || f.getAlias().isEmpty() ? result : result + " (" + f.getAlias() + ")";
          return result;
       };

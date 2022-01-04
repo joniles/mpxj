@@ -142,7 +142,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    {
       long fromTime1 = m_fromDate.getTime();
       long fromTime2 = o.m_fromDate.getTime();
-      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+      return (Long.compare(fromTime1, fromTime2));
    }
 
    @Override public String toString()
@@ -151,15 +151,15 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       sb.append("[ProjectCalendarException");
       if (m_name != null && !m_name.isEmpty())
       {
-         sb.append(" name=" + m_name);
+         sb.append(" name=").append(m_name);
       }
-      sb.append(" working=" + getWorking());
-      sb.append(" fromDate=" + m_fromDate);
-      sb.append(" toDate=" + m_toDate);
+      sb.append(" working=").append(getWorking());
+      sb.append(" fromDate=").append(m_fromDate);
+      sb.append(" toDate=").append(m_toDate);
 
       if (m_recurring != null)
       {
-         sb.append(" recurring=" + m_recurring);
+         sb.append(" recurring=").append(m_recurring);
       }
 
       for (DateRange range : this)
@@ -171,8 +171,8 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (sb.toString());
    }
 
-   private Date m_fromDate;
-   private Date m_toDate;
+   private final Date m_fromDate;
+   private final Date m_toDate;
    private String m_name;
    private RecurringData m_recurring;
 }

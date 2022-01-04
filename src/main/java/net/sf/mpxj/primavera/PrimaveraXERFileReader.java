@@ -533,7 +533,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       Map<Integer, Notes> wbsNotes = m_reader.getNotes(topics, getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
       Map<Integer, Notes> taskNotes = m_reader.getNotes(topics, getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
 
-      Collections.sort(wbs, WBS_ROW_COMPARATOR);
+      wbs.sort(WBS_ROW_COMPARATOR);
       m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
    }
 
@@ -623,7 +623,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean processRecord(List<String> record)
    {
       XerRecordType type = RECORD_TYPE_MAP.get(record.get(0));
-      return type == null ? false : processRecord(type, record);
+      return type != null && processRecord(type, record);
    }
 
    /**
@@ -670,7 +670,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             }
             else
             {
-               m_currentFieldNames = record.toArray(new String[record.size()]);
+               m_currentFieldNames = record.toArray(new String[0]);
                for (int loop = 0; loop < m_currentFieldNames.length; loop++)
                {
                   m_currentFieldNames[loop] = m_currentFieldNames[loop].toLowerCase();
@@ -946,7 +946,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       List<Row> table = m_tables.get(tableName);
       if (table == null)
       {
-         result = Collections.<Row> emptyList();
+         result = Collections.emptyList();
       }
       else
       {
@@ -1037,19 +1037,19 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
-   private Map<String, DecimalFormat> m_currencyMap = new HashMap<>();
+   private final Map<String, DecimalFormat> m_currencyMap = new HashMap<>();
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
-   private DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
-   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
-   private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
-   private Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
-   private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
-   private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
-   private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
+   private final DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
+   private final UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
+   private final UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
+   private final UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
+   private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
+   private final Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;

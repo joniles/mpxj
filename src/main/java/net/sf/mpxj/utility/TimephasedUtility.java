@@ -324,7 +324,7 @@ public final class TimephasedUtility
       int totalDays = 0;
       double totalWork = 0;
       TimephasedWork assignment = assignments.get(startIndex);
-      boolean done = false;
+      boolean done;
 
       do
       {
@@ -434,7 +434,7 @@ public final class TimephasedUtility
       int totalDays = 0;
       double totalCost = 0;
       TimephasedCost assignment = assignments.get(startIndex);
-      boolean done = false;
+      boolean done;
 
       do
       {

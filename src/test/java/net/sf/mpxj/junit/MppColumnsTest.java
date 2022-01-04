@@ -156,26 +156,26 @@ public class MppColumnsTest
       }
    }
 
-   private static String TASK_COLUMNS_1 = "Task Columns 1";
-   private static String TASK_COLUMNS_2 = "Task Columns 2";
-   private static String TASK_COLUMNS_3 = "Task Columns 3";
-   private static String TASK_COLUMNS_4 = "Task Columns 4";
+   private static final String TASK_COLUMNS_1 = "Task Columns 1";
+   private static final String TASK_COLUMNS_2 = "Task Columns 2";
+   private static final String TASK_COLUMNS_3 = "Task Columns 3";
+   private static final String TASK_COLUMNS_4 = "Task Columns 4";
 
-   private static String RESOURCE_COLUMNS_1 = "Resource Columns 1";
-   private static String RESOURCE_COLUMNS_2 = "Resource Columns 2";
-   private static String RESOURCE_COLUMNS_3 = "Resource Columns 3";
-   private static String RESOURCE_COLUMNS_4 = "Resource Columns 4";
-   private static String RESOURCE_COLUMNS_5 = "Resource Columns 5";
-   private static String RESOURCE_COLUMNS_6 = "Resource Columns 6";
-   private static String RESOURCE_COLUMNS_7 = "Resource Columns 7";
-   private static String RESOURCE_COLUMNS_8 = "Resource Columns 8";
-   private static String RESOURCE_COLUMNS_9 = "Resource Columns 9";
-   private static String RESOURCE_COLUMNS_10 = "Resource Columns 10";
-   private static String RESOURCE_COLUMNS_11 = "Resource Columns 11";
-   private static String RESOURCE_COLUMNS_12 = "Resource Columns 12";
-   private static String RESOURCE_COLUMNS_13 = "Resource Columns 13";
-   private static String RESOURCE_COLUMNS_14 = "Resource Columns 14";
-   private static String RESOURCE_COLUMNS_15 = "Resource Columns 15";
+   private static final String RESOURCE_COLUMNS_1 = "Resource Columns 1";
+   private static final String RESOURCE_COLUMNS_2 = "Resource Columns 2";
+   private static final String RESOURCE_COLUMNS_3 = "Resource Columns 3";
+   private static final String RESOURCE_COLUMNS_4 = "Resource Columns 4";
+   private static final String RESOURCE_COLUMNS_5 = "Resource Columns 5";
+   private static final String RESOURCE_COLUMNS_6 = "Resource Columns 6";
+   private static final String RESOURCE_COLUMNS_7 = "Resource Columns 7";
+   private static final String RESOURCE_COLUMNS_8 = "Resource Columns 8";
+   private static final String RESOURCE_COLUMNS_9 = "Resource Columns 9";
+   private static final String RESOURCE_COLUMNS_10 = "Resource Columns 10";
+   private static final String RESOURCE_COLUMNS_11 = "Resource Columns 11";
+   private static final String RESOURCE_COLUMNS_12 = "Resource Columns 12";
+   private static final String RESOURCE_COLUMNS_13 = "Resource Columns 13";
+   private static final String RESOURCE_COLUMNS_14 = "Resource Columns 14";
+   private static final String RESOURCE_COLUMNS_15 = "Resource Columns 15";
 
    private static final String[] MPP14_TASK_COLUMNS_1 =
    {

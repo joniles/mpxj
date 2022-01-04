@@ -147,8 +147,8 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return StreamSupport.stream(spliterator(), false);
    }
 
-   private Map<FieldType, CustomField> m_configMap = new HashMap<>();
-   private Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
-   private Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
-   private Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
+   private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
+   private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
+   private final Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
+   private final Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
 }

@@ -27,15 +27,14 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -133,11 +132,10 @@ public class ProjectCleanUtility
    private void processFile(String input, String output) throws IOException
    {
       FileInputStream is = new FileInputStream(input);
-      byte[] data = new byte[is.available()];
-      is.read(data);
+      byte[] data = InputStreamHelper.read(is, is.available());
       is.close();
 
-      processReplacements(data, Arrays.asList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
+      processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
       processReplacements(data, m_project.getTasks(), false, false, TASK_FIELDS);
       processReplacements(data, m_project.getResources(), false, false, RESOURCE_FIELDS);
 
@@ -205,24 +203,24 @@ public class ProjectCleanUtility
       // Locate the root of the project file system
       //
       DirectoryEntry root = fs.getRoot();
-      m_projectDir = (DirectoryEntry) root.getEntry(projectDirName);
+      DirectoryEntry projectDir = (DirectoryEntry) root.getEntry(projectDirName);
 
       //
       // Process Tasks
       //
-      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
+      processFile((DirectoryEntry) projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
 
       //
       // Process Resources
       //
-      processFile((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
+      processFile((DirectoryEntry) projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
 
       //
       // Process project properties
       //
-      List<ProjectProperties> projectProperties = Arrays.asList(m_project.getProjectProperties());
+      List<ProjectProperties> projectProperties = Collections.singletonList(m_project.getProjectProperties());
 
-      processFile(m_projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
+      processFile(projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
       processFile(root, "\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
       processFile(root, "\005DocumentSummaryInformation", projectProperties, false, PROJECT_FIELDS);
 
@@ -264,13 +262,7 @@ public class ProjectCleanUtility
       // Populate a list of keys and sort into descending order of length
       //
       List<String> keys = new ArrayList<>(replacements.keySet());
-      Collections.sort(keys, new Comparator<String>()
-      {
-         @Override public int compare(String o1, String o2)
-         {
-            return (o2.length() - o1.length());
-         }
-      });
+      keys.sort((o1, o2) -> (o2.length() - o1.length()));
 
       //
       // Perform the replacement
@@ -294,8 +286,7 @@ public class ProjectCleanUtility
       DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
       DocumentInputStream dis = new DocumentInputStream(targetFile);
       int dataSize = dis.available();
-      byte[] data = new byte[dataSize];
-      dis.read(data);
+      byte[] data = InputStreamHelper.read(dis, dataSize);
       dis.close();
       targetFile.delete();
       return data;
@@ -424,16 +415,7 @@ public class ProjectCleanUtility
       {
          int start = 0;
          // Get the bytes in UTF-16
-         byte[] bytes;
-
-         try
-         {
-            bytes = value.getBytes("UTF-16");
-         }
-         catch (UnsupportedEncodingException e)
-         {
-            bytes = value.getBytes();
-         }
+         byte[] bytes = value.getBytes(CharsetHelper.UTF16);
 
          if (bytes.length > 2 && bytes[0] == -2 && bytes[1] == -1)
          {
@@ -480,7 +462,6 @@ public class ProjectCleanUtility
    }
 
    private ProjectFile m_project;
-   private DirectoryEntry m_projectDir;
 
    private static final ProjectField[] PROJECT_FIELDS =
    {

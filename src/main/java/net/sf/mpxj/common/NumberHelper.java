@@ -271,7 +271,7 @@ public final class NumberHelper
     */
    public static Double sumAsDouble(Number... values)
    {
-      return Double.valueOf(Arrays.stream(values).mapToDouble(v -> NumberHelper.getDouble(v)).sum());
+      return Double.valueOf(Arrays.stream(values).mapToDouble(NumberHelper::getDouble).sum());
    }
 
    public static final Double DOUBLE_ZERO = Double.valueOf(0);

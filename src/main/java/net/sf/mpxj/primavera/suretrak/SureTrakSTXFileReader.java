@@ -28,13 +28,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.FixedLengthInputStream;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -74,7 +75,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -86,13 +87,9 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
     */
    private void extractFile(InputStream stream, File dir) throws IOException
    {
-      byte[] dataSize = new byte[4];
-      byte[] header = new byte[4];
-      byte[] fileName = new byte[260];
-
-      stream.read(dataSize);
-      stream.read(header);
-      stream.read(fileName);
+      byte[] dataSize = InputStreamHelper.read(stream, 4);
+      byte[] header = InputStreamHelper.read(stream, 4);
+      byte[] fileName = InputStreamHelper.read(stream, 260);
 
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);

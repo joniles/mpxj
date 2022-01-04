@@ -209,7 +209,7 @@ public class MpxjQuery
       for (Task task : file.getTasks())
       {
          List<Object> values = Arrays.asList(task.getID(), task.getUniqueID(), task.getActivityID(), task.getName(), task.getPercentCompleteType(), task.getPercentageComplete(), task.getPercentageWorkComplete(), task.getPhysicalPercentComplete());
-         System.out.println(values.stream().map(v -> String.valueOf(v)).collect(Collectors.joining("\t")));
+         System.out.println(values.stream().map(String::valueOf).collect(Collectors.joining("\t")));
       }
       System.out.println();
    }
@@ -527,15 +527,15 @@ public class MpxjQuery
       System.out.println();
 
       System.out.println("Populated task fields:");
-      tasks.forEach(x -> System.out.println(x));
+      tasks.forEach(System.out::println);
       System.out.println();
 
       System.out.println("Populated resource fields:");
-      resources.forEach(x -> System.out.println(x));
+      resources.forEach(System.out::println);
       System.out.println();
 
       System.out.println("Populated assignment fields:");
-      assignments.forEach(x -> System.out.println(x));
+      assignments.forEach(System.out::println);
       System.out.println();
    }
 }

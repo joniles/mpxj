@@ -24,7 +24,7 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -91,7 +91,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
@@ -99,7 +99,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
     *
     * @return ProjectFile instance
     */
-   private ProjectFile read() throws Exception
+   private ProjectFile read()
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -624,7 +624,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
 
    private void rollupValues()
    {
-      m_project.getChildTasks().forEach(t -> rollupDates(t));
+      m_project.getChildTasks().forEach(this::rollupDates);
    }
 
    private void rollupDates(Task parentTask)

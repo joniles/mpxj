@@ -43,7 +43,7 @@ public enum Day implements MpxjEnum
     *
     * @param value day value
     */
-   private Day(int value)
+   Day(int value)
    {
       m_value = value;
    }
@@ -101,5 +101,5 @@ public enum Day implements MpxjEnum
     */
    private static final Day[] TYPE_VALUES = EnumHelper.createTypeArray(Day.class, 1);
 
-   private int m_value;
+   private final int m_value;
 }

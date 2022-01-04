@@ -744,16 +744,16 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_allocatedConnection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
-   private UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
-   private UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
+   private final Map<String, Integer> m_meta = new HashMap<>();
+   private final UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
+   private final UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
+   private final UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
 
-   private Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
-   private Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
-   private Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
-   private Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
-   private Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
+   private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
 }

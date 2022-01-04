@@ -24,6 +24,7 @@
 package net.sf.mpxj;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +39,7 @@ public class ParentNotes extends Notes
     */
    public ParentNotes(List<Notes> childNotes)
    {
-      super(childNotes.stream().filter(n -> n != null).map(s -> s.toString()).collect(Collectors.joining("\n")).trim());
+      super(childNotes.stream().filter(Objects::nonNull).map(Notes::toString).collect(Collectors.joining("\n")).trim());
       m_childNotes = childNotes;
    }
 

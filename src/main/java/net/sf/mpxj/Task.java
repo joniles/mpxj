@@ -2893,7 +2893,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       int id1 = NumberHelper.getInt(getID());
       int id2 = NumberHelper.getInt(o.getID());
-      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
+      return (Integer.compare(id1, id2));
    }
 
    /**
@@ -4327,8 +4327,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getSummaryProgress()
    {
-      Date value = (Date) getCachedValue(TaskField.SUMMARY_PROGRESS);
-      return value;
+      return (Date) getCachedValue(TaskField.SUMMARY_PROGRESS);
    }
 
    /**
@@ -5763,7 +5762,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[TaskField.MAX_VALUE];
+   private final Object[] m_array = new Object[TaskField.MAX_VALUE];
 
    /**
     * This is a reference to the parent task, as specified by the
@@ -5775,17 +5774,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List<Task> m_children = new ArrayList<>();
+   private final List<Task> m_children = new ArrayList<>();
 
    /**
     * List of resource assignments for this task.
     */
-   private List<ResourceAssignment> m_assignments = new ArrayList<>();
+   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * List of activity codes for this task.
     */
-   private List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
+   private final List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

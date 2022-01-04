@@ -501,6 +501,6 @@ public final class ResourceFieldLists
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
       result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
-      EXTENDED_FIELDS = result.toArray(new ResourceField[result.size()]);
+      EXTENDED_FIELDS = result.toArray(new ResourceField[0]);
    }
 }

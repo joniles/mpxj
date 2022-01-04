@@ -64,7 +64,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    {
       if (m_projectListeners != null)
       {
-         m_projectListeners.forEach(l -> reader.addProjectListener(l));
+         m_projectListeners.forEach(reader::addProjectListener);
       }
    }
 

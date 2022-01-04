@@ -8,5 +8,5 @@ public enum ActivityType
    LEVEL_OF_EFFORT,
    START_MILESTONE,
    FINISH_MILESTONE,
-   WBS_SUMMARY;
+   WBS_SUMMARY
 }

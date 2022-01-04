@@ -60,7 +60,7 @@ public class MppViewStateTest
 
    /**
     * Test view state data read from an MPP9 file saved by Project 2010.    */
-   @Test public void testMpp9ViewStateFrom14() throws Exception
+   @Test public void testMpp9ViewStateFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9viewstate-from14.mpp"));
       //testViewState(mpp);
@@ -78,7 +78,7 @@ public class MppViewStateTest
    /**
     * Test view state data read from an MPP12 file saved by Project 2010.
     */
-   @Test public void testMpp12ViewStateFrom14() throws Exception
+   @Test public void testMpp12ViewStateFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12viewstate-from14.mpp"));
       //testViewState(mpp);

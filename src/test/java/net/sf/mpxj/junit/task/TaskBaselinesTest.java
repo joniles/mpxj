@@ -446,7 +446,7 @@ public class TaskBaselinesTest
       return taskID;
    }
 
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
    private static final String[] COSTS = new String[]
    {

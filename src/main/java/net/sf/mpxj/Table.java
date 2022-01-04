@@ -161,5 +161,5 @@ public final class Table
    private int m_id;
    private String m_name;
    private boolean m_resourceFlag;
-   private ArrayList<Column> m_columns = new ArrayList<>();
+   private final ArrayList<Column> m_columns = new ArrayList<>();
 }

@@ -44,7 +44,7 @@ class TextFileRow extends MapRow
    public TextFileRow(TableDefinition table, List<String> data, boolean epochDateFormat)
       throws MPXJException
    {
-      super(new HashMap<String, Object>());
+      super(new HashMap<>());
 
       ColumnDefinition[] columns = table.getColumns();
       for (int index = 0; index < columns.length; index++)
@@ -74,7 +74,7 @@ class TextFileRow extends MapRow
    {
       try
       {
-         Object value = null;
+         Object value;
 
          switch (type)
          {

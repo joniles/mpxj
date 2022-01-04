@@ -41,7 +41,7 @@ public enum SaveVersion
     *
     * @param type int version of the enum
     */
-   private SaveVersion(int type)
+   SaveVersion(int type)
    {
       m_value = type;
    }
@@ -70,5 +70,5 @@ public enum SaveVersion
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

@@ -25,7 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -2921,7 +2921,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Set<ProjectField> getPopulatedFields()
    {
-      return new PopulatedFields<>(getParentFile(), ProjectField.class, Arrays.asList(this)).getPopulatedFields();
+      return new PopulatedFields<>(getParentFile(), ProjectField.class, Collections.singletonList(this)).getPopulatedFields();
    }
 
    /**
@@ -2938,7 +2938,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[ProjectField.MAX_VALUE];
+   private final Object[] m_array = new Object[ProjectField.MAX_VALUE];
 
    /**
     * Listeners.

@@ -326,7 +326,7 @@ public class GraphicalIndicator
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;
    private boolean m_showDataValuesInToolTips;
-   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new ArrayList<>();
-   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new ArrayList<>();
-   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new ArrayList<>();
 }

@@ -177,24 +177,16 @@ public final class DatatypeConverter
       return Integer.toString(value.getValue() - 1);
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+      df.setLenient(false);
+      return df;
+   });
 
 }

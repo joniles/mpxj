@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1051,7 +1052,7 @@ final class MPP9Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
+      Integer[] uniqueIdArray = taskMap.keySet().toArray(new Integer[0]); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1060,10 +1061,8 @@ final class MPP9Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Integer uniqueID : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
-
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
          {
@@ -1744,15 +1743,13 @@ final class MPP9Reader implements MPPVariantReader
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
-      Integer id;
       Integer offset;
       byte[] data;
       byte[] metaData;
       Resource resource;
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer id : uniqueid)
       {
-         id = uniqueid[loop];
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -2020,8 +2017,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
-         byte[] fixedData = new byte[is.available()];
-         is.read(fixedData);
+         byte[] fixedData = InputStreamHelper.read(is, is.available());
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
          ViewStateReader reader = new ViewStateReader9();

@@ -153,13 +153,7 @@ public class ProjectExplorer
       //
       // Open
       //
-      mntmOpen.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileChooserController.openFileChooser();
-         }
-      });
+      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
 
       //
       // Open All
@@ -175,13 +169,7 @@ public class ProjectExplorer
       //
       // Save
       //
-      mntmSave.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileSaverController.openFileSaver();
-         }
-      });
+      mntmSave.addActionListener(e -> fileSaverController.openFileSaver());
 
       //
       // Clean

@@ -86,6 +86,6 @@ public class TableContainer extends ListWithCallbacks<Table>
       return result;
    }
 
-   private Map<String, Table> m_taskTablesByName = new HashMap<>();
-   private Map<String, Table> m_resourceTablesByName = new HashMap<>();
+   private final Map<String, Table> m_taskTablesByName = new HashMap<>();
+   private final Map<String, Table> m_resourceTablesByName = new HashMap<>();
 }

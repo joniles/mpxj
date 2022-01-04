@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This is a trivial class used to dump the contents of a file
@@ -60,7 +61,7 @@ public class HexDump
 
       catch (Exception ex)
       {
-         System.out.println("Caught " + ex.toString());
+         System.out.println("Caught " + ex);
       }
    }
 
@@ -77,8 +78,7 @@ public class HexDump
       FileInputStream is = new FileInputStream(input);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      byte[] buffer = new byte[is.available()];
-      is.read(buffer);
+      byte[] buffer = InputStreamHelper.read(is, is.available());
       pw.println(ByteArrayHelper.hexdump(buffer, 0, buffer.length, true, 16, ""));
 
       is.close();

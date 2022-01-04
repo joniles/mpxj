@@ -58,5 +58,5 @@ class DateInDaysColumn extends AbstractShortColumn
    static final int RECURRING_OFFSET = 25463;
 
    // 31/12/1979
-   private static final long EPOCH = 315446400000l;
+   private static final long EPOCH = 315446400000L;
 }

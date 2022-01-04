@@ -26,7 +26,6 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -134,17 +133,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          return (m_projectFile);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
+      catch (ParserConfigurationException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -164,7 +153,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -387,11 +376,11 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       {
          m_log.println("{");
          StringJoiner codeJoiner = new StringJoiner(",");
-         m_codeSequence.stream().forEach(code -> codeJoiner.add("\"" + code + "\""));
+         m_codeSequence.forEach(code -> codeJoiner.add("\"" + code + "\""));
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeSequence.entrySet().stream().forEach(entry -> sequenceJoiner.add("\"" + entry.getKey() + "\": " + entry.getValue() + ""));
+         m_activityCodeSequence.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1 + ""));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");
@@ -399,23 +388,17 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             Map<UUID, UUID> codes = getActivityCodes(activity);
             StringJoiner activityCodeJoiner = new StringJoiner(",");
-            codes.entrySet().stream().forEach(entry -> activityCodeJoiner.add("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\""));
+            codes.forEach((key, value) -> activityCodeJoiner.add("\"" + key + "\": \"" + value + "\""));
             activityJoiner.add("\"" + activity.getId() + "\": {" + activityCodeJoiner + "}");
          }
          m_log.println("\"activityCodes\": {" + activityJoiner + "}}");
       }
 
       // First pass: sort the activities by ID to avoid "Comparison method violates its general contract!" error
-      Collections.sort(activities, new Comparator<Activity>()
-      {
-         @Override public int compare(Activity o1, Activity o2)
-         {
-            return comparator.compare(o1.getId(), o2.getId());
-         }
-      });
+      activities.sort((o1, o2) -> comparator.compare(o1.getId(), o2.getId()));
 
       // Second pass: perform the main sort
-      Collections.sort(activities, new Comparator<Activity>()
+      activities.sort(new Comparator<Activity>()
       {
          @Override public int compare(Activity o1, Activity o2)
          {
@@ -574,7 +557,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private boolean activityIsMilestone(Activity activity)
    {
       String type = activity.getType();
-      return type != null && type.indexOf("Milestone") != -1;
+      return type != null && type.contains("Milestone");
    }
 
    /**
@@ -586,7 +569,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private boolean activityIsStartMilestone(Activity activity)
    {
       String type = activity.getType();
-      return type != null && type.indexOf("StartMilestone") != -1;
+      return type != null && type.contains("StartMilestone");
    }
 
    /**
@@ -726,12 +709,12 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    Map<UUID, UUID> getActivityCodes(Activity activity)
    {
-      return m_activityCodeCache.computeIfAbsent(activity, k -> getActivityCodesForCache(k));
+      return m_activityCodeCache.computeIfAbsent(activity, this::getActivityCodesForCache);
    }
 
    private Map<UUID, UUID> getActivityCodesForCache(Activity activity)
    {
-      return activity.getCodeAssignment().stream().collect(Collectors.toMap(ca -> ca.getCodeUuid(), ca -> ca.getValueUuid()));
+      return activity.getCodeAssignment().stream().collect(Collectors.toMap(Activity.CodeAssignment::getCodeUuid, Activity.CodeAssignment::getValueUuid));
    }
 
    /**
@@ -743,13 +726,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      Collections.sort(storepoints, new Comparator<Storepoint>()
-      {
-         @Override public int compare(Storepoint o1, Storepoint o2)
-         {
-            return DateHelper.compare(o2.getCreationTime(), o1.getCreationTime());
-         }
-      });
+      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
 
@@ -860,10 +837,9 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
             parentTask.setActualFinish(actualFinishDate);
          }
 
-         Duration duration = null;
          if (plannedStartDate != null && plannedFinishDate != null)
          {
-            duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
+            Duration duration = m_projectFile.getDefaultCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.DAYS);
             parentTask.setDuration(duration);
          }
 

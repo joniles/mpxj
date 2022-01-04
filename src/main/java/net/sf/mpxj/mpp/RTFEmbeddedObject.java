@@ -353,9 +353,7 @@ public final class RTFEmbeddedObject
          }
       }
 
-      int length = offset - startIndex;
-
-      return (length);
+      return (offset - startIndex);
    }
 
    /**

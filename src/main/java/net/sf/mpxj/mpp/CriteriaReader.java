@@ -431,5 +431,5 @@ public abstract class CriteriaReader
    private int m_dataOffset;
    private List<GenericCriteriaPrompt> m_prompts;
    private List<FieldType> m_fields;
-   protected Map<Integer, byte[]> m_criteriaBlockMap = new TreeMap<>();
+   protected final Map<Integer, byte[]> m_criteriaBlockMap = new TreeMap<>();
 }

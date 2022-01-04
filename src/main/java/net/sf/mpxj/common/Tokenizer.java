@@ -113,7 +113,8 @@ public abstract class Tokenizer
 
             default:
             {
-               if (c == m_quote)
+               char quote = '"';
+               if (c == quote)
                {
                   if (!quoted && startQuotedIsValid(m_buffer))
                   {
@@ -128,7 +129,7 @@ public abstract class Tokenizer
                      else
                      {
                         nextc = read();
-                        if (nextc == m_quote)
+                        if (nextc == quote)
                         {
                            m_buffer.append((char) c);
                            nextc = -1;
@@ -209,9 +210,8 @@ public abstract class Tokenizer
    public static final int TT_EOF = -1;
    public static final int TT_WORD = -3;
 
-   private char m_quote = '"';
    private char m_delimiter = ',';
    private int m_next;
    private int m_type;
-   private StringBuilder m_buffer = new StringBuilder();
+   private final StringBuilder m_buffer = new StringBuilder();
 }

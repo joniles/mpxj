@@ -149,5 +149,5 @@ final class RecurringTaskReader
       }
    }
 
-   private ProjectProperties m_properties;
+   private final ProjectProperties m_properties;
 }

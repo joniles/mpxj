@@ -250,6 +250,6 @@ final class ExtendedData
       return (sw.toString());
    }
 
-   private FixDeferFix m_data;
-   private HashMap<Integer, byte[]> m_map = new HashMap<>();
+   private final FixDeferFix m_data;
+   private final HashMap<Integer, byte[]> m_map = new HashMap<>();
 }

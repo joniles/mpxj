@@ -26,7 +26,7 @@ package net.sf.mpxj.turboproject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +52,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -113,7 +114,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -131,8 +132,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
       while (true)
       {
-         byte[] table = new byte[32];
-         is.read(table);
+         byte[] table = InputStreamHelper.read(is, 32);
          index += 32;
 
          int offset = PEPUtility.getInt(table, 0);

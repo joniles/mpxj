@@ -161,5 +161,5 @@ public final class GanttBarStyle extends GanttBarCommonStyle
    private TaskField m_fromField;
    private TaskField m_toField;
    private int m_row;
-   private Set<GanttBarShowForTasks> m_showForTasks = new TreeSet<>();
+   private final Set<GanttBarShowForTasks> m_showForTasks = new TreeSet<>();
 }

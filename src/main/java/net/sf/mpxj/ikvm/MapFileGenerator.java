@@ -186,9 +186,8 @@ public class MapFileGenerator
       BeanInfo beanInfo = Introspector.getBeanInfo(aClass, aClass.getSuperclass());
       PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 
-      for (int i = 0; i < propertyDescriptors.length; i++)
+      for (PropertyDescriptor propertyDescriptor : propertyDescriptors)
       {
-         PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
          if (propertyDescriptor.getPropertyType() != null)
          {
             String name = propertyDescriptor.getName();

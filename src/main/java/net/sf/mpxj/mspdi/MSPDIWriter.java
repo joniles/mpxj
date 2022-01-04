@@ -350,12 +350,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // we never write them to the MSPDI file anyway.
       customFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
 
-      List<FieldType> customFieldsList = new ArrayList<>();
-      customFieldsList.addAll(customFields);
+      List<FieldType> customFieldsList = new ArrayList<>(customFields);
 
       // Sort to ensure consistent order in file
       final CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      Collections.sort(customFieldsList, new Comparator<FieldType>()
+      customFieldsList.sort(new Comparator<FieldType>()
       {
          @Override public int compare(FieldType o1, FieldType o2)
          {
@@ -394,7 +393,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          allCustomFields.add(field);
       }
 
-      Collections.sort(allCustomFields, new Comparator<CustomField>()
+      allCustomFields.sort(new Comparator<CustomField>()
       {
          @Override public int compare(CustomField customField1, CustomField customField2)
          {

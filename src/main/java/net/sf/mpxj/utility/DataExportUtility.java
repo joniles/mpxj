@@ -93,7 +93,7 @@ public final class DataExportUtility
       connection.setAutoCommit(true);
 
       //
-      // Retrieve meta data about the connection
+      // Retrieve metadata about the connection
       //
       DatabaseMetaData dmd = connection.getMetaData();
 
@@ -152,18 +152,11 @@ public final class DataExportUtility
       int columnCount = rmd.getColumnCount();
       String[] columnNames = new String[columnCount];
       int[] columnTypes = new int[columnCount];
-      int[] columnPrecision = new int[columnCount];
-      int[] columnScale = new int[columnCount];
 
       for (index = 0; index < columnCount; index++)
       {
          columnNames[index] = rmd.getColumnName(index + 1);
          columnTypes[index] = rmd.getColumnType(index + 1);
-         if (columnTypes[index] == Types.NUMERIC)
-         {
-            columnPrecision[index] = rmd.getPrecision(index + 1);
-            columnScale[index] = rmd.getScale(index + 1);
-         }
       }
 
       //
@@ -180,6 +173,7 @@ public final class DataExportUtility
 
          for (index = 0; index < columnCount; index++)
          {
+            pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
             switch (columnTypes[index])
             {
                case Types.BINARY:
@@ -187,12 +181,7 @@ public final class DataExportUtility
                case Types.LONGVARBINARY:
                case Types.VARBINARY:
                {
-                  pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
-
                   pw.println("[BINARY DATA]");
-
-                  pw.println("</column>");
-
                   break;
                }
 
@@ -200,14 +189,9 @@ public final class DataExportUtility
                case Types.TIME:
                {
                   Date data = rs.getDate(index + 1);
-                  //if (data != null)
+                  if (data != null)
                   {
-                     pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
-                     if (data != null)
-                     {
-                        pw.print(df.format(data));
-                     }
-                     pw.println("</column>");
+                     pw.print(df.format(data));
                   }
                   break;
                }
@@ -215,66 +199,9 @@ public final class DataExportUtility
                case Types.TIMESTAMP:
                {
                   Timestamp data = rs.getTimestamp(index + 1);
-                  //if (data != null)
+                  if (data != null)
                   {
-                     pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
-                     if (data != null)
-                     {
-                        pw.print(data.toString());
-                     }
-                     pw.println("</column>");
-                  }
-                  break;
-               }
-
-               case Types.NUMERIC:
-               {
-                  //
-                  // If we have a non-null value, map the value to a
-                  // more specific type
-                  //
-                  String data = rs.getString(index + 1);
-                  //if (data != null)
-                  {
-                     int type = Types.NUMERIC;
-                     int precision = columnPrecision[index];
-                     int scale = columnScale[index];
-
-                     if (scale == 0)
-                     {
-                        if (precision == 10)
-                        {
-                           type = Types.INTEGER;
-                        }
-                        else
-                        {
-                           if (precision == 5)
-                           {
-                              type = Types.SMALLINT;
-                           }
-                           else
-                           {
-                              if (precision == 1)
-                              {
-                                 type = Types.BIT;
-                              }
-                           }
-                        }
-                     }
-                     else
-                     {
-                        if (precision > 125)
-                        {
-                           type = Types.DOUBLE;
-                        }
-                     }
-
-                     pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + type + "\">");
-                     if (data != null)
-                     {
-                        pw.print(data);
-                     }
-                     pw.println("</column>");
+                     pw.print(data);
                   }
                   break;
                }
@@ -282,18 +209,14 @@ public final class DataExportUtility
                default:
                {
                   String data = rs.getString(index + 1);
-                  //if (data != null)
+                  if (data != null)
                   {
-                     pw.print("  <column name=\"" + columnNames[index] + "\" type=\"" + columnTypes[index] + "\">");
-                     if (data != null)
-                     {
-                        pw.print(escapeText(buffer, data));
-                     }
-                     pw.println("</column>");
+                     pw.print(escapeText(buffer, data));
                   }
                   break;
                }
             }
+            pw.println("</column>");
          }
 
          pw.println(" </row>");
@@ -349,7 +272,7 @@ public final class DataExportUtility
                {
                   if (c > 127)
                   {
-                     sb.append("&#" + (int) c + ";");
+                     sb.append("&#").append((int) c).append(";");
                   }
                   else
                   {

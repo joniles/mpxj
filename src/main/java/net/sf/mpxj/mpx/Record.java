@@ -78,7 +78,7 @@ final class Record
          if (list.size() > 0)
          {
             setRecordNumber(list);
-            m_fields = list.toArray(new String[list.size()]);
+            m_fields = list.toArray(new String[0]);
          }
       }
 
@@ -662,7 +662,7 @@ final class Record
     */
    public ProjectDateFormat getDateFormat(int field)
    {
-      ProjectDateFormat result = null;
+      ProjectDateFormat result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
@@ -783,7 +783,7 @@ final class Record
    /**
     * Target locale.
     */
-   private Locale m_locale;
+   private final Locale m_locale;
 
    /**
     * Current record number.
@@ -795,5 +795,5 @@ final class Record
     */
    private String[] m_fields;
 
-   private MPXJFormats m_formats;
+   private final MPXJFormats m_formats;
 }

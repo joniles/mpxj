@@ -47,7 +47,7 @@ final class SqliteResultSetRow extends MapRow
    public SqliteResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super(new HashMap<String, Object>());
+      super(new HashMap<>());
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {

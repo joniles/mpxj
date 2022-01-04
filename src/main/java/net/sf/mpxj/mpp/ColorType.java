@@ -59,7 +59,7 @@ public enum ColorType implements MpxjEnum
     * @param name color name
     * @param color Java color instance
     */
-   private ColorType(int type, String name, Color color)
+   ColorType(int type, String name, Color color)
    {
       m_value = type;
       m_name = name;
@@ -140,7 +140,7 @@ public enum ColorType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
-   private String m_name;
-   private Color m_color;
+   private final int m_value;
+   private final String m_name;
+   private final Color m_color;
 }

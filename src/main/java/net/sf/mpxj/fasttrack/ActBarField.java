@@ -396,7 +396,7 @@ enum ActBarField implements FastTrackField
     *
     * @param value field ID from FTS file
     */
-   private ActBarField(int value)
+   ActBarField(int value)
    {
       m_value = value;
    }

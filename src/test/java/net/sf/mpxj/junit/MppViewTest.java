@@ -57,7 +57,7 @@ public class MppViewTest
    /**
     * Test view data read from an MPP9 file saved by Project 2007.
     */
-   @Test public void testMpp9ViewFrom12() throws Exception
+   @Test public void testMpp9ViewFrom12()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       //testViews(mpp);
@@ -66,7 +66,7 @@ public class MppViewTest
    /**
     * Test view data read from an MPP9 file saved by Project 2010.
     */
-   @Test public void testMpp9ViewFrom14() throws Exception
+   @Test public void testMpp9ViewFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       //testViews(mpp);
@@ -113,10 +113,9 @@ public class MppViewTest
       // so make a Set to check against when done reading in the views
       HashSet<String> setViewNames = new HashSet<>();
 
-      for (int viewNum = 0; viewNum < views.size(); viewNum++)
+      for (View view : views)
       {
          // View Names
-         View view = views.get(viewNum);
          String viewName = view.getName();
          setViewNames.add(viewName);
          Table table = null;
@@ -134,9 +133,8 @@ public class MppViewTest
                // verify all columns
                List<Column> cols = table.getColumns();
                HashSet<String> setColumnNames = new HashSet<>();
-               for (int n = 0; n < cols.size(); n++)
+               for (Column col : cols)
                {
-                  Column col = cols.get(n);
                   setColumnNames.add(col.getTitle());
                   int width = col.getWidth();
                   assertTrue(width > 0);

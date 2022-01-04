@@ -131,10 +131,10 @@ public class MppNullTaskTest
       task = project.getTaskByID(Integer.valueOf(2));
       if (task != null)
       {
-         assertEquals(null, task.getName());
-         assertEquals(null, task.getOutlineLevel());
-         assertEquals(null, task.getOutlineNumber());
-         assertEquals(null, task.getWBS());
+         assertNull(task.getName());
+         assertNull(task.getOutlineLevel());
+         assertNull(task.getOutlineNumber());
+         assertNull(task.getWBS());
          assertFalse(task.getSummary());
       }
 
@@ -157,10 +157,10 @@ public class MppNullTaskTest
       task = project.getTaskByID(Integer.valueOf(5));
       if (task != null)
       {
-         assertEquals(null, task.getName());
-         assertEquals(null, task.getOutlineLevel());
-         assertEquals(null, task.getOutlineNumber());
-         assertEquals(null, task.getWBS());
+         assertNull(task.getName());
+         assertNull(task.getOutlineLevel());
+         assertNull(task.getOutlineNumber());
+         assertNull(task.getWBS());
          assertFalse(task.getSummary());
       }
 
@@ -175,10 +175,10 @@ public class MppNullTaskTest
       task = project.getTaskByID(Integer.valueOf(7));
       if (task != null)
       {
-         assertEquals(null, task.getName());
-         assertEquals(null, task.getOutlineLevel());
-         assertEquals(null, task.getOutlineNumber());
-         assertEquals(null, task.getWBS());
+         assertNull(task.getName());
+         assertNull(task.getOutlineLevel());
+         assertNull(task.getOutlineNumber());
+         assertNull(task.getWBS());
          assertFalse(task.getSummary());
       }
 

@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.zip.InflaterInputStream;
 
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Input stream used to handle compressed Phoenix files.
@@ -108,8 +109,7 @@ public class PhoenixInputStream extends InputStream
    {
       int bufferSize = 100;
       stream.mark(bufferSize);
-      byte[] buffer = new byte[bufferSize];
-      stream.read(buffer);
+      byte[] buffer = InputStreamHelper.read(stream, bufferSize);
       Charset charset = CharsetHelper.UTF8;
       String header = new String(buffer, charset);
       int prefixIndex = header.indexOf("PPX!!!!|");

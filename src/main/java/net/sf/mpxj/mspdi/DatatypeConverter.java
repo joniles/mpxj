@@ -1572,7 +1572,7 @@ public final class DatatypeConverter
     * @param factor required fraction of a minute
     * @return Duration instance
     */
-   private static final Duration parseDurationInFractionsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit, int factor)
+   private static Duration parseDurationInFractionsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit, int factor)
    {
       Duration result = null;
 
@@ -1595,7 +1595,7 @@ public final class DatatypeConverter
     * @param factor required factor
     * @return duration represented as an arbitrary fraction of minutes
     */
-   private static final double printDurationFractionsOfMinutes(Duration duration, int factor)
+   private static double printDurationFractionsOfMinutes(Duration duration, int factor)
    {
       double result = 0;
 
@@ -1962,7 +1962,7 @@ public final class DatatypeConverter
     * @param value original numeric value
     * @return corrected numeric value
     */
-   private static final String correctNumberFormat(String value)
+   private static String correctNumberFormat(String value)
    {
       String result;
       int index = value.indexOf(',');
@@ -1979,36 +1979,24 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = new ThreadLocal<NumberFormat>()
-   {
-      @Override protected NumberFormat initialValue()
-      {
-         // XML numbers should use . as decimal separator and no grouping.
-         DecimalFormat format = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
-         format.setGroupingUsed(false);
-         return format;
-      }
-   };
+   private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
 

@@ -154,9 +154,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * This method writes calendar data to a Planner file.
     *
-    * @throws JAXBException on xml creation errors
     */
-   private void writeCalendars() throws JAXBException
+   private void writeCalendars()
    {
       //
       // Create the new Planner calendar list
@@ -215,9 +214,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     *
     * @param mpxjCalendar MPXJ calendar instance
     * @param plannerCalendar Planner calendar instance
-    * @throws JAXBException on xml creation errors
     */
-   private void writeCalendar(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws JAXBException
+   private void writeCalendar(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       //
       // Populate basic details
@@ -421,9 +419,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * This method writes task data to a Planner file.
     *
-    * @throws JAXBException on xml creation errors
     */
-   private void writeTasks() throws JAXBException
+   private void writeTasks()
    {
       Tasks tasks = m_factory.createTasks();
       m_plannerProject.setTasks(tasks);
@@ -440,7 +437,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param mpxjTask MPXJ Task instance
     * @param taskList list of child tasks for current parent
     */
-   private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList) throws JAXBException
+   private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList)
    {
       net.sf.mpxj.planner.schema.Task plannerTask = m_factory.createTask();
       taskList.add(plannerTask);
@@ -722,12 +719,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int hours = cal.get(Calendar.HOUR_OF_DAY);
       int minutes = cal.get(Calendar.MINUTE);
       DateHelper.pushCalendar(cal);
-
-      StringBuilder sb = new StringBuilder(4);
-      sb.append(m_twoDigitFormat.format(hours));
-      sb.append(m_twoDigitFormat.format(minutes));
-
-      return (sb.toString());
+      return m_twoDigitFormat.format(hours) + m_twoDigitFormat.format(minutes);
    }
 
    /**
@@ -745,13 +737,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       int month = cal.get(Calendar.MONTH) + 1;
       int day = cal.get(Calendar.DAY_OF_MONTH);
       DateHelper.pushCalendar(cal);
-
-      StringBuilder sb = new StringBuilder(8);
-      sb.append(m_fourDigitFormat.format(year));
-      sb.append(m_twoDigitFormat.format(month));
-      sb.append(m_twoDigitFormat.format(day));
-
-      return (sb.toString());
+      return m_fourDigitFormat.format(year) + m_twoDigitFormat.format(month) + m_twoDigitFormat.format(day);
    }
 
    /**
@@ -768,16 +754,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       if (value != null)
       {
          Calendar cal = DateHelper.popCalendar(value);
-         StringBuilder sb = new StringBuilder(16);
-         sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
-         sb.append('T');
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
-         sb.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
-         sb.append('Z');
-         result = sb.toString();
+         result = m_fourDigitFormat.format(cal.get(Calendar.YEAR)) + m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1) + m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)) + 'T' + m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)) + m_twoDigitFormat.format(cal.get(Calendar.MINUTE)) + m_twoDigitFormat.format(cal.get(Calendar.SECOND)) + 'Z';
          DateHelper.pushCalendar(cal);
       }
       return result;
@@ -894,7 +871,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getScheduling(TaskType value)
    {
       String result = "fixed-work";
-      if (value != null && value == TaskType.FIXED_DURATION)
+      if (value == TaskType.FIXED_DURATION)
       {
          result = "fixed-duration";
       }
@@ -939,10 +916,10 @@ public final class PlannerWriter extends AbstractProjectWriter
    private ObjectFactory m_factory;
    private Project m_plannerProject;
 
-   private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
+   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
 
-   private static Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
+   private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {
       RELATIONSHIP_TYPES.put(RelationType.FINISH_FINISH, "FF");

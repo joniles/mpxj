@@ -168,7 +168,7 @@ public enum TestOperator implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private TestOperator(int type)
+   TestOperator(int type)
    {
       m_value = type;
    }
@@ -343,7 +343,7 @@ public enum TestOperator implements MpxjEnum
 
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String) lhs).toUpperCase().indexOf(((String) rhs).toUpperCase()) != -1;
+         result = ((String) lhs).toUpperCase().contains(((String) rhs).toUpperCase());
       }
 
       return (result);
@@ -365,7 +365,7 @@ public enum TestOperator implements MpxjEnum
 
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String) lhs).indexOf(((String) rhs)) != -1;
+         result = ((String) lhs).contains(((String) rhs));
       }
 
       return (result);
@@ -379,5 +379,5 @@ public enum TestOperator implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

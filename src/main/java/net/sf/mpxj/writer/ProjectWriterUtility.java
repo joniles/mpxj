@@ -70,9 +70,7 @@ public final class ProjectWriterUtility
          throw new IllegalArgumentException("Cannot write files of type: " + name);
       }
 
-      ProjectWriter file = fileClass.newInstance();
-
-      return (file);
+      return (fileClass.newInstance());
    }
 
    /**

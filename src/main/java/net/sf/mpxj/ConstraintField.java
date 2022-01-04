@@ -40,7 +40,7 @@ public enum ConstraintField implements FieldType
     *
     * @param dataType field data type
     */
-   private ConstraintField(DataType dataType)
+   ConstraintField(DataType dataType)
    {
       m_dataType = dataType;
    }
@@ -125,7 +125,7 @@ public enum ConstraintField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
+   private final DataType m_dataType;
    private FieldType m_unitsType;
 
 }

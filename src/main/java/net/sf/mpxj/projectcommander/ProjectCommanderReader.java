@@ -26,8 +26,8 @@ package net.sf.mpxj.projectcommander;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +107,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -115,7 +115,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readCalendars()
    {
-      m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(block -> readCalendar(block));
+      m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(this::readCalendar);
    }
 
    /**
@@ -123,7 +123,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readTasks()
    {
-      m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(block -> readTask(block));
+      m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(this::readTask);
       updateStructure();
       updateDates();
    }
@@ -133,7 +133,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readResources()
    {
-      m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
+      m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(this::readResource);
       updateResourceUniqueIDValues();
    }
 
@@ -197,7 +197,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             if (calendar.isWorkingDay(day))
             {
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
-               ranges.get(day).stream().forEach(range -> hours.addRange(range));
+               ranges.get(day).forEach(hours::addRange);
             }
          }
 
@@ -266,7 +266,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate, exceptionDate);
          if (!calendar.isWorkingDay(day))
          {
-            ranges.get(day).stream().forEach(range -> ex.addRange(range));
+            ranges.get(day).forEach(ex::addRange);
          }
       }
    }
@@ -287,7 +287,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          return;
       }
 
-      Block[] baselines = getChildBlocks(block, "CBaselineData").toArray(x -> new Block[x]);
+      Block[] baselines = getChildBlocks(block, "CBaselineData").toArray(Block[]::new);
       if (baselines.length == 0)
       {
          readSummaryTask(block, name);
@@ -400,7 +400,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       {
          if (cUsageTaskBaselineData.length != 0)
          {
-            Duration durationInHours = null;
+            Duration durationInHours;
 
             // If we're not the first bar, is our duration different to the first bar?
             // This is very much a heuristic!

@@ -1431,7 +1431,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case ELAPSED_MONTHS:
          {
-            duration /= (30 * 24 * 60 * 60 * 1000);
+            duration /= (30.0 * 24.0 * 60.0 * 60.0 * 1000.0);
             break;
          }
 
@@ -1640,23 +1640,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          long start;
          long end;
 
-         if (start1.getTime() < start2.getTime())
-         {
-            start = start2.getTime();
-         }
-         else
-         {
-            start = start1.getTime();
-         }
+         start = Math.max(start1.getTime(), start2.getTime());
 
-         if (end1.getTime() < end2.getTime())
-         {
-            end = end1.getTime();
-         }
-         else
-         {
-            end = end2.getTime();
-         }
+         end = Math.min(end1.getTime(), end2.getTime());
 
          if (start < end)
          {
@@ -1672,7 +1658,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param calendar derived calendar instance
     */
-   protected void addDerivedCalendar(ProjectCalendar calendar)
+   private void addDerivedCalendar(ProjectCalendar calendar)
    {
       m_derivedCalendars.add(calendar);
    }
@@ -1682,7 +1668,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param calendar derived calendar instance
     */
-   protected void removeDerivedCalendar(ProjectCalendar calendar)
+   private void removeDerivedCalendar(ProjectCalendar calendar)
    {
       m_derivedCalendars.remove(calendar);
    }
@@ -2015,7 +2001,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Reference to parent ProjectFile.
     */
-   private ProjectFile m_projectFile;
+   private final ProjectFile m_projectFile;
 
    /**
     * Unique identifier of this calendar.
@@ -2025,12 +2011,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of exceptions to the base calendar.
     */
-   private List<ProjectCalendarException> m_exceptions = new ArrayList<>();
+   private final List<ProjectCalendarException> m_exceptions = new ArrayList<>();
 
    /**
     * List of exceptions, including expansion of recurring exceptions.
     */
-   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<>();
+   private final List<ProjectCalendarException> m_expandedExceptions = new ArrayList<>();
 
    /**
     * Flag indicating if the list of exceptions is sorted.
@@ -2050,13 +2036,13 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of calendars derived from this calendar instance.
     */
-   private ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
+   private final ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
 
    /**
     * Caches used to speed up date calculations.
     */
-   private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
+   private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
+   private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private double m_getDateLastRemainingMinutes;
    private Date m_getDateLastResult;
@@ -2064,7 +2050,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Work week definitions.
     */
-   private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
+   private final ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
 
    private Integer m_minutesPerDay;
    private Integer m_minutesPerWeek;

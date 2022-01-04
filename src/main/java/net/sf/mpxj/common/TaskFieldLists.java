@@ -763,6 +763,6 @@ public final class TaskFieldLists
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
       result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
-      EXTENDED_FIELDS = result.toArray(new TaskField[result.size()]);
+      EXTENDED_FIELDS = result.toArray(new TaskField[0]);
    }
 }

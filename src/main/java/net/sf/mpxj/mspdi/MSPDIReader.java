@@ -29,7 +29,6 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -210,22 +209,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          return (m_projectFile);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -240,7 +224,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -1087,7 +1071,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          DateHelper.pushCalendar(cal);
-         tables.forEach(t -> Collections.sort(t));
+         tables.forEach(Collections::sort);
       }
    }
 
@@ -1186,7 +1170,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
-         mpx.setActive(xml.isActive() == null ? true : BooleanHelper.getBoolean(xml.isActive()));
+         mpx.setActive(xml.isActive() == null || BooleanHelper.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
          mpx.setActualFinish(xml.getActualFinish());

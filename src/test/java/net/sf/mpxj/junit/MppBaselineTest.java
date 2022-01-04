@@ -111,7 +111,7 @@ public class MppBaselineTest
     *
     * @param mpp The ProjectFile being tested.
     */
-   private void testBaselineFields(ProjectFile mpp) throws Exception
+   private void testBaselineFields(ProjectFile mpp)
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       Task task = mpp.getTaskByID(Integer.valueOf(1));

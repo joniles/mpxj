@@ -39,7 +39,7 @@ public enum ScheduleFrom implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private ScheduleFrom(int type)
+   ScheduleFrom(int type)
    {
       m_value = type;
    }
@@ -108,5 +108,5 @@ public enum ScheduleFrom implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

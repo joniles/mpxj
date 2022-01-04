@@ -26,9 +26,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -92,7 +90,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -255,7 +253,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
     *
     * @param row Synchro resource data
     */
-   private void processResource(MapRow row) throws IOException
+   private void processResource(MapRow row)
    {
       Resource resource = m_project.addResource();
       resource.setName(row.getString("NAME"));
@@ -580,14 +578,10 @@ public final class SynchroReader extends AbstractProjectStreamReader
     */
    private List<MapRow> sort(List<MapRow> rows, final String attribute)
    {
-      Collections.sort(rows, new Comparator<MapRow>()
-      {
-         @Override public int compare(MapRow o1, MapRow o2)
-         {
-            String value1 = o1.getString(attribute);
-            String value2 = o2.getString(attribute);
-            return value1.compareTo(value2);
-         }
+      rows.sort((o1, o2) -> {
+         String value1 = o1.getString(attribute);
+         String value2 = o2.getString(attribute);
+         return value1.compareTo(value2);
       });
       return rows;
    }

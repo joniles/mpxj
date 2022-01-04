@@ -73,8 +73,8 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
       return !m_data.isEmpty();
    }
 
-   private List<TimephasedCost> m_data;
+   private final List<TimephasedCost> m_data;
    private boolean m_raw;
-   private TimephasedCostNormaliser m_normaliser;
-   private ProjectCalendar m_calendar;
+   private final TimephasedCostNormaliser m_normaliser;
+   private final ProjectCalendar m_calendar;
 }

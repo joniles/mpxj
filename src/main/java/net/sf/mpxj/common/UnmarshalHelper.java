@@ -30,8 +30,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.UnmarshallerHandler;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
@@ -86,13 +84,7 @@ public final class UnmarshalHelper
 
       if (ignoreValidationErrors)
       {
-         unmarshaller.setEventHandler(new ValidationEventHandler()
-         {
-            @Override public boolean handleEvent(ValidationEvent event)
-            {
-               return true;
-            }
-         });
+         unmarshaller.setEventHandler(event -> true);
       }
 
       UnmarshallerHandler unmarshallerHandler = unmarshaller.getUnmarshallerHandler();

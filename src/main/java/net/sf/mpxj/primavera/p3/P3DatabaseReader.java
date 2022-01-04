@@ -24,11 +24,9 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -104,13 +102,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    {
       List<String> result = new ArrayList<>();
 
-      File[] files = directory.listFiles(new FilenameFilter()
-      {
-         @Override public boolean accept(File dir, String name)
-         {
-            return name.toUpperCase().endsWith("STR.P3");
-         }
-      });
+      File[] files = directory.listFiles((dir, name) -> name.toUpperCase().endsWith("STR.P3"));
 
       if (files != null)
       {
@@ -264,12 +256,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       for (MapRow row : m_tables.get("STR"))
       {
          Integer level = row.getInteger("LEVEL_NUMBER");
-         List<MapRow> items = levelMap.get(level);
-         if (items == null)
-         {
-            items = new ArrayList<>();
-            levelMap.put(level, items);
-         }
+         List<MapRow> items = levelMap.computeIfAbsent(level, k -> new ArrayList<>());
          items.add(row);
       }
 
@@ -292,13 +279,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          }
 
          final AlphanumComparator comparator = new AlphanumComparator();
-         Collections.sort(items, new Comparator<MapRow>()
-         {
-            @Override public int compare(MapRow o1, MapRow o2)
-            {
-               return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
-            }
-         });
+         items.sort((o1, o2) -> comparator.compare(o1.getString("WBS"), o2.getString("WBS")));
 
          for (MapRow row : items)
          {
@@ -352,13 +333,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          items.add(row);
       }
       final AlphanumComparator comparator = new AlphanumComparator();
-      Collections.sort(items, new Comparator<MapRow>()
-      {
-         @Override public int compare(MapRow o1, MapRow o2)
-         {
-            return comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID"));
-         }
-      });
+      items.sort((o1, o2) -> comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID")));
 
       for (MapRow row : items)
       {

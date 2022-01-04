@@ -62,13 +62,9 @@ public final class GenericCriteriaPrompt
 
    @Override public String toString()
    {
-      StringBuilder sb = new StringBuilder();
-      sb.append("PROMPT(");
-      sb.append(m_prompt);
-      sb.append(")");
-      return sb.toString();
+      return "PROMPT(" + m_prompt + ")";
    }
 
-   private DataType m_type;
-   private String m_prompt;
+   private final DataType m_type;
+   private final String m_prompt;
 }

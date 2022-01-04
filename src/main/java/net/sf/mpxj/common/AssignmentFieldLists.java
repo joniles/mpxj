@@ -578,6 +578,6 @@ public final class AssignmentFieldLists
       result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
       result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
       result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
-      EXTENDED_FIELDS = result.toArray(new AssignmentField[result.size()]);
+      EXTENDED_FIELDS = result.toArray(new AssignmentField[0]);
    }
 }

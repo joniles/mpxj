@@ -25,8 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -109,13 +107,7 @@ public class MppExplorer
       //
       // Open file
       //
-      mntmOpen.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileChooserController.openFileChooser();
-         }
-      });
+      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);

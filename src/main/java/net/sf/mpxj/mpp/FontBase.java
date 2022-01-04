@@ -79,7 +79,7 @@ public class FontBase
       return ("[FontBase name=" + m_name + " size=" + m_size + "]");
    }
 
-   private Integer m_index;
-   private String m_name;
-   private int m_size;
+   private final Integer m_index;
+   private final String m_name;
+   private final int m_size;
 }

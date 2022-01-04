@@ -49,7 +49,7 @@ public final class SemVer implements Comparable<SemVer>
     */
    public SemVer(String version)
    {
-      this(Arrays.stream(version.split("\\.")).mapToInt(x -> Integer.parseInt(x)).toArray());
+      this(Arrays.stream(version.split("\\.")).mapToInt(Integer::parseInt).toArray());
    }
 
    /**

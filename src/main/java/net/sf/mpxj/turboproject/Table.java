@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.StreamHelper;
 
 /**
@@ -55,8 +56,7 @@ class Table implements Iterable<MapRow>
     */
    public void read(InputStream is) throws IOException
    {
-      byte[] headerBlock = new byte[20];
-      is.read(headerBlock);
+      byte[] headerBlock = InputStreamHelper.read(is, 20);
 
       int headerLength = PEPUtility.getShort(headerBlock, 8);
       int recordCount = PEPUtility.getInt(headerBlock, 10);
@@ -66,8 +66,7 @@ class Table implements Iterable<MapRow>
       byte[] record = new byte[recordLength];
       for (int recordIndex = 1; recordIndex <= recordCount; recordIndex++)
       {
-         is.read(record);
-         readRow(recordIndex, record);
+         readRow(recordIndex, InputStreamHelper.read(is, record));
       }
    }
 

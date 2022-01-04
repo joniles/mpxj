@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -122,7 +122,7 @@ final class MPP14Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws FileNotFoundException, IOException, MPXJException
+   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws IOException, MPXJException
    {
       m_reader = reader;
       m_file = file;
@@ -169,10 +169,10 @@ final class MPP14Reader implements MPPVariantReader
       DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
       m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
       m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
-      m_outlineCodeFixedData = new FixedData(m_outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      m_outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
-      m_outlineCodeFixedData2 = new FixedData(m_outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
+      FixedMeta outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
+      m_outlineCodeFixedData = new FixedData(outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
+      FixedMeta outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
+      m_outlineCodeFixedData2 = new FixedData(outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
       m_projectProps = new Props14(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
@@ -1010,7 +1010,7 @@ final class MPP14Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
+      Integer[] uniqueIdArray = taskMap.keySet().toArray(new Integer[0]); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1037,10 +1037,8 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_TASK_META_DATA2_BIT_FLAGS;
       }
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Integer uniqueID : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
-
          offset = taskMap.get(uniqueID);
          if (!taskFixedData.isValidOffset(offset))
          {
@@ -1637,7 +1635,6 @@ final class MPP14Reader implements MPPVariantReader
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
-      Integer id;
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1667,9 +1664,8 @@ final class MPP14Reader implements MPPVariantReader
          metaData2BitFlags = PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS;
       }
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer id : uniqueid)
       {
-         id = uniqueid[loop];
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1890,24 +1886,12 @@ final class MPP14Reader implements MPPVariantReader
             varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
          }
 
-         catch (NoSuchElementException ex)
+         // NoSuchElementException, IndexOutOfBoundsException: From a sample files where the stream reports an available number of bytes,
+         // but attempting to read that number of bytes raises an exception.
+         // IOException: I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
+         // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
+         catch (NoSuchElementException | IndexOutOfBoundsException | IOException ex)
          {
-            // From a sample file where the stream reports an available number of bytes
-            // but attempting to read that number of bytes raises an exception.
-            return;
-         }
-
-         catch (IndexOutOfBoundsException ex)
-         {
-            // From a sample file where the stream reports an available number of bytes
-            // but attempting to read that number of bytes raises an exception.
-            return;
-         }
-
-         catch (IOException ex)
-         {
-            // I've come across an unusual sample where the VarMeta magic number is zero, which throws this exception.
-            // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
             return;
          }
 
@@ -1935,8 +1919,7 @@ final class MPP14Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
-         byte[] fixedData = new byte[is.available()];
-         is.read(fixedData);
+         byte[] fixedData = InputStreamHelper.read(is, is.available());
          is.close();
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
@@ -2090,9 +2073,7 @@ final class MPP14Reader implements MPPVariantReader
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
    private FixedData m_outlineCodeFixedData;
-   private FixedMeta m_outlineCodeFixedMeta;
    private FixedData m_outlineCodeFixedData2;
-   private FixedMeta m_outlineCodeFixedMeta2;
    private Props m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;

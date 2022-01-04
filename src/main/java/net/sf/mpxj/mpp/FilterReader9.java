@@ -38,6 +38,6 @@ public final class FilterReader9 extends FilterReader
       return m_criteraReader;
    }
 
-   private CriteriaReader m_criteraReader = new FilterCriteriaReader9();
+   private final CriteriaReader m_criteraReader = new FilterCriteriaReader9();
    private static final Integer FILTER_DATA = Integer.valueOf(1);
 }

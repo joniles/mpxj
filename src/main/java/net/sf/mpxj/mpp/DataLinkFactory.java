@@ -82,11 +82,7 @@ class DataLinkFactory
       }
 
       DataLinkContainer container = m_project.getDataLinks();
-      for (DataLink dataLink : map.values())
-      {
-         // System.out.println(dataLink);
-         container.add(dataLink);
-      }
+      container.addAll(map.values());
    }
 
    /**
@@ -101,7 +97,7 @@ class DataLinkFactory
       //System.out.println(props);
 
       String dataLinkID = props.getUnicodeString(PATH);
-      DataLink dataLink = map.computeIfAbsent(dataLinkID, k -> new DataLink(k));
+      DataLink dataLink = map.computeIfAbsent(dataLinkID, DataLink::new);
       Integer rowUniqueID = Integer.valueOf(props.getInt(UNIQUE_ID));
       FieldType fieldType = FieldTypeHelper.getInstance14(props.getInt(FIELD_TYPE));
 

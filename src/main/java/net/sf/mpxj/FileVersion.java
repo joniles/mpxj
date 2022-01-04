@@ -37,7 +37,7 @@ public enum FileVersion implements MpxjEnum
     *
     * @param value file version value
     */
-   private FileVersion(int value)
+   FileVersion(int value)
    {
       m_value = value;
    }
@@ -117,5 +117,5 @@ public enum FileVersion implements MpxjEnum
       return (result);
    }
 
-   private int m_value;
+   private final int m_value;
 }

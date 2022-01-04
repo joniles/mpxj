@@ -679,7 +679,7 @@ public final class MPXJFormats
          }
       }
 
-      return patterns.toArray(new String[patterns.size()]);
+      return patterns.toArray(new String[0]);
    }
 
    /**
@@ -825,15 +825,15 @@ public final class MPXJFormats
       return (m_nullText);
    }
 
-   private Locale m_locale;
-   private String m_nullText;
-   private ProjectFile m_projectFile;
-   private MPXJNumberFormat m_unitsDecimalFormat = new MPXJNumberFormat();
-   private MPXJNumberFormat m_decimalFormat = new MPXJNumberFormat();
-   private MPXJNumberFormat m_currencyFormat = new MPXJNumberFormat();
-   private MPXJNumberFormat m_durationDecimalFormat = new MPXJNumberFormat();
-   private MPXJNumberFormat m_percentageDecimalFormat = new MPXJNumberFormat();
-   private MPXJDateFormat m_dateTimeFormat = new MPXJDateFormat();
-   private MPXJDateFormat m_dateFormat = new MPXJDateFormat();
-   private MPXJTimeFormat m_timeFormat = new MPXJTimeFormat();
+   private final Locale m_locale;
+   private final String m_nullText;
+   private final ProjectFile m_projectFile;
+   private final MPXJNumberFormat m_unitsDecimalFormat = new MPXJNumberFormat();
+   private final MPXJNumberFormat m_decimalFormat = new MPXJNumberFormat();
+   private final MPXJNumberFormat m_currencyFormat = new MPXJNumberFormat();
+   private final MPXJNumberFormat m_durationDecimalFormat = new MPXJNumberFormat();
+   private final MPXJNumberFormat m_percentageDecimalFormat = new MPXJNumberFormat();
+   private final MPXJDateFormat m_dateTimeFormat = new MPXJDateFormat();
+   private final MPXJDateFormat m_dateFormat = new MPXJDateFormat();
+   private final MPXJTimeFormat m_timeFormat = new MPXJTimeFormat();
 }

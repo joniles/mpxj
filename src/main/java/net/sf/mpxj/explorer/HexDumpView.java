@@ -188,13 +188,9 @@ public class HexDumpView extends JPanel
       add(splitPane);
       splitPane.setLeftComponent(tablePanel);
       splitPane.setRightComponent(infoPanel);
-      SwingUtilities.invokeLater(new Runnable()
-      {
-         @Override public void run()
-         {
-            splitPane.setDividerLocation(0.85);
-            splitPane.setResizeWeight(0.85);
-         }
+      SwingUtilities.invokeLater(() -> {
+         splitPane.setDividerLocation(0.85);
+         splitPane.setResizeWeight(0.85);
       });
 
       //

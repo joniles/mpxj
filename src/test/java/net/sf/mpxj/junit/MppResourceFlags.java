@@ -27,7 +27,7 @@ public class MppResourceFlags
    /**
     * Test MPP14 saved by Project 2013.
     */
-   @Test public void testMpp14FromProject2013() throws Exception
+   @Test public void testMpp14FromProject2013()
    {
       // TODO work in progress - fix reading from Project 2013 MPP14
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("resourceFlags-mpp14Project2013.mpp");

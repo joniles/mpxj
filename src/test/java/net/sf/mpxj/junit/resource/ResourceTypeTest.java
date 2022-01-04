@@ -70,7 +70,7 @@ public class ResourceTypeTest
       ProjectFile project = reader.read(file);
       ResourceType expectedType;
       Integer mppFileType = project.getProjectProperties().getMppFileType();
-      boolean missingCostType = (mppFileType != null && mppFileType.intValue() < 12) || file.getName().endsWith(".mpd") || file.getName().indexOf("2003-mspdi") != -1 || file.getName().indexOf("2002-mspdi") != -1;
+      boolean missingCostType = (mppFileType != null && mppFileType.intValue() < 12) || file.getName().endsWith(".mpd") || file.getName().contains("2003-mspdi") || file.getName().contains("2002-mspdi");
       if (missingCostType)
       {
          expectedType = ResourceType.MATERIAL;

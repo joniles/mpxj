@@ -131,5 +131,5 @@ class MapRow
       return m_map.get(name);
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

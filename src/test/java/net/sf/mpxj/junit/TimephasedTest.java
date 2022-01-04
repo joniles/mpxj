@@ -1298,5 +1298,5 @@ public class TimephasedTest
                   }
    */
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

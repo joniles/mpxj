@@ -24,15 +24,16 @@
 package net.sf.mpxj.common;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Commonly used character sets.
  */
 public class CharsetHelper
 {
-   public static final Charset UTF8 = Charset.forName("UTF-8");
-   public static final Charset UTF16 = Charset.forName("UTF-16");
-   public static final Charset UTF16LE = Charset.forName("UTF-16LE");
+   public static final Charset UTF8 = StandardCharsets.UTF_8;
+   public static final Charset UTF16 = StandardCharsets.UTF_16;
+   public static final Charset UTF16LE = StandardCharsets.UTF_16LE;
    public static final Charset CP1252 = Charset.forName("Cp1252");
    public static final Charset MAC_ROMAN = Charset.forName("MacRoman");
    public static final Charset CP850 = Charset.forName("Cp850");

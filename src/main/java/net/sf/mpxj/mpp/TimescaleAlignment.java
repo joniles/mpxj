@@ -42,7 +42,7 @@ public enum TimescaleAlignment implements MpxjEnum
     * @param type int version of the enum
     * @param name enum name
     */
-   private TimescaleAlignment(int type, String name)
+   TimescaleAlignment(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -122,6 +122,6 @@ public enum TimescaleAlignment implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
-   private String m_name;
+   private final int m_value;
+   private final String m_name;
 }

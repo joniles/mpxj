@@ -165,7 +165,7 @@ public class MppBarStyleTest
     * @param mpp The ProjectFile being tested.
     * @param styles styles to test
     */
-   private void testDefaultBarStyles(ProjectFile mpp, Object[][] styles) throws Exception
+   private void testDefaultBarStyles(ProjectFile mpp, Object[][] styles)
    {
       //
       // Retrieve the views
@@ -195,7 +195,7 @@ public class MppBarStyleTest
     *
     * @param mpp The ProjectFile being tested.
     */
-   private void testExceptionBarStyles(ProjectFile mpp) throws Exception
+   private void testExceptionBarStyles(ProjectFile mpp)
    {
       //
       // Retrieve the views

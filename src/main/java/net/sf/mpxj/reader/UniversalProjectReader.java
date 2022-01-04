@@ -351,7 +351,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
-      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
+      return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
    }
 
    /**
@@ -365,7 +365,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
-      return m_readAll ? reader.readAll(file) : Arrays.asList(reader.read(file));
+      return m_readAll ? reader.readAll(file) : Collections.singletonList(reader.read(file));
    }
 
    /**
@@ -393,7 +393,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
-         return Arrays.asList(reader.read(fs));
+         return Collections.singletonList(reader.read(fs));
       }
       return Collections.emptyList();
    }
@@ -404,7 +404,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private List<ProjectFile> handleBinaryPropertyList(InputStream stream) throws Exception
+   private List<ProjectFile> handleBinaryPropertyList(InputStream stream)
    {
       // This is an unusual case. I have seen an instance where an MSPDI file was downloaded
       // as a web archive, which is a binary property list containing the file data.
@@ -640,7 +640,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                   ProjectFile result = reader.read(file);
                   if (result != null)
                   {
-                     return Arrays.asList(result);
+                     return Collections.singletonList(result);
                   }
                }
             }
@@ -667,7 +667,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return m_readAll ? new P3DatabaseReader().readAll(directory) : Arrays.asList(P3DatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new P3DatabaseReader().readAll(directory) : Collections.singletonList(P3DatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -678,7 +678,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleSureTrakDatabase(File directory) throws Exception
    {
-      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Arrays.asList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Collections.singletonList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -694,7 +694,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       UniversalProjectReader reader = new UniversalProjectReader();
       reader.m_skipBytes = length;
       reader.m_charset = charset;
-      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
+      return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
    }
 
    /**
@@ -717,16 +717,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
             StreamHelper.skip(is, 1024);
 
             // Bytes at offset 1024
-            byte[] data = new byte[2];
-            is.read(data);
-
+            byte[] data = InputStreamHelper.read(is, 2);
             if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
             {
                StreamHelper.skip(is, 286);
 
                // Bytes at offset 1312
-               data = new byte[34];
-               is.read(data);
+               data = InputStreamHelper.read(is, 34);
                if (matchesFingerprint(data, PRX_FINGERPRINT))
                {
                   is.close();
@@ -739,8 +736,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             {
                StreamHelper.skip(is, 31742);
                // Bytes at offset 32768
-               data = new byte[4];
-               is.read(data);
+               data = InputStreamHelper.read(is, 4);
                if (matchesFingerprint(data, PRX3_FINGERPRINT))
                {
                   is.close();
