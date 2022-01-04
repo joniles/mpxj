@@ -444,26 +444,26 @@ public class ProjectCleanUtility
    private ProjectFile m_project;
 
    private static final ProjectField[] PROJECT_FIELDS =
-            {
-                     ProjectField.AUTHOR,
-                     ProjectField.SUBJECT,
-                     ProjectField.COMPANY,
-                     ProjectField.PROJECT_TITLE,
-                     ProjectField.KEYWORDS,
-                     ProjectField.COMMENTS,
-                     ProjectField.LAST_AUTHOR,
-                     ProjectField.MANAGER,
-                     ProjectField.CATEGORY
-            };
+   {
+      ProjectField.AUTHOR,
+      ProjectField.SUBJECT,
+      ProjectField.COMPANY,
+      ProjectField.PROJECT_TITLE,
+      ProjectField.KEYWORDS,
+      ProjectField.COMMENTS,
+      ProjectField.LAST_AUTHOR,
+      ProjectField.MANAGER,
+      ProjectField.CATEGORY
+   };
 
    private static final TaskField[] TASK_FIELDS =
-            {
-                     TaskField.NAME
-            };
+   {
+      TaskField.NAME
+   };
 
    private static final ResourceField[] RESOURCE_FIELDS =
-            {
-                     ResourceField.NAME,
-                     ResourceField.INITIALS
-            };
+   {
+      ResourceField.NAME,
+      ResourceField.INITIALS
+   };
 }

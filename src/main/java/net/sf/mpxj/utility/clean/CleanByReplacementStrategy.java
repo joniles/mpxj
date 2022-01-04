@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.utility.clean;
 
 import java.net.URL;
@@ -52,7 +53,8 @@ public class CleanByReplacementStrategy implements CleanStrategy
       StringBuilder sb = new StringBuilder(oldText);
       Matcher matcher = WORD_PATTERN.matcher(oldText);
 
-      while (matcher.find()) {
+      while (matcher.find())
+      {
          String word = matcher.group(1);
          String replacement;
 
