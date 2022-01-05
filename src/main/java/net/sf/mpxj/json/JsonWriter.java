@@ -26,7 +26,9 @@ package net.sf.mpxj.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +37,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
@@ -160,6 +164,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeStartObject(null);
          writeCustomFields();
+         writeActivityCodes();
          writeProperties();
          writeResources();
          writeTasks();
@@ -187,6 +192,24 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomField(field);
       }
       m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of activity codes.
+    */
+   private void writeActivityCodes() throws IOException
+   {
+      if (!m_projectFile.getActivityCodes().isEmpty())
+      {
+         List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
+         sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
+         m_writer.writeStartList("activity_codes");
+         for (ActivityCode code : sortedActivityCodeList)
+         {
+            writeActivityCode(code);
+         }
+         m_writer.writeEndList();
+      }
    }
 
    /**
@@ -294,7 +317,6 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(null, assignment, AssignmentField.values());
       }
       m_writer.writeEndList();
-
    }
 
    /**
@@ -758,6 +780,47 @@ public final class JsonWriter extends AbstractProjectWriter
       }
       m_writer.writeEndList();
 
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write an activity code to the JSON file.
+    *
+    * @param code ActivityCode.
+    */
+   private void writeActivityCode(ActivityCode code) throws IOException
+   {
+      m_writer.writeStartObject(null);
+
+      writeIntegerField("unique_id", code.getUniqueID());
+      writeStringField("name", code.getName());
+      if(!code.getValues().isEmpty())
+      {
+         m_writer.writeStartList("values");
+         for (ActivityCodeValue value : code.getValues())
+         {
+            writeActivityCodeValue(value);
+         }
+         m_writer.writeEndList();
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write an activity code value to the JSON file.
+    *
+    * @param value ActivityCodeValue.
+    */
+   private void writeActivityCodeValue(ActivityCodeValue value) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", value.getUniqueID());
+      writeStringField("name", value.getName());
+      writeStringField("desription", value.getDescription());
+      if(value.getParent() != null)
+      {
+         writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
+      }
       m_writer.writeEndObject();
    }
 

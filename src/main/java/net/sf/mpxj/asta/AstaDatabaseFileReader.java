@@ -103,6 +103,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          processPredecessors();
          processAssignments();
          processCustomFields();
+         processCodeLibraries();
 
          m_reader = null;
 
@@ -450,6 +451,15 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       {
          throw new MPXJException("Failed to read baseline data", ex);
       }
+   }
+
+   private void processCodeLibraries()  throws SQLException
+   {
+      List<Row> types = getRows("select * from code_library where projid=?", m_projectID);
+      List<Row> typeValues = getRows("select * from code_library_entry where code_library in (select distinct id from code_library where projid=?)", m_projectID);
+      List<Row> assignments = getRows("select * from code_library_assignabl_codes where projid=?", m_projectID);
+
+      m_reader.processCodeLibraries(types, typeValues, assignments);
    }
 
    private AstaReader m_reader;

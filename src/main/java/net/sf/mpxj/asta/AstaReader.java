@@ -36,6 +36,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -375,6 +378,11 @@ final class AstaReader
          }
 
          Task task = parent.addTask();
+
+         if (row.getInteger("_EXPANDED_TASKID") != null)
+         {
+            m_expandedTaskMap.put(row.getInteger("_EXPANDED_TASKID"), task);
+         }
 
          //
          // Do we have a bar, task, or milestone?
@@ -1928,6 +1936,70 @@ final class AstaReader
       return value == null ? null : value.toString();
    }
 
+   public void processCodeLibraries(List<Row> types, List<Row> typeValues, List<Row> assignments)
+   {
+      ActivityCodeContainer container = m_project.getActivityCodes();
+      Map<Integer, ActivityCode> codeMap = new HashMap<>();
+      Map<Integer, ActivityCodeValue> valueMap = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), row.getString("NAME"));
+         container.add(code);
+         codeMap.put(code.getUniqueID(), code);
+      }
+
+      for (Row row : typeValues)
+      {
+         ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
+         if (code != null)
+         {
+            ActivityCodeValue value = code.addValue(row.getInteger("ID"), row.getString("SHORT_NAME"), row.getString("NAME"));
+            valueMap.put(value.getUniqueID(), value);
+         }
+      }
+
+      for (Row row : typeValues)
+      {
+         ActivityCodeValue child = valueMap.get(row.getInteger("ID"));
+         ActivityCodeValue parent = valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY"));
+         if (parent != null && child != null)
+         {
+            child.setParent(parent);
+         }
+      }
+
+      for (Row row : assignments)
+      {
+         ActivityCodeValue value = valueMap.get(row.getInteger("ASSIGNED_TO"));
+         if (value == null)
+         {
+            continue;
+         }
+
+         Integer id = row.getInteger("CODES");
+         Task task = m_taskMap.get(id);
+         if (task == null)
+         {
+            task = m_milestoneMap.get(id);
+            if (task == null)
+            {
+               task = m_barMap.get(id);
+               if (task == null)
+               {
+                  task = m_expandedTaskMap.get(id);
+               }
+            }
+         }
+
+         // Task will be null here for hammock tasks
+         if (task != null)
+         {
+            task.getActivityCodes().add(value);
+         }
+      }
+   }
+
    private final ProjectFile m_project;
    private final EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
@@ -1935,6 +2007,7 @@ final class AstaReader
    private final Map<Integer, Task> m_barMap = new HashMap<>();
    private final Map<Integer, Task> m_taskMap = new HashMap<>();
    private final Map<Integer, Task> m_milestoneMap = new HashMap<>();
+   private final Map<Integer, Task> m_expandedTaskMap = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
