@@ -489,6 +489,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case ACTIVITY_CODE_LIST:
+         {
+            writeActivityCodeList(fieldName, value);
+            break;
+         }
+
          case BINARY:
          {
             // Don't write binary data
@@ -938,6 +944,16 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeNameValuePair(fieldName, type.name());
          }
+      }
+   }
+
+   private void writeActivityCodeList(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      List<ActivityCodeValue> list = (List<ActivityCodeValue>) value;
+      if (!list.isEmpty())
+      {
+         m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
       }
    }
 

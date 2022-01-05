@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Writes JSON data to an output stream.
@@ -111,6 +113,13 @@ public class JsonStreamWriter
       writeNewLineIndent();
       m_writer.write("[");
       increaseIndent();
+   }
+
+   public void writeList(String name, List<Integer> values) throws IOException
+   {
+      writeStartList(name);
+      m_writer.write(values.stream().map(Object::toString).collect(Collectors.joining(",")));
+      writeEndList();
    }
 
    /**
