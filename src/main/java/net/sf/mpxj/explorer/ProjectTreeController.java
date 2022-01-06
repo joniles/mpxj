@@ -578,7 +578,7 @@ public class ProjectTreeController
    private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
    {
       List<ActivityCodeValue> values = new ArrayList<>(code.getValues());
-      values.sort((v1,v2) -> {
+      values.sort((v1, v2) -> {
          int id1 = v1.getParent() == null ? 0 : v1.getParent().getUniqueID().intValue();
          int id2 = v2.getParent() == null ? 0 : v2.getParent().getUniqueID().intValue();
          return id1 - id2;

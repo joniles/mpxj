@@ -101,6 +101,22 @@ public class JsonStreamWriter
    }
 
    /**
+    * Write a named list attribute containing simple values.
+    *
+    * @param name attribute name
+    * @param values list of attribute values
+    */
+   public void writeList(String name, List<Object> values) throws IOException
+   {
+      writeComma();
+      writeNewLineIndent();
+      writeName(name);
+      m_writer.write(" [");
+      m_writer.write(values.stream().map(Object::toString).collect(Collectors.joining(",")));
+      m_writer.write("]");
+   }
+
+   /**
     * Begin writing a named list attribute.
     *
     * @param name attribute name
@@ -113,13 +129,6 @@ public class JsonStreamWriter
       writeNewLineIndent();
       m_writer.write("[");
       increaseIndent();
-   }
-
-   public void writeList(String name, List<Integer> values) throws IOException
-   {
-      writeStartList(name);
-      m_writer.write(values.stream().map(Object::toString).collect(Collectors.joining(",")));
-      writeEndList();
    }
 
    /**

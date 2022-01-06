@@ -193,4 +193,9 @@
 		<Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
 		<Class name="~.*\.OperatingSystem" />
 	</Match>
+	
+	<!-- From an IDEA inspection, more efficient for modern JVMs to pass zero length array -->
+	<Match>
+		<Bug pattern="ITA_INEFFICIENT_TO_ARRAY" />
+	</Match>
 </FindBugsFilter>

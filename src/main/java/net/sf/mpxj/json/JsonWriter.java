@@ -800,7 +800,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       writeIntegerField("unique_id", code.getUniqueID());
       writeStringField("name", code.getName());
-      if(!code.getValues().isEmpty())
+      if (!code.getValues().isEmpty())
       {
          m_writer.writeStartList("values");
          for (ActivityCodeValue value : code.getValues())
@@ -823,7 +823,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeIntegerField("unique_id", value.getUniqueID());
       writeStringField("name", value.getName());
       writeStringField("desription", value.getDescription());
-      if(value.getParent() != null)
+      if (value.getParent() != null)
       {
          writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
       }

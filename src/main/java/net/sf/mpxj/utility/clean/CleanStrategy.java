@@ -31,7 +31,7 @@ public interface CleanStrategy
    /**
     * This method transforms the supplied text to make
     * it anonymous, using the chosen strategy.
-    * 
+    *
     * @param oldText original text
     * @return transformed text
     */

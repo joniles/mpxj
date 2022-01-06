@@ -370,7 +370,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return list of activity codes
     */
-   public List<ActivityCodeValue> getActivityCodes()
+   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
       return (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
    }
