@@ -1,6 +1,8 @@
 # Changelog
 
 ## 10.0.4 (unreleased)
+* Added support for reading Code Library values (as Activity Codes) from Powerproject files.
+* Updated `ProjectCleanUtility` to provide a "replace" strategy alongside the original "redact" strategy.
 
 ## 10.0.3 (2021-12-22)
 * Fix issue with null tasks from certain MPP files introduced in 10.0.2.

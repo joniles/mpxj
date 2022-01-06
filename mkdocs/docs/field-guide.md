@@ -157,6 +157,7 @@ Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|Ga
 % Work Complete| | | | | | |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
 ACWP| | | | | | |✓| | |✓| | | | | | | | | | | | | 
 Active|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Activity Codes|✓| | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Activity ID|✓| | | | | | | | | |✓|✓| |✓|✓|✓| | |✓| |✓|✓| 
 Activity Status| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Activity Type| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 

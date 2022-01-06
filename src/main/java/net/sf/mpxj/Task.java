@@ -370,9 +370,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return list of activity codes
     */
-   public List<ActivityCodeValue> getActivityCodes()
+   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
-      return m_activityCodes;
+      return (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
    }
 
    /**
@@ -382,7 +382,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void addActivityCode(ActivityCodeValue value)
    {
-      m_activityCodes.add(value);
+      List<ActivityCodeValue> list = getActivityCodes();
+      if (list == null)
+      {
+         list = new ArrayList<>();
+         set(TaskField.ACTIVITY_CODES, list);
+      }
+      list.add(value);
    }
 
    /**
@@ -5780,11 +5786,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * List of resource assignments for this task.
     */
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
-
-   /**
-    * List of activity codes for this task.
-    */
-   private final List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

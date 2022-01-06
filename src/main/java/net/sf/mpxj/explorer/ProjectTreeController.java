@@ -25,6 +25,7 @@ package net.sf.mpxj.explorer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +36,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
@@ -86,6 +89,8 @@ public class ProjectTreeController
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
+   private static final Set<String> ACTIVITY_CODE_EXCLUDED_METHODS = excludedMethods("getValues");
+   private static final Set<String> ACTIVITY_CODE_VALUE_EXCLUDED_METHODS = excludedMethods("getParent", "getType");
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
@@ -184,6 +189,10 @@ public class ProjectTreeController
       MpxjTreeNode dataLinksFolder = new MpxjTreeNode("Data Links");
       projectNode.add(dataLinksFolder);
       addDataLinks(dataLinksFolder, m_projectFile);
+
+      MpxjTreeNode activityCodesFolder = new MpxjTreeNode("Activity Codes");
+      projectNode.add(activityCodesFolder);
+      addActivityCodes(activityCodesFolder);
 
       m_model.setRoot(projectNode);
    }
@@ -541,6 +550,53 @@ public class ProjectTreeController
             }
          };
          parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add activity codes to the tree.
+    *
+    * @param parentNode parent tree node
+    */
+   private void addActivityCodes(MpxjTreeNode parentNode)
+   {
+      for (ActivityCode code : m_projectFile.getActivityCodes())
+      {
+         final ActivityCode c = code;
+         MpxjTreeNode childNode = new MpxjTreeNode(code, ACTIVITY_CODE_EXCLUDED_METHODS)
+         {
+            @Override public String toString()
+            {
+               return c.getName();
+            }
+         };
+         parentNode.add(childNode);
+         addActivityCodeValues(childNode, code);
+      }
+   }
+
+   private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
+   {
+      List<ActivityCodeValue> values = new ArrayList<>(code.getValues());
+      values.sort((v1, v2) -> {
+         int id1 = v1.getParent() == null ? 0 : v1.getParent().getUniqueID().intValue();
+         int id2 = v2.getParent() == null ? 0 : v2.getParent().getUniqueID().intValue();
+         return id1 - id2;
+      });
+
+      Map<ActivityCodeValue, MpxjTreeNode> nodes = new HashMap<>();
+      for (ActivityCodeValue value : values)
+      {
+         MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
+         nodes.put(value, node);
+         if (value.getParent() == null)
+         {
+            parentNode.add(node);
+         }
+         else
+         {
+            nodes.get(value.getParent()).add(node);
+         }
       }
    }
 

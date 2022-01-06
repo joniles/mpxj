@@ -77,7 +77,8 @@ public enum DataType implements MpxjEnum
    PERCENT_COMPLETE_TYPE(44),
    ACTIVITY_STATUS(45),
    ACTIVITY_TYPE(46),
-   CRITICAL_ACTIVITY_TYPE(47);
+   CRITICAL_ACTIVITY_TYPE(47),
+   ACTIVITY_CODE_LIST(48);
 
    /**
     * Private constructor.
