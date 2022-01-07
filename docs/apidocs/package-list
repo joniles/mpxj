@@ -36,4 +36,5 @@ net.sf.mpxj.sdef
 net.sf.mpxj.synchro
 net.sf.mpxj.turboproject
 net.sf.mpxj.utility
+net.sf.mpxj.utility.clean
 net.sf.mpxj.writer
