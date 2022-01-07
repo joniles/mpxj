@@ -11,6 +11,13 @@ module MPXJ
       get_boolean_value(attribute_values['active'])
     end
 
+    # Retrieve the Activity Codes value
+    #
+    # @return Activity Codes value
+    def activity_codes
+      attribute_values['activity_codes']
+    end
+
     # Retrieve the Activity ID value
     #
     # @return Activity ID value
@@ -8175,6 +8182,7 @@ module MPXJ
 
     ATTRIBUTE_TYPES = {
       'active' => :boolean,
+      'activity_codes' => :activity_code_list,
       'activity_id' => :string,
       'activity_status' => :activity_status,
       'activity_type' => :activity_type,

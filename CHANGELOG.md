@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.0.4 (unreleased)
+## 10.0.5 (unreleased)
+
+## 10.0.4 (2022-01-07)
 * Added support for reading Code Library values (as Activity Codes) from Powerproject files.
 * Updated `ProjectCleanUtility` to provide a "replace" strategy alongside the original "redact" strategy.
 

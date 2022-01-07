@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.0.4">
+		<release date="unreleased" version="10.0.5">
+		</release>
+		<release date="2022-01-07" version="10.0.4">
 			<action dev="joniles" type="add">Added support for reading Code Library values (as Activity Codes) from Powerproject files.</action>
 			<action dev="joniles" type="update">Updated `ProjectCleanUtility` to provide a "replace" strategy alongside the original "redact" strategy.</action>
 		</release>
