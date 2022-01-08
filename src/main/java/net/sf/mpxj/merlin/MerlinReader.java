@@ -33,7 +33,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +103,7 @@ public final class MerlinReader extends AbstractProjectFileReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
@@ -615,13 +615,13 @@ public final class MerlinReader extends AbstractProjectFileReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private Integer m_projectID = Integer.valueOf(1);
+   private final Integer m_projectID = Integer.valueOf(1);
    private Connection m_connection;
    private PreparedStatement m_ps;
    private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
+   private final Map<String, Integer> m_meta = new HashMap<>();
    private DocumentBuilder m_documentBuilder;
-   private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
    private Map<String, Integer> m_entityMap;
 }
