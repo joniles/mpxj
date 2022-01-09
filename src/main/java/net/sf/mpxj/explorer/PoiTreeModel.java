@@ -111,7 +111,7 @@ public class PoiTreeModel implements TreeModel
       if (parent instanceof DirectoryEntry)
       {
          List<Entry> entries = getChildNodes((DirectoryEntry) parent);
-         result = entries.indexOf((Entry)child);
+         result = entries.indexOf(child);
       }
 
       return result;
