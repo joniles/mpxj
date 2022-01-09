@@ -107,45 +107,41 @@ final class FixedMeta extends MPPComponent
    FixedMeta(InputStream is, final FixedData otherFixedBlock, final int... itemSizes)
       throws IOException
    {
-      this(is, new FixedMetaItemSizeProvider()
-      {
-         @Override public int getItemSize(int fileSize, int itemCount)
+      this(is, (fileSize, itemCount) -> {
+         int itemSize = itemSizes[0];
+         int available = fileSize - HEADER_SIZE;
+         int distance = Integer.MIN_VALUE;
+         int otherFixedBlockCount = otherFixedBlock.getItemCount();
+
+         for (int testItemSize : itemSizes)
          {
-            int itemSize = itemSizes[0];
-            int available = fileSize - HEADER_SIZE;
-            int distance = Integer.MIN_VALUE;
-            int otherFixedBlockCount = otherFixedBlock.getItemCount();
-
-            for (int testItemSize : itemSizes)
+            if (available % testItemSize == 0)
             {
-               if (available % testItemSize == 0)
+               //
+               // If we are testing a size which fits exactly into
+               // the block size, and matches the number of items from
+               // another block, we can be pretty certain we have the correct
+               // size, so bail out at this point
+               //
+               if (available / testItemSize == otherFixedBlockCount)
                {
-                  //
-                  // If we are testing a size which fits exactly into
-                  // the block size, and matches the number of items from
-                  // another block, we can be pretty certain we have the correct
-                  // size, so bail out at this point
-                  //
-                  if (available / testItemSize == otherFixedBlockCount)
-                  {
-                     itemSize = testItemSize;
-                     break;
-                  }
+                  itemSize = testItemSize;
+                  break;
+               }
 
-                  //
-                  // Otherwise use a rule-of-thumb to decide on the closest match
-                  //
-                  int testDistance = (itemCount * testItemSize) - available;
-                  if (testDistance <= 0 && testDistance > distance)
-                  {
-                     itemSize = testItemSize;
-                     distance = testDistance;
-                  }
+               //
+               // Otherwise use a rule-of-thumb to decide on the closest match
+               //
+               int testDistance = (itemCount * testItemSize) - available;
+               if (testDistance <= 0 && testDistance > distance)
+               {
+                  itemSize = testItemSize;
+                  distance = testDistance;
                }
             }
-
-            return itemSize;
          }
+
+         return itemSize;
       });
    }
 

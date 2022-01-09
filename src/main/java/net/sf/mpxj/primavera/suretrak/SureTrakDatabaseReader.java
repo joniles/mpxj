@@ -699,25 +699,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     */
    private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
-      defineField(container, name, type, null);
-   }
-
-   /**
-    * Configure the mapping between a database column and a field, including definition of
-    * an alias.
-    *
-    * @param container column to field map
-    * @param name column name
-    * @param type field type
-    * @param alias field alias
-    */
-   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
-   {
       container.put(name, type);
-      //      if (alias != null)
-      //      {
-      //         ALIASES.put(type, alias);
-      //      }
    }
 
    private String m_projectName;

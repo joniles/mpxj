@@ -378,22 +378,10 @@ public enum ProjectField implements FieldType
     * Constructor.
     *
     * @param dataType field data type
-    * @param unitsType field units type
-    */
-   ProjectField(DataType dataType, FieldType unitsType)
-   {
-      m_dataType = dataType;
-      m_unitsType = unitsType;
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param dataType field data type
     */
    ProjectField(DataType dataType)
    {
-      this(dataType, null);
+      m_dataType = dataType;
    }
 
    @Override public FieldTypeClass getFieldTypeClass()
@@ -431,7 +419,7 @@ public enum ProjectField implements FieldType
 
    @Override public FieldType getUnitsType()
    {
-      return m_unitsType;
+      return null;
    }
 
    /**
@@ -477,5 +465,4 @@ public enum ProjectField implements FieldType
 
    private int m_value;
    private final DataType m_dataType;
-   private final FieldType m_unitsType;
 }

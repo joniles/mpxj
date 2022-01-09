@@ -33,8 +33,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import net.sf.mpxj.ProjectFile;
@@ -73,23 +71,19 @@ public class ProjectFilePanel extends JPanel
 
       m_openTabs = new HashMap<>();
 
-      treeView.addTreeSelectionListener(new TreeSelectionListener()
-      {
-         @Override public void valueChanged(TreeSelectionEvent e)
+      treeView.addTreeSelectionListener(e -> {
+         TreePath path = e.getPath();
+         MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
+         if (!(component.getUserObject() instanceof String))
          {
-            TreePath path = e.getPath();
-            MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
-            if (!(component.getUserObject() instanceof String))
+            ObjectPropertiesPanel panel = m_openTabs.get(component);
+            if (panel == null)
             {
-               ObjectPropertiesPanel panel = m_openTabs.get(component);
-               if (panel == null)
-               {
-                  panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
-                  tabbedPane.add(component.toString(), panel);
-                  m_openTabs.put(component, panel);
-               }
-               tabbedPane.setSelectedComponent(panel);
+               panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
+               tabbedPane.add(component.toString(), panel);
+               m_openTabs.put(component, panel);
             }
+            tabbedPane.setSelectedComponent(panel);
          }
       });
 

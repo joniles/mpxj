@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1831,21 +1830,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rates.sort(new Comparator<ResourceRateType>()
-      {
-         @Override public int compare(ResourceRateType r1, ResourceRateType r2)
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getResourceObjectId();
+         Integer id2 = r2.getResourceObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
          {
-            Integer id1 = r1.getResourceObjectId();
-            Integer id2 = r2.getResourceObjectId();
-            int cmp = NumberHelper.compare(id1, id2);
-            if (cmp != 0)
-            {
-               return cmp;
-            }
-            Date d1 = r1.getEffectiveDate();
-            Date d2 = r2.getEffectiveDate();
-            return DateHelper.compare(d1, d2);
+            return cmp;
          }
+         Date d1 = r1.getEffectiveDate();
+         Date d2 = r2.getEffectiveDate();
+         return DateHelper.compare(d1, d2);
       });
 
       for (int i = 0; i < rates.size(); ++i)
@@ -1911,21 +1906,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rates.sort(new Comparator<RoleRateType>()
-      {
-         @Override public int compare(RoleRateType r1, RoleRateType r2)
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getRoleObjectId();
+         Integer id2 = r2.getRoleObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
          {
-            Integer id1 = r1.getRoleObjectId();
-            Integer id2 = r2.getRoleObjectId();
-            int cmp = NumberHelper.compare(id1, id2);
-            if (cmp != 0)
-            {
-               return cmp;
-            }
-            Date d1 = r1.getEffectiveDate();
-            Date d2 = r2.getEffectiveDate();
-            return DateHelper.compare(d1, d2);
+            return cmp;
          }
+         Date d1 = r1.getEffectiveDate();
+         Date d2 = r2.getEffectiveDate();
+         return DateHelper.compare(d1, d2);
       });
 
       for (int i = 0; i < rates.size(); ++i)

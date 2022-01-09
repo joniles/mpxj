@@ -563,19 +563,13 @@ public final class MPXWriter extends AbstractProjectWriter
          {
             c = note.charAt(loop);
 
-            switch (c)
+            if (c == '"')
             {
-               case '"':
-               {
-                  m_buffer.append("\"\"");
-                  break;
-               }
-
-               default:
-               {
-                  m_buffer.append(c);
-                  break;
-               }
+               m_buffer.append("\"\"");
+            }
+            else
+            {
+               m_buffer.append(c);
             }
          }
 

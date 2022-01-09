@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -68,36 +67,32 @@ class ActivitySorter
          // 3. Activities ordered by activity ID
          // 4. WBS ordered by ID
          //
-         tasks.sort(new Comparator<Task>()
-         {
-            @Override public int compare(Task t1, Task t2)
+         tasks.sort((t1, t2) -> {
+            boolean t1IsWbs = m_wbsTasks.contains(t1);
+            boolean t2IsWbs = m_wbsTasks.contains(t2);
+
+            // Both are WBS
+            if (t1IsWbs && t2IsWbs)
             {
-               boolean t1IsWbs = m_wbsTasks.contains(t1);
-               boolean t2IsWbs = m_wbsTasks.contains(t2);
-
-               // Both are WBS
-               if (t1IsWbs && t2IsWbs)
-               {
-                  return t1.getID().compareTo(t2.getID());
-               }
-
-               // Both are activities
-               if (!t1IsWbs && !t2IsWbs)
-               {
-                  String activityID1 = t1.getActivityID();
-                  String activityID2 = t2.getActivityID();
-
-                  if (activityID1 == null || activityID2 == null)
-                  {
-                     return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
-                  }
-
-                  return activityID1.compareTo(activityID2);
-               }
-
-               // One activity one WBS
-               return t1IsWbs ? 1 : -1;
+               return t1.getID().compareTo(t2.getID());
             }
+
+            // Both are activities
+            if (!t1IsWbs && !t2IsWbs)
+            {
+               String activityID1 = t1.getActivityID();
+               String activityID2 = t2.getActivityID();
+
+               if (activityID1 == null || activityID2 == null)
+               {
+                  return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
+               }
+
+               return activityID1.compareTo(activityID2);
+            }
+
+            // One activity one WBS
+            return t1IsWbs ? 1 : -1;
          });
       }
    }
