@@ -36,8 +36,8 @@ package net.sf.mpxj.sdef;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -67,6 +67,28 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class SDEFWriter extends AbstractProjectWriter
 {
    /**
+    * Set the character set used when writing an SDEF file.
+    * According to SDEF the spec this should be ASCII,
+    * which is the default.
+    *
+    * @param charset character set to use when writing the file
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
+   }
+
+   /**
+    * Retrieve the character set used when writing an SDEF file.
+    *
+    * @return character set
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+
+   /**
     * Write a project file in SDEF format to an output stream.
     *
     * @param projectFile ProjectFile instance
@@ -77,7 +99,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       m_projectFile = projectFile;
       m_eventManager = projectFile.getEventManager();
 
-      m_writer = new OutputStreamWriter(out);
+      m_writer = new OutputStreamWriter(out, m_charset);
       m_buffer = new StringBuilder();
 
       try
@@ -180,7 +202,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
             for (ProjectCalendarException ex : record.getCalendarExceptions())
             {
-               generateCalendarExceptions(record, ex, formattedExceptions);
+               generateCalendarExceptions(ex, formattedExceptions);
             }
 
             int startIndex = 0;
@@ -202,11 +224,10 @@ public final class SDEFWriter extends AbstractProjectWriter
    /**
     * Populate a list of formatted exceptions.
     *
-    * @param parentCalendar parent calendar instance
     * @param record calendar exception instance
     * @param formattedExceptions list of formatted exceptions
     */
-   private void generateCalendarExceptions(ProjectCalendar parentCalendar, ProjectCalendarException record, List<String> formattedExceptions)
+   private void generateCalendarExceptions(ProjectCalendarException record, List<String> formattedExceptions)
    {
       Calendar stepDay = DateHelper.popCalendar(record.getFromDate()); // Start at From Date, then step through days...
       Calendar lastDay = DateHelper.popCalendar(record.getToDate()); // last day in this exception
@@ -545,6 +566,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private EventManager m_eventManager;
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
+   private Charset m_charset = StandardCharsets.US_ASCII;
    private final Format m_formatter = new SimpleDateFormat("ddMMMyy");
 
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
