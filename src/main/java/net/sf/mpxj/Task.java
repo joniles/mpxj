@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -372,7 +373,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
-      return (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
+      List<ActivityCodeValue> result =  (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
+      return result == null ? Collections.emptyList() : result;
    }
 
    /**
@@ -382,7 +384,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void addActivityCode(ActivityCodeValue value)
    {
-      List<ActivityCodeValue> list = getActivityCodes();
+      List<ActivityCodeValue> list = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
       if (list == null)
       {
          list = new ArrayList<>();
