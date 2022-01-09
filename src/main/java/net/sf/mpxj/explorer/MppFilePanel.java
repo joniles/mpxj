@@ -31,8 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -73,16 +71,12 @@ public class MppFilePanel extends JPanel
       splitPane.setRightComponent(tabbedPane);
       tabbedPane.add("Hex Dump", hexDumpView);
 
-      treeView.addTreeSelectionListener(new TreeSelectionListener()
-      {
-         @Override public void valueChanged(TreeSelectionEvent e)
+      treeView.addTreeSelectionListener(e -> {
+         TreePath path = e.getPath();
+         Object component = path.getLastPathComponent();
+         if (component instanceof DocumentEntry)
          {
-            TreePath path = e.getPath();
-            Object component = path.getLastPathComponent();
-            if (component instanceof DocumentEntry)
-            {
-               m_hexDumpController.viewDocument((DocumentEntry) component);
-            }
+            m_hexDumpController.viewDocument((DocumentEntry) component);
          }
       });
 

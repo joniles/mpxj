@@ -28,7 +28,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -740,21 +739,17 @@ final class PrimaveraReader
    public void processResourceRates(List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort(new Comparator<Row>()
-      {
-         @Override public int compare(Row r1, Row r2)
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("rsrc_id");
+         Integer id2 = r2.getInteger("rsrc_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
          {
-            Integer id1 = r1.getInteger("rsrc_id");
-            Integer id2 = r2.getInteger("rsrc_id");
-            int cmp = NumberHelper.compare(id1, id2);
-            if (cmp != 0)
-            {
-               return cmp;
-            }
-            Date d1 = r1.getDate("start_date");
-            Date d2 = r2.getDate("start_date");
-            return DateHelper.compare(d1, d2);
+            return cmp;
          }
+         Date d1 = r1.getDate("start_date");
+         Date d2 = r2.getDate("start_date");
+         return DateHelper.compare(d1, d2);
       });
 
       for (int i = 0; i < rows.size(); ++i)
@@ -819,21 +814,17 @@ final class PrimaveraReader
    public void processRoleRates(List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort(new Comparator<Row>()
-      {
-         @Override public int compare(Row r1, Row r2)
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("role_id");
+         Integer id2 = r2.getInteger("role_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
          {
-            Integer id1 = r1.getInteger("role_id");
-            Integer id2 = r2.getInteger("role_id");
-            int cmp = NumberHelper.compare(id1, id2);
-            if (cmp != 0)
-            {
-               return cmp;
-            }
-            Date d1 = r1.getDate("start_date");
-            Date d2 = r2.getDate("start_date");
-            return DateHelper.compare(d1, d2);
+            return cmp;
          }
+         Date d1 = r1.getDate("start_date");
+         Date d2 = r2.getDate("start_date");
+         return DateHelper.compare(d1, d2);
       });
 
       for (int i = 0; i < rows.size(); ++i)

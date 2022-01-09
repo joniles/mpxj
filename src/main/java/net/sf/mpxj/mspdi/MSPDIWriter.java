@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -354,16 +353,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       // Sort to ensure consistent order in file
       final CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      customFieldsList.sort(new Comparator<FieldType>()
-      {
-         @Override public int compare(FieldType o1, FieldType o2)
-         {
-            CustomField customField1 = customFieldContainer.getCustomField(o1);
-            CustomField customField2 = customFieldContainer.getCustomField(o2);
-            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      customFieldsList.sort((o1, o2) -> {
+         CustomField customField1 = customFieldContainer.getCustomField(o1);
+         CustomField customField2 = customFieldContainer.getCustomField(o2);
+         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+         return name1.compareTo(name2);
       });
 
       for (FieldType fieldType : customFieldsList)
@@ -393,20 +388,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
          allCustomFields.add(field);
       }
 
-      allCustomFields.sort(new Comparator<CustomField>()
-      {
-         @Override public int compare(CustomField customField1, CustomField customField2)
-         {
-            FieldType o1 = customField1.getFieldType();
-            FieldType o2 = customField2.getFieldType();
-            String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
-            String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
-            String fieldName1 = o1 == null ? "Unknown" : o1.getName();
-            String fieldName2 = o2 == null ? "Unknown" : o2.getName();
-            String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
-            String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      allCustomFields.sort((customField1, customField2) -> {
+         FieldType o1 = customField1.getFieldType();
+         FieldType o2 = customField2.getFieldType();
+         String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
+         String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
+         String fieldName1 = o1 == null ? "Unknown" : o1.getName();
+         String fieldName2 = o2 == null ? "Unknown" : o2.getName();
+         String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
+         String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
+         return name1.compareTo(name2);
       });
 
       for (CustomField field : allCustomFields)

@@ -151,7 +151,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
-         bis.skip(m_skipBytes);
+         StreamHelper.skip(bis, m_skipBytes);
          bis.mark(BUFFER_SIZE);
          byte[] buffer = new byte[BUFFER_SIZE];
          int bytesRead = bis.read(buffer);

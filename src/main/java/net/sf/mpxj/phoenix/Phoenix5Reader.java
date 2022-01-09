@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -398,46 +397,42 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       activities.sort((o1, o2) -> comparator.compare(o1.getId(), o2.getId()));
 
       // Second pass: perform the main sort
-      activities.sort(new Comparator<Activity>()
-      {
-         @Override public int compare(Activity o1, Activity o2)
+      activities.sort((o1, o2) -> {
+         Map<UUID, UUID> codes1 = getActivityCodes(o1);
+         Map<UUID, UUID> codes2 = getActivityCodes(o2);
+         for (UUID code : m_codeSequence)
          {
-            Map<UUID, UUID> codes1 = getActivityCodes(o1);
-            Map<UUID, UUID> codes2 = getActivityCodes(o2);
-            for (UUID code : m_codeSequence)
+            UUID codeValue1 = codes1.get(code);
+            UUID codeValue2 = codes2.get(code);
+
+            if (codeValue1 == null || codeValue2 == null)
             {
-               UUID codeValue1 = codes1.get(code);
-               UUID codeValue2 = codes2.get(code);
-
-               if (codeValue1 == null || codeValue2 == null)
+               if (codeValue1 == null && codeValue2 == null)
                {
-                  if (codeValue1 == null && codeValue2 == null)
-                  {
-                     continue;
-                  }
-
-                  if (codeValue1 == null)
-                  {
-                     return -1;
-                  }
-
-                  if (codeValue2 == null)
-                  {
-                     return 1;
-                  }
+                  continue;
                }
 
-               if (!codeValue1.equals(codeValue2))
+               if (codeValue1 == null)
                {
-                  Integer sequence1 = m_activityCodeSequence.get(codeValue1);
-                  Integer sequence2 = m_activityCodeSequence.get(codeValue2);
+                  return -1;
+               }
 
-                  return NumberHelper.compare(sequence1, sequence2);
+               if (codeValue2 == null)
+               {
+                  return 1;
                }
             }
 
-            return comparator.compare(o1.getId(), o2.getId());
+            if (!codeValue1.equals(codeValue2))
+            {
+               Integer sequence1 = m_activityCodeSequence.get(codeValue1);
+               Integer sequence2 = m_activityCodeSequence.get(codeValue2);
+
+               return NumberHelper.compare(sequence1, sequence2);
+            }
          }
+
+         return comparator.compare(o1.getId(), o2.getId());
       });
 
       for (Activity activity : activities)

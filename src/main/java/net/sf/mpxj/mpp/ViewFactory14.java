@@ -46,19 +46,13 @@ class ViewFactory14 implements ViewFactory
       else
       {
          ViewType type = ViewType.getInstance(MPPUtility.getShort(fixedData, 112));
-         switch (type)
+         if (type == ViewType.GANTT_CHART)
          {
-            case GANTT_CHART:
-            {
-               view = new GanttChartView14(file, fixedMeta, fixedData, varData, fontBases);
-               break;
-            }
-
-            default:
-            {
-               view = new GenericView14(file, fixedData, varData);
-               break;
-            }
+            view = new GanttChartView14(file, fixedMeta, fixedData, varData, fontBases);
+         }
+         else
+         {
+            view = new GenericView14(file, fixedData, varData);
          }
       }
 

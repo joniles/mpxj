@@ -79,6 +79,9 @@ public final class OperatingSystem
    {
       String replacementOsName = null;
       String osname = System.getProperty("os.name");
+
+      // Simplified code causes issues with IKVM
+      // noinspection SimplifyStreamApiCallChains,Convert2MethodRef
       boolean osNotKnown = !Stream.of(KNOWN_OS_NAMES).anyMatch(name -> osname.contains(name));
 
       if (JvmHelper.isIkvm() && osNotKnown)

@@ -48,7 +48,7 @@ import org.junit.Test;
  * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
  */
-public class TimephasedSegmentTest2
+public class TimephasedWorkCostSegmentTest
 {
    /**
     * Timephased segment test for MPP9 files.

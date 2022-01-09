@@ -33,6 +33,7 @@ import java.util.zip.InflaterInputStream;
 
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.StreamHelper;
 
 /**
  * Input stream used to handle compressed Phoenix files.
@@ -122,7 +123,7 @@ public class PhoenixInputStream extends InputStream
 
       int skip = suffixIndex + 9;
       stream.reset();
-      stream.skip(skip);
+      StreamHelper.skip(stream, skip);
 
       return header.substring(prefixIndex + 8, suffixIndex);
    }

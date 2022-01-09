@@ -1686,16 +1686,12 @@ final class PrimaveraPMProjectWriter
       }
 
       // Sort to ensure consistent order in file
-      m_sortedCustomFieldsList.sort(new Comparator<CustomField>()
-      {
-         @Override public int compare(CustomField customField1, CustomField customField2)
-         {
-            FieldType o1 = customField1.getFieldType();
-            FieldType o2 = customField2.getFieldType();
-            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      m_sortedCustomFieldsList.sort((customField1, customField2) -> {
+         FieldType o1 = customField1.getFieldType();
+         FieldType o2 = customField2.getFieldType();
+         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+         return name1.compareTo(name2);
       });
    }
 

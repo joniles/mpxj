@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Tests reading resource field bit flags from MPP files.
  */
-public class MppResourceFlags
+public class MppResourceFlagsTest
 {
    /**
     * Test MPP14 saved by Project 2010.

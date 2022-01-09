@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * Tests reading task field bit flags from MPP files.
  */
-public class MppTaskFlags
+public class MppTaskFlagsTest
 {
    /**
     * Test MPP9 saved by Project 2013.
