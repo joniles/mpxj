@@ -1,6 +1,11 @@
 # Changelog
 
-## 10.0.5 (unreleased)
+## 10.0.6 (unreleased)
+
+## 10.0.5 (2022-01-11)
+* Ensure `Task.getActivityCodes()` returns an empty list rather than `null` when no activity code values have been assigned.
+* Default to using ASCII when reading and writing SDEF files, as per the SDEF specification.
+* Provide methods to set and get the charset used when reading and writing SDEF files.
 
 ## 10.0.4 (2022-01-07)
 * Added support for reading Code Library values (as Activity Codes) from Powerproject files.
