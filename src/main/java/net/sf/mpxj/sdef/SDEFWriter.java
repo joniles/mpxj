@@ -75,7 +75,10 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    public void setCharset(Charset charset)
    {
-      m_charset = charset;
+      if (charset != null)
+      {
+         m_charset = charset;
+      }
    }
 
    /**
