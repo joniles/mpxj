@@ -27,6 +27,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,31 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SDEFReader extends AbstractProjectStreamReader
 {
+   /**
+    * Set the character set used when reading an SDEF file.
+    * According to SDEF the spec this should be ASCII,
+    * which is the default.
+    *
+    * @param charset character set to use when reading the file
+    */
+   public void setCharset(Charset charset)
+   {
+      if (charset != null)
+      {
+         m_charset = charset;
+      }
+   }
+
+   /**
+    * Retrieve the character set used when reading an SDEF file.
+    *
+    * @return character set
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       Context context = new Context();
@@ -51,7 +78,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
 
       addListenersToProject(project);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, m_charset));
 
       try
       {
@@ -112,6 +139,8 @@ public final class SDEFReader extends AbstractProjectStreamReader
 
       return true;
    }
+
+   private Charset m_charset = StandardCharsets.US_ASCII;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static

@@ -33,8 +33,11 @@
 
 package net.sf.mpxj.sdef;
 
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -64,32 +67,61 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public final class SDEFWriter extends AbstractProjectWriter
 {
    /**
+    * Set the character set used when writing an SDEF file.
+    * According to SDEF the spec this should be ASCII,
+    * which is the default.
+    *
+    * @param charset character set to use when writing the file
+    */
+   public void setCharset(Charset charset)
+   {
+      if (charset != null)
+      {
+         m_charset = charset;
+      }
+   }
+
+   /**
+    * Retrieve the character set used when writing an SDEF file.
+    *
+    * @return character set
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+
+   /**
     * Write a project file in SDEF format to an output stream.
     *
     * @param projectFile ProjectFile instance
     * @param out output stream
     */
-   @Override public void write(ProjectFile projectFile, OutputStream out)
+   @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
       m_eventManager = projectFile.getEventManager();
 
-      m_writer = new PrintStream(out); // the print stream class is the easiest way to create a text file
+      m_writer = new OutputStreamWriter(out, m_charset);
       m_buffer = new StringBuilder();
 
       try
       {
-         write(); // method call a method, this is how MPXJ is structured, so I followed the lead?
+         // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
+         writeFileCreationRecord(); // VOLM
+         writeProjectProperties(m_projectFile.getProjectProperties()); // PROJ
+         writeCalendars(m_projectFile.getCalendars()); // CLDR
+         writeExceptions(m_projectFile.getCalendars()); // HOLI
+         writeTasks(m_projectFile.getTasks()); // ACTV
+         writePredecessors(m_projectFile.getTasks()); // PRED
+         // skipped UNIT cost record for now
+         writeProgress(m_projectFile.getTasks()); // PROG
+         m_writer.write("END\n"); // last line, that's the end!!!
+         m_writer.flush();
       }
 
-      //      catch (Exception e)
-      //      { // used during console debugging
-      //         System.out.println("Caught Exception in SDEFWriter.java");
-      //         System.out.println(" " + e.toString());
-      //      }
-
       finally
-      { // keeps things cool after we're done
+      {
          m_writer = null;
          m_projectFile = null;
          m_buffer = null;
@@ -97,28 +129,11 @@ public final class SDEFWriter extends AbstractProjectWriter
    }
 
    /**
-    * Writes the contents of the project file as MPX records.
-    */
-   private void write()
-   {
-      // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
-      writeFileCreationRecord(); // VOLM
-      writeProjectProperties(m_projectFile.getProjectProperties()); // PROJ
-      writeCalendars(m_projectFile.getCalendars()); // CLDR
-      writeExceptions(m_projectFile.getCalendars()); // HOLI
-      writeTasks(m_projectFile.getTasks()); // ACTV
-      writePredecessors(m_projectFile.getTasks()); // PRED
-      // skipped UNIT cost record for now
-      writeProgress(m_projectFile.getTasks()); // PROG
-      m_writer.println("END"); // last line, that's the end!!!
-   }
-
-   /**
     * Write file creation record.
     */
-   private void writeFileCreationRecord()
+   private void writeFileCreationRecord() throws IOException
    {
-      m_writer.println("VOLM  1"); // first line in file
+      m_writer.write("VOLM  1\n"); // first line in file
    }
 
    /**
@@ -127,7 +142,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     * @param record project properties
     *
     */
-   private void writeProjectProperties(ProjectProperties record)
+   private void writeProjectProperties(ProjectProperties record) throws IOException
    {
       Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
       Date startDate = record.getStartDate();
@@ -144,7 +159,8 @@ public final class SDEFWriter extends AbstractProjectWriter
       m_buffer.append(SDEFmethods.lset(record.getKeywords(), 7)); // ContractNum
       m_buffer.append(formatDate(startDate)).append(" "); // ProjStart
       m_buffer.append(formatDate(finishDate)); // ProjEnd
-      m_writer.println(m_buffer);
+      m_buffer.append("\n");
+      m_writer.write(m_buffer.toString());
    }
 
    /**
@@ -154,7 +170,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param records list of ProjectCalendar instances
     */
-   private void writeCalendars(List<ProjectCalendar> records)
+   private void writeCalendars(List<ProjectCalendar> records) throws IOException
    {
 
       //
@@ -168,7 +184,8 @@ public final class SDEFWriter extends AbstractProjectWriter
          String workDays = SDEFmethods.workDays(record); // custom line, like NYYYYYN for a week
          m_buffer.append(SDEFmethods.lset(workDays, 8));
          m_buffer.append(SDEFmethods.lset(record.getName(), 30));
-         m_writer.println(m_buffer);
+         m_buffer.append("\n");
+         m_writer.write(m_buffer.toString());
       }
    }
 
@@ -177,7 +194,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param records list of ProjectCalendars
     */
-   private void writeExceptions(List<ProjectCalendar> records)
+   private void writeExceptions(List<ProjectCalendar> records) throws IOException
    {
       for (ProjectCalendar record : records)
       {
@@ -188,7 +205,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
             for (ProjectCalendarException ex : record.getCalendarExceptions())
             {
-               generateCalendarExceptions(record, ex, formattedExceptions);
+               generateCalendarExceptions(ex, formattedExceptions);
             }
 
             int startIndex = 0;
@@ -197,8 +214,9 @@ public final class SDEFWriter extends AbstractProjectWriter
             {
                endIndex = Math.min(startIndex + MAX_EXCEPTIONS_PER_RECORD, formattedExceptions.size());
 
-               m_writer.print(recordPrefix);
-               m_writer.println(String.join(" ", formattedExceptions.subList(startIndex, endIndex)));
+               m_writer.write(recordPrefix);
+               m_writer.write(String.join(" ", formattedExceptions.subList(startIndex, endIndex)));
+               m_writer.write("\n");
                startIndex = endIndex;
             }
          }
@@ -209,11 +227,10 @@ public final class SDEFWriter extends AbstractProjectWriter
    /**
     * Populate a list of formatted exceptions.
     *
-    * @param parentCalendar parent calendar instance
     * @param record calendar exception instance
     * @param formattedExceptions list of formatted exceptions
     */
-   private void generateCalendarExceptions(ProjectCalendar parentCalendar, ProjectCalendarException record, List<String> formattedExceptions)
+   private void generateCalendarExceptions(ProjectCalendarException record, List<String> formattedExceptions)
    {
       Calendar stepDay = DateHelper.popCalendar(record.getFromDate()); // Start at From Date, then step through days...
       Calendar lastDay = DateHelper.popCalendar(record.getToDate()); // last day in this exception
@@ -233,7 +250,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param record task instance
     */
-   private void writeTask(Task record)
+   private void writeTask(Task record) throws IOException
    {
       m_buffer.setLength(0);
       if (!record.getSummary())
@@ -308,8 +325,9 @@ public final class SDEFWriter extends AbstractProjectWriter
          m_buffer.append(SDEFmethods.lset(record.getPhaseOfWork(), 2)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getCategoryOfWork(), 1)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getFeatureOfWork(), 30));
+         m_buffer.append("\n");
 
-         m_writer.println(m_buffer.toString());
+         m_writer.write(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
    }
@@ -319,7 +337,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param tasks list of Task instances
     */
-   private void writeTasks(List<Task> tasks)
+   private void writeTasks(List<Task> tasks) throws IOException
    {
       for (Task task : tasks)
       {
@@ -332,7 +350,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param tasks list of Task instances
     */
-   private void writePredecessors(List<Task> tasks)
+   private void writePredecessors(List<Task> tasks) throws IOException
    {
       for (Task task : tasks)
       {
@@ -345,7 +363,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param record Task instance
     */
-   private void writeTaskPredecessors(Task record)
+   private void writeTaskPredecessors(Task record) throws IOException
    {
       m_buffer.setLength(0);
       //
@@ -388,7 +406,8 @@ public final class SDEFWriter extends AbstractProjectWriter
             Double days = Double.valueOf(dd.getDuration());
             Integer est = Integer.valueOf(days.intValue());
             m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
-            m_writer.println(m_buffer.toString());
+            m_buffer.append("\n");
+            m_writer.write(m_buffer.toString());
          }
       }
    }
@@ -402,7 +421,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param record Task instance
     */
-   private void writePROG(Task record)
+   private void writePROG(Task record) throws IOException
    {
       m_buffer.setLength(0);
       //
@@ -415,7 +434,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          Date temp = record.getActualStart();
          if (temp == null)
          {
-            m_buffer.append("        "); // SDEf is column sensitive, so the number of blanks here is crucial
+            m_buffer.append("        "); // SDEF is column sensitive, so the number of blanks here is crucial
          }
          else
          {
@@ -480,7 +499,8 @@ public final class SDEFWriter extends AbstractProjectWriter
 
          m_buffer.append(floatSign).append(" ");
          m_buffer.append(SDEFmethods.rset(floatValue, 3)); // task duration in days required by USACE
-         m_writer.println(m_buffer.toString());
+         m_buffer.append("\n");
+         m_writer.write(m_buffer.toString());
          m_eventManager.fireTaskWrittenEvent(record);
       }
    }
@@ -490,7 +510,7 @@ public final class SDEFWriter extends AbstractProjectWriter
     *
     * @param tasks list of Task instances
     */
-   private void writeProgress(List<Task> tasks)
+   private void writeProgress(List<Task> tasks) throws IOException
    {
       for (Task task : tasks)
       {
@@ -545,11 +565,12 @@ public final class SDEFWriter extends AbstractProjectWriter
       return activityID;
    }
 
-   private ProjectFile m_projectFile; // from MPXJ library
+   private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private PrintStream m_writer; // line out to a text file
-   private StringBuilder m_buffer; // used to accumulate characters
-   private final Format m_formatter = new SimpleDateFormat("ddMMMyy"); // USACE required format
+   private OutputStreamWriter m_writer;
+   private StringBuilder m_buffer;
+   private Charset m_charset = StandardCharsets.US_ASCII;
+   private final Format m_formatter = new SimpleDateFormat("ddMMMyy");
 
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }
