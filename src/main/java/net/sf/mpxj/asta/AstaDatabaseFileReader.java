@@ -224,7 +224,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
     */
    private List<Row> getRows(String sql) throws SQLException
    {
-      try(PreparedStatement ps = m_connection.prepareStatement(sql))
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
          try (ResultSet rs = ps.executeQuery())
          {

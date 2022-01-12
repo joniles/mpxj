@@ -28,7 +28,6 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -574,7 +573,7 @@ public final class MerlinReader extends AbstractProjectFileReader
             ps.setInt(bindIndex++, NumberHelper.getInt(value));
          }
 
-         try(ResultSet rs = ps.executeQuery())
+         try (ResultSet rs = ps.executeQuery())
          {
             List<Row> result = new ArrayList<>();
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);

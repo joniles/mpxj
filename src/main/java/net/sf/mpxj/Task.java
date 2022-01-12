@@ -373,16 +373,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
-      List<ActivityCodeValue> result =  (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
+      List<ActivityCodeValue> result = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
       return result == null ? Collections.emptyList() : result;
    }
 
    /**
     * Assign an activity code to this task.
     *
-    * @param value activity coe value
+    * @param value activity code value
     */
-   public void addActivityCode(ActivityCodeValue value)
+   @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
       List<ActivityCodeValue> list = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
       if (list == null)

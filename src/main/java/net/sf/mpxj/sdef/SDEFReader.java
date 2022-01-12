@@ -50,7 +50,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
     *
     * @param charset character set to use when reading the file
     */
-   public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       if (charset != null)
       {

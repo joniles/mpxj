@@ -496,7 +496,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          try (ResultSet rs = ps.executeQuery())
          {
             List<ResultSetRow> result = new ArrayList<>();
-            Map<String,Integer> meta = ResultSetHelper.populateMetaData(rs);
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {
                result.add(new ResultSetRow(rs, meta));
@@ -550,7 +550,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          Set<String> tables = new HashSet<>();
          DatabaseMetaData dmd = m_connection.getMetaData();
-         try(ResultSet rs = dmd.getTables(null, null, null, null))
+         try (ResultSet rs = dmd.getTables(null, null, null, null))
          {
             while (rs.next())
             {
