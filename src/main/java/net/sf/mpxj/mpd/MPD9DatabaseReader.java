@@ -27,7 +27,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +45,7 @@ import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.listener.ProjectListener;
 
 /**
@@ -432,25 +432,18 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private List<ResultSetRow> getRows(String sql) throws SQLException
    {
       allocateConnection();
-
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<ResultSetRow> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            List<ResultSetRow> result = new ArrayList<>();
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -466,25 +459,20 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       allocateConnection();
 
-      try
-      {
-         List<ResultSetRow> result = new ArrayList<>();
+      List<ResultSetRow> result = new ArrayList<>();
 
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      {
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -501,26 +489,20 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       allocateConnection();
 
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<ResultSetRow> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var1));
-         m_ps.setInt(2, NumberHelper.getInt(var2));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         ps.setInt(1, NumberHelper.getInt(var1));
+         ps.setInt(2, NumberHelper.getInt(var2));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            List<ResultSetRow> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -534,36 +516,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          m_connection = m_dataSource.getConnection();
          m_allocatedConnection = true;
          queryDatabaseMetaData();
-      }
-   }
-
-   /**
-    * Releases a database connection, and cleans up any resources
-    * associated with that connection.
-    */
-   private void releaseConnection()
-   {
-      AutoCloseableHelper.closeQuietly(m_rs);
-      m_rs = null;
-
-      AutoCloseableHelper.closeQuietly(m_ps);
-      m_ps = null;
-   }
-
-   /**
-    * Retrieves basic metadata from the result set.
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
       }
    }
 
@@ -594,18 +546,17 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void queryDatabaseMetaData()
    {
-      ResultSet rs = null;
-
       try
       {
          Set<String> tables = new HashSet<>();
          DatabaseMetaData dmd = m_connection.getMetaData();
-         rs = dmd.getTables(null, null, null, null);
-         while (rs.next())
+         try (ResultSet rs = dmd.getTables(null, null, null, null))
          {
-            tables.add(rs.getString("TABLE_NAME"));
+            while (rs.next())
+            {
+               tables.add(rs.getString("TABLE_NAME"));
+            }
          }
-
          m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
          m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
          m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");
@@ -615,20 +566,11 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          // Ignore errors when reading metadata
       }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(rs);
-         rs = null;
-      }
    }
 
    private DataSource m_dataSource;
    private boolean m_allocatedConnection;
    private Connection m_connection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private final Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private boolean m_hasResourceBaselines;
    private boolean m_hasTaskBaselines;

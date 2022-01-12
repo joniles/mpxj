@@ -54,7 +54,7 @@ final class ResultSetRow extends MapRow
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {
-         String name = entry.getKey();
+         String name = entry.getKey().toLowerCase();
          int type = (entry.getValue()).intValue();
          Object value;
 
