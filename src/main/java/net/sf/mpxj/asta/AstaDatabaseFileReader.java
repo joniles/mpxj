@@ -27,7 +27,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
@@ -224,17 +224,19 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
     */
    private List<Row> getRows(String sql) throws SQLException
    {
-      List<Row> result = new ArrayList<>();
-
-      m_ps = m_connection.prepareStatement(sql);
-      m_rs = m_ps.executeQuery();
-      populateMetaData();
-      while (m_rs.next())
+      try(PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         result.add(new SqliteResultSetRow(m_rs, m_meta));
+         try (ResultSet rs = ps.executeQuery())
+         {
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new SqliteResultSetRow(rs, meta));
+            }
+            return result;
+         }
       }
-
-      return (result);
    }
 
    /**
@@ -247,34 +249,19 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
-      List<Row> result = new ArrayList<>();
-
-      m_ps = m_connection.prepareStatement(sql);
-      m_ps.setInt(1, NumberHelper.getInt(var));
-      m_rs = m_ps.executeQuery();
-      populateMetaData();
-      while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         result.add(new SqliteResultSetRow(m_rs, m_meta));
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieves basic metadata from the result set.
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
+         {
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new SqliteResultSetRow(rs, meta));
+            }
+            return (result);
+         }
       }
    }
 
@@ -357,7 +344,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 0]);
+         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
          Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
@@ -410,7 +397,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
-            Integer exceptionTypeID = Integer.valueOf(shifts[index + 0]);
+            Integer exceptionTypeID = Integer.valueOf(shifts[index]);
             Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
             Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
@@ -465,9 +452,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private AstaReader m_reader;
    private Integer m_projectID;
    private Connection m_connection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private final Map<String, Integer> m_meta = new HashMap<>();
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(0);
 }

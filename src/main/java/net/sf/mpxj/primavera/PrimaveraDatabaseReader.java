@@ -29,7 +29,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +49,7 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
 /**
@@ -164,28 +164,20 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       allocateConnection();
 
-      try
+      DatabaseMetaData meta = m_connection.getMetaData();
+      String productName = meta.getDatabaseProductName();
+      if (productName == null || productName.isEmpty())
       {
-         DatabaseMetaData meta = m_connection.getMetaData();
-         String productName = meta.getDatabaseProductName();
-         if (productName == null || productName.isEmpty())
-         {
-            productName = "DATABASE";
-         }
-         else
-         {
-            productName = productName.toUpperCase();
-         }
-
-         ProjectProperties properties = m_reader.getProject().getProjectProperties();
-         properties.setFileApplication("Primavera");
-         properties.setFileType(productName);
+         productName = "DATABASE";
+      }
+      else
+      {
+         productName = productName.toUpperCase();
       }
 
-      finally
-      {
-         releaseConnection();
-      }
+      ProjectProperties properties = m_reader.getProject().getProjectProperties();
+      properties.setFileApplication("Primavera");
+      properties.setFileType(productName);
    }
 
    /**
@@ -479,24 +471,18 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       allocateConnection();
 
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<Row> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -512,26 +498,21 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       allocateConnection();
 
-      try
-      {
-         List<Row> result = new ArrayList<>();
+      List<Row> result = new ArrayList<>();
 
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      {
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
          }
-
-         return (result);
       }
-
-      finally
-      {
-         releaseConnection();
-      }
+      return (result);
    }
 
    /**
@@ -543,36 +524,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       {
          m_connection = m_dataSource.getConnection();
          m_allocatedConnection = true;
-      }
-   }
-
-   /**
-    * Releases a database connection, and cleans up any resources
-    * associated with that connection.
-    */
-   private void releaseConnection()
-   {
-      AutoCloseableHelper.closeQuietly(m_rs);
-      m_rs = null;
-
-      AutoCloseableHelper.closeQuietly(m_ps);
-      m_ps = null;
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop).toLowerCase();
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
       }
    }
 
@@ -742,9 +693,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private final Map<String, Integer> m_meta = new HashMap<>();
    private final UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
    private final UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
    private final UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
