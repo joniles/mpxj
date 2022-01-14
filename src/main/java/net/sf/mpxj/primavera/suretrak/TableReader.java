@@ -81,10 +81,8 @@ class TableReader
     */
    private void read(InputStream is, Table table) throws IOException
    {
-      byte[] headerBytes = InputStreamHelper.read(is, 6);
-      byte[] recordCountBytes = InputStreamHelper.read(is, 2);
-      //int recordCount = getShort(recordCountBytes, 0);
-      //System.out.println("Header: " + new String(headerBytes) + " Record count:" + recordCount);
+      InputStreamHelper.skip(is, 6); // header
+      InputStreamHelper.skip(is, 2); // record count
 
       byte[] buffer = new byte[m_definition.getRecordSize()];
       while (true)

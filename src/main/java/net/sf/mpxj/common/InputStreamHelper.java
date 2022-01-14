@@ -187,4 +187,25 @@ public class InputStreamHelper
          fos.close();
       }
    }
+
+   /**
+    * The documentation for {@code InputStream.skip} indicates that it can bail out early, and not skip
+    * the requested number of bytes. I've encountered this in practice, hence this helper method.
+    *
+    * @param stream InputStream instance
+    * @param skip number of bytes to skip
+    */
+   public static void skip(InputStream stream, long skip) throws IOException
+   {
+      long count = skip;
+      while (count > 0)
+      {
+         long skipped = stream.skip(count);
+         if (skipped == 0)
+         {
+            throw new IOException("Cannot skip forward within InputStream");
+         }
+         count -= skipped;
+      }
+   }
 }

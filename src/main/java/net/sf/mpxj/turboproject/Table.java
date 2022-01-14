@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.StreamHelper;
 
 /**
  * This class represents a table read from a PEP file.
@@ -61,7 +60,7 @@ class Table implements Iterable<MapRow>
       int headerLength = PEPUtility.getShort(headerBlock, 8);
       int recordCount = PEPUtility.getInt(headerBlock, 10);
       int recordLength = PEPUtility.getInt(headerBlock, 16);
-      StreamHelper.skip(is, headerLength - headerBlock.length);
+      InputStreamHelper.skip(is, headerLength - headerBlock.length);
 
       byte[] record = new byte[recordLength];
       for (int recordIndex = 1; recordIndex <= recordCount; recordIndex++)

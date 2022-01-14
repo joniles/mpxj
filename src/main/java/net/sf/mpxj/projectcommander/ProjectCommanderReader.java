@@ -184,7 +184,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          offset += 28;
 
          Map<Day, List<DateRange>> ranges = new HashMap<>();
-         ranges.put(Day.SATURDAY, readCalendarHours(data, offset + 0));
+         ranges.put(Day.SATURDAY, readCalendarHours(data, offset));
          ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
          ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
          ranges.put(Day.TUESDAY, readCalendarHours(data, offset + 48));

@@ -57,7 +57,7 @@ public abstract class CustomFieldValueReader
    }
 
    /**
-    * Method implement by subclasses to read custom field values.
+    * Method implemented by subclasses to read custom field values.
     */
    public abstract void process();
 

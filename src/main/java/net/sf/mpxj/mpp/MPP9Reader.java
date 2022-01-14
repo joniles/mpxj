@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +58,6 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This
@@ -753,108 +751,6 @@ final class MPP9Reader implements MPPVariantReader
    {
       CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_projectDir, m_file.getProjectProperties(), m_projectProps, m_file.getCustomFields());
       reader.process();
-   }
-
-   /**
-    * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has
-    * been defined for this field.
-    *
-    * @param data data block
-    * @return list of descriptions
-    */
-   public List<String> getTaskFieldDescriptions(byte[] data)
-   {
-      if (data == null || data.length == 0)
-      {
-         return null;
-      }
-      List<String> descriptions = new ArrayList<>();
-      int offset = 0;
-      while (offset < data.length)
-      {
-         String description = MPPUtility.getUnicodeString(data, offset);
-         descriptions.add(description);
-         offset += description.length() * 2 + 2;
-      }
-      return descriptions;
-   }
-
-   /**
-    * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has
-    * been defined for this field.
-    *
-    * @param properties project properties
-    * @param field task field
-    * @param data data block
-    * @return list of task field values
-    */
-   public List<Object> getTaskFieldValues(ProjectProperties properties, FieldType field, byte[] data)
-   {
-      if (field == null || data == null || data.length == 0)
-      {
-         return null;
-      }
-
-      List<Object> list = new ArrayList<>();
-      int offset = 0;
-
-      switch (field.getDataType())
-      {
-         case DATE:
-            while (offset + 4 <= data.length)
-            {
-               Date date = MPPUtility.getTimestamp(data, offset);
-               list.add(date);
-               offset += 4;
-            }
-            break;
-         case CURRENCY:
-            while (offset + 8 <= data.length)
-            {
-               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
-               list.add(number);
-               offset += 8;
-            }
-            break;
-         case NUMERIC:
-            while (offset + 8 <= data.length)
-            {
-               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset));
-               list.add(number);
-               offset += 8;
-            }
-            break;
-         case DURATION:
-            while (offset + 6 <= data.length)
-            {
-               Duration duration = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
-               list.add(duration);
-               offset += 6;
-            }
-            break;
-         case STRING:
-            while (offset < data.length)
-            {
-               String s = MPPUtility.getUnicodeString(data, offset);
-               list.add(s);
-               offset += s.length() * 2 + 2;
-            }
-            break;
-         case BOOLEAN:
-            while (offset + 2 <= data.length)
-            {
-               boolean b = (MPPUtility.getShort(data, offset) == 0x01);
-               list.add(Boolean.valueOf(b));
-               offset += 2;
-            }
-            break;
-         default:
-            return null;
-      }
-
-      return list;
    }
 
    /**

@@ -1241,7 +1241,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Process any enterprise columns
          //
-         processTaskEnterpriseColumns(uniqueID, task, taskVarData, metaData2);
+         processTaskEnterpriseColumns(task, metaData2);
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
@@ -1361,12 +1361,10 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Extracts task enterprise column values.
     *
-    * @param id task unique ID
     * @param task task instance
-    * @param taskVarData task var data
     * @param metaData2 task meta data
     */
-   private void processTaskEnterpriseColumns(Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
+   private void processTaskEnterpriseColumns(Task task, byte[] metaData2)
    {
       if (metaData2 != null)
       {

@@ -95,7 +95,7 @@ abstract class FieldMap
 
       while (index < data.length)
       {
-         long mask = MPPUtility.getInt(data, index + 0);
+         long mask = MPPUtility.getInt(data, index);
          //mask = mask << 4;
 
          int dataBlockOffset = MPPUtility.getShort(data, index + 4);
