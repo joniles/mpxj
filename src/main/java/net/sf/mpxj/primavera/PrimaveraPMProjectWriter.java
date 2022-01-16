@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -390,7 +391,12 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(ProjectType project)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = mpxj.getProjectID() == null ? DEFAULT_PROJECT_ID : mpxj.getProjectID();
+      String projectID = Optional.ofNullable(mpxj.getProjectID()).orElse(DEFAULT_PROJECT_ID);
+
+      //
+      // P6 import may fail if planned start is not populated
+      //
+      Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
 
       project.setActivityDefaultActivityType("Task Dependent");
       project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
@@ -432,7 +438,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(mpxj.getPlannedStart());
+      project.setPlannedStartDate(plannedStart);
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
@@ -454,8 +460,13 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(BaselineProjectType project)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = mpxj.getProjectID() == null ? DEFAULT_PROJECT_ID : mpxj.getProjectID();
+      String projectID = Optional.ofNullable(mpxj.getProjectID()).orElse(DEFAULT_PROJECT_ID);
 
+      //
+      // P6 import may fail if planned start is not populated
+      //
+      Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
+      
       project.setActivityDefaultActivityType("Task Dependent");
       project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
       project.setActivityDefaultDurationType("Fixed Duration and Units");
@@ -490,7 +501,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(mpxj.getPlannedStart());
+      project.setPlannedStartDate(plannedStart);
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
@@ -918,6 +929,17 @@ final class PrimaveraPMProjectWriter
       Task parentTask = task.getParentTask();
       Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
+      //
+      // P6 import may fail if planned start, planned finish, and actual overtime units are not populated
+      //
+      Double actualOvertimeUnits = Optional.ofNullable(getDuration(mpxj.getActualOvertimeWork())).orElse(NumberHelper.DOUBLE_ZERO);
+      Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStart);
+      plannedStart = Optional.ofNullable(plannedStart).orElseGet(task::getStart);
+      // If we can't find any finish date to use we'll fall back on using the start date which we'll assume is always populated
+      Date plannedFinish = Optional.ofNullable(mpxj.getPlannedFinish()).orElseGet(mpxj::getFinish);
+      plannedFinish = Optional.ofNullable(plannedFinish).orElseGet(task::getFinish);
+      plannedFinish = Optional.ofNullable(plannedFinish).orElse(plannedStart);
+      
       if (BooleanHelper.getBoolean(mpxj.getResource().getRole()))
       {
          xml.setRoleObjectId(mpxj.getResourceUniqueID());
@@ -931,7 +953,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualCost(getDouble(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
-      xml.setActualOvertimeUnits(getDuration(mpxj.getActualOvertimeWork()));
+      xml.setActualOvertimeUnits(actualOvertimeUnits);
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
@@ -942,8 +964,8 @@ final class PrimaveraPMProjectWriter
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
-      xml.setPlannedFinishDate(mpxj.getPlannedFinish());
-      xml.setPlannedStartDate(mpxj.getPlannedStart());
+      xml.setPlannedFinishDate(plannedFinish);
+      xml.setPlannedStartDate(plannedStart);
       xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(m_projectObjectID);
