@@ -40,7 +40,6 @@ import java.util.zip.Inflater;
 
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SemVer;
-import net.sf.mpxj.common.StreamHelper;
 
 /**
  * Reads the raw table data from an S file, ready to be processed.
@@ -179,7 +178,7 @@ class SynchroData
       int skip = table.getOffset() - m_offset;
       if (skip != 0)
       {
-         StreamHelper.skip(is, skip);
+         InputStreamHelper.skip(is, skip);
          m_offset += skip;
       }
 

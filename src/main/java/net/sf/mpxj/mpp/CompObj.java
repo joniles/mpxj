@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class handles reading the data found in the CompObj block
@@ -48,7 +48,7 @@ final class CompObj extends MPPComponent
    {
       int length;
 
-      StreamHelper.skip(is, 28);
+      InputStreamHelper.skip(is, 28);
 
       length = readInt(is);
       m_applicationName = new String(readByteArray(is, length), 0, length - 1);

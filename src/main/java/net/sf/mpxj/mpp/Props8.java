@@ -32,7 +32,6 @@ import java.util.Map;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.StreamHelper;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP8 files.
@@ -111,7 +110,7 @@ final class Props8 extends Props
             //
             if (data.length % 2 != 0)
             {
-               StreamHelper.skip(is, 1);
+               InputStreamHelper.skip(is, 1);
             }
          }
 

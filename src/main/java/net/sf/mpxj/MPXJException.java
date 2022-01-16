@@ -62,16 +62,6 @@ public final class MPXJException extends Exception
    public static final String INVALID_TIME_UNIT = "Invalid time unit";
 
    /**
-    * Invalid date error message.
-    */
-   public static final String INVALID_DATE = "Invalid date";
-
-   /**
-    * Invalid number error message.
-    */
-   public static final String INVALID_NUMBER = "Invalid number or number format";
-
-   /**
     * Invalid file error message.
     */
    public static final String INVALID_FILE = "Invalid file format";
@@ -85,11 +75,6 @@ public final class MPXJException extends Exception
     * Read error message.
     */
    public static final String READ_ERROR = "Error reading file";
-
-   /**
-    * Invalid calendar error message.
-    */
-   public static final String CALENDAR_ERROR = "Invalid calendar";
 
    /**
     * Invalid outline error message.

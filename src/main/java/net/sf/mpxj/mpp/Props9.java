@@ -27,7 +27,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP9 files.
@@ -78,7 +78,7 @@ final class Props9 extends Props
          //
          if (data.length % 2 != 0)
          {
-            StreamHelper.skip(is, 1);
+            InputStreamHelper.skip(is, 1);
          }
       }
 
