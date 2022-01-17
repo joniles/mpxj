@@ -1280,7 +1280,7 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Process any enterprise columns
          //
-         processTaskEnterpriseColumns(uniqueID, task, taskVarData, metaData2);
+         processTaskEnterpriseColumns(task, metaData2);
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
@@ -1399,12 +1399,10 @@ final class MPP14Reader implements MPPVariantReader
    /**
     * Extracts task enterprise column values.
     *
-    * @param id task unique ID
     * @param task task instance
-    * @param taskVarData task var data
     * @param metaData2 task meta data
     */
-   private void processTaskEnterpriseColumns(Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
+   private void processTaskEnterpriseColumns(Task task, byte[] metaData2)
    {
       if (metaData2 != null)
       {
@@ -1435,12 +1433,10 @@ final class MPP14Reader implements MPPVariantReader
    /**
     * Extracts resource enterprise column data.
     *
-    * @param id resource unique ID
     * @param resource resource instance
-    * @param resourceVarData resource var data
     * @param metaData2 resource meta data
     */
-   private void processResourceEnterpriseColumns(Integer id, Resource resource, Var2Data resourceVarData, byte[] metaData2)
+   private void processResourceEnterpriseColumns(Resource resource, byte[] metaData2)
    {
       if (metaData2 != null)
       {
@@ -1723,7 +1719,7 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Process any enterprise columns
          //
-         processResourceEnterpriseColumns(id, resource, rscVarData, metaData2);
+         processResourceEnterpriseColumns(resource, metaData2);
 
          //
          // Process cost rate tables

@@ -129,7 +129,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 
          while (index + 52 <= data.length)
          {
-            int extendedAttributeFieldID = MPPUtility.getInt(data, index + 0);
+            int extendedAttributeFieldID = MPPUtility.getInt(data, index);
             FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
             // UUID extendedAttributeGuid = MPPUtility.getGUID(data, index + 20);
             UUID lookupTableGuid = MPPUtility.getGUID(data, index + 36);

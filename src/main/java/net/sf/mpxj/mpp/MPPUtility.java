@@ -278,7 +278,7 @@ public final class MPPUtility
          long1 |= ((long) (data[offset + 3] & 0xFF)) << 56;
          long1 |= ((long) (data[offset + 2] & 0xFF)) << 48;
          long1 |= ((long) (data[offset + 1] & 0xFF)) << 40;
-         long1 |= ((long) (data[offset + 0] & 0xFF)) << 32;
+         long1 |= ((long) (data[offset] & 0xFF)) << 32;
          long1 |= ((long) (data[offset + 5] & 0xFF)) << 24;
          long1 |= ((long) (data[offset + 4] & 0xFF)) << 16;
          long1 |= ((long) (data[offset + 7] & 0xFF)) << 8;

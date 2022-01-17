@@ -36,7 +36,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.FixedLengthInputStream;
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.primavera.common.Blast;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -51,7 +50,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
 
       try
       {
-         StreamHelper.skip(stream, (32768 + 4));
+         InputStreamHelper.skip(stream, (32768 + 4));
          tempDir = FileHelper.createTempDir();
 
          while (stream.available() > 0)
@@ -88,7 +87,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
    private void extractFile(InputStream stream, File dir) throws IOException
    {
       byte[] dataSize = InputStreamHelper.read(stream, 4);
-      byte[] header = InputStreamHelper.read(stream, 4);
+      InputStreamHelper.skip(stream, 4); // header
       byte[] fileName = InputStreamHelper.read(stream, 260);
 
       int dataSizeValue = getInt(dataSize, 0);

@@ -282,7 +282,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
    {
       //System.out.println(ByteArrayHelper.hexdump(data, offset, 60, false));
 
-      int dayType = MPPUtility.getShort(data, offset + 0);
+      int dayType = MPPUtility.getShort(data, offset);
       if (dayType == 1)
       {
          week.setWorkingDay(day, DayType.DEFAULT);

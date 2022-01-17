@@ -75,7 +75,7 @@ final class TimephasedDataFactory
          int currentBlock = 0;
          while (currentBlock < blockCount && index + 20 <= data.length)
          {
-            double time = MPPUtility.getInt(data, index + 0);
+            double time = MPPUtility.getInt(data, index);
 
             // If the start of this block is before the start of the assignment, or after the end of the assignment
             // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.

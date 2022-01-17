@@ -55,7 +55,6 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SQLite;
-import net.sf.mpxj.common.StreamHelper;
 import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
@@ -151,7 +150,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
-         StreamHelper.skip(bis, m_skipBytes);
+         InputStreamHelper.skip(bis, m_skipBytes);
          bis.mark(BUFFER_SIZE);
          byte[] buffer = new byte[BUFFER_SIZE];
          int bytesRead = bis.read(buffer);
@@ -714,13 +713,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
          is = new FileInputStream(file);
          if (is.available() > 1350)
          {
-            StreamHelper.skip(is, 1024);
+            InputStreamHelper.skip(is, 1024);
 
             // Bytes at offset 1024
             byte[] data = InputStreamHelper.read(is, 2);
             if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
             {
-               StreamHelper.skip(is, 286);
+               InputStreamHelper.skip(is, 286);
 
                // Bytes at offset 1312
                data = InputStreamHelper.read(is, 34);
@@ -734,7 +733,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
             if (matchesFingerprint(data, STX_FINGERPRINT))
             {
-               StreamHelper.skip(is, 31742);
+               InputStreamHelper.skip(is, 31742);
                // Bytes at offset 32768
                data = InputStreamHelper.read(is, 4);
                if (matchesFingerprint(data, PRX3_FINGERPRINT))

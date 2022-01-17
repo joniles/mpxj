@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.StreamHelper;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP14 files.
@@ -99,7 +98,7 @@ final class Props14 extends Props
          //
          if (data.length % 2 != 0)
          {
-            StreamHelper.skip(is, 1);
+            InputStreamHelper.skip(is, 1);
          }
       }
 
