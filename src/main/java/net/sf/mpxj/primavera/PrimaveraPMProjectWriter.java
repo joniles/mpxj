@@ -818,8 +818,12 @@ final class PrimaveraPMProjectWriter
       m_activities.add(xml);
 
       Task parentTask = mpxj.getParentTask();
-      Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
-
+      Integer parentObjectID = null;
+      if (parentTask != null && parentTask.getUniqueID().intValue() != 0)
+      {
+         parentObjectID = parentTask.getUniqueID();
+      }
+      
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
       Date plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
       Date plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
