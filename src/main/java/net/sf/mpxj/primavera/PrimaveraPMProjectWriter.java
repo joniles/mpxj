@@ -293,7 +293,7 @@ final class PrimaveraPMProjectWriter
          {
             title = cf.getFieldType().getName();
          }
-         
+
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
 
@@ -397,7 +397,7 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(ProjectType project)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = Optional.ofNullable(mpxj.getProjectID()).orElse(DEFAULT_PROJECT_ID);
+      String projectID = getProjectID(mpxj);
 
       //
       // P6 import may fail if planned start is not populated
@@ -466,13 +466,13 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(BaselineProjectType project)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = Optional.ofNullable(mpxj.getProjectID()).orElse(DEFAULT_PROJECT_ID);
+      String projectID = getProjectID(mpxj);
 
       //
       // P6 import may fail if planned start is not populated
       //
       Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
-      
+
       project.setActivityDefaultActivityType("Task Dependent");
       project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
       project.setActivityDefaultDurationType("Fixed Duration and Units");
@@ -519,6 +519,24 @@ final class PrimaveraPMProjectWriter
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
       project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+   }
+
+   private String getProjectID(ProjectProperties mpxj)
+   {
+      String result = mpxj.getProjectID();
+      if (result == null)
+      {
+         int id = m_sequences.getProjectID().intValue();
+         if (id == 0)
+         {
+            result = DEFAULT_PROJECT_ID;
+         }
+         else
+         {
+            result = DEFAULT_PROJECT_ID + "-" + id;
+         }
+      }
+      return result;
    }
 
    /**
@@ -769,7 +787,7 @@ final class PrimaveraPMProjectWriter
       {
          name = "(blank)";
       }
-      
+
       xml.setCode(getWbsCode(mpxj));
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setName(name);
@@ -842,7 +860,7 @@ final class PrimaveraPMProjectWriter
       {
          parentObjectID = parentTask.getUniqueID();
       }
-      
+
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
@@ -968,7 +986,7 @@ final class PrimaveraPMProjectWriter
       Date plannedFinish = Optional.ofNullable(mpxj.getPlannedFinish()).orElseGet(mpxj::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElseGet(task::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElse(plannedStart);
-      
+
       if (BooleanHelper.getBoolean(mpxj.getResource().getRole()))
       {
          xml.setRoleObjectId(mpxj.getResourceUniqueID());
