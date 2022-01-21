@@ -562,7 +562,7 @@ public class CustomerDataTest
     * @param config optional writer configuration
     * @return true if the baseline test is successful
     */
-   @SuppressWarnings("unused") private boolean testBaseline(String name, ProjectFile project, File baselineDir, String subDir, String suffix, Class<? extends ProjectWriter> writerClass, Consumer<ProjectWriter> config) throws Exception
+   private boolean testBaseline(String name, ProjectFile project, File baselineDir, String subDir, String suffix, Class<? extends ProjectWriter> writerClass, Consumer<ProjectWriter> config) throws Exception
    {
       File baselineDirectory = new File(baselineDir, subDir);
 

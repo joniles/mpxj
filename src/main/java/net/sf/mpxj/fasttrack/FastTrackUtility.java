@@ -71,7 +71,14 @@ final class FastTrackUtility
    {
       try
       {
-         return new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
+         String result = new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
+         
+         // Strip trailing invalid characters
+         while(!result.isEmpty() && isInvalidCharacter(result.charAt(result.length()-1)))
+         {
+            result = result.substring(0, result.length()-1);
+         }
+         return result;
       }
       catch (StringIndexOutOfBoundsException ex)
       {
@@ -79,6 +86,11 @@ final class FastTrackUtility
       }
    }
 
+   private static boolean isInvalidCharacter(char c)
+   {
+      return Character.isISOControl(c) && c != '\r' && c != '\n' && c != '\t';
+   }
+   
    /**
     * Retrieve a four byte integer.
     *
