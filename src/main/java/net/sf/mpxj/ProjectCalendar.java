@@ -269,6 +269,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are represented by a single exception which
+    * contains the definition of the recurrence.
     *
     * @return List of calendar exceptions
     */
@@ -276,6 +278,19 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       sortExceptions();
       return m_exceptions;
+   }
+
+   /**
+    * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are replaced by explicit exceptions representing
+    * each recurrence.
+    *
+    * @return List of calendar exceptions
+    */
+   public List<ProjectCalendarException> getExpandedCalendarExceptions()
+   {
+      populateExpandedExceptions();
+      return m_expandedExceptions;
    }
 
    /**
