@@ -242,6 +242,7 @@ final class AstaReader
       List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones);
       createTasks(m_project, "", parentBars);
       deriveProjectCalendar();
+      updateUniqueIDs();
       updateStructure();
       updateDates();
       calculatePercentComplete();
@@ -709,6 +710,22 @@ final class AstaReader
       processConstraints(row, task);
 
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+   }
+
+   /**
+    * Ensure all tasks have a unique ID.
+    */
+   private void updateUniqueIDs()
+   {
+      int maxUniqueID = m_project.getTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
+      for (Task task : m_project.getTasks())
+      {
+         if (task.getUniqueID() == null)
+         {
+            task.setUniqueID(Integer.valueOf(uniqueID++));
+         }
+      }
    }
 
    /**

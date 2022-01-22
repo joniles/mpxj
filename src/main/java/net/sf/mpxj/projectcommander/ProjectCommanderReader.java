@@ -124,6 +124,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    private void readTasks()
    {
       m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(this::readTask);
+      updateUniqueIDs();
       updateStructure();
       updateDates();
    }
@@ -530,18 +531,30 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Ensure all tasks have a unique ID.
+    */
+   private void updateUniqueIDs()
+   {
+      int maxUniqueID = m_projectFile.getTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
+      for (Task task : m_projectFile.getTasks())
+      {
+         if (task.getUniqueID() == null)
+         {
+            task.setUniqueID(Integer.valueOf(uniqueID++));
+         }
+      }
+   }
+   
+   /**
     * Updates the hierarchical structure to ensure that child tasks
     * are nested under the correct parent tasks.
     */
    private void updateStructure()
    {
-      int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
-      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
-
       for (Map.Entry<Integer, Integer> entry : m_childTaskCounts.entrySet())
       {
          Task task = m_projectFile.getTaskByID(entry.getKey());
-         task.setUniqueID(Integer.valueOf(uniqueID++));
          int startID = task.getID().intValue() + 1;
          int offset = entry.getValue().intValue();
 
