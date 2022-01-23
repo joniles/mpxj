@@ -23,9 +23,12 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents instances of Calendar Exception records from
@@ -116,6 +119,52 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    public boolean getWorking()
    {
       return (getRangeCount() != 0);
+   }
+
+   /**
+    * Expand the current exception into a list of exception.
+    * If the current exception is not recurring, or it is recurring and
+    * the exceptions form a contiguous range of days, then this list will
+    * only contain a single entry.
+    * 
+    * If this is a recurring exception which covers multiple non-contiguous days
+    * the returned list will include exceptions for all exception dates.
+    * 
+    * @return list of exceptions derived from the current exception
+    */
+   public List<ProjectCalendarException> getExpandedExceptions()
+   {
+      List<ProjectCalendarException> result = new ArrayList<>();
+
+      if (m_recurring == null)
+      {
+         result.add(this);
+      }
+      else
+      {
+         // TODO: fold into statement above once we have updated the test data
+         if (m_recurring.getRecurrenceType() == RecurrenceType.DAILY && NumberHelper.getInt(m_recurring.getFrequency()) == 1)
+         {
+            result.add(this);
+         }
+         else
+         {
+            for (Date date : m_recurring.getDates())
+            {
+               Date startDate = DateHelper.getDayStartDate(date);
+               Date endDate = DateHelper.getDayEndDate(date);
+               ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+               int rangeCount = getRangeCount();
+               for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
+               {
+                  newException.addRange(getRange(rangeIndex));
+               }
+               result.add(newException);
+            }
+         }
+      }
+
+      return result;
    }
 
    /**

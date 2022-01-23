@@ -69,15 +69,15 @@ public class RecurringDataTest
       data.setFrequency(Integer.valueOf(2));
       data.setOccurrences(Integer.valueOf(3));
       data.setWeeklyDay(Day.MONDAY, true);
-      testDates(data, "06/11/2017", "20/11/2017", "04/12/2017");
+      testDates(data, "13/11/2017", "27/11/2017", "11/12/2017");
 
       data.setWeeklyDay(Day.MONDAY, false);
       data.setWeeklyDay(Day.TUESDAY, true);
-      testDates(data, "07/11/2017", "21/11/2017", "05/12/2017");
+      testDates(data, "14/11/2017", "28/11/2017", "12/12/2017");
 
       data.setWeeklyDay(Day.MONDAY, true);
       data.setWeeklyDay(Day.TUESDAY, true);
-      testDates(data, "06/11/2017", "07/11/2017", "20/11/2017");
+      testDates(data, "13/11/2017", "14/11/2017", "27/11/2017");
 
       data.setWeeklyDay(Day.MONDAY, true);
       data.setWeeklyDay(Day.TUESDAY, false);

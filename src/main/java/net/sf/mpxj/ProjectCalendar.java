@@ -269,6 +269,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are represented by a single exception which
+    * contains the definition of the recurrence.
     *
     * @return List of calendar exceptions
     */
@@ -276,6 +278,19 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       sortExceptions();
       return m_exceptions;
+   }
+
+   /**
+    * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are replaced by explicit exceptions representing
+    * each recurrence.
+    *
+    * @return List of calendar exceptions
+    */
+   public List<ProjectCalendarException> getExpandedCalendarExceptions()
+   {
+      populateExpandedExceptions();
+      return m_expandedExceptions;
    }
 
    /**
@@ -1951,26 +1966,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       {
          for (ProjectCalendarException exception : m_exceptions)
          {
-            RecurringData recurring = exception.getRecurring();
-            if (recurring == null)
-            {
-               m_expandedExceptions.add(exception);
-            }
-            else
-            {
-               for (Date date : recurring.getDates())
-               {
-                  Date startDate = DateHelper.getDayStartDate(date);
-                  Date endDate = DateHelper.getDayEndDate(date);
-                  ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
-                  int rangeCount = exception.getRangeCount();
-                  for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
-                  {
-                     newException.addRange(exception.getRange(rangeIndex));
-                  }
-                  m_expandedExceptions.add(newException);
-               }
-            }
+            m_expandedExceptions.addAll(exception.getExpandedExceptions());
          }
          Collections.sort(m_expandedExceptions);
       }

@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Improve PMXML file compatibility with P6.</action>
 			<action dev="joniles" type="update">Strip any trailing invalid characters from text read from FTS files.</action>
 			<action dev="joniles" type="update">Ensure all tasks read from Powerproject and Projec Commander have unique IDs.</action>
+			<action dev="joniles" type="update">Correct expansion of exceptions from a weekly recurring calendar exception.</action>
 		</release>
 		<release date="2022-01-11" version="10.0.5">
 			<action dev="joniles" type="update">Ensure `Task.getActivityCodes()` returns an empty list rather than `null` when no activity code values have been assigned.</action>
