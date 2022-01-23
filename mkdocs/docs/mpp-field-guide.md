@@ -537,15 +537,6 @@ Enterprise Custom Field 59| | | |✓
 Enterprise Custom Field 60| | |✓| 
 Enterprise Custom Field 61| | |✓| 
 Enterprise Custom Field 62| | |✓| 
-Enterprise Custom Field 83| | | |✓
-Enterprise Custom Field 93| | | |✓
-Enterprise Custom Field 100| | | |✓
-Enterprise Custom Field 105| | | |✓
-Enterprise Custom Field 111| | | |✓
-Enterprise Custom Field 116| | | |✓
-Enterprise Custom Field 117| | | |✓
-Enterprise Custom Field 137| | | |✓
-Enterprise Custom Field 145| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
