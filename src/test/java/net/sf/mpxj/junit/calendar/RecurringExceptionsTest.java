@@ -290,7 +290,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2002", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(5), data.getOccurrences());
       assertEquals(5, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("16/01/2002", "15/05/2002", "18/09/2002", "15/01/2003", "21/05/2003"), getExpandedDates(exception));
+      
       exception = exceptions.get(14);
       assertEquals("Monthly Relative 4", exception.getName());
       assertFalse(exception.getWorking());
@@ -303,7 +304,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2002", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(6), data.getOccurrences());
       assertEquals(6, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("24/01/2002", "27/06/2002", "28/11/2002", "24/04/2003", "25/09/2003", "26/02/2004"), getExpandedDates(exception));
+      
       exception = exceptions.get(15);
       assertEquals("Monthly Relative 5", exception.getName());
       assertFalse(exception.getWorking());
@@ -316,7 +318,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2002", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(7), data.getOccurrences());
       assertEquals(7, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("25/01/2002", "26/07/2002", "31/01/2003", "25/07/2003", "30/01/2004", "30/07/2004", "28/01/2005"), getExpandedDates(exception));
+      
       exception = exceptions.get(16);
       assertEquals("Monthly Relative 6", exception.getName());
       assertFalse(exception.getWorking());
@@ -329,7 +332,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2002", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(8), data.getOccurrences());
       assertEquals(8, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("05/01/2002", "03/08/2002", "01/03/2003", "04/10/2003", "01/05/2004", "04/12/2004", "02/07/2005", "04/02/2006"), getExpandedDates(exception));
+      
       exception = exceptions.get(17);
       assertEquals("Monthly Relative 7", exception.getName());
       assertFalse(exception.getWorking());
@@ -342,7 +346,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2002", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(9), data.getOccurrences());
       assertEquals(9, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("13/01/2002", "08/09/2002", "11/05/2003", "11/01/2004", "12/09/2004", "08/05/2005", "08/01/2006", "10/09/2006", "13/05/2007"), getExpandedDates(exception));
+      
       exception = exceptions.get(18);
       assertEquals("Monthly Absolute 1", exception.getName());
       assertFalse(exception.getWorking());
@@ -354,7 +359,9 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2003", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(3), data.getOccurrences());
       assertEquals(3, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("01/01/2003", "01/03/2003", "01/05/2003"), getExpandedDates(exception));
+      
+      
       exception = exceptions.get(19);
       assertEquals("Monthly Absolute 2", exception.getName());
       assertFalse(exception.getWorking());
@@ -366,7 +373,8 @@ public class RecurringExceptionsTest
       assertEquals("01/01/2003", m_df.format(data.getStartDate()));
       assertEquals(Integer.valueOf(6), data.getOccurrences());
       assertEquals(6, exception.getExpandedExceptions().size());
-
+      assertEquals(Arrays.asList("04/01/2003", "04/06/2003", "04/11/2003", "04/04/2004", "04/09/2004", "04/02/2005"), getExpandedDates(exception));
+      
       exception = exceptions.get(20);
       assertEquals("Yearly Relative 1", exception.getName());
       assertFalse(exception.getWorking());
