@@ -360,7 +360,7 @@ public final class MPXWriter extends AbstractProjectWriter
             }
          }
 
-         if (!record.getCalendarExceptions().isEmpty())
+         if (!record.getExpandedCalendarExceptions().isEmpty())
          {
             //
             // A quirk of MS Project is that these exceptions must be
@@ -368,7 +368,7 @@ public final class MPXWriter extends AbstractProjectWriter
             // The getCalendarExceptions method now guarantees that
             // the exceptions list is sorted when retrieved.
             //
-            for (ProjectCalendarException ex : record.getCalendarExceptions())
+            for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
             {
                writeCalendarException(record, ex);
             }

@@ -539,22 +539,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method writes data for a single calendar to an MSPDI file.
     *
-    * @param bc Base calendar data
+    * @param mpxjCalendar MPXJ calendar data
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar(ProjectCalendar bc)
+   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar)
    {
       //
       // Create a calendar
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
-      calendar.setUID(NumberHelper.getBigInteger(bc.getUniqueID()));
-      calendar.setIsBaseCalendar(Boolean.valueOf(!bc.isDerived()));
+      calendar.setUID(NumberHelper.getBigInteger(mpxjCalendar.getUniqueID()));
+      calendar.setIsBaseCalendar(Boolean.valueOf(!mpxjCalendar.isDerived()));
 
-      ProjectCalendar base = bc.getParent();
+      ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
       calendar.setBaseCalendarUID(base == null ? NULL_CALENDAR_ID : NumberHelper.getBigInteger(base.getUniqueID()));
-      calendar.setName(bc.getName());
+      calendar.setName(mpxjCalendar.getName());
 
       //
       // Create a list of normal days
@@ -567,7 +567,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (int loop = 1; loop < 8; loop++)
       {
-         DayType workingFlag = bc.getWorkingDay(Day.getInstance(loop));
+         DayType workingFlag = mpxjCalendar.getWorkingDay(Day.getInstance(loop));
 
          if (workingFlag != DayType.DEFAULT)
          {
@@ -582,7 +582,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                day.setWorkingTimes(times);
                List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-               bch = bc.getCalendarHours(Day.getInstance(loop));
+               bch = mpxjCalendar.getCalendarHours(Day.getInstance(loop));
                if (bch != null)
                {
                   for (DateRange range : bch)
@@ -604,14 +604,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create a list of exceptions
       //
-      // A quirk of MS Project is that these exceptions must be
-      // in date order in the file, otherwise they are ignored
-      //
-      List<ProjectCalendarException> exceptions = new ArrayList<>(bc.getCalendarExceptions());
-      if (!exceptions.isEmpty())
+      if (!mpxjCalendar.getCalendarExceptions().isEmpty())
       {
-         Collections.sort(exceptions);
-         writeExceptions(calendar, dayList, exceptions);
+         writeExceptions(mpxjCalendar, calendar, dayList);
       }
 
       //
@@ -624,9 +619,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          calendar.setWeekDays(days);
       }
 
-      writeWorkWeeks(calendar, bc);
+      writeWorkWeeks(calendar, mpxjCalendar);
 
-      m_eventManager.fireCalendarWrittenEvent(bc);
+      m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
       return (calendar);
    }
@@ -635,32 +630,34 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Main entry point used to determine the format used to write
     * calendar exceptions.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param calendar parent calendar
     * @param dayList list of calendar days
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions(Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   private void writeExceptions(ProjectCalendar mpxjCalendar, Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
       // Always write legacy exception data:
       // Powerproject appears not to recognise new format data at all,
       // and legacy data is ignored in preference to new data post MSP 2003
-      writeExceptions9(dayList, exceptions);
+      writeExceptions9(mpxjCalendar, dayList);
 
       if (m_saveVersion.getValue() > SaveVersion.Project2003.getValue())
       {
-         writeExceptions12(calendar, exceptions);
+         writeExceptions12(mpxjCalendar, calendar);
       }
    }
 
    /**
     * Write exceptions in the format used by MSPDI files prior to Project 2007.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param dayList list of calendar days
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions9(List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   private void writeExceptions9(ProjectCalendar mpxjCalendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
-      for (ProjectCalendarException exception : exceptions)
+      // Exceptions in an MSPDI file need to be sorted, or they are ignored.
+      // Expanded exceptions from a calendar are sorted by default.
+      for (ProjectCalendarException exception : mpxjCalendar.getExpandedCalendarExceptions())
       {
          boolean working = exception.getWorking();
 
@@ -696,11 +693,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Write exceptions into the format used by MSPDI files from
     * Project 2007 onwards.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param calendar parent calendar
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions12(Project.Calendars.Calendar calendar, List<ProjectCalendarException> exceptions)
+   private void writeExceptions12(ProjectCalendar mpxjCalendar, Project.Calendars.Calendar calendar)
    {
+      // Exceptions in an MSPDI file need to be sorted, or they are ignored.
+      List<ProjectCalendarException> exceptions = new ArrayList<>(mpxjCalendar.getCalendarExceptions());
+      Collections.sort(exceptions);
+
       Exceptions ce = m_factory.createProjectCalendarsCalendarExceptions();
       calendar.setExceptions(ce);
       List<Exceptions.Exception> el = ce.getException();

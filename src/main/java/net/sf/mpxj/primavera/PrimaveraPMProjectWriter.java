@@ -603,7 +603,7 @@ final class PrimaveraPMProjectWriter
       if (!mpxj.getCalendarExceptions().isEmpty())
       {
          Calendar calendar = DateHelper.popCalendar();
-         for (ProjectCalendarException mpxjException : mpxj.getCalendarExceptions())
+         for (ProjectCalendarException mpxjException : mpxj.getExpandedCalendarExceptions())
          {
             calendar.setTime(mpxjException.getFromDate());
             while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
