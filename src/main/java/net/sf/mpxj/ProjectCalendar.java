@@ -1966,26 +1966,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       {
          for (ProjectCalendarException exception : m_exceptions)
          {
-            RecurringData recurring = exception.getRecurring();
-            if (recurring == null)
-            {
-               m_expandedExceptions.add(exception);
-            }
-            else
-            {
-               for (Date date : recurring.getDates())
-               {
-                  Date startDate = DateHelper.getDayStartDate(date);
-                  Date endDate = DateHelper.getDayEndDate(date);
-                  ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
-                  int rangeCount = exception.getRangeCount();
-                  for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
-                  {
-                     newException.addRange(exception.getRange(rangeIndex));
-                  }
-                  m_expandedExceptions.add(newException);
-               }
-            }
+            m_expandedExceptions.addAll(exception.getExpandedExceptions());
          }
          Collections.sort(m_expandedExceptions);
       }
