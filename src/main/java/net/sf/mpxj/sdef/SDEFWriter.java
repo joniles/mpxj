@@ -203,7 +203,7 @@ public final class SDEFWriter extends AbstractProjectWriter
             List<String> formattedExceptions = new ArrayList<>();
             String recordPrefix = "HOLI " + SDEFmethods.lset(record.getUniqueID().toString(), 2);
 
-            for (ProjectCalendarException ex : record.getCalendarExceptions())
+            for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
             {
                generateCalendarExceptions(ex, formattedExceptions);
             }
