@@ -4,6 +4,8 @@
 * Improve PMXML file compatibility with P6.
 * Strip any trailing invalid characters from text read from FTS files.
 * Ensure all tasks read from Powerproject and Projec Commander have unique IDs.
+* Correct expansion of exceptions from a weekly recurring calendar exception.
+* Ensure that expanded calendar exceptions are written to file formats which do not support recurring exceptions.
 
 ## 10.0.5 (2022-01-11)
 * Ensure `Task.getActivityCodes()` returns an empty list rather than `null` when no activity code values have been assigned.
