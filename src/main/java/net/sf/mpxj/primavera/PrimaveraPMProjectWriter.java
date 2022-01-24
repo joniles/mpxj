@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -603,26 +604,35 @@ final class PrimaveraPMProjectWriter
       if (!mpxj.getCalendarExceptions().isEmpty())
       {
          Calendar calendar = DateHelper.popCalendar();
+         Set<Date> exceptionDates = new HashSet<>();
+         
          for (ProjectCalendarException mpxjException : mpxj.getExpandedCalendarExceptions())
          {
             calendar.setTime(mpxjException.getFromDate());
             while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
-               HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
-               xmlExceptions.getHolidayOrException().add(xmlException);
-
-               xmlException.setDate(calendar.getTime());
-
-               for (DateRange range : mpxjException)
+               Date exceptionDate = calendar.getTime();
+               
+               // Prevent duplicate exception dates being written.
+               // P6 will fail to import files with duplicate exceptions.
+               if (exceptionDates.add(exceptionDate))
                {
-                  WorkTimeType xmlHours = m_factory.createWorkTimeType();
-                  xmlException.getWorkTime().add(xmlHours);
-
-                  xmlHours.setStart(range.getStart());
-
-                  if (range.getEnd() != null)
+                  HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
+                  xmlExceptions.getHolidayOrException().add(xmlException);
+   
+                  xmlException.setDate(exceptionDate);
+   
+                  for (DateRange range : mpxjException)
                   {
-                     xmlHours.setFinish(getEndTime(range.getEnd()));
+                     WorkTimeType xmlHours = m_factory.createWorkTimeType();
+                     xmlException.getWorkTime().add(xmlHours);
+   
+                     xmlHours.setStart(range.getStart());
+   
+                     if (range.getEnd() != null)
+                     {
+                        xmlHours.setFinish(getEndTime(range.getEnd()));
+                     }
                   }
                }
                calendar.add(Calendar.DAY_OF_YEAR, 1);
