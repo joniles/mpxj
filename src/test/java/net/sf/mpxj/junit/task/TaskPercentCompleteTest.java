@@ -78,7 +78,7 @@ public class TaskPercentCompleteTest
       testPercentComplete(project, taskID++, "Units 0%", TaskField.PERCENT_WORK_COMPLETE, 0);
       testPercentComplete(project, taskID++, "Units 25%", TaskField.PERCENT_WORK_COMPLETE, 25);
       testPercentComplete(project, taskID++, "Units 75%", TaskField.PERCENT_WORK_COMPLETE, 75);
-      testPercentComplete(project, taskID++, "Units 100%", TaskField.PERCENT_WORK_COMPLETE, 100);
+      testPercentComplete(project, taskID, "Units 100%", TaskField.PERCENT_WORK_COMPLETE, 100);
    }
 
    /**

@@ -54,7 +54,7 @@ public final class FixedLengthInputStream extends FilterInputStream
     */
    @Override public void close() throws IOException
    {
-      long skippedLast = 0;
+      long skippedLast;
       if (m_remaining > 0)
       {
          skippedLast = skip(m_remaining);

@@ -205,7 +205,7 @@ public class HexDumpController
       String dateValueLabel = "";
       String timeValueLabel = "";
       String timestampValueLabel = "";
-      String workUnitsValueLabel = "";
+      String workUnitsValueLabel;
 
       if (selectionIndex + offset + 2 <= data.length)
       {

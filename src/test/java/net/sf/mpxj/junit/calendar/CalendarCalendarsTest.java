@@ -81,6 +81,6 @@ public class CalendarCalendarsTest
       assertEquals("Calendar1", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
       assertEquals("Calendar2", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
       assertEquals("Resource One", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
-      assertEquals("Resource Two", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
+      assertEquals("Resource Two", calendars.getByUniqueID(Integer.valueOf(id)).getName());
    }
 }

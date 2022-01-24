@@ -136,16 +136,11 @@ public class AvailabilityTest
       //
       // Validate date-based row selection
       //
-      Availability entry = table.getEntryByDate(m_df.parse("01/05/2009 12:00"));
-      assertNull(entry);
-      entry = table.getEntryByDate(m_df.parse("03/07/2009 12:00"));
+      assertNull(table.getEntryByDate(m_df.parse("01/05/2009 12:00")));
       assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
-      entry = table.getEntryByDate(m_df.parse("02/08/2009 12:00"));
-      assertNull(entry);
-      entry = table.getEntryByDate(m_df.parse("21/08/2009 12:00"));
+      assertNull(table.getEntryByDate(m_df.parse("02/08/2009 12:00")));
       assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
-      entry = table.getEntryByDate(m_df.parse("01/09/2009 12:00"));
-      assertNull(entry);
+      assertNull(table.getEntryByDate(m_df.parse("01/09/2009 12:00")));
    }
 
    /**

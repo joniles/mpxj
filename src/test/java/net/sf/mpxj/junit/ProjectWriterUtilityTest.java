@@ -49,7 +49,7 @@ public class ProjectWriterUtilityTest
 
       try
       {
-         writer = ProjectWriterUtility.getProjectWriter("filename.xxx");
+         ProjectWriterUtility.getProjectWriter("filename.xxx");
          fail("Failed to throw exception");
       }
 
@@ -60,7 +60,7 @@ public class ProjectWriterUtilityTest
 
       try
       {
-         writer = ProjectWriterUtility.getProjectWriter("filename");
+         ProjectWriterUtility.getProjectWriter("filename");
          fail("Failed to throw exception");
       }
 

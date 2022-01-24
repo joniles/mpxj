@@ -392,7 +392,7 @@ final class MPP8Reader implements MPPVariantReader
       }
 
       FixDeferFix taskVarData = null;
-      ExtendedData taskExtData = null;
+      ExtendedData taskExtData;
 
       int tasks = taskFixedData.getItemCount();
       byte[] data;
@@ -856,7 +856,7 @@ final class MPP8Reader implements MPPVariantReader
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       FixFix rscFixedData = new FixFix(196, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixFix   0"))));
       FixDeferFix rscVarData = null;
-      ExtendedData rscExtData = null;
+      ExtendedData rscExtData;
 
       int resources = rscFixedData.getItemCount();
       byte[] data;

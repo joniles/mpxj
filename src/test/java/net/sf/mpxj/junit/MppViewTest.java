@@ -118,7 +118,7 @@ public class MppViewTest
          // View Names
          String viewName = view.getName();
          setViewNames.add(viewName);
-         Table table = null;
+         Table table;
 
          if (view instanceof GanttChartView)
          {

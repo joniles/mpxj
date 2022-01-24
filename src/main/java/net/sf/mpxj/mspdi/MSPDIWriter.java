@@ -1700,7 +1700,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private BigInteger getTaskCalendarID(Task mpx)
    {
-      BigInteger result = null;
+      BigInteger result;
       ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {

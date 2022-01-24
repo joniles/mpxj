@@ -30,6 +30,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -541,7 +542,7 @@ class FastTrackData
    private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
    private FastTrackColumn m_currentColumn;
-   private final Set<FastTrackField> m_currentFields = new TreeSet<>();
+   private final Set<FastTrackField> m_currentFields = new HashSet<>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
    private boolean m_supported;

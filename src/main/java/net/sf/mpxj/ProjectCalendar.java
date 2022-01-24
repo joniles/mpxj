@@ -1773,16 +1773,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          ProjectCalendarHours taskHours = taskCalendar.getHours(day);
          ProjectCalendarHours resourceHours = resourceCalendar.getHours(day);
 
-         DateRange range1 = null;
-         DateRange range2 = null;
+         DateRange range1;
+         DateRange range2;
 
-         Date start = null;
-         Date end = null;
+         Date start;
+         Date end;
 
-         Date start1 = null;
-         Date start2 = null;
-         Date end1 = null;
-         Date end2 = null;
+         Date start1;
+         Date start2;
+         Date end1;
+         Date end2;
          while (true)
          {
             // Find next range start

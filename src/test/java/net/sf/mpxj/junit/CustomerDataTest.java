@@ -201,7 +201,7 @@ public class CustomerDataTest
       listFiles(files, new File(MpxjTestData.DATA_DIR));
       for (File file : files)
       {
-         ProjectFile project = null;
+         ProjectFile project;
          try
          {
             project = m_universalReader.read(file);
@@ -454,7 +454,7 @@ public class CustomerDataTest
     */
    private ProjectFile testReader(String name, File file) throws Exception
    {
-      ProjectFile mpxj = null;
+      ProjectFile mpxj;
 
       if (name.endsWith(".MPX"))
       {

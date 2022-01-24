@@ -1787,7 +1787,7 @@ final class AstaReader
          // writing inconsistent data types in the records themselves, hence
          // we have to work to ensure that we can convert what we get into
          // the expected type.
-         Object value = null;
+         Object value;
          switch (field.getDataType())
          {
             case 0:

@@ -642,7 +642,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void updateResourceUniqueIDValues()
    {
-      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
       int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
       for (Resource resource : m_projectFile.getResources())
       {

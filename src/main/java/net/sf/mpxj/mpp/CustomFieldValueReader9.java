@@ -98,7 +98,7 @@ public class CustomFieldValueReader9
 
          // Then the value lists themselves
          FieldType field;
-         int valueListOffset = 0;
+         int valueListOffset;
          while (index < numberOfValueLists && offset < length)
          {
             // Each item consists of the Field ID (4 bytes) and the offset to the value list (4 bytes)

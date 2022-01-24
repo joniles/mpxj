@@ -1192,7 +1192,7 @@ public class TimephasedTest
       timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(6, timephasedComplete.size());
       assertEquals(3, timephasedPlanned.size());
-      timephased = timephasedPlanned.get(0);
+
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 10.5, 10.5);
       timephased = timephasedComplete.get(1);
