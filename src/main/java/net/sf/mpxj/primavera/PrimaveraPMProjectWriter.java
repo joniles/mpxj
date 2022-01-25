@@ -1084,12 +1084,17 @@ final class PrimaveraPMProjectWriter
          expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
          Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
-
+         
          for (ExpenseItem item : expenseItems)
          {
             ActivityExpenseType expense = m_factory.createActivityExpenseType();
             m_expenses.add(expense);
 
+            //
+            // Item may be rejected on import if price per unit is not present
+            //
+            Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
+            
             expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
             //expense.setActivityId(value);
             //expense.setActivityName(value);
@@ -1127,7 +1132,7 @@ final class PrimaveraPMProjectWriter
             expense.setObjectId(item.getUniqueID());
             expense.setPlannedCost(item.getPlannedCost());
             expense.setPlannedUnits(item.getPlannedUnits());
-            expense.setPricePerUnit(item.getPricePerUnit());
+            expense.setPricePerUnit(pricePerUnit);
             //expense.setProjectId(PROJECT_ID);
             expense.setProjectObjectId(m_projectObjectID);
             expense.setRemainingCost(item.getRemainingCost());
