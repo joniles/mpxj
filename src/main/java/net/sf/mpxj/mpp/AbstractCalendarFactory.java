@@ -150,7 +150,11 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                         cal = m_file.addDefaultDerivedCalendar();
                      }
 
-                     baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
+                     if (baseCalendarID > 0)
+                     {
+                        baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
+                     }
+                     
                      Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }
