@@ -6,6 +6,7 @@
 * Ensure all tasks read from Powerproject and Projec Commander have unique IDs.
 * Correct expansion of exceptions from a weekly recurring calendar exception.
 * Ensure that expanded calendar exceptions are written to file formats which do not support recurring exceptions.
+* Ensure that start and finish dates are set when reading milestones from GanttProject files.
 
 ## 10.0.5 (2022-01-11)
 * Ensure `Task.getActivityCodes()` returns an empty list rather than `null` when no activity code values have been assigned.

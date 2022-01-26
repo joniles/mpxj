@@ -656,6 +656,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       if (duration.getDuration() == 0)
       {
          mpxjTask.setMilestone(true);
+         mpxjTask.setStart(gpTask.getStart());
+         mpxjTask.setFinish(gpTask.getStart());
       }
       else
       {
