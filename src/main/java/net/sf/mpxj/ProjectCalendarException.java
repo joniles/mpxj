@@ -126,10 +126,10 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     * If the current exception is not recurring, or it is recurring and
     * the exceptions form a contiguous range of days, then this list will
     * only contain a single entry.
-    * 
+    *
     * If this is a recurring exception which covers multiple non-contiguous days
     * the returned list will include exceptions for all exception dates.
-    * 
+    *
     * @return list of exceptions derived from the current exception
     */
    public List<ProjectCalendarException> getExpandedExceptions()

@@ -154,7 +154,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                      {
                         baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
                      }
-                     
+
                      Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }

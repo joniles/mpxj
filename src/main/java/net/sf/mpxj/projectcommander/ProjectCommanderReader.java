@@ -545,7 +545,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          }
       }
    }
-   
+
    /**
     * Updates the hierarchical structure to ensure that child tasks
     * are nested under the correct parent tasks.

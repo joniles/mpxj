@@ -605,30 +605,30 @@ final class PrimaveraPMProjectWriter
       {
          Calendar calendar = DateHelper.popCalendar();
          Set<Date> exceptionDates = new HashSet<>();
-         
+
          for (ProjectCalendarException mpxjException : mpxj.getExpandedCalendarExceptions())
          {
             calendar.setTime(mpxjException.getFromDate());
             while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
             {
                Date exceptionDate = calendar.getTime();
-               
+
                // Prevent duplicate exception dates being written.
                // P6 will fail to import files with duplicate exceptions.
                if (exceptionDates.add(exceptionDate))
                {
                   HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                   xmlExceptions.getHolidayOrException().add(xmlException);
-   
+
                   xmlException.setDate(exceptionDate);
-   
+
                   for (DateRange range : mpxjException)
                   {
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
-   
+
                      xmlHours.setStart(range.getStart());
-   
+
                      if (range.getEnd() != null)
                      {
                         xmlHours.setFinish(getEndTime(range.getEnd()));
@@ -1084,7 +1084,7 @@ final class PrimaveraPMProjectWriter
          expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
          Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
-         
+
          for (ExpenseItem item : expenseItems)
          {
             ActivityExpenseType expense = m_factory.createActivityExpenseType();
@@ -1094,7 +1094,7 @@ final class PrimaveraPMProjectWriter
             // Item may be rejected on import if price per unit is not present
             //
             Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
-            
+
             expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
             //expense.setActivityId(value);
             //expense.setActivityName(value);
