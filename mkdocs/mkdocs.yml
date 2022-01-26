@@ -9,9 +9,10 @@ theme:
   logo: images/mpxj-white.svg
   favicon: images/favicon.png
 
-google_analytics:
-  - UA-7202224-1
-  - auto
+extra:
+  analytics:
+    provider: google
+    property: G-9R48LPVHKE
 
 markdown_extensions:
   - attr_list
