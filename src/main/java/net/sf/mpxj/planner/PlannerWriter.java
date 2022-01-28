@@ -58,6 +58,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
@@ -96,7 +97,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             throw CONTEXT_EXCEPTION;
          }
 
-         Marshaller marshaller = CONTEXT.createMarshaller();
+         Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
          if (m_encoding != null)
          {

@@ -41,6 +41,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -111,7 +112,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             // support it, swallow any errors raised trying to configure it.
          }
 
-         Marshaller marshaller = CONTEXT.createMarshaller();
+         Marshaller marshaller = MarshallerHelper.create(CONTEXT);  
 
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 

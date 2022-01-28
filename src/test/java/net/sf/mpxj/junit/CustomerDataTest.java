@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import net.sf.mpxj.common.JvmHelper;
+import net.sf.mpxj.common.MarshallerHelper;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -223,6 +225,28 @@ public class CustomerDataTest
       }
    }
 
+   /**
+    * Enable our custom character escape handler if we're running on a JVM.
+    */
+   @BeforeClass public static void enableCustomEscapeHandling()
+   {
+      if (!JvmHelper.isIkvm())
+      {
+         MarshallerHelper.enableCustomEscapeHandling(true);
+      }
+   }
+
+   /**
+    * Disable our custom character escape handler if we're running on a JVM.
+    */
+   @AfterClass public static void disableCustomEscapeHandling()
+   {
+      if (!JvmHelper.isIkvm())
+      {
+         MarshallerHelper.enableCustomEscapeHandling(false);
+      }
+   }
+   
    /**
     * Clear the field reporter ready to begin collecting data.
     */

@@ -86,6 +86,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectFieldLists;
@@ -209,7 +210,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_eventManager = m_projectFile.getEventManager();
          DatatypeConverter.setParentFile(m_projectFile);
 
-         Marshaller marshaller = CONTEXT.createMarshaller();
+         Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          m_extendedAttributesInUse = new HashSet<>();
