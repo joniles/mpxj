@@ -2,7 +2,7 @@
 
 ## 10.1.1 (unreleased)
 
-## 10.1.0 (unreleased)
+## 10.1.0 (2022-01-29)
 * Improve PMXML file compatibility with P6.
 * Strip any trailing invalid characters from text read from FTS files.
 * Ensure all tasks read from Powerproject and Project Commander have unique IDs.
