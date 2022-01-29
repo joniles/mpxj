@@ -36,7 +36,7 @@ public final class MarshallerHelper
 {
    /**
     * Create a new marshaller.
-    * 
+    *
     * @param context JAXB context
     * @return Marshaller instance
     */
@@ -53,8 +53,8 @@ public final class MarshallerHelper
          throw new IOException(ex.toString());
       }
 
-      /**
-       * The problem we're trying to solve here is thatMPXJ running in a JVM will
+      /*
+       * The problem we're trying to solve here is that MPXJ running in a JVM will
        * escape characters slightly differently in XML than the IKVM version.
        * This makes no difference to end users, but for regression testing
        * we can use this code to inject a custom escape handler
@@ -69,7 +69,7 @@ public final class MarshallerHelper
 
          catch (Exception ex)
          {
-            // If we can't set the handler, ignore the error   
+            // If we can't set the handler, ignore the error
          }
       }
 
@@ -79,7 +79,7 @@ public final class MarshallerHelper
    /**
     * Called to enable custom escape handling. Normally only
     * used to support regression testing.
-    * 
+    *
     * @param enabled true to enable the custom escape handler
     */
    public static void enableCustomEscapeHandling(boolean enabled)

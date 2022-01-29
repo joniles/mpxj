@@ -246,7 +246,7 @@ public class CustomerDataTest
          MarshallerHelper.enableCustomEscapeHandling(false);
       }
    }
-   
+
    /**
     * Clear the field reporter ready to begin collecting data.
     */

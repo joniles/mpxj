@@ -112,7 +112,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
             // support it, swallow any errors raised trying to configure it.
          }
 
-         Marshaller marshaller = MarshallerHelper.create(CONTEXT);  
+         Marshaller marshaller = MarshallerHelper.create(CONTEXT);
 
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
