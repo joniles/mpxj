@@ -419,7 +419,7 @@ public class CustomerDataTest
             continue;
          }
 
-         ProjectFile mpxj = null;
+         ProjectFile mpxj;
          //System.out.println(name);
 
          try

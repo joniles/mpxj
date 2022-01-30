@@ -39,11 +39,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -85,7 +83,6 @@ public class MapFileGenerator
     */
    public void generateMapFile(File jarFile, String mapFileName, boolean mapClassMethods) throws XMLStreamException, IOException, ClassNotFoundException, IntrospectionException
    {
-      m_responseList = new ArrayList<>();
       writeMapFile(mapFileName, jarFile, mapClassMethods);
    }
 
@@ -423,8 +420,6 @@ public class MapFileGenerator
                   914                       <parameter>Never</parameter>
                   915                   </attribute>
                   */
-
-                  m_responseList.add(fullJavaName);
                }
             }
          }
@@ -479,8 +474,6 @@ public class MapFileGenerator
       }
       return sb.toString();
    }
-
-   private List<String> m_responseList;
 
    private static final Map<Class<?>, String> TYPE_MAP = new HashMap<>();
    static

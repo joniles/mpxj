@@ -24,10 +24,8 @@
 
 package net.sf.mpxj;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -2851,19 +2849,12 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    @Override public void addFieldListener(FieldListener listener)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
+      // We don't currently generate events for project properties
    }
 
    @Override public void removeFieldListener(FieldListener listener)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
+      // We don't currently generate events for project properties
    }
 
    /**
@@ -2939,11 +2930,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Array of field values.
     */
    private final Object[] m_array = new Object[ProjectField.MAX_VALUE];
-
-   /**
-    * Listeners.
-    */
-   private List<FieldListener> m_listeners;
 
    /**
     * Default time separator character.

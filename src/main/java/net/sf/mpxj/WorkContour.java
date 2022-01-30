@@ -140,7 +140,7 @@ public final class WorkContour
    public static final WorkContour LATE_PEAK = new WorkContour("LATE_PEAK", 5, 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
    public static final WorkContour BELL = new WorkContour("BELL", 6, 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
    public static final WorkContour TURTLE = new WorkContour("TURTLE", 7, 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
-   public static final WorkContour CONTOURED = new WorkContour("CONTOURED", 8, null);
+   public static final WorkContour CONTOURED = new WorkContour("CONTOURED", 8, (double[]) null);
 
    /**
     * Array mapping int types to WorkContour instances.

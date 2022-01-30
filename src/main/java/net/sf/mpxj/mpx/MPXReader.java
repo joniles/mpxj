@@ -963,8 +963,8 @@ public final class MPXReader extends AbstractProjectStreamReader
       // If we haven't reached the end, we next expect to find
       // SF, SS, FS, FF
       //
-      RelationType type = null;
-      Duration lag = null;
+      RelationType type;
+      Duration lag;
 
       if (index == length)
       {
@@ -1021,7 +1021,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    {
       String falseText = LocaleData.getString(m_locale, LocaleData.NO);
 
-      int mpxFieldID = 0;
+      int mpxFieldID;
       String field;
 
       int i = 0;
