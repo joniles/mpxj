@@ -79,7 +79,6 @@ abstract class MPD9AbstractReader
    {
       m_calendarMap.clear();
       m_baseCalendarReferences.clear();
-      m_resourceMap.clear();
       m_assignmentMap.clear();
    }
 
@@ -253,7 +252,6 @@ abstract class MPD9AbstractReader
             Integer resourceID = row.getInteger("RES_UID");
             cal = m_project.addCalendar();
             m_baseCalendarReferences.add(new Pair<>(cal, row.getInteger("CAL_BASE_UID")));
-            m_resourceMap.put(resourceID, cal);
          }
 
          cal.setUniqueID(uniqueID);
@@ -1314,6 +1312,5 @@ abstract class MPD9AbstractReader
 
    private final Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
    private final List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();
-   private final Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
    private final Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
 }

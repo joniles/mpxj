@@ -245,7 +245,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          m_currentTable = null;
          m_currentFieldNames = null;
          m_defaultCurrencyName = null;
-         m_currencyMap.clear();
          m_numberFormat = null;
          m_defaultCurrencyData = null;
       }
@@ -347,16 +346,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processCurrency(Row row)
    {
       String currencyName = row.getString("curr_short_name");
-      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-      symbols.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
-      symbols.setGroupingSeparator(row.getString("digit_group_symbol").charAt(0));
-      DecimalFormat nf = new DecimalFormat();
-      nf.setDecimalFormatSymbols(symbols);
-      nf.applyPattern("#.#");
-      m_currencyMap.put(currencyName, nf);
-
       if (currencyName.equalsIgnoreCase(m_defaultCurrencyName))
       {
+         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+         symbols.setDecimalSeparator(row.getString("decimal_symbol").charAt(0));
+         symbols.setGroupingSeparator(row.getString("digit_group_symbol").charAt(0));
+
+         DecimalFormat nf = new DecimalFormat();
+         nf.setDecimalFormatSymbols(symbols);
+         nf.applyPattern("#.#");
+
          m_numberFormat = nf;
          m_defaultCurrencyData = row;
       }
@@ -1037,7 +1036,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private String m_defaultCurrencyName;
-   private final Map<String, DecimalFormat> m_currencyMap = new HashMap<>();
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private final DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");

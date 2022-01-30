@@ -443,7 +443,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
          else
          {
-            Date rangeStart = result = ranges.getRange(0).getStart();
+            Date rangeStart = ranges.getRange(0).getStart();
             Date rangeFinish = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
             Date startDay = DateHelper.getDayStartDate(rangeStart);
             Date finishDay = DateHelper.getDayStartDate(rangeFinish);

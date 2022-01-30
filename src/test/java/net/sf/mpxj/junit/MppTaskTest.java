@@ -946,15 +946,14 @@ public class MppTaskTest
       assertTrue(listPreds.isEmpty());
 
       task4.addPredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
-
       task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+      assertEquals(2, task4.getPredecessors().size());
 
-      listPreds = task4.getPredecessors();
       removed = task4.removePredecessor(task2, RelationType.FINISH_FINISH, Duration.getInstance(0, TimeUnit.DAYS));
       assertFalse(removed);
 
       task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
-      listPreds = task4.getPredecessors();
+      assertEquals(2, task4.getPredecessors().size());
       removed = task4.removePredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
       assertTrue(removed);
 
