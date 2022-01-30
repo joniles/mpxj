@@ -1,6 +1,7 @@
 # Changelog
 
 ## 10.1.1 (unreleased)
+* Improvements to writing currency, rate and units amounts to MSPDI files.
 
 ## 10.1.0 (2022-01-29)
 * Improve PMXML file compatibility with P6.

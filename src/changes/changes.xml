@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.1.1">
+			<action dev="joniles" type="update">Improvements to writing currency, rate and units amounts to MSPDI files.</action>
 		</release>
 		<release date="2022-01-29" version="10.1.0">
 			<action dev="joniles" type="update">Improve PMXML file compatibility with P6.</action>

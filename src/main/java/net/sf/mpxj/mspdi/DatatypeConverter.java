@@ -671,7 +671,16 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printUnits(Number value)
    {
-      return (value == null ? BIGDECIMAL_ONE : new BigDecimal(value.doubleValue() / 100));
+      BigDecimal result;
+      if (value == null)
+      {
+         result = BIGDECIMAL_ONE;
+      }
+      else
+      {
+         result = new BigDecimal(UNITS_NUMBER_FORMAT.get().format(value.doubleValue() / 100));
+      }
+      return result;
    }
 
    /**
@@ -1166,7 +1175,16 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printCurrencyMandatory(Number value)
    {
-      return value == null || value.doubleValue() == 0 ? new BigDecimal(0) : new BigDecimal(value.doubleValue() * 100);
+      BigDecimal result;
+      if (value == null || value.doubleValue() == 0)
+      {
+         result = BIGDECIMAL_ZERO;
+      }
+      else
+      {
+         result = new BigDecimal(CURRENCY_NUMBER_FORMAT.get().format(value.doubleValue() * 100));
+      }
+      return result;
    }
 
    /**
@@ -1691,7 +1709,16 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printRateMandatory(Rate rate)
    {
-      return rate == null || rate.getAmount() == 0 ? new BigDecimal(0) : new BigDecimal(rate.getAmount());
+      BigDecimal result;
+      if (rate == null || rate.getAmount() == 0)
+      {
+         result = BIGDECIMAL_ZERO;
+      }
+      else
+      {
+         result = new BigDecimal(RATE_NUMBER_FORMAT.get().format(rate.getAmount()));
+      }
+      return result;
    }
 
    /**
@@ -1998,8 +2025,30 @@ public final class DatatypeConverter
       return format;
    });
 
+   private static final ThreadLocal<NumberFormat> UNITS_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
+   private static final ThreadLocal<NumberFormat> RATE_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
+   private static final ThreadLocal<NumberFormat> CURRENCY_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
 
+   private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
 
    private static final Map<WorkContour, String> WORK_CONTOUR_MAP = new HashMap<>();
