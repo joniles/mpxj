@@ -241,21 +241,19 @@ abstract class MPD9AbstractReader
       if (NumberHelper.getInt(uniqueID) > 0)
       {
          boolean baseCalendar = row.getBoolean("CAL_IS_BASE_CAL");
-         ProjectCalendar cal;
+         ProjectCalendar cal = m_project.addCalendar();
+         cal.setUniqueID(uniqueID);
+         m_calendarMap.put(uniqueID, cal);
+
          if (baseCalendar)
          {
-            cal = m_project.addCalendar();
             cal.setName(row.getString("CAL_NAME"));
          }
          else
          {
-            Integer resourceID = row.getInteger("RES_UID");
-            cal = m_project.addCalendar();
             m_baseCalendarReferences.add(new Pair<>(cal, row.getInteger("CAL_BASE_UID")));
          }
 
-         cal.setUniqueID(uniqueID);
-         m_calendarMap.put(uniqueID, cal);
          m_eventManager.fireCalendarReadEvent(cal);
       }
    }
