@@ -24,6 +24,7 @@
 package net.sf.mpxj.junit.project;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
@@ -59,6 +60,7 @@ public class DataLinksTest
    private void testDataLinks(File file) throws MPXJException
    {
       ProjectFile project = new UniversalProjectReader().read(file);
+      assertNotNull(project);
       DataLinkContainer dataLinks = project.getDataLinks();
       assertEquals(3, dataLinks.size());
    }
