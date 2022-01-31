@@ -44,11 +44,12 @@ final class Props9 extends Props
    {
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props9." + System.currentTimeMillis() + ".txt");
       //PrintWriter pw = new PrintWriter (fos);
+      if (is.available() < 16)
+      {
+         return;
+      }
 
-      byte[] header = new byte[16];
-      byte[] data;
-      is.read(header);
-
+      byte[] header = InputStreamHelper.read(is, 16);
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
       int availableBytes = is.available();
@@ -65,8 +66,7 @@ final class Props9 extends Props
             break;
          }
 
-         data = new byte[itemSize];
-         is.read(data);
+         byte[] data = InputStreamHelper.read(is, itemSize);
          availableBytes -= itemSize;
 
          m_map.put(Integer.valueOf(itemKey), data);
