@@ -528,7 +528,10 @@ public final class FastTrackReader extends AbstractProjectFileReader
          for (String predecessor : predecessors.split(", "))
          {
             Matcher matcher = RELATION_REGEX.matcher(predecessor);
-            matcher.matches();
+            if (!matcher.matches())
+            {
+               continue;
+            }
 
             Integer id = Integer.valueOf(matcher.group(1));
             RelationType type = RELATION_TYPE_MAP.getOrDefault(matcher.group(3), RelationType.FINISH_START);
@@ -587,7 +590,10 @@ public final class FastTrackReader extends AbstractProjectFileReader
             }
 
             Matcher matcher = ASSIGNMENT_REGEX.matcher(assignment);
-            matcher.matches();
+            if (!matcher.matches())
+            {
+               continue;
+            }
 
             Resource resource = resources.get(matcher.group(1));
             if (resource != null)

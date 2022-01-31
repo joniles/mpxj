@@ -130,8 +130,13 @@ public class InputStreamHelper
     */
    public static byte[] read(InputStream is, byte[] data) throws IOException
    {
-      int bytesRead = is.read(data);
-      if (bytesRead != data.length)
+      return read(is, data, data.length);
+   }
+
+   public static byte[] read(InputStream is, byte[] data, int size) throws IOException
+   {
+      int bytesRead = is.read(data, 0, size);
+      if (bytesRead != size)
       {
          throw new RuntimeException("Unable to read the required number of bytes");
       }

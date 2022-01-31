@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
+
 /**
  * This class reads in the data from a VarMeta block. This block contains
  * meta data about variable length data items stored in a Var2Data block.
@@ -75,7 +77,8 @@ final class VarMeta9 extends AbstractVarMeta
 
       for (int loop = 0; loop < m_itemCount; loop++)
       {
-         is.read(uniqueIDArray, 0, 3);
+         InputStreamHelper.read(is, uniqueIDArray, 3);
+
          uniqueID = Integer.valueOf(MPPUtility.getInt(uniqueIDArray, 0));
 
          type = Integer.valueOf(readByte(is));
