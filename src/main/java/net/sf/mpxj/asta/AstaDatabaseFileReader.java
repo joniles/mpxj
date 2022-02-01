@@ -292,7 +292,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
    {
       List<Row> list = new ArrayList<>();
-      String[] patterns = workPatterns.split(",|:");
+      String[] patterns = workPatterns.split("[,:]");
       int index = 1;
       while (index < patterns.length)
       {
@@ -340,7 +340,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createExceptionAssignmentRowList(String exceptionData)
    {
       List<Row> list = new ArrayList<>();
-      String[] exceptions = exceptionData.split(",|:");
+      String[] exceptions = exceptionData.split("[,:]");
       int index = 1;
       while (index < exceptions.length)
       {
@@ -387,7 +387,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
    {
       List<Row> list = new ArrayList<>();
-      String[] shifts = shiftData.split(",|:");
+      String[] shifts = shiftData.split("[,:]");
       int index = 1;
       while (index < shifts.length)
       {

@@ -78,7 +78,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
 
    private static final int BUFFER_SIZE = 512;
 
-   private static final Pattern VERSION_PATTERN = Pattern.compile(".*<project.* version=\\\"((?:\\d\\.)*\\d*)\\\".*", Pattern.DOTALL);
+   private static final Pattern VERSION_PATTERN = Pattern.compile(".*<project.* version=\"((?:\\d\\.)*\\d*)\".*", Pattern.DOTALL);
 
    private static final SemVer VERSION_4 = new SemVer(4);
    private static final SemVer VERSION_5 = new SemVer(5);
