@@ -708,9 +708,9 @@ public final class FastTrackReader extends AbstractProjectFileReader
    private ProjectFile m_project;
    private EventManager m_eventManager;
 
-   private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
-   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
-   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:(?:\\[(-?\\d+)\\%\\])|(?:\\[.+\\]))?");
+   private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|-|\\+|/|,|:|;|~|\\\\|\\| )");
+   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*([-+])*(\\d+\\.\\d+)*");
+   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:\\[(-?\\d+)%]|\\[.+])?");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
