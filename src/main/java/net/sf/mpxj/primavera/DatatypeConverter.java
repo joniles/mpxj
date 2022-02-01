@@ -59,10 +59,8 @@ public final class DatatypeConverter
             {
                // Standard XER representation: CrkTPqCalki5irI4SJSsRA
                byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
-               long msb = 0;
-               long lsb = 0;
 
-               msb = (msb << 8) | (data[3] & 0xff);
+               long msb = (data[3] & 0xff);
                msb = (msb << 8) | (data[2] & 0xff);
                msb = (msb << 8) | (data[1] & 0xff);
                msb = (msb << 8) | (data[0] & 0xff);
@@ -71,6 +69,7 @@ public final class DatatypeConverter
                msb = (msb << 8) | (data[7] & 0xff);
                msb = (msb << 8) | (data[6] & 0xff);
 
+               long lsb = 0;
                for (int i = 8; i < 16; i++)
                {
                   lsb = (lsb << 8) | (data[i] & 0xff);

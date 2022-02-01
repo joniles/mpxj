@@ -922,20 +922,6 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_YEARS:
-            {
-               //
-               // Calculate the number of years
-               //
-               duration += xsd.getYears();
-               duration += ((double) xsd.getMonths() / 12);
-               duration += ((double) xsd.getDays() / 365);
-               duration += ((double) xsd.getHours() / (365 * 24));
-               duration += ((double) xsd.getMinutes() / (365 * 24 * 60));
-               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
-               break;
-            }
-
             case MONTHS:
             {
                //
@@ -947,48 +933,6 @@ public final class DatatypeConverter
                duration += ((double) xsd.getHours() / (30 * 24));
                duration += ((double) xsd.getMinutes() / (30 * 24 * 60));
                duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               break;
-            }
-
-            case ELAPSED_MONTHS:
-            {
-               //
-               // Calculate the number of months
-               //
-               duration += (xsd.getYears() * 12);
-               duration += xsd.getMonths();
-               duration += ((double) xsd.getDays() / 30);
-               duration += ((double) xsd.getHours() / (30 * 24));
-               duration += ((double) xsd.getMinutes() / (30 * 24 * 60));
-               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               break;
-            }
-
-            case WEEKS:
-            {
-               //
-               // Calculate the number of weeks
-               //
-               duration += (xsd.getYears() * 52);
-               duration += (xsd.getMonths() * 4);
-               duration += ((double) xsd.getDays() / 7);
-               duration += ((double) xsd.getHours() / (7 * 24));
-               duration += ((double) xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
-               break;
-            }
-
-            case ELAPSED_WEEKS:
-            {
-               //
-               // Calculate the number of weeks
-               //
-               duration += (xsd.getYears() * 52);
-               duration += (xsd.getMonths() * 4);
-               duration += ((double) xsd.getDays() / 7);
-               duration += ((double) xsd.getHours() / (7 * 24));
-               duration += ((double) xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -1006,22 +950,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_DAYS:
-            {
-               //
-               // Calculate the number of days
-               //
-               duration += (xsd.getYears() * 365);
-               duration += (xsd.getMonths() * 30);
-               duration += xsd.getDays();
-               duration += ((double) xsd.getHours() / 24);
-               duration += ((double) xsd.getMinutes() / (24 * 60));
-               duration += (xsd.getSeconds() / (24 * 60 * 60));
-               break;
-            }
-
             case HOURS:
-            case ELAPSED_HOURS:
             {
                //
                // Calculate the number of hours

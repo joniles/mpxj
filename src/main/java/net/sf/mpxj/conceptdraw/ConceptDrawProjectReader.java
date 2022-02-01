@@ -279,14 +279,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
     */
    private void readTasks(Document cdp)
    {
-      //
-      // Sort the projects into the correct order
-      //
-      List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
-      final AlphanumComparator comparator = new AlphanumComparator();
-
-      projects.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
-
       for (Project project : cdp.getProjects().getProject())
       {
          readProject(project);
