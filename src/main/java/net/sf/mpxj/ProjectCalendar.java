@@ -1144,15 +1144,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarException midVal = m_expandedExceptions.get(mid);
-            int cmp = -DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
+            int cmp = DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
 
-            if (cmp < 0)
+            if (cmp > 0)
             {
                low = mid + 1;
             }
             else
             {
-               if (cmp > 0)
+               if (cmp < 0)
                {
                   high = mid - 1;
                }
@@ -1194,15 +1194,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarWeek midVal = m_workWeeks.get(mid);
-            int cmp = -DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
+            int cmp = DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
 
-            if (cmp < 0)
+            if (cmp > 0)
             {
                low = mid + 1;
             }
             else
             {
-               if (cmp > 0)
+               if (cmp < 0)
                {
                   high = mid - 1;
                }
