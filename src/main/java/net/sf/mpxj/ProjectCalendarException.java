@@ -136,31 +136,23 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    {
       List<ProjectCalendarException> result = new ArrayList<>();
 
-      if (m_recurring == null)
+      if (m_recurring == null || m_recurring.getRecurrenceType() == RecurrenceType.DAILY && NumberHelper.getInt(m_recurring.getFrequency()) == 1)
       {
          result.add(this);
       }
       else
       {
-         // TODO: fold into statement above once we have updated the test data
-         if (m_recurring.getRecurrenceType() == RecurrenceType.DAILY && NumberHelper.getInt(m_recurring.getFrequency()) == 1)
+         for (Date date : m_recurring.getDates())
          {
-            result.add(this);
-         }
-         else
-         {
-            for (Date date : m_recurring.getDates())
+            Date startDate = DateHelper.getDayStartDate(date);
+            Date endDate = DateHelper.getDayEndDate(date);
+            ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+            int rangeCount = getRangeCount();
+            for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
             {
-               Date startDate = DateHelper.getDayStartDate(date);
-               Date endDate = DateHelper.getDayEndDate(date);
-               ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
-               int rangeCount = getRangeCount();
-               for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
-               {
-                  newException.addRange(getRange(rangeIndex));
-               }
-               result.add(newException);
+               newException.addRange(getRange(rangeIndex));
             }
+            result.add(newException);
          }
       }
 
