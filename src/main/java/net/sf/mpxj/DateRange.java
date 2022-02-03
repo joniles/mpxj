@@ -101,8 +101,8 @@ public final class DateRange implements Comparable<DateRange>
 
    @Override public int hashCode()
    {
-      long start = m_start.getTime();
-      long end = m_end.getTime();
+      long start = m_start == null ? 0 : m_start.getTime();
+      long end = m_end == null ? 0 : m_end.getTime();
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
