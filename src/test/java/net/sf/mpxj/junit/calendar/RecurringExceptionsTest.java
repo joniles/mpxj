@@ -81,20 +81,19 @@ public class RecurringExceptionsTest
       ProjectCalendar calendar = project.getCalendarByName("Standard");
       List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
 
+      // The definition of this in MS Project is _technically_ a recurring
+      // exception, but we're flattening it as it doesn't actually recur.
       ProjectCalendarException exception = exceptions.get(0);
       assertEquals("Daily 1", exception.getName());
       assertFalse(exception.getWorking());
-      RecurringData data = exception.getRecurring();
-      assertEquals(RecurrenceType.DAILY, data.getRecurrenceType());
-      assertEquals(Integer.valueOf(1), data.getFrequency());
-      assertEquals("01/01/2000", m_df.format(data.getStartDate()));
-      assertEquals(Integer.valueOf(3), data.getOccurrences());
+      assertNull(exception.getRecurring());
       assertEquals(1, exception.getExpandedExceptions().size());
+      assertEquals("01/01/2000", m_df.format(exception.getFromDate()));
 
       exception = exceptions.get(1);
       assertEquals("Daily 2", exception.getName());
       assertFalse(exception.getWorking());
-      data = exception.getRecurring();
+      RecurringData data = exception.getRecurring();
       assertEquals(RecurrenceType.DAILY, data.getRecurrenceType());
       assertEquals(Integer.valueOf(3), data.getFrequency());
       assertEquals("01/02/2000", m_df.format(data.getStartDate()));

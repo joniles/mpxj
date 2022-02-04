@@ -655,9 +655,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             }
          }
 
-         if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getDates().length > 1)
+         //
+         // Flatten daily recurring exceptions if they only result in one date range.
+         //
+         bce.setRecurring(rd);
+         if (rd.getRecurrenceType() == RecurrenceType.DAILY && bce.getExpandedExceptions().size() == 1)
          {
-            bce.setRecurring(rd);
+            bce.setRecurring(null);
+
          }
       }
    }

@@ -37,6 +37,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Shared code used to read calendar data from MPP files.
@@ -195,12 +196,12 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                }
 
                //
-               // The default values for a non-recurring exception are daily, with 1 occurrence.
-               // Only add recurrence data if it is non-default.
+               // Flatten daily recurring exceptions if they only result in one date range.
                //
-               if (rd.getRecurrenceType() != RecurrenceType.DAILY || rd.getOccurrences().intValue() != 1)
+               exception.setRecurring(rd);
+               if (rd.getRecurrenceType() == RecurrenceType.DAILY && exception.getExpandedExceptions().size() == 1)
                {
-                  exception.setRecurring(rd);
+                  exception.setRecurring(null);
                }
 
                offset += (92 + exceptionNameLength);

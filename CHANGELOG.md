@@ -2,6 +2,7 @@
 
 ## 10.1.1 (unreleased)
 * Improvements to writing currency, rate and units amounts to MSPDI files.
+* When reading MPP and MSPDI files, calendar exceptions representing a single range of days, but defined as a recurring exception are converted to a range of days, removing the unnecessary recurring definition.
 
 ## 10.1.0 (2022-01-29)
 * Improve PMXML file compatibility with P6.
