@@ -37,7 +37,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Shared code used to read calendar data from MPP files.
