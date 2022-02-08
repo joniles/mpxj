@@ -1,7 +1,7 @@
 # Converting Files
 
 To convert project data between different formats you read the source 
-data using an appropriate Reader class, the write the data using a Writer
+data using an appropriate Reader class, then write the data using a Writer
 class which matches the format you want to convert to.
 
 MPXJ can do a lot of the work for you, as the example below illustrates. The

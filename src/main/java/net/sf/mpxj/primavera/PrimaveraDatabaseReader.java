@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.sql.DataSource;
 
@@ -48,7 +46,6 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.reader.AbstractProjectReader;
 
@@ -267,14 +264,8 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
       if (!rows.isEmpty())
       {
-         Row row = rows.get(0);
-         Record record = Record.getRecord(row.getString("prop_value"));
-         if (record != null)
-         {
-            String[] keyValues = record.getValue().split("\\|");
-            MapRow mapRow = new MapRow(IntStream.range(1, keyValues.length).filter(i -> i % 2 != 0).mapToObj(i -> new Pair<>(keyValues[i - 1], keyValues[i])).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)));
-            m_reader.processScheduleOptions(mapRow);
-         }
+         StructuredTextRecord record = new StructuredTextParser().parse(rows.get(0).getString("prop_value"));
+         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes())));
       }
    }
 
@@ -386,7 +377,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          try
          {
             String name = row.getString("curv_name");
-            double[] values = Record.getRecord(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getValue().split("\\|")[1])).toArray();
+            double[] values = new StructuredTextParser().parse(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getAttribute("PctUsage"))).toArray();
             result.put(row.getInteger("curv_id"), new WorkContour(name, values));
          }
 

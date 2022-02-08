@@ -104,7 +104,7 @@ specification for the file format can be found
 * **SCHEDULE_GRID:** Schedule grid files are produced when a schedule is exported
 from Sage 100 Contractor. MPXJ can read schedule grid files.
 
-* **PROJECT COMMANDER:** Project Commander files are are the native file format used
+* **PROJECT COMMANDER:** Project Commander files are the native file format used
 by the Project Commander application. Project Commander writes PC files which MPXJ can read.
 
 ## Supported Languages
@@ -119,7 +119,7 @@ original code was written  in Java. As part of the MPXJ release process the
 Java and .Net libraries are both exercised using the same set of regression
 tests to ensure that their behaviour is identical. Both the Java and .Net
 versions of the library are used in production commercial applications - so
-you can confident that the code will work for you!
+you can be confident that the code will work for you!
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
 native Ruby access to read from schedule files using MPXJ, and a [Python
@@ -213,16 +213,11 @@ Please see the legal folder within the distribution for details of the
 licences for the third party libraries used by MPXJ.
 
 ## Acknowledgements
-This product includes functionality provided by [POI](http://poi.apache.org/).
-
-This product includes functionality provided by [IKVM.NET](http://www.ikvm.net/).
-
-This product includes functionality provided by [RTF Parser Kit](https://github.com/joniles/rtfparserkit). 
-
-This product includes functionality provided by [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc).
-
-This product includes functionality provided by [ZLIB/CONTRIB](https://github.com/madler/zlib).
-
-This product includes functionality provided by [JWAT](http://jwat.org/).
-
-This product includes functionality provided by [JSOUP](http://jsoup.org/).
+This product includes functionality provided by the following tools and libraries:
+* [POI](http://poi.apache.org/).
+* [IKVM.NET](http://www.ikvm.net/).
+* [RTF Parser Kit](https://github.com/joniles/rtfparserkit). 
+* [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc).
+* [ZLIB/CONTRIB](https://github.com/madler/zlib).
+* [JWAT](http://jwat.org/).
+* [JSOUP](http://jsoup.org/).

@@ -50,7 +50,7 @@ ProjectFile projectFile = reader.read();
 ```
 
 You can also connect to a standalone SQLite P6 database. This
-is easier to achieve as a specific reader class has bee created
+is easier to achieve as a specific reader class has been created
 which manages the database connection for you:
 
 ```java
@@ -93,7 +93,7 @@ c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:lib
 ```
 
 You can then add a reference to this assembly to your project. Configuring the
-JDBC driver needs to be done in a slightly different way than you would using
+JDBC driver needs to be done in a slightly different way than you would when using
 Java. Here we need to create an instance of the JDBC driver class directly,
 rather than referencing it by name as we would in Java.
 
@@ -139,10 +139,10 @@ reader.setMatchPrimaveraWBS(false);
 ```
 
 ### WBS is Full Path
-Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
-separated hierarchy of all of the parent WBS attributes.
+Currently, the WBS attribute of summary tasks (WBS entities in P6) will be a dot
+separated hierarchy of all the parent WBS attributes.
 In this example, `root.wbs1.wbs2` is the WBS attribute for `wbs2` which has
-the parents `root` and `wbs1`. To disabled this behaviour, and simply record
+the parents `root` and `wbs1`. To disable this behaviour, and simply record
 the code for the current WBS entry (in the example above `wbs2`) call the
 `setWbsIsFullPath` method, passing in `false`, as illustrated below.  
 
@@ -183,7 +183,7 @@ from one custom type to another.
 * FT_MONEY: COST, ENTERPRISE_COST
    
 You can modify the default mappings used between P6 user defined fields and MPXJ
-custom fields using the the methods shown in the code sample below:
+custom fields using the methods shown in the code sample below:
 
 ```java
 import net.sf.mpxj.ProjectFile;

@@ -2,7 +2,7 @@
 A Primavera SureTrak installation stores project data as a database consisting
 of a number of individual files. In a typical SureTrak installation files for a
 number of different projects live in a single projects directory. A SureTrak
-user can back up an individual project to create a STX file, which is a
+user can back up an individual project to create an STX file, which is a
 compressed archive containing all of the files from a single project.
 
 ## Reading STX files

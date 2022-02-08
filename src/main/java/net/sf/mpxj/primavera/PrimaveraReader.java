@@ -382,9 +382,11 @@ final class PrimaveraReader
       String calendarData = row.getString("clndr_data");
       if (calendarData != null && !calendarData.isEmpty())
       {
-         Record root = Record.getRecord(calendarData);
-         Record daysOfWeek = root == null ? null : root.getChild("DaysOfWeek");
-         Record exceptions = root == null ? null : root.getChild("Exceptions");
+         StructuredTextParser parser = new StructuredTextParser();
+         parser.setRaiseExceptionOnParseError(false);
+         StructuredTextRecord root = parser.parse(calendarData);
+         StructuredTextRecord daysOfWeek = root.getChild("DaysOfWeek");
+         StructuredTextRecord exceptions = root.getChild("Exceptions");
 
          if (daysOfWeek == null)
          {
@@ -520,9 +522,9 @@ final class PrimaveraReader
     * @param calendar project calendar
     * @param daysOfWeek calendar data
     */
-   private void processCalendarDays(ProjectCalendar calendar, Record daysOfWeek)
+   private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
    {
-      for (Record dayRecord : daysOfWeek.getChildren())
+      for (StructuredTextRecord dayRecord : daysOfWeek.getChildren())
       {
          processCalendarHours(calendar, dayRecord);
       }
@@ -534,14 +536,14 @@ final class PrimaveraReader
     * @param calendar project calendar
     * @param dayRecord working day data
     */
-   private void processCalendarHours(ProjectCalendar calendar, Record dayRecord)
+   private void processCalendarHours(ProjectCalendar calendar, StructuredTextRecord dayRecord)
    {
       // ... for each day of the week
-      Day day = Day.getInstance(Integer.parseInt(dayRecord.getField()));
+      Day day = Day.getInstance(Integer.parseInt(dayRecord.getRecordName()));
       if (day != null)
       {
          // Get hours
-         List<Record> recHours = dayRecord.getChildren();
+         List<StructuredTextRecord> recHours = dayRecord.getChildren();
          if (recHours.size() == 0)
          {
             // No data -> not working
@@ -552,7 +554,7 @@ final class PrimaveraReader
             calendar.setWorkingDay(day, true);
             // Read hours
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            for (Record recWorkingHours : recHours)
+            for (StructuredTextRecord recWorkingHours : recHours)
             {
                addHours(hours, recWorkingHours);
             }
@@ -566,41 +568,33 @@ final class PrimaveraReader
     * @param ranges hours container
     * @param hoursRecord hours record
     */
-   private void addHours(ProjectCalendarDateRanges ranges, Record hoursRecord)
+   private void addHours(ProjectCalendarDateRanges ranges, StructuredTextRecord hoursRecord)
    {
-      if (hoursRecord.getValue() != null)
+      String startText = hoursRecord.getAttribute("s");
+      String endText = hoursRecord.getAttribute("f");
+
+      // Ignore incomplete records
+      if (startText == null || endText == null)
       {
-         String[] wh = hoursRecord.getValue().split("\\|");
-         try
-         {
-            String startText;
-            String endText;
+         return;
+      }
 
-            if (wh[0].equals("s"))
-            {
-               startText = wh[1];
-               endText = wh[3];
-            }
-            else
-            {
-               startText = wh[3];
-               endText = wh[1];
-            }
+      // for end time treat midnight as midnight next day
+      if (endText.equals("00:00"))
+      {
+         endText = "24:00";
+      }
 
-            // for end time treat midnight as midnight next day
-            if (endText.equals("00:00"))
-            {
-               endText = "24:00";
-            }
-            Date start = m_calendarTimeFormat.parse(startText);
-            Date end = m_calendarTimeFormat.parse(endText);
+      try
+      {
+         Date start = m_calendarTimeFormat.parse(startText);
+         Date end = m_calendarTimeFormat.parse(endText);
+         ranges.addRange(new DateRange(start, end));
+      }
 
-            ranges.addRange(new DateRange(start, end));
-         }
-         catch (ParseException e)
-         {
-            // silently ignore date parse exceptions
-         }
+      catch (ParseException e)
+      {
+         // silently ignore date parse exceptions
       }
    }
 
@@ -610,15 +604,15 @@ final class PrimaveraReader
     * @param calendar project calendar
     * @param exceptions calendar data
     */
-   private void processCalendarExceptions(ProjectCalendar calendar, Record exceptions)
+   private void processCalendarExceptions(ProjectCalendar calendar, StructuredTextRecord exceptions)
    {
-      for (Record exception : exceptions.getChildren())
+      for (StructuredTextRecord exception : exceptions.getChildren())
       {
-         long daysFromEpoch = Integer.parseInt(exception.getValue().split("\\|")[1]);
+         long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
          Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
 
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
-         for (Record exceptionHours : exception.getChildren())
+         for (StructuredTextRecord exceptionHours : exception.getChildren())
          {
             addHours(pce, exceptionHours);
          }

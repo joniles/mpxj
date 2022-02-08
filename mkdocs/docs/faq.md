@@ -28,7 +28,7 @@ output file formats contain these attributes.
 with two copies of the file open. What's happening?**
 
 This isn't an issue with MPXJ - but we have an answer for you anyway! The
-problem is caused by a incorrect setting in Microsoft Windows which controls the
+problem is caused by an incorrect setting in Microsoft Windows which controls the
 way MPX files are opened. To fix the setting, open the Control Panel and click
 on the "Folder Options" icon. Select the "File Types" tab and scroll down the
 list of file types until you find an entry for MPX. Once you have found the
@@ -53,7 +53,7 @@ Yes there is. Assuming you are using a version of MPXJ prior to 8.0.0,
 try using [Retroweaver](http://retroweaver.sourceforge.net/).
 
 ## Known Issues with MPXJ
-**I have an MPP file created by MS Project 98, and some of the Flag field values
+**I have an MPP file created by MS Project 98, and some Flag field values
 are incorrect.**
 
 The MPP8 file format is rather cryptic, and one part of it that I have yet to
@@ -96,12 +96,12 @@ MPXJ supports a small number of non-English locales, and can read and write MPX
 files correctly for those locales. You can also use MPXJ to translate MPX files
 from one locale to another. The MPXFile.setLocale() method must be called prior
 to reading or writing an MPX file in order to set the required locale. By
-default MPXJ will always produce MPX files for the International/English locale,
+default, MPXJ will always produce MPX files for the International/English locale,
 regardless of the locale for which your operating system if configured.
 
-Currently supported locales for MPX files include German, Spanish, French,
+Supported locales for MPX files currently include German, Spanish, French,
 Italian, Portuguese, Swedish, and Simplified Chinese. Producing a translation
-for you locale is very easy, please contact us for details on how you can help
+for your locale is very easy, please contact us for details on how you can help
 us to do this.
 
 **When I write an MPX file, changes to the project header settings I've made

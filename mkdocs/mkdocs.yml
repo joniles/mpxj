@@ -43,6 +43,7 @@ nav:
     - 'GanttProject files': 'howto-read-ganttproject.md'
     - 'Phoenix files': 'howto-read-phoenix.md'
     - 'PMXML files': 'howto-read-pmxml.md'
+    - 'PLF files': 'howto-read-plf.md'
     - 'P6 databases': 'howto-read-primavera.md'
     - 'XER files': 'howto-read-xer.md'
     - 'Merlin files': 'howto-read-merlin.md'

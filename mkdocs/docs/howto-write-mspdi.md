@@ -99,7 +99,7 @@ you have a 10 day block with 8 hours work per day, this can either be
 represented as 10 entries in the file each for a single day with a value of 8
 hours, or a single entry for a 10 day range with a value of 80 hours. Although
 the latter case is more compact, if you are consuming the MSPDI timephased data
-yourself you will need to differentiate between working an non-working days n
+yourself you will need to differentiate between working and non-working days in
 order to break the single block down into smaller ranges. The default day-by-day
 format MPXJ writes does this for you automatically.
 

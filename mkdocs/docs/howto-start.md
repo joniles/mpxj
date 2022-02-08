@@ -290,7 +290,7 @@ the working hours for each day, each calendar defines a set of exceptions which
 are used to "override" the default working or non-working hours for individual
 days or entire date ranges. Methods are provided to allow a list of  all
 exceptions defined by a calendar can be retrieved, or to retrieve the exception
-which covers an individual date. Calendar exceptions are are represented by 
+which covers an individual date. Calendar exceptions are represented by 
 instances of the ProjectCalendarException class. 
 
 
