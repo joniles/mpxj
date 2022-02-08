@@ -25,7 +25,7 @@ individually by name, as shown below:
 record.getAttribute("attribute_name");
 ```
 
-The attribuets can also be retrieved in the form of a `Map` containing
+The attributes can also be retrieved in the form of a `Map` containing
 all attributes for this record:
 
 ```java
@@ -53,7 +53,7 @@ Along with a set of attributes, each `StructuredTextRecord` may have child
 List<StructuredTextRecord> childRecords = record.getChildren();
 ```
 
-Certain record types are named, and where this is the case child record can
+Certain record types are named, and where this is the case a child record can
 be retrieved individually by name:
 
 ```java
