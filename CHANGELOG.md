@@ -4,6 +4,7 @@
 * Improvements to writing currency, rate and units amounts to MSPDI files.
 * When reading MPP and MSPDI files, calendar exceptions representing a single range of days, but defined as a recurring exception are converted to a range of days, removing the unnecessary recurring definition.
 * Added `StructuredTextParser` to replace original code handling calendar data, project properties and curve data read from XER files and Primavera databases. Can also be used to extract data from Primavera Layout Files (PLF).
+* Improve recognition of contoured resource assignments read from MPP files.
 
 ## 10.1.0 (2022-01-29)
 * Improve PMXML file compatibility with P6.

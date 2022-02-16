@@ -75,10 +75,11 @@ public class ResourceAssignmentFactory
       TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       ProjectCalendar baselineCalendar = file.getBaselineCalendar();
 
-      //System.out.println(assnFixedMeta);
-      //System.out.println(assnFixedData);
-      //System.out.println(assnVarMeta.toString(fieldMap));
-      //System.out.println(assnVarData);
+      //      System.out.println(assnFixedMeta);
+      //      System.out.println(assnFixedData);
+      //      System.out.println(assnFixedData2);
+      //      System.out.println(assnVarMeta.toString(fieldMap));
+      //      System.out.println(assnVarData);
 
       MppBitFlag[] metaDataBitFlags;
       if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 14)
@@ -248,19 +249,16 @@ public class ResourceAssignmentFactory
 
             if (timephasedWorkData != null)
             {
-               if (timephasedFactory.getWorkModified(timephasedWork))
-               {
-                  assignment.setWorkContour(WorkContour.CONTOURED);
-               }
-               else
+               // TODO: there is some additional logic around split tasks we need to account for,
+               // the flag alone doesn't seem to be set for contoured split tasks.
+
+               // If the assignment is contoured, this will already have been set by the time we get here.               
+               // If we're still set to flat, retrieve the actual work contour setting from the timephased data.
+               if (assignment.getWorkContour() == WorkContour.FLAT)
                {
                   if (timephasedWorkData.length >= 30)
                   {
                      assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(timephasedWorkData, 28)));
-                  }
-                  else
-                  {
-                     assignment.setWorkContour(WorkContour.FLAT);
                   }
                }
             }
@@ -389,7 +387,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG17, 28, 0x00400000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG18, 28, 0x00800000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG19, 28, 0x01000000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG20, 28, 0x02000000, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.FLAG20, 28, 0x02000000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00000010, WorkContour.FLAT, WorkContour.CONTOURED)
    };
 
    private static final MppBitFlag[] PROJECT_2010_ASSIGNMENT_META_DATA_BIT_FLAGS =
@@ -413,7 +412,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG17, 28, 0x020000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG18, 28, 0x040000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG19, 28, 0x080000, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG20, 28, 0x100000, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.FLAG20, 28, 0x100000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00000010, WorkContour.FLAT, WorkContour.CONTOURED)
    };
 
    private static final MppBitFlag[] PROJECT_2013_ASSIGNMENT_META_DATA_BIT_FLAGS =
@@ -437,7 +437,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG17, 25, 0x000200, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG18, 25, 0x000400, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG19, 25, 0x000800, Boolean.FALSE, Boolean.TRUE),
-      new MppBitFlag(AssignmentField.FLAG20, 25, 0x001000, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.FLAG20, 25, 0x001000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00040000, WorkContour.FLAT, WorkContour.CONTOURED)
    };
 
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
