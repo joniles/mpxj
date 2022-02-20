@@ -158,7 +158,6 @@ public class ResourceAssignmentFactory
          }
 
          assignment.setResponsePending((meta[9] & 0x01) != 0);
-         assignment.setTeamStatusPending((meta[10] & 0x02) != 0);
 
          // Map the null resource ID value to null
          if (NumberHelper.equals(assignment.getResourceUniqueID(), MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID))
@@ -388,7 +387,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG19, 28, 0x01000000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG20, 28, 0x02000000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00000010, WorkContour.FLAT, WorkContour.CONTOURED),
-      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00000080, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00000080, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x00020000, Boolean.FALSE, Boolean.TRUE)
    };
 
    private static final MppBitFlag[] PROJECT_2010_ASSIGNMENT_META_DATA_BIT_FLAGS =
@@ -414,7 +414,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG19, 28, 0x080000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG20, 28, 0x100000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00000010, WorkContour.FLAT, WorkContour.CONTOURED),
-      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00000080, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00000080, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x00020000, Boolean.FALSE, Boolean.TRUE)
    };
 
    private static final MppBitFlag[] PROJECT_2013_ASSIGNMENT_META_DATA_BIT_FLAGS =
@@ -440,7 +441,8 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.FLAG19, 25, 0x000800, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG20, 25, 0x001000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.WORK_CONTOUR, 8, 0x00040000, WorkContour.FLAT, WorkContour.CONTOURED),
-      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00800000, Boolean.FALSE, Boolean.TRUE)
+      new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00800000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x02000000, Boolean.FALSE, Boolean.TRUE)
    };
 
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
