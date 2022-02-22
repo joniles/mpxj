@@ -890,6 +890,7 @@ Hyperlink Screen Tip| |✓|✓|✓
 Hyperlink Subaddress| |✓|✓|✓
 Leveling Delay| |✓|✓|✓
 Leveling Delay Units| |✓| |✓
+Linked Fields| |✓|✓|✓
 Notes| |✓|✓|✓
 Overtime Work| |✓|✓|✓
 Owner| | |✓|✓
