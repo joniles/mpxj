@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Duration;
@@ -152,10 +153,7 @@ public class ResourceAssignmentFactory
 
          assignment.enableEvents();
 
-         for (MppBitFlag flag : metaDataBitFlags)
-         {
-            flag.setValue(assignment, meta);
-         }
+         Stream.of(metaDataBitFlags).forEach(f -> f.setValue(assignment, meta));
 
          // Map the null resource ID value to null
          if (NumberHelper.equals(assignment.getResourceUniqueID(), MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID))
@@ -196,29 +194,11 @@ public class ResourceAssignmentFactory
                calendar = task.getEffectiveCalendar();
             }
 
-            assignment.setTimephasedBaselineWork(0, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(1, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE1_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(2, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE2_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(3, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE3_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(4, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE4_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(5, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE5_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(6, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE6_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(7, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE7_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(8, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE8_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(9, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE9_WORK)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineWork(10, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE10_WORK)), !useRawTimephasedData));
-
-            assignment.setTimephasedBaselineCost(0, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(1, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE1_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(2, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE2_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(3, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE3_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(4, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE4_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(5, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE5_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(6, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE6_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(7, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE7_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(8, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE8_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(9, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE9_COST)), !useRawTimephasedData));
-            assignment.setTimephasedBaselineCost(10, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_BASELINE10_COST)), !useRawTimephasedData));
+            for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
+            {
+               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+            }
 
             byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
             byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
@@ -447,6 +427,36 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00800000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x02000000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x01000000, Boolean.FALSE, Boolean.TRUE)
+   };
+
+   private static final AssignmentField[] TIMEPHASED_BASELINE_WORK =
+   {
+      AssignmentField.TIMEPHASED_BASELINE_WORK,
+      AssignmentField.TIMEPHASED_BASELINE1_WORK,
+      AssignmentField.TIMEPHASED_BASELINE2_WORK,
+      AssignmentField.TIMEPHASED_BASELINE3_WORK,
+      AssignmentField.TIMEPHASED_BASELINE4_WORK,
+      AssignmentField.TIMEPHASED_BASELINE5_WORK,
+      AssignmentField.TIMEPHASED_BASELINE6_WORK,
+      AssignmentField.TIMEPHASED_BASELINE7_WORK,
+      AssignmentField.TIMEPHASED_BASELINE8_WORK,
+      AssignmentField.TIMEPHASED_BASELINE9_WORK,
+      AssignmentField.TIMEPHASED_BASELINE10_WORK
+   };
+
+   private static final AssignmentField[] TIMEPHASED_BASELINE_COST =
+   {
+      AssignmentField.TIMEPHASED_BASELINE_COST,
+      AssignmentField.TIMEPHASED_BASELINE1_COST,
+      AssignmentField.TIMEPHASED_BASELINE2_COST,
+      AssignmentField.TIMEPHASED_BASELINE3_COST,
+      AssignmentField.TIMEPHASED_BASELINE4_COST,
+      AssignmentField.TIMEPHASED_BASELINE5_COST,
+      AssignmentField.TIMEPHASED_BASELINE6_COST,
+      AssignmentField.TIMEPHASED_BASELINE7_COST,
+      AssignmentField.TIMEPHASED_BASELINE8_COST,
+      AssignmentField.TIMEPHASED_BASELINE9_COST,
+      AssignmentField.TIMEPHASED_BASELINE10_COST
    };
 
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);

@@ -100,7 +100,8 @@ abstract class FieldMap
 
          int dataBlockOffset = MPPUtility.getShort(data, index + 4);
          //int metaFlags = MPPUtility.getByte(data, index + 8);
-         FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
+         int typeValue = MPPUtility.getInt(data, index + 12);
+         FieldType type = getFieldType(typeValue);
          int category = MPPUtility.getShort(data, index + 20);
          //int sizeInBytes = MPPUtility.getShort(data, index + 22);
          //int metaIndex = MPPUtility.getInt(data, index + 24);
@@ -126,7 +127,7 @@ abstract class FieldMap
             Integer substitute = substituteVarDataKey(type);
             if (substitute == null)
             {
-               varDataKey = (MPPUtility.getInt(data, index + 12) & 0x0000FFFF);
+               varDataKey = typeValue & 0x0000FFFF;
             }
             else
             {
