@@ -167,6 +167,7 @@ Hide Bar|✓|✓|✓|✓
 Hyperlink| |✓|✓|✓
 Hyperlink Address| |✓|✓|✓
 Hyperlink Data| |✓|✓|✓
+Hyperlink Screen Tip| |✓|✓| 
 Hyperlink SubAddress| |✓|✓| 
 ID|✓|✓|✓|✓
 Ignore Resource Calendar| |✓|✓|✓

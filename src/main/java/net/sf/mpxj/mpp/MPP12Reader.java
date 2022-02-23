@@ -1497,24 +1497,25 @@ final class MPP12Reader implements MPPVariantReader
       if (data != null)
       {
          int offset = 12;
-         String hyperlink;
-         String address;
-         String subaddress;
 
          offset += 12;
-         hyperlink = MPPUtility.getUnicodeString(data, offset);
+         String hyperlink = MPPUtility.getUnicodeString(data, offset);
          offset += ((hyperlink.length() + 1) * 2);
 
          offset += 12;
-         address = MPPUtility.getUnicodeString(data, offset);
+         String address = MPPUtility.getUnicodeString(data, offset);
          offset += ((address.length() + 1) * 2);
 
          offset += 12;
-         subaddress = MPPUtility.getUnicodeString(data, offset);
+         String subaddress = MPPUtility.getUnicodeString(data, offset);
+
+         offset += 12;
+         String screentip = MPPUtility.getUnicodeString(data, offset);
 
          task.setHyperlink(hyperlink);
          task.setHyperlinkAddress(address);
          task.setHyperlinkSubAddress(subaddress);
+         task.setHyperlinkScreenTip(screentip);
       }
    }
 
@@ -1546,9 +1547,13 @@ final class MPP12Reader implements MPPVariantReader
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
 
+         offset += 12;
+         String screentip = MPPUtility.getUnicodeString(data, offset);
+
          resource.setHyperlink(hyperlink);
          resource.setHyperlinkAddress(address);
          resource.setHyperlinkSubAddress(subaddress);
+         resource.setHyperlinkScreenTip(screentip);
       }
    }
 

@@ -3488,6 +3488,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieves the task hyperlink screen tip attribute.
+    *
+    * @return hyperlink screen tip attribute
+    */
+   public String getHyperlinkScreenTip()
+   {
+      return ((String) getCachedValue(TaskField.HYPERLINK_SCREEN_TIP));
+   }
+
+   /**
     * Sets the task hyperlink attribute.
     *
     * @param text hyperlink attribute
@@ -3515,6 +3525,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setHyperlinkSubAddress(String text)
    {
       set(TaskField.HYPERLINK_SUBADDRESS, text);
+   }
+
+   /**
+    * Sets the task hyperlink screen tip attribute.
+    *
+    * @param text hyperlink screen tip attribute
+    */
+   public void setHyperlinkScreenTip(String text)
+   {
+      set(TaskField.HYPERLINK_SCREEN_TIP, text);
    }
 
    /**

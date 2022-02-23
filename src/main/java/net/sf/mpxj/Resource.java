@@ -346,6 +346,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Sets the hyperlink screen tip attribute.
+    *
+    * @param text hyperlink screen tip attribute
+    */
+   public void setHyperlinkScreenTip(String text)
+   {
+      set(ResourceField.HYPERLINK_SCREEN_TIP, text);
+   }
+
+   /**
+    * Retrieves the hyperlink screen tip attribute.
+    *
+    * @return hyperlink screen tip attribute
+    */
+   public String getHyperlinkScreenTip()
+   {
+      return ((String) getCachedValue(ResourceField.HYPERLINK_SCREEN_TIP));
+   }
+
+   /**
     * Sets the maximum availability of a resource.
     *
     * @param maxUnits maximum availability
