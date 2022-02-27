@@ -74,6 +74,7 @@ public class ResourceAssignmentFactory
       TimephasedWorkNormaliser normaliser = new MPPTimephasedWorkNormaliser();
       TimephasedWorkNormaliser baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
       TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
       ProjectCalendar baselineCalendar = file.getBaselineCalendar();
 
       //      System.out.println(assnFixedMeta);
@@ -161,7 +162,7 @@ public class ResourceAssignmentFactory
             assignment.setResourceUniqueID(null);
          }
 
-         processHyperlinkData(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
+         hyperlinkReader.read(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
 
          //
          // Post processing
@@ -241,40 +242,6 @@ public class ResourceAssignmentFactory
 
             file.getEventManager().fireAssignmentReadEvent(assignment);
          }
-      }
-   }
-
-   /**
-    * Extract assignment hyperlink data.
-    *
-    * @param assignment assignment instance
-    * @param data hyperlink data
-    */
-   private void processHyperlinkData(ResourceAssignment assignment, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-
-         offset += 12;
-         String hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         String address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         String subaddress = MPPUtility.getUnicodeString(data, offset);
-         offset += ((subaddress.length() + 1) * 2);
-
-         offset += 12;
-         String screentip = MPPUtility.getUnicodeString(data, offset);
-
-         assignment.setHyperlink(hyperlink);
-         assignment.setHyperlinkAddress(address);
-         assignment.setHyperlinkSubAddress(subaddress);
-         assignment.setHyperlinkScreenTip(screentip);
       }
    }
 

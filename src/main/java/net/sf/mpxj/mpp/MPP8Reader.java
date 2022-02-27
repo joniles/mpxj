@@ -405,7 +405,9 @@ final class MPP8Reader implements MPPVariantReader
       RecurringTaskReader recurringTaskReader = null;
       ProjectProperties properties = m_file.getProjectProperties();
       TimeUnit defaultProjectTimeUnits = properties.getDefaultDurationUnits();
-
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
+      hyperlinkReader.setHasScreenTip(false);
+      
       for (int loop = 0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -561,7 +563,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setFlag(20, (flags[2] & 0x10) != 0); // note that this is not correct
          //task.setFreeSlack();  // Calculated value
          task.setHideBar((data[16] & 0x01) != 0);
-         processHyperlinkData(task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
+         hyperlinkReader.read(task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
          task.setID(Integer.valueOf(id));
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 160));
@@ -754,40 +756,6 @@ final class MPP8Reader implements MPPVariantReader
       if (notes != null)
       {
          task.setNotesObject(new RtfNotes(notes));
-      }
-   }
-
-   /**
-    * This method is used to extract the task hyperlink attributes
-    * from a block of data and call the appropriate modifier methods
-    * to configure the specified task object.
-    *
-    * @param task task instance
-    * @param data hyperlink data block
-    */
-   private void processHyperlinkData(Task task, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-         String hyperlink;
-         String address;
-         String subaddress;
-
-         offset += 12;
-         hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         subaddress = MPPUtility.getUnicodeString(data, offset);
-
-         task.setHyperlink(hyperlink);
-         task.setHyperlinkAddress(address);
-         task.setHyperlinkSubAddress(subaddress);
       }
    }
 

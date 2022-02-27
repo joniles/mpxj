@@ -997,7 +997,8 @@ final class MPP12Reader implements MPPVariantReader
       boolean autoWBS = true;
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
-
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
+      
       for (Integer uniqueID : uniqueIdArray)
       {
          offset = taskMap.get(uniqueID);
@@ -1120,7 +1121,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setFlag(20, (metaData[40] & 0x01) != 0);
          task.setHideBar((metaData[10] & 0x80) != 0);
 
-         processHyperlinkData(task, taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
+         hyperlinkReader.read(task, taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
 
          task.setID(id);
 
@@ -1485,79 +1486,6 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * This method is used to extract the task hyperlink attributes
-    * from a block of data and call the appropriate modifier methods
-    * to configure the specified task object.
-    *
-    * @param task task instance
-    * @param data hyperlink data block
-    */
-   private void processHyperlinkData(Task task, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-
-         offset += 12;
-         String hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         String address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         String subaddress = MPPUtility.getUnicodeString(data, offset);
-
-         offset += 12;
-         String screentip = MPPUtility.getUnicodeString(data, offset);
-
-         task.setHyperlink(hyperlink);
-         task.setHyperlinkAddress(address);
-         task.setHyperlinkSubAddress(subaddress);
-         task.setHyperlinkScreenTip(screentip);
-      }
-   }
-
-   /**
-    * This method is used to extract the resource hyperlink attributes
-    * from a block of data and call the appropriate modifier methods
-    * to configure the specified task object.
-    *
-    * @param resource resource instance
-    * @param data hyperlink data block
-    */
-   private void processHyperlinkData(Resource resource, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-         String hyperlink;
-         String address;
-         String subaddress;
-
-         offset += 12;
-         hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         subaddress = MPPUtility.getUnicodeString(data, offset);
-
-         offset += 12;
-         String screentip = MPPUtility.getUnicodeString(data, offset);
-
-         resource.setHyperlink(hyperlink);
-         resource.setHyperlinkAddress(address);
-         resource.setHyperlinkSubAddress(subaddress);
-         resource.setHyperlinkScreenTip(screentip);
-      }
-   }
-
-   /**
     * This method extracts and collates constraint data.
     */
    private void processConstraintData() throws IOException
@@ -1602,7 +1530,8 @@ final class MPP12Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Resource resource;
-
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
+      
       for (Integer id : uniqueid)
       {
          offset = resourceMap.get(id);
@@ -1636,7 +1565,7 @@ final class MPP12Reader implements MPPVariantReader
 
          resource.setGUID(MPPUtility.getGUID(data2, 0));
 
-         processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
+         hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
 

@@ -164,11 +164,11 @@ Fixed Cost Accrual|✓|✓|✓|✓
 Free Slack| |✓|✓|✓
 GUID| | |✓|✓
 Hide Bar|✓|✓|✓|✓
-Hyperlink| |✓|✓|✓
-Hyperlink Address| |✓|✓|✓
+Hyperlink|✓|✓|✓|✓
+Hyperlink Address|✓|✓|✓|✓
 Hyperlink Data| |✓|✓|✓
-Hyperlink Screen Tip| |✓|✓| 
-Hyperlink SubAddress| |✓|✓| 
+Hyperlink Screen Tip| |✓|✓|✓
+Hyperlink SubAddress|✓|✓|✓|✓
 ID|✓|✓|✓|✓
 Ignore Resource Calendar| |✓|✓|✓
 Late Finish|✓|✓|✓|✓
@@ -621,9 +621,11 @@ Email Address| |✓|✓|✓
 GUID| | |✓|✓
 Generic| |✓|✓|✓
 Group|✓|✓|✓|✓
-Hyperlink| |✓| | 
-Hyperlink Address| |✓| | 
-Hyperlink Data| |✓| | 
+Hyperlink| |✓|✓|✓
+Hyperlink Address| |✓|✓|✓
+Hyperlink Data| |✓|✓|✓
+Hyperlink Screen Tip| |✓|✓|✓
+Hyperlink SubAddress| |✓|✓|✓
 ID|✓|✓|✓|✓
 Initials|✓|✓|✓|✓
 Material Label| |✓|✓|✓
