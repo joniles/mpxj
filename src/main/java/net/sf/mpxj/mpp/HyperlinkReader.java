@@ -37,7 +37,7 @@ import net.sf.mpxj.TaskField;
 
 /**
  * Extracts hyperlink data from the structure used by all versions
- * of Microsoft Project. 
+ * of Microsoft Project.
  */
 final class HyperlinkReader
 {
@@ -45,7 +45,7 @@ final class HyperlinkReader
     * Set to {@code true} to indicate that we're expecting to read
     * a screen tip as part of the hyperlink data. Note that
     * Project 98 is the only version which doesn't include screen tips.
-    * 
+    *
     * @param hasScreenTip true if screen tip should be read
     */
    public void setHasScreenTip(boolean hasScreenTip)
@@ -55,7 +55,7 @@ final class HyperlinkReader
 
    /**
     * Read hyperlink data and populate the relevant fields.
-    * 
+    *
     * @param container container for the hyper link data
     * @param data hyperlink data
     */

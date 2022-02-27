@@ -998,7 +998,7 @@ final class MPP12Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      
+
       for (Integer uniqueID : uniqueIdArray)
       {
          offset = taskMap.get(uniqueID);
@@ -1531,7 +1531,7 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      
+
       for (Integer id : uniqueid)
       {
          offset = resourceMap.get(id);

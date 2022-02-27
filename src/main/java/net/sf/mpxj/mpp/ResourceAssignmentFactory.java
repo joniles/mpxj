@@ -229,7 +229,7 @@ public class ResourceAssignmentFactory
                // TODO: there is some additional logic around split tasks we need to account for,
                // the flag alone doesn't seem to be set for contoured split tasks.
 
-               // If the assignment is contoured, this will already have been set by the time we get here.               
+               // If the assignment is contoured, this will already have been set by the time we get here.
                // If we're still set to flat, retrieve the actual work contour setting from the timephased data.
                if (assignment.getWorkContour() == WorkContour.FLAT)
                {

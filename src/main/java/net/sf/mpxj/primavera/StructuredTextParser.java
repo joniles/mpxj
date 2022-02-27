@@ -291,7 +291,7 @@ public class StructuredTextParser
     */
    private char skipWhitespaceAndRead(char c) throws IOException
    {
-      while(Character.isWhitespace(c) || Character.isISOControl(c))
+      while (Character.isWhitespace(c) || Character.isISOControl(c))
       {
          c = read();
       }
@@ -311,7 +311,7 @@ public class StructuredTextParser
       {
          throw new StructuredTextParseException("End of stream reached");
       }
-      return (char)c;
+      return (char) c;
    }
 
    private boolean m_raiseExceptionOnParseError = true;

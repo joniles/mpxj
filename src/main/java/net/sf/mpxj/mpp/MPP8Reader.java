@@ -407,7 +407,7 @@ final class MPP8Reader implements MPPVariantReader
       TimeUnit defaultProjectTimeUnits = properties.getDefaultDurationUnits();
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
       hyperlinkReader.setHasScreenTip(false);
-      
+
       for (int loop = 0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);

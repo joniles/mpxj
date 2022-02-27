@@ -1020,7 +1020,7 @@ final class MPP14Reader implements MPPVariantReader
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      
+
       //
       // Select the correct meta data locations depending on
       // which version of Microsoft project generated this file
@@ -1569,7 +1569,7 @@ final class MPP14Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      
+
       //
       // Select the correct meta data locations depending on
       // which version of Microsoft project generated this file
