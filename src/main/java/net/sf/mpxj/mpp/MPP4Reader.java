@@ -3,12 +3,17 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 final class MPP4Reader implements MPPVariantReader
 {
@@ -17,9 +22,14 @@ final class MPP4Reader implements MPPVariantReader
       try
       {
          populateMemberData(reader, file, root);
+         processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
          {
+            InputStream is = new DocumentInputStream(((DocumentEntry) root.getEntry("CONTENTS")));
+            byte[] data = new byte[is.available()];
+            InputStreamHelper.read(is, data);
+            System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
          }
       }
 
@@ -57,6 +67,14 @@ final class MPP4Reader implements MPPVariantReader
       m_file = null;
    }
 
+   /**
+    * Process the project properties data.
+    */
+   private void processProjectProperties() throws MPXJException
+   {
+      ProjectPropertiesReader reader = new ProjectPropertiesReader();
+      reader.process(m_file, new Props(), m_root);
+   }
 
 
 
