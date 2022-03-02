@@ -23,21 +23,22 @@
 
 package net.sf.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+
+import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.junit.MpxjTestData;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-import org.junit.Test;
-
 /**
- * Tests to ensure task task baseline values are correctly handled.
+ * Tests to ensure task baseline values are correctly handled.
  */
 public class TaskPercentCompleteTest
 {
@@ -64,20 +65,20 @@ public class TaskPercentCompleteTest
    {
       int taskID = startTaskID;
 
-      testPercentComplete(project, taskID++, "Duration 0%", 0);
-      testPercentComplete(project, taskID++, "Duration 25%", 25);
-      testPercentComplete(project, taskID++, "Duration 75%", 75);
-      testPercentComplete(project, taskID++, "Duration 100%", 100);
+      testPercentComplete(project, taskID++, "Duration 0%", TaskField.PERCENT_COMPLETE, 0);
+      testPercentComplete(project, taskID++, "Duration 25%", TaskField.PERCENT_COMPLETE, 25);
+      testPercentComplete(project, taskID++, "Duration 75%", TaskField.PERCENT_COMPLETE, 75);
+      testPercentComplete(project, taskID++, "Duration 100%", TaskField.PERCENT_COMPLETE, 100);
 
-      testPercentComplete(project, taskID++, "Physical 0%", 0);
-      testPercentComplete(project, taskID++, "Physical 25%", 25);
-      testPercentComplete(project, taskID++, "Physical 75%", 75);
-      testPercentComplete(project, taskID++, "Physical 100%", 100);
+      testPercentComplete(project, taskID++, "Physical 0%", TaskField.PHYSICAL_PERCENT_COMPLETE, 0);
+      testPercentComplete(project, taskID++, "Physical 25%", TaskField.PHYSICAL_PERCENT_COMPLETE, 25);
+      testPercentComplete(project, taskID++, "Physical 75%", TaskField.PHYSICAL_PERCENT_COMPLETE, 75);
+      testPercentComplete(project, taskID++, "Physical 100%", TaskField.PHYSICAL_PERCENT_COMPLETE, 100);
 
-      testPercentComplete(project, taskID++, "Units 0%", 0);
-      testPercentComplete(project, taskID++, "Units 25%", 25);
-      testPercentComplete(project, taskID++, "Units 75%", 75);
-      testPercentComplete(project, taskID++, "Units 100%", 100);
+      testPercentComplete(project, taskID++, "Units 0%", TaskField.PERCENT_WORK_COMPLETE, 0);
+      testPercentComplete(project, taskID++, "Units 25%", TaskField.PERCENT_WORK_COMPLETE, 25);
+      testPercentComplete(project, taskID++, "Units 75%", TaskField.PERCENT_WORK_COMPLETE, 75);
+      testPercentComplete(project, taskID, "Units 100%", TaskField.PERCENT_WORK_COMPLETE, 100);
    }
 
    /**
@@ -86,12 +87,13 @@ public class TaskPercentCompleteTest
     * @param project parent project
     * @param taskID ID of task to test
     * @param expectedTaskName expected task name
+    * @param field percent complete field to read
     * @param expectedPercentCompleteValue expected percent complete value
     */
-   private void testPercentComplete(ProjectFile project, int taskID, String expectedTaskName, int expectedPercentCompleteValue)
+   private void testPercentComplete(ProjectFile project, int taskID, String expectedTaskName, TaskField field, int expectedPercentCompleteValue)
    {
       Task task = project.getTaskByID(Integer.valueOf(taskID));
       assertEquals(expectedTaskName, task.getName());
-      assertEquals(expectedPercentCompleteValue, task.getPercentageComplete().intValue());
+      assertEquals(expectedPercentCompleteValue, ((Number) task.getCachedValue(field)).intValue());
    }
 }

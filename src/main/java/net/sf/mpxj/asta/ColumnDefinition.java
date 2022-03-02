@@ -60,6 +60,6 @@ class ColumnDefinition
       return m_type;
    }
 
-   private String m_name;
-   private int m_type;
+   private final String m_name;
+   private final int m_type;
 }

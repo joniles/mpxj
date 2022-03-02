@@ -30,17 +30,11 @@ import java.io.PrintWriter;
  */
 class AssignmentColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 14;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       if (FastTrackUtility.getByte(buffer, offset) == 0x01)
@@ -65,9 +59,6 @@ class AssignmentColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       if (m_options != null)

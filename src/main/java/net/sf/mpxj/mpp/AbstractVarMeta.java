@@ -34,8 +34,8 @@ import net.sf.mpxj.FieldType;
 
 /**
  * This class reads in the data from a VarMeta block. This block contains
- * meta data about variable length data items stored in a Var2Data block.
- * The meta data allows the size of the Var2Data block to be determined,
+ * metadata about variable length data items stored in a Var2Data block.
+ * The metadata allows the size of the Var2Data block to be determined,
  * along with the number of data items it contains, identifiers for each item,
  * and finally the offset of each item within the block.
  */
@@ -80,7 +80,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    }
 
    /**
-    * This method returns an set containing all of the unique identifiers
+    * This method returns a set containing all of the unique identifiers
     * for which data has been stored in the Var2Data block.
     *
     * @return set of unique identifiers
@@ -122,17 +122,11 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       m_offsets = offsets;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int[] getOffsets()
    {
       return m_offsets;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Set<Integer> getTypes(Integer id)
    {
       Set<Integer> result;
@@ -150,9 +144,6 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean containsKey(Integer key)
    {
       return m_table.containsKey(key);
@@ -210,5 +201,5 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    //protected int m_unknown3;
    protected int m_dataSize;
    private int[] m_offsets;
-   protected Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<>();
+   protected final Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<>();
 }

@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +52,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       super(file);
 
-      if (file.getProjectConfig().getAutoAssignmentUniqueID() == true)
+      if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
@@ -712,7 +713,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
 
       //takes care of the situation where there is no timephased overtime work
-      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? java.util.Collections.<TimephasedWork> emptyList().iterator() : overtimeWorkList.iterator();
+      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? Collections.emptyIterator() : overtimeWorkList.iterator();
 
       for (TimephasedWork standardWork : standardWorkList)
       {
@@ -952,7 +953,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Used for Cost type Resources.
     *
-    * Generates a TimphasedCost block for the total amount on the start date. This is useful
+    * Generates a TimephasedCost block for the total amount on the start date. This is useful
     * for Cost resources that have an AccrueAt value of Start.
     *
     * @param calendar calendar used by this assignment
@@ -974,7 +975,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Used for Cost type Resources.
     *
-    * Generates a TimphasedCost block for the total amount on the finish date. This is useful
+    * Generates a TimephasedCost block for the total amount on the finish date. This is useful
     * for Cost resources that have an AccrueAt value of End.
     *
     * @param calendar calendar used by this assignment
@@ -1107,7 +1108,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          {
             //
             // If we have multiple rates in the table, see if the same rate
-            // is in force at the start and the end of the aaaignment.
+            // is in force at the start and the end of the assignment.
             //
             CostRateTableEntry startEntry = table.getEntryByDate(getStart());
             CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
@@ -1131,7 +1132,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       if (table == null)
       {
          Resource resource = getResource();
-         result = new CostRateTableEntry(resource.getStandardRate(), TimeUnit.HOURS, resource.getOvertimeRate(), TimeUnit.HOURS, resource.getCostPerUse(), null);
+         result = new CostRateTableEntry(resource.getStandardRate(), TimeUnit.HOURS, resource.getOvertimeRate(), TimeUnit.HOURS, resource.getCostPerUse(), DateHelper.START_DATE_NA, DateHelper.END_DATE_NA);
       }
       else
       {
@@ -1995,7 +1996,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * of the assignment's timephased percent complete multiplied by
     * the assignments
     * timephased baseline cost. BCWP is calculated up to the status
-    * date or todays
+    * date or today's
     * date. This information is also known as earned value.
     *
     * @param val the amount to be set
@@ -2217,19 +2218,42 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setNotes(String notes)
    {
-      set(AssignmentField.NOTES, notes);
+      set(AssignmentField.NOTES, notes == null ? null : new Notes(notes));
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
+    * Retrieve the plain text representation of the assignment notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
     * @return notes
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(AssignmentField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(AssignmentField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Set the Notes instance representing the assignment notes.
+    *
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
+      set(AssignmentField.NOTES, notes);
+   }
+
+   /**
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
+    *
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      return (Notes) getCachedValue(AssignmentField.NOTES);
    }
 
    /**
@@ -2578,8 +2602,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public int getCostRateTableIndex()
    {
-      Integer value = (Integer) getCachedValue(AssignmentField.COST_RATE_TABLE);
-      return value == null ? 0 : value.intValue();
+      int value = NumberHelper.getInt((Integer) getCachedValue(AssignmentField.COST_RATE_TABLE));
+      return value < 0 || value >= CostRateTable.MAX_TABLES ? 0 : value;
    }
 
    /**
@@ -2673,11 +2697,91 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the planned work field.
+    *
+    * @return planned work value
+    */
+   public Duration getPlannedWork()
+   {
+      return (Duration) getCachedValue(AssignmentField.PLANNED_WORK);
+   }
+
+   /**
+    * Set the planned work field.
+    *
+    * @param value planned work value
+    */
+   public void setPlannedWork(Duration value)
+   {
+      set(AssignmentField.PLANNED_WORK, value);
+   }
+
+   /**
+    * Retrieve the planned cost field.
+    *
+    * @return planned cost value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) getCachedValue(AssignmentField.PLANNED_COST);
+   }
+
+   /**
+    * Set the planned cost field.
+    *
+    * @param value planned cost value
+    */
+   public void setPlannedCost(Number value)
+   {
+      set(AssignmentField.PLANNED_COST, value);
+   }
+
+   /**
+    * Set the planned start field.
+    *
+    * @return planned start value
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_START);
+   }
+
+   /**
+    * Retrieve the planned start field.
+    *
+    * @param value planned start value
+    */
+   public void setPlannedStart(Date value)
+   {
+      set(AssignmentField.PLANNED_START, value);
+   }
+
+   /**
+    * Retrieve the planned finish value.
+    *
+    * @return planed finish value
+    */
+   public Date getPlannedFinish()
+   {
+      return (Date) getCachedValue(AssignmentField.PLANNED_FINISH);
+   }
+
+   /**
+    * Set the planned finish value.
+    *
+    * @param value planned finish value
+    */
+   public void setPlannedFinish(Date value)
+   {
+      set(AssignmentField.PLANNED_FINISH, value);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return AssignmnetField instance
+    * @return AssignmentField instance
     */
    private AssignmentField selectField(AssignmentField[] fields, int index)
    {
@@ -2688,17 +2792,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return (fields[index - 1]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -2739,6 +2837,17 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       //
       switch (field)
       {
+         case UNIQUE_ID:
+         {
+            ProjectFile parent = getParentFile();
+            if (oldValue != null)
+            {
+               parent.getResourceAssignments().unmapUniqueID((Integer) oldValue);
+            }
+            parent.getResourceAssignments().mapUniqueID((Integer) newValue, this);
+            break;
+         }
+
          case START:
          case BASELINE_START:
          {
@@ -2800,9 +2909,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -2812,9 +2918,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -2823,17 +2926,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
@@ -2867,7 +2964,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[AssignmentField.MAX_VALUE];
+   private final Object[] m_array = new Object[AssignmentField.MAX_VALUE];
 
    private boolean m_eventsEnabled = true;
 
@@ -2881,8 +2978,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
    private List<FieldListener> m_listeners;
-   private TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
-   private TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
+   private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
+   private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    /**
     * Reference to the parent task of this assignment.

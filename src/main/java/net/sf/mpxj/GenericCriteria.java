@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -189,7 +191,7 @@ public class GenericCriteria
       // Retrieve the RHS values
       //
       Object[] rhs;
-      if (m_symbolicValues == true)
+      if (m_symbolicValues)
       {
          rhs = processSymbolicValues(m_workingRightValues, container, promptValues);
       }
@@ -222,7 +224,7 @@ public class GenericCriteria
    }
 
    /**
-    * Evalutes AND and OR operators.
+    * Evaluates AND and OR operators.
     *
     * @param container data context
     * @param promptValues responses to prompts
@@ -338,7 +340,7 @@ public class GenericCriteria
    }
 
    /**
-    * Adds a an item to the list of child criteria.
+    * Adds an item to the list of child criteria.
     *
     * @param criteria criteria item to add
     */
@@ -347,12 +349,10 @@ public class GenericCriteria
       m_criteriaList.add(criteria);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       sb.append("(");
 
       switch (m_operator)
@@ -381,11 +381,11 @@ public class GenericCriteria
             sb.append(" ");
             sb.append(m_operator);
             sb.append(" ");
-            sb.append(m_definedRightValues[0]);
+            sb.append(m_definedRightValues[0] instanceof Date ? df.format(m_definedRightValues[0]) : m_definedRightValues[0]);
             if (m_definedRightValues[1] != null)
             {
                sb.append(",");
-               sb.append(m_definedRightValues[1]);
+               sb.append(m_definedRightValues[1] instanceof Date ? df.format(m_definedRightValues[1]) : m_definedRightValues[1]);
             }
          }
       }
@@ -394,11 +394,11 @@ public class GenericCriteria
       return (sb.toString());
    }
 
-   private ProjectProperties m_properties;
+   private final ProjectProperties m_properties;
    private FieldType m_leftValue;
    private TestOperator m_operator;
-   private Object[] m_definedRightValues = new Object[2];
-   private Object[] m_workingRightValues = new Object[2];
+   private final Object[] m_definedRightValues = new Object[2];
+   private final Object[] m_workingRightValues = new Object[2];
    private boolean m_symbolicValues;
-   private List<GenericCriteria> m_criteriaList = new ArrayList<>();
+   private final List<GenericCriteria> m_criteriaList = new ArrayList<>();
 }

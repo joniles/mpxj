@@ -24,8 +24,6 @@
 package net.sf.mpxj.explorer;
 
 import java.awt.Point;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -35,6 +33,7 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
@@ -79,29 +78,11 @@ public class HexDumpController
    {
       m_model = model;
 
-      model.addPropertyChangeListener("columns", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateTables();
-         }
-      });
+      model.addPropertyChangeListener("columns", evt -> updateTables());
 
-      model.addPropertyChangeListener("offset", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateTables();
-         }
-      });
+      model.addPropertyChangeListener("offset", evt -> updateTables());
 
-      model.addPropertyChangeListener("selectedCell", new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            updateSelection();
-         }
-      });
+      model.addPropertyChangeListener("selectedCell", evt -> updateSelection());
    }
 
    /**
@@ -116,8 +97,7 @@ public class HexDumpController
       try
       {
          is = new DocumentInputStream(entry);
-         byte[] data = new byte[is.available()];
-         is.read(data);
+         byte[] data = InputStreamHelper.read(is, is.available());
          m_model.setData(data);
          updateTables();
       }
@@ -225,7 +205,7 @@ public class HexDumpController
       String dateValueLabel = "";
       String timeValueLabel = "";
       String timestampValueLabel = "";
-      String workUnitsValueLabel = "";
+      String workUnitsValueLabel;
 
       if (selectionIndex + offset + 2 <= data.length)
       {

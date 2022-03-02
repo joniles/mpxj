@@ -91,9 +91,6 @@ class FastTrackTable implements Iterable<MapRow>
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Iterator<MapRow> iterator()
    {
       return m_rows.iterator();
@@ -111,7 +108,7 @@ class FastTrackTable implements Iterable<MapRow>
 
       if (index == m_rows.size())
       {
-         result = new MapRow(this, new HashMap<FastTrackField, Object>());
+         result = new MapRow(this, new HashMap<>());
          m_rows.add(result);
       }
       else

@@ -27,22 +27,22 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResultSetHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -51,21 +51,11 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
       {
-         String url = "jdbc:sqlite:" + file.getAbsolutePath();
-         Properties props = new Properties();
-         props.setProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
-         // Note that we use the JDBC driver class directly here.
-         // This ensures that it is an explicit dependency of MPXJ
-         // and will work as expected in .Net.
-         m_connection = org.sqlite.JDBC.createConnection(url, props);
-         m_projectID = Integer.valueOf(0);
+         m_connection = SQLite.createConnection(file, SQLite.dateFormatProperties());
          return read();
       }
 
@@ -80,24 +70,28 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
+      ProjectFile project = read(DEFAULT_PROJECT_ID);
+      processBaseline(project, DEFAULT_PROJECT_ID);
+      return project;
+   }
+
+   private ProjectFile read(Integer projectID) throws MPXJException
+   {
       try
       {
+         m_projectID = projectID;
          m_reader = new AstaReader();
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
@@ -108,43 +102,36 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
+         processCustomFields();
+         processCodeLibraries();
 
          m_reader = null;
 
-         return (project);
+         return project;
       }
 
-      catch (SQLException ex)
+      catch (SQLException | ParseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
    }
 
    /**
     * Select the project properties row from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
       List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
       List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
+      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
+      Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, progressPeriods);
+      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
    }
 
    /**
     * Process calendars.
-    *
-    * @throws SQLException
-    * @throws ParseException
     */
    private void processCalendars() throws SQLException, ParseException
    {
@@ -178,8 +165,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -190,8 +175,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -206,8 +189,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
    private void processPredecessors() throws SQLException
    {
@@ -218,8 +199,6 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {
@@ -228,25 +207,36 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    }
 
    /**
+    * Process custom fields.
+    */
+   private void processCustomFields() throws SQLException
+   {
+      List<Row> definitions = getRows("select * from udf_defn");
+      List<Row> data = getRows("select * from udf_data");
+      m_reader.processCustomFields(definitions, data);
+   }
+
+   /**
     * Retrieve a number of rows matching the supplied query.
     *
     * @param sql query statement
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql) throws SQLException
    {
-      List<Row> result = new ArrayList<>();
-
-      m_ps = m_connection.prepareStatement(sql);
-      m_rs = m_ps.executeQuery();
-      populateMetaData();
-      while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         result.add(new SqliteResultSetRow(m_rs, m_meta));
+         try (ResultSet rs = ps.executeQuery())
+         {
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new SqliteResultSetRow(rs, meta));
+            }
+            return result;
+         }
       }
-
-      return (result);
    }
 
    /**
@@ -256,40 +246,22 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param var bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
-      List<Row> result = new ArrayList<>();
-
-      m_ps = m_connection.prepareStatement(sql);
-      m_ps.setInt(1, NumberHelper.getInt(var));
-      m_rs = m_ps.executeQuery();
-      populateMetaData();
-      while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         result.add(new SqliteResultSetRow(m_rs, m_meta));
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
+         {
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new SqliteResultSetRow(rs, meta));
+            }
+            return (result);
+         }
       }
    }
 
@@ -320,7 +292,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
    {
       List<Row> list = new ArrayList<>();
-      String[] patterns = workPatterns.split(",|:");
+      String[] patterns = workPatterns.split("[,:]");
       int index = 1;
       while (index < patterns.length)
       {
@@ -368,11 +340,11 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createExceptionAssignmentRowList(String exceptionData)
    {
       List<Row> list = new ArrayList<>();
-      String[] exceptions = exceptionData.split(",|:");
+      String[] exceptions = exceptionData.split("[,:]");
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 0]);
+         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
          Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
@@ -415,7 +387,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
    private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
    {
       List<Row> list = new ArrayList<>();
-      String[] shifts = shiftData.split(",|:");
+      String[] shifts = shiftData.split("[,:]");
       int index = 1;
       while (index < shifts.length)
       {
@@ -425,7 +397,7 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
-            Integer exceptionTypeID = Integer.valueOf(shifts[index + 0]);
+            Integer exceptionTypeID = Integer.valueOf(shifts[index]);
             Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
             Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
@@ -442,10 +414,44 @@ public final class AstaDatabaseFileReader extends AbstractProjectFileReader
 
       return list;
    }
+
+   private void processBaseline(ProjectFile project, Integer projectID) throws MPXJException
+   {
+      try
+      {
+         // We don't need the project_summary join, but this ensures that we know the baseline project exists
+         List<Row> baseline = getRows("select baseline_summary.baseline_project_id from baseline_summary join userr on userr.projid = baseline_summary.projid and userr.current_baseline_id = baseline_summary.baseline_id join project_summary on project_summary.projid = baseline_summary.baseline_project_id where baseline_summary.projid=?", projectID);
+         if (!baseline.isEmpty())
+         {
+            // Ignore the value we get back if it matches the current project
+            Integer baselineProjectID = baseline.get(0).getInteger("BASELINE_PROJECT_ID");
+            if (baselineProjectID != null && !baselineProjectID.equals(projectID))
+            {
+               ProjectFile baselineProject = read(baselineProjectID);
+
+               project.setBaseline(baselineProject);
+            }
+         }
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException("Failed to read baseline data", ex);
+      }
+   }
+
+   private void processCodeLibraries() throws SQLException
+   {
+      List<Row> types = getRows("select * from code_library where projid=?", m_projectID);
+      List<Row> typeValues = getRows("select * from code_library_entry where code_library in (select distinct id from code_library where projid=?)", m_projectID);
+      List<Row> assignments = getRows("select * from code_library_assignabl_codes where projid=?", m_projectID);
+
+      m_reader.processCodeLibraries(types, typeValues, assignments);
+   }
+
    private AstaReader m_reader;
-   private Integer m_projectID = Integer.valueOf(1);
+   private Integer m_projectID;
    private Connection m_connection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
+
+   private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(0);
 }

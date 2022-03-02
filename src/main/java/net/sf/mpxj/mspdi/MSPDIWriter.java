@@ -30,13 +30,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -85,7 +86,10 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
+import net.sf.mpxj.common.MarshallerHelper;
+import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
@@ -192,9 +196,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return m_saveVersion;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try
@@ -209,7 +210,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_eventManager = m_projectFile.getEventManager();
          DatatypeConverter.setParentFile(m_projectFile);
 
-         Marshaller marshaller = CONTEXT.createMarshaller();
+         Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          m_extendedAttributesInUse = new HashSet<>();
@@ -283,6 +284,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setFinishDate(properties.getFinishDate());
       project.setFiscalYearStart(Boolean.valueOf(properties.getFiscalYearStart()));
       project.setFYStartDate(NumberHelper.getBigInteger(properties.getFiscalYearStartMonth()));
+      project.setGUID(properties.getGUID());
       project.setHonorConstraints(Boolean.valueOf(properties.getHonorConstraints()));
       project.setInsertedProjectsLikeSummary(Boolean.valueOf(properties.getInsertedProjectsLikeSummary()));
       project.setLastSaved(properties.getLastSaved());
@@ -298,7 +300,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setName(properties.getName());
       project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
-      project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
+      project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() ? BigInteger.ZERO : BigInteger.ONE);
       project.setNewTasksAreManual(Boolean.valueOf(properties.getNewTasksAreManual()));
       project.setProjectExternallyEdited(Boolean.valueOf(properties.getProjectExternallyEdited()));
       project.setRemoveFileProperties(Boolean.valueOf(properties.getRemoveFileProperties()));
@@ -313,7 +315,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setSubject(properties.getSubject());
       project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
       project.setTitle(properties.getProjectTitle());
-      project.setUID(properties.getUniqueID());
       project.setWeekStartDay(DatatypeConverter.printDay(properties.getWeekStartDay()));
       project.setWorkFormat(DatatypeConverter.printWorkUnits(properties.getDefaultWorkUnits()));
    }
@@ -341,21 +342,24 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       customFields.addAll(m_extendedAttributesInUse);
 
-      List<FieldType> customFieldsList = new ArrayList<>();
-      customFieldsList.addAll(customFields);
+      // Don't write definitions for enterprise custom fields.
+      // MS Project fails to read MSPDI files with these definitions
+      // if they don't include the data type attribute.
+      // As we don't know the types of these fields presently,
+      // we're just reading the raw bytes for each value, so
+      // we never write them to the MSPDI file anyway.
+      customFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
+
+      List<FieldType> customFieldsList = new ArrayList<>(customFields);
 
       // Sort to ensure consistent order in file
       final CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      Collections.sort(customFieldsList, new Comparator<FieldType>()
-      {
-         @Override public int compare(FieldType o1, FieldType o2)
-         {
-            CustomField customField1 = customFieldContainer.getCustomField(o1);
-            CustomField customField2 = customFieldContainer.getCustomField(o2);
-            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      customFieldsList.sort((o1, o2) -> {
+         CustomField customField1 = customFieldContainer.getCustomField(o1);
+         CustomField customField2 = customFieldContainer.getCustomField(o2);
+         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+         return name1.compareTo(name2);
       });
 
       for (FieldType fieldType : customFieldsList)
@@ -385,20 +389,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
          allCustomFields.add(field);
       }
 
-      Collections.sort(allCustomFields, new Comparator<CustomField>()
-      {
-         @Override public int compare(CustomField customField1, CustomField customField2)
-         {
-            FieldType o1 = customField1.getFieldType();
-            FieldType o2 = customField2.getFieldType();
-            String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
-            String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
-            String fieldName1 = o1 == null ? "Unknown" : o1.getName();
-            String fieldName2 = o2 == null ? "Unknown" : o2.getName();
-            String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
-            String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
+      allCustomFields.sort((customField1, customField2) -> {
+         FieldType o1 = customField1.getFieldType();
+         FieldType o2 = customField2.getFieldType();
+         String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
+         String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
+         String fieldName1 = o1 == null ? "Unknown" : o1.getName();
+         String fieldName2 = o2 == null ? "Unknown" : o2.getName();
+         String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
+         String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
+         return name1.compareTo(name2);
       });
 
       for (CustomField field : allCustomFields)
@@ -540,22 +540,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method writes data for a single calendar to an MSPDI file.
     *
-    * @param bc Base calendar data
+    * @param mpxjCalendar MPXJ calendar data
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar(ProjectCalendar bc)
+   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar)
    {
       //
       // Create a calendar
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
-      calendar.setUID(NumberHelper.getBigInteger(bc.getUniqueID()));
-      calendar.setIsBaseCalendar(Boolean.valueOf(!bc.isDerived()));
+      calendar.setUID(NumberHelper.getBigInteger(mpxjCalendar.getUniqueID()));
+      calendar.setIsBaseCalendar(Boolean.valueOf(!mpxjCalendar.isDerived()));
 
-      ProjectCalendar base = bc.getParent();
+      ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
       calendar.setBaseCalendarUID(base == null ? NULL_CALENDAR_ID : NumberHelper.getBigInteger(base.getUniqueID()));
-      calendar.setName(bc.getName());
+      calendar.setName(mpxjCalendar.getName());
 
       //
       // Create a list of normal days
@@ -568,7 +568,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (int loop = 1; loop < 8; loop++)
       {
-         DayType workingFlag = bc.getWorkingDay(Day.getInstance(loop));
+         DayType workingFlag = mpxjCalendar.getWorkingDay(Day.getInstance(loop));
 
          if (workingFlag != DayType.DEFAULT)
          {
@@ -583,7 +583,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                day.setWorkingTimes(times);
                List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-               bch = bc.getCalendarHours(Day.getInstance(loop));
+               bch = mpxjCalendar.getCalendarHours(Day.getInstance(loop));
                if (bch != null)
                {
                   for (DateRange range : bch)
@@ -605,14 +605,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create a list of exceptions
       //
-      // A quirk of MS Project is that these exceptions must be
-      // in date order in the file, otherwise they are ignored
-      //
-      List<ProjectCalendarException> exceptions = new ArrayList<>(bc.getCalendarExceptions());
-      if (!exceptions.isEmpty())
+      if (!mpxjCalendar.getCalendarExceptions().isEmpty())
       {
-         Collections.sort(exceptions);
-         writeExceptions(calendar, dayList, exceptions);
+         writeExceptions(mpxjCalendar, calendar, dayList);
       }
 
       //
@@ -625,9 +620,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          calendar.setWeekDays(days);
       }
 
-      writeWorkWeeks(calendar, bc);
+      writeWorkWeeks(calendar, mpxjCalendar);
 
-      m_eventManager.fireCalendarWrittenEvent(bc);
+      m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
       return (calendar);
    }
@@ -636,32 +631,34 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Main entry point used to determine the format used to write
     * calendar exceptions.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param calendar parent calendar
     * @param dayList list of calendar days
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions(Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   private void writeExceptions(ProjectCalendar mpxjCalendar, Project.Calendars.Calendar calendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
       // Always write legacy exception data:
       // Powerproject appears not to recognise new format data at all,
       // and legacy data is ignored in preference to new data post MSP 2003
-      writeExceptions9(dayList, exceptions);
+      writeExceptions9(mpxjCalendar, dayList);
 
       if (m_saveVersion.getValue() > SaveVersion.Project2003.getValue())
       {
-         writeExceptions12(calendar, exceptions);
+         writeExceptions12(mpxjCalendar, calendar);
       }
    }
 
    /**
     * Write exceptions in the format used by MSPDI files prior to Project 2007.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param dayList list of calendar days
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions9(List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList, List<ProjectCalendarException> exceptions)
+   private void writeExceptions9(ProjectCalendar mpxjCalendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
-      for (ProjectCalendarException exception : exceptions)
+      // Exceptions in an MSPDI file need to be sorted, or they are ignored.
+      // Expanded exceptions from a calendar are sorted by default.
+      for (ProjectCalendarException exception : mpxjCalendar.getExpandedCalendarExceptions())
       {
          boolean working = exception.getWorking();
 
@@ -697,11 +694,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Write exceptions into the format used by MSPDI files from
     * Project 2007 onwards.
     *
+    * @param mpxjCalendar MPXJ calendar data
     * @param calendar parent calendar
-    * @param exceptions list of exceptions
     */
-   private void writeExceptions12(Project.Calendars.Calendar calendar, List<ProjectCalendarException> exceptions)
+   private void writeExceptions12(ProjectCalendar mpxjCalendar, Project.Calendars.Calendar calendar)
    {
+      // Exceptions in an MSPDI file need to be sorted, or they are ignored.
+      List<ProjectCalendarException> exceptions = new ArrayList<>(mpxjCalendar.getCalendarExceptions());
+      Collections.sort(exceptions);
+
       Exceptions ce = m_factory.createProjectCalendarsCalendarExceptions();
       calendar.setExceptions(ce);
       List<Exceptions.Exception> el = ce.getException();
@@ -1092,7 +1093,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (ResourceField mpxFieldID : getAllResourceExtendedAttributes())
+      for (ResourceField mpxFieldID : ResourceFieldLists.EXTENDED_FIELDS)
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
@@ -1183,21 +1184,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeCostRateTables(Project.Resources.Resource xml, Resource mpx)
    {
-      //Rates rates = m_factory.createProjectResourcesResourceRates();
-      //xml.setRates(rates);
-      //List<Project.Resources.Resource.Rates.Rate> ratesList = rates.getRate();
-
       List<Project.Resources.Resource.Rates.Rate> ratesList = null;
 
-      for (int tableIndex = 0; tableIndex < 5; tableIndex++)
+      for (int tableIndex = 0; tableIndex < CostRateTable.MAX_TABLES; tableIndex++)
       {
          CostRateTable table = mpx.getCostRateTable(tableIndex);
          if (table != null)
          {
-            Date from = DateHelper.FIRST_DATE;
             for (CostRateTableEntry entry : table)
             {
-               if (costRateTableWriteRequired(entry, from))
+               if (costRateTableWriteRequired(entry))
                {
                   if (ratesList == null)
                   {
@@ -1209,14 +1205,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   Project.Resources.Resource.Rates.Rate rate = m_factory.createProjectResourcesResourceRatesRate();
                   ratesList.add(rate);
 
-                  rate.setCostPerUse(DatatypeConverter.printCurrency(entry.getCostPerUse()));
-                  rate.setOvertimeRate(DatatypeConverter.printRate(entry.getOvertimeRate()));
+                  rate.setCostPerUse(DatatypeConverter.printCurrencyMandatory(entry.getCostPerUse()));
+                  rate.setOvertimeRate(DatatypeConverter.printRateMandatory(entry.getOvertimeRate()));
                   rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRateFormat()));
-                  rate.setRatesFrom(from);
-                  from = entry.getEndDate();
-                  rate.setRatesTo(from);
+                  rate.setRatesFrom(entry.getStartDate());
+                  rate.setRatesTo(entry.getEndDate());
                   rate.setRateTable(BigInteger.valueOf(tableIndex));
-                  rate.setStandardRate(DatatypeConverter.printRate(entry.getStandardRate()));
+                  rate.setStandardRate(DatatypeConverter.printRateMandatory(entry.getStandardRate()));
                   rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
                }
             }
@@ -1229,13 +1224,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * A default cost rate table should not be written to the file.
     *
     * @param entry cost rate table entry
-    * @param from from date
     * @return boolean flag
     */
-   private boolean costRateTableWriteRequired(CostRateTableEntry entry, Date from)
+   private boolean costRateTableWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (DateHelper.compare(from, DateHelper.FIRST_DATE) > 0);
-      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.LAST_DATE) > 0);
+      boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
+      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean costPerUse = (NumberHelper.getDouble(entry.getCostPerUse()) != 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
@@ -1563,7 +1557,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (TaskField mpxFieldID : getAllTaskExtendedAttributes())
+      for (TaskField mpxFieldID : TaskFieldLists.EXTENDED_FIELDS)
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
@@ -1678,6 +1672,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       DataType dataType = fieldType.getDataType();
       HashMap<String, CustomFieldValueItem> result = new HashMap<>();
+      // TODO: this doesn't handle hierarchical value lookup
       items.forEach(item -> result.put(DatatypeConverter.printExtendedAttribute(this, item.getValue(), dataType), item));
       return result;
    }
@@ -1706,7 +1701,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private BigInteger getTaskCalendarID(Task mpx)
    {
-      BigInteger result = null;
+      BigInteger result;
       ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {
@@ -1792,10 +1787,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setAssignments(assignments);
       List<Project.Assignments.Assignment> list = assignments.getAssignment();
 
-      for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
-      {
-         list.add(writeAssignment(assignment));
-      }
+      // As we now allow a resource to be assigned multiple times to a task
+      // we need to handle this for file formats which allow a resource to be
+      // assigned only once. The code below attempts to preserve the original
+      // behaviour when we ignored multiple assignments of the same resource.
+      // TODO: implement more intelligent rollup of multiple resource assignments
+      Function<ResourceAssignment, String> assignmentKey = (a) -> a.getTaskUniqueID() + " " + a.getResourceUniqueID();
+      Map<String, ResourceAssignment> map = m_projectFile.getResourceAssignments().stream().collect(Collectors.toMap(assignmentKey, Function.identity(), (a1, a2) -> a1));
+      m_projectFile.getResourceAssignments().stream().filter(a -> map.get(assignmentKey.apply(a)) == a).forEach(a -> list.add(writeAssignment(a)));
 
       //
       // Check to see if we have any tasks that have a percent complete value
@@ -1813,7 +1812,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (Task task : m_projectFile.getTasks())
       {
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-         if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
+         if (percentComplete != 0 && task.getResourceAssignments().isEmpty())
          {
             ResourceAssignment dummy = new ResourceAssignment(m_projectFile, task);
             Duration duration = task.getDuration();
@@ -1826,7 +1825,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
-            dummy.setResourceUniqueID(NULL_RESOURCE_ID);
+            dummy.setResourceUniqueID(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
@@ -1899,7 +1898,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
+      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
       xml.setResume(mpx.getResume());
       xml.setStart(mpx.getStart());
       xml.setStop(mpx.getStop());
@@ -2036,7 +2035,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Assignments.Assignment.ExtendedAttribute attrib;
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
 
-      for (AssignmentField mpxFieldID : getAllAssignmentExtendedAttributes())
+      for (AssignmentField mpxFieldID : AssignmentFieldLists.EXTENDED_FIELDS)
       {
          Object value = mpx.getCachedValue(mpxFieldID);
 
@@ -2268,83 +2267,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve list of assignment extended attributes.
-    *
-    * @return list of extended attributes
-    */
-   private List<AssignmentField> getAllAssignmentExtendedAttributes()
-   {
-      ArrayList<AssignmentField> result = new ArrayList<>();
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
-      return result;
-   }
-
-   /**
-    * Retrieve list of task extended attributes.
-    *
-    * @return list of extended attributes
-    */
-   private List<TaskField> getAllTaskExtendedAttributes()
-   {
-      ArrayList<TaskField> result = new ArrayList<>();
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
-      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
-      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
-      return result;
-   }
-
-   /**
-    * Retrieve list of resource extended attributes.
-    *
-    * @return list of extended attributes
-    */
-   private List<ResourceField> getAllResourceExtendedAttributes()
-   {
-      ArrayList<ResourceField> result = new ArrayList<>();
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_TEXT));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_START));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FINISH));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_COST));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
-      result.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
-      result.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
-      return result;
-   }
-
-   /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
     *
@@ -2420,7 +2342,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
-   private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);
-
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
+
+   private static final Set<FieldType> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>();
+   static
+   {
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
+      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD));
+   }
 }

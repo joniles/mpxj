@@ -25,13 +25,19 @@ package net.sf.mpxj.explorer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
@@ -56,6 +62,7 @@ import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 import net.sf.mpxj.sdef.SDEFWriter;
+import net.sf.mpxj.utility.ProjectCleanUtility;
 import net.sf.mpxj.writer.ProjectWriter;
 
 /**
@@ -82,9 +89,12 @@ public class ProjectTreeController
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
+   private static final Set<String> ACTIVITY_CODE_EXCLUDED_METHODS = excludedMethods("getValues");
+   private static final Set<String> ACTIVITY_CODE_VALUE_EXCLUDED_METHODS = excludedMethods("getParent", "getType");
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
+   private File m_file;
 
    /**
     * Constructor.
@@ -99,19 +109,13 @@ public class ProjectTreeController
    /**
     * Command to load a file.
     *
-    * @param file file to load
+    * @param file original file
+    * @param projectFile parsed project file
     */
-   public void loadFile(ProjectFile file)
+   public void loadFile(File file, ProjectFile projectFile)
    {
-      try
-      {
-         m_projectFile = file;
-      }
-
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      }
+      m_file = file;
+      m_projectFile = projectFile;
 
       MpxjTreeNode projectNode = new MpxjTreeNode(m_projectFile, FILE_EXCLUDED_METHODS)
       {
@@ -185,6 +189,10 @@ public class ProjectTreeController
       MpxjTreeNode dataLinksFolder = new MpxjTreeNode("Data Links");
       projectNode.add(dataLinksFolder);
       addDataLinks(dataLinksFolder, m_projectFile);
+
+      MpxjTreeNode activityCodesFolder = new MpxjTreeNode("Activity Codes");
+      projectNode.add(activityCodesFolder);
+      addActivityCodes(activityCodesFolder);
 
       m_model.setRoot(projectNode);
    }
@@ -295,7 +303,7 @@ public class ProjectTreeController
       {
          @Override public String toString()
          {
-            return day.name();
+            return day.name() + " (" + calendar.getWorkingDay(day) + ")";
          }
       };
       parentNode.add(dayNode);
@@ -373,16 +381,23 @@ public class ProjectTreeController
     */
    private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (CustomField field : file.getCustomFields())
+      // Function to generate a name for each custom field
+      Function<CustomField, String> name = f -> {
+         FieldType type = f.getFieldType();
+         String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type;
+         result = f.getAlias() == null || f.getAlias().isEmpty() ? result : result + " (" + f.getAlias() + ")";
+         return result;
+      };
+
+      // Use a TreeMap to sort by name
+      Map<String, CustomField> map = file.getCustomFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
+      for (Map.Entry<String, CustomField> entry : map.entrySet())
       {
-         final CustomField c = field;
-         MpxjTreeNode childNode = new MpxjTreeNode(field)
+         MpxjTreeNode childNode = new MpxjTreeNode(entry.getValue())
          {
             @Override public String toString()
             {
-               FieldType type = c.getFieldType();
-
-               return type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type.toString();
+               return entry.getKey();
             }
          };
          parentNode.add(childNode);
@@ -539,6 +554,53 @@ public class ProjectTreeController
    }
 
    /**
+    * Add activity codes to the tree.
+    *
+    * @param parentNode parent tree node
+    */
+   private void addActivityCodes(MpxjTreeNode parentNode)
+   {
+      for (ActivityCode code : m_projectFile.getActivityCodes())
+      {
+         final ActivityCode c = code;
+         MpxjTreeNode childNode = new MpxjTreeNode(code, ACTIVITY_CODE_EXCLUDED_METHODS)
+         {
+            @Override public String toString()
+            {
+               return c.getName();
+            }
+         };
+         parentNode.add(childNode);
+         addActivityCodeValues(childNode, code);
+      }
+   }
+
+   private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
+   {
+      List<ActivityCodeValue> values = new ArrayList<>(code.getValues());
+      values.sort((v1, v2) -> {
+         int id1 = v1.getParent() == null ? 0 : v1.getParent().getUniqueID().intValue();
+         int id2 = v2.getParent() == null ? 0 : v2.getParent().getUniqueID().intValue();
+         return id1 - id2;
+      });
+
+      Map<ActivityCodeValue, MpxjTreeNode> nodes = new HashMap<>();
+      for (ActivityCodeValue value : values)
+      {
+         MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
+         nodes.put(value, node);
+         if (value.getParent() == null)
+         {
+            parentNode.add(node);
+         }
+         else
+         {
+            nodes.get(value.getParent()).add(node);
+         }
+      }
+   }
+
+   /**
     * Save the current file as the given type.
     *
     * @param file target file
@@ -555,7 +617,30 @@ public class ProjectTreeController
          }
 
          ProjectWriter writer = fileClass.newInstance();
+         if (fileClass == JsonWriter.class)
+         {
+            ((JsonWriter) writer).setPretty(true);
+         }
+
          writer.write(m_projectFile, file);
+      }
+
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      }
+   }
+
+   /**
+    * Create an anonymized version of the original file.
+    *
+    * @param file output file
+    */
+   public void cleanFile(File file)
+   {
+      try
+      {
+         new ProjectCleanUtility().process(m_file.getCanonicalPath(), file.getCanonicalPath());
       }
 
       catch (Exception ex)

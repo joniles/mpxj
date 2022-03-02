@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Iterator;
-
 /**
  * Manages the collection of calendars belonging to a project.
  */
@@ -75,18 +73,10 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       ProjectCalendar calendar = add();
 
       calendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
-
-      calendar.setWorkingDay(Day.SUNDAY, false);
-      calendar.setWorkingDay(Day.MONDAY, true);
-      calendar.setWorkingDay(Day.TUESDAY, true);
-      calendar.setWorkingDay(Day.WEDNESDAY, true);
-      calendar.setWorkingDay(Day.THURSDAY, true);
-      calendar.setWorkingDay(Day.FRIDAY, true);
-      calendar.setWorkingDay(Day.SATURDAY, false);
-
+      calendar.addDefaultCalendarDays();
       calendar.addDefaultCalendarHours();
 
-      return (calendar);
+      return calendar;
    }
 
    /**
@@ -123,13 +113,12 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
       if (calendarName != null && calendarName.length() != 0)
       {
-         Iterator<ProjectCalendar> iter = iterator();
-         while (iter.hasNext() == true)
+         for (ProjectCalendar projectCalendar : this)
          {
-            calendar = iter.next();
+            calendar = projectCalendar;
             String name = calendar.getName();
 
-            if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
+            if ((name != null) && name.equalsIgnoreCase(calendarName))
             {
                break;
             }

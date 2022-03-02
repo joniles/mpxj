@@ -27,12 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -58,8 +58,6 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
-import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This
@@ -132,11 +130,11 @@ final class MPP9Reader implements MPPVariantReader
       //
       // Retrieve the high level document properties (never encoded)
       //
-      Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
-      //System.out.println(props9);
+      Props props = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
+      //System.out.println(props);
 
-      file.getProjectProperties().setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
-      m_inputStreamFactory = new DocumentInputStreamFactory(props9);
+      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(Props.PROJECT_FILE_PATH));
+      m_inputStreamFactory = new DocumentInputStreamFactory(props);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -145,7 +143,8 @@ final class MPP9Reader implements MPPVariantReader
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
-      byte passwordProtectionFlag = props9.getByte(Props.PASSWORD_FLAG);
+      //
+      byte passwordProtectionFlag = props.getByte(Props.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
 
@@ -153,14 +152,14 @@ final class MPP9Reader implements MPPVariantReader
       {
          // File is password protected for reading, let's read the password
          // and see if the correct read password was given to us.
-         String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), m_inputStreamFactory.getEncryptionCode());
+         String readPassword = MPPUtility.decodePassword(props.getByteArray(Props.PROTECTION_PASSWORD_HASH), m_inputStreamFactory.getEncryptionCode());
          // It looks like it is possible for a project file to have the password protection flag on without a password. In
          // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
          // correct the problem if the file is re-saved (at least it did for me).
          if (readPassword != null && readPassword.length() > 0)
          {
             // See if the correct read password was given
-            if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
+            if (reader.getReadPassword() == null || !reader.getReadPassword().matches(readPassword))
             {
                // Passwords don't match
                throw new MPXJException(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
@@ -184,7 +183,7 @@ final class MPP9Reader implements MPPVariantReader
       m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(9));
-      m_file.getProjectProperties().setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setAutoFilter(props.getBoolean(Props.AUTO_FILTER));
    }
 
    /**
@@ -247,8 +246,6 @@ final class MPP9Reader implements MPPVariantReader
          int uniqueIDOffset;
          int filePathOffset;
          int fileNameOffset;
-         SubProject sp;
-
          byte[] itemHeader = new byte[20];
 
          /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
@@ -267,15 +264,8 @@ final class MPP9Reader implements MPPVariantReader
             offset += 4;
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-
-            //            System.out.println ();
-            //            System.out.println ();
-            //            System.out.println ("offset=" + offset);
-            //            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
-            //            System.out.println ("type=" + ByteArrayHelper.hexdump(itemHeader, 16, 1, false));
-            //            System.out.println (ByteArrayHelper.hexdump(itemHeader, false, 16, ""));
-
             byte subProjectType = itemHeader[16];
+
             switch (subProjectType)
             {
                //
@@ -307,7 +297,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -328,7 +318,7 @@ final class MPP9Reader implements MPPVariantReader
                   // Unknown offset
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -350,7 +340,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -372,7 +362,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -392,7 +382,7 @@ final class MPP9Reader implements MPPVariantReader
                   // unknown offset
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -410,7 +400,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -427,7 +417,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   offset += 4;
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -444,7 +434,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   // 0x02 looks to be the link FROM the resource pool to a project that uses it
                   if (subProjectType == 0x04)
                   {
@@ -467,7 +457,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -498,7 +488,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -706,15 +696,18 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      Props9 props = new Props9(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
-      byte[] data = props.getByteArray(Props.FONT_BASES);
-      if (data != null)
+      if (m_viewDir.hasEntry("Props"))
       {
-         processBaseFonts(data);
-      }
+         Props props = new Props9(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
+         byte[] data = props.getByteArray(Props.FONT_BASES);
+         if (data != null)
+         {
+            processBaseFonts(data);
+         }
 
-      ProjectProperties properties = m_file.getProjectProperties();
-      properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+         ProjectProperties properties = m_file.getProjectProperties();
+         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+      }
    }
 
    /**
@@ -761,108 +754,6 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has
-    * been defined for this field.
-    *
-    * @param data data block
-    * @return list of descriptions
-    */
-   public List<String> getTaskFieldDescriptions(byte[] data)
-   {
-      if (data == null || data.length == 0)
-      {
-         return null;
-      }
-      List<String> descriptions = new ArrayList<>();
-      int offset = 0;
-      while (offset < data.length)
-      {
-         String description = MPPUtility.getUnicodeString(data, offset);
-         descriptions.add(description);
-         offset += description.length() * 2 + 2;
-      }
-      return descriptions;
-   }
-
-   /**
-    * Retrieves the description value list associated with a custom task field.
-    * This method will return null if no descriptions for the value list has
-    * been defined for this field.
-    *
-    * @param properties project properties
-    * @param field task field
-    * @param data data block
-    * @return list of task field values
-    */
-   public List<Object> getTaskFieldValues(ProjectProperties properties, FieldType field, byte[] data)
-   {
-      if (field == null || data == null || data.length == 0)
-      {
-         return null;
-      }
-
-      List<Object> list = new ArrayList<>();
-      int offset = 0;
-
-      switch (field.getDataType())
-      {
-         case DATE:
-            while (offset + 4 <= data.length)
-            {
-               Date date = MPPUtility.getTimestamp(data, offset);
-               list.add(date);
-               offset += 4;
-            }
-            break;
-         case CURRENCY:
-            while (offset + 8 <= data.length)
-            {
-               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
-               list.add(number);
-               offset += 8;
-            }
-            break;
-         case NUMERIC:
-            while (offset + 8 <= data.length)
-            {
-               Double number = NumberHelper.getDouble(MPPUtility.getDouble(data, offset));
-               list.add(number);
-               offset += 8;
-            }
-            break;
-         case DURATION:
-            while (offset + 6 <= data.length)
-            {
-               Duration duration = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
-               list.add(duration);
-               offset += 6;
-            }
-            break;
-         case STRING:
-            while (offset < data.length)
-            {
-               String s = MPPUtility.getUnicodeString(data, offset);
-               list.add(s);
-               offset += s.length() * 2 + 2;
-            }
-            break;
-         case BOOLEAN:
-            while (offset + 2 <= data.length)
-            {
-               boolean b = (MPPUtility.getShort(data, offset) == 0x01);
-               list.add(Boolean.valueOf(b));
-               offset += 2;
-            }
-            break;
-         default:
-            return null;
-      }
-
-      return list;
-   }
-
-   /**
     * Retrieve any resource field aliases defined in the MPP file.
     *
     * @param map index to field map
@@ -906,7 +797,6 @@ final class MPP9Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> taskMap = new TreeMap<>();
       int uniqueIdOffset = fieldMap.getFixedDataOffset(TaskField.UNIQUE_ID);
-      Integer taskNameKey = fieldMap.getVarDataKey(TaskField.NAME);
       int itemCount = taskFixedMeta.getAdjustedItemCount();
       int uniqueID;
       Integer key;
@@ -950,7 +840,7 @@ final class MPP9Reader implements MPPVariantReader
                {
                   uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
                   key = Integer.valueOf(uniqueID);
-                  if (taskMap.containsKey(key) == false)
+                  if (!taskMap.containsKey(key))
                   {
                      taskMap.put(key, Integer.valueOf(loop));
                   }
@@ -967,10 +857,15 @@ final class MPP9Reader implements MPPVariantReader
                      uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
 
-                     // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but the name is not null
-                     if (!taskMap.containsKey(key) || taskVarData.getUnicodeString(key, taskNameKey) != null)
+                     // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but it has var data entries
+                     if (!taskMap.containsKey(key) || !taskVarData.getVarMeta().getTypes(key).isEmpty())
                      {
-                        taskMap.put(key, Integer.valueOf(loop));
+                        // If a task is already in the map, overwrite it as long as flags is not 0x04.
+                        // TODO: gain a better understanding of why this works.
+                        if (!taskMap.containsKey(key) || (flags & 0x04) == 0)
+                        {
+                           taskMap.put(key, Integer.valueOf(loop));
+                        }
                      }
                   }
                }
@@ -1031,8 +926,6 @@ final class MPP9Reader implements MPPVariantReader
     *
     * The missing boolean attributes are probably represented in the Props
     * section of the task data, which we have yet to decode.
-    *
-    * @throws IOException
     */
    private void processTaskData() throws IOException
    {
@@ -1055,7 +948,7 @@ final class MPP9Reader implements MPPVariantReader
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
-      Object[] uniqueIdArray = taskMap.keySet().toArray(); //taskVarMeta.getUniqueIdentifierArray();
+      Integer[] uniqueIdArray = taskMap.keySet().toArray(new Integer[0]); //taskVarMeta.getUniqueIdentifierArray();
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1063,14 +956,12 @@ final class MPP9Reader implements MPPVariantReader
       boolean autoWBS = true;
       List<Task> externalTasks = new ArrayList<>();
       RecurringTaskReader recurringTaskReader = null;
-      String notes;
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
 
-      for (int loop = 0; loop < uniqueIdArray.length; loop++)
+      for (Integer uniqueID : uniqueIdArray)
       {
-         Integer uniqueID = (Integer) uniqueIdArray[loop];
-
          offset = taskMap.get(uniqueID);
-         if (taskFixedData.isValidOffset(offset) == false)
+         if (!taskFixedData.isValidOffset(offset))
          {
             continue;
          }
@@ -1169,7 +1060,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setFlag(19, (metaData[39] & 0x80) != 0);
          task.setFlag(20, (metaData[40] & 0x01) != 0);
          task.setHideBar((metaData[10] & 0x80) != 0);
-         processHyperlinkData(task, taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
+         hyperlinkReader.read(task, taskVarData.getByteArray(uniqueID, fieldMap.getVarDataKey(TaskField.HYPERLINK_DATA)));
 
          task.setID(id);
          task.setIgnoreResourceCalendar(((metaData[10] & 0x02) != 0));
@@ -1241,26 +1132,22 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // Retrieve the task notes.
-         //
-         //notes = taskVarData.getString(id, TASK_NOTES);
-         notes = task.getNotes();
-         if (!m_reader.getPreserveNoteFormatting())
-         {
-            notes = RtfHelper.strip(notes);
-         }
-         task.setNotes(notes);
-
-         //
-         // Set the calendar name
+         // Configure the calendar
          //
          Integer calendarID = (Integer) task.getCachedValue(TaskField.CALENDAR_UNIQUE_ID);
-         if (calendarID != null && calendarID.intValue() != -1)
+         if (calendarID != null)
          {
-            ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
-            if (calendar != null)
+            if (calendarID.intValue() == -1)
             {
-               task.setCalendar(calendar);
+               task.setCalendarUniqueID(null);
+            }
+            else
+            {
+               ProjectCalendar calendar = m_file.getCalendarByUniqueID(calendarID);
+               if (calendar != null)
+               {
+                  task.setCalendar(calendar);
+               }
             }
          }
 
@@ -1305,9 +1192,10 @@ final class MPP9Reader implements MPPVariantReader
             m_file.removeTask(task);
             task = m_file.addTask();
             task.setNull(true);
-            task.setUniqueID(uniqueID);
-            task.setID(id);
+            task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET)));
             m_nullTaskOrder.put(task.getID(), task.getUniqueID());
+
             continue;
          }
 
@@ -1654,77 +1542,7 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * This method is used to extract the task hyperlink attributes
-    * from a block of data and call the appropriate modifier methods
-    * to configure the specified task object.
-    *
-    * @param task task instance
-    * @param data hyperlink data block
-    */
-   private void processHyperlinkData(Task task, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-         String hyperlink;
-         String address;
-         String subaddress;
-
-         offset += 12;
-         hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         subaddress = MPPUtility.getUnicodeString(data, offset);
-
-         task.setHyperlink(hyperlink);
-         task.setHyperlinkAddress(address);
-         task.setHyperlinkSubAddress(subaddress);
-      }
-   }
-
-   /**
-    * This method is used to extract the resource hyperlink attributes
-    * from a block of data and call the appropriate modifier methods
-    * to configure the specified task object.
-    *
-    * @param resource resource instance
-    * @param data hyperlink data block
-    */
-   private void processHyperlinkData(Resource resource, byte[] data)
-   {
-      if (data != null)
-      {
-         int offset = 12;
-         String hyperlink;
-         String address;
-         String subaddress;
-
-         offset += 12;
-         hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length() + 1) * 2);
-
-         offset += 12;
-         address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length() + 1) * 2);
-
-         offset += 12;
-         subaddress = MPPUtility.getUnicodeString(data, offset);
-
-         resource.setHyperlink(hyperlink);
-         resource.setHyperlinkAddress(address);
-         resource.setHyperlinkSubAddress(subaddress);
-      }
-   }
-
-   /**
     * This method extracts and collates constraint data.
-    *
-    * @throws IOException
     */
    private void processConstraintData() throws IOException
    {
@@ -1734,8 +1552,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource data.
-    *
-    * @throws IOException
     */
    private void processResourceData() throws IOException
    {
@@ -1756,16 +1572,14 @@ final class MPP9Reader implements MPPVariantReader
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
-      Integer id;
       Integer offset;
       byte[] data;
       byte[] metaData;
       Resource resource;
-      String notes;
+      HyperlinkReader hyperlinkReader = new HyperlinkReader();
 
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (Integer id : uniqueid)
       {
-         id = uniqueid[loop];
          offset = resourceMap.get(id);
          if (offset == null)
          {
@@ -1785,19 +1599,19 @@ final class MPP9Reader implements MPPVariantReader
          }, rscVarData);
          resource.enableEvents();
 
-         processHyperlinkData(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
+         hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
 
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE1_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE2_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE3_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE4_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE5_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE6_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE7_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE8_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE9_INDEX), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE10_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(1, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE1_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(2, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE2_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(3, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE3_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(4, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE4_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(5, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE5_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(6, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE6_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(7, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE7_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(8, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE8_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(9, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE9_INDEX), OUTLINECODE_DATA));
+         resource.setOutlineCode(10, m_outlineCodeVarData.getUnicodeString((Integer) resource.getCachedValue(ResourceField.OUTLINE_CODE10_INDEX), OUTLINECODE_DATA));
 
          resource.setUniqueID(id);
 
@@ -1822,14 +1636,6 @@ final class MPP9Reader implements MPPVariantReader
          resource.setFlag(18, (metaData[30] & 0x40) != 0);
          resource.setFlag(19, (metaData[30] & 0x80) != 0);
          resource.setFlag(20, (metaData[31] & 0x01) != 0);
-
-         notes = resource.getNotes();
-         if (m_reader.getPreserveNoteFormatting() == false)
-         {
-            notes = RtfHelper.strip(notes);
-         }
-
-         resource.setNotes(notes);
 
          //
          // Configure the resource calendar
@@ -1875,8 +1681,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts and collates resource assignment data.
-    *
-    * @throws IOException
     */
    private void processAssignmentData() throws IOException
    {
@@ -1895,7 +1699,7 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), m_reader.getPreserveNoteFormatting(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null, assnFixedMeta.getAdjustedItemCount());
+      factory.process(m_file, fieldMap, null, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, null, assnFixedMeta.getAdjustedItemCount());
    }
 
    /**
@@ -1911,8 +1715,6 @@ final class MPP9Reader implements MPPVariantReader
 
    /**
     * This method extracts view data from the MPP file.
-    *
-    * @throws IOException
     */
    private void processViewData() throws IOException
    {
@@ -1951,102 +1753,106 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @todo This implementation does not deal with MPP9 files saved by later
-    * versions of MS Project
-    *
-    * @throws IOException
+    * TODO: This implementation does not deal with MPP9 files saved by later versions of MS Project
     */
    private void processTableData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
-      //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
-      InputStream stream = m_inputStreamFactory.getInstance(dir, "FixedData");
-      int blockSize = stream.available() % 115 == 0 ? 115 : 110;
-      FixedData fixedData = new FixedData(blockSize, stream);
-      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-
-      TableContainer container = m_file.getTables();
-      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
-      int items = fixedData.getItemCount();
-      for (int loop = 0; loop < items; loop++)
+      if (m_viewDir.hasEntry("CTable"))
       {
-         byte[] data = fixedData.getByteArrayValue(loop);
-         Table table = factory.createTable(m_file, data, varMeta, varData);
-         container.add(table);
-         //System.out.println(table);
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+         //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
+         InputStream stream = m_inputStreamFactory.getInstance(dir, "FixedData");
+         int blockSize = stream.available() % 115 == 0 ? 115 : 110;
+         FixedData fixedData = new FixedData(blockSize, stream);
+         VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+         TableContainer container = m_file.getTables();
+         TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
+         int items = fixedData.getItemCount();
+         for (int loop = 0; loop < items; loop++)
+         {
+            byte[] data = fixedData.getByteArrayValue(loop);
+            Table table = factory.createTable(m_file, data, varMeta, varData);
+            container.add(table);
+            //System.out.println(table);
+         }
       }
    }
 
    /**
     * Read filter definitions.
     *
-    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
-    * @throws IOException
+    * TODO: Doesn't work correctly with MPP9 files saved by Project 2007 and 2010
     */
    private void processFilterData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
-      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
-      //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
-      InputStream stream = m_inputStreamFactory.getInstance(dir, "FixedData");
-      int blockSize = stream.available() % 115 == 0 ? 115 : 110;
-      FixedData fixedData = new FixedData(blockSize, stream, true);
-      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (m_viewDir.hasEntry("CFilter"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
+         //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
+         //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
+         InputStream stream = m_inputStreamFactory.getInstance(dir, "FixedData");
+         int blockSize = stream.available() % 115 == 0 ? 115 : 110;
+         FixedData fixedData = new FixedData(blockSize, stream, true);
+         VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      //System.out.println(fixedMeta);
-      //System.out.println(fixedData);
-      //System.out.println(varMeta);
-      //System.out.println(varData);
+         //System.out.println(fixedMeta);
+         //System.out.println(fixedData);
+         //System.out.println(varMeta);
+         //System.out.println(varData);
 
-      FilterReader reader = new FilterReader9();
-      reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
+         FilterReader reader = new FilterReader9();
+         reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
+      }
    }
 
    /**
     * Read group definitions.
     *
-    * @todo Doesn't work correctly with MPP9 files saved by Propject 2007 and 2010
-    * @throws IOException
+    * TODO: Doesn't work correctly with MPP9 files saved by Project 2007 and 2010
     */
    private void processGroupData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
-      //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
-      FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (m_viewDir.hasEntry("CGrouping"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
+         //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
+         FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      //      System.out.println(fixedMeta);
-      //      System.out.println(fixedData);
-      //      System.out.println(varMeta);
-      //      System.out.println(varData);
+         //      System.out.println(fixedMeta);
+         //      System.out.println(fixedData);
+         //      System.out.println(varMeta);
+         //      System.out.println(varData);
 
-      GroupReader reader = new GroupReader9();
-      reader.process(m_file, fixedData, varData, m_fontBases);
+         GroupReader reader = new GroupReader9();
+         reader.process(m_file, fixedData, varData, m_fontBases);
+      }
    }
 
    /**
     * Read saved view state from an MPP file.
-    *
-    * @throws IOException
     */
    private void processSavedViewState() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-      //System.out.println(varMeta);
-      //System.out.println(varData);
+      if (m_viewDir.hasEntry("CEdl"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+         VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         //System.out.println(varMeta);
+         //System.out.println(varData);
 
-      InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
-      byte[] fixedData = new byte[is.available()];
-      is.read(fixedData);
-      //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
+         InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
+         byte[] fixedData = InputStreamHelper.read(is, is.available());
+         //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
-      ViewStateReader reader = new ViewStateReader9();
-      reader.process(m_file, varData, fixedData);
+         ViewStateReader reader = new ViewStateReader9();
+         reader.process(m_file, varData, fixedData);
+      }
    }
 
    /**
@@ -2054,14 +1860,17 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processDataLinks() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      if (m_viewDir.hasEntry("CEdl"))
+      {
+         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+         Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
-      factory.process();
+         DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
+         factory.process();
+      }
    }
 
    /**

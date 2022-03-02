@@ -68,7 +68,6 @@ abstract class AbstractCalendarFactory implements CalendarFactory
     * @param projectProps project properties
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
-    * @throws IOException
     */
    @Override public void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {
@@ -118,7 +117,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getCalendarIDOffset()));
                int baseCalendarID = MPPUtility.getInt(fixedData, offset + getBaseIDOffset());
 
-               if (calendarID.intValue() > 0 && calendarMap.containsKey(calendarID) == false)
+               if (calendarID.intValue() > 0 && !calendarMap.containsKey(calendarID))
                {
                   byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
                   ProjectCalendar cal;
@@ -151,7 +150,11 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                         cal = m_file.addDefaultDerivedCalendar();
                      }
 
-                     baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
+                     if (baseCalendarID > 0)
+                     {
+                        baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
+                     }
+
                      Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }

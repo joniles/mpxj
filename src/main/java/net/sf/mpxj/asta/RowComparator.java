@@ -43,9 +43,6 @@ class RowComparator implements Comparator<Row>
       m_sortColumns = sortColumns;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compare(Row leftRow, Row rightRow)
    {
       int result = 0;
@@ -65,5 +62,5 @@ class RowComparator implements Comparator<Row>
       return result;
    }
 
-   private String[] m_sortColumns;
+   private final String[] m_sortColumns;
 }

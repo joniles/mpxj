@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.util.CloseIgnoringInputStream;
 
@@ -53,7 +54,7 @@ import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.conceptdraw.ConceptDrawProjectReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
@@ -149,7 +150,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
-         bis.skip(m_skipBytes);
+         InputStreamHelper.skip(bis, m_skipBytes);
          bis.mark(BUFFER_SIZE);
          byte[] buffer = new byte[BUFFER_SIZE];
          int bytesRead = bis.read(buffer);
@@ -245,7 +246,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             return readProjectFile(new PhoenixReader(), new PhoenixInputStream(bis));
          }
 
-         if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT))
+         if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT1) || matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT2))
          {
             return readProjectFile(new PhoenixReader(), bis);
          }
@@ -349,7 +350,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
-      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
+      return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
    }
 
    /**
@@ -363,7 +364,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
-      return m_readAll ? reader.readAll(file) : Arrays.asList(reader.read(file));
+      return m_readAll ? reader.readAll(file) : Collections.singletonList(reader.read(file));
    }
 
    /**
@@ -391,7 +392,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
-         return Arrays.asList(reader.read(fs));
+         return Collections.singletonList(reader.read(fs));
       }
       return Collections.emptyList();
    }
@@ -402,7 +403,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private List<ProjectFile> handleBinaryPropertyList(InputStream stream) throws Exception
+   private List<ProjectFile> handleBinaryPropertyList(InputStream stream)
    {
       // This is an unusual case. I have seen an instance where an MSPDI file was downloaded
       // as a web archive, which is a binary property list containing the file data.
@@ -428,9 +429,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getCanonicalPath();
-         Set<String> tableNames = populateTableNames(url);
+         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
@@ -465,9 +464,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Class.forName("org.sqlite.JDBC");
-         String url = "jdbc:sqlite:" + file.getCanonicalPath();
-         Set<String> tableNames = populateTableNames(url);
+         Set<String> tableNames = populateSqliteTableNames(file);
 
          if (tableNames.contains("EXCEPTIONN"))
          {
@@ -642,7 +639,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                   ProjectFile result = reader.read(file);
                   if (result != null)
                   {
-                     return Arrays.asList(result);
+                     return Collections.singletonList(result);
                   }
                }
             }
@@ -669,7 +666,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return m_readAll ? new P3DatabaseReader().readAll(directory) : Arrays.asList(P3DatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new P3DatabaseReader().readAll(directory) : Collections.singletonList(P3DatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -680,7 +677,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleSureTrakDatabase(File directory) throws Exception
    {
-      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Arrays.asList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Collections.singletonList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
    }
 
    /**
@@ -696,7 +693,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       UniversalProjectReader reader = new UniversalProjectReader();
       reader.m_skipBytes = length;
       reader.m_charset = charset;
-      return m_readAll ? reader.readAll(stream) : Arrays.asList(reader.read(stream));
+      return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
    }
 
    /**
@@ -716,19 +713,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
          is = new FileInputStream(file);
          if (is.available() > 1350)
          {
-            StreamHelper.skip(is, 1024);
+            InputStreamHelper.skip(is, 1024);
 
             // Bytes at offset 1024
-            byte[] data = new byte[2];
-            is.read(data);
-
+            byte[] data = InputStreamHelper.read(is, 2);
             if (matchesFingerprint(data, WINDOWS_NE_EXE_FINGERPRINT))
             {
-               StreamHelper.skip(is, 286);
+               InputStreamHelper.skip(is, 286);
 
                // Bytes at offset 1312
-               data = new byte[34];
-               is.read(data);
+               data = InputStreamHelper.read(is, 34);
                if (matchesFingerprint(data, PRX_FINGERPRINT))
                {
                   is.close();
@@ -739,10 +733,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
             if (matchesFingerprint(data, STX_FINGERPRINT))
             {
-               StreamHelper.skip(is, 31742);
+               InputStreamHelper.skip(is, 31742);
                // Bytes at offset 32768
-               data = new byte[4];
-               is.read(data);
+               data = InputStreamHelper.read(is, 4);
                if (matchesFingerprint(data, PRX3_FINGERPRINT))
                {
                   is.close();
@@ -761,21 +754,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   /**
-    * Open a database and build a set of table names.
-    *
-    * @param url database URL
-    * @return set containing table names
-    */
-   private Set<String> populateTableNames(String url) throws SQLException
+   private Set<String> populateTableNames(Connection connection) throws SQLException
    {
       Set<String> tableNames = new HashSet<>();
-      Connection connection = null;
       ResultSet rs = null;
 
       try
       {
-         connection = DriverManager.getConnection(url);
          DatabaseMetaData dmd = connection.getMetaData();
          rs = dmd.getTables(null, null, null, null);
          while (rs.next())
@@ -791,6 +776,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
 
       return tableNames;
+   }
+
+   private Set<String> populateJdbcTableNames(String url) throws SQLException
+   {
+      return populateTableNames(DriverManager.getConnection(url));
+   }
+
+   private Set<String> populateSqliteTableNames(File file) throws Exception
+   {
+      return populateTableNames(SQLite.createConnection(file));
    }
 
    private int m_skipBytes;
@@ -1029,7 +1024,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private static final Pattern MSPDI_FINGERPRINT_3 = Pattern.compile(".*<Project.*<Title>.*", Pattern.DOTALL);
 
-   private static final Pattern PHOENIX_XML_FINGERPRINT = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
+   private static final Pattern PHOENIX_XML_FINGERPRINT1 = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*update_mode=\"(true|false)\".*>.*", Pattern.DOTALL);
+
+   private static final Pattern PHOENIX_XML_FINGERPRINT2 = Pattern.compile(".*<project.*version=\"(\\d+|\\d+\\.\\d+)\".*application=\"Phoenix.*", Pattern.DOTALL);
 
    private static final Pattern GANTTPROJECT_FINGERPRINT = Pattern.compile(".*<project.*webLink.*", Pattern.DOTALL);
 
@@ -1039,7 +1036,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private static final Pattern PRX3_FINGERPRINT = Pattern.compile("PRX3", Pattern.DOTALL);
 
-   private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\\\"CDProject\\\".*", Pattern.DOTALL);
+   private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\"CDProject\".*", Pattern.DOTALL);
 
    private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
 }

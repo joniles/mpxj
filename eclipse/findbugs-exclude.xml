@@ -4,7 +4,7 @@
 	<Match>
 		<Bug pattern="OS_OPEN_STREAM_EXCEPTION_PATH" />
 	</Match>
- 
+
 	<!--  Don't check generated code -->
 	<Match>
 		<Class name="~.*\.schema\..*" />
@@ -23,49 +23,49 @@
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.ResourceAssignment" />	
+		<Class name="~.*\.ResourceAssignment" />
 		<Method name="set" />
 	</Match>
 
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.Resource" />	
+		<Class name="~.*\.Resource" />
 		<Method name="getCurrentValue" />
 	</Match>
 
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.Resource" />	
+		<Class name="~.*\.Resource" />
 		<Method name="set" />
 	</Match>
 
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.Task" />	
+		<Class name="~.*\.Task" />
 		<Method name="getCurrentValue" />
 	</Match>
 
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.Task" />	
+		<Class name="~.*\.Task" />
 		<Method name="set" />
 	</Match>
 
 	<!--  Findbugs and Eclipse disagree on this one -->
 	<Match>
 		<Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" />
-		<Class name="~.*\.ProjectCalendar" />	
-	</Match>	
- 	
+		<Class name="~.*\.ProjectCalendar" />
+	</Match>
+
 	<!-- Doesn't produce particularly useful results -->
 	<Match>
 		<Bug pattern="SIC_INNER_SHOULD_BE_STATIC_ANON" />
 	</Match>
-	
+
 	<Match>
 		<Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
 	</Match>
@@ -76,95 +76,126 @@
 
 	<Match>
 		<Bug pattern="SR_NOT_CHECKED" />
-	</Match>	  	 
+	</Match>
 
 	<Match>
 		<Bug pattern="SF_SWITCH_NO_DEFAULT" />
-	</Match>	  	 
+	</Match>
 
 	<Match>
 		<Bug pattern="RR_NOT_CHECKED" />
-	</Match>	 
+	</Match>
 
 	<Match>
 		<Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" />
-	</Match>	 
+	</Match>
 
 	<Match>
 		<Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />
-	</Match>	 
+	</Match>
 
 	<Match>
 		<Bug pattern="DE_MIGHT_IGNORE" />
-	</Match>	 
-	
+	</Match>
+
 	<Match>
 		<Bug pattern="NM_CLASS_NOT_EXCEPTION" />
-	</Match>	 
-	 			 
+	</Match>
+
 	<!-- Swing UI code containing classes we don't need to serialize -->
 	<Match>
 		<Bug pattern="SE_BAD_FIELD" />
-		<Class name="~net\.sf\.mpxj\.explorer\..*" />	
-	</Match>	
+		<Class name="~net\.sf\.mpxj\.explorer\..*" />
+	</Match>
 
 	<!-- Findbugs doesn't read @SuppressWarnings annotation -->
 	<Match>
 		<Bug pattern="DLS_DEAD_LOCAL_STORE " />
-		<Class name="~net\.sf\.mpxj\.explorer\..*" />	
-	</Match>	
-	 			 
-	<!-- We're happy with these casts -->	 			 
+		<Class name="~net\.sf\.mpxj\.explorer\..*" />
+	</Match>
+
+	<!-- We're happy with these casts -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.FieldTypeHelper" />	
+		<Class name="~.*\.FieldTypeHelper" />
 		<Method name="getFieldID" />
 	</Match>
 
-	<!-- We're happy with this cast -->	 			 
+	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST" />
-		<Class name="~.*\.FieldTypeHelper" />	
+		<Class name="~.*\.FieldTypeHelper" />
 		<Method name="mapTextFields" />
 	</Match>
 
-	<!-- Oh yes it is! -->	 			 
+	<!-- Oh yes it is! -->
 	<Match>
 		<Bug pattern="ODR_OPEN_DATABASE_RESOURCE_EXCEPTION_PATH" />
-		<Class name="~.*\.UniversalProjectReader" />	
+		<Class name="~.*\.UniversalProjectReader" />
 		<Method name="populateTableNames" />
 	</Match>
-	 			 	 		
+
 	<!--  This field is written by subclasses -->
 	<Match>
 		<Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" />
-		<Class name="~.*\.AbstractColumn" />	
+		<Class name="~.*\.AbstractColumn" />
 	</Match>
 
-    <!-- Findbugs is psychic -->	 		
+    <!-- Findbugs is psychic -->
 	<Match>
 		<Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
-		<Class name="~.*\.PrimaveraDatabaseReader" />	
+		<Class name="~.*\.PrimaveraDatabaseReader" />
 		<Method name="processAnalytics" />
-	</Match>	
-	
-	<!-- Don't care if the file is not deleted -->	 			 
+	</Match>
+
+	<!-- Don't care if the file is not deleted -->
 	<Match>
 		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.FileHelper" />	
+		<Class name="~.*\.FileHelper" />
 		<Method name="deleteQuietly" />
 	</Match>
-	
-	<!-- Don't care if the directories aren't created -->	 			 
+
+	<!-- Don't care if the directories aren't created -->
 	<Match>
 		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
-		<Class name="~.*\.FileHelper" />	
+		<Class name="~.*\.FileHelper" />
 		<Method name="mkdirsQuietly" />
-	</Match>	 
-		 
+	</Match>
+
 	<Match>
 		<Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
-		<Class name="~.*\.CustomerDataTest" />	
+		<Class name="~.*\.CustomerDataTest" />
 		<Method name="debugFailure" />
-	</Match>		 		
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.MppEmbeddedTest" />
+		<Method name="testEmbeddedObjects" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMProjectWriter" />
+		<Method name="writeNativeActivityNote" />
+	</Match>
+
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+		<Class name="~.*\.PrimaveraPMProjectWriter" />
+		<Method name="writeNativeWbsNote" />
+	</Match>
+
+	<Match>
+		<Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
+		<Class name="~.*\.OperatingSystem" />
+	</Match>
+	
+	<!-- From an IDEA inspection, more efficient for modern JVMs to pass zero length array -->
+	<Match>
+		<Bug pattern="ITA_INEFFICIENT_TO_ARRAY" />
+	</Match>
 </FindBugsFilter>

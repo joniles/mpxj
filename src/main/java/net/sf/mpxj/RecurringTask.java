@@ -52,9 +52,6 @@ public final class RecurringTask extends RecurringData
       m_duration = duration;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();

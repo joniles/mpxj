@@ -105,5 +105,5 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
       m_idMap.put(id, entity);
    }
 
-   protected Map<Integer, T> m_idMap = new HashMap<>();
+   protected final Map<Integer, T> m_idMap = new HashMap<>();
 }

@@ -89,7 +89,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public Duration convertUnits(TimeUnit type, ProjectProperties defaults)
+   public Duration convertUnits(TimeUnit type, TimeUnitDefaultsContainer defaults)
    {
       return (convertUnits(m_duration, m_units, type, defaults));
    }
@@ -106,7 +106,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return new Duration instance
     */
-   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectProperties defaults)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, TimeUnitDefaultsContainer defaults)
    {
       return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue()));
    }
@@ -288,7 +288,7 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
-    * Retrieve an Duration instance. Use shared objects to
+    * Retrieve a Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     *
     * @param duration duration value
@@ -310,7 +310,7 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
-    * Retrieve an Duration instance. Use shared objects to
+    * Retrieve a Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     *
     * @param duration duration value
@@ -331,9 +331,6 @@ public final class Duration implements Comparable<Duration>
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -345,17 +342,11 @@ public final class Duration implements Comparable<Duration>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return (m_units.getValue() + (int) m_duration);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(Duration rhs)
    {
       if (m_units != rhs.m_units)
@@ -402,7 +393,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project properties containing default values
     * @return a + b
     */
-   public static Duration add(Duration a, Duration b, ProjectProperties defaults)
+   public static Duration add(Duration a, Duration b, TimeUnitDefaultsContainer defaults)
    {
       if (a == null && b == null)
       {
@@ -425,9 +416,6 @@ public final class Duration implements Comparable<Duration>
       return Duration.getInstance(a.getDuration() + b.getDuration(), unit);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_duration + m_units.toString());
@@ -436,12 +424,12 @@ public final class Duration implements Comparable<Duration>
    /**
     * Duration amount.
     */
-   private double m_duration;
+   private final double m_duration;
 
    /**
     * Duration type.
     */
-   private TimeUnit m_units;
+   private final TimeUnit m_units;
 
    private static final Duration[] ZERO_DURATIONS =
    {

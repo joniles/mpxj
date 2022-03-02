@@ -33,8 +33,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import net.sf.mpxj.ProjectFile;
@@ -44,29 +42,28 @@ import net.sf.mpxj.ProjectFile;
  */
 public class ProjectFilePanel extends JPanel
 {
-   private final ProjectTreeModel m_treeModel;
    private final ProjectTreeController m_treeController;
-   private final ProjectTreeView m_treeView;
    final Map<MpxjTreeNode, ObjectPropertiesPanel> m_openTabs;
 
    /**
     * Constructor.
     *
-    * @param file MPP file to be displayed in this view.
+    * @param file original file
+    * @param projectFile MPP file to be displayed in this view.
     */
-   public ProjectFilePanel(ProjectFile file)
+   public ProjectFilePanel(File file, ProjectFile projectFile)
    {
-      m_treeModel = new ProjectTreeModel();
-      m_treeController = new ProjectTreeController(m_treeModel);
+      ProjectTreeModel treeModel = new ProjectTreeModel();
+      m_treeController = new ProjectTreeController(treeModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      m_treeView = new ProjectTreeView(m_treeModel);
-      m_treeView.setShowsRootHandles(true);
+      ProjectTreeView treeView = new ProjectTreeView(treeModel);
+      treeView.setShowsRootHandles(true);
 
       JSplitPane splitPane = new JSplitPane();
       splitPane.setDividerLocation(0.3);
       add(splitPane);
 
-      JScrollPane scrollPane = new JScrollPane(m_treeView);
+      JScrollPane scrollPane = new JScrollPane(treeView);
       splitPane.setLeftComponent(scrollPane);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -74,27 +71,23 @@ public class ProjectFilePanel extends JPanel
 
       m_openTabs = new HashMap<>();
 
-      m_treeView.addTreeSelectionListener(new TreeSelectionListener()
-      {
-         @Override public void valueChanged(TreeSelectionEvent e)
+      treeView.addTreeSelectionListener(e -> {
+         TreePath path = e.getPath();
+         MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
+         if (!(component.getUserObject() instanceof String))
          {
-            TreePath path = e.getPath();
-            MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
-            if (!(component.getUserObject() instanceof String))
+            ObjectPropertiesPanel panel = m_openTabs.get(component);
+            if (panel == null)
             {
-               ObjectPropertiesPanel panel = m_openTabs.get(component);
-               if (panel == null)
-               {
-                  panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
-                  tabbedPane.add(component.toString(), panel);
-                  m_openTabs.put(component, panel);
-               }
-               tabbedPane.setSelectedComponent(panel);
+               panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
+               tabbedPane.add(component.toString(), panel);
+               m_openTabs.put(component, panel);
             }
+            tabbedPane.setSelectedComponent(panel);
          }
       });
 
-      m_treeController.loadFile(file);
+      m_treeController.loadFile(file, projectFile);
    }
 
    /**
@@ -108,6 +101,19 @@ public class ProjectFilePanel extends JPanel
       if (file != null)
       {
          m_treeController.saveFile(file, type);
+      }
+   }
+
+   /**
+    * Saves an anonymized version of the project file displayed in this panel.
+    *
+    * @param file target file
+    */
+   public void cleanFile(File file)
+   {
+      if (file != null)
+      {
+         m_treeController.cleanFile(file);
       }
    }
 }

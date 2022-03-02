@@ -55,13 +55,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -71,13 +68,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ResourceFrom12() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -87,13 +81,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -103,13 +94,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -119,13 +107,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP1 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ResourceFrom14() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12resource-from14.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -135,13 +120,10 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14resource.mpp"));
       testResources(mpp);
       testNotes(mpp);
@@ -151,8 +133,6 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MSPDI file.
-    *
-    * @throws Exception
     */
    @Test public void testMspdiResource() throws Exception
    {
@@ -166,14 +146,11 @@ public class MppResourceTest
 
    /**
     * Test resource data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Resource() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       MPDDatabaseReader reader = new MPDDatabaseReader();
-      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpd"));
       testResources(mpp);
       testNotes(mpp);
@@ -185,12 +162,11 @@ public class MppResourceTest
     * Tests fields related to Resources.
     *
     * @param mpp The ProjectFile being tested.
-    * @throws Exception
     */
-   private void testResources(ProjectFile mpp) throws Exception
+   private void testResources(ProjectFile mpp)
    {
 
-      /** MPP9 fields that return null:
+      /* MPP9 fields that return null:
        *
        * (would like these fixed in MPP9 as well)
        *
@@ -201,7 +177,7 @@ public class MppResourceTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       List<Resource> listAllResources = mpp.getResources();
-      assertTrue(listAllResources != null);
+      assertNotNull(listAllResources);
       // Fails for MPP12 as there is a summary resource
       //assertEquals(4, listAllResources.size());
 
@@ -380,21 +356,20 @@ public class MppResourceTest
     * Test resource outline codes.
     *
     * @param mpp project file
-    * @throws Exception
     */
-   private void testResourceOutlineCodes(ProjectFile mpp) throws Exception
+   private void testResourceOutlineCodes(ProjectFile mpp)
    {
       Resource resourceWade = mpp.getResourceByID(Integer.valueOf(1));
-      assertEquals("AAA", resourceWade.getOutlineCode1());
-      assertEquals("BBB", resourceWade.getOutlineCode2());
-      assertEquals("CCC", resourceWade.getOutlineCode3());
-      assertEquals("DDD", resourceWade.getOutlineCode4());
-      assertEquals("EEE", resourceWade.getOutlineCode5());
-      assertEquals("FFF", resourceWade.getOutlineCode6());
-      assertEquals("GGG", resourceWade.getOutlineCode7());
-      assertEquals("HHH", resourceWade.getOutlineCode8());
-      assertEquals("III", resourceWade.getOutlineCode9());
-      assertEquals("JJJ", resourceWade.getOutlineCode10());
+      assertEquals("AAA", resourceWade.getOutlineCode(1));
+      assertEquals("BBB", resourceWade.getOutlineCode(2));
+      assertEquals("CCC", resourceWade.getOutlineCode(3));
+      assertEquals("DDD", resourceWade.getOutlineCode(4));
+      assertEquals("EEE", resourceWade.getOutlineCode(5));
+      assertEquals("FFF", resourceWade.getOutlineCode(6));
+      assertEquals("GGG", resourceWade.getOutlineCode(7));
+      assertEquals("HHH", resourceWade.getOutlineCode(8));
+      assertEquals("III", resourceWade.getOutlineCode(9));
+      assertEquals("JJJ", resourceWade.getOutlineCode(10));
    }
 
    /**

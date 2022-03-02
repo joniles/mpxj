@@ -68,6 +68,6 @@ public final class MPXJDateFormat extends MPXJBaseFormat
          formats.add(new SimpleDateFormat(format.toPattern(), locale));
       }
 
-      m_formats = formats.toArray(new SimpleDateFormat[formats.size()]);
+      m_formats = formats.toArray(new SimpleDateFormat[0]);
    }
 }

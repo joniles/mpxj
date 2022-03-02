@@ -30,14 +30,15 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Read tables of data from a FastTrack file.
@@ -55,19 +56,9 @@ class FastTrackData
 
       int blockIndex = 0;
       int length = (int) file.length();
-      m_buffer = new byte[length];
-      FileInputStream is = new FileInputStream(file);
-      try
+      try (FileInputStream is = new FileInputStream(file))
       {
-         int bytesRead = is.read(m_buffer);
-         if (bytesRead != length)
-         {
-            throw new RuntimeException("Read count different");
-         }
-      }
-      finally
-      {
-         is.close();
+         m_buffer = InputStreamHelper.read(is, length);
       }
 
       configureVersion();
@@ -104,8 +95,8 @@ class FastTrackData
     */
    private void configureVersion()
    {
-      m_version = FastTrackUtility.getInt(m_buffer, 4);
-      switch (m_version)
+      int version = FastTrackUtility.getInt(m_buffer, 4);
+      switch (version)
       {
          //         case 138:
          //         {
@@ -121,7 +112,8 @@ class FastTrackData
             break;
          }
 
-         case 144:
+         case 144: // 10.2
+         case 145: // 11.0 / 2020?
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF8;
@@ -329,7 +321,7 @@ class FastTrackData
     * @param bufferIndex start index
     * @return true if the bytes at the position match a pattern
     */
-   private final boolean matchPattern(byte[][] patterns, int bufferIndex)
+   private boolean matchPattern(byte[][] patterns, int bufferIndex)
    {
       boolean match = false;
       for (byte[] pattern : patterns)
@@ -361,7 +353,7 @@ class FastTrackData
     * @param bufferIndex start index
     * @return true if a child block starts at this point
     */
-   private final boolean matchChildBlock(int bufferIndex)
+   private boolean matchChildBlock(int bufferIndex)
    {
       if (!matchPattern(CHILD_BLOCK_PATTERNS, bufferIndex))
       {
@@ -430,7 +422,7 @@ class FastTrackData
     */
    private boolean isDurationColumn(FastTrackColumn column)
    {
-      return column instanceof DurationColumn && column.getName().indexOf("Duration") != -1;
+      return column instanceof DurationColumn && column.getName().contains("Duration");
    }
 
    /**
@@ -441,7 +433,7 @@ class FastTrackData
     */
    private boolean isWorkColumn(FastTrackColumn column)
    {
-      return column instanceof DurationColumn && column.getName().indexOf("Work") != -1;
+      return column instanceof DurationColumn && column.getName().contains("Work");
    }
 
    /**
@@ -549,20 +541,13 @@ class FastTrackData
    private final Map<FastTrackTableType, FastTrackTable> m_tables = new EnumMap<>(FastTrackTableType.class);
    private FastTrackTable m_currentTable;
    private FastTrackColumn m_currentColumn;
-   private final Set<FastTrackField> m_currentFields = new TreeSet<>();
+   private final Set<FastTrackField> m_currentFields = new HashSet<>();
    private TimeUnit m_durationTimeUnit;
    private TimeUnit m_workTimeUnit;
-   private int m_version;
    private boolean m_supported;
    private Charset m_charset;
 
-   private static final ThreadLocal<FastTrackData> INSTANCE = new ThreadLocal<FastTrackData>()
-   {
-      @Override protected FastTrackData initialValue()
-      {
-         return new FastTrackData();
-      }
-   };
+   private static final ThreadLocal<FastTrackData> INSTANCE = ThreadLocal.withInitial(FastTrackData::new);
 
    private static final byte[][] PARENT_BLOCK_PATTERNS =
    {

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.common.ByteArrayHelper;
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents a block of variable data. Each block of
@@ -69,13 +69,13 @@ final class Var2Data extends MPPComponent
          if (currentOffset > itemOffset)
          {
             is.reset();
-            StreamHelper.skip(is, itemOffset);
+            InputStreamHelper.skip(is, itemOffset);
          }
          else
          {
             if (currentOffset < itemOffset)
             {
-               StreamHelper.skip(is, itemOffset - currentOffset);
+               InputStreamHelper.skip(is, itemOffset - currentOffset);
             }
          }
 
@@ -461,10 +461,10 @@ final class Var2Data extends MPPComponent
    /**
     * Map containing data items indexed by offset.
     */
-   private TreeMap<Integer, byte[]> m_map = new TreeMap<>();
+   private final TreeMap<Integer, byte[]> m_map = new TreeMap<>();
 
    /**
     * Reference to the meta data associated with this block.
     */
-   private VarMeta m_meta;
+   private final VarMeta m_meta;
 }

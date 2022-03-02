@@ -101,7 +101,7 @@ final class TableFactory14
       //System.out.println("Table=" + table);
       //System.out.println(ByteArrayHelper.hexdump(data, 12, data.length-12, true, 115, ""));
 
-      if (data != null)
+      if (data != null && data.length > 6)
       {
          int columnCount = MPPUtility.getShort(data, 4) + 1;
          int index = 12;
@@ -112,7 +112,7 @@ final class TableFactory14
          {
             column = new Column(file);
             int fieldType = MPPUtility.getShort(data, index);
-            if (table.getResourceFlag() == false)
+            if (!table.getResourceFlag())
             {
                column.setFieldType(MPPTaskField14.getInstance(fieldType));
             }
@@ -180,7 +180,7 @@ final class TableFactory14
       }
    }
 
-   private Integer m_tableColumnDataStandard;
-   private Integer m_tableColumnDataEnterprise;
-   private Integer m_tableColumnDataBaseline;
+   private final Integer m_tableColumnDataStandard;
+   private final Integer m_tableColumnDataEnterprise;
+   private final Integer m_tableColumnDataBaseline;
 }

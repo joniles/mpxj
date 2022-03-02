@@ -53,7 +53,7 @@ public enum ViewType implements MpxjEnum
     * @param type int version of the enum
     * @param name enum name
     */
-   private ViewType(int type, String name)
+   ViewType(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -119,9 +119,6 @@ public enum ViewType implements MpxjEnum
       return (m_name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_name);
@@ -135,6 +132,6 @@ public enum ViewType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
-   private String m_name;
+   private final int m_value;
+   private final String m_name;
 }

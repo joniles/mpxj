@@ -142,10 +142,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          double splitMinutes;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitStart = assignmentStart;
-            Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateHelper.setTime(splitStart, splitFinishTime);
-            splitMinutes = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES).getDuration();
+            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
+            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitMinutes = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES).getDuration();
 
             splitMinutes *= assignmentWork.getDuration();
             splitMinutes /= calendarWork.getDuration();
@@ -154,7 +153,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
             TimephasedWork split = new TimephasedWork();
-            split.setStart(splitStart);
+            split.setStart(assignmentStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(splitWork);
 
@@ -205,12 +204,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       TimephasedWork previousAssignment = null;
       for (TimephasedWork assignment : list)
       {
-         if (previousAssignment == null)
-         {
-            assignment.setAmountPerDay(assignment.getTotalAmount());
-            result.add(assignment);
-         }
-         else
+         if (previousAssignment != null)
          {
             Date previousAssignmentStart = previousAssignment.getStart();
             Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
@@ -250,9 +244,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
                }
             }
 
-            assignment.setAmountPerDay(assignment.getTotalAmount());
-            result.add(assignment);
          }
+         assignment.setAmountPerDay(assignment.getTotalAmount());
+         result.add(assignment);
 
          Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
          Duration assignmentWork = assignment.getTotalAmount();

@@ -144,16 +144,16 @@ final class FixFix extends MPPComponent
    /**
     * An array containing all of the items of data held in this block.
     */
-   private Object[] m_array;
+   private final Object[] m_array;
 
    /**
     * Overall data block size.
     */
-   private int m_size;
+   private final int m_size;
 
    /**
     * Variable containing the remainder after the available size has
     * been divided by the item size.
     */
-   private int m_diff;
+   private final int m_diff;
 }

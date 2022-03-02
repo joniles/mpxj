@@ -54,7 +54,6 @@ class DocumentInputStreamFactory
     * @param directory directory entry
     * @param name file name
     * @return new input stream
-    * @throws IOException
     */
    public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
    {
@@ -82,6 +81,6 @@ class DocumentInputStreamFactory
       return m_encryptionCode;
    }
 
-   private boolean m_encrypted;
-   private byte m_encryptionCode;
+   private final boolean m_encrypted;
+   private final byte m_encryptionCode;
 }

@@ -43,8 +43,6 @@ public class SplitTaskTest
 {
    /**
     * Exercise split task functionality.
-    *
-    * @throws Exception
     */
    @Test public void testSplits1() throws Exception
    {
@@ -79,8 +77,6 @@ public class SplitTaskTest
 
    /**
     * Exercise split task functionality.
-    *
-    * @throws Exception
     */
    @Test public void testSplits2() throws Exception
    {
@@ -126,5 +122,5 @@ public class SplitTaskTest
       assertEquals(end, m_df.format(range.getEnd()));
    }
 
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

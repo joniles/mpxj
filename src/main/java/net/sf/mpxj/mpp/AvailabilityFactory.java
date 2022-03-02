@@ -62,6 +62,17 @@ final class AvailabilityFactory
                cal.add(Calendar.MINUTE, -1);
                endDate = cal.getTime();
                Double units = NumberHelper.getDouble(unitsValue / 100);
+
+               if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+               {
+                  startDate = DateHelper.START_DATE_NA;
+               }
+
+               if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+               {
+                  endDate = DateHelper.END_DATE_NA;
+               }
+
                Availability item = new Availability(startDate, endDate, units);
                table.add(item);
             }

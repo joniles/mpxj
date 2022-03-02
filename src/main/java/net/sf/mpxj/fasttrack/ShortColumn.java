@@ -26,21 +26,15 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 
 /**
- * Column containing two byte integr values.
+ * Column containing two byte integer values.
  */
 class ShortColumn extends AbstractColumn
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int postHeaderSkipBytes()
    {
       return 18;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
@@ -56,9 +50,6 @@ class ShortColumn extends AbstractColumn
       return offset;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");

@@ -41,12 +41,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      m_endDate = DateHelper.LAST_DATE;
-      m_standardRate = new Rate(0, TimeUnit.HOURS);
-      m_standardRateFormat = TimeUnit.HOURS;
-      m_overtimeRate = m_standardRate;
-      m_overtimeRateFormat = TimeUnit.HOURS;
-      m_costPerUse = NumberHelper.getDouble(0);
+      this(new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, NumberHelper.DOUBLE_ZERO, DateHelper.START_DATE_NA, DateHelper.END_DATE_NA);
    }
 
    /**
@@ -57,16 +52,28 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * @param overtimeRate overtime rate
     * @param overtimeRateFormat overtime rate format
     * @param costPerUse cost per use
+    * @param startDate start date
     * @param endDate end date
     */
-   public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date endDate)
+   public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date startDate, Date endDate)
    {
+      m_startDate = startDate;
       m_endDate = endDate;
       m_standardRate = standardRate;
       m_standardRateFormat = standardRateFormat;
       m_overtimeRate = overtimeRate;
       m_overtimeRateFormat = overtimeRateFormat;
       m_costPerUse = costPerUse;
+   }
+
+   /**
+    * Retrieves the start date at which this table entry is valid.
+    *
+    * @return start date
+    */
+   public Date getStartDate()
+   {
+      return m_startDate;
    }
 
    /**
@@ -129,28 +136,23 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return m_costPerUse;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(CostRateTableEntry o)
    {
       return DateHelper.compare(m_endDate, o.m_endDate);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
-      return "[CostRateTableEntry standardRate=" + m_standardRate + " overtimeRate=" + m_overtimeRate + " costPerUse=" + m_costPerUse + " endDate=" + m_endDate + "]";
+      return "[CostRateTableEntry standardRate=" + m_standardRate + " overtimeRate=" + m_overtimeRate + " costPerUse=" + m_costPerUse + " startDate=" + m_startDate + " endDate=" + m_endDate + "]";
    }
 
-   private Date m_endDate;
-   private Rate m_standardRate;
-   private TimeUnit m_standardRateFormat;
-   private Rate m_overtimeRate;
-   private TimeUnit m_overtimeRateFormat;
-   private Number m_costPerUse;
+   private final Date m_startDate;
+   private final Date m_endDate;
+   private final Rate m_standardRate;
+   private final TimeUnit m_standardRateFormat;
+   private final Rate m_overtimeRate;
+   private final TimeUnit m_overtimeRateFormat;
+   private final Number m_costPerUse;
 
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
 }

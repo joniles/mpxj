@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.sf.mpxj.TaskField;
 
 /**
@@ -70,6 +73,20 @@ public final class TaskFieldLists
       TaskField.DURATION8,
       TaskField.DURATION9,
       TaskField.DURATION10
+   };
+
+   public static final TaskField[] CUSTOM_DURATION_UNITS =
+   {
+      TaskField.DURATION1_UNITS,
+      TaskField.DURATION2_UNITS,
+      TaskField.DURATION3_UNITS,
+      TaskField.DURATION4_UNITS,
+      TaskField.DURATION5_UNITS,
+      TaskField.DURATION6_UNITS,
+      TaskField.DURATION7_UNITS,
+      TaskField.DURATION8_UNITS,
+      TaskField.DURATION9_UNITS,
+      TaskField.DURATION10_UNITS
    };
 
    public static final TaskField[] CUSTOM_FLAG =
@@ -194,6 +211,20 @@ public final class TaskFieldLists
       TaskField.OUTLINE_CODE8,
       TaskField.OUTLINE_CODE9,
       TaskField.OUTLINE_CODE10
+   };
+
+   public static final TaskField[] CUSTOM_OUTLINE_CODE_INDEX =
+   {
+      TaskField.OUTLINE_CODE1_INDEX,
+      TaskField.OUTLINE_CODE2_INDEX,
+      TaskField.OUTLINE_CODE3_INDEX,
+      TaskField.OUTLINE_CODE4_INDEX,
+      TaskField.OUTLINE_CODE5_INDEX,
+      TaskField.OUTLINE_CODE6_INDEX,
+      TaskField.OUTLINE_CODE7_INDEX,
+      TaskField.OUTLINE_CODE8_INDEX,
+      TaskField.OUTLINE_CODE9_INDEX,
+      TaskField.OUTLINE_CODE10_INDEX
    };
 
    public static final TaskField[] ENTERPRISE_COST =
@@ -714,4 +745,24 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FIXED_COST_ACCRUAL
    };
 
+   public static final TaskField[] EXTENDED_FIELDS;
+   static
+   {
+      ArrayList<TaskField> result = new ArrayList<>();
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS = result.toArray(new TaskField[0]);
+   }
 }

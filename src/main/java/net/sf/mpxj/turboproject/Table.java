@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents a table read from a PEP file.
@@ -42,9 +42,6 @@ import net.sf.mpxj.common.StreamHelper;
  */
 class Table implements Iterable<MapRow>
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public Iterator<MapRow> iterator()
    {
       return m_rows.values().iterator();
@@ -58,19 +55,17 @@ class Table implements Iterable<MapRow>
     */
    public void read(InputStream is) throws IOException
    {
-      byte[] headerBlock = new byte[20];
-      is.read(headerBlock);
+      byte[] headerBlock = InputStreamHelper.read(is, 20);
 
       int headerLength = PEPUtility.getShort(headerBlock, 8);
       int recordCount = PEPUtility.getInt(headerBlock, 10);
       int recordLength = PEPUtility.getInt(headerBlock, 16);
-      StreamHelper.skip(is, headerLength - headerBlock.length);
+      InputStreamHelper.skip(is, headerLength - headerBlock.length);
 
       byte[] record = new byte[recordLength];
       for (int recordIndex = 1; recordIndex <= recordCount; recordIndex++)
       {
-         is.read(record);
-         readRow(recordIndex, record);
+         readRow(recordIndex, InputStreamHelper.read(is, record));
       }
    }
 
@@ -101,7 +96,7 @@ class Table implements Iterable<MapRow>
     * Adds a row to the internal storage, indexed by primary key.
     *
     * @param uniqueID unique ID of the row
-    * @param map row data as a simpe map
+    * @param map row data as a simple map
     */
    protected void addRow(int uniqueID, Map<String, Object> map)
    {

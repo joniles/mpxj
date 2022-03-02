@@ -42,13 +42,10 @@ public class ReaderTokenizer extends Tokenizer
       m_reader = r;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int read() throws IOException
    {
       return (m_reader.read());
    }
 
-   private Reader m_reader;
+   private final Reader m_reader;
 }

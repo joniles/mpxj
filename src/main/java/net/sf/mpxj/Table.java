@@ -51,7 +51,7 @@ public final class Table
    }
 
    /**
-    * This method is used to to set the unique identifier associated with
+    * This method is used to set the unique identifier associated with
     * this table.
     *
     * @param id unique table identifier
@@ -63,7 +63,7 @@ public final class Table
 
    /**
     * This method is used to retrieve the table name. Note that internally
-    * in MS Project the table name will contain an ampersand (&) used to
+    * in MS Project the table name will contain an ampersand (&amp;) used to
     * flag the letter that can be used as a shortcut for this table. The
     * ampersand is stripped out by MPXJ.
     *
@@ -161,5 +161,5 @@ public final class Table
    private int m_id;
    private String m_name;
    private boolean m_resourceFlag;
-   private ArrayList<Column> m_columns = new ArrayList<>();
+   private final ArrayList<Column> m_columns = new ArrayList<>();
 }

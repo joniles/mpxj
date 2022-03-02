@@ -27,31 +27,43 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
@@ -102,8 +114,46 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * {@inheritDoc}
+    * Returns true of attribute type information is written to the JSON file.
+    *
+    * @return true if attribute types written
     */
+   public boolean getWriteAttributeTypes()
+   {
+      return m_writeAttributeTypes;
+   }
+
+   /**
+    * Sets the flag used to determine if attribute types are written to the JSON file.
+    *
+    * @param writeAttributeTypes set to true to write attribute types
+    */
+   public void setWriteAttributeTypes(boolean writeAttributeTypes)
+   {
+      m_writeAttributeTypes = writeAttributeTypes;
+   }
+
+   /**
+    * Set the time units to use for durations. Defaults to seconds.
+    *
+    * @param value time units
+    */
+   public void setTimeUnits(TimeUnit value)
+   {
+      m_timeUnits = value;
+   }
+
+   /**
+    * Retrieve the time units used for durations. null indicates
+    * durations will be written in seconds.
+    *
+    * @return time units
+    */
+   public TimeUnit getTimeUnits()
+   {
+      return m_timeUnits;
+   }
+
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try
@@ -114,6 +164,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeStartObject(null);
          writeCustomFields();
+         writeActivityCodes();
          writeProperties();
          writeResources();
          writeTasks();
@@ -134,35 +185,47 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = new ArrayList<>();
-      for (CustomField field : m_projectFile.getCustomFields())
-      {
-         FieldType fieldType = field.getFieldType();
-         if (fieldType != null)
-         {
-            sortedCustomFieldsList.add(field);
-         }
-      }
-
-      // Sort to ensure consistent order in file
-      Collections.sort(sortedCustomFieldsList, new Comparator<CustomField>()
-      {
-         @Override public int compare(CustomField customField1, CustomField customField2)
-         {
-            FieldType o1 = customField1.getFieldType();
-            FieldType o2 = customField2.getFieldType();
-            String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-            String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
-            return name1.compareTo(name2);
-         }
-      });
-
+      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).sorted(this::compareCustomFields).collect(Collectors.toList());
       m_writer.writeStartList("custom_fields");
       for (CustomField field : sortedCustomFieldsList)
       {
          writeCustomField(field);
       }
       m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of activity codes.
+    */
+   private void writeActivityCodes() throws IOException
+   {
+      if (!m_projectFile.getActivityCodes().isEmpty())
+      {
+         List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
+         sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
+         m_writer.writeStartList("activity_codes");
+         for (ActivityCode code : sortedActivityCodeList)
+         {
+            writeActivityCode(code);
+         }
+         m_writer.writeEndList();
+      }
+   }
+
+   /**
+    * Comparator to ensure consistent ordering.
+    *
+    * @param f1 CustomField instance
+    * @param f2 CustomField instance
+    * @return comparison result
+    */
+   private int compareCustomFields(CustomField f1, CustomField f2)
+   {
+      FieldType o1 = f1.getFieldType();
+      FieldType o2 = f2.getFieldType();
+      String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();
+      String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + f2.getAlias();
+      return name1.compareTo(name2);
    }
 
    /**
@@ -173,7 +236,6 @@ public final class JsonWriter extends AbstractProjectWriter
     * entry.
     *
     * @param field custom field to write
-    * @throws IOException
     */
    private void writeCustomField(CustomField field) throws IOException
    {
@@ -255,7 +317,6 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(null, assignment, AssignmentField.values());
       }
       m_writer.writeEndList();
-
    }
 
    /**
@@ -266,12 +327,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeAttributeTypes(String name, FieldType[] types) throws IOException
    {
-      m_writer.writeStartObject(name);
-      for (FieldType field : types)
+      if (m_writeAttributeTypes)
       {
-         m_writer.writeNameValuePair(field.name().toLowerCase(), field.getDataType().getValue());
+         m_writer.writeStartObject(name);
+         for (FieldType field : types)
+         {
+            m_writer.writeNameValuePair(field.name().toLowerCase(), field.getDataType().getValue());
+         }
+         m_writer.writeEndObject();
       }
-      m_writer.writeEndObject();
    }
 
    /**
@@ -288,7 +352,7 @@ public final class JsonWriter extends AbstractProjectWriter
          Object value = container.getCurrentValue(field);
          if (value != null)
          {
-            writeField(field, value);
+            writeField(container, field, value);
          }
       }
       m_writer.writeEndObject();
@@ -297,29 +361,35 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
     *
+    * @param container field container
     * @param field field type
     * @param value field value
     */
-   private void writeField(FieldType field, Object value) throws IOException
+   private void writeField(FieldContainer container, FieldType field, Object value) throws IOException
    {
-      String fieldName = field.name().toLowerCase();
-      writeField(fieldName, field.getDataType(), value);
+      if (!IGNORED_FIELDS.contains(field))
+      {
+         writeField(container, field, field.name().toLowerCase(), field.getDataType(), value);
+      }
    }
 
    /**
     * Write the appropriate data for a field to the JSON file based on its type.
     *
-    * @param fieldName field name
+    * @param container field container
     * @param fieldType field type
+    * @param fieldName field name
+    * @param dataType field type
     * @param value field value
     */
-   private void writeField(String fieldName, DataType fieldType, Object value) throws IOException
+   private void writeField(FieldContainer container, FieldType fieldType, String fieldName, DataType dataType, Object value) throws IOException
    {
-      switch (fieldType)
+      switch (dataType)
       {
+         case SHORT:
          case INTEGER:
          {
-            writeIntegerField(fieldName, value);
+            writeIntegerField(fieldType, fieldName, value);
             break;
          }
 
@@ -338,10 +408,11 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case DELAY:
          case WORK:
          case DURATION:
          {
-            writeDurationField(fieldName, value);
+            writeDurationField(container, fieldName, value);
             break;
          }
 
@@ -351,6 +422,7 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case RATE_UNITS:
          case TIME_UNITS:
          {
             writeTimeUnitsField(fieldName, value);
@@ -387,6 +459,42 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case RATE:
+         {
+            writeRateField(fieldName, value);
+            break;
+         }
+
+         case RESOURCE_REQUEST_TYPE:
+         {
+            writeResourceRequestTypeField(fieldName, value);
+            break;
+         }
+
+         case WORK_CONTOUR:
+         {
+            writeWorkContourField(fieldName, value);
+            break;
+         }
+
+         case EARNED_VALUE_METHOD:
+         {
+            writeEarnedValueMethodField(container, fieldName, value);
+            break;
+         }
+
+         case TASK_TYPE:
+         {
+            writeTaskTypeField(container, fieldName, value);
+            break;
+         }
+
+         case ACTIVITY_CODE_LIST:
+         {
+            writeActivityCodeList(fieldName, value);
+            break;
+         }
+
          case BINARY:
          {
             // Don't write binary data
@@ -395,6 +503,14 @@ public final class JsonWriter extends AbstractProjectWriter
 
          default:
          {
+            // If we have an enum, ensure we write the name as it appears in the code.
+            // We have a various enums which currently override toString to produce
+            // file-format-specific values, which is not helpful in the JSON file.
+            if (value instanceof Enum)
+            {
+               value = ((Enum<?>) value).name();
+            }
+
             writeStringField(fieldName, value);
             break;
          }
@@ -409,10 +525,22 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeIntegerField(String fieldName, Object value) throws IOException
    {
+      writeIntegerField(null, fieldName, value);
+   }
+
+   /**
+    * Write an integer field to the JSON file.
+    *
+    * @param fieldType field type
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeIntegerField(FieldType fieldType, String fieldName, Object value) throws IOException
+   {
       if (value != null)
       {
          int val = ((Number) value).intValue();
-         if (val != 0)
+         if (val != 0 || MANDATORY_FIELDS.contains(fieldType))
          {
             m_writer.writeNameValuePair(fieldName, val);
          }
@@ -420,7 +548,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write an double field to the JSON file.
+    * Write a double field to the JSON file.
     *
     * @param fieldName field name
     * @param value field value
@@ -458,10 +586,11 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write a duration field to the JSON file.
     *
+    * @param container field container
     * @param fieldName field name
     * @param value field value
     */
-   private void writeDurationField(String fieldName, Object value) throws IOException
+   private void writeDurationField(FieldContainer container, String fieldName, Object value) throws IOException
    {
       if (value != null)
       {
@@ -474,9 +603,40 @@ public final class JsonWriter extends AbstractProjectWriter
             Duration val = (Duration) value;
             if (val.getDuration() != 0)
             {
-               Duration minutes = val.convertUnits(TimeUnit.MINUTES, m_projectFile.getProjectProperties());
-               long seconds = (long) (minutes.getDuration() * 60.0);
-               m_writer.writeNameValuePair(fieldName, seconds);
+               // If we have a calendar associated with this container,
+               // we'll use any defaults it supplies to handle the time
+               // units conversion.
+               TimeUnitDefaultsContainer defaults = null;
+               if (container instanceof Task)
+               {
+                  defaults = ((Task) container).getEffectiveCalendar();
+               }
+               else
+               {
+                  if (container instanceof Resource)
+                  {
+                     defaults = ((Resource) container).getResourceCalendar();
+                  }
+               }
+
+               if (defaults == null)
+               {
+                  defaults = m_projectFile.getProjectProperties();
+               }
+
+               // If a specific TimeUnit hasn't been provided, we default
+               // to writing seconds for backward compatibility.
+               if (m_timeUnits == null)
+               {
+                  Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
+                  long seconds = (long) (minutes.getDuration() * 60.0);
+                  m_writer.writeNameValuePair(fieldName, seconds);
+               }
+               else
+               {
+                  Duration duration = val.convertUnits(m_timeUnits, defaults);
+                  m_writer.writeNameValuePair(fieldName, duration.getDuration());
+               }
             }
          }
       }
@@ -537,6 +697,20 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write a priority field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeRateField(String fieldName, Object value) throws IOException
+   {
+      if (value != null && ((Rate) value).getAmount() != 0.0)
+      {
+         m_writer.writeNameValuePair(fieldName, ((Rate) value).getAmount() + "/" + ((Rate) value).getUnits());
+      }
+   }
+
+   /**
     * Write a map field to the JSON file.
     *
     * @param fieldName field name
@@ -558,7 +732,7 @@ public final class JsonWriter extends AbstractProjectWriter
                type = DataType.STRING;
                entryValue = entryValue.toString();
             }
-            writeField(entry.getKey(), type, entryValue);
+            writeField(null, null, entry.getKey(), type, entryValue);
          }
       }
       m_writer.writeEndObject();
@@ -616,6 +790,47 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write an activity code to the JSON file.
+    *
+    * @param code ActivityCode.
+    */
+   private void writeActivityCode(ActivityCode code) throws IOException
+   {
+      m_writer.writeStartObject(null);
+
+      writeIntegerField("unique_id", code.getUniqueID());
+      writeStringField("name", code.getName());
+      if (!code.getValues().isEmpty())
+      {
+         m_writer.writeStartList("values");
+         for (ActivityCodeValue value : code.getValues())
+         {
+            writeActivityCodeValue(value);
+         }
+         m_writer.writeEndList();
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write an activity code value to the JSON file.
+    *
+    * @param value ActivityCodeValue.
+    */
+   private void writeActivityCodeValue(ActivityCodeValue value) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", value.getUniqueID());
+      writeStringField("name", value.getName());
+      writeStringField("desription", value.getDescription());
+      if (value.getParent() != null)
+      {
+         writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
     * Write a string field to the JSON file.
     *
     * @param fieldName field name
@@ -650,7 +865,7 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeStartObject(null);
             writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
-            writeDurationField("lag", relation.getLag());
+            writeDurationField(m_projectFile.getProjectProperties(), "lag", relation.getLag());
             writeStringField("type", relation.getType());
             m_writer.writeEndObject();
          }
@@ -658,14 +873,100 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write a resource request type field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeResourceRequestTypeField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         ResourceRequestType type = (ResourceRequestType) value;
+         if (type != ResourceRequestType.NONE)
+         {
+            m_writer.writeNameValuePair(fieldName, type.name());
+         }
+      }
+   }
+
+   /**
+    * Write a work contour field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeWorkContourField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         WorkContour type = (WorkContour) value;
+         if (!type.isContourFlat())
+         {
+            m_writer.writeNameValuePair(fieldName, type.toString());
+         }
+      }
+   }
+
+   /**
+    * Write an earned value method field to the JSON file.
+    *
+    * @param container field container
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeEarnedValueMethodField(FieldContainer container, String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         EarnedValueMethod method = (EarnedValueMethod) value;
+         if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
+         {
+            m_writer.writeNameValuePair(fieldName, method.name());
+         }
+      }
+   }
+
+   /**
+    * Write a task type field to the JSON file.
+    *
+    * @param container field container
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeTaskTypeField(FieldContainer container, String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         TaskType type = (TaskType) value;
+         if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
+         {
+            m_writer.writeNameValuePair(fieldName, type.name());
+         }
+      }
+   }
+
+   private void writeActivityCodeList(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      List<ActivityCodeValue> list = (List<ActivityCodeValue>) value;
+      if (!list.isEmpty())
+      {
+         m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
+      }
+   }
+
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
    private Charset m_encoding = DEFAULT_ENCODING;
+   private boolean m_writeAttributeTypes;
+   private TimeUnit m_timeUnits;
 
    private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
 
-   private static Map<String, DataType> TYPE_MAP = new HashMap<>();
+   private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);
@@ -674,4 +975,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
    }
+
+   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID));
+   private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID));
 }

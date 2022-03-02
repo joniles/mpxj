@@ -24,7 +24,8 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,8 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
@@ -61,9 +64,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class FastTrackReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -89,12 +89,9 @@ public final class FastTrackReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
@@ -102,7 +99,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
     *
     * @return ProjectFile instance
     */
-   private ProjectFile read() throws Exception
+   private ProjectFile read()
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -126,6 +123,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
       processTasks();
       processDependencies();
       processAssignments();
+      rollupValues();
 
       return m_project;
    }
@@ -530,7 +528,10 @@ public final class FastTrackReader extends AbstractProjectFileReader
          for (String predecessor : predecessors.split(", "))
          {
             Matcher matcher = RELATION_REGEX.matcher(predecessor);
-            matcher.matches();
+            if (!matcher.matches())
+            {
+               continue;
+            }
 
             Integer id = Integer.valueOf(matcher.group(1));
             RelationType type = RELATION_TYPE_MAP.getOrDefault(matcher.group(3), RelationType.FINISH_START);
@@ -589,7 +590,10 @@ public final class FastTrackReader extends AbstractProjectFileReader
             }
 
             Matcher matcher = ASSIGNMENT_REGEX.matcher(assignment);
-            matcher.matches();
+            if (!matcher.matches())
+            {
+               continue;
+            }
 
             Resource resource = resources.get(matcher.group(1));
             if (resource != null)
@@ -624,13 +628,89 @@ public final class FastTrackReader extends AbstractProjectFileReader
       return result;
    }
 
+   private void rollupValues()
+   {
+      m_project.getChildTasks().forEach(this::rollupDates);
+   }
+
+   private void rollupDates(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         int finished = 0;
+         Date startDate = parentTask.getStart();
+         Date finishDate = parentTask.getFinish();
+         Date actualStartDate = parentTask.getActualStart();
+         Date actualFinishDate = parentTask.getActualFinish();
+         Date earlyStartDate = parentTask.getEarlyStart();
+         Date earlyFinishDate = parentTask.getEarlyFinish();
+         Date lateStartDate = parentTask.getLateStart();
+         Date lateFinishDate = parentTask.getLateFinish();
+         Date baselineStartDate = parentTask.getBaselineStart();
+         Date baselineFinishDate = parentTask.getBaselineFinish();
+
+         boolean critical = false;
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            rollupDates(task);
+
+            startDate = DateHelper.min(startDate, task.getStart());
+            finishDate = DateHelper.max(finishDate, task.getFinish());
+            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
+
+            if (task.getActualFinish() != null)
+            {
+               ++finished;
+            }
+
+            critical = critical || task.getCritical();
+         }
+
+         parentTask.setStart(startDate);
+         parentTask.setFinish(finishDate);
+         parentTask.setActualStart(actualStartDate);
+         parentTask.setEarlyStart(earlyStartDate);
+         parentTask.setEarlyFinish(earlyFinishDate);
+         parentTask.setLateStart(lateStartDate);
+         parentTask.setLateFinish(lateFinishDate);
+         parentTask.setBaselineStart(baselineStartDate);
+         parentTask.setBaselineFinish(baselineFinishDate);
+
+         //
+         // Only if all child tasks have actual finish dates do we
+         // set the actual finish date on the parent task.
+         //
+         if (finished == parentTask.getChildTasks().size())
+         {
+            parentTask.setActualFinish(actualFinishDate);
+            parentTask.setPercentageComplete(NumberHelper.getDouble(100.0));
+            parentTask.setActualDuration(m_project.getDefaultCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS));
+         }
+
+         if (parentTask.getStart() != null && parentTask.getFinish() != null)
+         {
+            parentTask.setDuration(m_project.getDefaultCalendar().getWork(parentTask.getStart(), parentTask.getFinish(), TimeUnit.HOURS));
+         }
+
+         parentTask.setCritical(critical);
+      }
+   }
+
    private FastTrackData m_data;
    private ProjectFile m_project;
    private EventManager m_eventManager;
 
-   private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|\\-|\\+|\\/|\\,|\\:|\\;|\\~|\\\\|\\| )");
-   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*(\\-|\\+)*(\\d+\\.\\d+)*");
-   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:(?:\\[(-?\\d+)\\%\\])|(?:\\[.+\\]))?");
+   private static final Pattern WBS_SPLIT_REGEX = Pattern.compile("(\\.|-|\\+|/|,|:|;|~|\\\\|\\| )");
+   private static final Pattern RELATION_REGEX = Pattern.compile("(\\d+)(:\\d+)?(FS|SF|SS|FF)*([-+])*(\\d+\\.\\d+)*");
+   private static final Pattern ASSIGNMENT_REGEX = Pattern.compile("([^\\[]+)(?:\\[(-?\\d+)%]|\\[.+])?");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

@@ -114,15 +114,13 @@ public class ObjectPropertiesController
          ++rowIndex;
       }
 
-      TableModel tableModel = new DefaultTableModel(data, headings)
+      return new DefaultTableModel(data, headings)
       {
          @Override public boolean isCellEditable(int r, int c)
          {
             return false;
          }
       };
-
-      return tableModel;
    }
 
    /**
@@ -194,7 +192,8 @@ public class ObjectPropertiesController
       try
       {
          int index = 1;
-         while (true)
+         // Let's assume we never have more than 1000 entries for anything
+         while (index < 1000)
          {
             Object value = filterValue(method.invoke(object, Integer.valueOf(index)));
             if (value != null)

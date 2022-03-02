@@ -42,9 +42,6 @@ public class SkipNulInputStream extends InputStream
       m_stream = stream;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int read() throws IOException
    {
       while (true)

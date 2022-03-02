@@ -25,7 +25,8 @@ package net.sf.mpxj.junit;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-
+import net.sf.mpxj.common.JdbcOdbcHelper;
+import net.sf.mpxj.common.JvmHelper;
 import org.junit.Assume;
 
 /**
@@ -42,12 +43,30 @@ public final class MpxjAssert
    }
 
    /**
+    * Returns true if Microsoft Access can be used via JDBC.
+    *
+    * @return true if Microsoft Access can be used via JDBC
+    */
+   public static boolean isMicrosoftAccessJdbcAvailable()
+   {
+      return !JvmHelper.isIkvm() && JdbcOdbcHelper.jdbcOdbcAvailable();
+   }
+
+   /**
+    * Allows a test to be ignored if it requires the JDBC-ODBC bridge,
+    * if this is not available.
+    */
+   public static void assumeMicrosoftAccessJdbcAvailable()
+   {
+      Assume.assumeTrue(isMicrosoftAccessJdbcAvailable());
+   }
+
+   /**
     * Allows a test to be ignored if it is running under IKVM (i.e. not a regular JVM)
     */
    public static void assumeJvm()
    {
-      String runtime = System.getProperty("java.runtime.name");
-      Assume.assumeFalse(runtime != null && runtime.indexOf("IKVM") != -1);
+      Assume.assumeFalse(JvmHelper.isIkvm());
    }
 
    /**

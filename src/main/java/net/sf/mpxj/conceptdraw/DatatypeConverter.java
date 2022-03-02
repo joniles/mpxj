@@ -407,15 +407,6 @@ public final class DatatypeConverter
       MAP_TO_CURRENCY_SYMBOL_POSITION.put("3", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final Map<CurrencySymbolPosition, String> MAP_FROM_CURRENCY_SYMBOL_POSITION = new HashMap<>();
-   static
-   {
-      MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.BEFORE, "0");
-      MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.AFTER, "1");
-      MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.BEFORE_WITH_SPACE, "2");
-      MAP_FROM_CURRENCY_SYMBOL_POSITION.put(CurrencySymbolPosition.AFTER_WITH_SPACE, "3");
-   }
-
    private static final Map<String, TimeUnit> MAP_TO_TIME_UNIT = new HashMap<>();
    static
    {
@@ -464,33 +455,21 @@ public final class DatatypeConverter
 
    }
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 }

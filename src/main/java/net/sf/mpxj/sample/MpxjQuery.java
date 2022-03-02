@@ -25,9 +25,13 @@ package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -37,7 +41,9 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.utility.TimephasedUtility;
@@ -109,6 +115,9 @@ public class MpxjQuery
 
       listCalendars(mpx);
 
+      listPopulatedFields(mpx);
+
+      listTasksPercentComplete(mpx);
    }
 
    /**
@@ -185,6 +194,22 @@ public class MpxjQuery
          }
 
          System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Actual Duration" + actualDuration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
+      }
+      System.out.println();
+   }
+
+   /**
+    * List different percent complete types for the tasks.
+    *
+    * @param file project file
+    */
+   private static void listTasksPercentComplete(ProjectFile file)
+   {
+      System.out.println("ID\tUniqueID\tActivity ID\tName\t%Complete Type\tDuration % Complete\tWork % Complete\tPhysical % Complete");
+      for (Task task : file.getTasks())
+      {
+         List<Object> values = Arrays.asList(task.getID(), task.getUniqueID(), task.getActivityID(), task.getName(), task.getPercentCompleteType(), task.getPercentageComplete(), task.getPercentageWorkComplete(), task.getPhysicalPercentComplete());
+         System.out.println(values.stream().map(String::valueOf).collect(Collectors.joining("\t")));
       }
       System.out.println();
    }
@@ -422,7 +447,7 @@ public class MpxjQuery
     */
    private static void dumpRelationList(List<Relation> relations)
    {
-      if (relations != null && relations.isEmpty() == false)
+      if (relations != null && !relations.isEmpty())
       {
          if (relations.size() > 1)
          {
@@ -483,5 +508,34 @@ public class MpxjQuery
       {
          System.out.println(cal.toString());
       }
+   }
+
+   /**
+    * List details of all fields with non-default value.
+    *
+    * @param file ProjectFile instance
+    */
+   private static void listPopulatedFields(ProjectFile file)
+   {
+      Set<TaskField> tasks = file.getTasks().getPopulatedFields();
+      Set<ResourceField> resources = file.getResources().getPopulatedFields();
+      Set<AssignmentField> assignments = file.getResourceAssignments().getPopulatedFields();
+
+      System.out.println("Populated task fields: " + tasks.size() + "/" + TaskField.values().length);
+      System.out.println("Populated resource fields: " + resources.size() + "/" + ResourceField.values().length);
+      System.out.println("Populated assignment fields: " + assignments.size() + "/" + AssignmentField.values().length);
+      System.out.println();
+
+      System.out.println("Populated task fields:");
+      tasks.forEach(System.out::println);
+      System.out.println();
+
+      System.out.println("Populated resource fields:");
+      resources.forEach(System.out::println);
+      System.out.println();
+
+      System.out.println("Populated assignment fields:");
+      assignments.forEach(System.out::println);
+      System.out.println();
    }
 }

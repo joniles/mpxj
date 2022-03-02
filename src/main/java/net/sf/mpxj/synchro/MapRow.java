@@ -172,7 +172,7 @@ class MapRow
 
       }
 
-      return "[MapRow " + sb.toString() + "]";
+      return "[MapRow " + sb + "]";
    }
 
    /**
@@ -181,10 +181,10 @@ class MapRow
     * @param name column name
     * @return value
     */
-   private final Object getObject(String name)
+   private Object getObject(String name)
    {
       return m_map.get(name);
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

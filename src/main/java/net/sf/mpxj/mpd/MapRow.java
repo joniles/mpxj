@@ -46,9 +46,6 @@ class MapRow implements Row
       m_map = map;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final String getString(String name)
    {
       Object value = getObject(name);
@@ -64,15 +61,12 @@ class MapRow implements Row
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Integer getInteger(String name)
    {
       Object result = getObject(name);
       if (result != null)
       {
-         if (result instanceof Integer == false)
+         if (!(result instanceof Integer))
          {
             result = Integer.valueOf(((Number) result).intValue());
          }
@@ -80,15 +74,12 @@ class MapRow implements Row
       return ((Integer) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Double getDouble(String name)
    {
       Object result = getObject(name);
       if (result != null)
       {
-         if (result instanceof Double == false)
+         if (!(result instanceof Double))
          {
             result = Double.valueOf(((Number) result).doubleValue());
          }
@@ -96,9 +87,6 @@ class MapRow implements Row
       return ((Double) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Double getCurrency(String name)
    {
       Double value = getDouble(name);
@@ -109,9 +97,6 @@ class MapRow implements Row
       return (value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final boolean getBoolean(String name)
    {
       boolean result = false;
@@ -130,25 +115,16 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final int getInt(String name)
    {
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Date getDate(String name)
    {
       return ((Date) getObject(name));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public final Duration getDuration(String name)
    {
       return (Duration.getInstance(NumberHelper.getDouble(getDouble(name)) / 60000, TimeUnit.HOURS));
@@ -161,9 +137,9 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   private final Object getObject(String name)
+   private Object getObject(String name)
    {
-      if (m_map.containsKey(name) == false)
+      if (!m_map.containsKey(name))
       {
          throw new IllegalArgumentException("Invalid column name " + name);
       }
@@ -171,5 +147,5 @@ class MapRow implements Row
       return m_map.get(name);
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

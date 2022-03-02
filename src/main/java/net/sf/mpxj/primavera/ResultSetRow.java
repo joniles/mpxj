@@ -50,11 +50,11 @@ final class ResultSetRow extends MapRow
    public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super(new HashMap<String, Object>());
+      super(new HashMap<>());
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {
-         String name = entry.getKey();
+         String name = entry.getKey().toLowerCase();
          int type = (entry.getValue()).intValue();
          Object value;
 
@@ -160,14 +160,10 @@ final class ResultSetRow extends MapRow
     */
    private String stripTrailingNul(String value)
    {
-      String result;
-      if (value != null && !value.isEmpty() && value.charAt(value.length() - 1) == 0)
+      String result = value;
+      while (result != null && !result.isEmpty() && result.charAt(result.length() - 1) == 0)
       {
-         result = value.substring(0, value.length() - 1);
-      }
-      else
-      {
-         result = value;
+         result = result.substring(0, result.length() - 1);
       }
       return result;
    }

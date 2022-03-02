@@ -25,9 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +47,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 final class AstaTextFileReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       try
@@ -70,13 +65,9 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
          processTasks();
          processPredecessors();
          processAssignments();
+         // TODO: custom field support
 
-         return (project);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
+         return project;
       }
 
       finally
@@ -85,19 +76,15 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
     * Tokenizes the input file and extracts the required data.
     *
     * @param is input stream
-    * @throws MPXJException
     */
    private void processFile(InputStream is) throws MPXJException
    {
@@ -206,7 +193,6 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
     * Reads the file version and configures the expected file format.
     *
     * @param token token containing the file version
-    * @throws MPXJException
     */
    private void processFileType(String token) throws MPXJException
    {
@@ -232,24 +218,20 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Select the project properties row from the database.
-    *
-    * @throws SQLException
     */
-   private void processProjectProperties() throws SQLException
+   private void processProjectProperties()
    {
       List<Row> rows = getTable("PROJECT_SUMMARY");
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
-         m_reader.processProjectProperties(rows.get(0), null);
+         m_reader.processProjectProperties(rows.get(0), null, null);
       }
    }
 
    /**
     * Extract calendar data from the file.
-    *
-    * @throws SQLException
     */
-   private void processCalendars() throws SQLException
+   private void processCalendars()
    {
       List<Row> rows = getTable("EXCEPTIONN");
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
@@ -267,7 +249,7 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      Collections.sort(rows, CALENDAR_COMPARATOR);
+      rows.sort(CALENDAR_COMPARATOR);
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
@@ -282,26 +264,22 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
-   private void processResources() throws SQLException
+   private void processResources()
    {
       List<Row> permanentRows = getTable("PERMANENT_RESOURCE");
       List<Row> consumableRows = getTable("CONSUMABLE_RESOURCE");
 
-      Collections.sort(permanentRows, PERMANENT_RESOURCE_COMPARATOR);
-      Collections.sort(consumableRows, CONSUMABLE_RESOURCE_COMPARATOR);
+      permanentRows.sort(PERMANENT_RESOURCE_COMPARATOR);
+      consumableRows.sort(CONSUMABLE_RESOURCE_COMPARATOR);
 
       m_reader.processResources(permanentRows, consumableRows);
    }
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
-   private void processTasks() throws SQLException
+   private void processTasks()
    {
       List<Row> bars = getTable("BAR");
       List<Row> expandedTasks = getTable("EXPANDED_TASK");
@@ -313,28 +291,24 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
-   private void processPredecessors() throws SQLException
+   private void processPredecessors()
    {
       List<Row> rows = getTable("LINK");
       List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
-      Collections.sort(rows, LINK_COMPARATOR);
+      rows.sort(LINK_COMPARATOR);
       m_reader.processPredecessors(rows, completedSections);
    }
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
-   private void processAssignments() throws SQLException
+   private void processAssignments()
    {
       List<Row> allocationRows = getTable("PERMANENT_SCHEDUL_ALLOCATION");
       List<Row> skillRows = getTable("PERM_RESOURCE_SKILL");
       List<Row> permanentAssignments = join(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
-      Collections.sort(permanentAssignments, ALLOCATION_COMPARATOR);
+      permanentAssignments.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -352,16 +326,10 @@ final class AstaTextFileReader extends AbstractProjectStreamReader
    {
       List<Row> result = new ArrayList<>();
 
-      RowComparator leftComparator = new RowComparator(new String[]
-      {
-         leftColumn
-      });
-      RowComparator rightComparator = new RowComparator(new String[]
-      {
-         rightColumn
-      });
-      Collections.sort(leftRows, leftComparator);
-      Collections.sort(rightRows, rightComparator);
+      RowComparator leftComparator = new RowComparator(leftColumn);
+      RowComparator rightComparator = new RowComparator(rightColumn);
+      leftRows.sort(leftComparator);
+      rightRows.sort(rightComparator);
 
       ListIterator<Row> rightIterator = rightRows.listIterator();
       Row rightRow = rightIterator.hasNext() ? rightIterator.next() : null;

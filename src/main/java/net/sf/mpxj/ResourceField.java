@@ -71,7 +71,7 @@ public enum ResourceField implements FieldType
    OVERALLOCATED(DataType.BOOLEAN),
    PEAK(DataType.UNITS),
    UNIQUE_ID(DataType.INTEGER),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    TEXT3(DataType.STRING),
    TEXT4(DataType.STRING),
@@ -585,6 +585,19 @@ public enum ResourceField implements FieldType
    PROPOSED_FINISH(DataType.DATE),
    PROPOSED_MAX_UNITS(DataType.UNITS),
    ENGAGEMENT_STATUS(DataType.STRING), // Check this type
+   UNIT(DataType.STRING),
+   SUPPLY_REFERENCE(DataType.STRING),
+   DESCRIPTION(DataType.STRING),
+   RESOURCE_ID(DataType.STRING),
+   MODIFY_ON_INTEGRATE(DataType.BOOLEAN),
+   EXPENSES_ONLY(DataType.BOOLEAN),
+   PERIOD_DUR(DataType.NUMERIC),
+   PRIORITY(DataType.NUMERIC),
+   RATE(DataType.NUMERIC),
+   POOL(DataType.NUMERIC),
+   PER_DAY(DataType.NUMERIC),
+   PHONE(DataType.STRING),
+   ROLE(DataType.BOOLEAN),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),
@@ -647,7 +660,7 @@ public enum ResourceField implements FieldType
     * @param dataType field data type
     * @param unitsType units type
     */
-   private ResourceField(DataType dataType, FieldType unitsType)
+   ResourceField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -658,30 +671,21 @@ public enum ResourceField implements FieldType
     *
     * @param dataType field data type
     */
-   private ResourceField(DataType dataType)
+   ResourceField(DataType dataType)
    {
       this(dataType, null);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.RESOURCE;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.RESOURCE_COLUMNS);
@@ -695,25 +699,16 @@ public enum ResourceField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
       return m_unitsType;
@@ -761,6 +756,6 @@ public enum ResourceField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

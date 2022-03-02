@@ -51,6 +51,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -63,7 +64,6 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.RtfHelper;
 
 /**
  * This class implements retrieval of data from a project database
@@ -79,7 +79,6 @@ abstract class MPD9AbstractReader
    {
       m_calendarMap.clear();
       m_baseCalendarReferences.clear();
-      m_resourceMap.clear();
       m_assignmentMap.clear();
    }
 
@@ -242,22 +241,19 @@ abstract class MPD9AbstractReader
       if (NumberHelper.getInt(uniqueID) > 0)
       {
          boolean baseCalendar = row.getBoolean("CAL_IS_BASE_CAL");
-         ProjectCalendar cal;
-         if (baseCalendar == true)
+         ProjectCalendar cal = m_project.addCalendar();
+         cal.setUniqueID(uniqueID);
+         m_calendarMap.put(uniqueID, cal);
+
+         if (baseCalendar)
          {
-            cal = m_project.addCalendar();
             cal.setName(row.getString("CAL_NAME"));
          }
          else
          {
-            Integer resourceID = row.getInteger("RES_UID");
-            cal = m_project.addCalendar();
             m_baseCalendarReferences.add(new Pair<>(cal, row.getInteger("CAL_BASE_UID")));
-            m_resourceMap.put(resourceID, cal);
          }
 
-         cal.setUniqueID(uniqueID);
-         m_calendarMap.put(uniqueID, cal);
          m_eventManager.fireCalendarReadEvent(cal);
       }
    }
@@ -315,7 +311,7 @@ abstract class MPD9AbstractReader
       Day day = Day.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
       calendar.setWorkingDay(day, working);
-      if (working == true)
+      if (working)
       {
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
 
@@ -396,7 +392,7 @@ abstract class MPD9AbstractReader
          //resource.setActualOvertimeWorkProtected();
          resource.setActualWork(row.getDuration("RES_ACT_WORK"));
          //resource.setActualWorkProtected();
-         //resource.setActveDirectoryGUID();
+         //resource.setActiveDirectoryGUID();
          resource.setACWP(row.getCurrency("RES_ACWP"));
          resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
          resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
@@ -585,11 +581,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("RES_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            resource.setNotes(notes);
+            resource.setNotesObject(new RtfNotes(notes));
          }
 
          resource.setResourceCalendar(m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
@@ -1042,11 +1034,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("TASK_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            task.setNotes(notes);
+            task.setNotesObject(new RtfNotes(notes));
          }
 
          //
@@ -1197,11 +1185,7 @@ abstract class MPD9AbstractReader
          String notes = row.getString("ASSN_RTF_NOTES");
          if (notes != null)
          {
-            if (m_preserveNoteFormatting == false)
-            {
-               notes = RtfHelper.strip(notes);
-            }
-            assignment.setNotes(notes);
+            assignment.setNotesObject(new RtfNotes(notes));
          }
 
          m_eventManager.fireAssignmentReadEvent(assignment);
@@ -1259,7 +1243,7 @@ abstract class MPD9AbstractReader
       config.updateUniqueCounters();
    }
 
-   /**
+   /*
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
     *
@@ -1318,38 +1302,13 @@ abstract class MPD9AbstractReader
       m_projectID = projectID;
    }
 
-   /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      m_preserveNoteFormatting = preserveNoteFormatting;
-   }
-
    protected Integer m_projectID;
    protected ProjectFile m_project;
    protected EventManager m_eventManager;
 
-   private boolean m_preserveNoteFormatting;
    private boolean m_autoWBS = true;
 
-   private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
-   private List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();
-   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<>();
-   private Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
+   private final Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
+   private final List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();
+   private final Map<Integer, ResourceAssignment> m_assignmentMap = new HashMap<>();
 }
-
-/*
-TASK_VAC = 0.0 ( java.lang.Double)
-EXT_EDIT_REF_DATA = null ( )
-TASK_IS_SUBPROJ = false ( java.lang.Boolean)
-TASK_IS_FROM_FINISH_SUBPROJ = false ( java.lang.Boolean)
-TASK_IS_RECURRING_SUMMARY = false ( java.lang.Boolean)
-TASK_IS_READONLY_SUBPROJ = false ( java.lang.Boolean)
-TASK_BASE_DUR_FMT = 39 ( java.lang.Short)
-TASK_WBS_RIGHTMOST_LEVEL = null ( )
-*/

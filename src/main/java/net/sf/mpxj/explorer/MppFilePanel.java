@@ -31,8 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -42,13 +40,8 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
  */
 public class MppFilePanel extends JPanel
 {
-   private PoiTreeModel m_treeModel;
-   private PoiTreeController m_treeController;
-   private PoiTreeView m_treeView;
 
-   private HexDumpModel m_hexDumpModel;
-   protected HexDumpController m_hexDumpController;
-   private HexDumpView m_hexDumpView;
+   protected final HexDumpController m_hexDumpController;
 
    /**
     * Constructor.
@@ -57,41 +50,37 @@ public class MppFilePanel extends JPanel
     */
    public MppFilePanel(File file)
    {
-      m_treeModel = new PoiTreeModel();
-      m_treeController = new PoiTreeController(m_treeModel);
-      m_treeView = new PoiTreeView(m_treeModel);
-      m_treeView.setShowsRootHandles(true);
+      PoiTreeModel treeModel = new PoiTreeModel();
+      PoiTreeController treeController = new PoiTreeController(treeModel);
+      PoiTreeView treeView = new PoiTreeView(treeModel);
+      treeView.setShowsRootHandles(true);
 
-      m_hexDumpModel = new HexDumpModel();
-      m_hexDumpController = new HexDumpController(m_hexDumpModel);
+      HexDumpModel hexDumpModel = new HexDumpModel();
+      m_hexDumpController = new HexDumpController(hexDumpModel);
       setLayout(new GridLayout(0, 1, 0, 0));
-      m_hexDumpView = new HexDumpView(m_hexDumpModel);
+      HexDumpView hexDumpView = new HexDumpView(hexDumpModel);
 
       JSplitPane splitPane = new JSplitPane();
       splitPane.setDividerLocation(0.3);
       add(splitPane);
 
-      JScrollPane scrollPane = new JScrollPane(m_treeView);
+      JScrollPane scrollPane = new JScrollPane(treeView);
       splitPane.setLeftComponent(scrollPane);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       splitPane.setRightComponent(tabbedPane);
-      tabbedPane.add("Hex Dump", m_hexDumpView);
+      tabbedPane.add("Hex Dump", hexDumpView);
 
-      m_treeView.addTreeSelectionListener(new TreeSelectionListener()
-      {
-         @Override public void valueChanged(TreeSelectionEvent e)
+      treeView.addTreeSelectionListener(e -> {
+         TreePath path = e.getPath();
+         Object component = path.getLastPathComponent();
+         if (component instanceof DocumentEntry)
          {
-            TreePath path = e.getPath();
-            Object component = path.getLastPathComponent();
-            if (component instanceof DocumentEntry)
-            {
-               m_hexDumpController.viewDocument((DocumentEntry) component);
-            }
+            m_hexDumpController.viewDocument((DocumentEntry) component);
          }
       });
 
-      m_treeController.loadFile(file);
+      treeController.loadFile(file);
    }
 
 }

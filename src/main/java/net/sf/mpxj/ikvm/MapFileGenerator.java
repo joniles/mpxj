@@ -39,11 +39,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -62,10 +60,6 @@ public class MapFileGenerator
     * Command line entry point.
     *
     * @param args command line arguments
-    * @throws ClassNotFoundException
-    * @throws XMLStreamException
-    * @throws IOException
-    * @throws IntrospectionException
     */
    public static void main(String[] args) throws ClassNotFoundException, XMLStreamException, IOException, IntrospectionException
    {
@@ -86,14 +80,9 @@ public class MapFileGenerator
     * @param jarFile jar file
     * @param mapFileName map file name
     * @param mapClassMethods true if we want to produce .Net style class method names
-    * @throws XMLStreamException
-    * @throws IOException
-    * @throws ClassNotFoundException
-    * @throws IntrospectionException
     */
    public void generateMapFile(File jarFile, String mapFileName, boolean mapClassMethods) throws XMLStreamException, IOException, ClassNotFoundException, IntrospectionException
    {
-      m_responseList = new ArrayList<>();
       writeMapFile(mapFileName, jarFile, mapClassMethods);
    }
 
@@ -103,10 +92,6 @@ public class MapFileGenerator
     * @param mapFileName map file name
     * @param jarFile jar file containing code to be mapped
     * @param mapClassMethods true if we want to produce .Net style class method names
-    * @throws IOException
-    * @throws XMLStreamException
-    * @throws ClassNotFoundException
-    * @throws IntrospectionException
     */
    private void writeMapFile(String mapFileName, File jarFile, boolean mapClassMethods) throws IOException, XMLStreamException, ClassNotFoundException, IntrospectionException
    {
@@ -137,10 +122,6 @@ public class MapFileGenerator
     * @param writer XML stream writer
     * @param jarFile jar file
     * @param mapClassMethods true if we want to produce .Net style class method names
-    * @throws IOException
-    * @throws ClassNotFoundException
-    * @throws XMLStreamException
-    * @throws IntrospectionException
     */
    private void addClasses(XMLStreamWriter writer, File jarFile, boolean mapClassMethods) throws IOException, ClassNotFoundException, XMLStreamException, IntrospectionException
    {
@@ -171,9 +152,6 @@ public class MapFileGenerator
     * @param jarEntry jar file entry
     * @param writer XML stream writer
     * @param mapClassMethods true if we want to produce .Net style class method names
-    * @throws ClassNotFoundException
-    * @throws XMLStreamException
-    * @throws IntrospectionException
     */
    private void addClass(URLClassLoader loader, JarEntry jarEntry, XMLStreamWriter writer, boolean mapClassMethods) throws ClassNotFoundException, XMLStreamException, IntrospectionException
    {
@@ -199,17 +177,14 @@ public class MapFileGenerator
     * @param writer output stream
     * @param methodSet set of methods processed
     * @param aClass class being processed
-    * @throws IntrospectionException
-    * @throws XMLStreamException
     */
    private void processProperties(XMLStreamWriter writer, Set<Method> methodSet, Class<?> aClass) throws IntrospectionException, XMLStreamException
    {
       BeanInfo beanInfo = Introspector.getBeanInfo(aClass, aClass.getSuperclass());
       PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 
-      for (int i = 0; i < propertyDescriptors.length; i++)
+      for (PropertyDescriptor propertyDescriptor : propertyDescriptors)
       {
-         PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
          if (propertyDescriptor.getPropertyType() != null)
          {
             String name = propertyDescriptor.getName();
@@ -245,7 +220,6 @@ public class MapFileGenerator
     * @param propertyType property type
     * @param readMethod read method name
     * @param writeMethod write method name
-    * @throws XMLStreamException
     */
    private void addProperty(XMLStreamWriter writer, String name, Class<?> propertyType, String readMethod, String writeMethod) throws XMLStreamException
    {
@@ -307,8 +281,6 @@ public class MapFileGenerator
     * @param methodSet set of methods processed
     * @param aClass Java class
     * @param propertyDescriptor Java property
-    * @throws SecurityException
-    * @throws XMLStreamException
     */
    private void processAmbiguousProperty(XMLStreamWriter writer, Set<Method> methodSet, Class<?> aClass, PropertyDescriptor propertyDescriptor) throws SecurityException, XMLStreamException
    {
@@ -352,9 +324,9 @@ public class MapFileGenerator
    /**
     * Hides the original Java-style method name using an attribute
     * which should be respected by Visual Studio, the creates a new
-    * wrapper method using a .Net style method name.
+    * wrapper method using a .NET style method name.
     *
-    * Note that this does not work for VB as it is case insensitive. Even
+    * Note that this does not work for VB as it is case-insensitive. Even
     * though Visual Studio won't show you the Java-style method name,
     * the VB compiler sees both and thinks they are the same... which
     * causes it to fail.
@@ -362,7 +334,6 @@ public class MapFileGenerator
     * @param writer output stream
     * @param aClass class being processed
     * @param methodSet set of methods which have been processed.
-    * @throws XMLStreamException
     */
    private void processClassMethods(XMLStreamWriter writer, Class<?> aClass, Set<Method> methodSet) throws XMLStreamException
    {
@@ -449,8 +420,6 @@ public class MapFileGenerator
                   914                       <parameter>Never</parameter>
                   915                   </attribute>
                   */
-
-                  m_responseList.add(fullJavaName);
                }
             }
          }
@@ -505,8 +474,6 @@ public class MapFileGenerator
       }
       return sb.toString();
    }
-
-   private List<String> m_responseList;
 
    private static final Map<Class<?>, String> TYPE_MAP = new HashMap<>();
    static

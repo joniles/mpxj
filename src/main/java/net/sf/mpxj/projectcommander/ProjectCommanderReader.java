@@ -26,8 +26,8 @@ package net.sf.mpxj.projectcommander;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,9 +61,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class ProjectCommanderReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -108,12 +105,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -121,7 +115,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readCalendars()
    {
-      m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(block -> readCalendar(block));
+      m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(this::readCalendar);
    }
 
    /**
@@ -129,7 +123,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readTasks()
    {
-      m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(block -> readTask(block));
+      m_data.getBlocks().stream().filter(block -> "CTask".equals(block.getName())).forEach(this::readTask);
+      updateUniqueIDs();
       updateStructure();
       updateDates();
    }
@@ -139,7 +134,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readResources()
    {
-      m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(block -> readResource(block));
+      m_data.getBlocks().stream().filter(block -> "CResource".equals(block.getName())).forEach(this::readResource);
       updateResourceUniqueIDValues();
    }
 
@@ -190,7 +185,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          offset += 28;
 
          Map<Day, List<DateRange>> ranges = new HashMap<>();
-         ranges.put(Day.SATURDAY, readCalendarHours(data, offset + 0));
+         ranges.put(Day.SATURDAY, readCalendarHours(data, offset));
          ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
          ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
          ranges.put(Day.TUESDAY, readCalendarHours(data, offset + 48));
@@ -203,7 +198,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             if (calendar.isWorkingDay(day))
             {
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
-               ranges.get(day).stream().forEach(range -> hours.addRange(range));
+               ranges.get(day).forEach(hours::addRange);
             }
          }
 
@@ -231,7 +226,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Read a valid start and end time from a byte aray.
+    * Read a valid start and end time from a byte array.
     *
     * @param ranges target DateRange list
     * @param startMinutes start time in minutes
@@ -272,7 +267,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate, exceptionDate);
          if (!calendar.isWorkingDay(day))
          {
-            ranges.get(day).stream().forEach(range -> ex.addRange(range));
+            ranges.get(day).forEach(ex::addRange);
          }
       }
    }
@@ -293,7 +288,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          return;
       }
 
-      Block[] baselines = getChildBlocks(block, "CBaselineData").toArray(x -> new Block[x]);
+      Block[] baselines = getChildBlocks(block, "CBaselineData").toArray(Block[]::new);
       if (baselines.length == 0)
       {
          readSummaryTask(block, name);
@@ -324,7 +319,12 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          m_childTaskCounts.put(task.getID(), Integer.valueOf(DatatypeConverter.getShort(cTaskData, offset + 405, 0)));
       }
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(task);
    }
 
@@ -401,7 +401,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       {
          if (cUsageTaskBaselineData.length != 0)
          {
-            Duration durationInHours = null;
+            Duration durationInHours;
 
             // If we're not the first bar, is our duration different to the first bar?
             // This is very much a heuristic!
@@ -440,7 +440,12 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          }
       }
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(task);
 
       return task;
@@ -526,18 +531,30 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Ensure all tasks have a unique ID.
+    */
+   private void updateUniqueIDs()
+   {
+      int maxUniqueID = m_projectFile.getTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
+      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
+      for (Task task : m_projectFile.getTasks())
+      {
+         if (task.getUniqueID() == null)
+         {
+            task.setUniqueID(Integer.valueOf(uniqueID++));
+         }
+      }
+   }
+
+   /**
     * Updates the hierarchical structure to ensure that child tasks
     * are nested under the correct parent tasks.
     */
    private void updateStructure()
    {
-      int maxUniqueID = m_projectFile.getChildTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
-      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
-
       for (Map.Entry<Integer, Integer> entry : m_childTaskCounts.entrySet())
       {
          Task task = m_projectFile.getTaskByID(entry.getKey());
-         task.setUniqueID(Integer.valueOf(uniqueID++));
          int startID = task.getID().intValue() + 1;
          int offset = entry.getValue().intValue();
 
@@ -625,7 +642,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void updateResourceUniqueIDValues()
    {
-      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().getAsInt();
+      int maxUniqueID = m_projectFile.getResources().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
       int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
       for (Resource resource : m_projectFile.getResources())
       {

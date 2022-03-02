@@ -353,7 +353,7 @@ enum ResourceField implements FastTrackField
     *
     * @param value field ID from FTS file
     */
-   private ResourceField(int value)
+   ResourceField(int value)
    {
       m_value = value;
    }

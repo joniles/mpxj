@@ -1,0 +1,64 @@
+site_name: MPXJ
+site_url: http://www.mpxj.org
+
+repo_url: https://github.com/joniles/mpxj
+repo_name: mpxj
+
+theme:
+  name: material
+  logo: images/mpxj-white.svg
+  favicon: images/favicon.png
+
+extra:
+  analytics:
+    provider: google
+    property: G-9R48LPVHKE
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - 'Overview': 'index.md'
+  - 'Changes': 'CHANGELOG.md'
+  - 'Getting Started':
+    - 'Getting Started': 'howto-start.md'
+    - 'Building MPXJ': 'howto-build.md'
+    - 'MPXJ and .Net': 'howto-dotnet.md'
+    - 'MPXJ and COM': 'howto-com.md'
+    - 'Converting Files': 'howto-convert.md'
+  - 'How to Read...':
+    - 'MPX Files': 'howto-read-mpx.md'
+    - 'MPP files': 'howto-read-mpp.md'
+    - 'MSPDI files': 'howto-read-mspdi.md'
+    - 'MPD files': 'howto-read-mpd.md'
+    - 'Planner files': 'howto-read-planner.md'
+    - 'Asta files': 'howto-read-asta.md'
+    - 'P3 files': 'howto-read-p3.md'
+    - 'SureTrak files': 'howto-read-suretrak.md'
+    - 'TurboProject files': 'howto-read-turboproject.md'
+    - 'ProjectLibre files': 'howto-read-projectlibre.md'
+    - 'FastTrack files': 'howto-read-fasttrack.md'
+    - 'GanttProject files': 'howto-read-ganttproject.md'
+    - 'Phoenix files': 'howto-read-phoenix.md'
+    - 'PMXML files': 'howto-read-pmxml.md'
+    - 'PLF files': 'howto-read-plf.md'
+    - 'P6 databases': 'howto-read-primavera.md'
+    - 'XER files': 'howto-read-xer.md'
+    - 'Merlin files': 'howto-read-merlin.md'
+    - 'ConceptDraw PROJECT files': 'howto-read-conceptdraw.md'
+    - 'Synchro Scheduler files': 'howto-read-synchro.md'
+    - 'Gantt Designer files': 'howto-read-ganttdesigner.md'
+    - 'SDEF files': 'howto-read-sdef.md'
+    - 'Schedule Grid files': 'howto-read-schedule-grid.md'
+    - 'Project Commander files': 'howto-read-projectcommander.md'
+  - 'How to Write...':
+    - 'MPX files': 'howto-write-mpx.md'
+    - 'MSPDI files': 'howto-write-mspdi.md'
+  - 'Field Guides...':
+    - 'Field Guide': 'field-guide.md'
+    - 'MPP Field Guide': 'mpp-field-guide.md'
+  - 'FAQ': 'faq.md'
+  - 'Users': 'users.md'
+  - 'Maven Reports': 'maven-reports.md'

@@ -109,9 +109,9 @@ public class GridLines
       return ("[GridLines NormalLineColor=" + m_normalLineColor + " NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor + "]");
    }
 
-   private Color m_normalLineColor;
-   private LineStyle m_normalLineStyle;
-   private int m_intervalNumber;
-   private LineStyle m_intervalLineStyle;
-   private Color m_intervalLineColor;
+   private final Color m_normalLineColor;
+   private final LineStyle m_normalLineStyle;
+   private final int m_intervalNumber;
+   private final LineStyle m_intervalLineStyle;
+   private final Color m_intervalLineColor;
 }

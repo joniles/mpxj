@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.sf.mpxj.AssignmentField;
 
 /**
@@ -226,6 +229,20 @@ public final class AssignmentFieldLists
       AssignmentField.DURATION8,
       AssignmentField.DURATION9,
       AssignmentField.DURATION10
+   };
+
+   public static final AssignmentField[] CUSTOM_DURATION_UNITS =
+   {
+      AssignmentField.DURATION1_UNITS,
+      AssignmentField.DURATION2_UNITS,
+      AssignmentField.DURATION3_UNITS,
+      AssignmentField.DURATION4_UNITS,
+      AssignmentField.DURATION5_UNITS,
+      AssignmentField.DURATION6_UNITS,
+      AssignmentField.DURATION7_UNITS,
+      AssignmentField.DURATION8_UNITS,
+      AssignmentField.DURATION9_UNITS,
+      AssignmentField.DURATION10_UNITS
    };
 
    public static final AssignmentField[] CUSTOM_COST =
@@ -540,4 +557,27 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE28,
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE29
    };
+
+   public static final AssignmentField[] EXTENDED_FIELDS;
+   static
+   {
+      ArrayList<AssignmentField> result = new ArrayList<>();
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
+      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
+      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
+      EXTENDED_FIELDS = result.toArray(new AssignmentField[0]);
+   }
 }

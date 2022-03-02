@@ -27,20 +27,23 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -49,10 +52,16 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -65,7 +74,11 @@ import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Notes;
+import net.sf.mpxj.ParentNotes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -73,14 +86,18 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -89,7 +106,9 @@ import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
 import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
+import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityType;
+import net.sf.mpxj.primavera.schema.BaselineProjectType;
 import net.sf.mpxj.primavera.schema.CalendarType;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
@@ -98,10 +117,17 @@ import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHo
 import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
+import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceCurveType;
+import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
+import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.RoleRateType;
+import net.sf.mpxj.primavera.schema.RoleType;
+import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
@@ -129,9 +155,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @return true if WBS attribute is a hierarchy
     */
-   public boolean getWbsIsFullPath()
+   @Deprecated public boolean getWbsIsFullPath()
    {
-      return m_wbsIsFullPath;
+      return false;
    }
 
    /**
@@ -140,9 +166,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param wbsIsFullPath true if WBS attribute is a hierarchy
     */
-   public void setWbsIsFullPath(boolean wbsIsFullPath)
+   @Deprecated public void setWbsIsFullPath(boolean wbsIsFullPath)
    {
-      m_wbsIsFullPath = wbsIsFullPath;
+      // Empty block
    }
 
    /**
@@ -173,7 +199,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param is input stream used to read XER file
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects(InputStream is) throws MPXJException
    {
@@ -185,9 +210,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       ProjectFile project = null;
@@ -201,8 +223,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
          else
          {
-            String uniqueID = m_projectID.toString();
-            project = projects.stream().filter(p -> uniqueID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
+            project = projects.stream().filter(p -> m_projectID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
 
          }
       }
@@ -217,25 +238,37 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param is input stream
     * @return list of ProjectFile instances
-    * @throws MPXJException
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       APIBusinessObjects apibo = processFile(is);
 
       List<ProjectType> projects = apibo.getProject();
-      List<ProjectFile> result = new ArrayList<>(projects.size());
+      List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
+      List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
       m_externalRelations = new ArrayList<>();
+
       projects.forEach(project -> result.add(read(apibo, project)));
+      baselineProjects.forEach(project -> result.add(read(apibo, project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
+      linkCrossProjectRelations(result);
+      populateBaselines(result);
+
+      m_externalRelations = null;
+
+      return result;
+   }
+
+   private void linkCrossProjectRelations(List<ProjectFile> projects)
+   {
       if (m_linkCrossProjectRelations)
       {
          for (ExternalRelation externalRelation : m_externalRelations)
          {
-            Task externalTask = findTaskInProjects(result, externalRelation.externalTaskUniqueID());
+            Task externalTask = findTaskInProjects(projects, externalRelation.externalTaskUniqueID());
             if (externalTask != null)
             {
                Task successor;
@@ -257,25 +290,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
-
-      m_externalRelations = null;
-
-      return result;
    }
 
-   /**
-    * This is a convenience method which allows all projects in a
-    * PMXML file to be read in a single pass.
-    *
-    * @param is input stream
-    * @param linkCrossProjectRelations add Relation links that cross ProjectFile boundaries
-    * @return list of ProjectFile instances
-    * @deprecated use setLinkCrossProjectRelations(flag) and readAll(is) instead
-    */
-   @Deprecated public List<ProjectFile> readAll(InputStream is, boolean linkCrossProjectRelations) throws MPXJException
+   private void populateBaselines(List<ProjectFile> projects)
    {
-      m_linkCrossProjectRelations = linkCrossProjectRelations;
-      return readAll(is);
+      Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
+      for (ProjectFile project : projects)
+      {
+         ProjectFile baseline = map.get(project.getProjectProperties().getBaselineProjectUniqueID());
+         if (baseline != null)
+         {
+            project.setBaseline(baseline);
+         }
+      }
    }
 
    /**
@@ -319,37 +346,25 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          return (APIBusinessObjects) UnmarshalHelper.unmarshal(CONTEXT, configureInputSource(stream), new NamespaceFilter(), false);
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
    }
 
-   private ProjectFile read(APIBusinessObjects apibo, ProjectType project)
+   private ProjectFile read(APIBusinessObjects apibo, Object projectObject)
    {
       try
       {
-         m_clashMap = new HashMap<>();
+         m_activityClashMap = new ClashMap();
+         m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
          m_taskUdfCounters = new UserFieldCounters();
          m_resourceUdfCounters = new UserFieldCounters();
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
+         m_notebookTopics = new HashMap<>();
+         m_workContours = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -360,26 +375,72 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
+         config.setBaselineStrategy(new PrimaveraBaselineStrategy());
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
-         CustomFieldContainer fields = m_projectFile.getCustomFields();
-         TASK_FIELD_ALIASES.forEach((k, v) -> fields.getCustomField(k).setAlias(v).setUserDefined(false));
-
          addListenersToProject(m_projectFile);
 
+         List<ActivityCodeTypeType> activityCodeTypes;
+         List<ActivityCodeType> activityCodes;
+         List<CalendarType> calendars;
+         List<WBSType> wbs;
+         List<ProjectNoteType> projectNotes;
+         List<ActivityType> activities;
+         List<ActivityNoteType> activityNotes;
+         List<RelationshipType> relationships;
+         List<ResourceAssignmentType> assignments;
+         List<ActivityExpenseType> activityExpenseType;
+
+         if (projectObject instanceof ProjectType)
+         {
+            ProjectType project = (ProjectType) projectObject;
+            processProjectProperties(project);
+            activityCodeTypes = project.getActivityCodeType();
+            activityCodes = project.getActivityCode();
+            calendars = project.getCalendar();
+            wbs = project.getWBS();
+            projectNotes = project.getProjectNote();
+            activities = project.getActivity();
+            activityNotes = project.getActivityNote();
+            relationships = project.getRelationship();
+            assignments = project.getResourceAssignment();
+            activityExpenseType = project.getActivityExpense();
+         }
+         else
+         {
+            BaselineProjectType project = (BaselineProjectType) projectObject;
+            processProjectProperties(project);
+            activityCodeTypes = project.getActivityCodeType();
+            activityCodes = project.getActivityCode();
+            calendars = project.getCalendar();
+            wbs = project.getWBS();
+            projectNotes = project.getProjectNote();
+            activities = project.getActivity();
+            activityNotes = project.getActivityNote();
+            relationships = project.getRelationship();
+            assignments = project.getResourceAssignment();
+            activityExpenseType = project.getActivityExpense();
+         }
+
+         processGlobalProperties(apibo);
          processProjectUDFs(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
-         processProjectProperties(apibo, project);
-         processActivityCodes(apibo, project);
-         processCalendars(apibo, project);
+         processNotebookTopics(apibo);
+         processActivityCodes(apibo, activityCodeTypes, activityCodes);
+         processCalendars(apibo, calendars);
          processResources(apibo);
-         processTasks(project);
-         processPredecessors(project);
-         processAssignments(project);
-         processExpenseItems(project);
+         processRoles(apibo);
+         processTasks(wbs, getWbsNotes(projectNotes), activities, getActivityNotes(activityNotes));
+         processPredecessors(relationships);
+         processWorkContours(apibo);
+         processAssignments(assignments);
+         processExpenseItems(activityExpenseType);
+         processResourceRates(apibo);
+         processRoleRates(apibo);
+         rollupValues();
 
          m_projectFile.updateStructure();
 
@@ -394,12 +455,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_clashMap = null;
+         m_activityClashMap = null;
+         m_roleClashMap = null;
          m_activityCodeMap = null;
          m_taskUdfCounters = null;
          m_resourceUdfCounters = null;
          m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
+         m_notebookTopics = null;
+         m_workContours = null;
+         m_defaultCalendarObjectID = null;
       }
    }
 
@@ -419,8 +484,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       int bufferSize = 512;
       BufferedInputStream bis = new BufferedInputStream(stream);
       bis.mark(bufferSize);
-      byte[] buffer = new byte[bufferSize];
-      bis.read(buffer);
+      byte[] buffer = InputStreamHelper.read(bis, bufferSize);
       bis.reset();
 
       // Handle trailing nul character following HTML content expressed as &#0;
@@ -484,6 +548,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private FieldType addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
    {
       FieldType field = null;
+      CustomFieldContainer container = m_projectFile.getCustomFields();
 
       try
       {
@@ -495,24 +560,33 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
-               while (TASK_FIELD_ALIASES.containsKey(field));
+               while (container.getCustomField(field).getAlias() != null);
 
-               m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
-
+               container.getCustomField(field).setAlias(name);
                break;
             }
 
             case RESOURCE:
             {
-               field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
-               m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
+               do
+               {
+                  field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
+               }
+               while (container.getCustomField(field).getAlias() != null);
+
+               container.getCustomField(field).setAlias(name);
                break;
             }
 
             case ASSIGNMENT:
             {
-               field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
-               m_projectFile.getCustomFields().getCustomField(field).setAlias(name);
+               do
+               {
+                  field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
+               }
+               while (container.getCustomField(field).getAlias() != null);
+
+               container.getCustomField(field).setAlias(name);
                break;
             }
 
@@ -537,34 +611,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       return field;
    }
 
-   /**
-    * Process project properties.
-    *
-    * @param apibo top level object
-    * @param project xml container
-    */
-   private void processProjectProperties(APIBusinessObjects apibo, ProjectType project)
+   private void processGlobalProperties(APIBusinessObjects apibo)
    {
-      ProjectProperties properties = m_projectFile.getProjectProperties();
-
-      properties.setCreationDate(project.getCreateDate());
-      properties.setFinishDate(project.getFinishDate());
-      properties.setName(project.getName());
-      properties.setStartDate(project.getPlannedStartDate());
-      properties.setStatusDate(project.getDataDate());
-      properties.setProjectTitle(project.getId());
-      properties.setUniqueID(project.getObjectId() == null ? null : project.getObjectId().toString());
-      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-
       List<GlobalPreferencesType> list = apibo.getGlobalPreferences();
       if (!list.isEmpty())
       {
          GlobalPreferencesType prefs = list.get(0);
+         ProjectProperties properties = m_projectFile.getProjectProperties();
 
          properties.setCreationDate(prefs.getCreateDate());
          properties.setLastSaved(prefs.getLastUpdateDate());
          properties.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
          properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
+         properties.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerMonth()) * 60)));
+         properties.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerYear()) * 60)));
          properties.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
@@ -580,19 +640,65 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process project properties.
+    *
+    * @param project xml container
+    */
+   private void processProjectProperties(ProjectType project)
+   {
+      ProjectProperties properties = m_projectFile.getProjectProperties();
+
+      properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
+      properties.setCreationDate(project.getCreateDate());
+      properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(project.getCriticalActivityPathType(), CriticalActivityType.TOTAL_FLOAT));
+      properties.setFinishDate(project.getFinishDate());
+      properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
+      properties.setName(project.getName());
+      properties.setStartDate(project.getStartDate());
+      properties.setStatusDate(project.getDataDate());
+      properties.setProjectID(project.getId());
+      properties.setUniqueID(project.getObjectId());
+      properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
+      properties.setPlannedStart(project.getPlannedStartDate());
+      properties.setScheduledFinish(project.getScheduledFinishDate());
+      properties.setMustFinishBy(project.getMustFinishByDate());
+      m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
+
+      processScheduleOptions(project.getScheduleOptions());
+   }
+
+   private void processProjectProperties(BaselineProjectType project)
+   {
+      ProjectProperties properties = m_projectFile.getProjectProperties();
+
+      properties.setCreationDate(project.getCreateDate());
+      properties.setFinishDate(project.getFinishDate());
+      properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
+      properties.setName(project.getName());
+      properties.setStartDate(project.getPlannedStartDate());
+      properties.setStatusDate(project.getDataDate());
+      properties.setProjectID(project.getId());
+      properties.setUniqueID(project.getObjectId());
+      properties.setExportFlag(false);
+      properties.setMustFinishBy(project.getMustFinishByDate());
+      m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
+   }
+
+   /**
     * Process activity code data.
     *
     * @param apibo global activity code data
-    * @param project project-specific activity code data
+    * @param activityCodeTypes project-specific activity code types
+    * @param activityCodes project-specific activity codes
     */
-   private void processActivityCodes(APIBusinessObjects apibo, ProjectType project)
+   private void processActivityCodes(APIBusinessObjects apibo, List<ActivityCodeTypeType> activityCodeTypes, List<ActivityCodeType> activityCodes)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       List<ActivityCodeTypeType> types = new ArrayList<>();
       types.addAll(apibo.getActivityCodeType());
-      types.addAll(project.getActivityCodeType());
+      types.addAll(activityCodeTypes);
 
       for (ActivityCodeTypeType type : types)
       {
@@ -603,7 +709,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       List<ActivityCodeType> typeValues = new ArrayList<>();
       typeValues.addAll(apibo.getActivityCode());
-      typeValues.addAll(project.getActivityCode());
+      typeValues.addAll(activityCodes);
 
       for (ActivityCodeType typeValue : typeValues)
       {
@@ -652,11 +758,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process expense items.
     *
-    * @param project parent project
+    * @param expenseItems expense items
     */
-   private void processExpenseItems(ProjectType project)
+   private void processExpenseItems(List<ActivityExpenseType> expenseItems)
    {
-      for (ActivityExpenseType item : project.getActivityExpense())
+      for (ActivityExpenseType item : expenseItems)
       {
          Task task = m_projectFile.getTaskByUniqueID(item.getActivityObjectId());
          if (task != null)
@@ -675,7 +781,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setAccrueType(ACCRUE_TYPE_MAP.get(item.getAccrualType()));
             ei.setActualCost(item.getActualCost());
             ei.setActualUnits(item.getActualUnits());
-            ei.setAtCompletionCost(item.getAtCompletionCost());
             ei.setAtCompletionUnits(item.getAtCompletionUnits());
             ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
             ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
@@ -690,6 +795,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ei.setUniqueID(item.getObjectId());
             ei.setUnitOfMeasure(item.getUnitOfMeasure());
             ei.setVendor(item.getVendor());
+
+            ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
+
+            // Roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
       }
    }
@@ -698,12 +811,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * Process project calendars.
     *
     * @param apibo file data
-    * @param project current project data
+    * @param projectCalendars project-specific calendars
     */
-   private void processCalendars(APIBusinessObjects apibo, ProjectType project)
+   private void processCalendars(APIBusinessObjects apibo, List<CalendarType> projectCalendars)
    {
       List<CalendarType> calendars = new ArrayList<>(apibo.getCalendar());
-      calendars.addAll(project.getCalendar());
+      calendars.addAll(projectCalendars);
 
       //
       // First pass: read calendar definitions
@@ -730,6 +843,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             entry.getKey().setParent(baseCalendar);
          }
       }
+
+      //
+      // Set the default calendar if we've read ID from the project properties
+      //
+      if (m_defaultCalendarObjectID != null)
+      {
+         ProjectCalendar defaultCalendar = m_projectFile.getCalendarByUniqueID(m_defaultCalendarObjectID);
+         if (defaultCalendar != null)
+         {
+            m_projectFile.setDefaultCalendar(defaultCalendar);
+         }
+      }
+
+      // Ensure that resource calendars we create later have valid unique IDs
+      ProjectConfig config = m_projectFile.getProjectConfig();
+      config.updateCalendarUniqueCounter();
+      config.setAutoCalendarUniqueID(true);
    }
 
    /**
@@ -741,9 +871,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ProjectCalendar processCalendar(CalendarType row)
    {
       ProjectCalendar calendar = m_projectFile.addCalendar();
+
       Integer id = row.getObjectId();
-      calendar.setName(row.getName());
       calendar.setUniqueID(id);
+      calendar.setName(row.getName());
+
+      if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
+      {
+         // We don't have a default calendar set for the project, use the global default
+         m_defaultCalendarObjectID = id;
+      }
 
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
@@ -792,6 +929,74 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
       }
 
+      //
+      // Try and extract minutes per period from the calendar row
+      //
+      Double rowHoursPerDay = row.getHoursPerDay();
+      Double rowHoursPerWeek = row.getHoursPerWeek();
+      Double rowHoursPerMonth = row.getHoursPerMonth();
+      Double rowHoursPerYear = row.getHoursPerYear();
+
+      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+
+      //
+      // If we're missing any of these figures, generate them.
+      // Note that P6 allows users to enter arbitrary hours per period,
+      // as far as I can see they aren't validated to see if they make sense,
+      // so the figures here won't necessarily match what you'd see in P6.
+      //
+      if (rowHoursPerDay == null || rowHoursPerWeek == null || rowHoursPerMonth == null || rowHoursPerYear == null)
+      {
+         int minutesPerWeek = 0;
+         int workingDays = 0;
+
+         for (ProjectCalendarHours hours : calendar.getHours())
+         {
+            if (hours == null)
+            {
+               continue;
+            }
+
+            if (hours.getRangeCount() > 0)
+            {
+               ++workingDays;
+               for (int index = 0; index < hours.getRangeCount(); index++)
+               {
+                  DateRange range = hours.getRange(index);
+                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
+                  minutesPerWeek += (milliseconds / (1000 * 60));
+               }
+            }
+         }
+
+         int minutesPerDay = minutesPerWeek / workingDays;
+         int minutesPerMonth = minutesPerWeek * 4;
+         int minutesPerYear = minutesPerMonth * 12;
+
+         if (rowHoursPerDay == null)
+         {
+            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
+         }
+
+         if (rowHoursPerWeek == null)
+         {
+            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+         }
+
+         if (rowHoursPerMonth == null)
+         {
+            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+         }
+
+         if (rowHoursPerYear == null)
+         {
+            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+         }
+      }
+
       return calendar;
    }
 
@@ -806,62 +1011,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceType xml : resources)
       {
          Resource resource = m_projectFile.addResource();
+         m_roleClashMap.addID(xml.getObjectId());
+
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
          resource.setEmailAddress(xml.getEmailAddress());
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
-         resource.setNotes(xml.getResourceNotes());
+         resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
-
-         Integer calendarID = xml.getCalendarObjectId();
-         if (calendarID != null)
-         {
-            ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
-            if (calendar != null)
-            {
-               if (calendar.isDerived())
-               {
-                  //
-                  // Primavera seems to allow a calendar to be shared between resources
-                  // whereas in the MS Project model there is a one-to-one
-                  // relationship. If we find a calendar is shared between resources,
-                  // take a copy of it so each resource has its own copy.
-                  //
-                  if (calendar.getResource() == null)
-                  {
-                     resource.setResourceCalendar(calendar);
-                  }
-                  else
-                  {
-                     ProjectCalendar copy = m_projectFile.addCalendar();
-                     copy.copy(calendar);
-                     resource.setResourceCalendar(copy);
-                  }
-               }
-               else
-               {
-                  //
-                  // If the resource is linked to a base calendar, derive
-                  // a default calendar from the base calendar.
-                  //
-                  ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
-                  resourceCalendar.setParent(calendar);
-                  resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-                  resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-                  resource.setResourceCalendar(resourceCalendar);
-               }
-            }
-         }
-
+         resource.setResourceID(xml.getId());
+         setCalendar(resource, xml.getCalendarObjectId());
          readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -869,45 +1032,133 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process roles.
+    *
+    * @param apibo xml container
+    */
+   private void processRoles(APIBusinessObjects apibo)
+   {
+      for (RoleType role : apibo.getRole())
+      {
+         Resource resource = m_projectFile.addResource();
+         resource.setRole(Boolean.TRUE);
+         resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
+         resource.setName(role.getName());
+         resource.setResourceID(role.getId());
+         resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
+      }
+   }
+
+   /**
+    * Links a calendar to a resource.
+    *
+    * @param resource Resource instance
+    * @param calendarID calendar ID
+    */
+   private void setCalendar(Resource resource, Integer calendarID)
+   {
+      if (calendarID != null)
+      {
+         ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
+         if (calendar != null)
+         {
+            if (calendar.isDerived())
+            {
+               //
+               // Primavera seems to allow a calendar to be shared between resources
+               // whereas in the MS Project model there is a one-to-one
+               // relationship. If we find a calendar is shared between resources,
+               // take a copy of it so each resource has its own copy.
+               //
+               if (calendar.getResource() == null)
+               {
+                  resource.setResourceCalendar(calendar);
+               }
+               else
+               {
+                  ProjectCalendar copy = m_projectFile.addCalendar();
+                  copy.copy(calendar);
+                  resource.setResourceCalendar(copy);
+               }
+            }
+            else
+            {
+               //
+               // If the resource is linked to a base calendar, derive
+               // a default calendar from the base calendar.
+               //
+               ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
+               resourceCalendar.setParent(calendar);
+               resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+               resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+               resource.setResourceCalendar(resourceCalendar);
+            }
+         }
+      }
+   }
+
+   /**
+    * Create a Notes instance from an HTML document.
+    *
+    * @param text HTML document
+    * @return Notes instance
+    */
+   private Notes getNotes(String text)
+   {
+      Notes notes = getHtmlNote(text);
+      return notes == null || notes.isEmpty() ? null : notes;
+   }
+
+   /**
     * Process tasks.
     *
-    * @param project xml container
+    * @param wbs project wbs entries
+    * @param wbsNotes ebs entry notes
+    * @param activities project activities
+    * @param activityNotes activity notes
     */
-   private void processTasks(ProjectType project)
+   private void processTasks(List<WBSType> wbs, Map<Integer, Notes> wbsNotes, List<ActivityType> activities, Map<Integer, Notes> activityNotes)
    {
-      List<WBSType> wbs = project.getWBS();
-      List<ActivityType> tasks = project.getActivity();
-      Set<Integer> uniqueIDs = new HashSet<>();
       Set<Task> wbsTasks = new HashSet<>();
+      boolean baselineFromCurrentProject = m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null;
 
       //
       // Read WBS entries and create tasks
       //
-      Collections.sort(wbs, WBS_ROW_COMPARATOR);
+      wbs.sort(WBS_ROW_COMPARATOR);
 
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.addTask();
          Integer uniqueID = row.getObjectId();
-         uniqueIDs.add(uniqueID);
+         m_activityClashMap.addID(uniqueID);
          wbsTasks.add(task);
 
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
-         task.setBaselineCost(row.getSummaryBaselineTotalCost());
-         task.setRemainingCost(row.getSummaryRemainingTotalCost());
-         task.setRemainingDuration(getDuration(row.getSummaryRemainingDuration()));
          task.setSummary(true);
          task.setStart(row.getAnticipatedStartDate());
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
+         task.setNotesObject(wbsNotes.get(uniqueID));
+         // WBS entries will be critical if any child activities are critical.
+         // Set an explicit value here to deal with WBS entries without child activities.
+         // If we don't do this the logic in Tsk.getCritical will mark WBS entries without
+         // child activities as critical.
+         task.setCritical(false);
       }
 
       //
-      // Create hierarchical structure
+      // Create rough hierarchical structure (note parent tasks not populated yet)
       //
       m_projectFile.getChildTasks().clear();
+
       for (WBSType row : wbs)
       {
          Task task = m_projectFile.getTaskByUniqueID(row.getObjectId());
@@ -920,35 +1171,38 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             m_projectFile.getChildTasks().remove(task);
             parentTask.getChildTasks().add(task);
-
-            if (m_wbsIsFullPath)
-            {
-               task.setWBS(parentTask.getWBS() + "." + task.getWBS());
-            }
-
-            task.setText(1, task.getWBS());
          }
       }
 
       //
+      // Set the WBS and the Activity ID
+      //
+      String prefix = m_projectFile.getProjectProperties().getProjectID();
+      if (prefix != null && m_projectFile.getChildTasks().size() == 1)
+      {
+         String activityID = m_projectFile.getChildTasks().get(0).getWBS();
+         if (activityID != null && activityID.equals(prefix))
+         {
+            prefix = "";
+         }
+      }
+      populateWBS(prefix, m_projectFile);
+
+      //
       // Read Task entries and create tasks
       //
-      int nextID = 1;
-      m_clashMap.clear();
-      for (ActivityType row : tasks)
+
+      // If the schedule is using longest path to determine critical activities
+      // we currently don't have enough information to correctly set this attribute.
+      // In this case we'll force the critical flag to false to avoid activities
+      // being incorrectly marked as critical.
+      boolean forceCriticalToFalse = m_projectFile.getProjectProperties().getCriticalActivityType() == CriticalActivityType.LONGEST_PATH;
+
+      for (ActivityType row : activities)
       {
          Integer uniqueID = row.getObjectId();
-         if (uniqueIDs.contains(uniqueID))
-         {
-            while (uniqueIDs.contains(Integer.valueOf(nextID)))
-            {
-               ++nextID;
-            }
-            Integer newUniqueID = Integer.valueOf(nextID);
-            m_clashMap.put(uniqueID, newUniqueID);
-            uniqueID = newUniqueID;
-         }
-         uniqueIDs.add(uniqueID);
+         Notes notes = activityNotes.get(uniqueID);
+         uniqueID = m_activityClashMap.addID(uniqueID);
 
          Task task;
          Integer parentTaskID = row.getWBSObjectId();
@@ -965,40 +1219,55 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setUniqueID(uniqueID);
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
-         task.setPercentageComplete(reversePercentage(row.getPercentComplete()));
-         task.setRemainingDuration(getDuration(row.getRemainingDuration()));
-         task.setActualWork(getDuration(zeroIsNull(row.getActualDuration())));
-         task.setRemainingWork(getDuration(row.getRemainingTotalUnits()));
-         task.setBaselineDuration(getDuration(row.getPlannedDuration()));
+         task.setNotesObject(notes);
+
+         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getPercentCompleteType()));
+         task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
+         task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
+         task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
+
+         task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
+         task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
+         task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
+         task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
+
+         task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
+         task.setRemainingDuration(getDuration(row.getRemainingDuration()));
          task.setDuration(getDuration(row.getAtCompletionDuration()));
 
-         // ActualCost and RemainingCost will be set when we resolve the resource assignments
-         task.setActualCost(NumberHelper.DOUBLE_ZERO);
-         task.setRemainingCost(NumberHelper.DOUBLE_ZERO);
-         task.setBaselineCost(NumberHelper.DOUBLE_ZERO);
+         // Tempting as this is, P6 doesn't write all of these values to PMXML,
+         // so we need to roll them up from the resource assignments and expenses.
+         // task.setActualCost(NumberHelper.sumAsDouble(row.getActualLaborCost(), row.getActualNonLaborCost(), row.getActualMaterialCost(), row.getActualExpenseCost()));
+         // task.setPlannedCost(NumberHelper.sumAsDouble(row.getPlannedLaborCost(), row.getPlannedNonLaborCost(), row.getPlannedMaterialCost(), row.getPlannedExpenseCost()));
+         // task.setRemainingCost(NumberHelper.sumAsDouble(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
+         // task.setCost(NumberHelper.sumAsDouble(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
+
          task.setConstraintDate(row.getPrimaryConstraintDate());
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
          task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
          task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
-         task.setLateStart(row.getRemainingLateStartDate());
-         task.setLateFinish(row.getRemainingLateFinishDate());
-         task.setEarlyStart(row.getRemainingEarlyStartDate());
-         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
-         task.setBaselineStart(row.getPlannedStartDate());
-         task.setBaselineFinish(row.getPlannedFinishDate());
-
+         task.setPlannedStart(row.getPlannedStartDate());
+         task.setPlannedFinish(row.getPlannedFinishDate());
+         task.setRemainingEarlyStart(row.getRemainingEarlyStartDate());
+         task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
+         task.setRemainingLateStart(row.getRemainingLateStartDate());
+         task.setRemainingLateFinish(row.getRemainingLateFinishDate());
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
-         task.setText(1, row.getId());
-         task.setText(2, row.getType());
-         task.setText(3, row.getStatus());
-         task.setNumber(1, row.getPrimaryResourceObjectId());
-
+         task.setActivityID(row.getId());
+         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getType()));
+         task.setActivityStatus(STATUS_MAP.get(row.getStatus()));
+         task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
+         task.setSuspendDate(row.getSuspendDate());
+         task.setResume(row.getResumeDate());
+         task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
-         task.setCritical(task.getEarlyStart() != null && task.getLateStart() != null && !(task.getLateStart().compareTo(task.getEarlyStart()) > 0));
+         task.setExternalEarlyStart(row.getExternalEarlyStartDate());
+         task.setExternalLateFinish(row.getExternalLateFinishDate());
+         task.setLongestPath(row.isIsLongestPath());
 
          if (parentTask != null)
          {
@@ -1012,9 +1281,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setStart(row.getStartDate());
          task.setFinish(row.getFinishDate());
 
-         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.BASELINE_START);
-         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH);
-         populateField(task, TaskField.WORK, TaskField.ACTUAL_WORK, TaskField.BASELINE_WORK);
+         // Note that planned finish is handled in the code below
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
+         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH);
 
          //
          // We've tried the finish and actual finish fields... but we still have null.
@@ -1033,21 +1302,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
 
             //
-            // If the task hasn't started, or we don't have a usable duration
-            // let's just use the baseline finish.
+            // If the task hasn't started, or we don't have a usable duration let's just use the planned finish.
             //
             if (task.getActualStart() == null || duration == null)
             {
-               task.setFinish(task.getBaselineFinish());
+               task.setFinish(task.getPlannedFinish());
             }
             else
             {
                //
-               // The task has started, let's calculate the finish date using the remaining duration
-               // and the "restart" date, which we've put in the baseline start date.
+               // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               Date finish = calendar.getDate(task.getBaselineStart(), duration, false);
+               Date finish = calendar.getDate(task.getPlannedStart(), duration, false);
 
                //
                // Deal with an oddity where the finish date shows up as the
@@ -1063,16 +1330,105 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
+         //
+         // This is an approximation. If the critical flag is being determined by total
+         // then we need ES, EF, LS and LF set... but we only have the RES, REF, RLS and RLF
+         // attributes. We'll use these values to set ES, EF, LS and LF temporarily, and
+         // ensure that the critical flag is calculated, then we'll reset these values
+         // back to null. This will also have the side effect of calculating the float/slack values.
+         // Ideally we need to correctly calculate ES, EF, LS and LF for ourselves using CPM.
+         //
+         task.disableEvents();
+         task.setEarlyStart(task.getRemainingEarlyStart());
+         task.setEarlyFinish(task.getRemainingEarlyFinish());
+         task.setLateStart(task.getRemainingLateStart());
+         task.setLateFinish(task.getRemainingLateFinish());
+         task.getCritical();
+         task.setEarlyStart(null);
+         task.setEarlyFinish(null);
+         task.setLateStart(null);
+         task.setLateFinish(null);
+         task.enableEvents();
+
          readUDFTypes(task, row.getUDF());
          readActivityCodes(task, row.getCode());
+
+         if (forceCriticalToFalse)
+         {
+            task.setCritical(false);
+         }
+
+         if (baselineFromCurrentProject)
+         {
+            populateBaselineFromCurrentProject(task);
+         }
 
          m_eventManager.fireTaskReadEvent(task);
       }
 
-      new ActivitySorter(TaskField.TEXT1, wbsTasks).sort(m_projectFile);
+      new ActivitySorter(wbsTasks).sort(m_projectFile);
 
       updateStructure();
-      updateDates();
+   }
+
+   private void populateBaselineFromCurrentProject(Task task)
+   {
+      task.setBaselineCost(task.getPlannedCost());
+      task.setBaselineDuration(task.getPlannedDuration());
+      task.setBaselineFinish(task.getPlannedFinish());
+      task.setBaselineStart(task.getPlannedStart());
+      task.setBaselineWork(task.getPlannedWork());
+   }
+
+   private void populateWBS(String prefix, ChildTaskContainer container)
+   {
+      for (Task task : container.getChildTasks())
+      {
+         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
+         task.setWBS(wbs);
+         task.setActivityID(wbs);
+         populateWBS(wbs, task);
+      }
+   }
+
+   private Duration addDurations(Number... values)
+   {
+      return getDuration(NumberHelper.sumAsDouble(values));
+   }
+
+   /**
+    * This method sets the calendar used by a WBS entry. In P6 if all activities
+    * under a WBS entry use the same calendar, the WBS entry uses this calendar
+    * for date calculation. If the activities use different calendars, the WBS
+    * entry will use the project's default calendar.
+    *
+    * @param task task to validate
+    * @return calendar used by this task
+    */
+   private ProjectCalendar rollupCalendars(Task task)
+   {
+      ProjectCalendar result = null;
+
+      if (task.hasChildTasks())
+      {
+         List<ProjectCalendar> calendars = task.getChildTasks().stream().map(this::rollupCalendars).distinct().collect(Collectors.toList());
+
+         if (calendars.size() == 1)
+         {
+            ProjectCalendar firstCalendar = calendars.get(0);
+            if (firstCalendar != null && firstCalendar != m_projectFile.getDefaultCalendar())
+            {
+               result = firstCalendar;
+               task.setCalendar(result);
+            }
+         }
+      }
+      else
+      {
+         result = task.getCalendar();
+      }
+
+      return result;
    }
 
    /**
@@ -1081,27 +1437,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * to compensate for this by using these user-entered dates as baseline dates, and
     * deriving the planned start, actual start, planned finish and actual finish from
     * the child tasks. This method recursively descends through the tasks to do this.
-    */
-   private void updateDates()
-   {
-      for (Task task : m_projectFile.getChildTasks())
-      {
-         updateDates(task);
-      }
-   }
-
-   /**
-    * See the notes above.
     *
     * @param parentTask parent task.
     */
-   private void updateDates(Task parentTask)
+   private void rollupDates(Task parentTask)
    {
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
+         Date startDate = parentTask.getStart();
+         Date finishDate = parentTask.getFinish();
+         Date plannedStartDate = parentTask.getPlannedStart();
+         Date plannedFinishDate = parentTask.getPlannedFinish();
          Date actualStartDate = parentTask.getActualStart();
          Date actualFinishDate = parentTask.getActualFinish();
          Date earlyStartDate = parentTask.getEarlyStart();
@@ -1112,17 +1459,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Date baselineFinishDate = parentTask.getBaselineFinish();
          Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
          Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         Date remainingLateStartDate = parentTask.getRemainingLateStart();
+         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())
          {
-            updateDates(task);
+            rollupDates(task);
 
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            startDate = DateHelper.min(startDate, task.getStart());
+            finishDate = DateHelper.max(finishDate, task.getFinish());
+            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
             actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
             actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
             earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
@@ -1131,6 +1483,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
             lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
             lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = DateHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = DateHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
             baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
             baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
 
@@ -1142,8 +1496,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             critical = critical || task.getCritical();
          }
 
-         parentTask.setStart(plannedStartDate);
-         parentTask.setFinish(plannedFinishDate);
+         parentTask.setStart(startDate);
+         parentTask.setFinish(finishDate);
+         parentTask.setPlannedStart(plannedStartDate);
+         parentTask.setPlannedFinish(plannedFinishDate);
          parentTask.setActualStart(actualStartDate);
          parentTask.setEarlyStart(earlyStartDate);
          parentTask.setEarlyFinish(earlyFinishDate);
@@ -1151,6 +1507,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          parentTask.setRemainingEarlyFinish(remainingEarlyFinishDate);
          parentTask.setLateStart(lateStartDate);
          parentTask.setLateFinish(lateFinishDate);
+         parentTask.setRemainingLateStart(remainingLateStartDate);
+         parentTask.setRemainingLateFinish(remainingLateFinishDate);
          parentTask.setBaselineStart(baselineStartDate);
          parentTask.setBaselineFinish(baselineFinishDate);
 
@@ -1163,42 +1521,73 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             parentTask.setActualFinish(actualFinishDate);
          }
 
-         Duration baselineDuration = null;
-         if (baselineStartDate != null && baselineFinishDate != null)
+         Duration plannedDuration = null;
+         if (plannedStartDate != null && plannedFinishDate != null)
          {
-            baselineDuration = m_projectFile.getDefaultCalendar().getWork(baselineStartDate, baselineFinishDate, TimeUnit.HOURS);
-            parentTask.setBaselineDuration(baselineDuration);
+            plannedDuration = parentTask.getEffectiveCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+            parentTask.setPlannedDuration(plannedDuration);
          }
 
+         Duration actualDuration = null;
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
-            Date startDate = parentTask.getEarlyStart();
-            if (startDate == null)
+            Date taskStartDate = parentTask.getRemainingEarlyStart();
+            if (taskStartDate == null)
             {
-               startDate = baselineStartDate;
+               taskStartDate = parentTask.getEarlyStart();
+               if (taskStartDate == null)
+               {
+                  taskStartDate = plannedStartDate;
+               }
             }
 
-            Date finishDate = parentTask.getEarlyFinish();
-            if (finishDate == null)
+            Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+            if (taskFinishDate == null)
             {
-               finishDate = baselineFinishDate;
+               taskFinishDate = parentTask.getEarlyFinish();
+               if (taskFinishDate == null)
+               {
+                  taskFinishDate = plannedFinishDate;
+               }
             }
 
-            if (startDate != null && finishDate != null)
+            if (taskStartDate != null)
             {
-               remainingDuration = m_projectFile.getDefaultCalendar().getWork(startDate, finishDate, TimeUnit.HOURS);
+               if (parentTask.getActualStart() != null)
+               {
+                  actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
+               }
+
+               if (taskFinishDate != null)
+               {
+                  remainingDuration = parentTask.getEffectiveCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+               }
             }
          }
          else
          {
+            actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
             remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
-         parentTask.setRemainingDuration(remainingDuration);
 
-         if (baselineDuration != null && remainingDuration != null && baselineDuration.getDuration() != 0)
+         if (actualDuration != null && actualDuration.getDuration() < 0)
          {
-            double durationPercentComplete = ((baselineDuration.getDuration() - remainingDuration.getDuration()) / baselineDuration.getDuration()) * 100.0;
+            actualDuration = null;
+         }
+
+         if (remainingDuration != null && remainingDuration.getDuration() < 0)
+         {
+            remainingDuration = null;
+         }
+
+         parentTask.setActualDuration(actualDuration);
+         parentTask.setRemainingDuration(remainingDuration);
+         parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
+
+         if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
+         {
+            double durationPercentComplete = ((plannedDuration.getDuration() - remainingDuration.getDuration()) / plannedDuration.getDuration()) * 100.0;
             if (durationPercentComplete < 0)
             {
                durationPercentComplete = 0;
@@ -1211,14 +1600,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                }
             }
             parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+            parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
+         // Force calculation here to avoid later issues
+         parentTask.getStartSlack();
+         parentTask.getFinishSlack();
          parentTask.setCritical(critical);
       }
    }
 
    /**
-    * Populates a field based on baseline and actual values.
+    * Populates a field based on planned and actual values.
     *
     * @param container field container
     * @param target target field
@@ -1275,17 +1668,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process predecessors.
     *
-    * @param project xml container
+    * @param relationships activity relationships
     */
-   private void processPredecessors(ProjectType project)
+   private void processPredecessors(List<RelationshipType> relationships)
    {
-      for (RelationshipType row : project.getRelationship())
+      for (RelationshipType row : relationships)
       {
          Integer predecessorID = row.getPredecessorActivityObjectId();
          Integer successorID = row.getSuccessorActivityObjectId();
 
-         Task successorTask = m_projectFile.getTaskByUniqueID(mapTaskID(successorID));
-         Task predecessorTask = m_projectFile.getTaskByUniqueID(mapTaskID(predecessorID));
+         Task successorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(successorID));
+         Task predecessorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(predecessorID));
 
          RelationType type = RELATION_TYPE_MAP.get(row.getType());
          Duration lag = getDuration(row.getLag());
@@ -1318,43 +1711,107 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   private void processWorkContours(APIBusinessObjects apibo)
+   {
+      apibo.getResourceCurve().forEach(this::processWorkContour);
+   }
+
+   private void processWorkContour(ResourceCurveType curve)
+   {
+      ResourceCurveValuesType curveValues = curve.getValues();
+
+      double[] values =
+      {
+         NumberHelper.getDouble(curveValues.getValue0()),
+         NumberHelper.getDouble(curveValues.getValue5()),
+         NumberHelper.getDouble(curveValues.getValue10()),
+         NumberHelper.getDouble(curveValues.getValue15()),
+         NumberHelper.getDouble(curveValues.getValue20()),
+         NumberHelper.getDouble(curveValues.getValue25()),
+         NumberHelper.getDouble(curveValues.getValue30()),
+         NumberHelper.getDouble(curveValues.getValue35()),
+         NumberHelper.getDouble(curveValues.getValue40()),
+         NumberHelper.getDouble(curveValues.getValue45()),
+         NumberHelper.getDouble(curveValues.getValue50()),
+         NumberHelper.getDouble(curveValues.getValue55()),
+         NumberHelper.getDouble(curveValues.getValue60()),
+         NumberHelper.getDouble(curveValues.getValue65()),
+         NumberHelper.getDouble(curveValues.getValue70()),
+         NumberHelper.getDouble(curveValues.getValue75()),
+         NumberHelper.getDouble(curveValues.getValue80()),
+         NumberHelper.getDouble(curveValues.getValue85()),
+         NumberHelper.getDouble(curveValues.getValue90()),
+         NumberHelper.getDouble(curveValues.getValue95()),
+         NumberHelper.getDouble(curveValues.getValue100()),
+      };
+
+      m_workContours.put(curve.getObjectId(), new WorkContour(curve.getName(), values));
+   }
+
    /**
     * Process resource assignments.
     *
-    * @param project xml container
+    * @param assignments project resource assignments
     */
-   private void processAssignments(ProjectType project)
+   private void processAssignments(List<ResourceAssignmentType> assignments)
    {
-      List<ResourceAssignmentType> assignments = project.getResourceAssignment();
       for (ResourceAssignmentType row : assignments)
       {
-         Task task = m_projectFile.getTaskByUniqueID(mapTaskID(row.getActivityObjectId()));
-         Resource resource = m_projectFile.getResourceByUniqueID(row.getResourceObjectId());
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
+         Integer resourceID = row.getResourceObjectId() == null ? m_roleClashMap.getID(row.getRoleObjectId()) : row.getResourceObjectId();
+         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+
          if (task != null && resource != null)
          {
             ResourceAssignment assignment = task.addResourceAssignment(resource);
 
             assignment.setUniqueID(row.getObjectId());
             assignment.setRemainingWork(getDuration(row.getRemainingUnits()));
-            assignment.setBaselineWork(getDuration(row.getPlannedUnits()));
+            assignment.setPlannedWork(getDuration(row.getPlannedUnits()));
             assignment.setActualWork(getDuration(row.getActualUnits()));
             assignment.setRemainingCost(row.getRemainingCost());
-            assignment.setBaselineCost(row.getPlannedCost());
+            assignment.setPlannedCost(row.getPlannedCost());
             assignment.setActualCost(row.getActualCost());
             assignment.setActualStart(row.getActualStartDate());
             assignment.setActualFinish(row.getActualFinishDate());
-            assignment.setBaselineStart(row.getPlannedStartDate());
-            assignment.setBaselineFinish(row.getPlannedFinishDate());
+            assignment.setPlannedStart(row.getPlannedStartDate());
+            assignment.setPlannedFinish(row.getPlannedFinishDate());
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
+            assignment.setActualOvertimeCost(row.getActualOvertimeCost());
+            assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
+            assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
 
-            task.setActualCost(Double.valueOf(NumberHelper.getDouble(task.getActualCost()) + NumberHelper.getDouble(assignment.getActualCost())));
-            task.setRemainingCost(Double.valueOf(NumberHelper.getDouble(task.getRemainingCost()) + NumberHelper.getDouble(assignment.getRemainingCost())));
-            task.setBaselineCost(Double.valueOf(NumberHelper.getDouble(task.getBaselineCost()) + NumberHelper.getDouble(assignment.getBaselineCost())));
+            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 
-            populateField(assignment, AssignmentField.WORK, AssignmentField.ACTUAL_WORK, AssignmentField.BASELINE_WORK);
-            populateField(assignment, AssignmentField.COST, AssignmentField.ACTUAL_COST, AssignmentField.BASELINE_COST);
-            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.BASELINE_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.BASELINE_FINISH);
+            // calculate work
+            Duration remainingWork = assignment.getRemainingWork();
+            Duration actualWork = assignment.getActualWork();
+            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            assignment.setWork(totalWork);
+
+            // calculate cost
+            Number remainingCost = assignment.getRemainingCost();
+            Number actualCost = assignment.getActualCost();
+            Number atCompletionCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
+            assignment.setCost(atCompletionCost);
+
+            // roll up to parent task
+            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
+            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), actualCost));
+            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
+            task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
+
+            double units;
+            if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
+            {
+               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+            }
+            else // RT_Labor & RT_Equip
+            {
+               units = NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100;
+            }
+            assignment.setUnits(NumberHelper.getDouble(units));
 
             readUDFTypes(assignment, row.getUDF());
 
@@ -1364,18 +1821,232 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Render a zero Double as null.
+    * Process resource rates.
     *
-    * @param value double value
-    * @return null if the double value is zero
+    * @param apibo xml container
     */
-   private Double zeroIsNull(Double value)
+   private void processResourceRates(APIBusinessObjects apibo)
    {
-      if (value != null && value.doubleValue() == 0)
+      List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getResourceObjectId();
+         Integer id2 = r2.getResourceObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         Date d1 = r1.getEffectiveDate();
+         Date d2 = r2.getEffectiveDate();
+         return DateHelper.compare(d1, d2);
+      });
+
+      for (int i = 0; i < rates.size(); ++i)
       {
-         value = null;
+         ResourceRateType row = rates.get(i);
+
+         Integer resourceID = row.getResourceObjectId();
+         Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getEffectiveDate();
+         Date endDate = DateHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            ResourceRateType nextRow = rates.get(i + 1);
+            if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
+            {
+               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
+            }
+         }
+
+         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
+         if (resource != null)
+         {
+            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+
+            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            costRateTable.add(entry);
+
+            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+         }
       }
-      return value;
+   }
+
+   /**
+    * Process role rates.
+    *
+    * @param apibo xml container
+    */
+   private void processRoleRates(APIBusinessObjects apibo)
+   {
+      List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRate());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getRoleObjectId();
+         Integer id2 = r2.getRoleObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         Date d1 = r1.getEffectiveDate();
+         Date d2 = r2.getEffectiveDate();
+         return DateHelper.compare(d1, d2);
+      });
+
+      for (int i = 0; i < rates.size(); ++i)
+      {
+         RoleRateType row = rates.get(i);
+
+         Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
+         TimeUnit standardRateFormat = TimeUnit.HOURS;
+         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         Date startDate = row.getEffectiveDate();
+         Date endDate = DateHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            RoleRateType nextRow = rates.get(i + 1);
+            if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
+            {
+               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
+               cal.add(Calendar.MINUTE, -1);
+               endDate = cal.getTime();
+               DateHelper.pushCalendar(cal);
+            }
+         }
+
+         Resource resource = m_projectFile.getResourceByUniqueID(m_roleClashMap.getID(row.getRoleObjectId()));
+         if (resource != null)
+         {
+            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            {
+               startDate = DateHelper.START_DATE_NA;
+            }
+
+            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            {
+               endDate = DateHelper.END_DATE_NA;
+            }
+
+            CostRateTable costRateTable = resource.getCostRateTable(0);
+            if (costRateTable == null)
+            {
+               costRateTable = new CostRateTable();
+               resource.setCostRateTable(0, costRateTable);
+            }
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            costRateTable.add(entry);
+
+            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+         }
+      }
+   }
+
+   /**
+    * Create a map of notebook topic names.
+    *
+    * @param apibo top level object
+    */
+   private void processNotebookTopics(APIBusinessObjects apibo)
+   {
+      apibo.getNotebookTopic().forEach(t -> m_notebookTopics.put(t.getObjectId(), t.getName()));
+   }
+
+   /**
+    * Retrieve notes attached to WBS entries.
+    *
+    * @param notes wbs notes
+    * @return map of WBS notes
+    */
+   private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
+   {
+      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
+      return getNotes(map);
+   }
+
+   /**
+    * Retrieve notes attached to activity entries.
+    *
+    * @param notes activity notes
+    * @return map of activity notes
+    */
+   private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
+   {
+      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
+      return getNotes(map);
+   }
+
+   /**
+    * Create note text from multiple notebook topics and entries.
+    *
+    * @param map notebook data
+    * @return map of object IDs and note text
+    */
+   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<String>>> map)
+   {
+      Map<Integer, Notes> result = new HashMap<>();
+
+      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      {
+         List<Notes> list = new ArrayList<>();
+         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         {
+            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
+         }
+         result.put(entry.getKey(), new ParentNotes(list));
+      }
+
+      return result;
+   }
+
+   /**
+    * Create an HtmlNote instance.
+    *
+    * @param text note text
+    * @return HtmlNote instance
+    */
+   private HtmlNotes getHtmlNote(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return null;
+      }
+
+      // Remove BOM and NUL characters
+      String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
+
+      HtmlNotes result = new HtmlNotes(html);
+
+      return result.isEmpty() ? null : result;
    }
 
    /**
@@ -1502,6 +2173,147 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process schedule options.
+    *
+    * @param list list of schedule options
+    */
+   private void processScheduleOptions(List<ScheduleOptionsType> list)
+   {
+      if (list == null || list.isEmpty())
+      {
+         return;
+      }
+
+      ScheduleOptionsType options = list.get(0);
+      Map<String, Object> customProperties = new TreeMap<>();
+
+      //
+      // Leveling Options
+      //
+      // Automatically level resources when scheduling
+      customProperties.put("ConsiderAssignmentsInOtherProjects", options.isIncludeExternalResAss());
+      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", options.getExternalProjectPriorityLimit());
+      customProperties.put("PreserveScheduledEarlyAndLateDates", options.isPreserveScheduledEarlyAndLateDates());
+      // Recalculate assignment costs after leveling
+      customProperties.put("LevelAllResources", options.isLevelAllResources());
+      customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", options.isLevelWithinFloat());
+      customProperties.put("PreserveMinimumFloatWhenLeveling", options.getMinFloatToPreserve());
+      customProperties.put("MaxPercentToOverallocateResources", options.getOverAllocationPercentage());
+      customProperties.put("LevelingPriorities", options.getPriorityList());
+
+      //
+      // Schedule
+      //
+      // customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+
+      //
+      // Schedule Options - General
+      //
+      //customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("MakeOpenEndedActivitiesCritical", options.isMakeOpenEndedActivitiesCritical());
+      customProperties.put("UseExpectedFinishDates", options.isUseExpectedFinishDates());
+      // Schedule automatically when a change affects dates
+      // Level resources during scheduling
+      //customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
+      //customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
+      customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
+      // Define critical activities as
+      customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
+      customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
+      customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+
+      //
+      // Schedule Options - Advanced
+      //
+      customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
+      customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
+      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
+      //customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
+      customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
+
+      m_projectFile.getProjectProperties().setCustomProperties(customProperties);
+   }
+
+   private void rollupValues()
+   {
+      m_projectFile.getChildTasks().forEach(this::rollupCalendars);
+      m_projectFile.getChildTasks().forEach(this::rollupDates);
+      m_projectFile.getChildTasks().forEach(this::rollupWork);
+      m_projectFile.getChildTasks().forEach(this::rollupCosts);
+
+      if (m_projectFile.getProjectProperties().getBaselineProjectUniqueID() == null)
+      {
+         m_projectFile.getTasks().stream().filter(Task::getSummary).forEach(this::populateBaselineFromCurrentProject);
+      }
+   }
+
+   /**
+    * See the notes above.
+    *
+    * @param parentTask parent task
+    */
+   private void rollupCosts(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         double plannedCost = 0;
+         double actualCost = 0;
+         double remainingCost = 0;
+         double cost = 0;
+
+         //process children first before adding their costs
+         for (Task child : parentTask.getChildTasks())
+         {
+            rollupCosts(child);
+            plannedCost += NumberHelper.getDouble(child.getPlannedCost());
+            actualCost += NumberHelper.getDouble(child.getActualCost());
+            remainingCost += NumberHelper.getDouble(child.getRemainingCost());
+            cost += NumberHelper.getDouble(child.getCost());
+         }
+
+         parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
+         parentTask.setActualCost(NumberHelper.getDouble(actualCost));
+         parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
+         parentTask.setCost(NumberHelper.getDouble(cost));
+      }
+   }
+
+   /**
+    * The Primavera WBS entries we read in as tasks don't have work entered. We try
+    * to compensate for this by summing the child tasks' work. This method recursively
+    * descends through the tasks to do this.
+    *
+    * @param parentTask parent task.
+    */
+   private void rollupWork(Task parentTask)
+   {
+      if (parentTask.hasChildTasks())
+      {
+         ProjectCalendar calendar = parentTask.getEffectiveCalendar();
+
+         Duration actualWork = null;
+         Duration plannedWork = null;
+         Duration remainingWork = null;
+         Duration work = null;
+
+         for (Task task : parentTask.getChildTasks())
+         {
+            rollupWork(task);
+
+            actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
+            plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
+            remainingWork = Duration.add(remainingWork, task.getRemainingWork(), calendar);
+            work = Duration.add(work, task.getWork(), calendar);
+         }
+
+         parentTask.setActualWork(actualWork);
+         parentTask.setPlannedWork(plannedWork);
+         parentTask.setRemainingWork(remainingWork);
+         parentTask.setWork(work);
+      }
+   }
+
+   /**
     * Cached context to minimise construction cost.
     */
    private static JAXBContext CONTEXT;
@@ -1533,34 +2345,21 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * Deals with the case where we have had to map a task ID to a new value.
-    *
-    * @param id task ID from database
-    * @return mapped task ID
-    */
-   private Integer mapTaskID(Integer id)
-   {
-      Integer mappedID = m_clashMap.get(id);
-      if (mappedID == null)
-      {
-         mappedID = id;
-      }
-      return (mappedID);
-   }
-
    private Integer m_projectID;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   private Map<Integer, Integer> m_clashMap;
+   private ClashMap m_activityClashMap;
+   private ClashMap m_roleClashMap;
    private Map<Integer, ActivityCodeValue> m_activityCodeMap;
    private UserFieldCounters m_taskUdfCounters;
    private UserFieldCounters m_resourceUdfCounters;
    private UserFieldCounters m_assignmentUdfCounters;
    private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
-   private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
+   private Map<Integer, String> m_notebookTopics;
+   private Map<Integer, WorkContour> m_workContours;
+   private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
@@ -1574,15 +2373,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
-      CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.START_ON);
       CONSTRAINT_TYPE_MAP.put("Start On or Before", ConstraintType.START_NO_LATER_THAN);
       CONSTRAINT_TYPE_MAP.put("Start On or After", ConstraintType.START_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("Finish On", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("Finish On", ConstraintType.FINISH_ON);
       CONSTRAINT_TYPE_MAP.put("Finish On or Before", ConstraintType.FINISH_NO_LATER_THAN);
       CONSTRAINT_TYPE_MAP.put("Finish On or After", ConstraintType.FINISH_NO_EARLIER_THAN);
       CONSTRAINT_TYPE_MAP.put("As Late As Possible", ConstraintType.AS_LATE_AS_POSSIBLE);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MANDATORY_START);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MANDATORY_FINISH);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MUST_FINISH_ON);
    }
 
    private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
@@ -1646,21 +2445,56 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
    }
 
-   private static final Map<TaskField, String> TASK_FIELD_ALIASES = new HashMap<>();
-   static
-   {
-      TASK_FIELD_ALIASES.put(TaskField.TEXT1, "Code");
-      TASK_FIELD_ALIASES.put(TaskField.TEXT2, "Activity Type");
-      TASK_FIELD_ALIASES.put(TaskField.TEXT3, "Status");
-      TASK_FIELD_ALIASES.put(TaskField.NUMBER1, "Primary Resource Unique ID");
-   }
-
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
    static
    {
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
+   }
+
+   private static final Map<String, TaskType> DURATION_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DURATION_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
+      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
+   }
+
+   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
+   static
+   {
+      PERCENT_COMPLETE_TYPE.put("Physical", PercentCompleteType.PHYSICAL);
+      PERCENT_COMPLETE_TYPE.put("Duration", PercentCompleteType.DURATION);
+      PERCENT_COMPLETE_TYPE.put("Units", PercentCompleteType.UNITS);
+      PERCENT_COMPLETE_TYPE.put("Scope", PercentCompleteType.SCOPE);
+   }
+
+   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
+   static
+   {
+      STATUS_MAP.put("Not Started", ActivityStatus.NOT_STARTED);
+      STATUS_MAP.put("In Progress", ActivityStatus.IN_PROGRESS);
+      STATUS_MAP.put("Completed", ActivityStatus.COMPLETED);
+   }
+
+   private static final Map<String, net.sf.mpxj.ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put("Task Dependent", net.sf.mpxj.ActivityType.TASK_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("Resource Dependent", net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("Level of Effort", net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT);
+      ACTIVITY_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
+   }
+
+   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
+   static
+   {
+      CRITICAL_ACTIVITY_MAP.put("Critical Float", CriticalActivityType.TOTAL_FLOAT);
+      CRITICAL_ACTIVITY_MAP.put("Longest Path", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

@@ -27,7 +27,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +45,7 @@ import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.listener.ProjectListener;
 
 /**
@@ -72,7 +72,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -99,7 +98,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
@@ -159,13 +157,11 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Select the project properties from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
       List<ResultSetRow> rows = getRows("SELECT * FROM MSP_PROJECTS WHERE PROJ_ID=?", m_projectID);
-      if (rows.isEmpty() == false)
+      if (!rows.isEmpty())
       {
          processProjectProperties(rows.get(0));
       }
@@ -173,8 +169,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Select calendar data from the database.
-    *
-    * @throws SQLException
     */
    private void processCalendars() throws SQLException
    {
@@ -217,8 +211,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -230,8 +222,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource baseline values.
-    *
-    * @throws SQLException
     */
    private void processResourceBaselines() throws SQLException
    {
@@ -246,8 +236,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -259,8 +247,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process task baseline values.
-    *
-    * @throws SQLException
     */
    private void processTaskBaselines() throws SQLException
    {
@@ -275,8 +261,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process links.
-    *
-    * @throws SQLException
     */
    private void processLinks() throws SQLException
    {
@@ -288,8 +272,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {
@@ -301,8 +283,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process resource assignment baseline values.
-    *
-    * @throws SQLException
     */
    private void processAssignmentBaselines() throws SQLException
    {
@@ -317,8 +297,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * This method reads the extended task and resource attributes.
-    *
-    * @throws SQLException
     */
    private void processExtendedAttributes() throws SQLException
    {
@@ -365,8 +343,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads text field extended attributes.
-    *
-    * @throws SQLException
     */
    private void processTextFields() throws SQLException
    {
@@ -378,8 +354,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads number field extended attributes.
-    *
-    * @throws SQLException
     */
    private void processNumberFields() throws SQLException
    {
@@ -391,8 +365,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads flag field extended attributes.
-    *
-    * @throws SQLException
     */
    private void processFlagFields() throws SQLException
    {
@@ -404,8 +376,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads duration field extended attributes.
-    *
-    * @throws SQLException
     */
    private void processDurationFields() throws SQLException
    {
@@ -417,8 +387,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Reads date field extended attributes.
-    *
-    * @throws SQLException
     */
    private void processDateFields() throws SQLException
    {
@@ -430,8 +398,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
    /**
     * Process outline code fields.
-    *
-    * @throws SQLException
     */
    private void processOutlineCodeFields() throws SQLException
    {
@@ -445,7 +411,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * Process a single outline code.
     *
     * @param parentRow outline code to task mapping table
-    * @throws SQLException
     */
    private void processOutlineCodeFields(Row parentRow) throws SQLException
    {
@@ -463,30 +428,22 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     *
     * @param sql query statement
     * @return result set
-    * @throws SQLException
     */
    private List<ResultSetRow> getRows(String sql) throws SQLException
    {
       allocateConnection();
-
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<ResultSetRow> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            List<ResultSetRow> result = new ArrayList<>();
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -497,31 +454,25 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * @param sql query statement
     * @param var bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<ResultSetRow> getRows(String sql, Integer var) throws SQLException
    {
       allocateConnection();
 
-      try
-      {
-         List<ResultSetRow> result = new ArrayList<>();
+      List<ResultSetRow> result = new ArrayList<>();
 
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      {
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -533,39 +484,30 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * @param var1 bind variable value
     * @param var2 bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<ResultSetRow> getRows(String sql, Integer var1, Integer var2) throws SQLException
    {
       allocateConnection();
 
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<ResultSetRow> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var1));
-         m_ps.setInt(2, NumberHelper.getInt(var2));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         ps.setInt(1, NumberHelper.getInt(var1));
+         ps.setInt(2, NumberHelper.getInt(var2));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new ResultSetRow(m_rs, m_meta));
+            List<ResultSetRow> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new ResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
    /**
     * Allocates a database connection.
-    *
-    * @throws SQLException
     */
    private void allocateConnection() throws SQLException
    {
@@ -574,38 +516,6 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
          m_connection = m_dataSource.getConnection();
          m_allocatedConnection = true;
          queryDatabaseMetaData();
-      }
-   }
-
-   /**
-    * Releases a database connection, and cleans up any resources
-    * associated with that connection.
-    */
-   private void releaseConnection()
-   {
-      AutoCloseableHelper.closeQuietly(m_rs);
-      m_rs = null;
-
-      AutoCloseableHelper.closeQuietly(m_ps);
-      m_ps = null;
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
       }
    }
 
@@ -631,23 +541,22 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Queries database meta data to check for the existence of
+    * Queries database metadata to check for the existence of
     * specific tables.
     */
    private void queryDatabaseMetaData()
    {
-      ResultSet rs = null;
-
       try
       {
          Set<String> tables = new HashSet<>();
          DatabaseMetaData dmd = m_connection.getMetaData();
-         rs = dmd.getTables(null, null, null, null);
-         while (rs.next())
+         try (ResultSet rs = dmd.getTables(null, null, null, null))
          {
-            tables.add(rs.getString("TABLE_NAME"));
+            while (rs.next())
+            {
+               tables.add(rs.getString("TABLE_NAME"));
+            }
          }
-
          m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
          m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
          m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");
@@ -655,22 +564,13 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
 
       catch (Exception ex)
       {
-         // Ignore errors when reading meta data
-      }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(rs);
-         rs = null;
+         // Ignore errors when reading metadata
       }
    }
 
    private DataSource m_dataSource;
    private boolean m_allocatedConnection;
    private Connection m_connection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
    private List<ProjectListener> m_projectListeners;
    private boolean m_hasResourceBaselines;
    private boolean m_hasTaskBaselines;

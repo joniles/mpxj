@@ -59,7 +59,7 @@ final class PriorityUtility
          String[] priorityTypes = LocaleData.getStringArray(locale, LocaleData.PRIORITY_TYPES);
          for (int loop = 0; loop < priorityTypes.length; loop++)
          {
-            if (priorityTypes[loop].equalsIgnoreCase(priority) == true)
+            if (priorityTypes[loop].equalsIgnoreCase(priority))
             {
                index = loop;
                break;

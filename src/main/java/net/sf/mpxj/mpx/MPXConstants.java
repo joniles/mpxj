@@ -40,7 +40,7 @@ final class MPXConstants
    public static final int COMMENTS_RECORD_NUMBER = 0;
 
    /**
-    * Currency settngs record number.
+    * Currency settings record number.
     */
    public static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
 

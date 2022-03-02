@@ -33,477 +33,477 @@ import net.sf.mpxj.TimeUnit;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="WorkspaceProperties">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="CurrencySymbol" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="CurrencyPosition" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="CurrencyDigits" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="HoursPerDay" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="HoursPerWeek" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="DaysPerMonth" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="CalcCPForSubprojects" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                   &lt;element name="MaximumSlack" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="PrintingProperties">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;all>
- *                   &lt;element name="PrintOrientation" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="MarginLeft" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="MarginRight" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="MarginTop" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="MarginBottom" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="MarginHeader" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="MarginFooter" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                   &lt;element name="FitTo" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="PagesH" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="PagesV" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="TimescaleMode" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="DoPrintGrid" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                   &lt;element name="StartDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *                   &lt;element name="FinishDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *                   &lt;element name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="LegendMode" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="FirstPageNumber" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                   &lt;element name="PrintView" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="HeaderFooterFontName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="HeaderFooterFontSize" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                 &lt;/all>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="ThemeID" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ShowAssignedResources" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="Markers">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Marker" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="ResourceUsageDiagram">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/>
- *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
- *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Calendars">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Calendar" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="WeekDays">
- *                               &lt;complexType>
- *                                 &lt;complexContent>
- *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                     &lt;sequence>
- *                                       &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0">
- *                                         &lt;complexType>
- *                                           &lt;complexContent>
- *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                               &lt;sequence>
- *                                                 &lt;element name="Day">
- *                                                   &lt;simpleType>
- *                                                     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
- *                                                       &lt;enumeration value="0"/>
- *                                                       &lt;enumeration value="1"/>
- *                                                       &lt;enumeration value="2"/>
- *                                                       &lt;enumeration value="3"/>
- *                                                       &lt;enumeration value="4"/>
- *                                                       &lt;enumeration value="5"/>
- *                                                       &lt;enumeration value="6"/>
- *                                                     &lt;/restriction>
- *                                                   &lt;/simpleType>
- *                                                 &lt;/element>
- *                                                 &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                                 &lt;element name="TimePeriods">
- *                                                   &lt;complexType>
- *                                                     &lt;complexContent>
- *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                                         &lt;sequence>
- *                                                           &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
- *                                                             &lt;complexType>
- *                                                               &lt;complexContent>
- *                                                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                                                   &lt;sequence>
- *                                                                     &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
- *                                                                     &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
- *                                                                   &lt;/sequence>
- *                                                                 &lt;/restriction>
- *                                                               &lt;/complexContent>
- *                                                             &lt;/complexType>
- *                                                           &lt;/element>
- *                                                         &lt;/sequence>
- *                                                       &lt;/restriction>
- *                                                     &lt;/complexContent>
- *                                                   &lt;/complexType>
- *                                                 &lt;/element>
- *                                               &lt;/sequence>
- *                                             &lt;/restriction>
- *                                           &lt;/complexContent>
- *                                         &lt;/complexType>
- *                                       &lt;/element>
- *                                     &lt;/sequence>
- *                                   &lt;/restriction>
- *                                 &lt;/complexContent>
- *                               &lt;/complexType>
- *                             &lt;/element>
- *                             &lt;element name="ExceptedDays">
- *                               &lt;complexType>
- *                                 &lt;complexContent>
- *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                     &lt;sequence>
- *                                       &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0">
- *                                         &lt;complexType>
- *                                           &lt;complexContent>
- *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                               &lt;sequence>
- *                                                 &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *                                                 &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                                 &lt;element name="TimePeriods">
- *                                                   &lt;complexType>
- *                                                     &lt;complexContent>
- *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                                         &lt;sequence>
- *                                                           &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
- *                                                             &lt;complexType>
- *                                                               &lt;complexContent>
- *                                                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                                                   &lt;sequence>
- *                                                                     &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
- *                                                                     &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
- *                                                                   &lt;/sequence>
- *                                                                 &lt;/restriction>
- *                                                               &lt;/complexContent>
- *                                                             &lt;/complexType>
- *                                                           &lt;/element>
- *                                                         &lt;/sequence>
- *                                                       &lt;/restriction>
- *                                                     &lt;/complexContent>
- *                                                   &lt;/complexType>
- *                                                 &lt;/element>
- *                                               &lt;/sequence>
- *                                             &lt;/restriction>
- *                                           &lt;/complexContent>
- *                                         &lt;/complexType>
- *                                       &lt;/element>
- *                                     &lt;/sequence>
- *                                   &lt;/restriction>
- *                                 &lt;/complexContent>
- *                               &lt;/complexType>
- *                             &lt;/element>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Resources">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
- *                   &lt;element name="Resource" maxOccurs="unbounded" minOccurs="0">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
- *                             &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="Type">
- *                               &lt;simpleType>
- *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
- *                                   &lt;enumeration value="0"/>
- *                                   &lt;enumeration value="1"/>
- *                                 &lt;/restriction>
- *                               &lt;/simpleType>
- *                             &lt;/element>
- *                             &lt;element name="SubType">
- *                               &lt;simpleType>
- *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *                                   &lt;enumeration value="work"/>
- *                                   &lt;enumeration value="material"/>
- *                                   &lt;enumeration value="cost"/>
- *                                   &lt;enumeration value="equipment"/>
- *                                   &lt;enumeration value="company"/>
- *                                 &lt;/restriction>
- *                               &lt;/simpleType>
- *                             &lt;/element>
- *                             &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                             &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
- *                             &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                             &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
- *                             &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Projects">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
- *                   &lt;element name="Project" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
- *                             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
- *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/>
- *                             &lt;element name="Task" maxOccurs="unbounded" minOccurs="0">
- *                               &lt;complexType>
- *                                 &lt;complexContent>
- *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                     &lt;sequence>
- *                                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
- *                                       &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                                       &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                                       &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *                                       &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *                                       &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
- *                                       &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
- *                                       &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *                                       &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *                                       &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
- *                                       &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *                                       &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *                                       &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *                                       &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *                                       &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                                       &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                                       &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                                       &lt;element name="RecalcBase1">
- *                                         &lt;simpleType>
- *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
- *                                             &lt;enumeration value="0"/>
- *                                             &lt;enumeration value="1"/>
- *                                             &lt;enumeration value="2"/>
- *                                             &lt;enumeration value="3"/>
- *                                           &lt;/restriction>
- *                                         &lt;/simpleType>
- *                                       &lt;/element>
- *                                       &lt;element name="RecalcBase2">
- *                                         &lt;simpleType>
- *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
- *                                             &lt;enumeration value="0"/>
- *                                             &lt;enumeration value="1"/>
- *                                             &lt;enumeration value="2"/>
- *                                             &lt;enumeration value="3"/>
- *                                           &lt;/restriction>
- *                                         &lt;/simpleType>
- *                                       &lt;/element>
- *                                       &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                       &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/>
- *                                       &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                                       &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                       &lt;element name="SchedulingType">
- *                                         &lt;simpleType>
- *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *                                             &lt;enumeration value="fixedDuration"/>
- *                                             &lt;enumeration value="fixedUnits"/>
- *                                             &lt;enumeration value="fixedWork"/>
- *                                           &lt;/restriction>
- *                                         &lt;/simpleType>
- *                                       &lt;/element>
- *                                       &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/>
- *                                       &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *                                       &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
- *                                       &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
- *                                       &lt;element name="ResourceAssignments">
- *                                         &lt;complexType>
- *                                           &lt;complexContent>
- *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                               &lt;sequence>
- *                                                 &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0">
- *                                                   &lt;complexType>
- *                                                     &lt;complexContent>
- *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                                         &lt;sequence>
- *                                                           &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                                                           &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                                                           &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                                                           &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                                                         &lt;/sequence>
- *                                                       &lt;/restriction>
- *                                                     &lt;/complexContent>
- *                                                   &lt;/complexType>
- *                                                 &lt;/element>
- *                                               &lt;/sequence>
- *                                             &lt;/restriction>
- *                                           &lt;/complexContent>
- *                                         &lt;/complexType>
- *                                       &lt;/element>
- *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/>
- *                                       &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *                                     &lt;/sequence>
- *                                   &lt;/restriction>
- *                                 &lt;/complexContent>
- *                               &lt;/complexType>
- *                             &lt;/element>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="ProjectPortfolioView">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/>
- *                   &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Links">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Link" maxOccurs="unbounded" minOccurs="0">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;choice>
- *                               &lt;sequence>
- *                                 &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                                 &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                               &lt;/sequence>
- *                               &lt;sequence>
- *                                 &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                                 &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                               &lt;/sequence>
- *                             &lt;/choice>
- *                             &lt;element name="Type">
- *                               &lt;simpleType>
- *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
- *                                   &lt;enumeration value="0"/>
- *                                   &lt;enumeration value="1"/>
- *                                   &lt;enumeration value="2"/>
- *                                   &lt;enumeration value="3"/>
- *                                 &lt;/restriction>
- *                               &lt;/simpleType>
- *                             &lt;/element>
- *                             &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *                             &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Dashboards">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Dashboard" minOccurs="0">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *       &lt;attribute name="Application" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="Version" type="{http://www.w3.org/2001/XMLSchema}int" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="WorkspaceProperties"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="CurrencySymbol" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="CurrencyPosition" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="CurrencyDigits" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="HoursPerDay" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="HoursPerWeek" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="DaysPerMonth" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="CalcCPForSubprojects" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                   &lt;element name="MaximumSlack" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="PrintingProperties"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;all&gt;
+ *                   &lt;element name="PrintOrientation" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="MarginLeft" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="MarginRight" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="MarginTop" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="MarginBottom" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="MarginHeader" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="MarginFooter" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                   &lt;element name="FitTo" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="PagesH" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="PagesV" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="TimescaleMode" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="DoPrintGrid" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                   &lt;element name="StartDate" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *                   &lt;element name="FinishDate" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *                   &lt;element name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="LegendMode" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="FirstPageNumber" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                   &lt;element name="PrintView" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="HeaderFooterFontName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                   &lt;element name="HeaderFooterFontSize" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                 &lt;/all&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="ThemeID" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="ShowAssignedResources" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="Markers"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Marker" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="ResourceUsageDiagram"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/&gt;
+ *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+ *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Calendars"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Calendar" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="WeekDays"&gt;
+ *                               &lt;complexType&gt;
+ *                                 &lt;complexContent&gt;
+ *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                     &lt;sequence&gt;
+ *                                       &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                                         &lt;complexType&gt;
+ *                                           &lt;complexContent&gt;
+ *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                               &lt;sequence&gt;
+ *                                                 &lt;element name="Day"&gt;
+ *                                                   &lt;simpleType&gt;
+ *                                                     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+ *                                                       &lt;enumeration value="0"/&gt;
+ *                                                       &lt;enumeration value="1"/&gt;
+ *                                                       &lt;enumeration value="2"/&gt;
+ *                                                       &lt;enumeration value="3"/&gt;
+ *                                                       &lt;enumeration value="4"/&gt;
+ *                                                       &lt;enumeration value="5"/&gt;
+ *                                                       &lt;enumeration value="6"/&gt;
+ *                                                     &lt;/restriction&gt;
+ *                                                   &lt;/simpleType&gt;
+ *                                                 &lt;/element&gt;
+ *                                                 &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                                 &lt;element name="TimePeriods"&gt;
+ *                                                   &lt;complexType&gt;
+ *                                                     &lt;complexContent&gt;
+ *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                                         &lt;sequence&gt;
+ *                                                           &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                                                             &lt;complexType&gt;
+ *                                                               &lt;complexContent&gt;
+ *                                                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                                                   &lt;sequence&gt;
+ *                                                                     &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+ *                                                                     &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+ *                                                                   &lt;/sequence&gt;
+ *                                                                 &lt;/restriction&gt;
+ *                                                               &lt;/complexContent&gt;
+ *                                                             &lt;/complexType&gt;
+ *                                                           &lt;/element&gt;
+ *                                                         &lt;/sequence&gt;
+ *                                                       &lt;/restriction&gt;
+ *                                                     &lt;/complexContent&gt;
+ *                                                   &lt;/complexType&gt;
+ *                                                 &lt;/element&gt;
+ *                                               &lt;/sequence&gt;
+ *                                             &lt;/restriction&gt;
+ *                                           &lt;/complexContent&gt;
+ *                                         &lt;/complexType&gt;
+ *                                       &lt;/element&gt;
+ *                                     &lt;/sequence&gt;
+ *                                   &lt;/restriction&gt;
+ *                                 &lt;/complexContent&gt;
+ *                               &lt;/complexType&gt;
+ *                             &lt;/element&gt;
+ *                             &lt;element name="ExceptedDays"&gt;
+ *                               &lt;complexType&gt;
+ *                                 &lt;complexContent&gt;
+ *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                     &lt;sequence&gt;
+ *                                       &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                                         &lt;complexType&gt;
+ *                                           &lt;complexContent&gt;
+ *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                               &lt;sequence&gt;
+ *                                                 &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *                                                 &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                                 &lt;element name="TimePeriods"&gt;
+ *                                                   &lt;complexType&gt;
+ *                                                     &lt;complexContent&gt;
+ *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                                         &lt;sequence&gt;
+ *                                                           &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                                                             &lt;complexType&gt;
+ *                                                               &lt;complexContent&gt;
+ *                                                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                                                   &lt;sequence&gt;
+ *                                                                     &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+ *                                                                     &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+ *                                                                   &lt;/sequence&gt;
+ *                                                                 &lt;/restriction&gt;
+ *                                                               &lt;/complexContent&gt;
+ *                                                             &lt;/complexType&gt;
+ *                                                           &lt;/element&gt;
+ *                                                         &lt;/sequence&gt;
+ *                                                       &lt;/restriction&gt;
+ *                                                     &lt;/complexContent&gt;
+ *                                                   &lt;/complexType&gt;
+ *                                                 &lt;/element&gt;
+ *                                               &lt;/sequence&gt;
+ *                                             &lt;/restriction&gt;
+ *                                           &lt;/complexContent&gt;
+ *                                         &lt;/complexType&gt;
+ *                                       &lt;/element&gt;
+ *                                     &lt;/sequence&gt;
+ *                                   &lt;/restriction&gt;
+ *                                 &lt;/complexContent&gt;
+ *                               &lt;/complexType&gt;
+ *                             &lt;/element&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Resources"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+ *                   &lt;element name="Resource" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+ *                             &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="Type"&gt;
+ *                               &lt;simpleType&gt;
+ *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+ *                                   &lt;enumeration value="0"/&gt;
+ *                                   &lt;enumeration value="1"/&gt;
+ *                                 &lt;/restriction&gt;
+ *                               &lt;/simpleType&gt;
+ *                             &lt;/element&gt;
+ *                             &lt;element name="SubType"&gt;
+ *                               &lt;simpleType&gt;
+ *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *                                   &lt;enumeration value="work"/&gt;
+ *                                   &lt;enumeration value="material"/&gt;
+ *                                   &lt;enumeration value="cost"/&gt;
+ *                                   &lt;enumeration value="equipment"/&gt;
+ *                                   &lt;enumeration value="company"/&gt;
+ *                                 &lt;/restriction&gt;
+ *                               &lt;/simpleType&gt;
+ *                             &lt;/element&gt;
+ *                             &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                             &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+ *                             &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                             &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+ *                             &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Projects"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+ *                   &lt;element name="Project" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+ *                             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+ *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/&gt;
+ *                             &lt;element name="Task" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                               &lt;complexType&gt;
+ *                                 &lt;complexContent&gt;
+ *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                     &lt;sequence&gt;
+ *                                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+ *                                       &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                                       &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                                       &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *                                       &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *                                       &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+ *                                       &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+ *                                       &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *                                       &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *                                       &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+ *                                       &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                                       &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                                       &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                                       &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *                                       &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                                       &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                                       &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *                                       &lt;element name="RecalcBase1"&gt;
+ *                                         &lt;simpleType&gt;
+ *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+ *                                             &lt;enumeration value="0"/&gt;
+ *                                             &lt;enumeration value="1"/&gt;
+ *                                             &lt;enumeration value="2"/&gt;
+ *                                             &lt;enumeration value="3"/&gt;
+ *                                           &lt;/restriction&gt;
+ *                                         &lt;/simpleType&gt;
+ *                                       &lt;/element&gt;
+ *                                       &lt;element name="RecalcBase2"&gt;
+ *                                         &lt;simpleType&gt;
+ *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+ *                                             &lt;enumeration value="0"/&gt;
+ *                                             &lt;enumeration value="1"/&gt;
+ *                                             &lt;enumeration value="2"/&gt;
+ *                                             &lt;enumeration value="3"/&gt;
+ *                                           &lt;/restriction&gt;
+ *                                         &lt;/simpleType&gt;
+ *                                       &lt;/element&gt;
+ *                                       &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                       &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/&gt;
+ *                                       &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                                       &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                       &lt;element name="SchedulingType"&gt;
+ *                                         &lt;simpleType&gt;
+ *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *                                             &lt;enumeration value="fixedDuration"/&gt;
+ *                                             &lt;enumeration value="fixedUnits"/&gt;
+ *                                             &lt;enumeration value="fixedWork"/&gt;
+ *                                           &lt;/restriction&gt;
+ *                                         &lt;/simpleType&gt;
+ *                                       &lt;/element&gt;
+ *                                       &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/&gt;
+ *                                       &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *                                       &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+ *                                       &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+ *                                       &lt;element name="ResourceAssignments"&gt;
+ *                                         &lt;complexType&gt;
+ *                                           &lt;complexContent&gt;
+ *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                               &lt;sequence&gt;
+ *                                                 &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                                                   &lt;complexType&gt;
+ *                                                     &lt;complexContent&gt;
+ *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                                         &lt;sequence&gt;
+ *                                                           &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                                                           &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                                                           &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                                                           &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                                                         &lt;/sequence&gt;
+ *                                                       &lt;/restriction&gt;
+ *                                                     &lt;/complexContent&gt;
+ *                                                   &lt;/complexType&gt;
+ *                                                 &lt;/element&gt;
+ *                                               &lt;/sequence&gt;
+ *                                             &lt;/restriction&gt;
+ *                                           &lt;/complexContent&gt;
+ *                                         &lt;/complexType&gt;
+ *                                       &lt;/element&gt;
+ *                                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/&gt;
+ *                                       &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+ *                                     &lt;/sequence&gt;
+ *                                   &lt;/restriction&gt;
+ *                                 &lt;/complexContent&gt;
+ *                               &lt;/complexType&gt;
+ *                             &lt;/element&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="ProjectPortfolioView"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/&gt;
+ *                   &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Links"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Link" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;choice&gt;
+ *                               &lt;sequence&gt;
+ *                                 &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                                 &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                               &lt;/sequence&gt;
+ *                               &lt;sequence&gt;
+ *                                 &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                                 &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                               &lt;/sequence&gt;
+ *                             &lt;/choice&gt;
+ *                             &lt;element name="Type"&gt;
+ *                               &lt;simpleType&gt;
+ *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+ *                                   &lt;enumeration value="0"/&gt;
+ *                                   &lt;enumeration value="1"/&gt;
+ *                                   &lt;enumeration value="2"/&gt;
+ *                                   &lt;enumeration value="3"/&gt;
+ *                                 &lt;/restriction&gt;
+ *                               &lt;/simpleType&gt;
+ *                             &lt;/element&gt;
+ *                             &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+ *                             &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Dashboards"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Dashboard" minOccurs="0"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name="Application" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="Version" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *
@@ -902,127 +902,127 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Calendar" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="WeekDays">
-    *                     &lt;complexType>
-    *                       &lt;complexContent>
-    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                           &lt;sequence>
-    *                             &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0">
-    *                               &lt;complexType>
-    *                                 &lt;complexContent>
-    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                     &lt;sequence>
-    *                                       &lt;element name="Day">
-    *                                         &lt;simpleType>
-    *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-    *                                             &lt;enumeration value="0"/>
-    *                                             &lt;enumeration value="1"/>
-    *                                             &lt;enumeration value="2"/>
-    *                                             &lt;enumeration value="3"/>
-    *                                             &lt;enumeration value="4"/>
-    *                                             &lt;enumeration value="5"/>
-    *                                             &lt;enumeration value="6"/>
-    *                                           &lt;/restriction>
-    *                                         &lt;/simpleType>
-    *                                       &lt;/element>
-    *                                       &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                                       &lt;element name="TimePeriods">
-    *                                         &lt;complexType>
-    *                                           &lt;complexContent>
-    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                               &lt;sequence>
-    *                                                 &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-    *                                                   &lt;complexType>
-    *                                                     &lt;complexContent>
-    *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                                         &lt;sequence>
-    *                                                           &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-    *                                                           &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-    *                                                         &lt;/sequence>
-    *                                                       &lt;/restriction>
-    *                                                     &lt;/complexContent>
-    *                                                   &lt;/complexType>
-    *                                                 &lt;/element>
-    *                                               &lt;/sequence>
-    *                                             &lt;/restriction>
-    *                                           &lt;/complexContent>
-    *                                         &lt;/complexType>
-    *                                       &lt;/element>
-    *                                     &lt;/sequence>
-    *                                   &lt;/restriction>
-    *                                 &lt;/complexContent>
-    *                               &lt;/complexType>
-    *                             &lt;/element>
-    *                           &lt;/sequence>
-    *                         &lt;/restriction>
-    *                       &lt;/complexContent>
-    *                     &lt;/complexType>
-    *                   &lt;/element>
-    *                   &lt;element name="ExceptedDays">
-    *                     &lt;complexType>
-    *                       &lt;complexContent>
-    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                           &lt;sequence>
-    *                             &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0">
-    *                               &lt;complexType>
-    *                                 &lt;complexContent>
-    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                     &lt;sequence>
-    *                                       &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-    *                                       &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                                       &lt;element name="TimePeriods">
-    *                                         &lt;complexType>
-    *                                           &lt;complexContent>
-    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                               &lt;sequence>
-    *                                                 &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-    *                                                   &lt;complexType>
-    *                                                     &lt;complexContent>
-    *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                                         &lt;sequence>
-    *                                                           &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-    *                                                           &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-    *                                                         &lt;/sequence>
-    *                                                       &lt;/restriction>
-    *                                                     &lt;/complexContent>
-    *                                                   &lt;/complexType>
-    *                                                 &lt;/element>
-    *                                               &lt;/sequence>
-    *                                             &lt;/restriction>
-    *                                           &lt;/complexContent>
-    *                                         &lt;/complexType>
-    *                                       &lt;/element>
-    *                                     &lt;/sequence>
-    *                                   &lt;/restriction>
-    *                                 &lt;/complexContent>
-    *                               &lt;/complexType>
-    *                             &lt;/element>
-    *                           &lt;/sequence>
-    *                         &lt;/restriction>
-    *                       &lt;/complexContent>
-    *                     &lt;/complexType>
-    *                   &lt;/element>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Calendar" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="WeekDays"&gt;
+    *                     &lt;complexType&gt;
+    *                       &lt;complexContent&gt;
+    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                           &lt;sequence&gt;
+    *                             &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                               &lt;complexType&gt;
+    *                                 &lt;complexContent&gt;
+    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                     &lt;sequence&gt;
+    *                                       &lt;element name="Day"&gt;
+    *                                         &lt;simpleType&gt;
+    *                                           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+    *                                             &lt;enumeration value="0"/&gt;
+    *                                             &lt;enumeration value="1"/&gt;
+    *                                             &lt;enumeration value="2"/&gt;
+    *                                             &lt;enumeration value="3"/&gt;
+    *                                             &lt;enumeration value="4"/&gt;
+    *                                             &lt;enumeration value="5"/&gt;
+    *                                             &lt;enumeration value="6"/&gt;
+    *                                           &lt;/restriction&gt;
+    *                                         &lt;/simpleType&gt;
+    *                                       &lt;/element&gt;
+    *                                       &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                                       &lt;element name="TimePeriods"&gt;
+    *                                         &lt;complexType&gt;
+    *                                           &lt;complexContent&gt;
+    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                               &lt;sequence&gt;
+    *                                                 &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                                                   &lt;complexType&gt;
+    *                                                     &lt;complexContent&gt;
+    *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                                         &lt;sequence&gt;
+    *                                                           &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+    *                                                           &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+    *                                                         &lt;/sequence&gt;
+    *                                                       &lt;/restriction&gt;
+    *                                                     &lt;/complexContent&gt;
+    *                                                   &lt;/complexType&gt;
+    *                                                 &lt;/element&gt;
+    *                                               &lt;/sequence&gt;
+    *                                             &lt;/restriction&gt;
+    *                                           &lt;/complexContent&gt;
+    *                                         &lt;/complexType&gt;
+    *                                       &lt;/element&gt;
+    *                                     &lt;/sequence&gt;
+    *                                   &lt;/restriction&gt;
+    *                                 &lt;/complexContent&gt;
+    *                               &lt;/complexType&gt;
+    *                             &lt;/element&gt;
+    *                           &lt;/sequence&gt;
+    *                         &lt;/restriction&gt;
+    *                       &lt;/complexContent&gt;
+    *                     &lt;/complexType&gt;
+    *                   &lt;/element&gt;
+    *                   &lt;element name="ExceptedDays"&gt;
+    *                     &lt;complexType&gt;
+    *                       &lt;complexContent&gt;
+    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                           &lt;sequence&gt;
+    *                             &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                               &lt;complexType&gt;
+    *                                 &lt;complexContent&gt;
+    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                     &lt;sequence&gt;
+    *                                       &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+    *                                       &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                                       &lt;element name="TimePeriods"&gt;
+    *                                         &lt;complexType&gt;
+    *                                           &lt;complexContent&gt;
+    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                               &lt;sequence&gt;
+    *                                                 &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                                                   &lt;complexType&gt;
+    *                                                     &lt;complexContent&gt;
+    *                                                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                                         &lt;sequence&gt;
+    *                                                           &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+    *                                                           &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+    *                                                         &lt;/sequence&gt;
+    *                                                       &lt;/restriction&gt;
+    *                                                     &lt;/complexContent&gt;
+    *                                                   &lt;/complexType&gt;
+    *                                                 &lt;/element&gt;
+    *                                               &lt;/sequence&gt;
+    *                                             &lt;/restriction&gt;
+    *                                           &lt;/complexContent&gt;
+    *                                         &lt;/complexType&gt;
+    *                                       &lt;/element&gt;
+    *                                     &lt;/sequence&gt;
+    *                                   &lt;/restriction&gt;
+    *                                 &lt;/complexContent&gt;
+    *                               &lt;/complexType&gt;
+    *                             &lt;/element&gt;
+    *                           &lt;/sequence&gt;
+    *                         &lt;/restriction&gt;
+    *                       &lt;/complexContent&gt;
+    *                     &lt;/complexType&gt;
+    *                   &lt;/element&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -1072,117 +1072,117 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="WeekDays">
-       *           &lt;complexType>
-       *             &lt;complexContent>
-       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                 &lt;sequence>
-       *                   &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0">
-       *                     &lt;complexType>
-       *                       &lt;complexContent>
-       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                           &lt;sequence>
-       *                             &lt;element name="Day">
-       *                               &lt;simpleType>
-       *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-       *                                   &lt;enumeration value="0"/>
-       *                                   &lt;enumeration value="1"/>
-       *                                   &lt;enumeration value="2"/>
-       *                                   &lt;enumeration value="3"/>
-       *                                   &lt;enumeration value="4"/>
-       *                                   &lt;enumeration value="5"/>
-       *                                   &lt;enumeration value="6"/>
-       *                                 &lt;/restriction>
-       *                               &lt;/simpleType>
-       *                             &lt;/element>
-       *                             &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                             &lt;element name="TimePeriods">
-       *                               &lt;complexType>
-       *                                 &lt;complexContent>
-       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                                     &lt;sequence>
-       *                                       &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-       *                                         &lt;complexType>
-       *                                           &lt;complexContent>
-       *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                                               &lt;sequence>
-       *                                                 &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-       *                                                 &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-       *                                               &lt;/sequence>
-       *                                             &lt;/restriction>
-       *                                           &lt;/complexContent>
-       *                                         &lt;/complexType>
-       *                                       &lt;/element>
-       *                                     &lt;/sequence>
-       *                                   &lt;/restriction>
-       *                                 &lt;/complexContent>
-       *                               &lt;/complexType>
-       *                             &lt;/element>
-       *                           &lt;/sequence>
-       *                         &lt;/restriction>
-       *                       &lt;/complexContent>
-       *                     &lt;/complexType>
-       *                   &lt;/element>
-       *                 &lt;/sequence>
-       *               &lt;/restriction>
-       *             &lt;/complexContent>
-       *           &lt;/complexType>
-       *         &lt;/element>
-       *         &lt;element name="ExceptedDays">
-       *           &lt;complexType>
-       *             &lt;complexContent>
-       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                 &lt;sequence>
-       *                   &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0">
-       *                     &lt;complexType>
-       *                       &lt;complexContent>
-       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                           &lt;sequence>
-       *                             &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-       *                             &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                             &lt;element name="TimePeriods">
-       *                               &lt;complexType>
-       *                                 &lt;complexContent>
-       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                                     &lt;sequence>
-       *                                       &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-       *                                         &lt;complexType>
-       *                                           &lt;complexContent>
-       *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                                               &lt;sequence>
-       *                                                 &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-       *                                                 &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-       *                                               &lt;/sequence>
-       *                                             &lt;/restriction>
-       *                                           &lt;/complexContent>
-       *                                         &lt;/complexType>
-       *                                       &lt;/element>
-       *                                     &lt;/sequence>
-       *                                   &lt;/restriction>
-       *                                 &lt;/complexContent>
-       *                               &lt;/complexType>
-       *                             &lt;/element>
-       *                           &lt;/sequence>
-       *                         &lt;/restriction>
-       *                       &lt;/complexContent>
-       *                     &lt;/complexType>
-       *                   &lt;/element>
-       *                 &lt;/sequence>
-       *               &lt;/restriction>
-       *             &lt;/complexContent>
-       *           &lt;/complexType>
-       *         &lt;/element>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="BaseCalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="WeekDays"&gt;
+       *           &lt;complexType&gt;
+       *             &lt;complexContent&gt;
+       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                 &lt;sequence&gt;
+       *                   &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0"&gt;
+       *                     &lt;complexType&gt;
+       *                       &lt;complexContent&gt;
+       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                           &lt;sequence&gt;
+       *                             &lt;element name="Day"&gt;
+       *                               &lt;simpleType&gt;
+       *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+       *                                   &lt;enumeration value="0"/&gt;
+       *                                   &lt;enumeration value="1"/&gt;
+       *                                   &lt;enumeration value="2"/&gt;
+       *                                   &lt;enumeration value="3"/&gt;
+       *                                   &lt;enumeration value="4"/&gt;
+       *                                   &lt;enumeration value="5"/&gt;
+       *                                   &lt;enumeration value="6"/&gt;
+       *                                 &lt;/restriction&gt;
+       *                               &lt;/simpleType&gt;
+       *                             &lt;/element&gt;
+       *                             &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                             &lt;element name="TimePeriods"&gt;
+       *                               &lt;complexType&gt;
+       *                                 &lt;complexContent&gt;
+       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                                     &lt;sequence&gt;
+       *                                       &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+       *                                         &lt;complexType&gt;
+       *                                           &lt;complexContent&gt;
+       *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                                               &lt;sequence&gt;
+       *                                                 &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+       *                                                 &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+       *                                               &lt;/sequence&gt;
+       *                                             &lt;/restriction&gt;
+       *                                           &lt;/complexContent&gt;
+       *                                         &lt;/complexType&gt;
+       *                                       &lt;/element&gt;
+       *                                     &lt;/sequence&gt;
+       *                                   &lt;/restriction&gt;
+       *                                 &lt;/complexContent&gt;
+       *                               &lt;/complexType&gt;
+       *                             &lt;/element&gt;
+       *                           &lt;/sequence&gt;
+       *                         &lt;/restriction&gt;
+       *                       &lt;/complexContent&gt;
+       *                     &lt;/complexType&gt;
+       *                   &lt;/element&gt;
+       *                 &lt;/sequence&gt;
+       *               &lt;/restriction&gt;
+       *             &lt;/complexContent&gt;
+       *           &lt;/complexType&gt;
+       *         &lt;/element&gt;
+       *         &lt;element name="ExceptedDays"&gt;
+       *           &lt;complexType&gt;
+       *             &lt;complexContent&gt;
+       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                 &lt;sequence&gt;
+       *                   &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0"&gt;
+       *                     &lt;complexType&gt;
+       *                       &lt;complexContent&gt;
+       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                           &lt;sequence&gt;
+       *                             &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+       *                             &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                             &lt;element name="TimePeriods"&gt;
+       *                               &lt;complexType&gt;
+       *                                 &lt;complexContent&gt;
+       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                                     &lt;sequence&gt;
+       *                                       &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+       *                                         &lt;complexType&gt;
+       *                                           &lt;complexContent&gt;
+       *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                                               &lt;sequence&gt;
+       *                                                 &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+       *                                                 &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+       *                                               &lt;/sequence&gt;
+       *                                             &lt;/restriction&gt;
+       *                                           &lt;/complexContent&gt;
+       *                                         &lt;/complexType&gt;
+       *                                       &lt;/element&gt;
+       *                                     &lt;/sequence&gt;
+       *                                   &lt;/restriction&gt;
+       *                                 &lt;/complexContent&gt;
+       *                               &lt;/complexType&gt;
+       *                             &lt;/element&gt;
+       *                           &lt;/sequence&gt;
+       *                         &lt;/restriction&gt;
+       *                       &lt;/complexContent&gt;
+       *                     &lt;/complexType&gt;
+       *                   &lt;/element&gt;
+       *                 &lt;/sequence&gt;
+       *               &lt;/restriction&gt;
+       *             &lt;/complexContent&gt;
+       *           &lt;/complexType&gt;
+       *         &lt;/element&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -1339,48 +1339,48 @@ import net.sf.mpxj.TimeUnit;
           * <p>The following schema fragment specifies the expected content contained within this class.
           *
           * <pre>
-          * &lt;complexType>
-          *   &lt;complexContent>
-          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *       &lt;sequence>
-          *         &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0">
-          *           &lt;complexType>
-          *             &lt;complexContent>
-          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                 &lt;sequence>
-          *                   &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-          *                   &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *                   &lt;element name="TimePeriods">
-          *                     &lt;complexType>
-          *                       &lt;complexContent>
-          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                           &lt;sequence>
-          *                             &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-          *                               &lt;complexType>
-          *                                 &lt;complexContent>
-          *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                                     &lt;sequence>
-          *                                       &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-          *                                       &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-          *                                     &lt;/sequence>
-          *                                   &lt;/restriction>
-          *                                 &lt;/complexContent>
-          *                               &lt;/complexType>
-          *                             &lt;/element>
-          *                           &lt;/sequence>
-          *                         &lt;/restriction>
-          *                       &lt;/complexContent>
-          *                     &lt;/complexType>
-          *                   &lt;/element>
-          *                 &lt;/sequence>
-          *               &lt;/restriction>
-          *             &lt;/complexContent>
-          *           &lt;/complexType>
-          *         &lt;/element>
-          *       &lt;/sequence>
-          *     &lt;/restriction>
-          *   &lt;/complexContent>
-          * &lt;/complexType>
+          * &lt;complexType&gt;
+          *   &lt;complexContent&gt;
+          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *       &lt;sequence&gt;
+          *         &lt;element name="ExceptedDay" maxOccurs="unbounded" minOccurs="0"&gt;
+          *           &lt;complexType&gt;
+          *             &lt;complexContent&gt;
+          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                 &lt;sequence&gt;
+          *                   &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+          *                   &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *                   &lt;element name="TimePeriods"&gt;
+          *                     &lt;complexType&gt;
+          *                       &lt;complexContent&gt;
+          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                           &lt;sequence&gt;
+          *                             &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+          *                               &lt;complexType&gt;
+          *                                 &lt;complexContent&gt;
+          *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                                     &lt;sequence&gt;
+          *                                       &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+          *                                       &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+          *                                     &lt;/sequence&gt;
+          *                                   &lt;/restriction&gt;
+          *                                 &lt;/complexContent&gt;
+          *                               &lt;/complexType&gt;
+          *                             &lt;/element&gt;
+          *                           &lt;/sequence&gt;
+          *                         &lt;/restriction&gt;
+          *                       &lt;/complexContent&gt;
+          *                     &lt;/complexType&gt;
+          *                   &lt;/element&gt;
+          *                 &lt;/sequence&gt;
+          *               &lt;/restriction&gt;
+          *             &lt;/complexContent&gt;
+          *           &lt;/complexType&gt;
+          *         &lt;/element&gt;
+          *       &lt;/sequence&gt;
+          *     &lt;/restriction&gt;
+          *   &lt;/complexContent&gt;
+          * &lt;/complexType&gt;
           * </pre>
           *
           *
@@ -1430,38 +1430,38 @@ import net.sf.mpxj.TimeUnit;
              * <p>The following schema fragment specifies the expected content contained within this class.
              *
              * <pre>
-             * &lt;complexType>
-             *   &lt;complexContent>
-             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *       &lt;sequence>
-             *         &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-             *         &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-             *         &lt;element name="TimePeriods">
-             *           &lt;complexType>
-             *             &lt;complexContent>
-             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *                 &lt;sequence>
-             *                   &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-             *                     &lt;complexType>
-             *                       &lt;complexContent>
-             *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *                           &lt;sequence>
-             *                             &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-             *                             &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-             *                           &lt;/sequence>
-             *                         &lt;/restriction>
-             *                       &lt;/complexContent>
-             *                     &lt;/complexType>
-             *                   &lt;/element>
-             *                 &lt;/sequence>
-             *               &lt;/restriction>
-             *             &lt;/complexContent>
-             *           &lt;/complexType>
-             *         &lt;/element>
-             *       &lt;/sequence>
-             *     &lt;/restriction>
-             *   &lt;/complexContent>
-             * &lt;/complexType>
+             * &lt;complexType&gt;
+             *   &lt;complexContent&gt;
+             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *       &lt;sequence&gt;
+             *         &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+             *         &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+             *         &lt;element name="TimePeriods"&gt;
+             *           &lt;complexType&gt;
+             *             &lt;complexContent&gt;
+             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *                 &lt;sequence&gt;
+             *                   &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+             *                     &lt;complexType&gt;
+             *                       &lt;complexContent&gt;
+             *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *                           &lt;sequence&gt;
+             *                             &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+             *                             &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+             *                           &lt;/sequence&gt;
+             *                         &lt;/restriction&gt;
+             *                       &lt;/complexContent&gt;
+             *                     &lt;/complexType&gt;
+             *                   &lt;/element&gt;
+             *                 &lt;/sequence&gt;
+             *               &lt;/restriction&gt;
+             *             &lt;/complexContent&gt;
+             *           &lt;/complexType&gt;
+             *         &lt;/element&gt;
+             *       &lt;/sequence&gt;
+             *     &lt;/restriction&gt;
+             *   &lt;/complexContent&gt;
+             * &lt;/complexType&gt;
              * </pre>
              *
              *
@@ -1554,26 +1554,26 @@ import net.sf.mpxj.TimeUnit;
                 * <p>The following schema fragment specifies the expected content contained within this class.
                 *
                 * <pre>
-                * &lt;complexType>
-                *   &lt;complexContent>
-                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                *       &lt;sequence>
-                *         &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-                *           &lt;complexType>
-                *             &lt;complexContent>
-                *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                *                 &lt;sequence>
-                *                   &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                *                   &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                *                 &lt;/sequence>
-                *               &lt;/restriction>
-                *             &lt;/complexContent>
-                *           &lt;/complexType>
-                *         &lt;/element>
-                *       &lt;/sequence>
-                *     &lt;/restriction>
-                *   &lt;/complexContent>
-                * &lt;/complexType>
+                * &lt;complexType&gt;
+                *   &lt;complexContent&gt;
+                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                *       &lt;sequence&gt;
+                *         &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+                *           &lt;complexType&gt;
+                *             &lt;complexContent&gt;
+                *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                *                 &lt;sequence&gt;
+                *                   &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                *                   &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                *                 &lt;/sequence&gt;
+                *               &lt;/restriction&gt;
+                *             &lt;/complexContent&gt;
+                *           &lt;/complexType&gt;
+                *         &lt;/element&gt;
+                *       &lt;/sequence&gt;
+                *     &lt;/restriction&gt;
+                *   &lt;/complexContent&gt;
+                * &lt;/complexType&gt;
                 * </pre>
                 *
                 *
@@ -1623,16 +1623,16 @@ import net.sf.mpxj.TimeUnit;
                    * <p>The following schema fragment specifies the expected content contained within this class.
                    *
                    * <pre>
-                   * &lt;complexType>
-                   *   &lt;complexContent>
-                   *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                   *       &lt;sequence>
-                   *         &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                   *         &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                   *       &lt;/sequence>
-                   *     &lt;/restriction>
-                   *   &lt;/complexContent>
-                   * &lt;/complexType>
+                   * &lt;complexType&gt;
+                   *   &lt;complexContent&gt;
+                   *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                   *       &lt;sequence&gt;
+                   *         &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                   *         &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                   *       &lt;/sequence&gt;
+                   *     &lt;/restriction&gt;
+                   *   &lt;/complexContent&gt;
+                   * &lt;/complexType&gt;
                    * </pre>
                    *
                    *
@@ -1713,60 +1713,60 @@ import net.sf.mpxj.TimeUnit;
           * <p>The following schema fragment specifies the expected content contained within this class.
           *
           * <pre>
-          * &lt;complexType>
-          *   &lt;complexContent>
-          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *       &lt;sequence>
-          *         &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0">
-          *           &lt;complexType>
-          *             &lt;complexContent>
-          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                 &lt;sequence>
-          *                   &lt;element name="Day">
-          *                     &lt;simpleType>
-          *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-          *                         &lt;enumeration value="0"/>
-          *                         &lt;enumeration value="1"/>
-          *                         &lt;enumeration value="2"/>
-          *                         &lt;enumeration value="3"/>
-          *                         &lt;enumeration value="4"/>
-          *                         &lt;enumeration value="5"/>
-          *                         &lt;enumeration value="6"/>
-          *                       &lt;/restriction>
-          *                     &lt;/simpleType>
-          *                   &lt;/element>
-          *                   &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *                   &lt;element name="TimePeriods">
-          *                     &lt;complexType>
-          *                       &lt;complexContent>
-          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                           &lt;sequence>
-          *                             &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-          *                               &lt;complexType>
-          *                                 &lt;complexContent>
-          *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                                     &lt;sequence>
-          *                                       &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-          *                                       &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-          *                                     &lt;/sequence>
-          *                                   &lt;/restriction>
-          *                                 &lt;/complexContent>
-          *                               &lt;/complexType>
-          *                             &lt;/element>
-          *                           &lt;/sequence>
-          *                         &lt;/restriction>
-          *                       &lt;/complexContent>
-          *                     &lt;/complexType>
-          *                   &lt;/element>
-          *                 &lt;/sequence>
-          *               &lt;/restriction>
-          *             &lt;/complexContent>
-          *           &lt;/complexType>
-          *         &lt;/element>
-          *       &lt;/sequence>
-          *     &lt;/restriction>
-          *   &lt;/complexContent>
-          * &lt;/complexType>
+          * &lt;complexType&gt;
+          *   &lt;complexContent&gt;
+          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *       &lt;sequence&gt;
+          *         &lt;element name="WeekDay" maxOccurs="unbounded" minOccurs="0"&gt;
+          *           &lt;complexType&gt;
+          *             &lt;complexContent&gt;
+          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                 &lt;sequence&gt;
+          *                   &lt;element name="Day"&gt;
+          *                     &lt;simpleType&gt;
+          *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+          *                         &lt;enumeration value="0"/&gt;
+          *                         &lt;enumeration value="1"/&gt;
+          *                         &lt;enumeration value="2"/&gt;
+          *                         &lt;enumeration value="3"/&gt;
+          *                         &lt;enumeration value="4"/&gt;
+          *                         &lt;enumeration value="5"/&gt;
+          *                         &lt;enumeration value="6"/&gt;
+          *                       &lt;/restriction&gt;
+          *                     &lt;/simpleType&gt;
+          *                   &lt;/element&gt;
+          *                   &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *                   &lt;element name="TimePeriods"&gt;
+          *                     &lt;complexType&gt;
+          *                       &lt;complexContent&gt;
+          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                           &lt;sequence&gt;
+          *                             &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+          *                               &lt;complexType&gt;
+          *                                 &lt;complexContent&gt;
+          *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                                     &lt;sequence&gt;
+          *                                       &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+          *                                       &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+          *                                     &lt;/sequence&gt;
+          *                                   &lt;/restriction&gt;
+          *                                 &lt;/complexContent&gt;
+          *                               &lt;/complexType&gt;
+          *                             &lt;/element&gt;
+          *                           &lt;/sequence&gt;
+          *                         &lt;/restriction&gt;
+          *                       &lt;/complexContent&gt;
+          *                     &lt;/complexType&gt;
+          *                   &lt;/element&gt;
+          *                 &lt;/sequence&gt;
+          *               &lt;/restriction&gt;
+          *             &lt;/complexContent&gt;
+          *           &lt;/complexType&gt;
+          *         &lt;/element&gt;
+          *       &lt;/sequence&gt;
+          *     &lt;/restriction&gt;
+          *   &lt;/complexContent&gt;
+          * &lt;/complexType&gt;
           * </pre>
           *
           *
@@ -1816,50 +1816,50 @@ import net.sf.mpxj.TimeUnit;
              * <p>The following schema fragment specifies the expected content contained within this class.
              *
              * <pre>
-             * &lt;complexType>
-             *   &lt;complexContent>
-             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *       &lt;sequence>
-             *         &lt;element name="Day">
-             *           &lt;simpleType>
-             *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-             *               &lt;enumeration value="0"/>
-             *               &lt;enumeration value="1"/>
-             *               &lt;enumeration value="2"/>
-             *               &lt;enumeration value="3"/>
-             *               &lt;enumeration value="4"/>
-             *               &lt;enumeration value="5"/>
-             *               &lt;enumeration value="6"/>
-             *             &lt;/restriction>
-             *           &lt;/simpleType>
-             *         &lt;/element>
-             *         &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-             *         &lt;element name="TimePeriods">
-             *           &lt;complexType>
-             *             &lt;complexContent>
-             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *                 &lt;sequence>
-             *                   &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-             *                     &lt;complexType>
-             *                       &lt;complexContent>
-             *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *                           &lt;sequence>
-             *                             &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-             *                             &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-             *                           &lt;/sequence>
-             *                         &lt;/restriction>
-             *                       &lt;/complexContent>
-             *                     &lt;/complexType>
-             *                   &lt;/element>
-             *                 &lt;/sequence>
-             *               &lt;/restriction>
-             *             &lt;/complexContent>
-             *           &lt;/complexType>
-             *         &lt;/element>
-             *       &lt;/sequence>
-             *     &lt;/restriction>
-             *   &lt;/complexContent>
-             * &lt;/complexType>
+             * &lt;complexType&gt;
+             *   &lt;complexContent&gt;
+             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *       &lt;sequence&gt;
+             *         &lt;element name="Day"&gt;
+             *           &lt;simpleType&gt;
+             *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+             *               &lt;enumeration value="0"/&gt;
+             *               &lt;enumeration value="1"/&gt;
+             *               &lt;enumeration value="2"/&gt;
+             *               &lt;enumeration value="3"/&gt;
+             *               &lt;enumeration value="4"/&gt;
+             *               &lt;enumeration value="5"/&gt;
+             *               &lt;enumeration value="6"/&gt;
+             *             &lt;/restriction&gt;
+             *           &lt;/simpleType&gt;
+             *         &lt;/element&gt;
+             *         &lt;element name="IsDayWorking" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+             *         &lt;element name="TimePeriods"&gt;
+             *           &lt;complexType&gt;
+             *             &lt;complexContent&gt;
+             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *                 &lt;sequence&gt;
+             *                   &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+             *                     &lt;complexType&gt;
+             *                       &lt;complexContent&gt;
+             *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *                           &lt;sequence&gt;
+             *                             &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+             *                             &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+             *                           &lt;/sequence&gt;
+             *                         &lt;/restriction&gt;
+             *                       &lt;/complexContent&gt;
+             *                     &lt;/complexType&gt;
+             *                   &lt;/element&gt;
+             *                 &lt;/sequence&gt;
+             *               &lt;/restriction&gt;
+             *             &lt;/complexContent&gt;
+             *           &lt;/complexType&gt;
+             *         &lt;/element&gt;
+             *       &lt;/sequence&gt;
+             *     &lt;/restriction&gt;
+             *   &lt;/complexContent&gt;
+             * &lt;/complexType&gt;
              * </pre>
              *
              *
@@ -1952,26 +1952,26 @@ import net.sf.mpxj.TimeUnit;
                 * <p>The following schema fragment specifies the expected content contained within this class.
                 *
                 * <pre>
-                * &lt;complexType>
-                *   &lt;complexContent>
-                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                *       &lt;sequence>
-                *         &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0">
-                *           &lt;complexType>
-                *             &lt;complexContent>
-                *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                *                 &lt;sequence>
-                *                   &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                *                   &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                *                 &lt;/sequence>
-                *               &lt;/restriction>
-                *             &lt;/complexContent>
-                *           &lt;/complexType>
-                *         &lt;/element>
-                *       &lt;/sequence>
-                *     &lt;/restriction>
-                *   &lt;/complexContent>
-                * &lt;/complexType>
+                * &lt;complexType&gt;
+                *   &lt;complexContent&gt;
+                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                *       &lt;sequence&gt;
+                *         &lt;element name="TimePeriod" maxOccurs="unbounded" minOccurs="0"&gt;
+                *           &lt;complexType&gt;
+                *             &lt;complexContent&gt;
+                *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                *                 &lt;sequence&gt;
+                *                   &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                *                   &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                *                 &lt;/sequence&gt;
+                *               &lt;/restriction&gt;
+                *             &lt;/complexContent&gt;
+                *           &lt;/complexType&gt;
+                *         &lt;/element&gt;
+                *       &lt;/sequence&gt;
+                *     &lt;/restriction&gt;
+                *   &lt;/complexContent&gt;
+                * &lt;/complexType&gt;
                 * </pre>
                 *
                 *
@@ -2021,16 +2021,16 @@ import net.sf.mpxj.TimeUnit;
                    * <p>The following schema fragment specifies the expected content contained within this class.
                    *
                    * <pre>
-                   * &lt;complexType>
-                   *   &lt;complexContent>
-                   *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                   *       &lt;sequence>
-                   *         &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                   *         &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/>
-                   *       &lt;/sequence>
-                   *     &lt;/restriction>
-                   *   &lt;/complexContent>
-                   * &lt;/complexType>
+                   * &lt;complexType&gt;
+                   *   &lt;complexContent&gt;
+                   *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                   *       &lt;sequence&gt;
+                   *         &lt;element name="From" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                   *         &lt;element name="To" type="{http://www.w3.org/2001/XMLSchema}time"/&gt;
+                   *       &lt;/sequence&gt;
+                   *     &lt;/restriction&gt;
+                   *   &lt;/complexContent&gt;
+                   * &lt;/complexType&gt;
                    * </pre>
                    *
                    *
@@ -2115,23 +2115,23 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Dashboard" minOccurs="0">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Dashboard" minOccurs="0"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -2176,13 +2176,13 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -2228,47 +2228,47 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Link" maxOccurs="unbounded" minOccurs="0">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;choice>
-    *                     &lt;sequence>
-    *                       &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                       &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                     &lt;/sequence>
-    *                     &lt;sequence>
-    *                       &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                       &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                     &lt;/sequence>
-    *                   &lt;/choice>
-    *                   &lt;element name="Type">
-    *                     &lt;simpleType>
-    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-    *                         &lt;enumeration value="0"/>
-    *                         &lt;enumeration value="1"/>
-    *                         &lt;enumeration value="2"/>
-    *                         &lt;enumeration value="3"/>
-    *                       &lt;/restriction>
-    *                     &lt;/simpleType>
-    *                   &lt;/element>
-    *                   &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                   &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Link" maxOccurs="unbounded" minOccurs="0"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;choice&gt;
+    *                     &lt;sequence&gt;
+    *                       &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                       &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                     &lt;/sequence&gt;
+    *                     &lt;sequence&gt;
+    *                       &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                       &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                     &lt;/sequence&gt;
+    *                   &lt;/choice&gt;
+    *                   &lt;element name="Type"&gt;
+    *                     &lt;simpleType&gt;
+    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+    *                         &lt;enumeration value="0"/&gt;
+    *                         &lt;enumeration value="1"/&gt;
+    *                         &lt;enumeration value="2"/&gt;
+    *                         &lt;enumeration value="3"/&gt;
+    *                       &lt;/restriction&gt;
+    *                     &lt;/simpleType&gt;
+    *                   &lt;/element&gt;
+    *                   &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                   &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -2318,37 +2318,37 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;choice>
-       *           &lt;sequence>
-       *             &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *             &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *           &lt;/sequence>
-       *           &lt;sequence>
-       *             &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *             &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *           &lt;/sequence>
-       *         &lt;/choice>
-       *         &lt;element name="Type">
-       *           &lt;simpleType>
-       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-       *               &lt;enumeration value="0"/>
-       *               &lt;enumeration value="1"/>
-       *               &lt;enumeration value="2"/>
-       *               &lt;enumeration value="3"/>
-       *             &lt;/restriction>
-       *           &lt;/simpleType>
-       *         &lt;/element>
-       *         &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *         &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;choice&gt;
+       *           &lt;sequence&gt;
+       *             &lt;element name="SourceTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *             &lt;element name="DestinationTaskID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *           &lt;/sequence&gt;
+       *           &lt;sequence&gt;
+       *             &lt;element name="SourceProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *             &lt;element name="DestinationProjectID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *           &lt;/sequence&gt;
+       *         &lt;/choice&gt;
+       *         &lt;element name="Type"&gt;
+       *           &lt;simpleType&gt;
+       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+       *               &lt;enumeration value="0"/&gt;
+       *               &lt;enumeration value="1"/&gt;
+       *               &lt;enumeration value="2"/&gt;
+       *               &lt;enumeration value="3"/&gt;
+       *             &lt;/restriction&gt;
+       *           &lt;/simpleType&gt;
+       *         &lt;/element&gt;
+       *         &lt;element name="Lag" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *         &lt;element name="LagUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -2593,27 +2593,27 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Marker" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Marker" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -2663,17 +2663,17 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="DisplayStyle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -2778,39 +2778,39 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;all>
-    *         &lt;element name="PrintOrientation" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="MarginLeft" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="MarginRight" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="MarginTop" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="MarginBottom" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="MarginHeader" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="MarginFooter" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *         &lt;element name="FitTo" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="PagesH" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="PagesV" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="TimescaleMode" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="DoPrintGrid" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *         &lt;element name="StartDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
-    *         &lt;element name="FinishDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
-    *         &lt;element name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="LegendMode" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="FirstPageNumber" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="PrintView" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="HeaderFooterFontName" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="HeaderFooterFontSize" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *       &lt;/all>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;all&gt;
+    *         &lt;element name="PrintOrientation" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="MarginLeft" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="MarginRight" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="MarginTop" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="MarginBottom" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="MarginHeader" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="MarginFooter" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *         &lt;element name="FitTo" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="PagesH" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="PagesV" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="TimescaleMode" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="DoPrintGrid" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *         &lt;element name="StartDate" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+    *         &lt;element name="FinishDate" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+    *         &lt;element name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="LegendMode" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="FirstPageNumber" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="PrintView" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="HeaderFooterFontName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="HeaderFooterFontSize" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *       &lt;/all&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3496,16 +3496,16 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/>
-    *         &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/&gt;
+    *         &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3580,124 +3580,124 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
-    *         &lt;element name="Project" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-    *                   &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/>
-    *                   &lt;element name="Task" maxOccurs="unbounded" minOccurs="0">
-    *                     &lt;complexType>
-    *                       &lt;complexContent>
-    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                           &lt;sequence>
-    *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-    *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                             &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                             &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-    *                             &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-    *                             &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-    *                             &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-    *                             &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-    *                             &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-    *                             &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-    *                             &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-    *                             &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-    *                             &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-    *                             &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-    *                             &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                             &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                             &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                             &lt;element name="RecalcBase1">
-    *                               &lt;simpleType>
-    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-    *                                   &lt;enumeration value="0"/>
-    *                                   &lt;enumeration value="1"/>
-    *                                   &lt;enumeration value="2"/>
-    *                                   &lt;enumeration value="3"/>
-    *                                 &lt;/restriction>
-    *                               &lt;/simpleType>
-    *                             &lt;/element>
-    *                             &lt;element name="RecalcBase2">
-    *                               &lt;simpleType>
-    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-    *                                   &lt;enumeration value="0"/>
-    *                                   &lt;enumeration value="1"/>
-    *                                   &lt;enumeration value="2"/>
-    *                                   &lt;enumeration value="3"/>
-    *                                 &lt;/restriction>
-    *                               &lt;/simpleType>
-    *                             &lt;/element>
-    *                             &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/>
-    *                             &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *                             &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                             &lt;element name="SchedulingType">
-    *                               &lt;simpleType>
-    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-    *                                   &lt;enumeration value="fixedDuration"/>
-    *                                   &lt;enumeration value="fixedUnits"/>
-    *                                   &lt;enumeration value="fixedWork"/>
-    *                                 &lt;/restriction>
-    *                               &lt;/simpleType>
-    *                             &lt;/element>
-    *                             &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/>
-    *                             &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                             &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
-    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
-    *                             &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
-    *                             &lt;element name="ResourceAssignments">
-    *                               &lt;complexType>
-    *                                 &lt;complexContent>
-    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                     &lt;sequence>
-    *                                       &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0">
-    *                                         &lt;complexType>
-    *                                           &lt;complexContent>
-    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                                               &lt;sequence>
-    *                                                 &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                                                 &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                                                 &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                                                 &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                                               &lt;/sequence>
-    *                                             &lt;/restriction>
-    *                                           &lt;/complexContent>
-    *                                         &lt;/complexType>
-    *                                       &lt;/element>
-    *                                     &lt;/sequence>
-    *                                   &lt;/restriction>
-    *                                 &lt;/complexContent>
-    *                               &lt;/complexType>
-    *                             &lt;/element>
-    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/>
-    *                             &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
-    *                           &lt;/sequence>
-    *                         &lt;/restriction>
-    *                       &lt;/complexContent>
-    *                     &lt;/complexType>
-    *                   &lt;/element>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+    *         &lt;element name="Project" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+    *                   &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/&gt;
+    *                   &lt;element name="Task" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                     &lt;complexType&gt;
+    *                       &lt;complexContent&gt;
+    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                           &lt;sequence&gt;
+    *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+    *                             &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                             &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                             &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+    *                             &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+    *                             &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+    *                             &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+    *                             &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+    *                             &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+    *                             &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+    *                             &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+    *                             &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+    *                             &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+    *                             &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+    *                             &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                             &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                             &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                             &lt;element name="RecalcBase1"&gt;
+    *                               &lt;simpleType&gt;
+    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+    *                                   &lt;enumeration value="0"/&gt;
+    *                                   &lt;enumeration value="1"/&gt;
+    *                                   &lt;enumeration value="2"/&gt;
+    *                                   &lt;enumeration value="3"/&gt;
+    *                                 &lt;/restriction&gt;
+    *                               &lt;/simpleType&gt;
+    *                             &lt;/element&gt;
+    *                             &lt;element name="RecalcBase2"&gt;
+    *                               &lt;simpleType&gt;
+    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+    *                                   &lt;enumeration value="0"/&gt;
+    *                                   &lt;enumeration value="1"/&gt;
+    *                                   &lt;enumeration value="2"/&gt;
+    *                                   &lt;enumeration value="3"/&gt;
+    *                                 &lt;/restriction&gt;
+    *                               &lt;/simpleType&gt;
+    *                             &lt;/element&gt;
+    *                             &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/&gt;
+    *                             &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *                             &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                             &lt;element name="SchedulingType"&gt;
+    *                               &lt;simpleType&gt;
+    *                                 &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+    *                                   &lt;enumeration value="fixedDuration"/&gt;
+    *                                   &lt;enumeration value="fixedUnits"/&gt;
+    *                                   &lt;enumeration value="fixedWork"/&gt;
+    *                                 &lt;/restriction&gt;
+    *                               &lt;/simpleType&gt;
+    *                             &lt;/element&gt;
+    *                             &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/&gt;
+    *                             &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                             &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+    *                             &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+    *                             &lt;element name="ResourceAssignments"&gt;
+    *                               &lt;complexType&gt;
+    *                                 &lt;complexContent&gt;
+    *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                     &lt;sequence&gt;
+    *                                       &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                                         &lt;complexType&gt;
+    *                                           &lt;complexContent&gt;
+    *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                                               &lt;sequence&gt;
+    *                                                 &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                                                 &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                                                 &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                                                 &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                                               &lt;/sequence&gt;
+    *                                             &lt;/restriction&gt;
+    *                                           &lt;/complexContent&gt;
+    *                                         &lt;/complexType&gt;
+    *                                       &lt;/element&gt;
+    *                                     &lt;/sequence&gt;
+    *                                   &lt;/restriction&gt;
+    *                                 &lt;/complexContent&gt;
+    *                               &lt;/complexType&gt;
+    *                             &lt;/element&gt;
+    *                             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/&gt;
+    *                             &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+    *                           &lt;/sequence&gt;
+    *                         &lt;/restriction&gt;
+    *                       &lt;/complexContent&gt;
+    *                     &lt;/complexType&gt;
+    *                   &lt;/element&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3775,113 +3775,113 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-       *         &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/>
-       *         &lt;element name="Task" maxOccurs="unbounded" minOccurs="0">
-       *           &lt;complexType>
-       *             &lt;complexContent>
-       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                 &lt;sequence>
-       *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-       *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *                   &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *                   &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-       *                   &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-       *                   &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-       *                   &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-       *                   &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-       *                   &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-       *                   &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-       *                   &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-       *                   &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-       *                   &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-       *                   &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-       *                   &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *                   &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *                   &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *                   &lt;element name="RecalcBase1">
-       *                     &lt;simpleType>
-       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-       *                         &lt;enumeration value="0"/>
-       *                         &lt;enumeration value="1"/>
-       *                         &lt;enumeration value="2"/>
-       *                         &lt;enumeration value="3"/>
-       *                       &lt;/restriction>
-       *                     &lt;/simpleType>
-       *                   &lt;/element>
-       *                   &lt;element name="RecalcBase2">
-       *                     &lt;simpleType>
-       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-       *                         &lt;enumeration value="0"/>
-       *                         &lt;enumeration value="1"/>
-       *                         &lt;enumeration value="2"/>
-       *                         &lt;enumeration value="3"/>
-       *                       &lt;/restriction>
-       *                     &lt;/simpleType>
-       *                   &lt;/element>
-       *                   &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                   &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/>
-       *                   &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-       *                   &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                   &lt;element name="SchedulingType">
-       *                     &lt;simpleType>
-       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-       *                         &lt;enumeration value="fixedDuration"/>
-       *                         &lt;enumeration value="fixedUnits"/>
-       *                         &lt;enumeration value="fixedWork"/>
-       *                       &lt;/restriction>
-       *                     &lt;/simpleType>
-       *                   &lt;/element>
-       *                   &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/>
-       *                   &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *                   &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
-       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
-       *                   &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
-       *                   &lt;element name="ResourceAssignments">
-       *                     &lt;complexType>
-       *                       &lt;complexContent>
-       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                           &lt;sequence>
-       *                             &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0">
-       *                               &lt;complexType>
-       *                                 &lt;complexContent>
-       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                                     &lt;sequence>
-       *                                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *                                       &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *                                       &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *                                       &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *                                     &lt;/sequence>
-       *                                   &lt;/restriction>
-       *                                 &lt;/complexContent>
-       *                               &lt;/complexType>
-       *                             &lt;/element>
-       *                           &lt;/sequence>
-       *                         &lt;/restriction>
-       *                       &lt;/complexContent>
-       *                     &lt;/complexType>
-       *                   &lt;/element>
-       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/>
-       *                   &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
-       *                 &lt;/sequence>
-       *               &lt;/restriction>
-       *             &lt;/complexContent>
-       *           &lt;/complexType>
-       *         &lt;/element>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+       *         &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/&gt;
+       *         &lt;element name="Task" maxOccurs="unbounded" minOccurs="0"&gt;
+       *           &lt;complexType&gt;
+       *             &lt;complexContent&gt;
+       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                 &lt;sequence&gt;
+       *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+       *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *                   &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *                   &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+       *                   &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+       *                   &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+       *                   &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+       *                   &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+       *                   &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+       *                   &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+       *                   &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+       *                   &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+       *                   &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+       *                   &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+       *                   &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *                   &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *                   &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *                   &lt;element name="RecalcBase1"&gt;
+       *                     &lt;simpleType&gt;
+       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+       *                         &lt;enumeration value="0"/&gt;
+       *                         &lt;enumeration value="1"/&gt;
+       *                         &lt;enumeration value="2"/&gt;
+       *                         &lt;enumeration value="3"/&gt;
+       *                       &lt;/restriction&gt;
+       *                     &lt;/simpleType&gt;
+       *                   &lt;/element&gt;
+       *                   &lt;element name="RecalcBase2"&gt;
+       *                     &lt;simpleType&gt;
+       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+       *                         &lt;enumeration value="0"/&gt;
+       *                         &lt;enumeration value="1"/&gt;
+       *                         &lt;enumeration value="2"/&gt;
+       *                         &lt;enumeration value="3"/&gt;
+       *                       &lt;/restriction&gt;
+       *                     &lt;/simpleType&gt;
+       *                   &lt;/element&gt;
+       *                   &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                   &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/&gt;
+       *                   &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+       *                   &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                   &lt;element name="SchedulingType"&gt;
+       *                     &lt;simpleType&gt;
+       *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+       *                         &lt;enumeration value="fixedDuration"/&gt;
+       *                         &lt;enumeration value="fixedUnits"/&gt;
+       *                         &lt;enumeration value="fixedWork"/&gt;
+       *                       &lt;/restriction&gt;
+       *                     &lt;/simpleType&gt;
+       *                   &lt;/element&gt;
+       *                   &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/&gt;
+       *                   &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *                   &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+       *                   &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+       *                   &lt;element name="ResourceAssignments"&gt;
+       *                     &lt;complexType&gt;
+       *                       &lt;complexContent&gt;
+       *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                           &lt;sequence&gt;
+       *                             &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0"&gt;
+       *                               &lt;complexType&gt;
+       *                                 &lt;complexContent&gt;
+       *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                                     &lt;sequence&gt;
+       *                                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *                                       &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *                                       &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *                                       &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *                                     &lt;/sequence&gt;
+       *                                   &lt;/restriction&gt;
+       *                                 &lt;/complexContent&gt;
+       *                               &lt;/complexType&gt;
+       *                             &lt;/element&gt;
+       *                           &lt;/sequence&gt;
+       *                         &lt;/restriction&gt;
+       *                       &lt;/complexContent&gt;
+       *                     &lt;/complexType&gt;
+       *                   &lt;/element&gt;
+       *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/&gt;
+       *                   &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+       *                 &lt;/sequence&gt;
+       *               &lt;/restriction&gt;
+       *             &lt;/complexContent&gt;
+       *           &lt;/complexType&gt;
+       *         &lt;/element&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -4550,98 +4550,98 @@ import net.sf.mpxj.TimeUnit;
           * <p>The following schema fragment specifies the expected content contained within this class.
           *
           * <pre>
-          * &lt;complexType>
-          *   &lt;complexContent>
-          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *       &lt;sequence>
-          *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-          *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-          *         &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
-          *         &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-          *         &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-          *         &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-          *         &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-          *         &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-          *         &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
-          *         &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/>
-          *         &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-          *         &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-          *         &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-          *         &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
-          *         &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/>
-          *         &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/>
-          *         &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/>
-          *         &lt;element name="RecalcBase1">
-          *           &lt;simpleType>
-          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-          *               &lt;enumeration value="0"/>
-          *               &lt;enumeration value="1"/>
-          *               &lt;enumeration value="2"/>
-          *               &lt;enumeration value="3"/>
-          *             &lt;/restriction>
-          *           &lt;/simpleType>
-          *         &lt;/element>
-          *         &lt;element name="RecalcBase2">
-          *           &lt;simpleType>
-          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-          *               &lt;enumeration value="0"/>
-          *               &lt;enumeration value="1"/>
-          *               &lt;enumeration value="2"/>
-          *               &lt;enumeration value="3"/>
-          *             &lt;/restriction>
-          *           &lt;/simpleType>
-          *         &lt;/element>
-          *         &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *         &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/>
-          *         &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-          *         &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *         &lt;element name="SchedulingType">
-          *           &lt;simpleType>
-          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-          *               &lt;enumeration value="fixedDuration"/>
-          *               &lt;enumeration value="fixedUnits"/>
-          *               &lt;enumeration value="fixedWork"/>
-          *             &lt;/restriction>
-          *           &lt;/simpleType>
-          *         &lt;/element>
-          *         &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/>
-          *         &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-          *         &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
-          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
-          *         &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
-          *         &lt;element name="ResourceAssignments">
-          *           &lt;complexType>
-          *             &lt;complexContent>
-          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                 &lt;sequence>
-          *                   &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0">
-          *                     &lt;complexType>
-          *                       &lt;complexContent>
-          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *                           &lt;sequence>
-          *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-          *                             &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-          *                             &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
-          *                             &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
-          *                           &lt;/sequence>
-          *                         &lt;/restriction>
-          *                       &lt;/complexContent>
-          *                     &lt;/complexType>
-          *                   &lt;/element>
-          *                 &lt;/sequence>
-          *               &lt;/restriction>
-          *             &lt;/complexContent>
-          *           &lt;/complexType>
-          *         &lt;/element>
-          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/>
-          *         &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
-          *       &lt;/sequence>
-          *     &lt;/restriction>
-          *   &lt;/complexContent>
-          * &lt;/complexType>
+          * &lt;complexType&gt;
+          *   &lt;complexContent&gt;
+          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *       &lt;sequence&gt;
+          *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+          *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+          *         &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+          *         &lt;element name="BaseStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+          *         &lt;element name="BaseFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+          *         &lt;element name="BaseDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+          *         &lt;element name="BaseDurationTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+          *         &lt;element name="ActualStartDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+          *         &lt;element name="ActualFinishDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+          *         &lt;element name="ActualDuration" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}DurationType"/&gt;
+          *         &lt;element name="TemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+          *         &lt;element name="DeadlineTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+          *         &lt;element name="BaselineStartTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+          *         &lt;element name="BaselineFinishTemplateOffset" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+          *         &lt;element name="ActualCost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+          *         &lt;element name="Cost1" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+          *         &lt;element name="ValidatedByProject" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+          *         &lt;element name="RecalcBase1"&gt;
+          *           &lt;simpleType&gt;
+          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+          *               &lt;enumeration value="0"/&gt;
+          *               &lt;enumeration value="1"/&gt;
+          *               &lt;enumeration value="2"/&gt;
+          *               &lt;enumeration value="3"/&gt;
+          *             &lt;/restriction&gt;
+          *           &lt;/simpleType&gt;
+          *         &lt;/element&gt;
+          *         &lt;element name="RecalcBase2"&gt;
+          *           &lt;simpleType&gt;
+          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+          *               &lt;enumeration value="0"/&gt;
+          *               &lt;enumeration value="1"/&gt;
+          *               &lt;enumeration value="2"/&gt;
+          *               &lt;enumeration value="3"/&gt;
+          *             &lt;/restriction&gt;
+          *           &lt;/simpleType&gt;
+          *         &lt;/element&gt;
+          *         &lt;element name="IsMilestone" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *         &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}BaselineGroup" minOccurs="0"/&gt;
+          *         &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+          *         &lt;element name="IsHaveDeadline" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *         &lt;element name="SchedulingType"&gt;
+          *           &lt;simpleType&gt;
+          *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+          *               &lt;enumeration value="fixedDuration"/&gt;
+          *               &lt;enumeration value="fixedUnits"/&gt;
+          *               &lt;enumeration value="fixedWork"/&gt;
+          *             &lt;/restriction&gt;
+          *           &lt;/simpleType&gt;
+          *         &lt;/element&gt;
+          *         &lt;element name="IsEffortDriven" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Priority"/&gt;
+          *         &lt;element name="MarkedByUser" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+          *         &lt;element name="ShowSubtasks" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+          *         &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+          *         &lt;element name="ResourceAssignments"&gt;
+          *           &lt;complexType&gt;
+          *             &lt;complexContent&gt;
+          *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                 &lt;sequence&gt;
+          *                   &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0"&gt;
+          *                     &lt;complexType&gt;
+          *                       &lt;complexContent&gt;
+          *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *                           &lt;sequence&gt;
+          *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+          *                             &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+          *                             &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+          *                             &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+          *                           &lt;/sequence&gt;
+          *                         &lt;/restriction&gt;
+          *                       &lt;/complexContent&gt;
+          *                     &lt;/complexType&gt;
+          *                   &lt;/element&gt;
+          *                 &lt;/sequence&gt;
+          *               &lt;/restriction&gt;
+          *             &lt;/complexContent&gt;
+          *           &lt;/complexType&gt;
+          *         &lt;/element&gt;
+          *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts"/&gt;
+          *         &lt;element name="DeadlineDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
+          *       &lt;/sequence&gt;
+          *     &lt;/restriction&gt;
+          *   &lt;/complexContent&gt;
+          * &lt;/complexType&gt;
           * </pre>
           *
           *
@@ -5686,28 +5686,28 @@ import net.sf.mpxj.TimeUnit;
              * <p>The following schema fragment specifies the expected content contained within this class.
              *
              * <pre>
-             * &lt;complexType>
-             *   &lt;complexContent>
-             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *       &lt;sequence>
-             *         &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0">
-             *           &lt;complexType>
-             *             &lt;complexContent>
-             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-             *                 &lt;sequence>
-             *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-             *                   &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-             *                   &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
-             *                   &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
-             *                 &lt;/sequence>
-             *               &lt;/restriction>
-             *             &lt;/complexContent>
-             *           &lt;/complexType>
-             *         &lt;/element>
-             *       &lt;/sequence>
-             *     &lt;/restriction>
-             *   &lt;/complexContent>
-             * &lt;/complexType>
+             * &lt;complexType&gt;
+             *   &lt;complexContent&gt;
+             *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *       &lt;sequence&gt;
+             *         &lt;element name="ResourceAssignment" maxOccurs="unbounded" minOccurs="0"&gt;
+             *           &lt;complexType&gt;
+             *             &lt;complexContent&gt;
+             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+             *                 &lt;sequence&gt;
+             *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+             *                   &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+             *                   &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+             *                   &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+             *                 &lt;/sequence&gt;
+             *               &lt;/restriction&gt;
+             *             &lt;/complexContent&gt;
+             *           &lt;/complexType&gt;
+             *         &lt;/element&gt;
+             *       &lt;/sequence&gt;
+             *     &lt;/restriction&gt;
+             *   &lt;/complexContent&gt;
+             * &lt;/complexType&gt;
              * </pre>
              *
              *
@@ -5757,18 +5757,18 @@ import net.sf.mpxj.TimeUnit;
                 * <p>The following schema fragment specifies the expected content contained within this class.
                 *
                 * <pre>
-                * &lt;complexType>
-                *   &lt;complexContent>
-                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-                *       &lt;sequence>
-                *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-                *         &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-                *         &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/>
-                *         &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/>
-                *       &lt;/sequence>
-                *     &lt;/restriction>
-                *   &lt;/complexContent>
-                * &lt;/complexType>
+                * &lt;complexType&gt;
+                *   &lt;complexContent&gt;
+                *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+                *       &lt;sequence&gt;
+                *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+                *         &lt;element name="ResourceID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+                *         &lt;element name="Use" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+                *         &lt;element name="ManHour" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+                *       &lt;/sequence&gt;
+                *     &lt;/restriction&gt;
+                *   &lt;/complexContent&gt;
+                * &lt;/complexType&gt;
                 * </pre>
                 *
                 *
@@ -5907,17 +5907,17 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/>
-    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
-    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}TimeScale"/&gt;
+    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -6020,57 +6020,57 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/>
-    *         &lt;element name="Resource" maxOccurs="unbounded" minOccurs="0">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-    *                   &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="Type">
-    *                     &lt;simpleType>
-    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-    *                         &lt;enumeration value="0"/>
-    *                         &lt;enumeration value="1"/>
-    *                       &lt;/restriction>
-    *                     &lt;/simpleType>
-    *                   &lt;/element>
-    *                   &lt;element name="SubType">
-    *                     &lt;simpleType>
-    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-    *                         &lt;enumeration value="work"/>
-    *                         &lt;enumeration value="material"/>
-    *                         &lt;enumeration value="cost"/>
-    *                         &lt;enumeration value="equipment"/>
-    *                         &lt;enumeration value="company"/>
-    *                       &lt;/restriction>
-    *                     &lt;/simpleType>
-    *                   &lt;/element>
-    *                   &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *                   &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-    *                   &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *                   &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
-    *                   &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ViewProperties"/&gt;
+    *         &lt;element name="Resource" maxOccurs="unbounded" minOccurs="0"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+    *                   &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="Type"&gt;
+    *                     &lt;simpleType&gt;
+    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+    *                         &lt;enumeration value="0"/&gt;
+    *                         &lt;enumeration value="1"/&gt;
+    *                       &lt;/restriction&gt;
+    *                     &lt;/simpleType&gt;
+    *                   &lt;/element&gt;
+    *                   &lt;element name="SubType"&gt;
+    *                     &lt;simpleType&gt;
+    *                       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+    *                         &lt;enumeration value="work"/&gt;
+    *                         &lt;enumeration value="material"/&gt;
+    *                         &lt;enumeration value="cost"/&gt;
+    *                         &lt;enumeration value="equipment"/&gt;
+    *                         &lt;enumeration value="company"/&gt;
+    *                       &lt;/restriction&gt;
+    *                     &lt;/simpleType&gt;
+    *                   &lt;/element&gt;
+    *                   &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *                   &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+    *                   &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *                   &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+    *                   &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+    *                   &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -6148,46 +6148,46 @@ import net.sf.mpxj.TimeUnit;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/>
-       *         &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="Type">
-       *           &lt;simpleType>
-       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
-       *               &lt;enumeration value="0"/>
-       *               &lt;enumeration value="1"/>
-       *             &lt;/restriction>
-       *           &lt;/simpleType>
-       *         &lt;/element>
-       *         &lt;element name="SubType">
-       *           &lt;simpleType>
-       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-       *               &lt;enumeration value="work"/>
-       *               &lt;enumeration value="material"/>
-       *               &lt;enumeration value="cost"/>
-       *               &lt;enumeration value="equipment"/>
-       *               &lt;enumeration value="company"/>
-       *             &lt;/restriction>
-       *           &lt;/simpleType>
-       *         &lt;/element>
-       *         &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/>
-       *         &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/>
-       *         &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/>
-       *         &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/>
-       *         &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}OutlineNumber"/&gt;
+       *         &lt;element name="CalendarID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="Type"&gt;
+       *           &lt;simpleType&gt;
+       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer"&gt;
+       *               &lt;enumeration value="0"/&gt;
+       *               &lt;enumeration value="1"/&gt;
+       *             &lt;/restriction&gt;
+       *           &lt;/simpleType&gt;
+       *         &lt;/element&gt;
+       *         &lt;element name="SubType"&gt;
+       *           &lt;simpleType&gt;
+       *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+       *               &lt;enumeration value="work"/&gt;
+       *               &lt;enumeration value="material"/&gt;
+       *               &lt;enumeration value="cost"/&gt;
+       *               &lt;enumeration value="equipment"/&gt;
+       *               &lt;enumeration value="company"/&gt;
+       *             &lt;/restriction&gt;
+       *           &lt;/simpleType&gt;
+       *         &lt;/element&gt;
+       *         &lt;element name="EMail" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="Note" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="Cost" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+       *         &lt;element name="CostTimeUnit" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ShortTimeUnitType"/&gt;
+       *         &lt;element name="Group" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+       *         &lt;element name="ShowAssignedTasks" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}StyleProject"/&gt;
+       *         &lt;element name="MarkerID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+       *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Hyperlinks"/&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -6621,22 +6621,22 @@ import net.sf.mpxj.TimeUnit;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="CurrencySymbol" type="{http://www.w3.org/2001/XMLSchema}string"/>
-    *         &lt;element name="CurrencyPosition" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="CurrencyDigits" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="HoursPerDay" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="HoursPerWeek" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="DaysPerMonth" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *         &lt;element name="CalcCPForSubprojects" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
-    *         &lt;element name="MaximumSlack" type="{http://www.w3.org/2001/XMLSchema}double"/>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="CurrencySymbol" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+    *         &lt;element name="CurrencyPosition" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="CurrencyDigits" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="HoursPerDay" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="HoursPerWeek" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="DaysPerMonth" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *         &lt;element name="CalcCPForSubprojects" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+    *         &lt;element name="MaximumSlack" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *

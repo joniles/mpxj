@@ -24,6 +24,8 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Simple semantic version representation, with comparison methods.
@@ -47,14 +49,14 @@ public final class SemVer implements Comparable<SemVer>
     */
    public SemVer(String version)
    {
-      this(Arrays.stream(version.split("\\.")).mapToInt(x -> Integer.parseInt(x)).toArray());
+      this(Arrays.stream(version.split("\\.")).mapToInt(Integer::parseInt).toArray());
    }
 
    /**
     * Comparator.
     *
     * @param otherVersion version to compare
-    * @return true if  this version is >= the other version
+    * @return true if  this version is greater than or equal to the other version
     */
    public boolean atLeast(SemVer otherVersion)
    {
@@ -65,7 +67,7 @@ public final class SemVer implements Comparable<SemVer>
     * Comparator.
     *
     * @param otherVersion version to compare
-    * @return true if  this version is < the other version
+    * @return true if  this version is less than the other version
     */
    public boolean before(SemVer otherVersion)
    {
@@ -89,6 +91,11 @@ public final class SemVer implements Comparable<SemVer>
       }
 
       return 0;
+   }
+
+   @Override public String toString()
+   {
+      return IntStream.of(m_version).mapToObj(Integer::toString).collect(Collectors.joining("."));
    }
 
    private final int[] m_version;

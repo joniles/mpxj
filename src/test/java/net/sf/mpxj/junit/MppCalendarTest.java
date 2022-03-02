@@ -50,8 +50,6 @@ public class MppCalendarTest
 {
    /**
     * Test calendar data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Calendar() throws Exception
    {
@@ -61,8 +59,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CalendarFrom12() throws Exception
    {
@@ -72,8 +68,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CalendarFrom14() throws Exception
    {
@@ -83,8 +77,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Calendar() throws Exception
    {
@@ -94,8 +86,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12CalendarFrom14() throws Exception
    {
@@ -105,8 +95,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Calendar() throws Exception
    {
@@ -116,20 +104,16 @@ public class MppCalendarTest
 
    /**
     * Test calendar data read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9Calendar() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9calendar.mpd"));
       testCalendars(mpp);
    }
 
    /**
     * Test calendar exception data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CalendarExceptions() throws Exception
    {
@@ -139,8 +123,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar exception data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CalendarExceptionsFrom12() throws Exception
    {
@@ -150,8 +132,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar exception data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9CalendarExceptionsFrom14() throws Exception
    {
@@ -161,8 +141,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar exception data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12CalendarExceptions() throws Exception
    {
@@ -171,9 +149,7 @@ public class MppCalendarTest
    }
 
    /**
-    * Test calendar exception data read from an MPP12 file saved by Project 2010..
-    *
-    * @throws Exception
+    * Test calendar exception data read from an MPP12 file saved by Project 2010.
     */
    @Test public void testMpp12CalendarExceptionsFrom14() throws Exception
    {
@@ -183,8 +159,6 @@ public class MppCalendarTest
 
    /**
     * Test calendar exception data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14CalendarExceptions() throws Exception
    {

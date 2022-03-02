@@ -23,9 +23,10 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class provides common functionality used by each of the classes
@@ -50,13 +51,7 @@ class MPPComponent
     */
    protected int readByte(InputStream is) throws IOException
    {
-      byte[] data = new byte[1];
-      if (is.read(data) != data.length)
-      {
-         throw new EOFException();
-      }
-
-      return (MPPUtility.getByte(data, 0));
+      return MPPUtility.getByte(InputStreamHelper.read(is, 1), 0);
    }
 
    /**
@@ -68,13 +63,7 @@ class MPPComponent
     */
    protected int readShort(InputStream is) throws IOException
    {
-      byte[] data = new byte[2];
-      if (is.read(data) != data.length)
-      {
-         throw new EOFException();
-      }
-
-      return (MPPUtility.getShort(data, 0));
+      return MPPUtility.getShort(InputStreamHelper.read(is, 2), 0);
    }
 
    /**
@@ -86,13 +75,7 @@ class MPPComponent
     */
    protected int readInt(InputStream is) throws IOException
    {
-      byte[] data = new byte[4];
-      if (is.read(data) != data.length)
-      {
-         throw new EOFException();
-      }
-
-      return (MPPUtility.getInt(data, 0));
+      return MPPUtility.getInt(InputStreamHelper.read(is, 4), 0);
    }
 
    /**
@@ -105,11 +88,6 @@ class MPPComponent
     */
    protected byte[] readByteArray(InputStream is, int size) throws IOException
    {
-      byte[] buffer = new byte[size];
-      if (is.read(buffer) != buffer.length)
-      {
-         throw new EOFException();
-      }
-      return (buffer);
+      return InputStreamHelper.read(is, size);
    }
 }

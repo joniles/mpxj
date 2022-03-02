@@ -41,15 +41,7 @@ public final class Rate
     */
    public Rate(Number amount, TimeUnit time)
    {
-      if (amount == null)
-      {
-         m_amount = 0;
-      }
-      else
-      {
-         m_amount = amount.doubleValue();
-      }
-
+      m_amount = NumberHelper.getDouble(amount);
       m_units = time;
    }
 
@@ -86,9 +78,6 @@ public final class Rate
       return (m_units);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object obj)
    {
       boolean result = false;
@@ -112,17 +101,11 @@ public final class Rate
       return NumberHelper.equals(m_amount, rhs.m_amount, 0.00001);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
       return ((int) m_amount + m_units.hashCode());
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return (m_amount + m_units.toString());
@@ -131,10 +114,10 @@ public final class Rate
    /**
     * Rate amount.
     */
-   private double m_amount;
+   private final double m_amount;
 
    /**
     * Time type.
     */
-   private TimeUnit m_units;
+   private final TimeUnit m_units;
 }

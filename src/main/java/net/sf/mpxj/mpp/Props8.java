@@ -31,7 +31,7 @@ import java.io.StringWriter;
 import java.util.Map;
 
 import net.sf.mpxj.common.ByteArrayHelper;
-import net.sf.mpxj.common.StreamHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP8 files.
@@ -69,7 +69,7 @@ final class Props8 extends Props
          {
             int attrib1 = readInt(is);
 
-            is.read(attrib);
+            InputStreamHelper.read(is, attrib);
             int attrib2 = MPPUtility.getInt(attrib, 0);
             int attrib3 = MPPUtility.getByte(attrib, 2);
             //is.read(); // attrib4
@@ -93,8 +93,7 @@ final class Props8 extends Props
 
             if (size > 0)
             {
-               data = new byte[size];
-               is.read(data);
+               data = InputStreamHelper.read(is, size);
             }
             else
             {
@@ -111,7 +110,7 @@ final class Props8 extends Props
             //
             if (data.length % 2 != 0)
             {
-               StreamHelper.skip(is, 1);
+               InputStreamHelper.skip(is, 1);
             }
          }
 
@@ -160,7 +159,7 @@ final class Props8 extends Props
       PrintWriter pw = new PrintWriter(sw);
 
       pw.println("BEGIN Props");
-      if (m_complete == true)
+      if (m_complete)
       {
          pw.println("   COMPLETE");
       }

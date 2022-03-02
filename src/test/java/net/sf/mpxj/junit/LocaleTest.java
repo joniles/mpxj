@@ -41,8 +41,6 @@ public class LocaleTest
 {
    /**
     * Test all supported MPX locales.
-    *
-    * @throws Exception
     */
    @Test public void testLocales() throws Exception
    {
@@ -58,7 +56,6 @@ public class LocaleTest
     * Test localisation.
     *
     * @param locale locale to test
-    * @throws Exception
     */
    private void testLocale(Locale locale) throws Exception
    {
@@ -78,8 +75,6 @@ public class LocaleTest
 
    /**
     * Read a file created by a German version of MS Project 98.
-    *
-    * @throws Exception
     */
    @Test public void testReadGerman() throws Exception
    {

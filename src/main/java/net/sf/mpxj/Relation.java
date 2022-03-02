@@ -116,9 +116,6 @@ public final class Relation
       m_uniqueID = uniqueID;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_sourceTask + " -> " + m_targetTask + "]");
@@ -129,12 +126,12 @@ public final class Relation
    /**
     * Parent task file.
     */
-   private Task m_sourceTask;
+   private final Task m_sourceTask;
 
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Task m_targetTask;
+   private final Task m_targetTask;
 
    /**
     * Type of relationship.

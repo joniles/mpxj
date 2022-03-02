@@ -31,7 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +52,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class SageReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -92,12 +89,9 @@ public final class SageReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -194,13 +188,22 @@ public final class SageReader extends AbstractProjectStreamReader
       task.setFinish(parseDate(columns, 8));
       task.setLateStart(parseDate(columns, 9));
       task.setLateFinish(parseDate(columns, 10));
-      task.setTotalSlack(parseDuration(columns, 11));
+      // set total slack later to avoid calculation issues
       task.setBaselineDuration(parseDuration(columns, 12));
       task.setBaselineStart(parseDate(columns, 13));
       task.setBaselineFinish(parseDate(columns, 14));
       // columns[15] original float
       task.setText(2, getText(columns, 16));
       task.setNotes(getText(columns, 17));
+
+      // We don't have all of the early/late start/finish attributes, so default these
+      // attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setTotalSlack(parseDuration(columns, 11));
+
+      // We do have total slack, so force critical calculation here to avoid later issues
+      task.getCritical();
 
       m_taskMap.put(task.getText(1), task);
       m_eventManager.fireTaskReadEvent(task);
@@ -364,13 +367,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         return new SimpleDateFormat("MM/dd/yyyy");
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/dd/yyyy"));
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

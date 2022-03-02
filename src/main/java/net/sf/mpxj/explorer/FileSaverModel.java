@@ -32,7 +32,7 @@ import java.io.File;
  */
 public class FileSaverModel
 {
-   private PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
+   private final PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
    private boolean m_showDialog;
    private File m_file;
    private String m_type;

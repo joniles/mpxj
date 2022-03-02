@@ -23,9 +23,12 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents instances of Calendar Exception records from
@@ -119,6 +122,44 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
    }
 
    /**
+    * Expand the current exception into a list of exception.
+    * If the current exception is not recurring, or it is recurring and
+    * the exceptions form a contiguous range of days, then this list will
+    * only contain a single entry.
+    *
+    * If this is a recurring exception which covers multiple non-contiguous days
+    * the returned list will include exceptions for all exception dates.
+    *
+    * @return list of exceptions derived from the current exception
+    */
+   public List<ProjectCalendarException> getExpandedExceptions()
+   {
+      List<ProjectCalendarException> result = new ArrayList<>();
+
+      if (m_recurring == null || m_recurring.getRecurrenceType() == RecurrenceType.DAILY && NumberHelper.getInt(m_recurring.getFrequency()) == 1)
+      {
+         result.add(this);
+      }
+      else
+      {
+         for (Date date : m_recurring.getDates())
+         {
+            Date startDate = DateHelper.getDayStartDate(date);
+            Date endDate = DateHelper.getDayEndDate(date);
+            ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+            int rangeCount = getRangeCount();
+            for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
+            {
+               newException.addRange(getRange(rangeIndex));
+            }
+            result.add(newException);
+         }
+      }
+
+      return result;
+   }
+
+   /**
     * This method determines whether the given date falls in the range of
     * dates covered by this exception. Note that this method assumes that both
     * the start and end date of this exception have been set.
@@ -138,34 +179,28 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();
       long fromTime2 = o.m_fromDate.getTime();
-      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+      return (Long.compare(fromTime1, fromTime2));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
       sb.append("[ProjectCalendarException");
       if (m_name != null && !m_name.isEmpty())
       {
-         sb.append(" name=" + m_name);
+         sb.append(" name=").append(m_name);
       }
-      sb.append(" working=" + getWorking());
-      sb.append(" fromDate=" + m_fromDate);
-      sb.append(" toDate=" + m_toDate);
+      sb.append(" working=").append(getWorking());
+      sb.append(" fromDate=").append(m_fromDate);
+      sb.append(" toDate=").append(m_toDate);
 
       if (m_recurring != null)
       {
-         sb.append(" recurring=" + m_recurring);
+         sb.append(" recurring=").append(m_recurring);
       }
 
       for (DateRange range : this)
@@ -177,8 +212,8 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (sb.toString());
    }
 
-   private Date m_fromDate;
-   private Date m_toDate;
+   private final Date m_fromDate;
+   private final Date m_toDate;
    private String m_name;
    private RecurringData m_recurring;
 }

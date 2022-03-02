@@ -87,6 +87,8 @@ public enum ProjectField implements FieldType
    MINUTES_PER_DAY(DataType.INTEGER),
    DAYS_PER_MONTH(DataType.INTEGER),
    MINUTES_PER_WEEK(DataType.INTEGER),
+   MINUTES_PER_MONTH(DataType.INTEGER),
+   MINUTES_PER_YEAR(DataType.INTEGER),
    FISCAL_YEAR_START(DataType.BOOLEAN),
    DEFAULT_TASK_EARNED_VALUE_METHOD(DataType.EARNED_VALUE_METHOD),
    REMOVE_FILE_PROPERTIES(DataType.BOOLEAN),
@@ -107,7 +109,7 @@ public enum ProjectField implements FieldType
    SPREAD_PERCENT_COMPLETE(DataType.BOOLEAN),
    MOVE_COMPLETED_ENDS_FORWARD(DataType.BOOLEAN),
    EDITABLE_ACTUAL_COSTS(DataType.BOOLEAN),
-   UNIQUE_ID(DataType.STRING),
+   UNIQUE_ID(DataType.INTEGER),
    REVISION(DataType.INTEGER),
    NEW_TASKS_EFFORT_DRIVEN(DataType.BOOLEAN),
    MOVE_REMAINING_STARTS_FORWARD(DataType.BOOLEAN),
@@ -159,6 +161,13 @@ public enum ProjectField implements FieldType
    FILE_APPLICATION(DataType.STRING),
    FILE_TYPE(DataType.STRING),
    EXPORT_FLAG(DataType.BOOLEAN),
+   GUID(DataType.GUID),
+   PROJECT_ID(DataType.STRING),
+   BASELINE_PROJECT_UNIQUE_ID(DataType.INTEGER),
+   CRITICAL_ACTIVITY_TYPE(DataType.CRITICAL_ACTIVITY_TYPE),
+   MUST_FINISH_BY(DataType.DATE),
+   SCHEDULED_FINISH(DataType.DATE),
+   PLANNED_START(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.BINARY),
@@ -369,43 +378,22 @@ public enum ProjectField implements FieldType
     * Constructor.
     *
     * @param dataType field data type
-    * @param unitsType field units type
     */
-   private ProjectField(DataType dataType, FieldType unitsType)
+   ProjectField(DataType dataType)
    {
       m_dataType = dataType;
-      m_unitsType = unitsType;
    }
 
-   /**
-    * Constructor.
-    *
-    * @param dataType field data type
-    */
-   private ProjectField(DataType dataType)
-   {
-      this(dataType, null);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.PROJECT;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.PROJECT_COLUMNS);
@@ -419,28 +407,19 @@ public enum ProjectField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
-      return m_unitsType;
+      return null;
    }
 
    /**
@@ -485,6 +464,5 @@ public enum ProjectField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
 }

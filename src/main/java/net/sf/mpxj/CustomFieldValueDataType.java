@@ -45,7 +45,7 @@ public enum CustomFieldValueDataType implements MpxjEnum
     * @param maskValue data type used in mask definition
     * @param type data type
     */
-   private CustomFieldValueDataType(int value, int maskValue, DataType type)
+   CustomFieldValueDataType(int value, int maskValue, DataType type)
    {
       m_value = value;
       m_maskValue = maskValue;

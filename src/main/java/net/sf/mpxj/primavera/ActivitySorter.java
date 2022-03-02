@@ -23,13 +23,10 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Task;
 
 /**
@@ -40,12 +37,10 @@ class ActivitySorter
    /**
     * Constructor.
     *
-    * @param activityIDField field containing the Activity ID attribute
     * @param wbsTasks set of WBS tasks
     */
-   public ActivitySorter(FieldType activityIDField, Set<Task> wbsTasks)
+   public ActivitySorter(Set<Task> wbsTasks)
    {
-      m_activityIDField = activityIDField;
       m_wbsTasks = wbsTasks;
    }
 
@@ -63,7 +58,7 @@ class ActivitySorter
          //
          // Sort child activities
          //
-         tasks.stream().forEach(task -> sort(task));
+         tasks.forEach(this::sort);
 
          //
          // Sort Order:
@@ -72,40 +67,35 @@ class ActivitySorter
          // 3. Activities ordered by activity ID
          // 4. WBS ordered by ID
          //
-         Collections.sort(tasks, new Comparator<Task>()
-         {
-            @Override public int compare(Task t1, Task t2)
+         tasks.sort((t1, t2) -> {
+            boolean t1IsWbs = m_wbsTasks.contains(t1);
+            boolean t2IsWbs = m_wbsTasks.contains(t2);
+
+            // Both are WBS
+            if (t1IsWbs && t2IsWbs)
             {
-               boolean t1IsWbs = m_wbsTasks.contains(t1);
-               boolean t2IsWbs = m_wbsTasks.contains(t2);
-
-               // Both are WBS
-               if (t1IsWbs && t2IsWbs)
-               {
-                  return t1.getID().compareTo(t2.getID());
-               }
-
-               // Both are activities
-               if (!t1IsWbs && !t2IsWbs)
-               {
-                  String activityID1 = (String) t1.getCurrentValue(m_activityIDField);
-                  String activityID2 = (String) t2.getCurrentValue(m_activityIDField);
-
-                  if (activityID1 == null || activityID2 == null)
-                  {
-                     return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
-                  }
-
-                  return activityID1.compareTo(activityID2);
-               }
-
-               // One activity one WBS
-               return t1IsWbs ? 1 : -1;
+               return t1.getID().compareTo(t2.getID());
             }
+
+            // Both are activities
+            if (!t1IsWbs && !t2IsWbs)
+            {
+               String activityID1 = t1.getActivityID();
+               String activityID2 = t2.getActivityID();
+
+               if (activityID1 == null || activityID2 == null)
+               {
+                  return (activityID1 == null && activityID2 == null ? 0 : (activityID1 == null ? 1 : -1));
+               }
+
+               return activityID1.compareTo(activityID2);
+            }
+
+            // One activity one WBS
+            return t1IsWbs ? 1 : -1;
          });
       }
    }
 
-   final FieldType m_activityIDField;
    final Set<Task> m_wbsTasks;
 }

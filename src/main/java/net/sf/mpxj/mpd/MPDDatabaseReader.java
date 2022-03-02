@@ -37,6 +37,7 @@ import javax.sql.DataSource;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -50,7 +51,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -61,13 +61,11 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
     * Read project data from a database.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
       MPD9DatabaseReader reader = getReader();
       reader.setProjectID(m_projectID);
-      reader.setPreserveNoteFormatting(m_preserveNoteFormatting);
       return reader.read();
    }
 
@@ -79,18 +77,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
-   }
-
-   /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      m_preserveNoteFormatting = preserveNoteFormatting;
    }
 
    /**
@@ -115,9 +101,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       m_connection = connection;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -133,9 +116,6 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       try
@@ -167,14 +147,7 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
-         return DriverManager.getConnection(url);
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
+         return DriverManager.getConnection(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
       }
 
       catch (SQLException ex)
@@ -199,5 +172,4 @@ public final class MPDDatabaseReader extends AbstractProjectFileReader
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
-   private boolean m_preserveNoteFormatting;
 }

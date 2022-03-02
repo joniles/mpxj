@@ -25,7 +25,9 @@ package net.sf.mpxj.sdef;
 
 import java.util.UUID;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 
 /**
  * SDEF Activity record.
@@ -41,23 +43,30 @@ class ActivityRecord extends AbstractSDEFRecord
    {
       String activityID = getString(0);
       Task task = context.addTask(activityID);
-      task.setText(1, activityID);
+      task.setActivityID(activityID);
       task.setName(getString(1));
       task.setDuration(getDuration(2));
       task.setConstraintDate(getDate(3));
       task.setConstraintType(getConstraintType(4));
       task.setCalendar(context.getCalendar(getString(5)));
-      task.setText(2, getString(6));
-      task.setNumber(1, getInteger(7));
-      task.setText(3, getString(8));
-      task.setText(4, getString(9));
-      task.setText(5, getString(10));
-      task.setText(6, getString(11));
-      task.setText(7, getString(12));
-      task.setText(8, getString(13));
-      task.setText(9, getString(14));
+      task.setHammockCode(Boolean.valueOf("Y".equals(getString(6))));
+      task.setWorkersPerDay(getInteger(7));
+      task.setResponsibilityCode(getString(8));
+      task.setWorkAreaCode(getString(9));
+      task.setModOrClaimNumber(getString(10));
+      task.setBidItem(getString(11));
+      task.setPhaseOfWork(getString(12));
+      task.setCategoryOfWork(getString(13));
+      task.setFeatureOfWork(getString(14));
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
       task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
+
+      // We don't have early/late start/finish yet, so default these
+      // attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setCritical(false);
+
       context.getEventManager().fireTaskReadEvent(task);
    }
 

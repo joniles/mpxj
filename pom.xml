@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>8.3.2</version>
+	<!-- MPXJ --><version>10.1.0</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>4.1.2</version>
+			<version>5.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.github.joniles</groupId>
 			<artifactId>rtfparserkit</artifactId>
-			<version>1.15.0</version>
+			<version>1.16.0</version>
 		</dependency>
 
 		<!-- Make JAXB an explicit dependency to avoid issues across different Java versions -->
@@ -54,7 +54,7 @@
 		    <artifactId>jakarta.xml.bind-api</artifactId>
 		    <version>2.3.2</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.glassfish.jaxb</groupId>
 		    <artifactId>jaxb-runtime</artifactId>
@@ -69,6 +69,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.14.2</version>
+		</dependency>
 	</dependencies>
 
 	<mailingLists>
@@ -178,10 +183,10 @@
 		</contributor>
 		<contributor>
 			<name>Gary McKenney</name>
-		</contributor>				
+		</contributor>
 		<contributor>
 			<name>Tiago de Mello</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Scott Melville</name>
 		</contributor>
@@ -190,10 +195,10 @@
 		</contributor>
 		<contributor>
 			<name>Andrei Missine</name>
-		</contributor>				
+		</contributor>
 		<contributor>
 			<name>ninthwaveltd</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Jari Niskala</name>
 		</contributor>
@@ -205,16 +210,16 @@
 		</contributor>
 		<contributor>
 			<name>Daniel Schmidt</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Rohit Sinha</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>Sruthi-Ganesh</name>
 		</contributor>
 		<contributor>
 			<name>Sebastian Stock</name>
-		</contributor>		
+		</contributor>
 		<contributor>
 			<name>James Styles</name>
 		</contributor>
@@ -232,7 +237,7 @@
 		</contributor>
 		<contributor>
 			<name>ztravis</name>
-		</contributor>		
+		</contributor>
 	</contributors>
 
 	<licenses>
@@ -257,7 +262,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -294,35 +299,20 @@
 			<!-- Use our own site template -->
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.6</version>
+				<version>3.9.1</version>
 				<configuration>
 					<outputDirectory>./docs</outputDirectory>
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
 				</configuration>
 			</plugin>
 
-			<!-- Generate a Google sitemap -->
-			<plugin>
-				<groupId>com.github.s4u.plugins</groupId>
-				<artifactId>sitemapxml-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>gen</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<siteOutputDirectory>./docs</siteOutputDirectory>
-				</configuration>
-			</plugin>
-
-			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir> 
+			<!-- Pass test data location from Maven command line parameter -Dmpxj.junit.datadir=<dir>
 				to allow unit tests to run -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.4</version>
+				<version>2.22.2</version>
 				<configuration>
 					<systemProperties>
 						<property>
@@ -337,7 +327,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.3</version>
+				<version>1.6.8</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
@@ -350,7 +340,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -365,9 +355,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>3.2.0</version>
 				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
+					<doclint>none</doclint>
 					<notimestamp>true</notimestamp>
 					<excludePackageNames>*.schema.*</excludePackageNames>
 				</configuration>
@@ -385,7 +375,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
+				<version>1.6</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -423,7 +413,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -443,14 +433,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.7</version>
+				<version>3.1.1</version>
 				<reportSets>
 					<reportSet>
 						<reports>
 							<report>summary</report>
-							<report>project-team</report>
-							<report>mailing-list</report>
-							<report>issue-tracking</report>
+							<report>team</report>
+							<report>mailing-lists</report>
+							<report>issue-management</report>
 							<report>scm</report>
 						</reports>
 					</reportSet>
@@ -459,7 +449,7 @@
 
 			<plugin>
 				<artifactId>maven-changes-plugin</artifactId>
-				<version>2.10</version>
+				<version>2.12.1</version>
 				<configuration>
 					<feedType>rss_2.0</feedType>
 				</configuration>
@@ -467,14 +457,27 @@
 
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>3.2.0</version>
 				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
+					<doclint>none</doclint>
 					<notimestamp>true</notimestamp>
 					<excludePackageNames>*.schema.*</excludePackageNames>
 				</configuration>
 			</plugin>
 
+		    <plugin>
+		      <groupId>org.codehaus.mojo</groupId>
+		      <artifactId>versions-maven-plugin</artifactId>
+		      <version>2.8.1</version>
+		      <reportSets>
+		        <reportSet>
+		          <reports>
+		            <report>dependency-updates-report</report>
+		            <report>plugin-updates-report</report>
+		          </reports>
+		        </reportSet>
+		      </reportSets>
+		    </plugin>
 		</plugins>
 	</reporting>
 </project>

@@ -114,7 +114,7 @@ public class MPPTaskField14
       return result;
    }
 
-   private static final int MAX_VALUE = 1410;
+   private static final int MAX_VALUE = 1414;
    private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
 
    static
@@ -721,7 +721,7 @@ public class MPPTaskField14
       FIELD_ARRAY[15] = TaskField.NOTES;
       FIELD_ARRAY[34] = TaskField.FIXED_DURATION;
       FIELD_ARRAY[101] = TaskField.RESUME_NO_EARLIER_THAN;
-      FIELD_ARRAY[135] = TaskField.PARENT_TASK;
+      //FIELD_ARRAY[135] = TaskField.PARENT_TASK;
       FIELD_ARRAY[360] = TaskField.INDEX;
       FIELD_ARRAY[403] = TaskField.DURATION1_ESTIMATED;
       FIELD_ARRAY[404] = TaskField.DURATION2_ESTIMATED;
@@ -1047,10 +1047,14 @@ public class MPPTaskField14
       FIELD_ARRAY[1382] = TaskField.PATH_PREDECESSOR;
       FIELD_ARRAY[1384] = TaskField.PATH_SUCCESSOR;
 
-      FIELD_ARRAY[1409] = TaskField.SPRINT;
+      FIELD_ARRAY[1405] = TaskField.TASK_SUMMARY_NAME;
       FIELD_ARRAY[1407] = TaskField.BOARD_STATUS;
-      FIELD_ARRAY[1405] = TaskField.TASK_SUMMARY;
       FIELD_ARRAY[1408] = TaskField.SHOW_ON_BOARD;
+      FIELD_ARRAY[1409] = TaskField.SPRINT;
+      FIELD_ARRAY[1410] = TaskField.SPRINT_START;
+      FIELD_ARRAY[1411] = TaskField.SPRINT_FINISH;
+      FIELD_ARRAY[1412] = TaskField.BOARD_STATUS_ID;
+      FIELD_ARRAY[1413] = TaskField.SPRINT_ID;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];

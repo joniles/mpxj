@@ -57,7 +57,7 @@ final class ConstraintTypeUtility
       String[] constraintTypes = LocaleData.getStringArray(locale, LocaleData.CONSTRAINT_TYPES);
       for (int loop = 0; loop < constraintTypes.length; loop++)
       {
-         if (constraintTypes[loop].equalsIgnoreCase(type) == true)
+         if (constraintTypes[loop].equalsIgnoreCase(type))
          {
             index = loop;
             break;

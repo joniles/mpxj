@@ -55,9 +55,10 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setActualStart(getDate(1));
       task.setActualFinish(getDate(2));
       task.setRemainingDuration(getDuration(3));
-      task.setCost(getDouble(4));
+      task.setCost(totalCost);
+      task.setActualCost(costToDate);
       task.setRemainingCost(remainingCost);
-      task.setCost(1, getDouble(6));
+      task.setStoredMaterial(getDouble(6));
       task.setEarlyStart(getDate(7));
       task.setEarlyFinish(getDate(8));
       task.setLateStart(getDate(9));
@@ -90,6 +91,11 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setStart(start);
       task.setFinish(finish);
       task.setPercentageComplete(Double.valueOf(percentComplete));
+
+      // Force calculation here to avoid later issues
+      task.getStartSlack();
+      task.getFinishSlack();
+      task.getCritical();
    }
 
    private static final SDEFField[] FIELDS = new SDEFField[]

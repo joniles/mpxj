@@ -40,12 +40,11 @@ class TextFileRow extends MapRow
     * @param table table definition
     * @param data table data
     * @param epochDateFormat true if date is represented as an offset from an epoch
-    * @throws MPXJException
     */
    public TextFileRow(TableDefinition table, List<String> data, boolean epochDateFormat)
       throws MPXJException
    {
-      super(new HashMap<String, Object>());
+      super(new HashMap<>());
 
       ColumnDefinition[] columns = table.getColumns();
       for (int index = 0; index < columns.length; index++)
@@ -70,13 +69,12 @@ class TextFileRow extends MapRow
     * @param type column data type
     * @param epochDateFormat true if date is represented as an offset from an epoch
     * @return Java representation of column data
-    * @throws MPXJException
     */
    private Object getColumnValue(String table, String column, String data, int type, boolean epochDateFormat) throws MPXJException
    {
       try
       {
-         Object value = null;
+         Object value;
 
          switch (type)
          {

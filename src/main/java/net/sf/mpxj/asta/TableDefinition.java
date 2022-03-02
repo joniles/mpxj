@@ -60,6 +60,6 @@ class TableDefinition
       return m_columns;
    }
 
-   private String m_name;
-   private ColumnDefinition[] m_columns;
+   private final String m_name;
+   private final ColumnDefinition[] m_columns;
 }

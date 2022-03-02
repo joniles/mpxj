@@ -24,8 +24,10 @@
 package net.sf.mpxj;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.PopulatedFields;
 
 /**
  * Manages the collection of resources belonging to a project.
@@ -49,7 +51,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
       Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
       Integer resourceUniqueID = resource.getUniqueID();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
          if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))
@@ -76,5 +78,15 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       Resource resource = new Resource(m_projectFile);
       add(resource);
       return (resource);
+   }
+
+   /**
+    * Retrieve the set of populated fields for this project.
+    *
+    * @return set of populated fields
+    */
+   public Set<ResourceField> getPopulatedFields()
+   {
+      return new PopulatedFields<>(m_projectFile, ResourceField.class, this).getPopulatedFields();
    }
 }

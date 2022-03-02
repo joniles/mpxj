@@ -55,9 +55,9 @@ public class TaskDurationsTest
       for (File file : MpxjTestData.listFiles("generated/task-durations", "task-durations"))
       {
          ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-         if (reader instanceof MPDDatabaseReader)
+         if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
          {
-            assumeJvm();
+            continue;
          }
 
          ProjectFile project = reader.read(file);

@@ -35,9 +35,6 @@ import net.sf.mpxj.TimeUnit;
  */
 class TableA5TAB extends Table
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void readRow(int uniqueID, byte[] data)
    {
       Map<String, Object> map = new HashMap<>();

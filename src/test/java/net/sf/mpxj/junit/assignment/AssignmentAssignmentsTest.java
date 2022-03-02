@@ -65,9 +65,9 @@ public class AssignmentAssignmentsTest
    private void testAssignments(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       ProjectFile project = reader.read(file);
@@ -96,5 +96,5 @@ public class AssignmentAssignmentsTest
 
    }
 
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

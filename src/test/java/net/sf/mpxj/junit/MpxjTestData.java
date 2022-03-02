@@ -26,7 +26,6 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 
 /**
@@ -34,7 +33,7 @@ import java.io.IOException;
  */
 public class MpxjTestData
 {
-   private static final String DATA_DIR;
+   public static final String DATA_DIR;
    static
    {
       String dataDirValue = null;
@@ -84,13 +83,7 @@ public class MpxjTestData
    public static File[] listFiles(String path, final String name)
    {
       File testDataDir = new File(filePath(path));
-      File[] result = testDataDir.listFiles(new FileFilter()
-      {
-         @Override public boolean accept(File pathname)
-         {
-            return pathname.getName().startsWith(name);
-         }
-      });
+      File[] result = testDataDir.listFiles(pathname -> pathname.getName().startsWith(name));
       if (result == null)
       {
          result = new File[0];

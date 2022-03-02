@@ -41,7 +41,6 @@ public class SplitView9 extends GenericView9
     * @param parent parent file
     * @param fixedData fixed data block
     * @param varData var data block
-    * @throws IOException
     */
    SplitView9(ProjectFile parent, byte[] fixedData, Var2Data varData)
       throws IOException
@@ -87,9 +86,6 @@ public class SplitView9 extends GenericView9
       return m_upperViewName;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[SplitView9 upperViewName=" + m_upperViewName + " lowerViewName=" + m_lowerViewName + "]");

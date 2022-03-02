@@ -359,7 +359,7 @@ public class RecurringData
 
       DateHelper.pushCalendar(calendar);
 
-      return dates.toArray(new Date[dates.size()]);
+      return dates.toArray(new Date[0]);
    }
 
    /**
@@ -416,11 +416,21 @@ public class RecurringData
     */
    private void getWeeklyDates(Calendar calendar, int frequency, List<Date> dates)
    {
+      //
+      // We need to work from the start of the week that contains the start date
+      // and ignore any matches we get that are before the start date.
+      //
       int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+      if (currentDay > Calendar.SUNDAY)
+      {
+         calendar.add(Calendar.DAY_OF_YEAR, Calendar.SUNDAY - currentDay);
+         currentDay = Calendar.SUNDAY;
+      }
 
       while (moreDates(calendar, dates))
       {
          int offset = 0;
+
          for (int dayIndex = 0; dayIndex < 7; dayIndex++)
          {
             if (getWeeklyDay(Day.getInstance(currentDay)))
@@ -434,7 +444,11 @@ public class RecurringData
                {
                   break;
                }
-               dates.add(calendar.getTime());
+
+               if (calendar.getTimeInMillis() >= m_startDate.getTime())
+               {
+                  dates.add(calendar.getTime());
+               }
             }
 
             ++offset;
@@ -732,9 +746,6 @@ public class RecurringData
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       DateFormatSymbols dfs = new DateFormatSymbols();
@@ -769,7 +780,7 @@ public class RecurringData
                   sb.append(dfs.getWeekdays()[day.getValue()]);
                }
             }
-            pw.print(sb.toString());
+            pw.print(sb);
             break;
          }
 
@@ -860,5 +871,5 @@ public class RecurringData
    private Integer m_frequency;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
-   private EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
+   private final EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
 }

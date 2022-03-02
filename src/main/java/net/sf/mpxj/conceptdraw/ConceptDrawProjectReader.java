@@ -26,9 +26,7 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,9 +71,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -115,22 +110,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          return m_projectFile;
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -144,12 +124,9 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -230,6 +207,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
     */
    private void readWeekDay(ProjectCalendar mpxjCalendar, WeekDay day)
    {
+      mpxjCalendar.setWorkingDay(day.getDay(), day.isIsDayWorking());
       if (day.isIsDayWorking())
       {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day.getDay());
@@ -301,20 +279,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
     */
    private void readTasks(Document cdp)
    {
-      //
-      // Sort the projects into the correct order
-      //
-      List<Project> projects = new ArrayList<>(cdp.getProjects().getProject());
-      final AlphanumComparator comparator = new AlphanumComparator();
-
-      Collections.sort(projects, new Comparator<Project>()
-      {
-         @Override public int compare(Project o1, Project o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
-
       for (Project project : cdp.getProjects().getProject())
       {
          readProject(project);
@@ -358,13 +322,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       List<Document.Projects.Project.Task> tasks = new ArrayList<>(project.getTask());
       final AlphanumComparator comparator = new AlphanumComparator();
 
-      Collections.sort(tasks, new Comparator<Document.Projects.Project.Task>()
-      {
-         @Override public int compare(Document.Projects.Project.Task o1, Document.Projects.Project.Task o2)
-         {
-            return comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber());
-         }
-      });
+      tasks.sort((o1, o2) -> comparator.compare(o1.getOutlineNumber(), o2.getOutlineNumber()));
 
       Map<String, Task> map = new HashMap<>();
       map.put("", mpxjTask);
@@ -429,6 +387,12 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjTask.setGUID(UUID.nameUUIDFromBytes(taskIdentifier.getBytes()));
 
       map.put(task.getOutlineNumber(), mpxjTask);
+
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      mpxjTask.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      mpxjTask.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      mpxjTask.setCritical(false);
 
       m_eventManager.fireTaskReadEvent(mpxjTask);
 

@@ -1,0 +1,207 @@
+/*
+ * file:       PopulatedFields.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2020
+ * date:       18/11/2020
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.common;
+
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
+
+import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.EarnedValueMethod;
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
+import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
+
+/**
+ * Given a collection of objects containing fields, return a set representing
+ * all of the fields which have a non-null value in any of the objects.
+ *
+ * @param <E> field enumeration
+ * @param <T> object type
+ */
+public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
+{
+   /**
+    * Constructor.
+    *
+    * @param project parent project
+    * @param fieldEnumType enumeration representing the set of fields
+    * @param collection collection of objects containing fields
+    */
+   public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<T> collection)
+   {
+      m_fieldEnumType = fieldEnumType;
+      m_collection = collection;
+
+      ProjectProperties props = project.getProjectProperties();
+      m_defaultDurationUnits = props.getDefaultDurationUnits();
+      m_defaultTaskType = props.getDefaultTaskType();
+      m_defaultTaskEarnedValueMethod = props.getDefaultTaskEarnedValueMethod();
+      m_defaultFixedCostAccrual = props.getDefaultFixedCostAccrual();
+   }
+
+   /**
+    * Retrieve the set of fields populated across the collection of objects.
+    *
+    * @return populated fields
+    */
+   public Set<E> getPopulatedFields()
+   {
+      Set<E> unusedFields = EnumSet.allOf(m_fieldEnumType);
+
+      for (FieldContainer item : m_collection)
+      {
+         unusedFields.removeIf(e -> fieldIsPopulated(item, (FieldType) e));
+      }
+
+      Set<E> usedFields = EnumSet.allOf(m_fieldEnumType);
+      usedFields.removeAll(unusedFields);
+
+      return usedFields;
+   }
+
+   /**
+    * Returns true if the field is populated with a non-default value.
+    *
+    * @param item field container
+    * @param type field type
+    * @return true if the field is populated with a non-default value
+    */
+   private boolean fieldIsPopulated(FieldContainer item, FieldType type)
+   {
+      Object value = item.getCachedValue(type);
+      return value != null && fieldIsNotDefaultValue(value, type);
+   }
+
+   /**
+    * Returns true if the value is non-default.
+    *
+    * @param value field value
+    * @param type field type
+    * @return true if the value is non-default
+    */
+   private boolean fieldIsNotDefaultValue(Object value, FieldType type)
+   {
+      boolean result;
+
+      switch (type.getDataType())
+      {
+         case STRING:
+         case NOTES:
+         {
+            result = !(value.toString()).isEmpty();
+            break;
+         }
+
+         case NUMERIC:
+         case CURRENCY:
+         case PERCENTAGE:
+         case UNITS:
+         case INTEGER:
+         case SHORT:
+         {
+            result = ((Number) value).doubleValue() != 0.0;
+            break;
+         }
+
+         case WORK:
+         case DURATION:
+         {
+            // Baseline durations can have string values
+            if (value instanceof String)
+            {
+               result = !((String) value).isEmpty();
+            }
+            else
+            {
+               result = ((Duration) value).getDuration() != 0.0;
+            }
+            break;
+         }
+
+         case RATE:
+         {
+            result = ((Rate) value).getAmount() != 0.0;
+            break;
+         }
+
+         case BOOLEAN:
+         {
+            result = ((Boolean) value).booleanValue();
+            break;
+         }
+
+         case TIME_UNITS:
+         {
+            result = value != m_defaultDurationUnits;
+            break;
+         }
+
+         case TASK_TYPE:
+         {
+            result = value != m_defaultTaskType;
+            break;
+         }
+
+         case PRIORITY:
+         {
+            result = ((Priority) value).getValue() != Priority.MEDIUM;
+            break;
+         }
+
+         case EARNED_VALUE_METHOD:
+         {
+            result = value != m_defaultTaskEarnedValueMethod;
+            break;
+         }
+
+         case ACCRUE:
+         {
+            result = value != m_defaultFixedCostAccrual;
+            break;
+         }
+
+         default:
+         {
+            result = true;
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   private final Class<E> m_fieldEnumType;
+   private final Collection<T> m_collection;
+   private final TimeUnit m_defaultDurationUnits;
+   private final TaskType m_defaultTaskType;
+   private final EarnedValueMethod m_defaultTaskEarnedValueMethod;
+   private final AccrueType m_defaultFixedCostAccrual;
+}

@@ -28,17 +28,15 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,6 +45,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
@@ -76,6 +75,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -87,9 +87,6 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 public final class MerlinReader extends AbstractProjectFileReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       File databaseFile;
@@ -104,12 +101,9 @@ public final class MerlinReader extends AbstractProjectFileReader
       return readFile(databaseFile);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Arrays.asList(read(file));
+      return Collections.singletonList(read(file));
    }
 
    /**
@@ -123,10 +117,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    {
       try
       {
-         String url = "jdbc:sqlite:" + file.getAbsolutePath();
-         Properties props = new Properties();
-         m_connection = org.sqlite.JDBC.createConnection(url, props);
-
+         m_connection = SQLite.createConnection(file);
          m_documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
          XPathFactory xPathfactory = XPathFactory.newInstance();
@@ -207,7 +198,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       props.setStatusDate(row.getTimestamp("ZGIVENSTATUSDATE"));
       props.setCurrencySymbol(row.getString("ZCURRENCYSYMBOL"));
       props.setName(row.getString("ZTITLE"));
-      props.setUniqueID(row.getUUID("ZUNIQUEID").toString());
+      props.setGUID(row.getUUID("ZUNIQUEID"));
    }
 
    /**
@@ -416,6 +407,12 @@ public final class MerlinReader extends AbstractProjectFileReader
 
       // Percent complete is calculated bottom up from assignments and actual work vs. planned work
 
+      // We don't have early/late start/finish.
+      // Set attributes here to avoid trying to calculate them.
+      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+      task.setCritical(false);
+
       m_eventManager.fireTaskReadEvent(task);
    }
 
@@ -565,44 +562,27 @@ public final class MerlinReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param values bind variable values
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer... values) throws SQLException
    {
-      List<Row> result = new ArrayList<>();
-
-      m_ps = m_connection.prepareStatement(sql);
-      int bindIndex = 1;
-      for (Integer value : values)
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         m_ps.setInt(bindIndex++, NumberHelper.getInt(value));
-      }
-      m_rs = m_ps.executeQuery();
-      populateMetaData();
-      while (m_rs.next())
-      {
-         result.add(new SqliteResultSetRow(m_rs, m_meta));
-      }
+         int bindIndex = 1;
+         for (Integer value : values)
+         {
+            ps.setInt(bindIndex++, NumberHelper.getInt(value));
+         }
 
-      return (result);
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
+         try (ResultSet rs = ps.executeQuery())
+         {
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new SqliteResultSetRow(rs, meta));
+            }
+            return result;
+         }
       }
    }
 
@@ -621,13 +601,10 @@ public final class MerlinReader extends AbstractProjectFileReader
 
    private ProjectFile m_project;
    private EventManager m_eventManager;
-   private Integer m_projectID = Integer.valueOf(1);
+   private final Integer m_projectID = Integer.valueOf(1);
    private Connection m_connection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
    private DocumentBuilder m_documentBuilder;
-   private DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
    private Map<String, Integer> m_entityMap;
 }

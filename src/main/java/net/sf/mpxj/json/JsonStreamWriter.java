@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Writes JSON data to an output stream.
@@ -96,6 +98,22 @@ public class JsonStreamWriter
 
       m_writer.write("{");
       increaseIndent();
+   }
+
+   /**
+    * Write a named list attribute containing simple values.
+    *
+    * @param name attribute name
+    * @param values list of attribute values
+    */
+   public void writeList(String name, List<Object> values) throws IOException
+   {
+      writeComma();
+      writeNewLineIndent();
+      writeName(name);
+      m_writer.write(" [");
+      m_writer.write(values.stream().map(Object::toString).collect(Collectors.joining(",")));
+      m_writer.write("]");
    }
 
    /**
@@ -244,12 +262,6 @@ public class JsonStreamWriter
                break;
             }
 
-            case '/':
-            {
-               m_buffer.append("\\/");
-               break;
-            }
-
             case '\b':
             {
                m_buffer.append("\\b");
@@ -368,7 +380,7 @@ public class JsonStreamWriter
    private final Deque<Boolean> m_firstNameValuePair = new ArrayDeque<>();
    private boolean m_pretty;
    private String m_indent = "";
-   private DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
+   private final DateFormat m_format = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
 
    private static final String INDENT = "  ";
 }

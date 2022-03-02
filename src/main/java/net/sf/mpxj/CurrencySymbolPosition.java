@@ -40,7 +40,7 @@ public enum CurrencySymbolPosition implements MpxjEnum
     *
     * @param value currency symbol position value
     */
-   private CurrencySymbolPosition(int value)
+   CurrencySymbolPosition(int value)
    {
       m_value = value;
    }
@@ -83,5 +83,5 @@ public enum CurrencySymbolPosition implements MpxjEnum
 
    private static final CurrencySymbolPosition[] TYPE_VALUES = EnumHelper.createTypeArray(CurrencySymbolPosition.class);
 
-   private int m_value;
+   private final int m_value;
 }

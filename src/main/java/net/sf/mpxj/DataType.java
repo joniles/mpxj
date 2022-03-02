@@ -48,7 +48,7 @@ public enum DataType implements MpxjEnum
    RESOURCE_TYPE(15),
    WORK(16),
    INTEGER(17),
-   ASCII_STRING(18),
+   NOTES(18),
    SHORT(19),
    BINARY(20),
    DELAY(21),
@@ -73,14 +73,19 @@ public enum DataType implements MpxjEnum
    DATE_RANGE_LIST(40),
    SUBPROJECT(41),
    WORK_CONTOUR(42),
-   EXPENSE_ITEM_LIST(43);
+   EXPENSE_ITEM_LIST(43),
+   PERCENT_COMPLETE_TYPE(44),
+   ACTIVITY_STATUS(45),
+   ACTIVITY_TYPE(46),
+   CRITICAL_ACTIVITY_TYPE(47),
+   ACTIVITY_CODE_LIST(48);
 
    /**
     * Private constructor.
     *
     * @param type int version of the enum
     */
-   private DataType(int type)
+   DataType(int type)
    {
       m_value = type;
    }
@@ -138,5 +143,5 @@ public enum DataType implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

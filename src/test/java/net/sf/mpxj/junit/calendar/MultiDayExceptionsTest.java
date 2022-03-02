@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.junit.calendar;
 
-import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
+import static net.sf.mpxj.junit.MpxjAssert.isMicrosoftAccessJdbcAvailable;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -68,9 +68,9 @@ public class MultiDayExceptionsTest
    private void testMultiDayExceptions(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

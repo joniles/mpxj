@@ -34,8 +34,8 @@ final class Block
    /**
     * Constructor.
     *
-    * @param name
-    * @param data
+    * @param name block name
+    * @param data block data
     */
    public Block(String name, byte[] data)
    {

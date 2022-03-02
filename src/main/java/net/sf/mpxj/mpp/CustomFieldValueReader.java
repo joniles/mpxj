@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.IOException;
-
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.ProjectProperties;
@@ -59,9 +57,9 @@ public abstract class CustomFieldValueReader
    }
 
    /**
-    * Method implement by subclasses to read custom field values.
+    * Method implemented by subclasses to read custom field values.
     */
-   public abstract void process() throws IOException;
+   public abstract void process();
 
    /**
     * Convert raw value as read from the MPP file into a Java type.
@@ -126,7 +124,7 @@ public abstract class CustomFieldValueReader
    }
 
    /**
-    * Try to convert a bute array into a string. In the event of a
+    * Try to convert a byte array into a string. In the event of a
     * failure, fall back to dumping the byte array contents as
     * as string of hex bytes.
     *
@@ -155,13 +153,13 @@ public abstract class CustomFieldValueReader
       return result;
    }
 
-   protected ProjectProperties m_properties;
-   protected CustomFieldContainer m_container;
-   protected VarMeta m_outlineCodeVarMeta;
-   protected Var2Data m_outlineCodeVarData;
-   protected FixedData m_outlineCodeFixedData;
-   protected FixedData m_outlineCodeFixedData2;
-   protected Props m_taskProps;
+   protected final ProjectProperties m_properties;
+   protected final CustomFieldContainer m_container;
+   protected final VarMeta m_outlineCodeVarMeta;
+   protected final Var2Data m_outlineCodeVarData;
+   protected final FixedData m_outlineCodeFixedData;
+   protected final FixedData m_outlineCodeFixedData2;
+   protected final Props m_taskProps;
 
    public static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    public static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);

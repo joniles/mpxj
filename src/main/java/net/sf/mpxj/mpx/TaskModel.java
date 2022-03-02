@@ -102,7 +102,7 @@ final class TaskModel
 
       for (int i = 0; i < length; i++)
       {
-         if (isText == true)
+         if (isText)
          {
             add(getTaskCode(record.getString(i)));
          }
@@ -124,7 +124,7 @@ final class TaskModel
    {
       if (field < m_flags.length)
       {
-         if (m_flags[field] == false)
+         if (!m_flags[field])
          {
             m_flags[field] = true;
             m_fields[m_count] = field;
@@ -240,7 +240,7 @@ final class TaskModel
       textual.append(MPXConstants.EOL);
       numeric.append(MPXConstants.EOL);
 
-      textual.append(numeric.toString());
+      textual.append(numeric);
 
       return (textual.toString());
    }
@@ -281,18 +281,18 @@ final class TaskModel
       return (result.intValue());
    }
 
-   private ProjectFile m_parentFile;
+   private final ProjectFile m_parentFile;
 
    /**
     * Array of flags indicating whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean[MPXTaskField.MAX_FIELDS];
+   private final boolean[] m_flags = new boolean[MPXTaskField.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int[MPXTaskField.MAX_FIELDS + 1];
+   private final int[] m_fields = new int[MPXTaskField.MAX_FIELDS + 1];
 
    /**
     * Count of the number of fields present.
@@ -307,5 +307,5 @@ final class TaskModel
    /**
     * Map used to store task field numbers.
     */
-   private HashMap<String, Integer> m_taskNumbers = new HashMap<>();
+   private final HashMap<String, Integer> m_taskNumbers = new HashMap<>();
 }

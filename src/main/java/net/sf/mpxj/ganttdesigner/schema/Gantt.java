@@ -28,427 +28,427 @@ import net.sf.mpxj.Duration;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="Display">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Width" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Height" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Split" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="File">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Saved" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
- *                 &lt;attribute name="Created" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
- *                 &lt;attribute name="Name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="Physical" type="{http://www.w3.org/2001/XMLSchema}string" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Globalization">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Culture">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                   &lt;element name="UICulture">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                   &lt;element name="Currency">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *                 &lt;attribute name="RegionInfo" type="{http://www.w3.org/2001/XMLSchema}string" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="FirstDay">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="LastDay">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Padding">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Left" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Top" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Right" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Bottom" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Tasks">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Task" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                           &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="D" type="{}ganttDesignerDuration" />
- *                           &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" />
- *                           &lt;attribute name="PC" type="{}ganttDesignerPercent" />
- *                           &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                           &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="L" type="{}ganttDesignerDuration" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Remarks" type="{}ganttDesignerRemark"/>
- *         &lt;element name="Remarks1" type="{}ganttDesignerRemark"/>
- *         &lt;element name="Remarks2" type="{}ganttDesignerRemark"/>
- *         &lt;element name="Remarks3" type="{}ganttDesignerRemark"/>
- *         &lt;element name="Remarks4" type="{}ganttDesignerRemark"/>
- *         &lt;element name="TextStyles">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Font" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *                 &lt;attribute name="Flag" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="Deadline" type="{http://www.w3.org/2001/XMLSchema}string" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="BarStyles">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Color2" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Color3" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Columns">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Header" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Calendar">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="WorkDays" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="WeekStart" type="{}ganttDesignerDay" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="DateHeader">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Tier" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                   &lt;element name="Reference">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                           &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                           &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *                 &lt;attribute name="Tiers" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="TierHeight" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="DayWidth" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="DarkGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="LightGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="ColorBackground" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="ColorGridlines" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="AltLight" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="Lightness" type="{http://www.w3.org/2001/XMLSchema}double" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Holidays">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Holiday" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Headers">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="HeaderLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="HeadersFonts">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Font" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Footers">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                 &lt;attribute name="FooterLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="FootersFonts">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Font" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                           &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Print">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="leftColumnsOnPage1Only" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                 &lt;attribute name="fitToPage" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfPages" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fitHorizontal" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="NumberSequence" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="PrintToImageFile">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="Copy">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="ChartColor">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;attribute name="ChartBack" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="BorderBack" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="LeftPanelBack" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="LeftPanelGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="RightPanelHGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="RightPanelVGridDark" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="RightPanelVGridLight" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="HolidayShade" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="SelectedRowBack" type="{http://www.w3.org/2001/XMLSchema}int" />
- *                 &lt;attribute name="SelectedRowFore" type="{http://www.w3.org/2001/XMLSchema}int" />
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *       &lt;attribute name="Version" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="Display"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Width" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Height" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Split" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="File"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Saved" type="{http://www.w3.org/2001/XMLSchema}dateTime" /&gt;
+ *                 &lt;attribute name="Created" type="{http://www.w3.org/2001/XMLSchema}dateTime" /&gt;
+ *                 &lt;attribute name="Name" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="Physical" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Globalization"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Culture"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                   &lt;element name="UICulture"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                   &lt;element name="Currency"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *                 &lt;attribute name="RegionInfo" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="FirstDay"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="LastDay"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Padding"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Left" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Top" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Right" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Bottom" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Tasks"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Task" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                           &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="D" type="{}ganttDesignerDuration" /&gt;
+ *                           &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *                           &lt;attribute name="PC" type="{}ganttDesignerPercent" /&gt;
+ *                           &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                           &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="L" type="{}ganttDesignerDuration" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Remarks" type="{}ganttDesignerRemark"/&gt;
+ *         &lt;element name="Remarks1" type="{}ganttDesignerRemark"/&gt;
+ *         &lt;element name="Remarks2" type="{}ganttDesignerRemark"/&gt;
+ *         &lt;element name="Remarks3" type="{}ganttDesignerRemark"/&gt;
+ *         &lt;element name="Remarks4" type="{}ganttDesignerRemark"/&gt;
+ *         &lt;element name="TextStyles"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Font" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *                 &lt;attribute name="Flag" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="Deadline" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="BarStyles"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Color2" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Color3" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Columns"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Header" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Calendar"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="WorkDays" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="WeekStart" type="{}ganttDesignerDay" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="DateHeader"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Tier" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                   &lt;element name="Reference"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                           &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                           &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *                 &lt;attribute name="Tiers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="TierHeight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="DayWidth" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="DarkGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="LightGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="ColorBackground" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="ColorGridlines" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="AltLight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="Lightness" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Holidays"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Holiday" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Headers"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="HeaderLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="HeadersFonts"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Font" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Footers"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *                 &lt;attribute name="FooterLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="FootersFonts"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Font" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                           &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Print"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="leftColumnsOnPage1Only" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                 &lt;attribute name="fitToPage" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfPages" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fitHorizontal" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="NumberSequence" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="PrintToImageFile"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="Copy"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *                 &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="ChartColor"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;attribute name="ChartBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="BorderBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="LeftPanelBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="LeftPanelGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="RightPanelHGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="RightPanelVGridDark" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="RightPanelVGridLight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="HolidayShade" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="SelectedRowBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *                 &lt;attribute name="SelectedRowFore" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name="Version" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *
@@ -1220,16 +1220,16 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Color2" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Color3" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Color2" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Color3" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -1354,14 +1354,14 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="WorkDays" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="WeekStart" type="{}ganttDesignerDay" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="WorkDays" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="WeekStart" type="{}ganttDesignerDay" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -1432,22 +1432,22 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="ChartBack" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="BorderBack" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="LeftPanelBack" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="LeftPanelGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="RightPanelHGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="RightPanelVGridDark" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="RightPanelVGridLight" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="HolidayShade" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="SelectedRowBack" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="SelectedRowFore" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="ChartBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="BorderBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="LeftPanelBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="LeftPanelGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="RightPanelHGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="RightPanelVGridDark" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="RightPanelVGridLight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="HolidayShade" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="SelectedRowBack" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="SelectedRowFore" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -1734,28 +1734,28 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Header" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Header" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -1805,18 +1805,18 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="W" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="A" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="D" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="DA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="DNW" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -1997,21 +1997,21 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -2271,47 +2271,47 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Tier" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *         &lt;element name="Reference">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *                 &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *       &lt;attribute name="Tiers" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="TierHeight" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="DayWidth" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="DarkGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="LightGrid" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="ColorBackground" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="ColorGridlines" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="AltLight" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Lightness" type="{http://www.w3.org/2001/XMLSchema}double" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Tier" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *         &lt;element name="Reference"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *                 &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *       &lt;attribute name="Tiers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="TierHeight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="DayWidth" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="DarkGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="LightGrid" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="ColorBackground" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="ColorGridlines" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="AltLight" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Lightness" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -2632,17 +2632,17 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" />
-       *       &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+       *       &lt;attribute name="Day0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Week0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Month0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Year0" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -2794,15 +2794,15 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Type" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Align" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Tick" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -2902,15 +2902,15 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Width" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Height" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Split" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Width" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Height" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Split" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3008,16 +3008,16 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Saved" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-    *       &lt;attribute name="Created" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
-    *       &lt;attribute name="Name" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="Physical" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Saved" type="{http://www.w3.org/2001/XMLSchema}dateTime" /&gt;
+    *       &lt;attribute name="Created" type="{http://www.w3.org/2001/XMLSchema}dateTime" /&gt;
+    *       &lt;attribute name="Name" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="Physical" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3142,13 +3142,13 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3192,16 +3192,16 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="FooterLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="FooterLeft" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="FooterCenter" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="FooterRight" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="FooterLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3326,26 +3326,26 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Font" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Font" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3395,16 +3395,16 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -3531,53 +3531,53 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Culture">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *         &lt;element name="UICulture">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *         &lt;element name="Currency">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *       &lt;attribute name="RegionInfo" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Culture"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *         &lt;element name="UICulture"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *         &lt;element name="Currency"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *       &lt;attribute name="RegionInfo" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -3705,17 +3705,17 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -3867,16 +3867,16 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Currency" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -4001,17 +4001,17 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="LCID" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="ISO" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="DN" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Cal" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="Parent" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -4165,16 +4165,16 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="HeaderLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="HeaderLeft" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="HeaderCenter" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="HeaderRight" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="HeaderLineSpace" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -4299,26 +4299,26 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Font" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Font" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -4368,16 +4368,16 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="StrikeOut" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Underline" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -4504,23 +4504,23 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Holiday" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Holiday" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -4570,13 +4570,13 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -4652,13 +4652,13 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Date" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -4702,16 +4702,16 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="Left" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Top" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Right" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="Bottom" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="Left" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Top" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Right" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="Bottom" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -4836,26 +4836,26 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="leftColumnsOnPage1Only" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *       &lt;attribute name="fitToPage" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfPages" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fitHorizontal" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="NumberSequence" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="leftColumnsOnPage1Only" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *       &lt;attribute name="fitToPage" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfPages" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fitHorizontal" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="NumberSequence" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -5250,21 +5250,21 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;attribute name="allRows" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="toTask" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumnsCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="numberOfLeftColumns" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="showTaskNumbers" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="dateOnRightCompDisp" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *       &lt;attribute name="fromDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *       &lt;attribute name="toDate" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -5524,36 +5524,36 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Task" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *                 &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="D" type="{}ganttDesignerDuration" />
-    *                 &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" />
-    *                 &lt;attribute name="PC" type="{}ganttDesignerPercent" />
-    *                 &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" />
-    *                 &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *                 &lt;attribute name="L" type="{}ganttDesignerDuration" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Task" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *                 &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="D" type="{}ganttDesignerDuration" /&gt;
+    *                 &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+    *                 &lt;attribute name="PC" type="{}ganttDesignerPercent" /&gt;
+    *                 &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+    *                 &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *                 &lt;attribute name="L" type="{}ganttDesignerDuration" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -5603,26 +5603,26 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" />
-       *       &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="D" type="{}ganttDesignerDuration" />
-       *       &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" />
-       *       &lt;attribute name="PC" type="{}ganttDesignerPercent" />
-       *       &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" />
-       *       &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" />
-       *       &lt;attribute name="L" type="{}ganttDesignerDuration" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="ID" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="S" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+       *       &lt;attribute name="B" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="BC" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="D" type="{}ganttDesignerDuration" /&gt;
+       *       &lt;attribute name="H" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="U" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="VA" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="In" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="C" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
+       *       &lt;attribute name="PC" type="{}ganttDesignerPercent" /&gt;
+       *       &lt;attribute name="DL" type="{http://www.w3.org/2001/XMLSchema}date" /&gt;
+       *       &lt;attribute name="P" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+       *       &lt;attribute name="L" type="{}ganttDesignerDuration" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -6049,27 +6049,27 @@ import net.sf.mpxj.Duration;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Font" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *                 &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" />
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *       &lt;attribute name="Flag" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *       &lt;attribute name="Deadline" type="{http://www.w3.org/2001/XMLSchema}string" />
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Font" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *                 &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *       &lt;attribute name="Flag" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *       &lt;attribute name="Deadline" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -6173,15 +6173,15 @@ import net.sf.mpxj.Duration;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *       &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" />
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;attribute name="Style" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Size" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *       &lt;attribute name="Color" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *

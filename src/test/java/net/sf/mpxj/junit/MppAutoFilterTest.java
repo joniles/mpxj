@@ -41,8 +41,6 @@ public class MppAutoFilterTest
 
    /**
     * Test auto filter data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Filters() throws Exception
    {
@@ -52,8 +50,6 @@ public class MppAutoFilterTest
 
    /**
     * Test auto filter data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FiltersFrom12() throws Exception
    {
@@ -63,8 +59,6 @@ public class MppAutoFilterTest
 
    /**
     * Test auto filter data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9FiltersFrom14() throws Exception
    {
@@ -74,8 +68,6 @@ public class MppAutoFilterTest
 
    /**
     * Test filter data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Filters() throws Exception
    {
@@ -85,8 +77,6 @@ public class MppAutoFilterTest
 
    /**
     * Test filter data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FiltersFrom14() throws Exception
    {
@@ -96,8 +86,6 @@ public class MppAutoFilterTest
 
    /**
     * Test filter data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Filters() throws Exception
    {
@@ -139,7 +127,7 @@ public class MppAutoFilterTest
       assertEquals("((Flag1 EQUALS true) OR (Flag1 EQUALS false))", filter.getCriteria().toString());
 
       filter = view.getAutoFilterByType(TaskField.DATE1);
-      assertEquals("((Date1 EQUALS Thu Sep 09 00:00:00 BST 1999) OR (Date1 EQUALS Wed Sep 09 00:00:00 BST 2009))", filter.getCriteria().toString());
+      assertEquals("((Date1 EQUALS 09/09/1999 00:00) OR (Date1 EQUALS 09/09/2009 00:00))", filter.getCriteria().toString());
 
       //
       // Test all operators

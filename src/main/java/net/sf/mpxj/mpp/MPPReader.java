@@ -26,7 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +50,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class MPPReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream is) throws MPXJException
    {
       try
@@ -73,12 +70,9 @@ public final class MPPReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -88,7 +82,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POIFSFileSystem instance
     * @return file format name
-    * @throws IOException
     */
    public static String getFileFormat(POIFSFileSystem fs) throws IOException
    {
@@ -108,7 +101,6 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @param fs POI file stream
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
    {
@@ -196,17 +188,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          return (projectFile);
       }
 
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (IllegalAccessException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      catch (InstantiationException ex)
+      catch (IOException | InstantiationException | IllegalAccessException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -244,28 +226,6 @@ public final class MPPReader extends AbstractProjectStreamReader
             relation.getSourceTask().removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
          }
       }
-   }
-
-   /**
-    * This method retrieves the state of the preserve note formatting flag.
-    *
-    * @return boolean flag
-    */
-   public boolean getPreserveNoteFormatting()
-   {
-      return (m_preserveNoteFormatting);
-   }
-
-   /**
-    * This method sets a flag to indicate whether the RTF formatting associated
-    * with notes should be preserved or removed. By default the formatting
-    * is removed.
-    *
-    * @param preserveNoteFormatting boolean flag
-    */
-   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
-   {
-      m_preserveNoteFormatting = preserveNoteFormatting;
    }
 
    /**
@@ -379,12 +339,6 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       return m_respectPasswordProtection;
    }
-
-   /**
-    * Flag used to indicate whether RTF formatting in notes should
-    * be preserved. The default value for this flag is false.
-    */
-   private boolean m_preserveNoteFormatting;
 
    /**
     * Setting this flag to true allows raw timephased data to be retrieved.

@@ -48,8 +48,6 @@ public final class MppXmlCompare
 
    /**
     * Compares sets of tasks between files.
-    *
-    * @throws Exception
     */
    private void compareTasks() throws Exception
    {
@@ -291,8 +289,6 @@ public final class MppXmlCompare
 
    /**
     * Compares sets of resources between files.
-    *
-    * @throws Exception
     */
    private void compareResources() throws Exception
    {
@@ -402,16 +398,16 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getNumber(18), mppResource.getNumber(18));
          assertEquals(xmlResource.getNumber(19), mppResource.getNumber(19));
          assertEquals(xmlResource.getNumber(20), mppResource.getNumber(20));
-         assertEquals(xmlResource.getOutlineCode1(), mppResource.getOutlineCode1());
-         assertEquals(xmlResource.getOutlineCode2(), mppResource.getOutlineCode2());
-         assertEquals(xmlResource.getOutlineCode3(), mppResource.getOutlineCode3());
-         assertEquals(xmlResource.getOutlineCode4(), mppResource.getOutlineCode4());
-         assertEquals(xmlResource.getOutlineCode5(), mppResource.getOutlineCode5());
-         assertEquals(xmlResource.getOutlineCode6(), mppResource.getOutlineCode6());
-         assertEquals(xmlResource.getOutlineCode7(), mppResource.getOutlineCode7());
-         assertEquals(xmlResource.getOutlineCode8(), mppResource.getOutlineCode8());
-         assertEquals(xmlResource.getOutlineCode9(), mppResource.getOutlineCode9());
-         assertEquals(xmlResource.getOutlineCode10(), mppResource.getOutlineCode10());
+         assertEquals(xmlResource.getOutlineCode(1), mppResource.getOutlineCode(1));
+         assertEquals(xmlResource.getOutlineCode(2), mppResource.getOutlineCode(2));
+         assertEquals(xmlResource.getOutlineCode(3), mppResource.getOutlineCode(3));
+         assertEquals(xmlResource.getOutlineCode(4), mppResource.getOutlineCode(4));
+         assertEquals(xmlResource.getOutlineCode(5), mppResource.getOutlineCode(5));
+         assertEquals(xmlResource.getOutlineCode(6), mppResource.getOutlineCode(6));
+         assertEquals(xmlResource.getOutlineCode(7), mppResource.getOutlineCode(7));
+         assertEquals(xmlResource.getOutlineCode(8), mppResource.getOutlineCode(8));
+         assertEquals(xmlResource.getOutlineCode(9), mppResource.getOutlineCode(9));
+         assertEquals(xmlResource.getOutlineCode(10), mppResource.getOutlineCode(10));
          assertEquals(xmlResource.getOvertimeCost(), mppResource.getOvertimeCost());
          assertEquals(xmlResource.getOvertimeRate(), mppResource.getOvertimeRate());
          assertEquals(xmlResource.getOvertimeWork(), mppResource.getOvertimeWork());
@@ -505,7 +501,6 @@ public final class MppXmlCompare
     *
     * @param message failure message
     * @param object test parameter
-    * @throws Exception
     */
    private void assertNotNull(String message, Object object) throws Exception
    {
@@ -520,7 +515,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Object expected, Object actual) throws Exception
    {
@@ -543,7 +537,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(String expected, String actual) throws Exception
    {
@@ -557,7 +550,7 @@ public final class MppXmlCompare
          actual = null;
       }
 
-      assertEquals((Object) expected, (Object) actual);
+      assertEquals(expected, (Object) actual);
    }
 
    /**
@@ -565,7 +558,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(boolean expected, boolean actual) throws Exception
    {
@@ -581,7 +573,6 @@ public final class MppXmlCompare
     * @param expected expected value
     * @param actual actual value
     * @param delta delta allowance
-    * @throws Exception
     */
    private void assertEquals(double expected, double actual, double delta) throws Exception
    {
@@ -606,7 +597,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Number expected, Number actual) throws Exception
    {
@@ -628,7 +618,7 @@ public final class MppXmlCompare
                expected = null;
             }
 
-            assertEquals((Object) expected, (Object) actual);
+            assertEquals(expected, (Object) actual);
          }
       }
    }
@@ -638,7 +628,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Duration expected, Duration actual) throws Exception
    {
@@ -660,7 +649,7 @@ public final class MppXmlCompare
          {
             if ((actual == null && expected != null && expected.getDuration() != 0) || (actual != null && actual.getDuration() != 0 && expected == null))
             {
-               assertEquals((Object) expected, (Object) actual);
+               assertEquals(expected, (Object) actual);
             }
          }
       }
@@ -671,7 +660,6 @@ public final class MppXmlCompare
     *
     * @param expected expected value
     * @param actual actual value
-    * @throws Exception
     */
    private void assertEquals(Rate expected, Rate actual) throws Exception
    {
@@ -691,7 +679,7 @@ public final class MppXmlCompare
             actual = null;
          }
 
-         assertEquals((Object) expected, (Object) actual);
+         assertEquals(expected, (Object) actual);
       }
    }
 

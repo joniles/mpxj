@@ -47,15 +47,13 @@ import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
- * Tests to ensure task task baseline values are correctly handled.
+ * Tests to ensure task baseline values are correctly handled.
  */
 public class TaskBaselinesTest
 {
 
    /**
-    * Test to verify SourceForeg issue is fixed.
-    *
-    * @throws MPXJException
+    * Test to verify SourceForge issue is fixed.
     */
    @Test public void testSourceForgeIssue259() throws MPXJException
    {
@@ -89,9 +87,9 @@ public class TaskBaselinesTest
    private void testTaskBaselineValues(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       ProjectFile project = reader.read(file);
@@ -448,7 +446,7 @@ public class TaskBaselinesTest
       return taskID;
    }
 
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
    private static final String[] COSTS = new String[]
    {

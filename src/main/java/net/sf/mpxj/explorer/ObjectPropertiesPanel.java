@@ -35,9 +35,6 @@ import javax.swing.JPanel;
  */
 public class ObjectPropertiesPanel extends JPanel
 {
-   private ObjectPropertiesModel m_objectPropertiesModel;
-   private ObjectPropertiesController m_objectPropertiesController;
-   private ObjectPropertiesView m_objectPropertiesView;
 
    /**
     * Constructor.
@@ -49,12 +46,12 @@ public class ObjectPropertiesPanel extends JPanel
    {
       setLayout(new GridLayout(0, 1, 0, 0));
 
-      m_objectPropertiesModel = new ObjectPropertiesModel();
-      m_objectPropertiesController = new ObjectPropertiesController(m_objectPropertiesModel);
-      m_objectPropertiesView = new ObjectPropertiesView(m_objectPropertiesModel);
+      ObjectPropertiesModel objectPropertiesModel = new ObjectPropertiesModel();
+      ObjectPropertiesController objectPropertiesController = new ObjectPropertiesController(objectPropertiesModel);
+      ObjectPropertiesView objectPropertiesView = new ObjectPropertiesView(objectPropertiesModel);
 
-      add(m_objectPropertiesView);
+      add(objectPropertiesView);
 
-      m_objectPropertiesController.loadObject(object, excludedMethods);
+      objectPropertiesController.loadObject(object, excludedMethods);
    }
 }

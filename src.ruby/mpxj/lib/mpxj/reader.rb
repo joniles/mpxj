@@ -5,7 +5,7 @@ module MPXJ
   # Used to read a project plan from a file
   class Reader
     @@max_memory_size = nil
-       
+
     # Reads a project plan from a file, and returns a Project instance
     # which provides access to the structure and attributes of the project data.
     # Note that an optional timezone can be supplied to ensue that all date-time
@@ -13,15 +13,16 @@ module MPXJ
     #
     # @param file_name [String] the name of the file to read
     # @param zone [ActiveSupport::TimeZone] an optional timezone
+    # @param time_units [Symbol] optional, specify the units for expressing durations. By default durations are in seconds, can pass :minutes, :hours, :days: weeks:, :months or :years
     # @return [Project] new Project instance
-    def self.read(file_name, zone = nil)
+    def self.read(file_name, zone = nil, time_units = :seconds)
       project = nil
       json_file = Tempfile.new([File.basename(file_name, ".*"), '.json'])
       tz = zone || Time.zone || ActiveSupport::TimeZone["UTC"]
 
       begin
-        classpath = Dir["#{File.dirname(__FILE__)}/*.jar"].join(path_separator)
-        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.sample.MpxjConvert \"#{file_name}\" \"#{json_file.path}\"`
+        classpath = "#{File.dirname(__FILE__)}/*"
+        java_output = `java -cp \"#{classpath}\" #{jvm_args} net.sf.mpxj.ruby.GenerateJson \"#{file_name}\" \"#{json_file.path}\" \"#{time_units}\"`
         if $?.exitstatus != 0
           report_error(java_output)
         end
@@ -38,7 +39,7 @@ module MPXJ
     # default maximum memory size is used. The value is either a plain integer number of bytes,
     # or an integer followed by K, M, or G, e.g. `MPXJ::Reader.max_memory_size="500M"`
     #
-    # @param value new maximum memory size 
+    # @param value new maximum memory size
     def self.max_memory_size=(value)
       @@max_memory_size = value
     end
@@ -46,24 +47,10 @@ module MPXJ
     # @private
     def self.jvm_args
       args = []
-      args << "-Xmx#{@@max_memory_size}" if @@max_memory_size.present? 
+      args << "-Xmx#{@@max_memory_size}" if @@max_memory_size.present?
       args.join(' ')
     end
-       
-    # @private    
-    def self.path_separator
-      if windows?
-        ";"
-      else
-        ":"
-      end
-    end
 
-    # @private
-    def self.windows?
-      (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
-    end
-    
      # @private
     def self.report_error(java_output)
       if java_output.include?('Conversion Error: ')
@@ -75,7 +62,7 @@ module MPXJ
         else
           raise MPXJ::RuntimeError, message
         end
-      else        
+      else
         raise MPXJ::UnknownError, "Failed to read file: #{java_output}"
       end
     end

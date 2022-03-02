@@ -68,7 +68,7 @@ public class MppDump
 
       catch (Exception ex)
       {
-         System.out.println("Caught " + ex.toString());
+         System.out.println("Caught " + ex);
       }
    }
 
@@ -132,7 +132,7 @@ public class MppDump
                if (showData)
                {
                   pw.println("start doc: " + prefix + entry.getName());
-                  if (hex == true)
+                  if (hex)
                   {
                      byteCount = hexdump(new DocumentInputStream((DocumentEntry) entry), pw);
                   }
@@ -215,7 +215,7 @@ public class MppDump
             sb.append(c);
          }
 
-         pw.println(sb.toString());
+         pw.println(sb);
       }
 
       return (byteCount);
@@ -262,7 +262,7 @@ public class MppDump
             sb.append(c);
          }
 
-         pw.print(sb.toString());
+         pw.print(sb);
       }
 
       return (byteCount);

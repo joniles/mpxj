@@ -79,4 +79,5 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
       return result;
    }
 
+   public static final int MAX_TABLES = 5;
 }

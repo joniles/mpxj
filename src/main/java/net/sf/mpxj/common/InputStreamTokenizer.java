@@ -42,13 +42,10 @@ public class InputStreamTokenizer extends Tokenizer
       m_stream = is;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected int read() throws IOException
    {
       return (m_stream.read());
    }
 
-   private InputStream m_stream;
+   private final InputStream m_stream;
 }

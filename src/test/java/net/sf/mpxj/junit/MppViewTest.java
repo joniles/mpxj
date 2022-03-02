@@ -39,7 +39,7 @@ import net.sf.mpxj.mpp.MPPReader;
 import org.junit.Test;
 
 /**
- * Testsb to exercise MPP file read functionality for various versions of
+ * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
 public class MppViewTest
@@ -47,8 +47,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9View() throws Exception
    {
@@ -58,10 +56,8 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp9ViewFrom12() throws Exception
+   @Test public void testMpp9ViewFrom12()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from12.mpp"));
       //testViews(mpp);
@@ -69,10 +65,8 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp9ViewFrom14() throws Exception
+   @Test public void testMpp9ViewFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9resource-from14.mpp"));
       //testViews(mpp);
@@ -80,8 +74,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12View() throws Exception
    {
@@ -91,8 +83,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12ViewFrom14() throws Exception
    {
@@ -102,8 +92,6 @@ public class MppViewTest
 
    /**
     * Test view data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14View() throws Exception
    {
@@ -112,7 +100,7 @@ public class MppViewTest
    }
 
    /**
-    * Tests MPP's Views. Not an in-depth test, but covers the basics of
+    * Tests MPP Views. Not an in-depth test, but covers the basics of
     * Views, like View Names, Column Names, and Column Widths
     *
     * @param mpp The ProjectFile being tested.
@@ -125,13 +113,12 @@ public class MppViewTest
       // so make a Set to check against when done reading in the views
       HashSet<String> setViewNames = new HashSet<>();
 
-      for (int viewNum = 0; viewNum < views.size(); viewNum++)
+      for (View view : views)
       {
          // View Names
-         View view = views.get(viewNum);
          String viewName = view.getName();
          setViewNames.add(viewName);
-         Table table = null;
+         Table table;
 
          if (view instanceof GanttChartView)
          {
@@ -146,9 +133,8 @@ public class MppViewTest
                // verify all columns
                List<Column> cols = table.getColumns();
                HashSet<String> setColumnNames = new HashSet<>();
-               for (int n = 0; n < cols.size(); n++)
+               for (Column col : cols)
                {
-                  Column col = cols.get(n);
                   setColumnNames.add(col.getTitle());
                   int width = col.getWidth();
                   assertTrue(width > 0);
@@ -177,5 +163,4 @@ public class MppViewTest
       assertTrue(setViewNames.contains("Task Usage"));
       //assertTrue(setViewNames.contains("")); // why blank?
    }
-
 }

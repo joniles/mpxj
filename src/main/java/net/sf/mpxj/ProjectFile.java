@@ -24,6 +24,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -289,12 +290,23 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Find the earliest task start date. We treat this as the
-    * start date for the project.
+    * Find the earliest task start date.
+    *
+    * @return start date
+    *
+    * @deprecated use ProjectFile.getEarliestStartDate() or ProjectProperties.getStartDate()
+    */
+   @Deprecated public Date getStartDate()
+   {
+      return getEarliestStartDate();
+   }
+
+   /**
+    * Find the earliest task start date.
     *
     * @return start date
     */
-   public Date getStartDate()
+   public Date getEarliestStartDate()
    {
       Date startDate = null;
 
@@ -315,7 +327,7 @@ public final class ProjectFile implements ChildTaskContainer
          // to reflect a missed deadline.
          //
          Date taskStartDate;
-         if (task.getMilestone() == true)
+         if (task.getMilestone())
          {
             taskStartDate = task.getActualFinish();
             if (taskStartDate == null)
@@ -352,12 +364,23 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * Find the latest task finish date. We treat this as the
-    * finish date for the project.
+    * Find the latest task finish date.
+    *
+    * @return finish date
+    *
+    * @deprecated use ProjectFile.getLatestFinishDate() or ProjectProperties.getFinishDate()
+    */
+   @Deprecated public Date getFinishDate()
+   {
+      return getLatestFinishDate();
+   }
+
+   /**
+    * Find the latest task finish date.
     *
     * @return finish date
     */
-   public Date getFinishDate()
+   public Date getLatestFinishDate()
    {
       Date finishDate = null;
 
@@ -443,7 +466,7 @@ public final class ProjectFile implements ChildTaskContainer
    /**
     * Retrieves all the subprojects for this project.
     *
-    * @return all sub project details
+    * @return all subproject details
     */
    public SubProjectContainer getSubProjects()
    {
@@ -569,6 +592,71 @@ public final class ProjectFile implements ChildTaskContainer
       return result;
    }
 
+   /**
+    * Retrieve the baselines linked to this project.
+    * The baseline at index zero is the default baseline,
+    * the values at the remaining indexes (1-10) are the
+    * numbered baselines. The list will contain null
+    * if a particular baseline has not been set.
+    *
+    * @return list of baselines
+    */
+   public List<ProjectFile> getBaselines()
+   {
+      return Arrays.asList(m_baselines);
+   }
+
+   /**
+    * Store the supplied project as the default baseline, and use it to set the
+    * baseline cost, duration, finish, fixed cost accrual, fixed cost, start and
+    * work attributes for the tasks in the current project.
+    *
+    * @param baseline baseline project
+    */
+   public void setBaseline(ProjectFile baseline)
+   {
+      setBaseline(baseline, 0);
+   }
+
+   /**
+    * Store the supplied project as baselineN, and use it to set the
+    * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
+    * work attributes for the tasks in the current project.
+    * The index argument selects which of the 10 baselines to populate. Passing
+    * an index of 0 populates the default baseline.
+    *
+    * @param baseline baseline project
+    * @param index baseline to populate (0-10)
+    */
+   public void setBaseline(ProjectFile baseline, int index)
+   {
+      if (index < 0 || index >= m_baselines.length)
+      {
+         throw new IllegalArgumentException(index + " is not a valid baseline index");
+      }
+
+      m_baselines[index] = baseline;
+      m_config.getBaselineStrategy().populateBaseline(this, baseline, index);
+   }
+
+   /**
+    * Clear the default baseline for this project.
+    */
+   public void clearBaseline()
+   {
+      clearBaseline(0);
+   }
+
+   /**
+    * Clear baselineN (1-10) for this project.
+    *
+    * @param index baseline index
+    */
+   public void clearBaseline(int index)
+   {
+      new DefaultBaselineStrategy().clearBaseline(this, index);
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
@@ -587,4 +675,5 @@ public final class ProjectFile implements ChildTaskContainer
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
+   private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

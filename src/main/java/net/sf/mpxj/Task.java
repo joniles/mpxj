@@ -25,10 +25,13 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -37,7 +40,7 @@ import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
 /**
- * This class represents a task record from an project file.
+ * This class represents a task record from a project file.
  */
 public final class Task extends ProjectEntity implements Comparable<Task>, ProjectEntityWithID, FieldContainer, ChildTaskContainer
 {
@@ -61,27 +64,27 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
 
-      if (config.getAutoTaskUniqueID() == true)
+      if (config.getAutoTaskUniqueID())
       {
          setUniqueID(Integer.valueOf(config.getNextTaskUniqueID()));
       }
 
-      if (config.getAutoTaskID() == true)
+      if (config.getAutoTaskID())
       {
          setID(Integer.valueOf(config.getNextTaskID()));
       }
 
-      if (config.getAutoWBS() == true)
+      if (config.getAutoWBS())
       {
          generateWBS(parent);
       }
 
-      if (config.getAutoOutlineNumber() == true)
+      if (config.getAutoOutlineNumber())
       {
          generateOutlineNumber(parent);
       }
 
-      if (config.getAutoOutlineLevel() == true)
+      if (config.getAutoOutlineLevel())
       {
          if (parent == null)
          {
@@ -198,6 +201,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setNotes(String notes)
    {
+      set(TaskField.NOTES, notes == null ? null : new Notes(notes));
+   }
+
+   /**
+    * Set the Notes instance representing the task notes.
+    *
+    * @param notes Notes instance
+    */
+   public void setNotesObject(Notes notes)
+   {
       set(TaskField.NOTES, notes);
    }
 
@@ -242,7 +255,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       }
       else
       {
-         if (m_children.isEmpty() == false)
+         if (!m_children.isEmpty())
          {
             (m_children.get(m_children.size() - 1)).addChildTask(child, childOutlineLevel);
          }
@@ -263,7 +276,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_children.add(child);
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -290,7 +303,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       child.m_parent = this;
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel() == true)
+      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -358,19 +371,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return list of activity codes
     */
-   public List<ActivityCodeValue> getActivityCodes()
+   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
-      return m_activityCodes;
+      List<ActivityCodeValue> result = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
+      return result == null ? Collections.emptyList() : result;
    }
 
    /**
     * Assign an activity code to this task.
     *
-    * @param value activity coe value
+    * @param value activity code value
     */
-   public void addActivityCode(ActivityCodeValue value)
+   @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
-      m_activityCodes.add(value);
+      List<ActivityCodeValue> list = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
+      if (list == null)
+      {
+         list = new ArrayList<>();
+         set(TaskField.ACTIVITY_CODES, list);
+      }
+      list.add(value);
    }
 
    /**
@@ -382,26 +402,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = getExistingResourceAssignment(resource);
+      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
+      assignment.setTaskUniqueID(getUniqueID());
+      assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
+      assignment.setWork(getDuration());
+      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+      addResourceAssignment(assignment);
 
-      if (assignment == null)
-      {
-         assignment = new ResourceAssignment(getParentFile(), this);
-         m_assignments.add(assignment);
-         getParentFile().getResourceAssignments().add(assignment);
-
-         assignment.setTaskUniqueID(getUniqueID());
-         assignment.setWork(getDuration());
-         assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-
-         if (resource != null)
-         {
-            assignment.setResourceUniqueID(resource.getUniqueID());
-            resource.addResourceAssignment(assignment);
-         }
-      }
-
-      return (assignment);
+      return assignment;
    }
 
    /**
@@ -411,16 +419,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void addResourceAssignment(ResourceAssignment assignment)
    {
-      if (getExistingResourceAssignment(assignment.getResource()) == null)
-      {
-         m_assignments.add(assignment);
-         getParentFile().getResourceAssignments().add(assignment);
+      m_assignments.add(assignment);
+      getParentFile().getResourceAssignments().add(assignment);
 
-         Resource resource = assignment.getResource();
-         if (resource != null)
-         {
-            resource.addResourceAssignment(assignment);
-         }
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.addResourceAssignment(assignment);
       }
    }
 
@@ -431,29 +436,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * @param resource resource to test for
     * @return existing resource assignment
     */
-   private ResourceAssignment getExistingResourceAssignment(Resource resource)
+   public ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = null;
-      Integer resourceUniqueID = null;
-
-      if (resource != null)
-      {
-         Iterator<ResourceAssignment> iter = m_assignments.iterator();
-         resourceUniqueID = resource.getUniqueID();
-
-         while (iter.hasNext() == true)
-         {
-            assignment = iter.next();
-            Integer uniqueID = assignment.getResourceUniqueID();
-            if (uniqueID != null && uniqueID.equals(resourceUniqueID) == true)
-            {
-               break;
-            }
-            assignment = null;
-         }
-      }
-
-      return assignment;
+      Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
+      return m_assignments.stream().filter(filter).findFirst().orElse(null);
    }
 
    /**
@@ -508,7 +494,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       Relation predecessorRelation = null;
       Iterator<Relation> iter = predecessorList.iterator();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          predecessorRelation = iter.next();
          if (predecessorRelation.getTargetTask() == targetTask)
@@ -542,7 +528,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       Relation successorRelation = null;
       iter = successorList.iterator();
-      while (iter.hasNext() == true)
+      while (iter.hasNext())
       {
          successorRelation = iter.next();
          if (successorRelation.getTargetTask() == this)
@@ -735,7 +721,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * of the assignment's timephased percent complete multiplied by
     * the assignments
     * timephased baseline cost. BCWP is calculated up to the status
-    * date or todays
+    * date or today's
     * date. This information is also known as earned value.
     *
     * @param val the amount to be set
@@ -1123,6 +1109,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the remaining late finish value.
+    *
+    * @param date remaining late finish
+    */
+   public void setRemainingLateFinish(Date date)
+   {
+      set(TaskField.REMAINING_LATE_FINISH, date);
+   }
+
+   /**
     * The Late Start field contains the latest date that a task can start
     * without delaying the finish of the project. This date is based on the
     * task's start date, as well as the late start and late finish dates of
@@ -1133,6 +1129,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setLateStart(Date date)
    {
       set(TaskField.LATE_START, date);
+   }
+
+   /**
+    * Set the remaining late start value.
+    *
+    * @param date remaining late start
+    */
+   public void setRemainingLateStart(Date date)
+   {
+      set(TaskField.REMAINING_LATE_START, date);
    }
 
    /**
@@ -1293,7 +1299,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * resources assigned to a task. These initials can serve as substitutes
     * for the names.
     *
-    * Note that MS Project 98 does no normally populate this field when
+    * Note that MS Project 98 does not normally populate this field when
     * it generates an MPX file, and will therefore not expect to see values
     * in this field when it reads an MPX file. Supplying values for this
     * field will cause MS Project 98, 2000, and 2002 to create new resources
@@ -1922,11 +1928,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
-         ProjectProperties props = getParentFile().getProjectProperties();
-         int criticalSlackLimit = NumberHelper.getInt(props.getCriticalSlackLimit());
+         int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
          if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
          {
-            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, props);
+            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, getEffectiveCalendar());
          }
          critical = Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
          set(TaskField.CRITICAL, critical);
@@ -2227,6 +2232,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the remaining late finish value.
+    *
+    * @return remaining late finish
+    */
+   public Date getRemainingLateFinish()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_LATE_FINISH));
+   }
+
+   /**
     * The Late Start field contains the latest date that a task can start
     * without delaying the finish of the project. This date is based on
     * the task's start date, as well as the late start and late finish
@@ -2237,6 +2252,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getLateStart()
    {
       return ((Date) getCachedValue(TaskField.LATE_START));
+   }
+
+   /**
+    * Retrieve the remaining late start value.
+    *
+    * @return remaining late start
+    */
+   public Date getRemainingLateStart()
+   {
+      return ((Date) getCachedValue(TaskField.REMAINING_LATE_START));
    }
 
    /**
@@ -2284,15 +2309,29 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
+    * Retrieve the plain text representation of the task notes.
+    * Use the getNotesObject method to retrieve an object which
+    * contains both the plain text notes and, if relevant,
+    * the original formatted version of the notes.
     *
     * @return notes
     */
    public String getNotes()
    {
-      String notes = (String) getCachedValue(TaskField.NOTES);
-      return (notes == null ? "" : notes);
+      Object notes = getCachedValue(TaskField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   /**
+    * Retrieve an object which contains both the plain text notes
+    * and, if relevant, the original formatted version of the notes.
+    *
+    * @return Notes instance
+    */
+   public Notes getNotesObject()
+   {
+      Object notes = getCachedValue(TaskField.NOTES);
+      return notes == null ? null : (Notes) notes;
    }
 
    /**
@@ -2837,7 +2876,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    /**
     * This method retrieves a list of child tasks relative to the
-    * current task, as defined by the outine level. If there
+    * current task, as defined by the outline level. If there
     * are no child tasks, this method will return an empty list.
     *
     * @return child tasks
@@ -2862,7 +2901,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       int id1 = NumberHelper.getInt(getID());
       int id2 = NumberHelper.getInt(o.getID());
-      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
+      return (Integer.compare(id1, id2));
    }
 
    /**
@@ -3013,7 +3052,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * value shown in the parent project. To retrieve the value of the
     * task unique ID in the child project, remove the top two bytes:
     *
-    * taskID = (subprojectUniqueID & 0xFFFF)
+    * taskID = (subprojectUniqueID &amp; 0xFFFF)
     *
     * @return sub project unique task ID
     */
@@ -3449,6 +3488,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieves the task hyperlink screen tip attribute.
+    *
+    * @return hyperlink screen tip attribute
+    */
+   public String getHyperlinkScreenTip()
+   {
+      return ((String) getCachedValue(TaskField.HYPERLINK_SCREEN_TIP));
+   }
+
+   /**
     * Sets the task hyperlink attribute.
     *
     * @param text hyperlink attribute
@@ -3476,6 +3525,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public void setHyperlinkSubAddress(String text)
    {
       set(TaskField.HYPERLINK_SUBADDRESS, text);
+   }
+
+   /**
+    * Sets the task hyperlink screen tip attribute.
+    *
+    * @param text hyperlink screen tip attribute
+    */
+   public void setHyperlinkScreenTip(String text)
+   {
+      set(TaskField.HYPERLINK_SCREEN_TIP, text);
    }
 
    /**
@@ -3797,20 +3856,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * Task splits contain the time up to which the splits are completed.
     *
     * @return Duration of completed time for the splits.
+    * @deprecated use getCompleteThrough()
     */
-   public Date getSplitCompleteDuration()
+   @Deprecated public Date getSplitCompleteDuration()
    {
-      return (Date) getCachedValue(TaskField.SPLITS_COMPLETE);
+      return getCompleteThrough();
    }
 
    /**
     * Set the time up to which the splits are completed.
     *
     * @param splitsComplete Duration of completed time for the splits.
+    * @deprecated use setCompleteThrough
     */
-   public void setSplitCompleteDuration(Date splitsComplete)
+   @Deprecated void setSplitCompleteDuration(Date splitsComplete)
    {
-      set(TaskField.SPLITS_COMPLETE, splitsComplete);
+      setCompleteThrough(splitsComplete);
    }
 
    /**
@@ -4232,7 +4293,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the "complete through" date.
+    * Retrieve the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
     *
     * @return complete through date
     */
@@ -4264,7 +4326,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
                   double durationValue = (duration.getDuration() * percentComplete) / 100d;
                   duration = Duration.getInstance(durationValue, duration.getUnits());
                   ProjectCalendar calendar = getEffectiveCalendar();
-                  value = calendar.getDate(actualStart, duration, true);
+                  value = calendar.getDate(actualStart, duration, getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart());
                }
                break;
             }
@@ -4276,14 +4338,24 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the "complete through" date. This is the date at which
+    * the percent complete progress line on a task finishes.
+    *
+    * @param value complete through date
+    */
+   public void setCompleteThrough(Date value)
+   {
+      set(TaskField.COMPLETE_THROUGH, value);
+   }
+
+   /**
     * Retrieve the summary progress date.
     *
     * @return summary progress date
     */
    public Date getSummaryProgress()
    {
-      Date value = (Date) getCachedValue(TaskField.SUMMARY_PROGRESS);
-      return value;
+      return (Date) getCachedValue(TaskField.SUMMARY_PROGRESS);
    }
 
    /**
@@ -4604,6 +4676,650 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set the stored material value for this task.
+    *
+    * @param value stored material value
+    */
+   public void setStoredMaterial(Number value)
+   {
+      set(TaskField.STORED_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the stored material value for this task.
+    *
+    * @return stored material value
+    */
+   public Number getStoredMaterial()
+   {
+      return (Number) getCachedValue(TaskField.STORED_MATERIAL);
+   }
+
+   /**
+    * Set the feature of work field.
+    *
+    * @param value feature of work value
+    */
+   public void setFeatureOfWork(String value)
+   {
+      set(TaskField.FEATURE_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the feature of work field.
+    *
+    * @return feature of work value
+    */
+   public String getFeatureOfWork()
+   {
+      return (String) getCachedValue(TaskField.FEATURE_OF_WORK);
+   }
+
+   /**
+    * Set the category of work field.
+    *
+    * @param value category of work value
+    */
+   public void setCategoryOfWork(String value)
+   {
+      set(TaskField.CATEGORY_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the category of work field.
+    *
+    * @return category of work value
+    */
+   public String getCategoryOfWork()
+   {
+      return (String) getCachedValue(TaskField.CATEGORY_OF_WORK);
+   }
+
+   /**
+    * Set the phase of work field.
+    *
+    * @param value phase of work value
+    */
+   public void setPhaseOfWork(String value)
+   {
+      set(TaskField.PHASE_OF_WORK, value);
+   }
+
+   /**
+    * Retrieve the phase of work field.
+    *
+    * @return phase of work value
+    */
+   public String getPhaseOfWork()
+   {
+      return (String) getCachedValue(TaskField.PHASE_OF_WORK);
+   }
+
+   /**
+    * Retrieve the bid item field.
+    *
+    * @param value bid item value
+    */
+   public void setBidItem(String value)
+   {
+      set(TaskField.BID_ITEM, value);
+   }
+
+   /**
+    * Set the bid item field.
+    *
+    * @return bid item value
+    */
+   public String getBidItem()
+   {
+      return (String) getCachedValue(TaskField.BID_ITEM);
+   }
+
+   /**
+    * Retrieve the mod or claim number field.
+    *
+    * @param value mod or claim number value
+    */
+   public void setModOrClaimNumber(String value)
+   {
+      set(TaskField.MOD_OR_CLAIM_NUMBER, value);
+   }
+
+   /**
+    * Retrieve the mod or claim number field.
+    *
+    * @return mod or claim number value
+    */
+   public String getModOrClaimNumber()
+   {
+      return (String) getCachedValue(TaskField.MOD_OR_CLAIM_NUMBER);
+   }
+
+   /**
+    * Set the work area code field.
+    *
+    * @param value work area code value
+    */
+   public void setWorkAreaCode(String value)
+   {
+      set(TaskField.WORK_AREA_CODE, value);
+   }
+
+   /**
+    * Retrieve the work area code field.
+    *
+    * @return work area code value
+    */
+   public String getWorkAreaCode()
+   {
+      return (String) getCachedValue(TaskField.WORK_AREA_CODE);
+   }
+
+   /**
+    * Set the responsibility code field.
+    *
+    * @param value responsibility code value
+    */
+   public void setResponsibilityCode(String value)
+   {
+      set(TaskField.RESPONSIBILITY_CODE, value);
+   }
+
+   /**
+    * Retrieve the responsibility code field.
+    *
+    * @return responsibility code value
+    */
+   public String getResponsibilityCode()
+   {
+      return (String) getCachedValue(TaskField.RESPONSIBILITY_CODE);
+   }
+
+   /**
+    * Set the workers per day field.
+    *
+    * @param value workers per day value
+    */
+   public void setWorkersPerDay(Integer value)
+   {
+      set(TaskField.WORKERS_PER_DAY, value);
+   }
+
+   /**
+    * Retrieve the workers per day field.
+    *
+    * @return workers per day value
+    */
+   public Integer getWorkersPerDay()
+   {
+      return (Integer) getCachedValue(TaskField.WORKERS_PER_DAY);
+   }
+
+   /**
+    * Set the hammock code field.
+    *
+    * @param value hammock code value
+    */
+   public void setHammockCode(Boolean value)
+   {
+      set(TaskField.HAMMOCK_CODE, value);
+   }
+
+   /**
+    * Retrieve the hammock code field.
+    *
+    * @return hammock code value
+    */
+   public Boolean getHammockCode()
+   {
+      return (Boolean) getCachedValue(TaskField.HAMMOCK_CODE);
+   }
+
+   /**
+    * Set the mail field.
+    *
+    * @param value mail value
+    */
+   public void setMail(String value)
+   {
+      set(TaskField.MAIL, value);
+   }
+
+   /**
+    * Retrieve the mail field.
+    *
+    * @return mail value
+    */
+   public String getMail()
+   {
+      return (String) getCachedValue(TaskField.MAIL);
+   }
+
+   /**
+    * Set the section field.
+    *
+    * @param value section value
+    */
+   public void setSection(String value)
+   {
+      set(TaskField.SECTION, value);
+   }
+
+   /**
+    * Retrieve the section field.
+    *
+    * @return section value
+    */
+   public String getSection()
+   {
+      return (String) getCachedValue(TaskField.SECTION);
+   }
+
+   /**
+    * Set the manager field.
+    *
+    * @param value manager value
+    */
+   public void setManager(String value)
+   {
+      set(TaskField.MANAGER, value);
+   }
+
+   /**
+    * Retrieve the manager field.
+    *
+    * @return manager value
+    */
+   public String getManager()
+   {
+      return (String) getCachedValue(TaskField.MANAGER);
+   }
+
+   /**
+    * Set the department field.
+    *
+    * @param value department value
+    */
+   public void setDepartment(String value)
+   {
+      set(TaskField.DEPARTMENT, value);
+   }
+
+   /**
+    * Retrieve the department field.
+    *
+    * @return department value
+    */
+   public String getDepartment()
+   {
+      return (String) getCachedValue(TaskField.DEPARTMENT);
+   }
+
+   /**
+    * Set the overall percent complete field.
+    *
+    * @param value overall percent complete value
+    */
+   public void setOverallPercentComplete(Number value)
+   {
+      set(TaskField.OVERALL_PERCENT_COMPLETE, value);
+   }
+
+   /**
+    * Retrieve the overall percent complete field.
+    *
+    * @return overall percent complete value
+    */
+   public Number getOverallPercentComplete()
+   {
+      return (Number) getCachedValue(TaskField.OVERALL_PERCENT_COMPLETE);
+   }
+
+   /**
+    * Set the planned finish field.
+    *
+    * @param value planned finish value
+    */
+   public void setPlannedFinish(Date value)
+   {
+      set(TaskField.PLANNED_FINISH, value);
+   }
+
+   /**
+    * Retrieve the planned finish field.
+    *
+    * @return planned finish value
+    */
+   public Date getPlannedFinish()
+   {
+      return (Date) getCachedValue(TaskField.PLANNED_FINISH);
+   }
+
+   /**
+    * Set the planned start field.
+    *
+    * @param value planned start value
+    */
+   public void setPlannedStart(Date value)
+   {
+      set(TaskField.PLANNED_START, value);
+   }
+
+   /**
+    * Retrieve the planned start field.
+    *
+    * @return planned start value
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(TaskField.PLANNED_START);
+   }
+
+   /**
+    * Set the planned duration field.
+    *
+    * @param value planned duration value
+    */
+   public void setPlannedDuration(Duration value)
+   {
+      set(TaskField.PLANNED_DURATION, value);
+   }
+
+   /**
+    * Retrieve the planned duration field.
+    *
+    * @return planned duration value
+    */
+   public Duration getPlannedDuration()
+   {
+      return (Duration) getCachedValue(TaskField.PLANNED_DURATION);
+   }
+
+   /**
+    * Set the planned work field.
+    *
+    * @param value planned work value
+    */
+   public void setPlannedWork(Duration value)
+   {
+      set(TaskField.PLANNED_WORK, value);
+   }
+
+   /**
+    * Retrieve the planned work field.
+    *
+    * @return planned work value
+    */
+   public Duration getPlannedWork()
+   {
+      return (Duration) getCachedValue(TaskField.PLANNED_WORK);
+   }
+
+   /**
+    * Set the planned cost field.
+    *
+    * @param value planned cost value
+    */
+   public void setPlannedCost(Number value)
+   {
+      set(TaskField.PLANNED_COST, value);
+   }
+
+   /**
+    * Retrieve the planned cost field.
+    *
+    * @return planned cost value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) getCachedValue(TaskField.PLANNED_COST);
+   }
+
+   /**
+    * Set the suspend date field.
+    *
+    * @param value suspend date value
+    */
+   public void setSuspendDate(Date value)
+   {
+      set(TaskField.SUSPEND_DATE, value);
+   }
+
+   /**
+    * Retrieve the suspend date field.
+    *
+    * @return suspend date value
+    */
+   public Date getSuspendDate()
+   {
+      return (Date) getCachedValue(TaskField.SUSPEND_DATE);
+   }
+
+   /**
+    * Set the primary resource ID.
+    *
+    * @param value primary resource ID
+    */
+   public void setPrimaryResourceID(Integer value)
+   {
+      set(TaskField.PRIMARY_RESOURCE_ID, value);
+   }
+
+   /**
+    * Retrieve the primary resource ID.
+    *
+    * @return primary resource ID
+    */
+   public Integer getPrimaryResourceID()
+   {
+      return (Integer) getCachedValue(TaskField.PRIMARY_RESOURCE_ID);
+   }
+
+   /**
+    * Set the activity ID.
+    *
+    * @param value activity ID value
+    */
+   public void setActivityID(String value)
+   {
+      set(TaskField.ACTIVITY_ID, value);
+   }
+
+   /**
+    * Retrieve a "canonical" version of the Activity ID.
+    * This method handles the case where the Activity ID for
+    * a WBS entry will be prefixed with the Project ID.
+    * This method replaces the Project ID with the text "PROJECT",
+    * which allows WBS entries to be matched by Activity ID
+    * across projects.
+    *
+    * @return canonical Activity ID value
+    */
+   public String getCanonicalActivityID()
+   {
+      String activityID = getActivityID();
+      if (getSummary() && activityID != null)
+      {
+         String projectID = getParentFile().getProjectProperties().getProjectID();
+         if (projectID != null && activityID.startsWith(projectID))
+         {
+            activityID = "PROJECT" + activityID.substring(projectID.length());
+         }
+      }
+      return activityID;
+   }
+
+   /**
+    * Retrieve the activity ID.
+    *
+    * @return activity ID value
+    */
+   public String getActivityID()
+   {
+      return (String) getCachedValue(TaskField.ACTIVITY_ID);
+   }
+
+   /**
+    * Set the percent complete type.
+    *
+    * @param value percent complete type
+    */
+   public void setPercentCompleteType(PercentCompleteType value)
+   {
+      set(TaskField.PERCENT_COMPLETE_TYPE, value);
+   }
+
+   /**
+    * Retrieve the percent complete type.
+    *
+    * @return percent complete type
+    */
+   public PercentCompleteType getPercentCompleteType()
+   {
+      return (PercentCompleteType) getCachedValue(TaskField.PERCENT_COMPLETE_TYPE);
+   }
+
+   /**
+    * Retrieve the activity status.
+    *
+    * @return activity status
+    */
+   public ActivityStatus getActivityStatus()
+   {
+      return (ActivityStatus) getCachedValue(TaskField.ACTIVITY_STATUS);
+   }
+
+   /**
+    * Set the activity status.
+    *
+    * @param value activity status
+    */
+   public void setActivityStatus(ActivityStatus value)
+   {
+      set(TaskField.ACTIVITY_STATUS, value);
+   }
+
+   /**
+    * Retrieve the activity type.
+    *
+    * @return activity type
+    */
+   public ActivityType getActivityType()
+   {
+      return (ActivityType) getCachedValue(TaskField.ACTIVITY_TYPE);
+   }
+
+   /**
+    * Set the activity type.
+    *
+    * @param value activity type
+    */
+   public void setActivityType(ActivityType value)
+   {
+      set(TaskField.ACTIVITY_TYPE, value);
+   }
+
+   /**
+    * Retrieve the longest path.
+    *
+    * @return true if part of the longest path
+    */
+   public Boolean getLongestPath()
+   {
+      return (Boolean) getCachedValue(TaskField.LONGEST_PATH);
+   }
+
+   /**
+    * Set the longest path.
+    *
+    * @param value true if part of the longest path
+    */
+   public void setLongestPath(Boolean value)
+   {
+      set(TaskField.LONGEST_PATH, value);
+   }
+
+   /**
+    * Retrieve the external early start date.
+    *
+    * @return external early start date
+    */
+   public Date getExternalEarlyStart()
+   {
+      return (Date) getCachedValue(TaskField.EXTERNAL_EARLY_START);
+   }
+
+   /**
+    * Set the external early start date.
+    *
+    * @param value external early start date
+    */
+   public void setExternalEarlyStart(Date value)
+   {
+      set(TaskField.EXTERNAL_EARLY_START, value);
+   }
+
+   /**
+    * Retrieve the external late finish date.
+    *
+    * @return external late finish date
+    */
+   public Date getExternalLateFinish()
+   {
+      return (Date) getCachedValue(TaskField.EXTERNAL_LATE_FINISH);
+   }
+
+   /**
+    * Set the external late finish date.
+    *
+    * @param value external late finish date
+    */
+   public void setExternalLateFinish(Date value)
+   {
+      set(TaskField.EXTERNAL_LATE_FINISH, value);
+   }
+
+   /**
+    * Retrieve the Sprint ID.
+    *
+    * @return sprint ID
+    */
+   public Integer getSprintID()
+   {
+      return (Integer) getCachedValue(TaskField.SPRINT_ID);
+   }
+
+   /**
+    * Set the sprint ID.
+    *
+    * @param value sprint ID
+    */
+   public void setSprintID(Integer value)
+   {
+      set(TaskField.SPRINT_ID, value);
+   }
+
+   /**
+    * Retrieve the Board Status ID.
+    *
+    * @return board status ID
+    */
+   public Integer getBoardStatusID()
+   {
+      return (Integer) getCachedValue(TaskField.BOARD_STATUS_ID);
+   }
+
+   /**
+    * Set the Board Status ID.
+    *
+    * @param value board status ID
+    */
+   public void setBoardStatusID(Integer value)
+   {
+      set(TaskField.BOARD_STATUS_ID, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -4679,7 +5395,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Internal method used to locate an remove an item from a list Relations.
+    * Internal method used to locate and remove an item from a list Relations.
     *
     * @param relationList list of Relation instances
     * @param targetTask target relationship task
@@ -4720,17 +5436,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (fields[index - 1]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       Object result = null;
@@ -4741,7 +5451,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          {
             case PARENT_TASK_UNIQUE_ID:
             {
-               result = m_parent == null ? Integer.valueOf(-1) : m_parent.getUniqueID();
+               result = m_parent == null ? null : m_parent.getUniqueID();
                break;
             }
 
@@ -4828,9 +5538,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -4874,88 +5581,81 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          case START:
          case BASELINE_START:
          {
-            m_array[TaskField.START_VARIANCE.getValue()] = null;
+            reset(TaskField.START_VARIANCE);
             break;
          }
 
          case FINISH:
          case BASELINE_FINISH:
          {
-            m_array[TaskField.FINISH_VARIANCE.getValue()] = null;
+            reset(TaskField.FINISH_VARIANCE);
             break;
          }
 
          case COST:
          case BASELINE_COST:
          {
-            m_array[TaskField.COST_VARIANCE.getValue()] = null;
+            reset(TaskField.COST_VARIANCE);
             break;
          }
 
          case DURATION:
          {
-            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
-            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
+            reset(TaskField.DURATION_VARIANCE, TaskField.COMPLETE_THROUGH);
             break;
          }
 
          case BASELINE_DURATION:
          {
-            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
+            reset(TaskField.DURATION_VARIANCE);
             break;
          }
 
          case WORK:
          case BASELINE_WORK:
          {
-            m_array[TaskField.WORK_VARIANCE.getValue()] = null;
+            reset(TaskField.WORK_VARIANCE);
             break;
          }
 
          case BCWP:
          case ACWP:
          {
-            m_array[TaskField.CV.getValue()] = null;
-            m_array[TaskField.SV.getValue()] = null;
+            reset(TaskField.CV, TaskField.SV);
             break;
          }
 
          case BCWS:
          {
-            m_array[TaskField.SV.getValue()] = null;
+            reset(TaskField.SV);
             break;
          }
 
          case START_SLACK:
          case FINISH_SLACK:
          {
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case EARLY_FINISH:
          case LATE_FINISH:
          {
-            m_array[TaskField.FINISH_SLACK.getValue()] = null;
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.FINISH_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case EARLY_START:
          case LATE_START:
          {
-            m_array[TaskField.START_SLACK.getValue()] = null;
-            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
-            m_array[TaskField.CRITICAL.getValue()] = null;
+            reset(TaskField.START_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
             break;
          }
 
          case ACTUAL_START:
          case PERCENT_COMPLETE:
          {
-            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
+            reset(TaskField.COMPLETE_THROUGH);
             break;
          }
 
@@ -4977,9 +5677,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
+   private void reset(TaskField... fields)
+   {
+      Stream.of(fields).forEach(f -> m_array[f.getValue()] = null);
+   }
+
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
@@ -4989,9 +5691,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_listeners.add(listener);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void removeFieldListener(FieldListener listener)
    {
       if (m_listeners != null)
@@ -5011,9 +5710,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]") + (getSubProject() == null ? "" : (" project=" + getSubProject())));
@@ -5094,7 +5790,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[TaskField.MAX_VALUE];
+   private final Object[] m_array = new Object[TaskField.MAX_VALUE];
 
    /**
     * This is a reference to the parent task, as specified by the
@@ -5106,17 +5802,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List<Task> m_children = new ArrayList<>();
+   private final List<Task> m_children = new ArrayList<>();
 
    /**
     * List of resource assignments for this task.
     */
-   private List<ResourceAssignment> m_assignments = new ArrayList<>();
-
-   /**
-    * List of activity codes for this task.
-    */
-   private List<ActivityCodeValue> m_activityCodes = new ArrayList<>();
+   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

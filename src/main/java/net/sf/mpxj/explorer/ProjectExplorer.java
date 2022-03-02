@@ -25,10 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.List;
 
@@ -60,20 +56,16 @@ public class ProjectExplorer
     */
    public static void main(String[] args)
    {
-      EventQueue.invokeLater(new Runnable()
-      {
-         @Override public void run()
+      EventQueue.invokeLater(() -> {
+         try
          {
-            try
-            {
-               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-               ProjectExplorer window = new ProjectExplorer();
-               window.m_frame.setVisible(true);
-            }
-            catch (Exception e)
-            {
-               e.printStackTrace();
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            ProjectExplorer window = new ProjectExplorer();
+            window.m_frame.setVisible(true);
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
          }
       });
    }
@@ -122,6 +114,14 @@ public class ProjectExplorer
       FileSaverView fileSaverView = new FileSaverView(m_frame, fileSaverModel);
       fileSaverModel.setExtensions(WRITE_EXTENSIONS);
 
+      //
+      // Clean
+      //
+      final FileCleanerModel fileCleanerModel = new FileCleanerModel();
+      final FileCleanerController fileCleanerController = new FileCleanerController(fileCleanerModel);
+      @SuppressWarnings("unused")
+      FileCleanerView fileCleanerView = new FileCleanerView(m_frame, fileCleanerModel);
+
       JMenuBar menuBar = new JMenuBar();
       m_frame.setJMenuBar(menuBar);
 
@@ -138,104 +138,91 @@ public class ProjectExplorer
       mntmSave.setEnabled(false);
       mnFile.add(mntmSave);
 
+      final JMenuItem mntmClean = new JMenuItem("Clean...");
+      mntmClean.setEnabled(false);
+      mnFile.add(mntmClean);
+
       //
       // Open
       //
-      mntmOpen.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileChooserController.openFileChooser();
-         }
-      });
+      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
 
       //
       // Open All
       //
-      mntmOpenAll.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            openAllFileChooserController.openFileChooser();
-         }
-      });
+      mntmOpenAll.addActionListener(e -> openAllFileChooserController.openFileChooser());
 
       //
       // Save
       //
-      mntmSave.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileSaverController.openFileSaver();
-         }
-      });
+      mntmSave.addActionListener(e -> fileSaverController.openFileSaver());
+
+      //
+      // Clean
+      //
+      mntmClean.addActionListener(e -> fileCleanerController.openFileCleaner());
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
       PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(fileChooserModel, "file", true);
-      openAdapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
+      openAdapter.addValueChangeListener(evt -> {
+         try
          {
-            try
+            File file = fileChooserModel.getFile();
+            ProjectFile projectFile = new UniversalProjectReader().read(file);
+            if (projectFile == null)
             {
-               File file = fileChooserModel.getFile();
-               ProjectFile projectFile = new UniversalProjectReader().read(file);
-               if (projectFile == null)
-               {
-                  throw new IllegalArgumentException("Unsupported file type");
-               }
-               tabbedPane.add(file.getName(), new ProjectFilePanel(projectFile));
-               mntmSave.setEnabled(true);
+               throw new IllegalArgumentException("Unsupported file type");
             }
+            tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
+            mntmSave.setEnabled(true);
+            mntmClean.setEnabled(true);
+         }
 
-            catch (MPXJException ex)
-            {
-               throw new IllegalArgumentException("Failed to read file", ex);
-            }
+         catch (MPXJException ex)
+         {
+            throw new IllegalArgumentException("Failed to read file", ex);
          }
       });
 
       PropertyAdapter<FileChooserModel> openAllAdapter = new PropertyAdapter<>(openAllFileChooserModel, "file", true);
-      openAllAdapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
+      openAllAdapter.addValueChangeListener(evt -> {
+         try
          {
-            try
+            File file = openAllFileChooserModel.getFile();
+            List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
+            if (projectFiles.isEmpty())
             {
-               File file = openAllFileChooserModel.getFile();
-               List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
-               if (projectFiles.isEmpty())
-               {
-                  throw new IllegalArgumentException("Unsupported file type");
-               }
-
-               int index = 1;
-               for (ProjectFile projectFile : projectFiles)
-               {
-                  String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
-                  tabbedPane.add(name, new ProjectFilePanel(projectFile));
-               }
-               mntmSave.setEnabled(true);
+               throw new IllegalArgumentException("Unsupported file type");
             }
 
-            catch (MPXJException ex)
+            int index = 1;
+            for (ProjectFile projectFile : projectFiles)
             {
-               throw new IllegalArgumentException("Failed to read file", ex);
+               String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
+               tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
             }
+            mntmSave.setEnabled(true);
+            mntmClean.setEnabled(true);
+         }
+
+         catch (MPXJException ex)
+         {
+            throw new IllegalArgumentException("Failed to read file", ex);
          }
       });
 
       PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<>(fileSaverModel, "file", true);
-      saveAdapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
-            panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
-         }
+      saveAdapter.addValueChangeListener(evt -> {
+         ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+         panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
+      });
+
+      PropertyAdapter<FileCleanerModel> cleanAdapter = new PropertyAdapter<>(fileCleanerModel, "file", true);
+      cleanAdapter.addValueChangeListener(evt -> {
+         ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+         panel.cleanFile(fileCleanerModel.getFile());
       });
    }
 

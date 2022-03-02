@@ -290,6 +290,30 @@ public class ProjectConfig
    }
 
    /**
+    * Returns true if a task's Complete Through attribute is reported as
+    * the time work can next start. Defaults to false. When set to true this
+    * matches the behaviour of MS Project versions prior to 2007.
+    *
+    * @return true if Complete Through is next work start date
+    */
+   public boolean getCompleteThroughIsNextWorkStart()
+   {
+      return m_completeThroughIsNextWorkStart;
+   }
+
+   /**
+    * When set to true a task's Complete Through attribute is reported as
+    * the time work can next start. Defaults to false. When set to true this
+    * matches the behaviour of MS Project versions prior to 2007.
+    *
+    * @param completeThroughIsNextWorkStart true if Complete Through is next work start date
+    */
+   public void setCompleteThroughIsNextWorkStart(boolean completeThroughIsNextWorkStart)
+   {
+      m_completeThroughIsNextWorkStart = completeThroughIsNextWorkStart;
+   }
+
+   /**
     * This method is called to ensure that after a project file has been
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
@@ -360,6 +384,26 @@ public class ProjectConfig
             m_assignmentUniqueID = uniqueID;
          }
       }
+   }
+
+   /**
+    * Retrieve the strategy used by this project to populate baseline attributes from another schedule.
+    *
+    * @return baseline strategy
+    */
+   public BaselineStrategy getBaselineStrategy()
+   {
+      return m_baselineStrategy;
+   }
+
+   /**
+    * Set the strategy used by this project to populate baseline attributes from another schedule.
+    *
+    * @param strategy baseline strategy
+    */
+   public void setBaselineStrategy(BaselineStrategy strategy)
+   {
+      m_baselineStrategy = strategy;
    }
 
    private final ProjectFile m_parent;
@@ -448,4 +492,10 @@ public class ProjectConfig
     */
    private int m_resourceID;
 
+   /**
+    * Set to true provides compatibility with MS Project versions prior to 2007.
+    */
+   private boolean m_completeThroughIsNextWorkStart;
+
+   private BaselineStrategy m_baselineStrategy = new DefaultBaselineStrategy();
 }

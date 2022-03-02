@@ -92,7 +92,7 @@ abstract class VarDataFieldReader
                CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
                if (item == null)
                {
-                  // Van't find a value by Unique ID, fall back on the readValue method to make sense of the value.
+                  // Can't find a value by Unique ID, fall back on the readValue method to make sense of the value.
                   result = readValue(varData, id, type);
                }
                else

@@ -1,6 +1,8 @@
 module MPXJ
   # Represents a relationship between a task and a resource in a project plan
   class Assignment < Container
+    include MPXJ::AssignmentMethods
+
     # Retrieve the task associated with this assignment
     #
     # @return [Task] the task associated with this assignment.

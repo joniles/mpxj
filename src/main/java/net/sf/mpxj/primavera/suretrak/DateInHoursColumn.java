@@ -51,5 +51,5 @@ class DateInHoursColumn extends AbstractIntColumn
    }
 
    // 31/12/1979
-   private static final long EPOCH = 315446400000l;
+   private static final long EPOCH = 315446400000L;
 }

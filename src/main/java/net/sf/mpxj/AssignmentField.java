@@ -108,7 +108,7 @@ public enum AssignmentField implements FieldType
    COST_VARIANCE(DataType.CURRENCY),
    PERCENT_WORK_COMPLETE(DataType.PERCENTAGE),
    PROJECT(DataType.STRING),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    CONFIRMED(DataType.BOOLEAN),
    RESPONSE_PENDING(DataType.BOOLEAN),
    UPDATE_NEEDED(DataType.BOOLEAN),
@@ -520,6 +520,10 @@ public enum AssignmentField implements FieldType
    HYPERLINK_DATA(DataType.BINARY),
    RESUME(DataType.DATE),
    STOP(DataType.DATE),
+   PLANNED_WORK(DataType.WORK),
+   PLANNED_COST(DataType.CURRENCY),
+   PLANNED_START(DataType.DATE),
+   PLANNED_FINISH(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.STRING),
@@ -582,7 +586,7 @@ public enum AssignmentField implements FieldType
     * @param dataType field data type
     * @param unitsType units type
     */
-   private AssignmentField(DataType dataType, FieldType unitsType)
+   AssignmentField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -593,30 +597,21 @@ public enum AssignmentField implements FieldType
     *
     * @param dataType field data type
     */
-   private AssignmentField(DataType dataType)
+   AssignmentField(DataType dataType)
    {
       this(dataType, null);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.ASSIGNMENT;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.ASSIGNMENT_COLUMNS);
@@ -630,25 +625,16 @@ public enum AssignmentField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
       return m_unitsType;
@@ -696,6 +682,6 @@ public enum AssignmentField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

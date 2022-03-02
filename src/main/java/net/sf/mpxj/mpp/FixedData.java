@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class is used to represent the "FixedData" file entries that are
@@ -98,8 +99,7 @@ final class FixedData extends MPPComponent
    FixedData(FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
       throws IOException
    {
-      byte[] buffer = new byte[is.available()];
-      is.read(buffer);
+      byte[] buffer = InputStreamHelper.read(is, is.available());
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
@@ -144,14 +144,7 @@ final class FixedData extends MPPComponent
             }
             else
             {
-               if (maxExpectedSize < available)
-               {
-                  itemSize = maxExpectedSize;
-               }
-               else
-               {
-                  itemSize = available;
-               }
+               itemSize = Math.min(maxExpectedSize, available);
             }
          }
 
@@ -176,13 +169,11 @@ final class FixedData extends MPPComponent
     * @param meta meta data about the contents of this fixed data block
     * @param itemSize expected item size
     * @param is input stream from which the data is read
-    * @throws IOException
     */
    FixedData(FixedMeta meta, int itemSize, InputStream is)
       throws IOException
    {
-      byte[] buffer = new byte[is.available()];
-      is.read(buffer);
+      byte[] buffer = InputStreamHelper.read(is, is.available());
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
@@ -255,7 +246,7 @@ final class FixedData extends MPPComponent
    {
       int offset = 0;
       int itemCount = is.available() / itemSize;
-      if (readRemainderBlock == true && is.available() % itemSize != 0)
+      if (readRemainderBlock && is.available() % itemSize != 0)
       {
          ++itemCount;
       }
@@ -268,7 +259,7 @@ final class FixedData extends MPPComponent
          m_offset[loop] = offset;
 
          int currentItemSize = itemSize;
-         if (readRemainderBlock == true && is.available() < itemSize)
+         if (readRemainderBlock && is.available() < itemSize)
          {
             currentItemSize = is.available();
          }
@@ -318,7 +309,7 @@ final class FixedData extends MPPComponent
     */
    public boolean isValidOffset(Integer offset)
    {
-      return (offset == null ? false : isValidOffset(offset.intValue()));
+      return (offset != null && isValidOffset(offset.intValue()));
    }
 
    /**
@@ -384,11 +375,11 @@ final class FixedData extends MPPComponent
    /**
     * An array containing all of the items of data held in this block.
     */
-   private Object[] m_array;
+   private final Object[] m_array;
 
    /**
     * Array containing offset values for each item in the array.
     */
-   private int[] m_offset;
+   private final int[] m_offset;
 
 }

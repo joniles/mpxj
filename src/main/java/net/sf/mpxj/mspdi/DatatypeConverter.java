@@ -32,7 +32,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.AccrueType;
@@ -85,7 +87,7 @@ public final class DatatypeConverter
    {
       Number result;
 
-      if (value == null)
+      if (value == null || value.isEmpty())
       {
          result = null;
       }
@@ -186,7 +188,7 @@ public final class DatatypeConverter
    public static final Date parseOutlineCodeValueDate(String value)
    {
       Date result = null;
-      if (value != null)
+      if (value != null && !value.isEmpty())
       {
          long rawValue = Long.parseLong(value);
          long dateMS = ((rawValue / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
@@ -579,7 +581,9 @@ public final class DatatypeConverter
     */
    public static final String printWorkContour(WorkContour value)
    {
-      return (Integer.toString(value == null ? WorkContour.FLAT.getValue() : value.getValue()));
+      // TODO: mapping from custom contours (e.g. from P6) to MS Project defaults
+      String result = WORK_CONTOUR_MAP.get(value);
+      return result == null ? WORK_CONTOUR_MAP.get(WorkContour.FLAT) : result;
    }
 
    /**
@@ -667,7 +671,16 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printUnits(Number value)
    {
-      return (value == null ? BIGDECIMAL_ONE : new BigDecimal(value.doubleValue() / 100));
+      BigDecimal result;
+      if (value == null)
+      {
+         result = BIGDECIMAL_ONE;
+      }
+      else
+      {
+         result = new BigDecimal(UNITS_NUMBER_FORMAT.get().format(value.doubleValue() / 100));
+      }
+      return result;
    }
 
    /**
@@ -909,20 +922,6 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_YEARS:
-            {
-               //
-               // Calculate the number of years
-               //
-               duration += xsd.getYears();
-               duration += ((double) xsd.getMonths() / 12);
-               duration += ((double) xsd.getDays() / 365);
-               duration += ((double) xsd.getHours() / (365 * 24));
-               duration += ((double) xsd.getMinutes() / (365 * 24 * 60));
-               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
-               break;
-            }
-
             case MONTHS:
             {
                //
@@ -934,48 +933,6 @@ public final class DatatypeConverter
                duration += ((double) xsd.getHours() / (30 * 24));
                duration += ((double) xsd.getMinutes() / (30 * 24 * 60));
                duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               break;
-            }
-
-            case ELAPSED_MONTHS:
-            {
-               //
-               // Calculate the number of months
-               //
-               duration += (xsd.getYears() * 12);
-               duration += xsd.getMonths();
-               duration += ((double) xsd.getDays() / 30);
-               duration += ((double) xsd.getHours() / (30 * 24));
-               duration += ((double) xsd.getMinutes() / (30 * 24 * 60));
-               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               break;
-            }
-
-            case WEEKS:
-            {
-               //
-               // Calculate the number of weeks
-               //
-               duration += (xsd.getYears() * 52);
-               duration += (xsd.getMonths() * 4);
-               duration += ((double) xsd.getDays() / 7);
-               duration += ((double) xsd.getHours() / (7 * 24));
-               duration += ((double) xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
-               break;
-            }
-
-            case ELAPSED_WEEKS:
-            {
-               //
-               // Calculate the number of weeks
-               //
-               duration += (xsd.getYears() * 52);
-               duration += (xsd.getMonths() * 4);
-               duration += ((double) xsd.getDays() / 7);
-               duration += ((double) xsd.getHours() / (7 * 24));
-               duration += ((double) xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -993,22 +950,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case ELAPSED_DAYS:
-            {
-               //
-               // Calculate the number of days
-               //
-               duration += (xsd.getYears() * 365);
-               duration += (xsd.getMonths() * 30);
-               duration += xsd.getDays();
-               duration += ((double) xsd.getHours() / 24);
-               duration += ((double) xsd.getMinutes() / (24 * 60));
-               duration += (xsd.getSeconds() / (24 * 60 * 60));
-               break;
-            }
-
             case HOURS:
-            case ELAPSED_HOURS:
             {
                //
                // Calculate the number of hours
@@ -1151,7 +1093,27 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printCurrency(Number value)
    {
-      return (value == null || value.doubleValue() == 0 ? null : new BigDecimal(value.doubleValue() * 100));
+      return value == null || value.doubleValue() == 0 ? null : printCurrencyMandatory(value);
+   }
+
+   /**
+    * Print currency.
+    *
+    * @param value currency value
+    * @return currency value
+    */
+   public static final BigDecimal printCurrencyMandatory(Number value)
+   {
+      BigDecimal result;
+      if (value == null || value.doubleValue() == 0)
+      {
+         result = BIGDECIMAL_ZERO;
+      }
+      else
+      {
+         result = new BigDecimal(CURRENCY_NUMBER_FORMAT.get().format(value.doubleValue() * 100));
+      }
+      return result;
    }
 
    /**
@@ -1557,7 +1519,7 @@ public final class DatatypeConverter
     * @param factor required fraction of a minute
     * @return Duration instance
     */
-   private static final Duration parseDurationInFractionsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit, int factor)
+   private static Duration parseDurationInFractionsOfMinutes(ProjectProperties properties, Number value, TimeUnit targetTimeUnit, int factor)
    {
       Duration result = null;
 
@@ -1580,7 +1542,7 @@ public final class DatatypeConverter
     * @param factor required factor
     * @return duration represented as an arbitrary fraction of minutes
     */
-   private static final double printDurationFractionsOfMinutes(Duration duration, int factor)
+   private static double printDurationFractionsOfMinutes(Duration duration, int factor)
    {
       double result = 0;
 
@@ -1665,10 +1627,25 @@ public final class DatatypeConverter
     */
    public static final BigDecimal printRate(Rate rate)
    {
-      BigDecimal result = null;
-      if (rate != null && rate.getAmount() != 0)
+      return rate == null || rate.getAmount() == 0 ? null : printRateMandatory(rate);
+   }
+
+   /**
+    * Print rate.
+    *
+    * @param rate Rate instance
+    * @return rate value
+    */
+   public static final BigDecimal printRateMandatory(Rate rate)
+   {
+      BigDecimal result;
+      if (rate == null || rate.getAmount() == 0)
       {
-         result = new BigDecimal(rate.getAmount());
+         result = BIGDECIMAL_ZERO;
+      }
+      else
+      {
+         result = new BigDecimal(RATE_NUMBER_FORMAT.get().format(rate.getAmount()));
       }
       return result;
    }
@@ -1739,13 +1716,13 @@ public final class DatatypeConverter
 
       switch (value)
       {
-         case MANDATORY_START:
+         case START_ON:
          {
             value = ConstraintType.MUST_START_ON;
             break;
          }
 
-         case MANDATORY_FINISH:
+         case FINISH_ON:
          {
             value = ConstraintType.MUST_FINISH_ON;
             break;
@@ -1941,7 +1918,7 @@ public final class DatatypeConverter
     * @param value original numeric value
     * @return corrected numeric value
     */
-   private static final String correctNumberFormat(String value)
+   private static String correctNumberFormat(String value)
    {
       String result;
       int index = value.indexOf(',');
@@ -1958,38 +1935,62 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
-   {
-      @Override protected DateFormat initialValue()
-      {
-         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         return df;
-      }
-   };
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
 
-   private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = new ThreadLocal<NumberFormat>()
-   {
-      @Override protected NumberFormat initialValue()
-      {
-         // XML numbers should use . as decimal separator and no grouping.
-         DecimalFormat format = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
-         format.setGroupingUsed(false);
-         return format;
-      }
-   };
+   private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
+   private static final ThreadLocal<NumberFormat> UNITS_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
+   private static final ThreadLocal<NumberFormat> RATE_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
+
+   private static final ThreadLocal<NumberFormat> CURRENCY_NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
+      // XML numbers should use . as decimal separator and no grouping.
+      DecimalFormat format = new DecimalFormat("#.####", new DecimalFormatSymbols(Locale.US));
+      format.setGroupingUsed(false);
+      return format;
+   });
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
 
+   private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
+
+   private static final Map<WorkContour, String> WORK_CONTOUR_MAP = new HashMap<>();
+   static
+   {
+      WORK_CONTOUR_MAP.put(WorkContour.FLAT, "0");
+      WORK_CONTOUR_MAP.put(WorkContour.BACK_LOADED, "1");
+      WORK_CONTOUR_MAP.put(WorkContour.FRONT_LOADED, "2");
+      WORK_CONTOUR_MAP.put(WorkContour.DOUBLE_PEAK, "3");
+      WORK_CONTOUR_MAP.put(WorkContour.EARLY_PEAK, "4");
+      WORK_CONTOUR_MAP.put(WorkContour.LATE_PEAK, "5");
+      WORK_CONTOUR_MAP.put(WorkContour.BELL, "6");
+      WORK_CONTOUR_MAP.put(WorkContour.TURTLE, "7");
+      WORK_CONTOUR_MAP.put(WorkContour.CONTOURED, "8");
+   }
 }

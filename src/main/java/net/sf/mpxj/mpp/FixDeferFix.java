@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.util.TreeSet;
 
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * This class represents the a block of variable length data items that appears
@@ -46,8 +47,7 @@ final class FixDeferFix extends MPPComponent
    FixDeferFix(InputStream is)
       throws IOException
    {
-      m_data = new byte[is.available()];
-      is.read(m_data);
+      m_data = InputStreamHelper.read(is, is.available());
    }
 
    /**
@@ -160,11 +160,9 @@ final class FixDeferFix extends MPPComponent
       int available = m_data.length;
 
       //
-      // 4 byte header
+      // Skip 4 byte header
       //
-      int fileOffset = 0;
-      MPPUtility.getInt(m_data, fileOffset);
-      fileOffset += 4;
+      int fileOffset = 4;
 
       //
       // Read data
@@ -192,7 +190,7 @@ final class FixDeferFix extends MPPComponent
          }
 
          temp = Integer.valueOf(fileOffset);
-         if (read.add(temp) == false)
+         if (!read.add(temp))
          {
             fileOffset = available;
             continue;
@@ -232,7 +230,7 @@ final class FixDeferFix extends MPPComponent
             }
 
             temp = Integer.valueOf(fileOffset);
-            if (read.add(temp) == false)
+            if (!read.add(temp))
             {
                fileOffset = available;
                continue;
@@ -263,5 +261,5 @@ final class FixDeferFix extends MPPComponent
       return (sw.toString());
    }
 
-   private byte[] m_data;
+   private final byte[] m_data;
 }

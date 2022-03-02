@@ -62,9 +62,9 @@ public class CalendarCalendarsTest
    private void testCalendars(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       ProjectFile project = reader.read(file);
@@ -81,6 +81,6 @@ public class CalendarCalendarsTest
       assertEquals("Calendar1", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
       assertEquals("Calendar2", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
       assertEquals("Resource One", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
-      assertEquals("Resource Two", calendars.getByUniqueID(Integer.valueOf(id++)).getName());
+      assertEquals("Resource Two", calendars.getByUniqueID(Integer.valueOf(id)).getName());
    }
 }

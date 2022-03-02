@@ -47,8 +47,6 @@ public class ProjectCalendarTest
 {
    /**
     * Test get getWork method.
-    *
-    * @throws Exception
     */
    @Test public void testGetWork() throws Exception
    {
@@ -228,8 +226,6 @@ public class ProjectCalendarTest
 
    /**
     * Exercise various duration variance calculations.
-    *
-    * @throws Exception
     */
    @Test public void testVarianceCalculations9() throws Exception
    {
@@ -424,8 +420,6 @@ public class ProjectCalendarTest
 
    /**
     * Exercise various duration variance calculations.
-    *
-    * @throws Exception
     */
    @Test public void testVarianceCalculations8() throws Exception
    {
@@ -501,8 +495,6 @@ public class ProjectCalendarTest
 
    /**
     * Simple tests to exercise the ProjectCalendar.getDate method.
-    *
-    * @throws Exception
     */
    @Test public void testGetDate() throws Exception
    {
@@ -691,8 +683,6 @@ public class ProjectCalendarTest
 
    /**
     * Simple tests to exercise the ProjectCalendar.getStartTime method.
-    *
-    * @throws Exception
     */
    @Test public void testStartTime() throws Exception
    {

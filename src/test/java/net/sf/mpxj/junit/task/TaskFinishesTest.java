@@ -66,9 +66,9 @@ public class TaskFinishesTest
    private void testTaskFinishDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader)
+      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
       {
-         assumeJvm();
+         return;
       }
 
       boolean isMpxFile = reader instanceof MPXReader;
@@ -103,8 +103,8 @@ public class TaskFinishesTest
       }
    }
 
-   private DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-   private DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
    private static final String[] DATES = new String[]
    {

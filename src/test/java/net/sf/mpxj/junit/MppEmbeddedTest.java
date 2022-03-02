@@ -23,16 +23,19 @@
 
 package net.sf.mpxj.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpp.RTFEmbeddedObject;
-
-import org.junit.Test;
 
 /**
  * Test to handle MPP file content embedded in note fields.
@@ -41,78 +44,60 @@ public class MppEmbeddedTest
 {
    /**
     * Test MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
 
    /**
     * Test MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From12Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded-from12.mpp"));
       testEmbeddedObjects(mpp);
    }
 
    /**
     * Test MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9embedded-from14.mpp"));
       testEmbeddedObjects(mpp);
    }
 
    /**
     * Test MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
 
    /**
     * Test MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12From14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp12embedded-from14.mpp"));
       testEmbeddedObjects(mpp);
    }
 
    /**
     * Test MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(true);
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp14embedded.mpp"));
       testEmbeddedObjects(mpp);
    }
@@ -126,14 +111,14 @@ public class MppEmbeddedTest
    {
       Task task = file.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task.getName());
-      String notes = task.getNotes();
+      RtfNotes notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       List<List<RTFEmbeddedObject>> list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNull(list);
 
       task = file.getTaskByID(Integer.valueOf(2));
       assertEquals("Task 2", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -145,7 +130,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(3));
       assertEquals("Task 3", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -157,7 +142,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(4));
       assertEquals("Task 4", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -169,7 +154,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(5));
       assertEquals("Task 5", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -181,7 +166,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(6));
       assertEquals("Task 6", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);
@@ -197,7 +182,7 @@ public class MppEmbeddedTest
 
       task = file.getTaskByID(Integer.valueOf(7));
       assertEquals("Task 7", task.getName());
-      notes = task.getNotes();
+      notes = (RtfNotes) task.getNotesObject();
       assertNotNull(notes);
       list = RTFEmbeddedObject.getEmbeddedObjects(notes);
       assertNotNull(list);

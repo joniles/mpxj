@@ -43,6 +43,8 @@ class TaskReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
+      int unknown5Size = stream.getVersion().before(Synchro.VERSION_6_3_0) ? 85 : 84;
+
       map.put("UNKNOWN1", stream.readByte());
       map.put("RESOURCE_ASSIGNMENTS", stream.readTable(ResourceAssignmentReader.class));
       map.put("UNKNOWN2", stream.readBytes(4));
@@ -63,7 +65,8 @@ class TaskReader extends TableReader
       map.put("UNKNOWN_DATE3_EXTRA", stream.readBytes(4));
       map.put("ACTUAL_FINISH", stream.readDate());
       map.put("UNKNOWN_DATE4_EXTRA", stream.readBytes(4));
-      map.put("UNKNOWN5", stream.readUnknownTableConditional(85, 0x72B5E632));
+      // Note: contains an embedded table
+      map.put("UNKNOWN5", stream.readUnknownTableConditional(unknown5Size, 0x72B5E632));
       map.put("UNKNOWN6", stream.readBytes(2));
       map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
       map.put("FILES", stream.readUnknownBlocks(20));
@@ -73,7 +76,9 @@ class TaskReader extends TableReader
       map.put("CONSTRAINT_EARLY_DATE_EXTRA", stream.readBytes(4));
       map.put("CONSTRAINT_LATE_DATE", stream.readDate());
       map.put("CONSTRAINT_LATE_DATE_EXTRA", stream.readBytes(4));
-      map.put("UNKNOWN8", stream.readBytes(78));
+      map.put("UNKNOWN8A", stream.readBytes(40));
+      map.put("UNKNOWN8B", stream.readUnknownBlocks(20));
+      map.put("UNKNOWN8C", stream.readBytes(26));
       map.put("URL", stream.readString());
       map.put("PROGRESS_TYPE", stream.readInteger());
       map.put("PERCENT_COMPLETE", stream.readDouble());

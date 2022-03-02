@@ -43,8 +43,6 @@ class ResourceReader extends TableReader
 
    @Override protected void readRow(StreamReader stream, Map<String, Object> map) throws IOException
    {
-      int unknown3BlockSize = stream.getVersion().atLeast(Synchro.VERSION_6_0_0) ? 56 : 64;
-
       map.put("NAME", stream.readString());
       map.put("DESCRIPTION", stream.readString());
       Integer supplyReferenceFlag = stream.readInteger();
@@ -60,8 +58,7 @@ class ResourceReader extends TableReader
       map.put("USER_FIELDS", stream.readTableConditional(UserFieldReader.class));
       map.put("ID", stream.readString());
       map.put("EMAIL", stream.readString());
-      // NOTE: this contains nested tables
-      map.put("UNKNOWN3", stream.readUnknownTable(unknown3BlockSize, 0x701BAFBD));
+      map.put("COST_CONTAINER", stream.readTable(ResourceCostContainerReader.class));
       map.put("UNKNOWN4", stream.readBytes(30));
       map.put("COMMENTARY", stream.readTableConditional(CommentaryReader.class));
 

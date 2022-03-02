@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * This class implements a tokenizer based loosely on
  * java.io.StreamTokenizer. This tokenizer is designed to parse records from
- * an MPX file correctly. In particular it will handle empty fields,
+ * an MPX file correctly. In particular, it will handle empty fields,
  * represented by adjacent field delimiters.
  */
 public abstract class Tokenizer
@@ -38,7 +38,6 @@ public abstract class Tokenizer
     * data source.
     *
     * @return next character
-    * @throws IOException
     */
    protected abstract int read() throws IOException;
 
@@ -114,22 +113,23 @@ public abstract class Tokenizer
 
             default:
             {
-               if (c == m_quote)
+               char quote = '"';
+               if (c == quote)
                {
-                  if (quoted == false && startQuotedIsValid(m_buffer))
+                  if (!quoted && startQuotedIsValid(m_buffer))
                   {
                      quoted = true;
                   }
                   else
                   {
-                     if (quoted == false)
+                     if (!quoted)
                      {
                         m_buffer.append((char) c);
                      }
                      else
                      {
                         nextc = read();
-                        if (nextc == m_quote)
+                        if (nextc == quote)
                         {
                            m_buffer.append((char) c);
                            nextc = -1;
@@ -143,7 +143,7 @@ public abstract class Tokenizer
                }
                else
                {
-                  if (c == m_delimiter && quoted == false)
+                  if (c == m_delimiter && !quoted)
                   {
                      result = TT_WORD;
                   }
@@ -165,7 +165,7 @@ public abstract class Tokenizer
     * This method allows us to control the behaviour of the tokenizer for
     * quoted text. Normally quoted text begins with a quote character
     * at the first position within a field. As this method is protected,
-    * sub classes can alter this behaviour if required.
+    * subclasses can alter this behaviour if required.
     *
     * @param buffer the field contents read so far
     * @return true if it is valid to treat the subsequent text as quoted
@@ -210,9 +210,8 @@ public abstract class Tokenizer
    public static final int TT_EOF = -1;
    public static final int TT_WORD = -3;
 
-   private char m_quote = '"';
    private char m_delimiter = ',';
    private int m_next;
    private int m_type;
-   private StringBuilder m_buffer = new StringBuilder();
+   private final StringBuilder m_buffer = new StringBuilder();
 }

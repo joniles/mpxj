@@ -156,7 +156,6 @@ public class Blast
    public int blast(InputStream input, OutputStream output) throws IOException
    {
       m_input = input;
-      m_output = output;
 
       int lit; /* true if literals are coded */
       int dict; /* log2(dictionary size) - 6 */
@@ -229,7 +228,7 @@ public class Blast
                if (m_next == MAXWIN)
                {
                   //if (s->outfun(s->outhow, s->out, s->next)) return 1;
-                  m_output.write(m_out, 0, m_next);
+                  output.write(m_out, 0, m_next);
                   m_next = 0;
                   m_first = 0;
                }
@@ -244,7 +243,7 @@ public class Blast
             if (m_next == MAXWIN)
             {
                //if (s->outfun(s->outhow, s->out, s->next)) return 1;
-               m_output.write(m_out, 0, m_next);
+               output.write(m_out, 0, m_next);
                m_next = 0;
                m_first = 0;
             }
@@ -254,7 +253,7 @@ public class Blast
 
       if (m_next != 0)
       {
-         m_output.write(m_out, 0, m_next);
+         output.write(m_out, 0, m_next);
       }
 
       return 0;
@@ -489,12 +488,11 @@ public class Blast
    private int m_bitbuf;
    private int m_bitcnt;
    private InputStream m_input;
-   private OutputStream m_output;
    private int m_left;
    private int m_in;
    private int m_first;
    private int m_next;
-   private byte[] m_out = new byte[MAXWIN];
+   private final byte[] m_out = new byte[MAXWIN];
 
    private static final int MAXBITS = 13; /* maximum code length */
    private static final int MAXWIN = 4096; /* maximum window size */
@@ -694,6 +692,6 @@ class Huffman
       m_symbol = new short[symbolSize];
    }
 
-   short[] m_count;
-   short[] m_symbol;
+   final short[] m_count;
+   final short[] m_symbol;
 }

@@ -23,44 +23,44 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;all>
- *         &lt;element name="GridColumns">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="Column" maxOccurs="unbounded">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                             &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="TextBoxVisible" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="ShowCriticalPath" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="ShowPlannedComplete" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="ShowCompleteChangeValue" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="ShowCompleteChangeRate" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="GridTextWrap" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/>
- *       &lt;/all>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;all&gt;
+ *         &lt;element name="GridColumns"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="Column" maxOccurs="unbounded"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                             &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *         &lt;element name="TextBoxVisible" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="ShowCriticalPath" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="ShowPlannedComplete" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="ShowCompleteChangeValue" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="ShowCompleteChangeRate" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="GridTextWrap" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ActiveFilter" minOccurs="0"/&gt;
+ *       &lt;/all&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *
@@ -293,27 +293,27 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="Column" maxOccurs="unbounded">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                   &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="Column" maxOccurs="unbounded"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                   &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -363,17 +363,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *         &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="Index" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *         &lt;element name="Width" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *

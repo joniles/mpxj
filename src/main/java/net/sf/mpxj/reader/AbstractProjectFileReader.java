@@ -39,9 +39,6 @@ import net.sf.mpxj.common.InputStreamHelper;
  */
 public abstract class AbstractProjectFileReader extends AbstractProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
@@ -56,9 +53,6 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
       return readAll(new File(fileName));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       File tempFile = null;

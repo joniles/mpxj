@@ -48,8 +48,6 @@ public class MppFilterTest
 {
    /**
     * Test filter data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Filters() throws Exception
    {
@@ -59,10 +57,8 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp9FiltersFrom12() throws Exception
+   @Test public void testMpp9FiltersFrom12()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filter-from12.mpp");
       //executeTests(mpp);
@@ -70,10 +66,8 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp9FiltersFrom14() throws Exception
+   @Test public void testMpp9FiltersFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9filter-from14.mpp");
       //executeTests(mpp);
@@ -81,8 +75,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Filters() throws Exception
    {
@@ -92,8 +84,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12FiltersFrom14() throws Exception
    {
@@ -103,8 +93,6 @@ public class MppFilterTest
 
    /**
     * Test filter data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Filters() throws Exception
    {
@@ -156,7 +144,7 @@ public class MppFilterTest
       assertEquals("(Flag1 EQUALS true)", filter.getCriteria().toString());
 
       filter = filters.getFilterByName("Filter 7");
-      assertEquals("(Date1 EQUALS Tue Jul 18 00:00:00 BST 2006)", filter.getCriteria().toString());
+      assertEquals("(Date1 EQUALS 18/07/2006 00:00)", filter.getCriteria().toString());
 
       //
       // Test all operators

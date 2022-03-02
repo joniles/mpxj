@@ -24,6 +24,8 @@
 package net.sf.mpxj.primavera;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,14 +59,17 @@ public final class DatatypeConverter
             {
                // Standard XER representation: CrkTPqCalki5irI4SJSsRA
                byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
-               long msb = 0;
+
+               long msb = (data[3] & 0xff);
+               msb = (msb << 8) | (data[2] & 0xff);
+               msb = (msb << 8) | (data[1] & 0xff);
+               msb = (msb << 8) | (data[0] & 0xff);
+               msb = (msb << 8) | (data[5] & 0xff);
+               msb = (msb << 8) | (data[4] & 0xff);
+               msb = (msb << 8) | (data[7] & 0xff);
+               msb = (msb << 8) | (data[6] & 0xff);
+
                long lsb = 0;
-
-               for (int i = 0; i < 8; i++)
-               {
-                  msb = (msb << 8) | (data[i] & 0xff);
-               }
-
                for (int i = 8; i < 16; i++)
                {
                   lsb = (lsb << 8) | (data[i] & 0xff);
@@ -167,23 +172,112 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>()
+   /**
+    * Parse a Boolean.
+    *
+    * @param value value as text
+    * @return Boolean instance
+    */
+   public static final Boolean parseBoolean(String value)
    {
-      @Override protected DateFormat initialValue()
+      // We don't need to provide this method, we could just leave it out
+      // of the binding file and fall back on default behaviour, but
+      // having the code here avoids boxing warnings from the adapters.
+      Boolean result;
+      if (value == null)
       {
-         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-         return df;
+         result = null;
       }
-   };
+      else
+      {
+         // Fall back on the standard behaviour
+         result = Boolean.valueOf(javax.xml.bind.DatatypeConverter.parseBoolean(value));
+      }
+      return result;
+   }
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat>()
+   /**
+    * Print a Boolean.
+    *
+    * @param value Boolean value
+    * @return string representation
+    */
+   public static final String printBoolean(Boolean value)
    {
-      @Override protected DateFormat initialValue()
+      String result;
+      if (value == null)
       {
-         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-         df.setLenient(false);
-         return df;
+         result = null;
       }
-   };
+      else
+      {
+         result = value.booleanValue() ? "1" : "0";
+      }
+
+      return result;
+   }
+
+   /**
+    * Parse a double value.
+    *
+    * @param value Double value as a string
+    * @return Double instance
+    */
+   public static final Double parseDouble(String value)
+   {
+      // We don't need to provide this method, we could just leave it out
+      // of the binding file and fall back on default behaviour, but
+      // having the code here avoids boxing warnings from the adapters.
+      Double result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         // Fall back on the standard behaviour
+         result = Double.valueOf(javax.xml.bind.DatatypeConverter.parseDouble(value));
+      }
+      return result;
+   }
+
+   /**
+    * Print a double value. P6 seems to be fussy about having values
+    * without decimals if they are whole numbers, hence the need for this method.
+    *
+    * @param value double value
+    * @return string representation
+    */
+   public static final String printDouble(Double value)
+   {
+      String result;
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         result = DOUBLE_FORMAT.get().format(value.doubleValue());
+      }
+
+      return result;
+   }
+
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
+
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      df.setLenient(false);
+      return df;
+   });
+
+   private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
+      DecimalFormat format = new DecimalFormat("#.##");
+      format.setGroupingUsed(false);
+      return format;
+   });
 }

@@ -46,8 +46,6 @@ public class MppProjectPropertiesTest
 {
    /**
     * Test project properties read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9() throws Exception
    {
@@ -57,8 +55,6 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From12() throws Exception
    {
@@ -68,8 +64,6 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9From14() throws Exception
    {
@@ -79,8 +73,6 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12() throws Exception
    {
@@ -90,8 +82,6 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12From14() throws Exception
    {
@@ -101,8 +91,6 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14() throws Exception
    {
@@ -112,12 +100,10 @@ public class MppProjectPropertiesTest
 
    /**
     * Test project properties read from an MPD9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpd9() throws Exception
    {
-      assumeJvm();
+      assumeMicrosoftAccessJdbcAvailable();
       ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9header.mpd"));
       testProperties(mpp, false);
    }

@@ -48,7 +48,7 @@ public enum CodePage
     * @param value MPX code page name
     * @param charset Java character set name
     */
-   private CodePage(String value, Charset charset)
+   CodePage(String value, Charset charset)
    {
       m_value = value;
       m_charset = charset;
@@ -85,8 +85,8 @@ public enum CodePage
       return (m_value);
    }
 
-   private String m_value;
-   private Charset m_charset;
+   private final String m_value;
+   private final Charset m_charset;
 
    private static final Map<String, CodePage> NAME_MAP = new HashMap<>();
    static

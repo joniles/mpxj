@@ -42,35 +42,23 @@ import net.sf.mpxj.common.MPPTaskField14;
  */
 public final class GanttChartView14 extends GanttChartView
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override protected Integer getPropertiesID()
    {
       return (PROPERTIES);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processDefaultBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyles = f.processDefaultStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processExceptionBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyleExceptions = f.processExceptionStyles(props);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processAutoFilters(byte[] data)
    {
       //System.out.println(ByteArrayHelper.hexdump(data, true, 16, ""));
@@ -138,9 +126,6 @@ public final class GanttChartView14 extends GanttChartView
       return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(fieldIndex));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
       byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
@@ -256,7 +241,7 @@ public final class GanttChartView14 extends GanttChartView
     * @param ignoreBackground set background to default values
     * @return FontStyle instance
     */
-   protected FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases, boolean ignoreBackground)
+   private FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases, boolean ignoreBackground)
    {
       //System.out.println(ByteArrayHelper.hexdump(data, offset, 32, false));
 
@@ -283,14 +268,10 @@ public final class GanttChartView14 extends GanttChartView
       boolean underline = ((style & 0x04) != 0);
       boolean strikethrough = ((style & 0x08) != 0);
 
-      FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern);
       //System.out.println(fontStyle);
-      return fontStyle;
+      return new FontStyle(fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processTableFontStyles(Map<Integer, FontBase> fontBases, byte[] columnData)
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(columnData, false, 44, "").getBytes());
@@ -331,14 +312,10 @@ public final class GanttChartView14 extends GanttChartView
       boolean backgroundPatternChanged = ((change & 0x80) != 0);
       boolean strikethroughChanged = ((change & 0x100) != 0);
 
-      TableFontStyle tfs = new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern, italicChanged, boldChanged, underlineChanged, strikethroughChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged);
       //System.out.println(tfs);
-      return tfs;
+      return new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, strikethrough, color, backgroundColor, backgroundPattern, italicChanged, boldChanged, underlineChanged, strikethroughChanged, colorChanged, fontChanged, backgroundColorChanged, backgroundPatternChanged);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override protected void processProgressLines(Map<Integer, FontBase> fontBases, byte[] progressLineData)
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(progressLineData, false, 16, "").getBytes());
@@ -403,7 +380,6 @@ public final class GanttChartView14 extends GanttChartView
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
-    * @throws IOException
     */
    GanttChartView14(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException

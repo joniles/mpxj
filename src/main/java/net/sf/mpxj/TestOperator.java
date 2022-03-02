@@ -34,9 +34,6 @@ public enum TestOperator implements MpxjEnum
 {
    IS_ANY_VALUE(0)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (true);
@@ -45,9 +42,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_WITHIN(1)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateWithin(lhs, rhs));
@@ -56,9 +50,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_GREATER_THAN(2)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) > 0);
@@ -67,9 +58,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_LESS_THAN(3)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) < 0);
@@ -78,9 +66,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_GREATER_THAN_OR_EQUAL_TO(4)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) >= 0);
@@ -89,9 +74,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_LESS_THAN_OR_EQUAL_TO(5)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) <= 0);
@@ -100,9 +82,6 @@ public enum TestOperator implements MpxjEnum
 
    EQUALS(6)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          boolean result;
@@ -121,9 +100,6 @@ public enum TestOperator implements MpxjEnum
 
    DOES_NOT_EQUAL(7)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          boolean result;
@@ -141,9 +117,6 @@ public enum TestOperator implements MpxjEnum
 
    CONTAINS(8)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateContains(lhs, rhs));
@@ -152,9 +125,6 @@ public enum TestOperator implements MpxjEnum
 
    IS_NOT_WITHIN(9)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (!evaluateWithin(lhs, rhs));
@@ -163,9 +133,6 @@ public enum TestOperator implements MpxjEnum
 
    DOES_NOT_CONTAIN(10)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (!evaluateContains(lhs, rhs));
@@ -174,9 +141,6 @@ public enum TestOperator implements MpxjEnum
 
    CONTAINS_EXACTLY(11)
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateContainsExactly(lhs, rhs));
@@ -185,9 +149,6 @@ public enum TestOperator implements MpxjEnum
 
    AND(12) // Extension used by MPXJ, Not MS Project
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          throw new UnsupportedOperationException();
@@ -196,9 +157,6 @@ public enum TestOperator implements MpxjEnum
 
    OR(13) // Extension used by MPXJ, Not MS Project
    {
-      /**
-       * {@inheritDoc}
-       */
       @Override public boolean evaluate(Object lhs, Object rhs)
       {
          throw new UnsupportedOperationException();
@@ -210,7 +168,7 @@ public enum TestOperator implements MpxjEnum
     *
     * @param type int version of the enum
     */
-   private TestOperator(int type)
+   TestOperator(int type)
    {
       m_value = type;
    }
@@ -385,7 +343,7 @@ public enum TestOperator implements MpxjEnum
 
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String) lhs).toUpperCase().indexOf(((String) rhs).toUpperCase()) != -1;
+         result = ((String) lhs).toUpperCase().contains(((String) rhs).toUpperCase());
       }
 
       return (result);
@@ -407,7 +365,7 @@ public enum TestOperator implements MpxjEnum
 
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String) lhs).indexOf(((String) rhs)) != -1;
+         result = ((String) lhs).contains(((String) rhs));
       }
 
       return (result);
@@ -421,5 +379,5 @@ public enum TestOperator implements MpxjEnum
    /**
     * Internal representation of the enum int type.
     */
-   private int m_value;
+   private final int m_value;
 }

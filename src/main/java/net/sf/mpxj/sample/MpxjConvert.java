@@ -75,7 +75,6 @@ public final class MpxjConvert
     *
     * @param inputFile input file
     * @param outputFile output file
-    * @throws Exception
     */
    public void process(String inputFile, String outputFile) throws Exception
    {

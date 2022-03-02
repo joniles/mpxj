@@ -24,19 +24,16 @@
 package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -112,13 +109,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    {
       List<String> result = new ArrayList<>();
 
-      File[] files = directory.listFiles(new FilenameFilter()
-      {
-         @Override public boolean accept(File dir, String name)
-         {
-            return name.toUpperCase().endsWith(".DIR");
-         }
-      });
+      File[] files = directory.listFiles((dir, name) -> name.toUpperCase().endsWith(".DIR"));
 
       if (files != null)
       {
@@ -167,14 +158,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          config.setAutoOutlineNumber(true);
          config.setAutoWBS(false);
 
-         // Activity ID
-         CustomFieldContainer customFields = m_projectFile.getCustomFields();
-         customFields.getCustomField(TaskField.TEXT1).setAlias("Code").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT2).setAlias("Department").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT3).setAlias("Manager").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT4).setAlias("Section").setUserDefined(false);
-         customFields.getCustomField(TaskField.TEXT5).setAlias("Mail").setUserDefined(false);
-
          m_projectFile.getProjectProperties().setFileApplication("SureTrak");
          m_projectFile.getProjectProperties().setFileType("STW");
 
@@ -218,9 +201,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File directory) throws MPXJException
    {
       List<ProjectFile> projects = new ArrayList<>();
@@ -251,12 +231,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       for (MapRow row : m_tables.get("TTL"))
       {
          Integer id = row.getInteger("DEFINITION_ID");
-         List<MapRow> list = m_definitions.get(id);
-         if (list == null)
-         {
-            list = new ArrayList<>();
-            m_definitions.put(id, list);
-         }
+         List<MapRow> list = m_definitions.computeIfAbsent(id, k -> new ArrayList<>());
          list.add(row);
       }
 
@@ -517,13 +492,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             }
 
             final AlphanumComparator comparator = new AlphanumComparator();
-            Collections.sort(items, new Comparator<MapRow>()
-            {
-               @Override public int compare(MapRow o1, MapRow o2)
-               {
-                  return comparator.compare(o1.getString("WBS"), o2.getString("WBS"));
-               }
-            });
+            items.sort((o1, o2) -> comparator.compare(o1.getString("WBS"), o2.getString("WBS")));
 
             for (MapRow row : items)
             {
@@ -561,13 +530,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          items.add(row);
       }
       final AlphanumComparator comparator = new AlphanumComparator();
-      Collections.sort(items, new Comparator<MapRow>()
-      {
-         @Override public int compare(MapRow o1, MapRow o2)
-         {
-            return comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID"));
-         }
-      });
+      items.sort((o1, o2) -> comparator.compare(o1.getString("ACTIVITY_ID"), o2.getString("ACTIVITY_ID")));
 
       for (MapRow row : items)
       {
@@ -736,25 +699,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     */
    private static void defineField(Map<String, FieldType> container, String name, FieldType type)
    {
-      defineField(container, name, type, null);
-   }
-
-   /**
-    * Configure the mapping between a database column and a field, including definition of
-    * an alias.
-    *
-    * @param container column to field map
-    * @param name column name
-    * @param type field type
-    * @param alias field alias
-    */
-   private static void defineField(Map<String, FieldType> container, String name, FieldType type, String alias)
-   {
       container.put(name, type);
-      //      if (alias != null)
-      //      {
-      //         ALIASES.put(type, alias);
-      //      }
    }
 
    private String m_projectName;
@@ -780,11 +725,11 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       defineField(RESOURCE_FIELDS, "CODE", ResourceField.CODE);
 
       defineField(TASK_FIELDS, "NAME", TaskField.NAME);
-      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.TEXT1);
-      defineField(TASK_FIELDS, "DEPARTMENT", TaskField.TEXT2);
-      defineField(TASK_FIELDS, "MANAGER", TaskField.TEXT3);
-      defineField(TASK_FIELDS, "SECTION", TaskField.TEXT4);
-      defineField(TASK_FIELDS, "MAIL", TaskField.TEXT5);
+      defineField(TASK_FIELDS, "ACTIVITY_ID", TaskField.ACTIVITY_ID);
+      defineField(TASK_FIELDS, "DEPARTMENT", TaskField.DEPARTMENT);
+      defineField(TASK_FIELDS, "MANAGER", TaskField.MANAGER);
+      defineField(TASK_FIELDS, "SECTION", TaskField.SECTION);
+      defineField(TASK_FIELDS, "MAIL", TaskField.MAIL);
 
       defineField(TASK_FIELDS, "PERCENT_COMPLETE", TaskField.PERCENT_COMPLETE);
       defineField(TASK_FIELDS, "EARLY_START", TaskField.EARLY_START);

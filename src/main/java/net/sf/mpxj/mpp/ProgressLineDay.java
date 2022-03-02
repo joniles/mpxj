@@ -50,7 +50,7 @@ public enum ProgressLineDay implements MpxjEnum
     * @param value day value
     * @param day equivalent Day instance
     */
-   private ProgressLineDay(int value, Day day)
+   ProgressLineDay(int value, Day day)
    {
       m_value = value;
       m_day = day;
@@ -119,7 +119,7 @@ public enum ProgressLineDay implements MpxjEnum
     */
    private static final ProgressLineDay[] TYPE_VALUES = EnumHelper.createTypeArray(ProgressLineDay.class, 1);
 
-   private int m_value;
-   private Day m_day;
+   private final int m_value;
+   private final Day m_day;
 
 }

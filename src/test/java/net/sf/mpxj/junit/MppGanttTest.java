@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,8 +55,6 @@ public class MppGanttTest
 {
    /**
     * Test Gantt chart data read from an MPP9 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9Gantt() throws Exception
    {
@@ -65,8 +64,6 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP9 file saved by Project 2007.
-    *
-    * @throws Exception
     */
    @Test public void testMpp9GanttFrom12() throws Exception
    {
@@ -76,10 +73,8 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP9 file saved by Project 2010.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp9GanttFrom14() throws Exception
+   @Test public void testMpp9GanttFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9gantt-from14.mpp"));
       //testAll(mpp);
@@ -87,8 +82,6 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP12 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp12Gantt() throws Exception
    {
@@ -98,10 +91,8 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP12 file saved by Project 2010.
-    *
-    * @throws Exception
     */
-   @Test public void testMpp12GanttFrom14() throws Exception
+   @Test public void testMpp12GanttFrom14()
    {
       //ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12gantt-from14.mpp"));
       //testAll(mpp);
@@ -109,8 +100,6 @@ public class MppGanttTest
 
    /**
     * Test Gantt chart data read from an MPP14 file.
-    *
-    * @throws Exception
     */
    @Test public void testMpp14Gantt() throws Exception
    {
@@ -298,9 +287,9 @@ public class MppGanttTest
       TableFontStyle[] tfs = view.getTableFontStyles();
       assertEquals(TABLE_FONT_STYLES.length, tfs.length);
 
-      for (int loop = 0; loop < tfs.length; loop++)
+      for (TableFontStyle tf : tfs)
       {
-         assertTrue(TABLE_FONT_STYLES_SET.contains(tfs[loop].toString()));
+         assertTrue(TABLE_FONT_STYLES_SET.contains(tf.toString()));
       }
    }
 
@@ -355,9 +344,9 @@ public class MppGanttTest
       assertEquals(LineStyle.SOLID, view.getProgressLinesCurrentLineStyle());
       assertEquals("java.awt.Color[r=255,g=0,b=0]", view.getProgressLinesCurrentProgressPointColor().toString());
       assertEquals(13, view.getProgressLinesCurrentProgressPointShape());
-      assertEquals(null, view.getProgressLinesOtherLineColor());
+      assertNull(view.getProgressLinesOtherLineColor());
       assertEquals(LineStyle.SOLID, view.getProgressLinesOtherLineStyle());
-      assertEquals(null, view.getProgressLinesOtherProgressPointColor());
+      assertNull(view.getProgressLinesOtherProgressPointColor());
       assertEquals(0, view.getProgressLinesOtherProgressPointShape());
       assertEquals(2, view.getProgressLinesDisplaySelectedDates().length);
       assertEquals("01/02/2010", df.format(view.getProgressLinesDisplaySelectedDates()[0]));
@@ -376,12 +365,9 @@ public class MppGanttTest
       "[ColumnFontStyle rowUniqueID=-1 fieldType=Text2 italic=false bold=false underline=false font=[FontBase name=Arial size=8] color=java.awt.Color[r=255,g=0,b=0] backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]"
    };
 
-   private static Set<String> TABLE_FONT_STYLES_SET = new HashSet<>();
+   private static final Set<String> TABLE_FONT_STYLES_SET = new HashSet<>();
    static
    {
-      for (String style : TABLE_FONT_STYLES)
-      {
-         TABLE_FONT_STYLES_SET.add(style);
-      }
+      Collections.addAll(TABLE_FONT_STYLES_SET, TABLE_FONT_STYLES);
    }
 }

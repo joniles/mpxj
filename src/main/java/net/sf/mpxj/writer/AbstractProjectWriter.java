@@ -35,9 +35,6 @@ import net.sf.mpxj.ProjectFile;
  */
 public abstract class AbstractProjectWriter implements ProjectWriter
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, String fileName) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(fileName);
@@ -46,9 +43,6 @@ public abstract class AbstractProjectWriter implements ProjectWriter
       fos.close();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void write(ProjectFile projectFile, File file) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(file);

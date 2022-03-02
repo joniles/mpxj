@@ -24,7 +24,7 @@
 package net.sf.mpxj.ganttdesigner;
 
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -49,6 +50,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.ganttdesigner.schema.Gantt;
 import net.sf.mpxj.ganttdesigner.schema.GanttDesignerRemark;
@@ -59,9 +61,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class GanttDesignerReader extends AbstractProjectStreamReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -92,17 +91,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          return m_projectFile;
       }
 
-      catch (ParserConfigurationException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (SAXException ex)
+      catch (ParserConfigurationException | SAXException | JAXBException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -115,12 +104,9 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      return Arrays.asList(read(inputStream));
+      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -223,6 +209,12 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
          m_taskMap.put(wbs, task);
+
+         // We don't have early/late start/finish.
+         // Set attributes here to avoid trying to calculate them.
+         task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
+         task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
+         task.setCritical(false);
 
          m_eventManager.fireTaskReadEvent(task);
       }

@@ -53,7 +53,6 @@ final class DurationUtility
     * @param format number format
     * @param locale target locale
     * @return Duration instance
-    * @throws MPXJException
     */
    public static Duration getInstance(String dur, NumberFormat format, Locale locale) throws MPXJException
    {
@@ -64,7 +63,7 @@ final class DurationUtility
          double duration;
          TimeUnit units;
 
-         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+         while ((index > 0) && !Character.isDigit(dur.charAt(index)))
          {
             --index;
          }

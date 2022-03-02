@@ -37,7 +37,7 @@ public enum FileVersion implements MpxjEnum
     *
     * @param value file version value
     */
-   private FileVersion(int value)
+   FileVersion(int value)
    {
       m_value = value;
    }
@@ -64,15 +64,15 @@ public enum FileVersion implements MpxjEnum
 
       if (value != null)
       {
-         if (value.startsWith("4") == false)
+         if (!value.startsWith("4"))
          {
-            if (value.startsWith("3") == true)
+            if (value.startsWith("3"))
             {
                result = VERSION_3_0;
             }
             else
             {
-               if (value.startsWith("1") == true)
+               if (value.startsWith("1"))
                {
                   result = VERSION_1_0;
                }
@@ -117,5 +117,5 @@ public enum FileVersion implements MpxjEnum
       return (result);
    }
 
-   private int m_value;
+   private final int m_value;
 }

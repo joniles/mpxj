@@ -101,31 +101,34 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
     */
    private Map<UUID, FieldType> populateCustomFieldMap()
    {
-      byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
-      int length = MPPUtility.getInt(data, 0);
-      int index = length + 36;
-
-      // 4 byte record count
-      int recordCount = MPPUtility.getInt(data, index);
-      index += 4;
-
-      // 8 bytes per record
-      index += (8 * recordCount);
-
       Map<UUID, FieldType> map = new HashMap<>();
-      while (index + 176 <= data.length)
+      byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
+      if (data != null)
       {
-         int blockLength = MPPUtility.getInt(data, index);
-         if (blockLength <= 0 || index + blockLength > data.length)
-         {
-            break;
-         }
+         int length = MPPUtility.getInt(data, 0);
+         int index = length + 36;
 
-         int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
-         FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
-         UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
-         map.put(lookupTableGuid, field);
-         index += blockLength;
+         // 4 byte record count
+         int recordCount = MPPUtility.getInt(data, index);
+         index += 4;
+
+         // 8 bytes per record
+         index += (8 * recordCount);
+
+         while (index + 176 <= data.length)
+         {
+            int blockLength = MPPUtility.getInt(data, index);
+            if (blockLength <= 0 || index + blockLength > data.length)
+            {
+               break;
+            }
+
+            int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
+            FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
+            UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
+            map.put(lookupTableGuid, field);
+            index += blockLength;
+         }
       }
       return map;
    }

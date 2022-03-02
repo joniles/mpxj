@@ -28,7 +28,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +42,9 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -57,7 +58,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * projects available in the current database.
     *
     * @return Map instance containing ID and name pairs
-    * @throws MPXJException
     */
    public Map<Integer, String> listProjects() throws MPXJException
    {
@@ -86,7 +86,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
-    * @throws MPXJException
     */
    public ProjectFile read() throws MPXJException
    {
@@ -102,10 +101,11 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
+         // TODO: custom field support (where is udf_data?)
 
          m_reader = null;
 
-         return (project);
+         return project;
       }
 
       catch (SQLException ex)
@@ -124,22 +124,20 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Select the project properties row from the database.
-    *
-    * @throws SQLException
     */
    private void processProjectProperties() throws SQLException
    {
       List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
       List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
+      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
+      Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, progressPeriods);
+      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
    }
 
    /**
     * Process calendars.
-    *
-    * @throws SQLException
     */
    private void processCalendars() throws SQLException
    {
@@ -190,8 +188,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process resources.
-    *
-    * @throws SQLException
     */
    private void processResources() throws SQLException
    {
@@ -202,8 +198,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process tasks.
-    *
-    * @throws SQLException
     */
    private void processTasks() throws SQLException
    {
@@ -216,8 +210,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process predecessors.
-    *
-    * @throws SQLException
     */
    private void processPredecessors() throws SQLException
    {
@@ -228,8 +220,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    /**
     * Process resource assignments.
-    *
-    * @throws SQLException
     */
    private void processAssignments() throws SQLException
    {
@@ -269,9 +259,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       m_connection = connection;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -287,9 +274,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       try
@@ -321,16 +305,10 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + file.getAbsolutePath();
+         String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
          return DriverManager.getConnection(url, props);
-      }
-
-      catch (ClassNotFoundException ex)
-      {
-         throw new MPXJException("Failed to load JDBC driver", ex);
       }
 
       catch (SQLException ex)
@@ -344,30 +322,23 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     *
     * @param sql query statement
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql) throws SQLException
    {
       allocateConnection();
 
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<Row> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new MpdResultSetRow(m_rs, m_meta));
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new MpdResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
@@ -378,38 +349,29 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     * @param sql query statement
     * @param var bind variable value
     * @return result set
-    * @throws SQLException
     */
    private List<Row> getRows(String sql, Integer var) throws SQLException
    {
       allocateConnection();
 
-      try
+      try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         List<Row> result = new ArrayList<>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberHelper.getInt(var));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
+         ps.setInt(1, NumberHelper.getInt(var));
+         try (ResultSet rs = ps.executeQuery())
          {
-            result.add(new MpdResultSetRow(m_rs, m_meta));
+            List<Row> result = new ArrayList<>();
+            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            while (rs.next())
+            {
+               result.add(new MpdResultSetRow(rs, meta));
+            }
+            return result;
          }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
       }
    }
 
    /**
     * Allocates a database connection.
-    *
-    * @throws SQLException
     */
    private void allocateConnection() throws SQLException
    {
@@ -420,44 +382,9 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * Releases a database connection, and cleans up any resources
-    * associated with that connection.
-    */
-   private void releaseConnection()
-   {
-      AutoCloseableHelper.closeQuietly(m_rs);
-      m_rs = null;
-
-      AutoCloseableHelper.closeQuietly(m_ps);
-      m_ps = null;
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    *
-    * @throws SQLException
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
-      }
-   }
-
    private AstaReader m_reader;
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<>();
 }

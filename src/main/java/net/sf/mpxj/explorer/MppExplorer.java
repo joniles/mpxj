@@ -25,10 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -55,20 +51,16 @@ public class MppExplorer
     */
    public static void main(String[] args)
    {
-      EventQueue.invokeLater(new Runnable()
-      {
-         @Override public void run()
+      EventQueue.invokeLater(() -> {
+         try
          {
-            try
-            {
-               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-               MppExplorer window = new MppExplorer();
-               window.m_frame.setVisible(true);
-            }
-            catch (Exception e)
-            {
-               e.printStackTrace();
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            MppExplorer window = new MppExplorer();
+            window.m_frame.setVisible(true);
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
          }
       });
    }
@@ -109,25 +101,15 @@ public class MppExplorer
       //
       // Open file
       //
-      mntmOpen.addActionListener(new ActionListener()
-      {
-         @Override public void actionPerformed(ActionEvent e)
-         {
-            fileChooserController.openFileChooser();
-         }
-      });
+      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
 
       PropertyAdapter<FileChooserModel> adapter = new PropertyAdapter<>(fileChooserModel, "file", true);
-      adapter.addValueChangeListener(new PropertyChangeListener()
-      {
-         @Override public void propertyChange(PropertyChangeEvent evt)
-         {
-            File file = fileChooserModel.getFile();
-            tabbedPane.add(file.getName(), new MppFilePanel(file));
-         }
+      adapter.addValueChangeListener(evt -> {
+         File file = fileChooserModel.getFile();
+         tabbedPane.add(file.getName(), new MppFilePanel(file));
       });
    }
 }

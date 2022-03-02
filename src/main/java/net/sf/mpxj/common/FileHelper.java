@@ -67,6 +67,8 @@ public final class FileHelper
                }
             }
          }
+
+         // noinspection ResultOfMethodCallIgnored
          file.delete();
       }
    }
@@ -96,6 +98,7 @@ public final class FileHelper
    {
       if (file != null)
       {
+         // noinspection ResultOfMethodCallIgnored
          file.mkdirs();
       }
    }

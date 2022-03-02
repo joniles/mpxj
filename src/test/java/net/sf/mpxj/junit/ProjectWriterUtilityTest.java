@@ -42,8 +42,6 @@ public class ProjectWriterUtilityTest
 {
    /**
     * Exercise the GetProjectWriter method.
-    *
-    * @throws Exception
     */
    @Test public void testGetProjectWriter() throws Exception
    {
@@ -51,8 +49,8 @@ public class ProjectWriterUtilityTest
 
       try
       {
-         writer = ProjectWriterUtility.getProjectWriter("filename.xxx");
-         assertTrue("Failed to throw exception", false);
+         ProjectWriterUtility.getProjectWriter("filename.xxx");
+         fail("Failed to throw exception");
       }
 
       catch (Exception ex)
@@ -62,8 +60,8 @@ public class ProjectWriterUtilityTest
 
       try
       {
-         writer = ProjectWriterUtility.getProjectWriter("filename");
-         assertTrue("Failed to throw exception", false);
+         ProjectWriterUtility.getProjectWriter("filename");
+         fail("Failed to throw exception");
       }
 
       catch (Exception ex)
@@ -72,13 +70,13 @@ public class ProjectWriterUtilityTest
       }
 
       writer = ProjectWriterUtility.getProjectWriter("filename.mpx");
-      assertTrue(writer instanceof MPXWriter);
+      assertEquals(MPXWriter.class, writer.getClass());
 
       writer = ProjectWriterUtility.getProjectWriter("filename.xml");
-      assertTrue(writer instanceof MSPDIWriter);
+      assertEquals(MSPDIWriter.class, writer.getClass());
 
       writer = ProjectWriterUtility.getProjectWriter("filename.planner");
-      assertTrue(writer instanceof PlannerWriter);
+      assertEquals(PlannerWriter.class, writer.getClass());
    }
 
    /**

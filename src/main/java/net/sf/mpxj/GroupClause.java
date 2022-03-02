@@ -195,29 +195,9 @@ public final class GroupClause
       m_startAt = startAt;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
-      StringBuilder sb = new StringBuilder();
-      sb.append("[GroupClause field=");
-      sb.append(m_field);
-      sb.append(" ascending=");
-      sb.append(m_ascending);
-      sb.append(" font=");
-      sb.append(m_font);
-      sb.append(" color=");
-      sb.append(m_cellBackgroundColor);
-      sb.append(" pattern=");
-      sb.append(m_pattern);
-      sb.append(" groupOn=");
-      sb.append(m_groupOn);
-      sb.append(" startAt=");
-      sb.append(m_startAt);
-      sb.append(" groupInterval=");
-      sb.append(m_groupInterval);
-      return (sb.toString());
+      return "[GroupClause field=" + m_field + " ascending=" + m_ascending + " font=" + m_font + " color=" + m_cellBackgroundColor + " pattern=" + m_pattern + " groupOn=" + m_groupOn + " startAt=" + m_startAt + " groupInterval=" + m_groupInterval;
    }
 
    private FieldType m_field;

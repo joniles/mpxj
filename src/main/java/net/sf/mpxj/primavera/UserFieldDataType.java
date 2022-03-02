@@ -48,6 +48,11 @@ public enum UserFieldDataType
    {
       "FINISH"
    }),
+   FT_FLOAT(new String[]
+   {
+      "NUMBER",
+      "ENTERPRISE_NUMBER"
+   }),
    FT_FLOAT_2_DECIMALS(new String[]
    {
       "NUMBER",
@@ -75,7 +80,7 @@ public enum UserFieldDataType
     * @param fieldNames default field names used to
     * store user defined data of this type.
     */
-   private UserFieldDataType(String[] fieldNames)
+   UserFieldDataType(String[] fieldNames)
    {
       this.m_defaultFieldNames = fieldNames;
    }
@@ -94,7 +99,6 @@ public enum UserFieldDataType
     * Infers the Primavera user defined field data type from the MPXJ data type.
     *
     * @author kmahan
-    * @date 2014-09-24
     * @param dataType MPXJ data type
     * @return string representation of data type
     */
@@ -125,7 +129,6 @@ public enum UserFieldDataType
     * Infers the Primavera entity type based on the MPXJ field type.
     *
     * @author lsong
-    * @date 2015-7-24
     * @param fieldType MPXJ field type
     * @return UDF subject area
     */
@@ -158,7 +161,7 @@ public enum UserFieldDataType
       SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
       SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Assignment");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 

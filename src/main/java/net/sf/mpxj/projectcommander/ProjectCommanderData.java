@@ -29,12 +29,14 @@ import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -42,6 +44,7 @@ import java.util.stream.IntStream;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
+import net.sf.mpxj.common.InputStreamHelper;
 
 /**
  * Reads a Project Commander file an returns a hierarchical list of blocks.
@@ -79,7 +82,7 @@ final class ProjectCommanderData
     */
    private void updateHierarchy()
    {
-      m_blocks.stream().filter(x -> "CTask".equals(x.getName())).forEach(x -> updateHierarchy(x));
+      m_blocks.stream().filter(x -> "CTask".equals(x.getName())).forEach(this::updateHierarchy);
    }
 
    /**
@@ -129,17 +132,11 @@ final class ProjectCommanderData
     */
    private void populateBuffer(InputStream is) throws IOException
    {
-      int length = is.available();
-      m_buffer = new byte[length];
-
       try
       {
-         int bytesRead = is.read(m_buffer);
-         if (bytesRead != length)
-         {
-            throw new RuntimeException("Read count different");
-         }
+         m_buffer = InputStreamHelper.read(is, is.available());
       }
+
       finally
       {
          is.close();
@@ -170,7 +167,7 @@ final class ProjectCommanderData
       determineFilterObjectBlockBoundary(map);
 
       List<BlockPattern> blockPatterns = new ArrayList<>(Arrays.asList(NAMED_BLOCK_PATTERNS));
-      map.values().stream().filter(x -> x != null).forEach(x -> blockPatterns.add(x));
+      map.values().stream().filter(Objects::nonNull).forEach(blockPatterns::add);
 
       logPatterns(blockPatterns);
 
@@ -579,7 +576,7 @@ final class ProjectCommanderData
     * @param bufferIndex current index in file
     * @return matching block pattern or null
     */
-   private final BlockPattern matchPattern(List<BlockPattern> blocks, int bufferIndex)
+   private BlockPattern matchPattern(List<BlockPattern> blocks, int bufferIndex)
    {
       BlockPattern match = null;
       for (BlockPattern block : blocks)
@@ -714,7 +711,7 @@ final class ProjectCommanderData
     * @param bufferIndex index to check in byte buffer
     * @return true if pattern matches at this location
     */
-   private final boolean matchPattern(byte[] pattern, int bufferIndex)
+   private boolean matchPattern(byte[] pattern, int bufferIndex)
    {
       boolean result = true;
       int index = 0;
@@ -785,8 +782,8 @@ final class ProjectCommanderData
    private byte[] m_buffer;
    private byte[] m_usageFingerprint;
    private PrintWriter m_log;
-   private List<Block> m_blocks = new ArrayList<>();
-   private Deque<Block> m_parentStack = new ArrayDeque<>();
+   private final List<Block> m_blocks = new ArrayList<>();
+   private final Deque<Block> m_parentStack = new ArrayDeque<>();
 
    private static final BlockPattern[] NAMED_BLOCK_PATTERNS =
    {
@@ -918,9 +915,9 @@ final class ProjectCommanderData
    private static final Map<String, Set<String>> EXPECTED_CHILD_CLASSES = new HashMap<>();
    static
    {
-      EXPECTED_CHILD_CLASSES.put("CCalendar", new HashSet<>(Arrays.asList("CDayFlag")));
+      EXPECTED_CHILD_CLASSES.put("CCalendar", new HashSet<>(Collections.singletonList("CDayFlag")));
       EXPECTED_CHILD_CLASSES.put("CResource", new HashSet<>(Arrays.asList("CSymbol", "CResourceTask", "CBaselineData", "CBar", "CCalendar")));
       EXPECTED_CHILD_CLASSES.put("CTask", new HashSet<>(Arrays.asList("CPlanObject", "CCalendar", "CBaselineIndex", "CBaselineData", "CBar", "CUsageTask", "CLink")));
-      EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Arrays.asList("CBaselineData")));
+      EXPECTED_CHILD_CLASSES.put("CUsageTask", new HashSet<>(Collections.singletonList("CBaselineData")));
    }
 }

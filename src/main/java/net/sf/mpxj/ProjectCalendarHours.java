@@ -76,9 +76,6 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
       m_parentCalendar.attachHoursToDay(this);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
@@ -91,6 +88,6 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
       return (sb.toString());
    }
 
-   private ProjectCalendarWeek m_parentCalendar;
+   private final ProjectCalendarWeek m_parentCalendar;
    private Day m_day;
 }

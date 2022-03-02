@@ -187,7 +187,7 @@ public final class GraphicalIndicatorReader
       boolean valueFlag = (MPPUtility.getInt(m_data, m_dataOffset) == 1);
       m_dataOffset += 4;
 
-      if (valueFlag == false)
+      if (!valueFlag)
       {
          int fieldID = MPPUtility.getInt(m_data, m_dataOffset);
          criteria.setRightValue(index, FieldTypeHelper.getInstance(fieldID));

@@ -37,7 +37,7 @@ import net.sf.mpxj.reader.UniversalProjectReader;
  */
 public class TaskDateDump
 {
-   private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
    /**
     * Command line entry point.

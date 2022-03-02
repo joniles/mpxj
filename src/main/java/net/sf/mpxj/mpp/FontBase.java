@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 /**
  * The standard font definitions used by MS Project are split into two parts,
- * the base fonr (i.e. the name and the size) and the styles applied to that
+ * the base font (i.e. the name and the size) and the styles applied to that
  * font. This class represents the base font information.
  */
 public class FontBase
@@ -74,15 +74,12 @@ public class FontBase
       return (m_index);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[FontBase name=" + m_name + " size=" + m_size + "]");
    }
 
-   private Integer m_index;
-   private String m_name;
-   private int m_size;
+   private final Integer m_index;
+   private final String m_name;
+   private final int m_size;
 }

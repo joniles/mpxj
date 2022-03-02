@@ -111,6 +111,7 @@ public class PoiTreeModel implements TreeModel
       if (parent instanceof DirectoryEntry)
       {
          List<Entry> entries = getChildNodes((DirectoryEntry) parent);
+         //noinspection SuspiciousMethodCalls
          result = entries.indexOf(child);
       }
 

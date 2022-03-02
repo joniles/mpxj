@@ -111,7 +111,7 @@ final class BlockPattern
     */
    public boolean getValid(Set<String> matchedPatternNames)
    {
-      return m_validator == null ? true : m_validator.valid(matchedPatternNames);
+      return m_validator == null || m_validator.valid(matchedPatternNames);
    }
 
    @Override public String toString()

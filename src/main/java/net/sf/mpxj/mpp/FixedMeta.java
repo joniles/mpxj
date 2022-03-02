@@ -54,13 +54,7 @@ final class FixedMeta extends MPPComponent
    FixedMeta(InputStream is, final int itemSize)
       throws IOException
    {
-      this(is, new FixedMetaItemSizeProvider()
-      {
-         @Override public int getItemSize(int fileSize, int itemCount)
-         {
-            return itemSize;
-         }
-      });
+      this(is, (fileSize, itemCount) -> itemSize);
    }
 
    /**
@@ -69,7 +63,6 @@ final class FixedMeta extends MPPComponent
     *
     * @param is input stream from which the meta data is read
     * @param itemSizeProvider item size provider used to calculate the item size
-    * @throws IOException
     */
    FixedMeta(InputStream is, FixedMetaItemSizeProvider itemSizeProvider)
       throws IOException
@@ -83,9 +76,10 @@ final class FixedMeta extends MPPComponent
       //
       // First 4 bytes
       //
-      if (readInt(is) != MAGIC)
+      int magic = readInt(is);
+      if (magic != MAGIC)
       {
-         throw new IOException("Bad magic number");
+         throw new IOException("Bad magic number: " + magic);
       }
 
       readInt(is);
@@ -113,46 +107,41 @@ final class FixedMeta extends MPPComponent
    FixedMeta(InputStream is, final FixedData otherFixedBlock, final int... itemSizes)
       throws IOException
    {
-      this(is, new FixedMetaItemSizeProvider()
-      {
-         @Override public int getItemSize(int fileSize, int itemCount)
+      this(is, (fileSize, itemCount) -> {
+         int itemSize = itemSizes[0];
+         int available = fileSize - HEADER_SIZE;
+         int distance = Integer.MIN_VALUE;
+         int otherFixedBlockCount = otherFixedBlock.getItemCount();
+
+         for (int testItemSize : itemSizes)
          {
-            int itemSize = itemSizes[0];
-            int available = fileSize - HEADER_SIZE;
-            int distance = Integer.MIN_VALUE;
-            int otherFixedBlockCount = otherFixedBlock.getItemCount();
-
-            for (int index = 0; index < itemSizes.length; index++)
+            if (available % testItemSize == 0)
             {
-               int testItemSize = itemSizes[index];
-               if (available % testItemSize == 0)
+               //
+               // If we are testing a size which fits exactly into
+               // the block size, and matches the number of items from
+               // another block, we can be pretty certain we have the correct
+               // size, so bail out at this point
+               //
+               if (available / testItemSize == otherFixedBlockCount)
                {
-                  //
-                  // If we are testing a size which fits exactly into
-                  // the block size, and matches the number of items from
-                  // another block, we can be pretty certain we have the correct
-                  // size, so bail out at this point
-                  //
-                  if (available / testItemSize == otherFixedBlockCount)
-                  {
-                     itemSize = testItemSize;
-                     break;
-                  }
+                  itemSize = testItemSize;
+                  break;
+               }
 
-                  //
-                  // Otherwise use a rule-of-thumb to decide on the closest match
-                  //
-                  int testDistance = (itemCount * testItemSize) - available;
-                  if (testDistance <= 0 && testDistance > distance)
-                  {
-                     itemSize = testItemSize;
-                     distance = testDistance;
-                  }
+               //
+               // Otherwise use a rule-of-thumb to decide on the closest match
+               //
+               int testDistance = (itemCount * testItemSize) - available;
+               if (testDistance <= 0 && testDistance > distance)
+               {
+                  itemSize = testItemSize;
+                  distance = testDistance;
                }
             }
-
-            return itemSize;
          }
+
+         return itemSize;
       });
    }
 
@@ -229,17 +218,17 @@ final class FixedMeta extends MPPComponent
    /**
     * Number of items in the data block, as reported in the block header.
     */
-   private int m_itemCount;
+   private final int m_itemCount;
 
    /**
     * Number of items in the data block, adjusted based on block size and item size.
     */
-   private int m_adjustedItemCount;
+   private final int m_adjustedItemCount;
 
    /**
     * Unknown data items relating to each entry in the fixed data block.
     */
-   private Object[] m_array;
+   private final Object[] m_array;
 
    /**
     * Constant representing the magic number appearing

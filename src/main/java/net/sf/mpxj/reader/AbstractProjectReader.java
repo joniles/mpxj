@@ -36,9 +36,6 @@ import net.sf.mpxj.listener.ProjectListener;
  */
 public abstract class AbstractProjectReader implements ProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
@@ -67,7 +64,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    {
       if (m_projectListeners != null)
       {
-         m_projectListeners.forEach(l -> reader.addProjectListener(l));
+         m_projectListeners.forEach(reader::addProjectListener);
       }
    }
 
@@ -77,7 +74,7 @@ public abstract class AbstractProjectReader implements ProjectReader
     */
    @Override public void setCharset(Charset charset)
    {
-      // default implementatoin - do nothing
+      // default implementation - do nothing
    }
 
    private List<ProjectListener> m_projectListeners;

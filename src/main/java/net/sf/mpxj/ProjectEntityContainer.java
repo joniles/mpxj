@@ -69,7 +69,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Validate that the Unique IDs for the entities in this container are valid for MS Project.
-    * If they are not valid, i.e one or more of them are too large, renumber them.
+    * If they are not valid, i.e. one or more of them are too large, renumber them.
     */
    public void validateUniqueIDsForMicrosoftProject()
    {
@@ -119,10 +119,10 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    protected final ProjectFile m_projectFile;
-   protected Map<Integer, T> m_uniqueIDMap = new HashMap<>();
+   protected final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
 
    /**
     * Maximum unique ID value MS Project will accept.
     */
-   private static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
+   public static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }

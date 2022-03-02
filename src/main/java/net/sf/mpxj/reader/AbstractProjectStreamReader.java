@@ -38,9 +38,6 @@ import net.sf.mpxj.common.AutoCloseableHelper;
  */
 public abstract class AbstractProjectStreamReader extends AbstractProjectReader
 {
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
@@ -55,9 +52,6 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       return readAll(new File(fileName));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ProjectFile read(File file) throws MPXJException
    {
       FileInputStream fis = null;

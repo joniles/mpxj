@@ -26,10 +26,6 @@ public class DateUtilityTest
       Date date1 = df.parse("15/01/2014");
       Date date2 = df.parse("20/01/2014");
 
-      assertEquals(-1, date1.compareTo(date2));
-      assertEquals(1, date2.compareTo(date1));
-      assertEquals(0, date1.compareTo(date1));
-
       assertEquals(-1, DateHelper.compare(date1, date2));
       assertEquals(1, DateHelper.compare(date2, date1));
       assertEquals(0, DateHelper.compare(date1, date1));

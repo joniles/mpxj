@@ -58,7 +58,7 @@ final class AccrueTypeUtility
 
       for (int loop = 0; loop < typeNames.length; loop++)
       {
-         if (typeNames[loop].equalsIgnoreCase(type) == true)
+         if (typeNames[loop].equalsIgnoreCase(type))
          {
             result = AccrueType.getInstance(loop + 1);
             break;

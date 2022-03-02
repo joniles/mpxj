@@ -38,7 +38,7 @@ public class TaskContainerTest
    /**
     * Test fix for SourceForge issue 277.
     */
-   @Test public void testSynchronizeTaskIDToHierarchy() throws Exception
+   @Test public void testSynchronizeTaskIDToHierarchy()
    {
       ProjectFile file = new ProjectFile();
       file.getProjectConfig().setAutoTaskID(false);
@@ -48,10 +48,10 @@ public class TaskContainerTest
       Task task3 = task2.addTask();
       Task task4 = task3.addTask();
 
-      assertEquals(null, task1.getID());
-      assertEquals(null, task2.getID());
-      assertEquals(null, task3.getID());
-      assertEquals(null, task4.getID());
+      assertNull(task1.getID());
+      assertNull(task2.getID());
+      assertNull(task3.getID());
+      assertNull(task4.getID());
 
       assertEquals(4, file.getTasks().size());
 

@@ -356,5 +356,5 @@ class Props extends MPPComponent
 
    public static final Integer CUSTOM_FIELDS = Integer.valueOf(71303169);
 
-   protected TreeMap<Integer, byte[]> m_map = new TreeMap<>();
+   protected final TreeMap<Integer, byte[]> m_map = new TreeMap<>();
 }

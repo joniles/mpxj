@@ -69,7 +69,7 @@ public class ProjectPropertiesOnlyTest
 
       reader.setReadPropertiesOnly(true);
       project = reader.read(file);
-      assertTrue(project.getTasks().size() == 0);
+      assertEquals(0, project.getTasks().size());
       assertEquals("Project User", project.getProjectProperties().getAuthor());
    }
 }

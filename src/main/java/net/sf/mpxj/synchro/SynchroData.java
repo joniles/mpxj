@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,8 +38,8 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SemVer;
-import net.sf.mpxj.common.StreamHelper;
 
 /**
  * Reads the raw table data from an S file, ready to be processed.
@@ -75,16 +74,13 @@ class SynchroData
     *
     * @param name table name
     * @return InputStream instance
-    * @throws IOException
     */
    public StreamReader getTableData(String name) throws IOException
    {
       InputStream stream = new ByteArrayInputStream(m_tableData.get(name));
       if (m_version.atLeast(Synchro.VERSION_6_0_0))
       {
-         byte[] header = new byte[24];
-         stream.read(header);
-         SynchroLogger.log("TABLE HEADER", header);
+         SynchroLogger.log("TABLE HEADER", InputStreamHelper.read(stream, 24));
       }
       return new StreamReader(m_version, stream);
    }
@@ -103,7 +99,7 @@ class SynchroData
       byte[] header = new byte[48];
       while (true)
       {
-         is.read(header);
+         InputStreamHelper.read(is, header);
          m_offset += 48;
          SynchroTable table = readTableHeader(header);
          if (table == null)
@@ -114,13 +110,7 @@ class SynchroData
       }
 
       // Ensure sorted by offset
-      Collections.sort(tables, new Comparator<SynchroTable>()
-      {
-         @Override public int compare(SynchroTable o1, SynchroTable o2)
-         {
-            return o1.getOffset() - o2.getOffset();
-         }
-      });
+      tables.sort(Comparator.comparingInt(SynchroTable::getOffset));
 
       // Calculate lengths
       SynchroTable previousTable = null;
@@ -188,7 +178,7 @@ class SynchroData
       int skip = table.getOffset() - m_offset;
       if (skip != 0)
       {
-         StreamHelper.skip(is, skip);
+         InputStreamHelper.skip(is, skip);
          m_offset += skip;
       }
 
@@ -208,8 +198,7 @@ class SynchroData
 
       SynchroLogger.log("READ", tableName);
 
-      byte[] compressedTableData = new byte[dataLength];
-      is.read(compressedTableData);
+      byte[] compressedTableData = InputStreamHelper.read(is, dataLength);
       m_offset += dataLength;
 
       Inflater inflater = new Inflater();
@@ -245,8 +234,7 @@ class SynchroData
     */
    private void readHeader(InputStream is) throws IOException
    {
-      byte[] header = new byte[20];
-      is.read(header);
+      byte[] header = InputStreamHelper.read(is, 20);
       m_offset += 20;
       SynchroLogger.log("HEADER", header);
    }
@@ -267,6 +255,6 @@ class SynchroData
 
    private SemVer m_version;
    private int m_offset;
-   private Map<String, byte[]> m_tableData = new HashMap<>();
+   private final Map<String, byte[]> m_tableData = new HashMap<>();
    private static final Set<String> REQUIRED_TABLES = new HashSet<>(Arrays.asList("Tasks", "Calendars", "Companies", "Resources"));
 }

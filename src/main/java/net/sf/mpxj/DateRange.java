@@ -78,9 +78,6 @@ public final class DateRange implements Comparable<DateRange>
       return DateHelper.compare(m_start, m_end, date);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(DateRange o)
    {
       int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
@@ -91,9 +88,6 @@ public final class DateRange implements Comparable<DateRange>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean equals(Object o)
    {
       boolean result = false;
@@ -105,20 +99,13 @@ public final class DateRange implements Comparable<DateRange>
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int hashCode()
    {
-      long start = m_start.getTime();
-      long end = m_end.getTime();
-      int result = ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
-      return result;
+      long start = m_start == null ? 0 : m_start.getTime();
+      long end = m_end == null ? 0 : m_end.getTime();
+      return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return ("[DateRange start=" + m_start + " end=" + m_end + "]");
@@ -126,6 +113,6 @@ public final class DateRange implements Comparable<DateRange>
 
    public static final DateRange EMPTY_RANGE = new DateRange(null, null);
 
-   private Date m_start;
-   private Date m_end;
+   private final Date m_start;
+   private final Date m_end;
 }

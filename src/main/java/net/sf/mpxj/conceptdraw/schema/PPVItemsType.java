@@ -25,56 +25,56 @@ import net.sf.mpxj.Priority;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType name="PPVItemsType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="PPVItem" maxOccurs="unbounded">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="CompleteJournal" minOccurs="0">
- *                     &lt;complexType>
- *                       &lt;complexContent>
- *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                           &lt;sequence>
- *                             &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0">
- *                               &lt;complexType>
- *                                 &lt;complexContent>
- *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                                     &lt;sequence>
- *                                       &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *                                       &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *                                     &lt;/sequence>
- *                                   &lt;/restriction>
- *                                 &lt;/complexContent>
- *                               &lt;/complexType>
- *                             &lt;/element>
- *                           &lt;/sequence>
- *                         &lt;/restriction>
- *                       &lt;/complexContent>
- *                     &lt;/complexType>
- *                   &lt;/element>
- *                   &lt;choice>
- *                     &lt;element name="ProjectID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
- *                     &lt;sequence>
- *                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *                       &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/>
- *                       &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/>
- *                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts" minOccurs="0"/>
- *                       &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/>
- *                     &lt;/sequence>
- *                   &lt;/choice>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="PPVItemsType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="PPVItem" maxOccurs="unbounded"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;complexContent&gt;
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                 &lt;sequence&gt;
+ *                   &lt;element name="CompleteJournal" minOccurs="0"&gt;
+ *                     &lt;complexType&gt;
+ *                       &lt;complexContent&gt;
+ *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                           &lt;sequence&gt;
+ *                             &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0"&gt;
+ *                               &lt;complexType&gt;
+ *                                 &lt;complexContent&gt;
+ *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *                                     &lt;sequence&gt;
+ *                                       &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *                                       &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+ *                                     &lt;/sequence&gt;
+ *                                   &lt;/restriction&gt;
+ *                                 &lt;/complexContent&gt;
+ *                               &lt;/complexType&gt;
+ *                             &lt;/element&gt;
+ *                           &lt;/sequence&gt;
+ *                         &lt;/restriction&gt;
+ *                       &lt;/complexContent&gt;
+ *                     &lt;/complexType&gt;
+ *                   &lt;/element&gt;
+ *                   &lt;choice&gt;
+ *                     &lt;element name="ProjectID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+ *                     &lt;sequence&gt;
+ *                       &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *                       &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/&gt;
+ *                       &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/&gt;
+ *                       &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts" minOccurs="0"/&gt;
+ *                       &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/&gt;
+ *                     &lt;/sequence&gt;
+ *                   &lt;/choice&gt;
+ *                 &lt;/sequence&gt;
+ *               &lt;/restriction&gt;
+ *             &lt;/complexContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *
  *
@@ -124,46 +124,46 @@ import net.sf.mpxj.Priority;
     * <p>The following schema fragment specifies the expected content contained within this class.
     *
     * <pre>
-    * &lt;complexType>
-    *   &lt;complexContent>
-    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *       &lt;sequence>
-    *         &lt;element name="CompleteJournal" minOccurs="0">
-    *           &lt;complexType>
-    *             &lt;complexContent>
-    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                 &lt;sequence>
-    *                   &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0">
-    *                     &lt;complexType>
-    *                       &lt;complexContent>
-    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-    *                           &lt;sequence>
-    *                             &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-    *                             &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-    *                           &lt;/sequence>
-    *                         &lt;/restriction>
-    *                       &lt;/complexContent>
-    *                     &lt;/complexType>
-    *                   &lt;/element>
-    *                 &lt;/sequence>
-    *               &lt;/restriction>
-    *             &lt;/complexContent>
-    *           &lt;/complexType>
-    *         &lt;/element>
-    *         &lt;choice>
-    *           &lt;element name="ProjectID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
-    *           &lt;sequence>
-    *             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/>
-    *             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/>
-    *             &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/>
-    *             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts" minOccurs="0"/>
-    *             &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/>
-    *           &lt;/sequence>
-    *         &lt;/choice>
-    *       &lt;/sequence>
-    *     &lt;/restriction>
-    *   &lt;/complexContent>
-    * &lt;/complexType>
+    * &lt;complexType&gt;
+    *   &lt;complexContent&gt;
+    *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *       &lt;sequence&gt;
+    *         &lt;element name="CompleteJournal" minOccurs="0"&gt;
+    *           &lt;complexType&gt;
+    *             &lt;complexContent&gt;
+    *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                 &lt;sequence&gt;
+    *                   &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0"&gt;
+    *                     &lt;complexType&gt;
+    *                       &lt;complexContent&gt;
+    *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+    *                           &lt;sequence&gt;
+    *                             &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+    *                             &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+    *                           &lt;/sequence&gt;
+    *                         &lt;/restriction&gt;
+    *                       &lt;/complexContent&gt;
+    *                     &lt;/complexType&gt;
+    *                   &lt;/element&gt;
+    *                 &lt;/sequence&gt;
+    *               &lt;/restriction&gt;
+    *             &lt;/complexContent&gt;
+    *           &lt;/complexType&gt;
+    *         &lt;/element&gt;
+    *         &lt;choice&gt;
+    *           &lt;element name="ProjectID" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
+    *           &lt;sequence&gt;
+    *             &lt;element name="ID" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+    *             &lt;group ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}ProjectProps"/&gt;
+    *             &lt;element name="CompleteJournalTrackingPeriod" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}LongTimeUnitType"/&gt;
+    *             &lt;element ref="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}Callouts" minOccurs="0"/&gt;
+    *             &lt;element name="PPVItems" type="{http://www.schemas.conceptdraw.com/cdprj/document.xsd}PPVItemsType"/&gt;
+    *           &lt;/sequence&gt;
+    *         &lt;/choice&gt;
+    *       &lt;/sequence&gt;
+    *     &lt;/restriction&gt;
+    *   &lt;/complexContent&gt;
+    * &lt;/complexType&gt;
     * </pre>
     *
     *
@@ -852,26 +852,26 @@ import net.sf.mpxj.Priority;
        * <p>The following schema fragment specifies the expected content contained within this class.
        *
        * <pre>
-       * &lt;complexType>
-       *   &lt;complexContent>
-       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *       &lt;sequence>
-       *         &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0">
-       *           &lt;complexType>
-       *             &lt;complexContent>
-       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-       *                 &lt;sequence>
-       *                   &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-       *                   &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-       *                 &lt;/sequence>
-       *               &lt;/restriction>
-       *             &lt;/complexContent>
-       *           &lt;/complexType>
-       *         &lt;/element>
-       *       &lt;/sequence>
-       *     &lt;/restriction>
-       *   &lt;/complexContent>
-       * &lt;/complexType>
+       * &lt;complexType&gt;
+       *   &lt;complexContent&gt;
+       *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *       &lt;sequence&gt;
+       *         &lt;element name="CompleteJournalEntry" maxOccurs="unbounded" minOccurs="0"&gt;
+       *           &lt;complexType&gt;
+       *             &lt;complexContent&gt;
+       *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+       *                 &lt;sequence&gt;
+       *                   &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+       *                   &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+       *                 &lt;/sequence&gt;
+       *               &lt;/restriction&gt;
+       *             &lt;/complexContent&gt;
+       *           &lt;/complexType&gt;
+       *         &lt;/element&gt;
+       *       &lt;/sequence&gt;
+       *     &lt;/restriction&gt;
+       *   &lt;/complexContent&gt;
+       * &lt;/complexType&gt;
        * </pre>
        *
        *
@@ -921,16 +921,16 @@ import net.sf.mpxj.Priority;
           * <p>The following schema fragment specifies the expected content contained within this class.
           *
           * <pre>
-          * &lt;complexType>
-          *   &lt;complexContent>
-          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-          *       &lt;sequence>
-          *         &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/>
-          *         &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
-          *       &lt;/sequence>
-          *     &lt;/restriction>
-          *   &lt;/complexContent>
-          * &lt;/complexType>
+          * &lt;complexType&gt;
+          *   &lt;complexContent&gt;
+          *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+          *       &lt;sequence&gt;
+          *         &lt;element name="Date" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+          *         &lt;element name="Complete" type="{http://www.w3.org/2001/XMLSchema}decimal"/&gt;
+          *       &lt;/sequence&gt;
+          *     &lt;/restriction&gt;
+          *   &lt;/complexContent&gt;
+          * &lt;/complexType&gt;
           * </pre>
           *
           *

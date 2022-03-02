@@ -191,7 +191,7 @@ enum ActivityField implements FastTrackField
     *
     * @param value field ID from FTS file
     */
-   private ActivityField(int value)
+   ActivityField(int value)
    {
       m_value = value;
    }

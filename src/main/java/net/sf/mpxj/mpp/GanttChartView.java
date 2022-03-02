@@ -100,7 +100,6 @@ public abstract class GanttChartView extends GenericView
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
-    * @throws IOException
     */
    GanttChartView(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
@@ -512,7 +511,7 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve the width ofthe table part of the view.
+    * Retrieve the width of the table part of the view.
     *
     * @return table width
     */
@@ -1143,9 +1142,8 @@ public abstract class GanttChartView extends GenericView
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
 
-      FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, false, color.getColor(), null, BackgroundPattern.SOLID);
       //System.out.println(fontStyle);
-      return fontStyle;
+      return new FontStyle(fontBase, italic, bold, underline, false, color.getColor(), null, BackgroundPattern.SOLID);
    }
 
    /**
@@ -1330,25 +1328,25 @@ public abstract class GanttChartView extends GenericView
 
       if (m_tableFontStyles != null)
       {
-         for (int loop = 0; loop < m_tableFontStyles.length; loop++)
+         for (TableFontStyle tableFontStyle : m_tableFontStyles)
          {
-            pw.println("   ColumnFontStyle=" + m_tableFontStyles[loop]);
+            pw.println("   ColumnFontStyle=" + tableFontStyle);
          }
       }
 
       if (m_barStyles != null)
       {
-         for (int loop = 0; loop < m_barStyles.length; loop++)
+         for (GanttBarStyle barStyle : m_barStyles)
          {
-            pw.println("   BarStyle=" + m_barStyles[loop]);
+            pw.println("   BarStyle=" + barStyle);
          }
       }
 
       if (m_barStyleExceptions != null)
       {
-         for (int loop = 0; loop < m_barStyleExceptions.length; loop++)
+         for (GanttBarStyleException barStyleException : m_barStyleExceptions)
          {
-            pw.println("   BarStyleException=" + m_barStyleExceptions[loop]);
+            pw.println("   BarStyleException=" + barStyleException);
          }
       }
 
@@ -1409,7 +1407,7 @@ public abstract class GanttChartView extends GenericView
    private String m_defaultFilterName;
    private String m_groupName;
    private boolean m_highlightFilter;
-   private boolean m_showInMenu;
+   private final boolean m_showInMenu;
 
    protected FontStyle m_highlightedTasksFontStyle;
    protected FontStyle m_rowAndColumnFontStyle;
@@ -1437,7 +1435,7 @@ public abstract class GanttChartView extends GenericView
    protected Interval m_progressLinesInterval;
    protected int m_progressLinesIntervalDailyDayNumber;
    protected boolean m_progressLinesIntervalDailyWorkday;
-   protected boolean[] m_progressLinesIntervalWeeklyDay = new boolean[8];
+   protected final boolean[] m_progressLinesIntervalWeeklyDay = new boolean[8];
    protected int m_progressLinesIntervalWeekleyWeekNumber;
    protected boolean m_progressLinesIntervalMonthlyDay;
    protected int m_progressLinesIntervalMonthlyDayDayNumber;
@@ -1462,10 +1460,10 @@ public abstract class GanttChartView extends GenericView
    protected LineStyle m_progressLinesOtherLineStyle;
    protected Color m_progressLinesOtherProgressPointColor;
    protected int m_progressLinesOtherProgressPointShape;
-   protected List<Filter> m_autoFilters = new ArrayList<>();
-   protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<>();
+   protected final List<Filter> m_autoFilters = new ArrayList<>();
+   protected final Map<FieldType, Filter> m_autoFiltersByType = new HashMap<>();
 
-   private FilterContainer m_filters;
+   private final FilterContainer m_filters;
 
    protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);

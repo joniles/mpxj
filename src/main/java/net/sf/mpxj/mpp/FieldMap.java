@@ -45,6 +45,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceRequestType;
+import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
@@ -94,12 +95,13 @@ abstract class FieldMap
 
       while (index < data.length)
       {
-         long mask = MPPUtility.getInt(data, index + 0);
+         long mask = MPPUtility.getInt(data, index);
          //mask = mask << 4;
 
          int dataBlockOffset = MPPUtility.getShort(data, index + 4);
          //int metaFlags = MPPUtility.getByte(data, index + 8);
-         FieldType type = getFieldType(MPPUtility.getInt(data, index + 12));
+         int typeValue = MPPUtility.getInt(data, index + 12);
+         FieldType type = getFieldType(typeValue);
          int category = MPPUtility.getShort(data, index + 20);
          //int sizeInBytes = MPPUtility.getShort(data, index + 22);
          //int metaIndex = MPPUtility.getInt(data, index + 24);
@@ -125,7 +127,7 @@ abstract class FieldMap
             Integer substitute = substituteVarDataKey(type);
             if (substitute == null)
             {
-               varDataKey = (MPPUtility.getInt(data, index + 12) & 0x0000FFFF);
+               varDataKey = typeValue & 0x0000FFFF;
             }
             else
             {
@@ -587,7 +589,7 @@ abstract class FieldMap
          {
             System.out.println("KEY: " + key);
             createFieldMap(fieldMapData);
-            System.out.println(toString());
+            System.out.println(this);
             clear();
          }
       }
@@ -665,9 +667,6 @@ abstract class FieldMap
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       StringWriter sw = new StringWriter();
@@ -1035,9 +1034,10 @@ abstract class FieldMap
                break;
             }
 
-            case ASCII_STRING:
+            case NOTES:
             {
-               result = varData.getString(id, m_varDataKey);
+               String notes = varData.getString(id, m_varDataKey);
+               result = notes == null ? null : new RtfNotes(notes);
                break;
             }
 
@@ -1078,6 +1078,7 @@ abstract class FieldMap
                break;
             }
 
+            case PERCENTAGE:
             case SHORT:
             {
                result = Integer.valueOf(varData.getShort(id, m_varDataKey));
@@ -1247,9 +1248,6 @@ abstract class FieldMap
          return result;
       }
 
-      /**
-       * {@inheritDoc}
-       */
       @Override public String toString()
       {
          StringBuilder buffer = new StringBuilder();
@@ -1298,21 +1296,21 @@ abstract class FieldMap
 
          return buffer.toString();
       }
-      private FieldType m_type;
-      private FieldLocation m_location;
-      private int m_fixedDataBlockIndex;
-      private int m_fixedDataOffset;
-      private Integer m_varDataKey;
-      private long m_mask;
-      private int m_metaBlock;
+      private final FieldType m_type;
+      private final FieldLocation m_location;
+      private final int m_fixedDataBlockIndex;
+      private final int m_fixedDataOffset;
+      private final Integer m_varDataKey;
+      private final long m_mask;
+      private final int m_metaBlock;
    }
 
    private final ProjectProperties m_properties;
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;
-   private Map<FieldType, FieldItem> m_map = new HashMap<>();
-   private int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
+   private final Map<FieldType, FieldItem> m_map = new HashMap<>();
+   private final int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
 
    private static final Integer[] TASK_KEYS =

@@ -46,25 +46,16 @@ public abstract class AbstractView implements View
       m_tables = parent.getTables();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Integer getID()
    {
       return (m_id);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (m_name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ViewType getType()
    {
       return (m_type);
@@ -102,8 +93,8 @@ public abstract class AbstractView implements View
       return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name + (m_tableName == null ? "" : " table=" + m_tableName) + "]");
    }
 
-   protected ProjectProperties m_properties;
-   protected TableContainer m_tables;
+   protected final ProjectProperties m_properties;
+   protected final TableContainer m_tables;
    protected Integer m_id;
    protected String m_name;
    protected ViewType m_type;

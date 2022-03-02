@@ -38,7 +38,7 @@ import net.sf.mpxj.common.NumberHelper;
 public class GraphicalIndicator
 {
    /**
-    * This method evaluates a if a graphical indicator should
+    * This method evaluates if a graphical indicator should
     * be displayed, given a set of Task or Resource data. The
     * method will return -1 if no indicator should be displayed.
     *
@@ -56,13 +56,13 @@ public class GraphicalIndicator
          Task task = (Task) container;
          if (NumberHelper.getInt(task.getUniqueID()) == 0)
          {
-            if (m_projectSummaryInheritsFromSummaryRows == false)
+            if (!m_projectSummaryInheritsFromSummaryRows)
             {
                criteria = m_projectSummaryCriteria;
             }
             else
             {
-               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               if (!m_summaryRowsInheritFromNonSummaryRows)
                {
                   criteria = m_summaryRowCriteria;
                }
@@ -74,9 +74,9 @@ public class GraphicalIndicator
          }
          else
          {
-            if (task.getSummary() == true)
+            if (task.getSummary())
             {
-               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               if (!m_summaryRowsInheritFromNonSummaryRows)
                {
                   criteria = m_summaryRowCriteria;
                }
@@ -291,9 +291,6 @@ public class GraphicalIndicator
       m_projectSummaryCriteria.add(criteria);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -329,7 +326,7 @@ public class GraphicalIndicator
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;
    private boolean m_showDataValuesInToolTips;
-   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new ArrayList<>();
-   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new ArrayList<>();
-   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new ArrayList<>();
+   private final List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new ArrayList<>();
 }

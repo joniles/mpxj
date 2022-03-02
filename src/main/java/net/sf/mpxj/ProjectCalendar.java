@@ -37,12 +37,12 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
- * This class represents the a Calendar Definition record. Both base calendars
+ * This class represents a Calendar Definition record. Both base calendars
  * and calendars derived from base calendars are represented by instances
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID
+public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -53,7 +53,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       m_projectFile = file;
 
-      if (file.getProjectConfig().getAutoCalendarUniqueID() == true)
+      if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
       }
@@ -64,9 +64,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per day
     */
-   public int getMinutesPerDay()
+   @Override public Integer getMinutesPerDay()
    {
-      return m_minutesPerDay == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerDay()) : m_minutesPerDay.intValue();
+      Integer result = m_minutesPerDay;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerDay();
+         }
+         else
+         {
+            result = getParent().getMinutesPerDay();
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -74,9 +87,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per week
     */
-   public int getMinutesPerWeek()
+   @Override public Integer getMinutesPerWeek()
    {
-      return m_minutesPerWeek == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerWeek()) : m_minutesPerWeek.intValue();
+      Integer result = m_minutesPerWeek;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerWeek();
+         }
+         else
+         {
+            result = getParent().getMinutesPerWeek();
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -84,9 +110,22 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per month
     */
-   public int getMinutesPerMonth()
+   @Override public Integer getMinutesPerMonth()
    {
-      return m_minutesPerMonth == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerMonth()) : m_minutesPerMonth.intValue();
+      Integer result = m_minutesPerMonth;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerMonth();
+         }
+         else
+         {
+            result = getParent().getMinutesPerMonth();
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -94,9 +133,34 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @return minutes per year
     */
-   public int getMinutesPerYear()
+   @Override public Integer getMinutesPerYear()
    {
-      return m_minutesPerYear == null ? NumberHelper.getInt(getParentFile().getProjectProperties().getMinutesPerYear()) : m_minutesPerYear.intValue();
+      Integer result = m_minutesPerYear;
+      if (result == null)
+      {
+         if (getParent() == null)
+         {
+            result = getParentFile().getProjectProperties().getMinutesPerYear();
+         }
+         else
+         {
+            result = getParent().getMinutesPerYear();
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve the number of days per month for this calendar.
+    *
+    * @return days per month
+    */
+   @Override public Integer getDaysPerMonth()
+   {
+      // We actually don't store this as part of calendar presently,
+      // so we'll use the value from the project properties.
+      return getParentFile().getProjectProperties().getDaysPerMonth();
    }
 
    /**
@@ -205,6 +269,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are represented by a single exception which
+    * contains the definition of the recurrence.
     *
     * @return List of calendar exceptions
     */
@@ -212,6 +278,19 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       sortExceptions();
       return m_exceptions;
+   }
+
+   /**
+    * This method retrieves a list of exceptions to the current calendar.
+    * Recurring exceptions are replaced by explicit exceptions representing
+    * each recurrence.
+    *
+    * @return List of calendar exceptions
+    */
+   public List<ProjectCalendarException> getExpandedCalendarExceptions()
+   {
+      populateExpandedExceptions();
+      return m_expandedExceptions;
    }
 
    /**
@@ -284,37 +363,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Method indicating whether a day is a working or non-working day.
-    *
-    * @param day required day
-    * @return true if this is a working day
-    */
-   public boolean isWorkingDay(Day day)
-   {
-      DayType value = getWorkingDay(day);
-      boolean result;
-
-      if (value == DayType.DEFAULT)
-      {
-         ProjectCalendar cal = getParent();
-         if (cal != null)
-         {
-            result = cal.isWorkingDay(day);
-         }
-         else
-         {
-            result = (day != Day.SATURDAY && day != Day.SUNDAY);
-         }
-      }
-      else
-      {
-         result = (value == DayType.WORKING);
-      }
-
-      return (result);
-   }
-
-   /**
     * This method is provided to allow an absolute period of time
     * represented by start and end dates into a duration in working
     * days based on this calendar instance. This method takes account
@@ -333,7 +381,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day) == true)
+         if (isWorkingDate(cal.getTime(), day))
          {
             ++duration;
          }
@@ -395,7 +443,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
          else
          {
-            Date rangeStart = result = ranges.getRange(0).getStart();
+            Date rangeStart = ranges.getRange(0).getStart();
             Date rangeFinish = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
             Date startDay = DateHelper.getDayStartDate(rangeStart);
             Date finishDay = DateHelper.getDayStartDate(rangeFinish);
@@ -1096,15 +1144,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarException midVal = m_expandedExceptions.get(mid);
-            int cmp = 0 - DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
+            int cmp = DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
 
-            if (cmp < 0)
+            if (cmp > 0)
             {
                low = mid + 1;
             }
             else
             {
-               if (cmp > 0)
+               if (cmp < 0)
                {
                   high = mid - 1;
                }
@@ -1146,15 +1194,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarWeek midVal = m_workWeeks.get(mid);
-            int cmp = 0 - DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
+            int cmp = DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
 
-            if (cmp < 0)
+            if (cmp > 0)
             {
                low = mid + 1;
             }
             else
             {
-               if (cmp > 0)
+               if (cmp < 0)
                {
                   high = mid - 1;
                }
@@ -1241,7 +1289,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
             Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            while (isWorkingDate(currentDate, day) == false && currentDate.getTime() < canonicalEndDate.getTime())
+            while (!isWorkingDate(currentDate, day) && currentDate.getTime() < canonicalEndDate.getTime())
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentDate = cal.getTime();
@@ -1343,7 +1391,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case DAYS:
          {
-            double minutesPerDay = getMinutesPerDay();
+            double minutesPerDay = NumberHelper.getDouble(getMinutesPerDay());
             if (minutesPerDay != 0)
             {
                duration /= (minutesPerDay * 60 * 1000);
@@ -1357,7 +1405,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case WEEKS:
          {
-            double minutesPerWeek = getMinutesPerWeek();
+            double minutesPerWeek = NumberHelper.getDouble(getMinutesPerWeek());
             if (minutesPerWeek != 0)
             {
                duration /= (minutesPerWeek * 60 * 1000);
@@ -1372,7 +1420,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          case MONTHS:
          {
             double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
-            double minutesPerDay = getMinutesPerDay();
+            double minutesPerDay = NumberHelper.getDouble(getMinutesPerDay());
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
                duration /= (daysPerMonth * minutesPerDay * 60 * 1000);
@@ -1398,7 +1446,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case ELAPSED_MONTHS:
          {
-            duration /= (30 * 24 * 60 * 60 * 1000);
+            duration /= (30.0 * 24.0 * 60.0 * 60.0 * 1000.0);
             break;
          }
 
@@ -1534,7 +1582,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          int diff = DateHelper.compare(startTime, endTime, target);
          if (diff == 0)
          {
-            if (after == true)
+            if (after)
             {
                total = (endTime.getTime() - target);
             }
@@ -1545,7 +1593,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
          else
          {
-            if ((after == true && diff < 0) || (after == false && diff > 0))
+            if ((after && diff < 0) || (!after && diff > 0))
             {
                total = (endTime.getTime() - startTime.getTime());
             }
@@ -1594,7 +1642,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param start1 start of first range
     * @param end1 end of first range
-    * @param start2 start start of second range
+    * @param start2 start of second range
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
@@ -1607,23 +1655,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          long start;
          long end;
 
-         if (start1.getTime() < start2.getTime())
-         {
-            start = start2.getTime();
-         }
-         else
-         {
-            start = start1.getTime();
-         }
+         start = Math.max(start1.getTime(), start2.getTime());
 
-         if (end1.getTime() < end2.getTime())
-         {
-            end = end1.getTime();
-         }
-         else
-         {
-            end = end2.getTime();
-         }
+         end = Math.min(end1.getTime(), end2.getTime());
 
          if (start < end)
          {
@@ -1639,7 +1673,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param calendar derived calendar instance
     */
-   protected void addDerivedCalendar(ProjectCalendar calendar)
+   private void addDerivedCalendar(ProjectCalendar calendar)
    {
       m_derivedCalendars.add(calendar);
    }
@@ -1649,7 +1683,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param calendar derived calendar instance
     */
-   protected void removeDerivedCalendar(ProjectCalendar calendar)
+   private void removeDerivedCalendar(ProjectCalendar calendar)
    {
       m_derivedCalendars.remove(calendar);
    }
@@ -1664,9 +1698,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       return (m_derivedCalendars);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -1742,16 +1773,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          ProjectCalendarHours taskHours = taskCalendar.getHours(day);
          ProjectCalendarHours resourceHours = resourceCalendar.getHours(day);
 
-         DateRange range1 = null;
-         DateRange range2 = null;
+         DateRange range1;
+         DateRange range2;
 
-         Date start = null;
-         Date end = null;
+         Date start;
+         Date end;
 
-         Date start1 = null;
-         Date start2 = null;
-         Date end1 = null;
-         Date end2 = null;
+         Date start1;
+         Date start2;
+         Date end1;
+         Date end2;
          while (true)
          {
             // Find next range start
@@ -1807,7 +1838,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             }
          }
       }
-      // For now just combine the exceptions. Probably overkill (although would be more accurate) to also merge the exceptions.
+      // For now just combine the exceptions. Probably overkill (although it would be more accurate) to also merge the exceptions.
       m_exceptions.addAll(taskCalendar.getCalendarExceptions());
       m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
       m_expandedExceptions.clear();
@@ -1827,7 +1858,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       setName(cal.getName());
       setParent(cal.getParent());
+
+      m_minutesPerDay = cal.m_minutesPerDay;
+      m_minutesPerWeek = cal.m_minutesPerWeek;
+      m_minutesPerMonth = cal.m_minutesPerMonth;
+      m_minutesPerYear = cal.m_minutesPerYear;
+
       System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
+
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
          ProjectCalendarException copyException = addCalendarException(ex.getFromDate(), ex.getToDate());
@@ -1893,7 +1931,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          }
 
-         ranges = week.getHours(day);
+         if (week.isWorkingDay(day))
+         {
+            ranges = week.getHours(day);
+         }
+         else
+         {
+            ranges = EMPTY_DATE_RANGES;
+         }
       }
       return ranges;
    }
@@ -1921,26 +1966,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       {
          for (ProjectCalendarException exception : m_exceptions)
          {
-            RecurringData recurring = exception.getRecurring();
-            if (recurring == null)
-            {
-               m_expandedExceptions.add(exception);
-            }
-            else
-            {
-               for (Date date : recurring.getDates())
-               {
-                  Date startDate = DateHelper.getDayStartDate(date);
-                  Date endDate = DateHelper.getDayEndDate(date);
-                  ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
-                  int rangeCount = exception.getRangeCount();
-                  for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
-                  {
-                     newException.addRange(exception.getRange(rangeIndex));
-                  }
-                  m_expandedExceptions.add(newException);
-               }
-            }
+            m_expandedExceptions.addAll(exception.getExpandedExceptions());
          }
          Collections.sort(m_expandedExceptions);
       }
@@ -1971,7 +1997,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Reference to parent ProjectFile.
     */
-   private ProjectFile m_projectFile;
+   private final ProjectFile m_projectFile;
 
    /**
     * Unique identifier of this calendar.
@@ -1981,12 +2007,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of exceptions to the base calendar.
     */
-   private List<ProjectCalendarException> m_exceptions = new ArrayList<>();
+   private final List<ProjectCalendarException> m_exceptions = new ArrayList<>();
 
    /**
     * List of exceptions, including expansion of recurring exceptions.
     */
-   private List<ProjectCalendarException> m_expandedExceptions = new ArrayList<>();
+   private final List<ProjectCalendarException> m_expandedExceptions = new ArrayList<>();
 
    /**
     * Flag indicating if the list of exceptions is sorted.
@@ -2006,13 +2032,13 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * List of calendars derived from this calendar instance.
     */
-   private ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
+   private final ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
 
    /**
     * Caches used to speed up date calculations.
     */
-   private Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
+   private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
+   private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private double m_getDateLastRemainingMinutes;
    private Date m_getDateLastResult;
@@ -2020,7 +2046,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Work week definitions.
     */
-   private ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
+   private final ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
 
    private Integer m_minutesPerDay;
    private Integer m_minutesPerWeek;
@@ -2040,4 +2066,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * and take an alternative approach.
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
+
+   private static final ProjectCalendarDateRanges EMPTY_DATE_RANGES = new ProjectCalendarDateRanges()
+   {
+      // No implementation
+   };
 }

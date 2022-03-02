@@ -76,7 +76,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * If this week is derived from a another week, this method
+    * If this week is derived from another week, this method
     * will return the parent week.
     *
     * @return parent week
@@ -165,7 +165,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       if (result == null)
       {
          //
-         // If this is a base calendar and we have no hours, then we
+         // If this is a base calendar, and we have no hours, then we
          // have a problem - so we add the default hours and try again
          //
          if (m_parent == null)
@@ -192,6 +192,20 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       {
          addDefaultCalendarHours(Day.getInstance(i));
       }
+   }
+
+   /**
+    * Convenience method to set up a standard working week.
+    */
+   public void addDefaultCalendarDays()
+   {
+      setWorkingDay(Day.SUNDAY, false);
+      setWorkingDay(Day.MONDAY, true);
+      setWorkingDay(Day.TUESDAY, true);
+      setWorkingDay(Day.WEDNESDAY, true);
+      setWorkingDay(Day.THURSDAY, true);
+      setWorkingDay(Day.FRIDAY, true);
+      setWorkingDay(Day.SATURDAY, false);
    }
 
    /**
@@ -268,6 +282,36 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
+    * Method indicating whether a day is a working or non-working day.
+    *
+    * @param day required day
+    * @return true if this is a working day
+    */
+   public boolean isWorkingDay(Day day)
+   {
+      DayType value = getWorkingDay(day);
+      boolean result;
+
+      if (value == DayType.DEFAULT)
+      {
+         if (m_parent != null)
+         {
+            result = m_parent.isWorkingDay(day);
+         }
+         else
+         {
+            result = (day != Day.SATURDAY && day != Day.SUNDAY);
+         }
+      }
+      else
+      {
+         result = (value == DayType.WORKING);
+      }
+
+      return (result);
+   }
+
+   /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
     * from the isWorkingDay method as it retrieves the actual flag value.
@@ -327,19 +371,13 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       m_days[day.getValue() - 1] = value;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(ProjectCalendarWeek o)
    {
       long fromTime1 = m_dateRange.getStart().getTime();
       long fromTime2 = o.m_dateRange.getStart().getTime();
-      return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
+      return (Long.compare(fromTime1, fromTime2));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -379,12 +417,12 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    /**
     * Working hours for each day.
     */
-   private ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
+   private final ProjectCalendarHours[] m_hours = new ProjectCalendarHours[7];
 
    /**
     * Working/non-working/default flag for each day.
     */
-   private DayType[] m_days = new DayType[7];
+   private final DayType[] m_days = new DayType[7];
 
    /**
     * Constants representing the default working morning and afternoon hours.

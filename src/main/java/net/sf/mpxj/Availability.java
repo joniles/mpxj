@@ -63,22 +63,16 @@ public final class Availability implements Comparable<Availability>
       return m_units;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int compareTo(Availability o)
    {
       return m_range.compareTo(o.m_range);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String toString()
    {
       return "[Availability range=" + m_range + " units=" + m_units + "]";
    }
 
-   private DateRange m_range;
-   private Number m_units;
+   private final DateRange m_range;
+   private final Number m_units;
 }

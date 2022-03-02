@@ -87,6 +87,8 @@ public enum TaskField implements FieldType
    EARLY_FINISH(DataType.DATE),
    REMAINING_EARLY_START(DataType.DATE),
    REMAINING_EARLY_FINISH(DataType.DATE),
+   REMAINING_LATE_START(DataType.DATE),
+   REMAINING_LATE_FINISH(DataType.DATE),
    LATE_START(DataType.DATE),
    LATE_FINISH(DataType.DATE),
    ACTUAL_START(DataType.DATE),
@@ -142,7 +144,7 @@ public enum TaskField implements FieldType
    NUMBER5(DataType.NUMERIC),
    SUMMARY(DataType.BOOLEAN),
    CREATED(DataType.DATE),
-   NOTES(DataType.ASCII_STRING),
+   NOTES(DataType.NOTES),
    UNIQUE_ID_PREDECESSORS(DataType.STRING),
    UNIQUE_ID_SUCCESSORS(DataType.STRING),
    OBJECTS(DataType.NUMERIC),
@@ -645,7 +647,7 @@ public enum TaskField implements FieldType
 
    IGNORE_WARNINGS(DataType.BOOLEAN),
    PEAK(DataType.STRING), // Check data type
-   PHYSICAL_PERCENT_COMPLETE(DataType.SHORT),
+   PHYSICAL_PERCENT_COMPLETE(DataType.PERCENTAGE),
    PLACEHOLDER(DataType.STRING), // Check data type
    PUBLISH(DataType.STRING), // Check data type
    REQUEST_DEMAND(DataType.STRING), // Check data type
@@ -663,7 +665,6 @@ public enum TaskField implements FieldType
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
    SPLITS(DataType.DATE_RANGE_LIST),
-   SPLITS_COMPLETE(DataType.DATE),
    SUBPROJECT(DataType.SUBPROJECT),
 
    START_TEXT(DataType.STRING),
@@ -690,13 +691,17 @@ public enum TaskField implements FieldType
    PARENT_TASK_UNIQUE_ID(DataType.INTEGER),
    CALENDAR_UNIQUE_ID(DataType.INTEGER),
    SPRINT(DataType.STRING), // Check type
+   SPRINT_ID(DataType.INTEGER),
+   BOARD_STATUS_ID(DataType.INTEGER),
+   SPRINT_START(DataType.DATE),
+   SPRINT_FINISH(DataType.DATE),
    BOARD_STATUS(DataType.STRING), // Check type
-   TASK_SUMMARY(DataType.STRING), // Check type
+   TASK_SUMMARY_NAME(DataType.STRING), // Check type
    SHOW_ON_BOARD(DataType.STRING), // Check type
 
    FIXED_DURATION(DataType.BOOLEAN),
    RESUME_NO_EARLIER_THAN(DataType.DATE),
-   PARENT_TASK(DataType.INTEGER),
+   // PARENT_TASK(DataType.INTEGER), // Can't find where this came from originally
    INDEX(DataType.INTEGER),
    DURATION1_ESTIMATED(DataType.BOOLEAN),
    DURATION2_ESTIMATED(DataType.BOOLEAN),
@@ -986,6 +991,37 @@ public enum TaskField implements FieldType
    PATH_SUCCESSOR(DataType.BOOLEAN),
    EXPENSE_ITEMS(DataType.EXPENSE_ITEM_LIST),
 
+   STORED_MATERIAL(DataType.CURRENCY),
+   FEATURE_OF_WORK(DataType.STRING),
+   CATEGORY_OF_WORK(DataType.STRING),
+   PHASE_OF_WORK(DataType.STRING),
+   BID_ITEM(DataType.STRING),
+   MOD_OR_CLAIM_NUMBER(DataType.STRING),
+   WORK_AREA_CODE(DataType.STRING),
+   RESPONSIBILITY_CODE(DataType.STRING),
+   WORKERS_PER_DAY(DataType.INTEGER),
+   HAMMOCK_CODE(DataType.BOOLEAN),
+   MAIL(DataType.STRING),
+   SECTION(DataType.STRING),
+   MANAGER(DataType.STRING),
+   DEPARTMENT(DataType.STRING),
+   OVERALL_PERCENT_COMPLETE(DataType.PERCENTAGE),
+   PLANNED_FINISH(DataType.DATE),
+   PLANNED_START(DataType.DATE),
+   PLANNED_DURATION(DataType.DURATION),
+   PLANNED_WORK(DataType.WORK),
+   SUSPEND_DATE(DataType.DATE),
+   PRIMARY_RESOURCE_ID(DataType.INTEGER),
+   ACTIVITY_ID(DataType.STRING),
+   PERCENT_COMPLETE_TYPE(DataType.PERCENT_COMPLETE_TYPE),
+   ACTIVITY_STATUS(DataType.ACTIVITY_STATUS),
+   ACTIVITY_TYPE(DataType.ACTIVITY_TYPE),
+   PLANNED_COST(DataType.CURRENCY),
+   EXTERNAL_EARLY_START(DataType.DATE),
+   EXTERNAL_LATE_FINISH(DataType.DATE),
+   LONGEST_PATH(DataType.BOOLEAN),
+   ACTIVITY_CODES(DataType.ACTIVITY_CODE_LIST),
+
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.BINARY),
    ENTERPRISE_CUSTOM_FIELD2(DataType.BINARY),
@@ -1197,7 +1233,7 @@ public enum TaskField implements FieldType
     * @param dataType field data type
     * @param unitsType field units type
     */
-   private TaskField(DataType dataType, FieldType unitsType)
+   TaskField(DataType dataType, FieldType unitsType)
    {
       m_dataType = dataType;
       m_unitsType = unitsType;
@@ -1208,30 +1244,21 @@ public enum TaskField implements FieldType
     *
     * @param dataType field data type
     */
-   private TaskField(DataType dataType)
+   TaskField(DataType dataType)
    {
       this(dataType, null);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return FieldTypeClass.TASK;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName()
    {
       return (getName(Locale.ENGLISH));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.TASK_COLUMNS);
@@ -1245,25 +1272,16 @@ public enum TaskField implements FieldType
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getValue()
    {
       return (m_value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public DataType getDataType()
    {
       return (m_dataType);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public FieldType getUnitsType()
    {
       return m_unitsType;
@@ -1311,6 +1329,6 @@ public enum TaskField implements FieldType
    }
 
    private int m_value;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final DataType m_dataType;
+   private final FieldType m_unitsType;
 }

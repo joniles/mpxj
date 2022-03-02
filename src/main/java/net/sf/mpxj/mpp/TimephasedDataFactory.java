@@ -75,7 +75,7 @@ final class TimephasedDataFactory
          int currentBlock = 0;
          while (currentBlock < blockCount && index + 20 <= data.length)
          {
-            double time = MPPUtility.getInt(data, index + 0);
+            double time = MPPUtility.getInt(data, index);
 
             // If the start of this block is before the start of the assignment, or after the end of the assignment
             // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
@@ -295,27 +295,6 @@ final class TimephasedDataFactory
    }
 
    /**
-    * Test the list of TimephasedWork instances to see
-    * if any of them have been modified.
-    *
-    * @param list list of TimephasedWork instances
-    * @return boolean flag
-    */
-   public boolean getWorkModified(List<TimephasedWork> list)
-   {
-      boolean result = false;
-      for (TimephasedWork assignment : list)
-      {
-         result = assignment.getModified();
-         if (result)
-         {
-            break;
-         }
-      }
-      return result;
-   }
-
-   /**
     * Extracts baseline work from the MPP file for a specific baseline.
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
@@ -463,5 +442,4 @@ final class TimephasedDataFactory
    {
       return NumberHelper.equals(lhs, rhs, 0.00001);
    }
-
 }

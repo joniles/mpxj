@@ -53,7 +53,7 @@ final class VarMeta12 extends AbstractVarMeta
       int magic = readInt(is);
       if (magic != 0 && magic != MAGIC)
       {
-         throw new IOException("Bad magic number");
+         throw new IOException("Bad magic number: " + magic);
       }
 
       /*m_unknown1 =*/readInt(is);

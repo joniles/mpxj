@@ -153,5 +153,5 @@ public class MapRow
       m_map.put(name, value);
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 }

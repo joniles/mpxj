@@ -52,9 +52,6 @@ class MapRow implements Row
       m_map = map;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public String getString(String name)
    {
       Object value = getObject(name);
@@ -70,15 +67,12 @@ class MapRow implements Row
       return (result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Integer getInteger(String name)
    {
       Object result = getObject(name);
       if (result != null)
       {
-         if (result instanceof Integer == false)
+         if (!(result instanceof Integer))
          {
             result = Integer.valueOf(((Number) result).intValue());
          }
@@ -86,9 +80,6 @@ class MapRow implements Row
       return ((Integer) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Double getDouble(String name)
    {
       Object result = getObject(name);
@@ -109,9 +100,6 @@ class MapRow implements Row
       return ((Double) result);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Double getCurrency(String name)
    {
       Double value = getDouble(name);
@@ -122,9 +110,6 @@ class MapRow implements Row
       return (value);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public boolean getBoolean(String name)
    {
       boolean result = false;
@@ -143,17 +128,11 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public int getInt(String name)
    {
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Date getTimestamp(String name)
    {
       return (Date) getObject(name);
@@ -178,9 +157,6 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Duration getDuration(String name)
    {
       Duration result;
@@ -196,9 +172,6 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Duration getWork(String name)
    {
       Duration result;
@@ -225,9 +198,6 @@ class MapRow implements Row
       return m_map.get(name);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public UUID getUUID(String name)
    {
       String value = getString(name);
@@ -250,9 +220,6 @@ class MapRow implements Row
       return new UUID(msb, lsb);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public RelationType getRelationType(String name)
    {
       RelationType result;
@@ -289,9 +256,6 @@ class MapRow implements Row
       return result;
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public ResourceType getResourceType(String name)
    {
       ResourceType result;
@@ -417,9 +381,6 @@ class MapRow implements Row
       return Duration.getInstance(durationValue, durationUnits);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Day getDay(String name)
    {
       Day result = null;
@@ -431,7 +392,7 @@ class MapRow implements Row
       return result;
    }
 
-   protected Map<String, Object> m_map;
+   protected final Map<String, Object> m_map;
 
    /**
     * 07/01/2001 00:00.

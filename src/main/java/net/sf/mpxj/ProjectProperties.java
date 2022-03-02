@@ -24,21 +24,23 @@
 
 package net.sf.mpxj;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.PopulatedFields;
 import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a collection of properties relevant to the whole project.
  */
-public final class ProjectProperties extends ProjectEntity implements FieldContainer
+public final class ProjectProperties extends ProjectEntity implements FieldContainer, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -82,8 +84,8 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
-      setMinutesPerDay(Integer.valueOf(480));
-      setMinutesPerWeek(Integer.valueOf(2400));
+      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY);
+      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
       setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
@@ -143,11 +145,12 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setNewTaskStartIsProjectStart(true);
       setNewTasksAreManual(true);
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
+      setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
    }
 
    /**
     * Gets Default Duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
+    * duration units are defined by the {@code TimeUnit} class.
     *
     * @return default duration units
     * @see TimeUnit
@@ -159,7 +162,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
+    * duration units are defined by the {@code TimeUnit} class.
     *
     * @param units default duration units
     * @see TimeUnit
@@ -191,7 +194,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
+    * work units are defined by the {@code TimeUnit} class.
     *
     * @return default work units
     * @see TimeUnit
@@ -203,7 +206,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
+    * work units are defined by the {@code TimeUnit} class.
     *
     * @param units  default work units
     * @see TimeUnit
@@ -596,8 +599,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    /**
     * Retrieves the project start date. If an explicit start date has not been
-    * set, this method calculates the start date by looking for
-    * the earliest task start date.
+    * set, we fall back on the earliest start date in the file.
     *
     * @return project start date
     */
@@ -606,24 +608,23 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       Date result = (Date) getCachedValue(ProjectField.START_DATE);
       if (result == null)
       {
-         result = getParentFile().getStartDate();
+         result = getParentFile().getEarliestStartDate();
       }
       return (result);
    }
 
    /**
-    * Retrieves the project finish date. If an explicit finish date has not been
-    * set, this method calculates the finish date by looking for
-    * the latest task finish date.
+    * Retrieves the project finish date. If an explicit finish date has not been set we
+    * fall back on the latest task finish date in the file.
     *
-    * @return Finish Date
+    * @return project finish date
     */
    public Date getFinishDate()
    {
       Date result = (Date) getCachedValue(ProjectField.FINISH_DATE);
       if (result == null)
       {
-         result = getParentFile().getFinishDate();
+         result = getParentFile().getLatestFinishDate();
       }
       return (result);
    }
@@ -1266,9 +1267,14 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return days per month
     */
-   public Number getDaysPerMonth()
+   @Override public Integer getDaysPerMonth()
    {
-      return (Number) getCachedValue(ProjectField.DAYS_PER_MONTH);
+      Integer result = (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
+      if (result == null)
+      {
+         result = DEFAULT_DAYS_PER_MONTH;
+      }
+      return result;
    }
 
    /**
@@ -1276,12 +1282,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param daysPerMonth days per month
     */
-   public void setDaysPerMonth(Number daysPerMonth)
+   public void setDaysPerMonth(Integer daysPerMonth)
    {
-      if (daysPerMonth != null)
-      {
-         set(ProjectField.DAYS_PER_MONTH, daysPerMonth);
-      }
+      set(ProjectField.DAYS_PER_MONTH, daysPerMonth);
    }
 
    /**
@@ -1289,9 +1292,15 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per day
     */
-   public Number getMinutesPerDay()
+   @Override public Integer getMinutesPerDay()
    {
-      return (Number) getCachedValue(ProjectField.MINUTES_PER_DAY);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
+      if (result == null)
+      {
+         result = DEFAULT_MINUTES_PER_DAY;
+         set(ProjectField.MINUTES_PER_DAY, result);
+      }
+      return result;
    }
 
    /**
@@ -1299,12 +1308,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param minutesPerDay minutes per day
     */
-   public void setMinutesPerDay(Number minutesPerDay)
+   public void setMinutesPerDay(Integer minutesPerDay)
    {
-      if (minutesPerDay != null)
-      {
-         set(ProjectField.MINUTES_PER_DAY, minutesPerDay);
-      }
+      set(ProjectField.MINUTES_PER_DAY, minutesPerDay);
    }
 
    /**
@@ -1312,9 +1318,15 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per week
     */
-   public Number getMinutesPerWeek()
+   @Override public Integer getMinutesPerWeek()
    {
-      return (Number) getCachedValue(ProjectField.MINUTES_PER_WEEK);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
+      if (result == null)
+      {
+         result = Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
+         set(ProjectField.MINUTES_PER_WEEK, result);
+      }
+      return result;
    }
 
    /**
@@ -1322,12 +1334,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param minutesPerWeek minutes per week
     */
-   public void setMinutesPerWeek(Number minutesPerWeek)
+   public void setMinutesPerWeek(Integer minutesPerWeek)
    {
-      if (minutesPerWeek != null)
-      {
-         set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
-      }
+      set(ProjectField.MINUTES_PER_WEEK, minutesPerWeek);
    }
 
    /**
@@ -1335,9 +1344,25 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per month
     */
-   public Number getMinutesPerMonth()
+   @Override public Integer getMinutesPerMonth()
    {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_MONTH);
+      if (result == null)
+      {
+         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+         set(ProjectField.MINUTES_PER_MONTH, result);
+      }
+      return result;
+   }
+
+   /**
+    * Set the default number of minutes per month.
+    *
+    * @param minutesPerMonth minutes per month
+    */
+   public void setMinutesPerMonth(Integer minutesPerMonth)
+   {
+      set(ProjectField.MINUTES_PER_MONTH, minutesPerMonth);
    }
 
    /**
@@ -1345,9 +1370,25 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return minutes per year
     */
-   public Number getMinutesPerYear()
+   @Override public Integer getMinutesPerYear()
    {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_YEAR);
+      if (result == null)
+      {
+         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+         set(ProjectField.MINUTES_PER_YEAR, result);
+      }
+      return result;
+   }
+
+   /**
+    * Set the default number of minutes per year.
+    *
+    * @param minutesPerYear minutes per year
+    */
+   public void setMinutesPerYear(Integer minutesPerYear)
+   {
+      set(ProjectField.MINUTES_PER_YEAR, minutesPerYear);
    }
 
    /**
@@ -1755,9 +1796,9 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return unique ID
     */
-   public String getUniqueID()
+   public Integer getUniqueID()
    {
-      return (String) getCachedValue(ProjectField.UNIQUE_ID);
+      return (Integer) getCachedValue(ProjectField.UNIQUE_ID);
    }
 
    /**
@@ -1765,9 +1806,29 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param uniqueID unique ID
     */
-   public void setUniqueID(String uniqueID)
+   public void setUniqueID(Integer uniqueID)
    {
       set(ProjectField.UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieve the GUID for this project.
+    *
+    * @return unique ID
+    */
+   public UUID getGUID()
+   {
+      return (UUID) getCachedValue(ProjectField.GUID);
+   }
+
+   /**
+    * Set the GUID for this project.
+    *
+    * @param guid GUID
+    */
+   public void setGUID(UUID guid)
+   {
+      set(ProjectField.GUID, guid);
    }
 
    /**
@@ -2074,28 +2135,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    public void setWeekStartDay(Day weekStartDay)
    {
       set(ProjectField.WEEK_START_DAY, weekStartDay);
-   }
-
-   /**
-    * Sets the calculate multiple critical paths flag.
-    *
-    * @param flag boolean flag
-    * @deprecated use setMultipleCriticalPaths
-    */
-   @Deprecated public void setCalculateMultipleCriticalPaths(boolean flag)
-   {
-      set(ProjectField.MULTIPLE_CRITICAL_PATHS, flag);
-   }
-
-   /**
-    * Retrieves the calculate multiple critical paths flag.
-    *
-    * @return boolean flag
-    * @deprecated use getMultipleCriticalPaths
-    */
-   @Deprecated public boolean getCalculateMultipleCriticalPaths()
-   {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MULTIPLE_CRITICAL_PATHS));
    }
 
    /**
@@ -2689,26 +2728,133 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    }
 
    /**
-    * {@inheritDoc}
+    * Retrieve the baseline project unique ID for this project.
+    *
+    * @return baseline project unique ID
     */
-   @Override public void addFieldListener(FieldListener listener)
+   public Integer getBaselineProjectUniqueID()
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
+      return (Integer) getCachedValue(ProjectField.BASELINE_PROJECT_UNIQUE_ID);
    }
 
    /**
-    * {@inheritDoc}
+    * Set the baseline project unique ID for this project.
+    *
+    * @param uniqueID baseline project unique ID
     */
+   public void setBaselineProjectUniqueID(Integer uniqueID)
+   {
+      set(ProjectField.BASELINE_PROJECT_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieve the project ID for this project.
+    *
+    * @return baseline project unique ID
+    */
+   public String getProjectID()
+   {
+      return (String) getCachedValue(ProjectField.PROJECT_ID);
+   }
+
+   /**
+    * Set the project ID for this project.
+    *
+    * @param id project ID
+    */
+   public void setProjectID(String id)
+   {
+      set(ProjectField.PROJECT_ID, id);
+   }
+
+   /**
+    * Retrieve the critical activity type for this project.
+    *
+    * @return critical activity type
+    */
+   public CriticalActivityType getCriticalActivityType()
+   {
+      return (CriticalActivityType) getCachedValue(ProjectField.CRITICAL_ACTIVITY_TYPE);
+   }
+
+   /**
+    * Set the critical activity type for this project.
+    *
+    * @param value critical activity type
+    */
+   public void setCriticalActivityType(CriticalActivityType value)
+   {
+      set(ProjectField.CRITICAL_ACTIVITY_TYPE, value);
+   }
+
+   /**
+    * Sets the must finish by date for this project.
+    *
+    * @param date must finish by date
+    */
+   public void setMustFinishBy(Date date)
+   {
+      set(ProjectField.MUST_FINISH_BY, date);
+   }
+
+   /**
+    * Retrieves the must finish by date for this project.
+    *
+    * @return must finish by date
+    */
+   public Date getMustFinishBy()
+   {
+      return (Date) getCachedValue(ProjectField.MUST_FINISH_BY);
+   }
+
+   /**
+    * Sets the scheduled finish by date for this project.
+    *
+    * @param date scheduled finish by date
+    */
+   public void setScheduledFinish(Date date)
+   {
+      set(ProjectField.SCHEDULED_FINISH, date);
+   }
+
+   /**
+    * Retrieves the scheduled finish by date for this project.
+    *
+    * @return scheduled finish by date
+    */
+   public Date getScheduledFinish()
+   {
+      return (Date) getCachedValue(ProjectField.SCHEDULED_FINISH);
+   }
+
+   /**
+    * Sets the planned start by date for this project.
+    *
+    * @param date planned start by date
+    */
+   public void setPlannedStart(Date date)
+   {
+      set(ProjectField.PLANNED_START, date);
+   }
+
+   /**
+    * Retrieves the planned start by date for this project.
+    *
+    * @return planned start by date
+    */
+   public Date getPlannedStart()
+   {
+      return (Date) getCachedValue(ProjectField.PLANNED_START);
+   }
+
+   @Override public void addFieldListener(FieldListener listener)
+   {
+      // We don't currently generate events for project properties
+   }
+
    @Override public void removeFieldListener(FieldListener listener)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
+      // We don't currently generate events for project properties
    }
 
    /**
@@ -2740,25 +2886,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return c == null ? defaultValue : c.charValue();
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public Object getCurrentValue(FieldType field)
    {
       return (getCachedValue(field));
    }
 
-   /**
-    * {@inheritDoc}
-    */
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)
@@ -2766,6 +2903,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
          int index = field.getValue();
          m_array[index] = value;
       }
+   }
+
+   /**
+    * Retrieve the set of populated fields for this project.
+    *
+    * @return set of populated fields
+    */
+   public Set<ProjectField> getPopulatedFields()
+   {
+      return new PopulatedFields<>(getParentFile(), ProjectField.class, Collections.singletonList(this)).getPopulatedFields();
    }
 
    /**
@@ -2782,12 +2929,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[ProjectField.MAX_VALUE];
-
-   /**
-    * Listeners.
-    */
-   private List<FieldListener> m_listeners;
+   private final Object[] m_array = new Object[ProjectField.MAX_VALUE];
 
    /**
     * Default time separator character.
@@ -2822,7 +2964,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Default currency symbol position.
     */
-   private static CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
+   private static final CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
 
    /**
     * Default cost value.
@@ -2885,14 +3027,19 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    private static final String DEFAULT_CALENDAR_NAME = "Standard";
 
    /**
-    * Default minutes per day.
+    * Default days per week.
     */
-   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
+   private static final int DEFAULT_DAYS_PER_WEEK = 5;
 
    /**
     * Default days per month.
     */
    private static final Integer DEFAULT_DAYS_PER_MONTH = Integer.valueOf(20);
+
+   /**
+    * Default minutes per day.
+    */
+   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
 
    /**
     * Default minutes per week.
