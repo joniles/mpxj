@@ -24,7 +24,10 @@
 package net.sf.mpxj.explorer;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,6 +44,7 @@ import net.sf.mpxj.Duration;
  */
 public class ObjectPropertiesController
 {
+   private final DateFormat m_dateFormat;
    private final ObjectPropertiesModel m_model;
 
    /**
@@ -51,6 +55,7 @@ public class ObjectPropertiesController
    public ObjectPropertiesController(ObjectPropertiesModel model)
    {
       m_model = model;
+      m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
    }
 
    /**
@@ -176,7 +181,7 @@ public class ObjectPropertiesController
 
       if (value != null)
       {
-         map.put(getPropertyName(method), String.valueOf(value));
+         map.put(getPropertyName(method), formatValue(value));
       }
    }
 
@@ -198,7 +203,7 @@ public class ObjectPropertiesController
             Object value = filterValue(method.invoke(object, Integer.valueOf(index)));
             if (value != null)
             {
-               map.put(getPropertyName(method, index), String.valueOf(value));
+               map.put(getPropertyName(method, index), formatValue(value));
             }
             ++index;
          }
@@ -207,6 +212,26 @@ public class ObjectPropertiesController
       {
          // Reached the end of the valid indexes
       }
+   }
+
+   /**
+    * Format a property value.
+    * 
+    * @param value "raw" property value
+    * @return formatted property value
+    */
+   private String formatValue(Object value)
+   {
+      String result;
+      if (value instanceof Date)
+      {
+         result = m_dateFormat.format(value);
+      }
+      else
+      {
+         result = String.valueOf(value);
+      }
+      return result;
    }
 
    /**
@@ -236,5 +261,4 @@ public class ObjectPropertiesController
    {
       return method.getName().substring(3) + index;
    }
-
 }
