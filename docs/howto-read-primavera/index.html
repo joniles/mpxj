@@ -567,6 +567,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-plf/" class="md-nav__link">
+        PLF files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -1099,7 +1113,7 @@ database will be the JDBC driver and connection string used.</p>
 <span class="n">ProjectFile</span> <span class="n">projectFile</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
 </code></pre></div>
 <p>You can also connect to a standalone SQLite P6 database. This
-is easier to achieve as a specific reader class has bee created
+is easier to achieve as a specific reader class has been created
 which manages the database connection for you:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseFileReader</span><span class="p">;</span>
@@ -1135,7 +1149,7 @@ Server JDBC driver to a .Net assembly:</p>
 <div class="highlight"><pre><span></span><code>c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
 </code></pre></div>
 <p>You can then add a reference to this assembly to your project. Configuring the
-JDBC driver needs to be done in a slightly different way than you would using
+JDBC driver needs to be done in a slightly different way than you would when using
 Java. Here we need to create an instance of the JDBC driver class directly,
 rather than referencing it by name as we would in Java.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//</span>
@@ -1171,10 +1185,10 @@ to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as sh
 <span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="wbs-is-full-path">WBS is Full Path</h3>
-<p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
-separated hierarchy of all of the parent WBS attributes.
+<p>Currently, the WBS attribute of summary tasks (WBS entities in P6) will be a dot
+separated hierarchy of all the parent WBS attributes.
 In this example, <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has
-the parents <code>root</code> and <code>wbs1</code>. To disabled this behaviour, and simply record
+the parents <code>root</code> and <code>wbs1</code>. To disable this behaviour, and simply record
 the code for the current WBS entry (in the example above <code>wbs2</code>) call the
 <code>setWbsIsFullPath</code> method, passing in <code>false</code>, as illustrated below.  </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1209,7 +1223,7 @@ from one custom type to another.</p>
 <li>FT_MONEY: COST, ENTERPRISE_COST</li>
 </ul>
 <p>You can modify the default mappings used between P6 user defined fields and MPXJ
-custom fields using the the methods shown in the code sample below:</p>
+custom fields using the methods shown in the code sample below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
 
@@ -1266,7 +1280,7 @@ You can modify these existing mappings, or add new ones, for example:</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../howto-read-pmxml/" class="md-footer__link md-footer__link--prev" aria-label="Previous: PMXML files" rel="prev">
+        <a href="../howto-read-plf/" class="md-footer__link md-footer__link--prev" aria-label="Previous: PLF files" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1275,7 +1289,7 @@ You can modify these existing mappings, or add new ones, for example:</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              PMXML files
+              PLF files
             </div>
           </div>
         </a>

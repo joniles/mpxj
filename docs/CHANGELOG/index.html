@@ -260,8 +260,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1011-unreleased" class="md-nav__link">
-    10.1.1 (unreleased)
+  <a href="#1021-unreleased" class="md-nav__link">
+    10.2.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1020-2022-03-06" class="md-nav__link">
+    10.2.0 (2022-03-06)
   </a>
   
 </li>
@@ -1917,6 +1924,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-read-plf/" class="md-nav__link">
+        PLF files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-read-primavera/" class="md-nav__link">
         P6 databases
       </a>
@@ -2239,8 +2260,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1011-unreleased" class="md-nav__link">
-    10.1.1 (unreleased)
+  <a href="#1021-unreleased" class="md-nav__link">
+    10.2.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1020-2022-03-06" class="md-nav__link">
+    10.2.0 (2022-03-06)
   </a>
   
 </li>
@@ -3572,7 +3600,15 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1011-unreleased">10.1.1 (unreleased)</h2>
+<h2 id="1021-unreleased">10.2.1 (unreleased)</h2>
+<h2 id="1020-2022-03-06">10.2.0 (2022-03-06)</h2>
+<ul>
+<li>Improvements to writing currency, rate and units amounts to MSPDI files.</li>
+<li>When reading MPP and MSPDI files, calendar exceptions representing a single range of days, but defined as a recurring exception are converted to a range of days, removing the unnecessary recurring definition.</li>
+<li>Added <code>StructuredTextParser</code> to replace original code handling calendar data, project properties and curve data read from XER files and Primavera databases. Can also be used to extract data from Primavera Layout Files (PLF).</li>
+<li>Improve recognition of contoured resource assignments read from MPP files.</li>
+<li>Improve retrieval of resource assignment confirmed, response pending, linked fields, and team status pending flags from certain MPP files.</li>
+</ul>
 <h2 id="1010-2022-01-29">10.1.0 (2022-01-29)</h2>
 <ul>
 <li>Improve PMXML file compatibility with P6.</li>

@@ -569,6 +569,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-read-plf/" class="md-nav__link">
+        PLF files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-read-primavera/" class="md-nav__link">
         P6 databases
       </a>
@@ -1199,7 +1213,7 @@ to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as sh
 <p>Currently the WBS attribute of summary tasks (WBS entities in P6) will be a dot
 separated hierarchy of all of the parent WBS attributes. In this example,
 <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has the parents <code>root</code>
-and <code>wbs1</code>. To disabled this behaviour, and simply record the code for the
+and <code>wbs1</code>. To disable this behaviour, and simply record the code for the
 current WBS entry (in the example above <code>wbs2</code>) call the <code>setWbsIsFullPath</code>
 method, passing in <code>false</code>, as illustrated below.  </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1234,7 +1248,7 @@ from one custom type to another.</p>
 <li>FT_MONEY: COST, ENTERPRISE_COST</li>
 </ul>
 <p>You can modify the default mappings used between P6 user defined fields and MPXJ
-custom fields using the the methods shown in the code sample below:</p>
+custom fields using the methods shown in the code sample below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
