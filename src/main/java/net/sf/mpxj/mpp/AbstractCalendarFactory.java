@@ -267,13 +267,16 @@ abstract class AbstractCalendarFactory implements CalendarFactory
 
             if (dateRanges.isEmpty())
             {
+               if (isBaseCalendar)
+               {
+                  cal.addCalendarHours(Day.getInstance(index + 1));
+               }
                cal.setWorkingDay(day, false);
             }
             else
             {
                cal.setWorkingDay(day, true);
                hours = cal.addCalendarHours(Day.getInstance(index + 1));
-
                for (DateRange range : dateRanges)
                {
                   hours.addRange(range);

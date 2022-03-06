@@ -299,10 +299,10 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             int minutesPerMonth = 4 * minutesPerWeek;
             int minutesPerYear = 52 * minutesPerWeek;
 
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
-            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
-            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
-            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
 
          m_eventManager.fireCalendarReadEvent(calendar);

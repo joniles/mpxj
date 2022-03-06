@@ -238,9 +238,9 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
       for (Day day : Day.values())
       {
+         ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
          {
-            ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
             hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
             hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
          }

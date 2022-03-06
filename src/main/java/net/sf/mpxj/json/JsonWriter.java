@@ -47,6 +47,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -271,6 +272,30 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(null, resource, ResourceField.values());
       }
       m_writer.writeEndList();
+   }
+
+   private void writeCalendars() throws IOException
+   {
+      m_writer.writeStartList("calendars");
+      for (ProjectCalendar calendar : m_projectFile.getCalendars())
+      {
+         writeCalendar(calendar);
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeCalendar(ProjectCalendar calendar) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      m_writer.writeNameValuePair("unique_id", calendar.getUniqueID());
+      m_writer.writeNameValuePair("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
+      m_writer.writeNameValuePair("name", calendar.getName());
+      m_writer.writeNameValuePair("minutes_per_day", calendar.getCalendarMinutesPerDay());
+      m_writer.writeNameValuePair("minutes_per_week", calendar.getCalendarMinutesPerWeek());
+      m_writer.writeNameValuePair("minutes_per_month", calendar.getCalendarMinutesPerMonth());
+      m_writer.writeNameValuePair("minutes_per_year", calendar.getCalendarMinutesPerYear());
+
+      m_writer.writeEndObject();
    }
 
    /**

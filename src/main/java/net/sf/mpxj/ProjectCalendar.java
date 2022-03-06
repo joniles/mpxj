@@ -60,13 +60,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve the number of minutes per day for this calendar.
+    * Retrieve the effective number of minutes per day for this calendar.
+    * Will fall back to the parent calendar and project settings if
+    * this calendar does not have an explicit value.
     *
     * @return minutes per day
     */
    @Override public Integer getMinutesPerDay()
    {
-      Integer result = m_minutesPerDay;
+      Integer result = m_calendarMinutesPerDay;
       if (result == null)
       {
          if (getParent() == null)
@@ -83,13 +85,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve the number of minutes per week for this calendar.
+    * Retrieve the effective number of minutes per week for this calendar.
+    * Will fall back to the parent calendar and project settings if
+    * this calendar does not have an explicit value.
     *
     * @return minutes per week
     */
    @Override public Integer getMinutesPerWeek()
    {
-      Integer result = m_minutesPerWeek;
+      Integer result = m_calendarMinutesPerWeek;
       if (result == null)
       {
          if (getParent() == null)
@@ -106,13 +110,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve the number of minutes per month for this calendar.
+    * Retrieve the effective number of minutes per month for this calendar.
+    * Will fall back to the parent calendar and project settings if
+    * this calendar does not have an explicit value.
     *
     * @return minutes per month
     */
    @Override public Integer getMinutesPerMonth()
    {
-      Integer result = m_minutesPerMonth;
+      Integer result = m_calendarMinutesPerMonth;
       if (result == null)
       {
          if (getParent() == null)
@@ -129,13 +135,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve the number of minutes per year for this calendar.
+    * Retrieve the effective number of minutes per year for this calendar.
+    * Will fall back to the parent calendar and project settings if
+    * this calendar does not have an explicit value.
     *
     * @return minutes per year
     */
    @Override public Integer getMinutesPerYear()
    {
-      Integer result = m_minutesPerYear;
+      Integer result = m_calendarMinutesPerYear;
       if (result == null)
       {
          if (getParent() == null)
@@ -152,7 +160,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Retrieve the number of days per month for this calendar.
+    * Retrieve the effective number of days per month for this calendar.
     *
     * @return days per month
     */
@@ -168,9 +176,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param minutes number of minutes
     */
-   public void setMinutesPerDay(Integer minutes)
+   public void setCalendarMinutesPerDay(Integer minutes)
    {
-      m_minutesPerDay = minutes;
+      m_calendarMinutesPerDay = minutes;
+   }
+
+   public Integer getCalendarMinutesPerDay()
+   {
+      return m_calendarMinutesPerDay;
    }
 
    /**
@@ -178,9 +191,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param minutes number of minutes
     */
-   public void setMinutesPerWeek(Integer minutes)
+   public void setCalendarMinutesPerWeek(Integer minutes)
    {
-      m_minutesPerWeek = minutes;
+      m_calendarMinutesPerWeek = minutes;
+   }
+
+   public Integer getCalendarMinutesPerWeek()
+   {
+      return m_calendarMinutesPerWeek;
    }
 
    /**
@@ -188,9 +206,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param minutes number of minutes
     */
-   public void setMinutesPerMonth(Integer minutes)
+   public void setCalendarMinutesPerMonth(Integer minutes)
    {
-      m_minutesPerMonth = minutes;
+      m_calendarMinutesPerMonth = minutes;
+   }
+
+   public Integer getCalendarMinutesPerMonth()
+   {
+      return m_calendarMinutesPerMonth;
    }
 
    /**
@@ -198,9 +221,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param minutes number of minutes
     */
-   public void setMinutesPerYear(Integer minutes)
+   public void setCalendarMinutesPerYear(Integer minutes)
    {
-      m_minutesPerYear = minutes;
+      m_calendarMinutesPerYear = minutes;
+   }
+
+   public Integer getCalendarMinutesPerYear()
+   {
+      return m_calendarMinutesPerYear;
    }
 
    /**
@@ -1859,10 +1887,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       setName(cal.getName());
       setParent(cal.getParent());
 
-      m_minutesPerDay = cal.m_minutesPerDay;
-      m_minutesPerWeek = cal.m_minutesPerWeek;
-      m_minutesPerMonth = cal.m_minutesPerMonth;
-      m_minutesPerYear = cal.m_minutesPerYear;
+      m_calendarMinutesPerDay = cal.m_calendarMinutesPerDay;
+      m_calendarMinutesPerWeek = cal.m_calendarMinutesPerWeek;
+      m_calendarMinutesPerMonth = cal.m_calendarMinutesPerMonth;
+      m_calendarMinutesPerYear = cal.m_calendarMinutesPerYear;
 
       System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
 
@@ -2048,10 +2076,10 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private final ArrayList<ProjectCalendarWeek> m_workWeeks = new ArrayList<>();
 
-   private Integer m_minutesPerDay;
-   private Integer m_minutesPerWeek;
-   private Integer m_minutesPerMonth;
-   private Integer m_minutesPerYear;
+   private Integer m_calendarMinutesPerDay;
+   private Integer m_calendarMinutesPerWeek;
+   private Integer m_calendarMinutesPerMonth;
+   private Integer m_calendarMinutesPerYear;
 
    /**
     * Default base calendar name to use when none is supplied.

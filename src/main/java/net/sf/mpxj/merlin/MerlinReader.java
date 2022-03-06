@@ -229,6 +229,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       for (Day day : Day.values())
       {
          calendar.setWorkingDay(day, false);
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
       }
 
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarWeekDayRule"));
@@ -236,13 +237,14 @@ public final class MerlinReader extends AbstractProjectFileReader
       {
          Day day = row.getDay("ZWEEKDAY");
          String timeIntervals = row.getString("ZTIMEINTERVALS");
+         ProjectCalendarHours hours = calendar.getCalendarHours(day);
+
          if (timeIntervals == null)
          {
             calendar.setWorkingDay(day, false);
          }
          else
          {
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
             NodeList nodes = getNodeList(timeIntervals, m_dayTimeIntervals);
             calendar.setWorkingDay(day, nodes.getLength() > 0);
 
