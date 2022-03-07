@@ -3,11 +3,13 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 11,2,0,1,8.00,40.00,£0.00/h,£0.00/h,1,1
 12,1,0,480,/,:,am,pm,20,20
 20,Standard,0,1,1,1,1,1,0
+25,1
 25,2,08:00 am,12:00 pm,01:00 pm,05:00 pm
 25,3,08:00 am,12:00 pm,01:00 pm,05:00 pm
 25,4,08:00 am,12:00 pm,01:00 pm,05:00 pm
 25,5,08:00 am,12:00 pm,01:00 pm,05:00 pm
 25,6,08:00 am,12:00 pm,01:00 pm,05:00 pm
+25,7
 30,Project1,Tapster Rock,,Standard,07/02/2006,07/02/2006,0,01/03/2006,,£0.00,£0.00,£0.00,0h,0h,0h,0%,0d,0d,0d,0%,,,,,0d,0d,,Jon Iles
 60,Outline Level,Work,Baseline Work,Actual Work,Remaining Work,% Work Complete,Cost,Baseline Cost,Actual Cost,Remaining Cost,Fixed Cost,Cost1,Cost2,Cost3,Duration,Baseline Duration,Actual Duration,Remaining Duration,% Complete,Start,Finish,Early Start,Early Finish,Late Start,Late Finish,Fixed,Milestone,Marked,Rollup,ID,Constraint Type,Delay,Free Slack,Priority,Unique ID,Flag1,Flag2,Flag3,Flag4,Flag5,Flag6,Flag7,Flag8,Flag9,Flag10,Summary,Hide Bar,Created,Number1,Number2,Number3,Number4,Number5
 61,3,20,21,22,23,25,30,31,32,33,35,36,37,38,40,41,42,43,44,50,51,52,53,54,55,80,81,83,84,90,91,92,93,95,98,110,111,112,113,114,115,116,117,118,119,120,123,125,140,141,142,143,144

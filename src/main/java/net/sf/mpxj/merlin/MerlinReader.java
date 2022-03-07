@@ -229,7 +229,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       for (Day day : Day.values())
       {
          calendar.setWorkingDay(day, false);
-         ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         calendar.addCalendarHours(day);
       }
 
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarWeekDayRule"));

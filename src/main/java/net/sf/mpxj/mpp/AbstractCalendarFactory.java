@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -161,9 +162,16 @@ abstract class AbstractCalendarFactory implements CalendarFactory
 
                   cal.setUniqueID(calendarID);
 
-                  if (varData != null)
+                  if (varData == null)
+                  {                  
+                     if (baseCalendarID <= 0)
+                     {
+                        Stream.of(Day.values()).forEach(d -> cal.addCalendarHours(d));
+                     }
+                  }
+                  else
                   {
-                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID == -1);
+                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID <= 0);
                      processCalendarExceptions(varData, cal);
                   }
 
@@ -219,23 +227,22 @@ abstract class AbstractCalendarFactory implements CalendarFactory
          {
             if (isBaseCalendar)
             {
+               hours = cal.addCalendarHours(Day.getInstance(index + 1));
                if (defaultCalendar == null)
-               {
+               {                  
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day))
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                  {                     
                      hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
                      hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
                   }
                }
                else
                {
-                  boolean workingDay = defaultCalendar.isWorkingDay(day);
+                  boolean workingDay = defaultCalendar.isWorkingDay(day);                  
                   cal.setWorkingDay(day, workingDay);
                   if (workingDay)
-                  {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                  {                     
                      for (DateRange range : defaultCalendar.getHours(day))
                      {
                         hours.addRange(range);
