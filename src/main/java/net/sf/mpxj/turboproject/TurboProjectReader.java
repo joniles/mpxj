@@ -190,11 +190,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
          for (Day day : Day.values())
          {
-            if (calendar.isWorkingDay(day))
-            {
-               // TODO: this is an approximation
-               calendar.addDefaultCalendarHours(day);
-            }
+            // TODO: this is an approximation
+            calendar.addDefaultCalendarHours(day);
          }
       }
 

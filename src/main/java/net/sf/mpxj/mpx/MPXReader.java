@@ -33,9 +33,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FileVersion;
@@ -43,6 +45,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -168,6 +171,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          }
 
          processDeferredRelationships();
+         validateCalendars();
 
          //
          // Ensure that the structure is consistent
@@ -1469,6 +1473,52 @@ public final class MPXReader extends AbstractProjectStreamReader
       workgroup.setUpdateStart(record.getDateTime(3));
       workgroup.setUpdateFinish(record.getDateTime(4));
       workgroup.setScheduleID(record.getString(5));
+   }
+
+   /**
+    * Validate the project's calendars and fix any issues.
+    */
+   private void validateCalendars()
+   {
+      m_projectFile.getCalendars().forEach(c -> validateCalendar(c));
+   }
+
+   /**
+    * Validate a calendar and fix any issues.
+    * 
+    * @param calendar calendar to validate
+    */
+   private void validateCalendar(ProjectCalendar calendar)
+   {
+      //
+      // If the calendar does not have a parent calendar, but has DEFAULT day types
+      // then we assume it was intended to have a parent calendar, so we set the
+      // parent to be the default calendar for this project.
+      //
+      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getWorkingDay(d) == DayType.DEFAULT))
+      {
+         calendar.setParent(m_projectFile.getDefaultCalendar());
+      }
+
+      //
+      // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
+      //
+      for (Day day : Day.values())
+      {
+         if (calendar.getCalendarHours(day) == null)
+         {
+            DayType dayType = calendar.getWorkingDay(day);
+            if (dayType != DayType.DEFAULT)
+            {
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               if (dayType == DayType.WORKING)
+               {
+                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+               }
+            }
+         }
+      }
    }
 
    /**

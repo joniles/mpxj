@@ -195,9 +195,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
          for (Day day : DAYS)
          {
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
-            {
-               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            {               
                ranges.get(day).forEach(hours::addRange);
             }
          }
