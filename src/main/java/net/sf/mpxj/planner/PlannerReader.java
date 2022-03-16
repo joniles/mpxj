@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -282,108 +283,26 @@ public final class PlannerReader extends AbstractProjectStreamReader
    {
       OverriddenDayTypes types = plannerCalendar.getOverriddenDayTypes();
       if (types != null)
-      {
-         List<OverriddenDayType> typeList = types.getOverriddenDayType();
-         Iterator<OverriddenDayType> iter = typeList.iterator();
-         OverriddenDayType odt = null;
-         while (iter.hasNext())
-         {
-            odt = iter.next();
-            if (getInt(odt.getId()) != 0)
-            {
-               odt = null;
-               continue;
-            }
-
-            break;
-         }
-
+      {         
+         OverriddenDayType odt = types.getOverriddenDayType().stream().filter(o -> getInt(o.getId()) == 0).findFirst().orElse(null);
          if (odt != null)
          {
             List<Interval> intervalList = odt.getInterval();
-            ProjectCalendarHours mondayHours = null;
-            ProjectCalendarHours tuesdayHours = null;
-            ProjectCalendarHours wednesdayHours = null;
-            ProjectCalendarHours thursdayHours = null;
-            ProjectCalendarHours fridayHours = null;
-            ProjectCalendarHours saturdayHours = null;
-            ProjectCalendarHours sundayHours = null;
-
-            if (mpxjCalendar.isWorkingDay(Day.MONDAY))
-            {
-               mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
-            {
-               tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
-            {
-               wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
-            {
-               thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
-            {
-               fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
-            {
-               saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
-            {
-               sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
-            }
-
             for (Interval interval : intervalList)
             {
-               Date startTime = getTime(interval.getStart());
-               Date endTime = getTime(interval.getEnd());
+               m_defaultWorkingHours.add(new DateRange(getTime(interval.getStart()), getTime(interval.getEnd())));
+            }
 
-               m_defaultWorkingHours.add(new DateRange(startTime, endTime));
-
-               if (mondayHours != null)
+            for (Day day : Day.values())
+            {
+               DayType dayType = mpxjCalendar.getWorkingDay(day);
+               if (dayType != DayType.DEFAULT)
                {
-                  mondayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (tuesdayHours != null)
-               {
-                  tuesdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (wednesdayHours != null)
-               {
-                  wednesdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (thursdayHours != null)
-               {
-                  thursdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (fridayHours != null)
-               {
-                  fridayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (saturdayHours != null)
-               {
-                  saturdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (sundayHours != null)
-               {
-                  sundayHours.addRange(new DateRange(startTime, endTime));
+                  ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
+                  if (mpxjCalendar.getWorkingDay(day) == DayType.WORKING)
+                  {                     
+                     m_defaultWorkingHours.forEach(r -> hours.addRange(r));
+                  }
                }
             }
          }
