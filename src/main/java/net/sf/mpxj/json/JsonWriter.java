@@ -287,13 +287,13 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendar(ProjectCalendar calendar) throws IOException
    {
       m_writer.writeStartObject(null);
-      m_writer.writeNameValuePair("unique_id", calendar.getUniqueID());
-      m_writer.writeNameValuePair("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
-      m_writer.writeNameValuePair("name", calendar.getName());
-      m_writer.writeNameValuePair("minutes_per_day", calendar.getCalendarMinutesPerDay());
-      m_writer.writeNameValuePair("minutes_per_week", calendar.getCalendarMinutesPerWeek());
-      m_writer.writeNameValuePair("minutes_per_month", calendar.getCalendarMinutesPerMonth());
-      m_writer.writeNameValuePair("minutes_per_year", calendar.getCalendarMinutesPerYear());
+      writeIntegerField("unique_id", calendar.getUniqueID());
+      writeIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
+      writeStringField("name", calendar.getName());
+      writeIntegerField("minutes_per_day", calendar.getCalendarMinutesPerDay());
+      writeIntegerField("minutes_per_week", calendar.getCalendarMinutesPerWeek());
+      writeIntegerField("minutes_per_month", calendar.getCalendarMinutesPerMonth());
+      writeIntegerField("minutes_per_year", calendar.getCalendarMinutesPerYear());
 
       m_writer.writeEndObject();
    }
