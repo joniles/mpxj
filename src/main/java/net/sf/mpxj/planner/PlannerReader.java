@@ -238,6 +238,12 @@ public final class PlannerReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Create a list of hours for each day type.
+    * 
+    * @param plannerCalendar Planner calendar
+    * @return day type map
+    */
    private Map<String, List<DateRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
    {
       Map<String, List<DateRange>> result = new HashMap<>();
@@ -253,11 +259,20 @@ public final class PlannerReader extends AbstractProjectStreamReader
       return result;
    }
 
+   /**
+    * Set the day type and any working hours for a given day.
+    * 
+    * @param map day type map
+    * @param mpxjCalendar Planner calendar
+    * @param mpxjDay MPXJ calendar
+    * @param plannerDay Planner day type
+    */
    private void setHours(Map<String, List<DateRange>> map,ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
    {
       List<DateRange> dateRanges = map.get(plannerDay);
       if (dateRanges == null)
       {
+         // Note that ID==2 is the hard coded "use base" day type 
          if (mpxjCalendar.getParent() == null || !plannerDay.equals("2"))
          {
             mpxjCalendar.setWorkingDay(mpxjDay, DayType.NON_WORKING);
@@ -279,6 +294,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    /**
     * Process exception days.
     *
+    * @param map day type map
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
