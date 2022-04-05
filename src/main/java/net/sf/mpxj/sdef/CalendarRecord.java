@@ -25,6 +25,7 @@ package net.sf.mpxj.sdef;
 
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
 
 /**
  * SDEF Calendar Record.
@@ -44,7 +45,14 @@ class CalendarRecord extends AbstractSDEFRecord
       String flags = getString(1);
       for (Day day : Day.values())
       {
-         calendar.setWorkingDay(day, flags.charAt(day.getValue() - 1) == 'Y');
+         boolean workingDay = flags.charAt(day.getValue() - 1) == 'Y';
+         calendar.setWorkingDay(day, workingDay);
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         if (workingDay)
+         {
+            hours.addRange(ProjectCalendar.DEFAULT_WORKING_MORNING);
+            hours.addRange(ProjectCalendar.DEFAULT_WORKING_AFTERNOON);
+         }
       }
       context.getEventManager().fireCalendarReadEvent(calendar);
    }

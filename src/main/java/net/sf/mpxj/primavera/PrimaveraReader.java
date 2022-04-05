@@ -543,6 +543,7 @@ final class PrimaveraReader
       if (day != null)
       {
          // Get hours
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
          List<StructuredTextRecord> recHours = dayRecord.getChildren();
          if (recHours.size() == 0)
          {
@@ -553,7 +554,6 @@ final class PrimaveraReader
          {
             calendar.setWorkingDay(day, true);
             // Read hours
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
             for (StructuredTextRecord recWorkingHours : recHours)
             {
                addHours(hours, recWorkingHours);

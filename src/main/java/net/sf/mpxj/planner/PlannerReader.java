@@ -174,14 +174,16 @@ public final class PlannerReader extends AbstractProjectStreamReader
          {
             readCalendar(cal, null);
          }
-
-         Integer defaultCalendarID = getInteger(project.getCalendar());
-         m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
-         if (m_defaultCalendar != null)
-         {
-            m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
-         }
       }
+
+      Integer defaultCalendarID = getInteger(project.getCalendar());
+      m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
+      if (m_defaultCalendar == null)
+      {
+         m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+      }
+
+      m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
    }
 
    /**

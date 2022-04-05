@@ -1521,8 +1521,12 @@ final class AstaReader
       ProjectCalendar calendar = m_project.addCalendar();
       Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
       calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
-      processWorkPattern(calendar, dominantWorkPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
-      calendar.setName(calendarRow.getString("NAMK"));
+
+      boolean defaultWeekSet = workPatternMap.get(dominantWorkPatternID) != null;
+      if (defaultWeekSet)
+      {
+         processWorkPattern(calendar, dominantWorkPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
+      }
 
       //
       // Add any additional working weeks
@@ -1535,11 +1539,23 @@ final class AstaReader
             Integer workPatternID = row.getInteger("WORK_PATTERN");
             if (!workPatternID.equals(dominantWorkPatternID))
             {
-               ProjectCalendarWeek week = calendar.addWorkWeek();
-               week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+               ProjectCalendarWeek week;
+               if (defaultWeekSet)
+               {
+                  week = calendar.addWorkWeek();
+                  week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+               }
+               else
+               {
+                  week = calendar;
+                  defaultWeekSet = true;
+               }
+
                processWorkPattern(week, workPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
             }
          }
+
+         calendar.setName(calendarRow.getString("NAMK"));
       }
 
       //

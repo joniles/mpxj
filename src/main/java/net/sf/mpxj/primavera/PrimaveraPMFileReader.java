@@ -888,6 +888,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          for (StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
          {
             Day day = DAY_MAP.get(hours.getDayOfWeek());
+            ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
+
             List<WorkTimeType> workTime = hours.getWorkTime();
             if (workTime.isEmpty() || workTime.get(0) == null)
             {
@@ -896,8 +898,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             else
             {
                calendar.setWorkingDay(day, true);
-
-               ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
                for (WorkTimeType work : workTime)
                {
                   if (work != null)
