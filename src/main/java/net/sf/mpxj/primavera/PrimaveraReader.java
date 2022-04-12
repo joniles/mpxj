@@ -414,10 +414,10 @@ final class PrimaveraReader
          DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
          for (Day day : Day.values())
          {
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (day != Day.SATURDAY && day != Day.SUNDAY)
             {
                calendar.setWorkingDay(day, true);
-               ProjectCalendarHours hours = calendar.addCalendarHours(day);
                hours.addRange(defaultHourRange);
             }
             else
