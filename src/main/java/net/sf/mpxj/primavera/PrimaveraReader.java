@@ -524,9 +524,12 @@ final class PrimaveraReader
     */
    private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
    {
-      for (StructuredTextRecord dayRecord : daysOfWeek.getChildren())
+      Map<Day, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> Day.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> Day.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
+
+      for (Day day : Day.values())
       {
-         processCalendarHours(calendar, dayRecord);
+         StructuredTextRecord dayRecord = days.get(day);
+         processCalendarHours(day, calendar, dayRecord == null ? StructuredTextRecord.EMPTY : dayRecord);
       }
    }
 
@@ -536,28 +539,23 @@ final class PrimaveraReader
     * @param calendar project calendar
     * @param dayRecord working day data
     */
-   private void processCalendarHours(ProjectCalendar calendar, StructuredTextRecord dayRecord)
+   private void processCalendarHours(Day day, ProjectCalendar calendar, StructuredTextRecord dayRecord)
    {
-      // ... for each day of the week
-      Day day = Day.getInstance(Integer.parseInt(dayRecord.getRecordName()));
-      if (day != null)
+      // Get hours
+      ProjectCalendarHours hours = calendar.addCalendarHours(day);
+      List<StructuredTextRecord> recHours = dayRecord.getChildren();
+      if (recHours.size() == 0)
       {
-         // Get hours
-         ProjectCalendarHours hours = calendar.addCalendarHours(day);
-         List<StructuredTextRecord> recHours = dayRecord.getChildren();
-         if (recHours.size() == 0)
+         // No data -> not working
+         calendar.setWorkingDay(day, false);
+      }
+      else
+      {
+         calendar.setWorkingDay(day, true);
+         // Read hours
+         for (StructuredTextRecord recWorkingHours : recHours)
          {
-            // No data -> not working
-            calendar.setWorkingDay(day, false);
-         }
-         else
-         {
-            calendar.setWorkingDay(day, true);
-            // Read hours
-            for (StructuredTextRecord recWorkingHours : recHours)
-            {
-               addHours(hours, recWorkingHours);
-            }
+            addHours(hours, recWorkingHours);
          }
       }
    }
