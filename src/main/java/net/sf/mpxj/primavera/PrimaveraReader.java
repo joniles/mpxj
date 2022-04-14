@@ -536,6 +536,7 @@ final class PrimaveraReader
    /**
     * Process hours in a working day.
     *
+    * @param day day to process
     * @param calendar project calendar
     * @param dayRecord working day data
     */

@@ -1485,7 +1485,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
    /**
     * Validate a calendar and fix any issues.
-    * 
+    *
     * @param calendar calendar to validate
     */
    private void validateCalendar(ProjectCalendar calendar)

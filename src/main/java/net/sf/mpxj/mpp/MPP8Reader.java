@@ -316,7 +316,7 @@ final class MPP8Reader implements MPPVariantReader
                   else
                   {
                      cal.setWorkingDay(day, true);
-                     
+
                      for (periodIndex = 0; periodIndex < periodCount; periodIndex++)
                      {
                         start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));

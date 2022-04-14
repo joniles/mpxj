@@ -242,7 +242,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
    /**
     * Create a list of hours for each day type.
-    * 
+    *
     * @param plannerCalendar Planner calendar
     * @return day type map
     */
@@ -263,18 +263,18 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
    /**
     * Set the day type and any working hours for a given day.
-    * 
+    *
     * @param map day type map
     * @param mpxjCalendar Planner calendar
     * @param mpxjDay MPXJ calendar
     * @param plannerDay Planner day type
     */
-   private void setHours(Map<String, List<DateRange>> map,ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
+   private void setHours(Map<String, List<DateRange>> map, ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
    {
       List<DateRange> dateRanges = map.get(plannerDay);
       if (dateRanges == null)
       {
-         // Note that ID==2 is the hard coded "use base" day type 
+         // Note that ID==2 is the hard coded "use base" day type
          if (mpxjCalendar.getParent() == null || !plannerDay.equals("2"))
          {
             mpxjCalendar.setWorkingDay(mpxjDay, DayType.NON_WORKING);

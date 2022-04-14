@@ -163,7 +163,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   cal.setUniqueID(calendarID);
 
                   if (varData == null)
-                  {                  
+                  {
                      if (baseCalendarID <= 0)
                      {
                         Stream.of(Day.values()).forEach(d -> cal.addCalendarHours(d));
@@ -229,20 +229,20 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             {
                hours = cal.addCalendarHours(Day.getInstance(index + 1));
                if (defaultCalendar == null)
-               {                  
+               {
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day))
-                  {                     
+                  {
                      hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
                      hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
                   }
                }
                else
                {
-                  boolean workingDay = defaultCalendar.isWorkingDay(day);                  
+                  boolean workingDay = defaultCalendar.isWorkingDay(day);
                   cal.setWorkingDay(day, workingDay);
                   if (workingDay)
-                  {                     
+                  {
                      for (DateRange range : defaultCalendar.getHours(day))
                      {
                         hours.addRange(range);

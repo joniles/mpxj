@@ -310,6 +310,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeIntegerField("minutes_per_year", calendar.getCalendarMinutesPerYear());
       writeCalendarDays(calendar);
       writeCalendarWeeks(calendar);
+      writeCalendarExceptions(calendar);
       m_writer.writeEndObject();
    }
 
@@ -381,6 +382,19 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   private void writeCalendarExceptions(ProjectCalendar calendar) throws IOException
+   {
+      if (!calendar.getCalendarExceptions().isEmpty())
+      {
+         m_writer.writeStartList("exceptions");
+         for (ProjectCalendarException ex : calendar.getCalendarExceptions())
+         {
+            writeCalendarException(ex);
+         }
+         m_writer.writeEndList();
+      }
+   }
+
    /**
     * Write a calendar exception.
     *
@@ -388,7 +402,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarException(ProjectCalendarException ex) throws IOException
    {
-      writeStringField("name", ex.getName()) ;
+      writeStringField("name", ex.getName());
       writeDateField("from", ex.getFromDate());
       writeDateField("to", ex.getToDate());
       writeBooleanField("working", ex.getWorking());
@@ -826,7 +840,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePairAsTime(fieldName, (Date)value);
+         m_writer.writeNameValuePairAsTime(fieldName, (Date) value);
       }
    }
 

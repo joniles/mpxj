@@ -216,7 +216,7 @@ public class ObjectPropertiesController
 
    /**
     * Format a property value.
-    * 
+    *
     * @param value "raw" property value
     * @return formatted property value
     */
