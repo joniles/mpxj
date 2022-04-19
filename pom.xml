@@ -284,15 +284,17 @@
 				</executions>
 				<configuration>
 					<includes>
-						<include>${basedir}/target/site/apidocs/**/*.html</include>
+						<include>${basedir}/docs/apidocs/**/*.html</include>
 					</includes>
-					<token>&lt;/head&gt;</token>
-					<value>&lt;/head&gt;&lt;script
-						src="http://www.google-analytics.com/ga.js"
-						type="text/javascript"&gt;&lt;/script&gt;&lt;script
-						type="text/javascript"&gt;try {var pageTracker =
-						_gat._getTracker("UA-7202224-1");pageTracker._trackPageview();}
-						catch(err) {}&lt;/script&gt;</value>
+					<token><![CDATA[</head>]]></token>
+					<value><![CDATA[</head>
+					<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R48LPVHKE"></script>
+					<script>
+					  window.dataLayer = window.dataLayer || [];
+					  function gtag(){dataLayer.push(arguments);}
+					  gtag('js', new Date());
+					  gtag('config', 'G-9R48LPVHKE');
+					</script>]]></value>
 				</configuration>
 			</plugin>
 

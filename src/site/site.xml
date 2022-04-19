@@ -2,7 +2,7 @@
 	<version position="none"/>
 
 	<!-- TODO: revisit and investigate GA4 support. -->
-    <!-- Currently would require providing our own site template --> 
+    <!-- Currently would require providing our own site template -->
     <!-- https://github.com/apache/maven-doxia-sitetools/tree/master/doxia-site-renderer/src/main/resources/org/apache/maven/doxia/siterenderer/resources -->
 	<!-- <googleAnalyticsAccountId>G-9R48LPVHKE</googleAnalyticsAccountId> -->
 
