@@ -172,7 +172,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomFields();
          writeActivityCodes();
          writeProperties();
-         writeCalendars();
+         //writeCalendars();
          writeResources();
          writeTasks();
          writeAssignments();
