@@ -637,7 +637,7 @@ public class CustomerDataTest
     */
    private void debugFailure(File baseline, String writerType, File test) throws IOException
    {
-      String copyCommand = "Windows".equals(System.getProperty("os.name")) ? "copy /y" : "cp";
+      String copyCommand = System.getProperty("os.name").toLowerCase().contains("windows") ? "copy /y" : "cp";
 
       System.out.println();
       System.out.println("Baseline: " + baseline.getPath());

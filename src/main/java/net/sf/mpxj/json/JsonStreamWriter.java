@@ -205,16 +205,33 @@ public class JsonStreamWriter
    }
 
    /**
-    * Write a Date attribute.
+    * Write a Date attribute as a timestamp.
     *
     * @param name attribute name
     * @param value attribute value
     */
    public void writeNameValuePair(String name, Date value) throws IOException
    {
+      internalWriteNameValuePair(name, m_timestampFormat.format(value));
+   }
+
+   /**
+    * Write a date attribute.
+    * 
+    * @param name attribute name
+    * @param value attribute value
+    */
+   public void writeNameValuePairAsDate(String name, Date value) throws IOException
+   {
       internalWriteNameValuePair(name, m_dateFormat.format(value));
    }
 
+   /**
+    * Write a time attribute.
+    * 
+    * @param name attribute name
+    * @param value attribute value
+    */
    public void writeNameValuePairAsTime(String name, Date value) throws IOException
    {
       internalWriteNameValuePair(name, m_timeFormat.format(value));
@@ -385,7 +402,8 @@ public class JsonStreamWriter
    private final Deque<Boolean> m_firstNameValuePair = new ArrayDeque<>();
    private boolean m_pretty;
    private String m_indent = "";
-   private final DateFormat m_dateFormat = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
+   private final DateFormat m_timestampFormat = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
+   private final DateFormat m_dateFormat = new SimpleDateFormat("\"yyyy-MM-dd\"");
    private final DateFormat m_timeFormat = new SimpleDateFormat("\"HH:mm\"");
 
    private static final String INDENT = "  ";

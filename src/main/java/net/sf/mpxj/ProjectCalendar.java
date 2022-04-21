@@ -181,6 +181,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_calendarMinutesPerDay = minutes;
    }
 
+   /**
+    * Retrieve the number of minutes per day for this calendar.
+    * 
+    * @return minutes per day
+    */
    public Integer getCalendarMinutesPerDay()
    {
       return m_calendarMinutesPerDay;
@@ -196,6 +201,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_calendarMinutesPerWeek = minutes;
    }
 
+   /**
+    * Retrieve the number of minutes per week for this calendar.
+    * 
+    * @return minutes per week
+    */
    public Integer getCalendarMinutesPerWeek()
    {
       return m_calendarMinutesPerWeek;
@@ -211,6 +221,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_calendarMinutesPerMonth = minutes;
    }
 
+   /**
+    * Retrieve the number of minutes per month for this calendar.
+    * 
+    * @return minutes per month
+    */
    public Integer getCalendarMinutesPerMonth()
    {
       return m_calendarMinutesPerMonth;
@@ -226,6 +241,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_calendarMinutesPerYear = minutes;
    }
 
+   /**
+    * Retrieve the number of minutes per year for this calendar.
+    * 
+    * @return minutes per year
+    */
    public Integer getCalendarMinutesPerYear()
    {
       return m_calendarMinutesPerYear;

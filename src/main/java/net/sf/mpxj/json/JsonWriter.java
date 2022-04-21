@@ -44,6 +44,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
@@ -172,7 +173,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomFields();
          writeActivityCodes();
          writeProperties();
-         //writeCalendars();
+         writeCalendars();
          writeResources();
          writeTasks();
          writeAssignments();
@@ -340,8 +341,8 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendarWeek(ProjectCalendarWeek week) throws IOException
    {
       writeStringField("name", week.getName());
-      writeDateField("effective_from", week.getDateRange().getStart());
-      writeDateField("effective_to", week.getDateRange().getEnd());
+      writeTimestampField("effective_from", week.getDateRange().getStart());
+      writeTimestampField("effective_to", week.getDateRange().getEnd());
       writeCalendarDays(week);
    }
 
@@ -356,7 +357,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(day.name().toLowerCase());
          writeStringField("type", week.getWorkingDay(day).toString().toLowerCase());
-         writeCalendarHours(week.getHours(day));
+         writeCalendarHours(week.getCalendarHours(day));
          m_writer.writeEndObject();
       }
    }
@@ -368,7 +369,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarHours(ProjectCalendarDateRanges hours) throws IOException
    {
-      if (hours.getRangeCount() != 0)
+      if (hours != null && hours.getRangeCount() != 0)
       {
          m_writer.writeStartList("hours");
          for (DateRange range : hours)
@@ -402,12 +403,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarException(ProjectCalendarException ex) throws IOException
    {
+      DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
+      m_writer.writeStartObject(null);
       writeStringField("name", ex.getName());
       writeDateField("from", ex.getFromDate());
       writeDateField("to", ex.getToDate());
-      writeBooleanField("working", ex.getWorking());
+      writeStringField("type", type.toString().toLowerCase());
       writeCalendarHours(ex);
       writeRecurringData(ex.getRecurring());
+      m_writer.writeEndObject();
    }
 
    /**
@@ -425,12 +429,12 @@ public final class JsonWriter extends AbstractProjectWriter
          writeDateField("finish_date", data.getFinishDate());
          writeIntegerField("occurrences", data.getOccurrences());
          writeIntegerField("frequency", data.getFrequency());
-         writeBooleanField("relative", data.getRelative());
+         writeBooleanField("relative", Boolean.valueOf(data.getRelative()));
          writeIntegerField("day_number", data.getDayNumber());
          writeIntegerField("month_number", data.getMonthNumber());
-         writeBooleanField("use_end_date", data.getUseEndDate());
+         writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(d -> data.getWeeklyDay(d)).map(d -> d.toString().toLowerCase()).collect(Collectors.toList());
+         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(d -> data.getWeeklyDay(d)).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
             m_writer.writeList("weekly_days", weeklyDays);
@@ -584,7 +588,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          case DATE:
          {
-            writeDateField(fieldName, value);
+            writeTimestampField(fieldName, value);
             break;
          }
 
@@ -814,7 +818,7 @@ public final class JsonWriter extends AbstractProjectWriter
     * @param fieldName field name
     * @param value field value
     */
-   private void writeDateField(String fieldName, Object value) throws IOException
+   private void writeTimestampField(String fieldName, Object value) throws IOException
    {
       if (value != null)
       {
@@ -827,6 +831,20 @@ public final class JsonWriter extends AbstractProjectWriter
             Date val = (Date) value;
             m_writer.writeNameValuePair(fieldName, val);
          }
+      }
+   }
+
+   /**
+    * Write a date field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeDateField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         m_writer.writeNameValuePairAsDate(fieldName, (Date) value);
       }
    }
 
@@ -932,8 +950,8 @@ public final class JsonWriter extends AbstractProjectWriter
       for (DateRange entry : list)
       {
          m_writer.writeStartObject(null);
-         writeDateField("start", entry.getStart());
-         writeDateField("end", entry.getEnd());
+         writeTimestampField("start", entry.getStart());
+         writeTimestampField("end", entry.getEnd());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
