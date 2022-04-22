@@ -1575,7 +1575,7 @@ public class BasicTest
       // Resource calendar based on standard calendar
       //
       Resource resource = mpx.getResourceByUniqueID(Integer.valueOf(1));
-      ProjectCalendar calendar = resource.getResourceCalendar();
+      ProjectCalendar calendar = resource.getCalendar();
       assertEquals("Resource One", calendar.getName());
       assertTrue(calendar.isDerived());
       assertEquals("Standard", calendar.getParent().getName());
@@ -1585,7 +1585,7 @@ public class BasicTest
       // Resource calendar based on base calendar
       //
       resource = mpx.getResourceByUniqueID(Integer.valueOf(2));
-      calendar = resource.getResourceCalendar();
+      calendar = resource.getCalendar();
       assertEquals("Resource Two", calendar.getName());
       assertTrue(calendar.isDerived());
       assertEquals("Base Calendar", calendar.getParent().getName());
@@ -1595,7 +1595,7 @@ public class BasicTest
       // Resource calendar based on modified base calendar
       //
       resource = mpx.getResourceByUniqueID(Integer.valueOf(3));
-      calendar = resource.getResourceCalendar();
+      calendar = resource.getCalendar();
       assertEquals("Resource Three", calendar.getName());
       assertTrue(calendar.isDerived());
       assertEquals("Base Calendar", calendar.getParent().getName());

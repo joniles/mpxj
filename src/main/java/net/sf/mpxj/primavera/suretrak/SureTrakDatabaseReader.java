@@ -435,7 +435,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          {
             ProjectCalendar baseCalendar = m_calendarMap.get(row.getInteger("BASE_CALENDAR_ID"));
             calendar.setParent(baseCalendar);
-            resource.setResourceCalendar(calendar);
+            resource.setCalendar(calendar);
          }
          m_resourceMap.put(resource.getCode(), resource);
          m_eventManager.fireResourceReadEvent(resource);

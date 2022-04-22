@@ -918,7 +918,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       readResourceBaselines(xml, mpx);
 
-      mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
+      mpx.setCalendar(calendarMap.get(xml.getCalendarUID()));
 
       // ensure that we cache this value
       mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
@@ -1802,7 +1802,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             ProjectCalendar calendar = null;
             if (resource != null)
             {
-               calendar = resource.getResourceCalendar();
+               calendar = resource.getCalendar();
             }
 
             if (calendar == null || task.getIgnoreResourceCalendar())

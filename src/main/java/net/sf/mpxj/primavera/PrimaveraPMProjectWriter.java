@@ -668,7 +668,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.TRUE);
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getResourceCalendar()));
+      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());

@@ -61,7 +61,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
          }
       }
 
-      ProjectCalendar calendar = resource.getResourceCalendar();
+      ProjectCalendar calendar = resource.getCalendar();
       if (calendar != null)
       {
          calendar.remove();

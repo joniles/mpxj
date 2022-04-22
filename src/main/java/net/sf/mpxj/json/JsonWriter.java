@@ -787,7 +787,7 @@ public final class JsonWriter extends AbstractProjectWriter
                {
                   if (container instanceof Resource)
                   {
-                     defaults = ((Resource) container).getResourceCalendar();
+                     defaults = ((Resource) container).getCalendar();
                   }
                }
 

@@ -398,7 +398,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writeResource(Resource mpxjResource, net.sf.mpxj.planner.schema.Resource plannerResource)
    {
-      ProjectCalendar resourceCalendar = mpxjResource.getResourceCalendar();
+      ProjectCalendar resourceCalendar = mpxjResource.getCalendar();
       if (resourceCalendar != null)
       {
          plannerResource.setCalendar(getIntegerString(resourceCalendar.getUniqueID()));

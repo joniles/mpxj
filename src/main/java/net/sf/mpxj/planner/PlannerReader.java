@@ -360,7 +360,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       //plannerResource.getUnits();
       //plannerResource.getProperties();
 
-      ProjectCalendar calendar = mpxjResource.addResourceCalendar();
+      ProjectCalendar calendar = mpxjResource.addCalendar();
 
       calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
       calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);

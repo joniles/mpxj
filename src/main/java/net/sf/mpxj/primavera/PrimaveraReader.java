@@ -629,7 +629,7 @@ final class PrimaveraReader
       {
          Resource resource = m_project.addResource();
          processFields(m_resourceFields, row, resource);
-         resource.setResourceCalendar(getResourceCalendar(row.getInteger("clndr_id")));
+         resource.setCalendar(getResourceCalendar(row.getInteger("clndr_id")));
 
          // Even though we're not filling in a rate, filling in a time unit can still be useful
          // so that we know what rate time unit was originally used in Primavera.

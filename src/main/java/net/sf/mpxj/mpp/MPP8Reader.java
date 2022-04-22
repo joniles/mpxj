@@ -1024,7 +1024,7 @@ final class MPP8Reader implements MPPVariantReader
          // Attach the resource calendar
          //
          calendar = m_calendarMap.get(Integer.valueOf(MPPUtility.getInt(data, 24)));
-         resource.setResourceCalendar(calendar);
+         resource.setCalendar(calendar);
 
          //
          // Retrieve the resource notes.
