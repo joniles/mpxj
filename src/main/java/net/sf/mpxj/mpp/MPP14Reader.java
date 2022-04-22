@@ -1648,7 +1648,7 @@ final class MPP14Reader implements MPPVariantReader
          //
          // Configure the resource calendar
          //
-         resource.setResourceCalendar(m_resourceMap.get(id));
+         resource.setCalendar(m_resourceMap.get(id));
 
          //
          // Process any enterprise columns

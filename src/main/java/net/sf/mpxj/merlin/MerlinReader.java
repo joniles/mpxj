@@ -329,7 +329,7 @@ public final class MerlinReader extends AbstractProjectFileReader
             if (calendar != null)
             {
                calendar.setName(resource.getName());
-               resource.setResourceCalendar(calendar);
+               resource.setCalendar(calendar);
             }
          }
 

@@ -276,7 +276,6 @@ public enum TaskField implements FieldType
    PRELEVELED_FINISH(DataType.DATE),
    ESTIMATED(DataType.BOOLEAN),
    IGNORE_RESOURCE_CALENDAR(DataType.BOOLEAN),
-   CALENDAR(DataType.BINARY),
    OUTLINE_CODE1(DataType.STRING),
    OUTLINE_CODE2(DataType.STRING),
    OUTLINE_CODE3(DataType.STRING),

@@ -43,7 +43,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       Resource resource = calendar.getResource();
       if (resource != null)
       {
-         resource.setResourceCalendar(null);
+         resource.setCalendar(null);
       }
 
       calendar.setParent(null);

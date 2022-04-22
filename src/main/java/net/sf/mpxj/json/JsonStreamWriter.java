@@ -217,7 +217,7 @@ public class JsonStreamWriter
 
    /**
     * Write a date attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */
@@ -228,7 +228,7 @@ public class JsonStreamWriter
 
    /**
     * Write a time attribute.
-    * 
+    *
     * @param name attribute name
     * @param value attribute value
     */

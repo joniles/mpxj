@@ -929,7 +929,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Project.Resources.Resource writeResource(Resource mpx)
    {
       Project.Resources.Resource xml = m_factory.createProjectResourcesResource();
-      ProjectCalendar cal = mpx.getResourceCalendar();
+      ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {
          xml.setCalendarUID(NumberHelper.getBigInteger(cal.getUniqueID()));

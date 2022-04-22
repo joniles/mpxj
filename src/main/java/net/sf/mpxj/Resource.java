@@ -1324,13 +1324,33 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve the calendar unique ID.
+    *
+    * @return calendar unique ID
+    */
+   public Integer getCalendarUniqueID()
+   {
+      return (Integer) getCachedValue(ResourceField.CALENDAR_UNIQUE_ID);
+   }
+
+   /**
+    * Set the calendar unique ID.
+    *
+    * @param id calendar unique ID
+    */
+   public void setCalendarUniqueID(Integer id)
+   {
+      set(ResourceField.CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
     * This method retrieves the calendar associated with this resource.
     *
     * @return ProjectCalendar instance
     */
-   public ProjectCalendar getResourceCalendar()
+   public ProjectCalendar getCalendar()
    {
-      return (ProjectCalendar) getCachedValue(ResourceField.CALENDAR);
+      return getParentFile().getCalendars().getByUniqueID(getResourceCalendarUniqueID());
    }
 
    /**
@@ -1339,9 +1359,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     *
     * @param calendar resource calendar
     */
-   public void setResourceCalendar(ProjectCalendar calendar)
+   public void setCalendar(ProjectCalendar calendar)
    {
-      set(ResourceField.CALENDAR, calendar);
       if (calendar == null)
       {
          setResourceCalendarUniqueID(null);
@@ -1354,41 +1373,78 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * This method retrieves the calendar associated with this resource.
+    *
+    * @return ProjectCalendar instance
+    * @deprecated use getCalendar
+    */
+   @Deprecated public ProjectCalendar getResourceCalendar()
+   {
+      return getCalendar();
+   }
+
+   /**
+    * This method allows a pre-existing resource calendar to be attached to a
+    * resource.
+    *
+    * @param calendar resource calendar
+    * @deprecated use setCalendar
+    */
+   @Deprecated public void setResourceCalendar(ProjectCalendar calendar)
+   {
+      setCalendar(calendar);
+   }
+
+   /**
     * Set the calendar unique ID.
     *
     * @param id calendar unique ID
+    * @deprecated use setCalendarUniqueID
     */
-   public void setResourceCalendarUniqueID(Integer id)
+   @Deprecated public void setResourceCalendarUniqueID(Integer id)
    {
-      set(ResourceField.CALENDAR_UNIQUE_ID, id);
+      setCalendarUniqueID(id);
    }
 
    /**
     * Retrieve the calendar unique ID.
     *
     * @return calendar unique ID
+    * @deprecated use getCalendarUniqueID
     */
-   public Integer getResourceCalendarUniqueID()
+   @Deprecated public Integer getResourceCalendarUniqueID()
    {
-      return (Integer) getCachedValue(ResourceField.CALENDAR_UNIQUE_ID);
+      return getCalendarUniqueID();
    }
 
    /**
-    * This method allows a resource calendar to be added to a resource.
+    * This method allows a calendar to be added to a resource.
     *
     * @return ResourceCalendar
     * @throws MPXJException if more than one calendar is added
     */
-   public ProjectCalendar addResourceCalendar() throws MPXJException
+   public ProjectCalendar addCalendar() throws MPXJException
    {
-      if (getResourceCalendar() != null)
+      if (getCalendar() != null)
       {
          throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
       ProjectCalendar calendar = getParentFile().addCalendar();
-      setResourceCalendar(calendar);
+      setCalendar(calendar);
       return calendar;
+   }
+
+   /**
+    * This method allows a calendar to be added to a resource.
+    *
+    * @return ResourceCalendar
+    * @throws MPXJException if more than one calendar is added
+    * @deprecated use addCalendar
+    */
+   @Deprecated public ProjectCalendar addResourceCalendar() throws MPXJException
+   {
+      return addCalendar();
    }
 
    /**

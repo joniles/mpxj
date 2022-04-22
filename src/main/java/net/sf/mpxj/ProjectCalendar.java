@@ -172,6 +172,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Set the number of minutes per day for this calendar.
+    *
+    * @param minutes number of minutes
     * @deprecated use setCalendarMinutesPerDay
     */
    @Deprecated public void setMinutesPerDay(Integer minutes)
@@ -191,7 +194,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the number of minutes per day for this calendar.
-    * 
+    *
     * @return minutes per day
     */
    public Integer getCalendarMinutesPerDay()
@@ -200,6 +203,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Set the number of minutes per week for this calendar.
+    *
+    * @param minutes number of minutes
     * @deprecated use setCalendarMinutesPerWeek
     */
    @Deprecated public void setMinutesPerWeek(Integer minutes)
@@ -219,7 +225,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the number of minutes per week for this calendar.
-    * 
+    *
     * @return minutes per week
     */
    public Integer getCalendarMinutesPerWeek()
@@ -228,6 +234,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Set the number of minutes per month for this calendar.
+    *
+    * @param minutes number of minutes
     * @deprecated use setCalendarMinutesPerMonth
     */
    @Deprecated public void setMinutesPerMonth(Integer minutes)
@@ -247,7 +256,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the number of minutes per month for this calendar.
-    * 
+    *
     * @return minutes per month
     */
    public Integer getCalendarMinutesPerMonth()
@@ -256,6 +265,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Set the number of minutes per year for this calendar.
+    *
+    * @param minutes number of minutes
     * @deprecated use setCalendarMinutesPerYear
     */
    @Deprecated public void setMinutesPerYear(Integer minutes)
@@ -275,7 +287,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the number of minutes per year for this calendar.
-    * 
+    *
     * @return minutes per year
     */
    public Integer getCalendarMinutesPerYear()

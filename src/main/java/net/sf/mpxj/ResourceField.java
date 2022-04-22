@@ -579,7 +579,6 @@ public enum ResourceField implements FieldType
    ACTUAL_WORK_PROTECTED(DataType.WORK),
    ACTUAL_OVERTIME_WORK_PROTECTED(DataType.WORK),
    PARENT_ID(DataType.INTEGER),
-   CALENDAR(DataType.BINARY),
    CALENDAR_UNIQUE_ID(DataType.INTEGER),
    PROPOSED_START(DataType.DATE),
    PROPOSED_FINISH(DataType.DATE),

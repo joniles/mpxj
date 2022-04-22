@@ -258,7 +258,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
    {
       Resource mpxjResource = m_projectFile.addResource();
       mpxjResource.setName(resource.getName());
-      mpxjResource.setResourceCalendar(m_calendarMap.get(resource.getCalendarID()));
+      mpxjResource.setCalendar(m_calendarMap.get(resource.getCalendarID()));
       mpxjResource.setStandardRate(new Rate(resource.getCost(), resource.getCostTimeUnit()));
       mpxjResource.setEmailAddress(resource.getEMail());
       mpxjResource.setGroup(resource.getGroup());

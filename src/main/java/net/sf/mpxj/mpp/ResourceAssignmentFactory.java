@@ -187,7 +187,7 @@ public class ResourceAssignmentFactory
 
             if (resource != null && resourceType == ResourceType.WORK && !task.getIgnoreResourceCalendar())
             {
-               calendar = resource.getResourceCalendar();
+               calendar = resource.getCalendar();
             }
 
             if (calendar == null)

@@ -220,7 +220,6 @@ Subproject Unique Task ID| |✓|✓|✓
 Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
 Summary Progress| |✓|✓|✓
-Task Calendar| |✓|✓|✓
 Task Calendar GUID| | |✓|✓
 Task Mode| | | |✓
 Task Name|✓|✓|✓|✓
@@ -604,7 +603,6 @@ Booking Type| | |✓|✓
 Budget| | |✓|✓
 Budget Cost| |✓|✓|✓
 Budget Work| | |✓|✓
-Calendar|✓|✓|✓|✓
 Calendar GUID| | |✓|✓
 Calendar Unique ID|✓|✓|✓|✓
 Code| |✓|✓|✓

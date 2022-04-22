@@ -3678,14 +3678,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieves the base calendar instance associated with this task.
-    * Note that this attribute appears in MPP9 and MSPDI files.
+    * Retrieves the calendar associated with this task.
     *
     * @return ProjectCalendar instance
     */
    public ProjectCalendar getCalendar()
    {
-      return ((ProjectCalendar) getCachedValue(TaskField.CALENDAR));
+      return getParentFile().getCalendars().getByUniqueID(getCalendarUniqueID());
    }
 
    /**
@@ -3709,14 +3708,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Sets the name of the base calendar associated with this task.
-    * Note that this attribute appears in MPP9 and MSPDI files.
+    * Sets the calendar associated with this task.
     *
     * @param calendar calendar instance
     */
    public void setCalendar(ProjectCalendar calendar)
    {
-      set(TaskField.CALENDAR, calendar);
       setCalendarUniqueID(calendar == null ? null : calendar.getUniqueID());
    }
 

@@ -333,7 +333,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          {
             if (m_lastResource != null)
             {
-               m_lastResourceCalendar = m_lastResource.addResourceCalendar();
+               m_lastResourceCalendar = m_lastResource.addCalendar();
                populateCalendar(record, m_lastResourceCalendar, false);
             }
 

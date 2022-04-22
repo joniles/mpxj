@@ -526,9 +526,9 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write the resource calendar
       //
-      if (record.getResourceCalendar() != null)
+      if (record.getCalendar() != null)
       {
-         writeCalendar(record.getResourceCalendar());
+         writeCalendar(record.getCalendar());
       }
 
       m_eventManager.fireResourceWrittenEvent(record);
