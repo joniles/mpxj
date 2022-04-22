@@ -1330,7 +1330,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public ProjectCalendar getResourceCalendar()
    {
-      return (ProjectCalendar) getCachedValue(ResourceField.CALENDAR);
+      return getParentFile().getCalendars().getByUniqueID(getResourceCalendarUniqueID());
    }
 
    /**
@@ -1341,7 +1341,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setResourceCalendar(ProjectCalendar calendar)
    {
-      set(ResourceField.CALENDAR, calendar);
       if (calendar == null)
       {
          setResourceCalendarUniqueID(null);

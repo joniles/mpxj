@@ -1775,7 +1775,6 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ACTUAL_WORK_PROTECTED.getValue()] = "Actual Work Protected";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED.getValue()] = "Actual Overtime Work Protected";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PARENT_ID.getValue()] = "Parent ID";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR.getValue()] = "Calendar";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALENDAR_UNIQUE_ID.getValue()] = "Calendar Unique ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PROPOSED_START.getValue()] = "Proposed Start";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PROPOSED_FINISH.getValue()] = "Proposed Finish";
