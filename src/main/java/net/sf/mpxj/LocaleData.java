@@ -294,7 +294,6 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.PRELEVELED_FINISH.getValue()] = "Preleveled Finish";
       TASK_COLUMNS_ARRAY[TaskField.ESTIMATED.getValue()] = "Estimated";
       TASK_COLUMNS_ARRAY[TaskField.IGNORE_RESOURCE_CALENDAR.getValue()] = "Ignore Resource Calendar";
-      TASK_COLUMNS_ARRAY[TaskField.CALENDAR.getValue()] = "Task Calendar";
       TASK_COLUMNS_ARRAY[TaskField.OUTLINE_CODE1.getValue()] = "Outline Code1";
       TASK_COLUMNS_ARRAY[TaskField.OUTLINE_CODE2.getValue()] = "Outline Code2";
       TASK_COLUMNS_ARRAY[TaskField.OUTLINE_CODE3.getValue()] = "Outline Code3";

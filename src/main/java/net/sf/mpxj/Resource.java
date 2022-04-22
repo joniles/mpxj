@@ -1323,23 +1323,22 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ENTERPRISE));
    }
 
-   /**
-    * This method retrieves the calendar associated with this resource.
-    *
-    * @return ProjectCalendar instance
-    */
-   public ProjectCalendar getResourceCalendar()
+   public Integer getCalendarUniqueID()
+   {
+      return (Integer) getCachedValue(ResourceField.CALENDAR_UNIQUE_ID);
+   }
+
+   public void setCalendarUniqueID(Integer id)
+   {
+      set(ResourceField.CALENDAR_UNIQUE_ID, id);
+   }
+
+   public ProjectCalendar getCalendar()
    {
       return getParentFile().getCalendars().getByUniqueID(getResourceCalendarUniqueID());
    }
 
-   /**
-    * This method allows a pre-existing resource calendar to be attached to a
-    * resource.
-    *
-    * @param calendar resource calendar
-    */
-   public void setResourceCalendar(ProjectCalendar calendar)
+   public void setCalendar(ProjectCalendar calendar)
    {
       if (calendar == null)
       {
@@ -1353,23 +1352,48 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * This method retrieves the calendar associated with this resource.
+    *
+    * @return ProjectCalendar instance
+    * @deprecated use getCalendar
+    */
+   @Deprecated public ProjectCalendar getResourceCalendar()
+   {
+      return getCalendar();
+   }
+
+   /**
+    * This method allows a pre-existing resource calendar to be attached to a
+    * resource.
+    *
+    * @param calendar resource calendar
+    * @deprecated use setCalendar
+    */
+   @Deprecated public void setResourceCalendar(ProjectCalendar calendar)
+   {
+      setCalendar(calendar);
+   }
+
+   /**
     * Set the calendar unique ID.
     *
     * @param id calendar unique ID
+    * @deprecated use setCalendarUniqueID
     */
-   public void setResourceCalendarUniqueID(Integer id)
+   @Deprecated public void setResourceCalendarUniqueID(Integer id)
    {
-      set(ResourceField.CALENDAR_UNIQUE_ID, id);
+      setCalendarUniqueID(id);
    }
 
    /**
     * Retrieve the calendar unique ID.
     *
     * @return calendar unique ID
+    * @deprecated use getCalendarUniqueID
     */
-   public Integer getResourceCalendarUniqueID()
+   @Deprecated  public Integer getResourceCalendarUniqueID()
    {
-      return (Integer) getCachedValue(ResourceField.CALENDAR_UNIQUE_ID);
+      return getCalendarUniqueID();
    }
 
    /**
