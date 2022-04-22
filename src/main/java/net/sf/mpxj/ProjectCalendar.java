@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -434,17 +435,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       // Silently ignore this here.
       if (calendar != this)
       {
-         if (getParent() != null)
-         {
-            getParent().removeDerivedCalendar(this);
-         }
-
          super.setParent(calendar);
-
-         if (calendar != null)
-         {
-            calendar.addDerivedCalendar(this);
-         }
          clearWorkingDateCache();
       }
    }
@@ -1171,7 +1162,27 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    @Override public Integer getUniqueID()
    {
-      return (m_uniqueID);
+      return m_uniqueID;
+   }
+
+   /**
+    * Retrieve a list of tasks which use this calendar.
+    *
+    * @return list of tasks
+    */
+   public List<Task> getTasks()
+   {
+      return getParentFile().getTasks().stream().filter(t -> m_uniqueID.equals(t.getCalendarUniqueID())).collect(Collectors.toList());
+   }
+
+   /**
+    * Retrieve a list of the resources which use this calendar.
+    *
+    * @return list of resources
+    */
+   public List<Resource> getResources()
+   {
+      return getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList());
    }
 
    /**
@@ -1761,33 +1772,13 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Add a reference to a calendar derived from this one.
-    *
-    * @param calendar derived calendar instance
-    */
-   private void addDerivedCalendar(ProjectCalendar calendar)
-   {
-      m_derivedCalendars.add(calendar);
-   }
-
-   /**
-    * Remove a reference to a derived calendar.
-    *
-    * @param calendar derived calendar instance
-    */
-   private void removeDerivedCalendar(ProjectCalendar calendar)
-   {
-      m_derivedCalendars.remove(calendar);
-   }
-
-   /**
     * Retrieve a list of derived calendars.
     *
     * @return list of derived calendars
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return (m_derivedCalendars);
+      return m_projectFile.getCalendars().stream().filter(c -> c.getParent() != null && m_uniqueID.equals(c.getParent().getUniqueID())).collect(Collectors.toList());
    }
 
    @Override public String toString()
@@ -1988,10 +1979,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_workingDateCache.clear();
       m_startTimeCache.clear();
       m_getDateLastResult = null;
-      for (ProjectCalendar calendar : m_derivedCalendars)
-      {
-         calendar.clearWorkingDateCache();
-      }
+      getDerivedCalendars().forEach(c -> c.clearWorkingDateCache());
    }
 
    /**
@@ -2120,11 +2108,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * This resource to which this calendar is attached.
     */
    private Resource m_resource;
-
-   /**
-    * List of calendars derived from this calendar instance.
-    */
-   private final ArrayList<ProjectCalendar> m_derivedCalendars = new ArrayList<>();
 
    /**
     * Caches used to speed up date calculations.
