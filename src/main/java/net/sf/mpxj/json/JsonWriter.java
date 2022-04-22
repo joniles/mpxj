@@ -340,10 +340,12 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarWeek(ProjectCalendarWeek week) throws IOException
    {
+      m_writer.writeStartObject(null);
       writeStringField("name", week.getName());
-      writeTimestampField("effective_from", week.getDateRange().getStart());
-      writeTimestampField("effective_to", week.getDateRange().getEnd());
+      writeDateField("effective_from", week.getDateRange().getStart());
+      writeDateField("effective_to", week.getDateRange().getEnd());
       writeCalendarDays(week);
+      m_writer.writeEndObject();
    }
 
    /**
