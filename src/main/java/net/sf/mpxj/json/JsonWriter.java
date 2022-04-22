@@ -43,10 +43,17 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDateRanges;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarWeek;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -166,6 +173,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomFields();
          writeActivityCodes();
          writeProperties();
+         writeCalendars();
          writeResources();
          writeTasks();
          writeAssignments();
@@ -271,6 +279,170 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(null, resource, ResourceField.values());
       }
       m_writer.writeEndList();
+   }
+
+   /**
+    * Writes calendar data to a JSON file.
+    */
+   private void writeCalendars() throws IOException
+   {
+      m_writer.writeStartList("calendars");
+      for (ProjectCalendar calendar : m_projectFile.getCalendars())
+      {
+         writeCalendar(calendar);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Writes an individual calendar to a JSON file.
+    *
+    * @param calendar calendar to write
+    */
+   private void writeCalendar(ProjectCalendar calendar) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", calendar.getUniqueID());
+      writeIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
+      writeStringField("name", calendar.getName());
+      writeIntegerField("minutes_per_day", calendar.getCalendarMinutesPerDay());
+      writeIntegerField("minutes_per_week", calendar.getCalendarMinutesPerWeek());
+      writeIntegerField("minutes_per_month", calendar.getCalendarMinutesPerMonth());
+      writeIntegerField("minutes_per_year", calendar.getCalendarMinutesPerYear());
+      writeCalendarDays(calendar);
+      writeCalendarWeeks(calendar);
+      writeCalendarExceptions(calendar);
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write any working week definitions.
+    *
+    * @param calendar calendar to write
+    */
+   private void writeCalendarWeeks(ProjectCalendar calendar) throws IOException
+   {
+      if (!calendar.getWorkWeeks().isEmpty())
+      {
+         m_writer.writeStartList("working_weeks");
+         for (ProjectCalendarWeek week : calendar.getWorkWeeks())
+         {
+            writeCalendarWeek(week);
+         }
+         m_writer.writeEndList();
+      }
+   }
+
+   /**
+    * Write an individual working week definition.
+    *
+    * @param week working week definition
+    */
+   private void writeCalendarWeek(ProjectCalendarWeek week) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeStringField("name", week.getName());
+      writeDateField("effective_from", week.getDateRange().getStart());
+      writeDateField("effective_to", week.getDateRange().getEnd());
+      writeCalendarDays(week);
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write day definitions for a working week.
+    *
+    * @param week working week
+    */
+   private void writeCalendarDays(ProjectCalendarWeek week) throws IOException
+   {
+      for (Day day : Day.values())
+      {
+         m_writer.writeStartObject(day.name().toLowerCase());
+         writeStringField("type", week.getWorkingDay(day).toString().toLowerCase());
+         writeCalendarHours(week.getCalendarHours(day));
+         m_writer.writeEndObject();
+      }
+   }
+
+   /**
+    * Write working hours definition.
+    *
+    * @param hours working hours
+    */
+   private void writeCalendarHours(ProjectCalendarDateRanges hours) throws IOException
+   {
+      if (hours != null && hours.getRangeCount() != 0)
+      {
+         m_writer.writeStartList("hours");
+         for (DateRange range : hours)
+         {
+            m_writer.writeStartObject(null);
+            writeTimeField("from", range.getStart());
+            writeTimeField("to", range.getEnd());
+            m_writer.writeEndObject();
+         }
+         m_writer.writeEndList();
+      }
+   }
+
+   private void writeCalendarExceptions(ProjectCalendar calendar) throws IOException
+   {
+      if (!calendar.getCalendarExceptions().isEmpty())
+      {
+         m_writer.writeStartList("exceptions");
+         for (ProjectCalendarException ex : calendar.getCalendarExceptions())
+         {
+            writeCalendarException(ex);
+         }
+         m_writer.writeEndList();
+      }
+   }
+
+   /**
+    * Write a calendar exception.
+    *
+    * @param ex calendar exception
+    */
+   private void writeCalendarException(ProjectCalendarException ex) throws IOException
+   {
+      DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
+      m_writer.writeStartObject(null);
+      writeStringField("name", ex.getName());
+      writeDateField("from", ex.getFromDate());
+      writeDateField("to", ex.getToDate());
+      writeStringField("type", type.toString().toLowerCase());
+      writeCalendarHours(ex);
+      writeRecurringData(ex.getRecurring());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write recurring data.
+    *
+    * @param data recurring data
+    */
+   private void writeRecurringData(RecurringData data) throws IOException
+   {
+      if (data != null)
+      {
+         m_writer.writeStartObject("recurrence");
+         writeStringField("type", data.getRecurrenceType().toString().toLowerCase());
+         writeDateField("start_date", data.getStartDate());
+         writeDateField("finish_date", data.getFinishDate());
+         writeIntegerField("occurrences", data.getOccurrences());
+         writeIntegerField("frequency", data.getFrequency());
+         writeBooleanField("relative", Boolean.valueOf(data.getRelative()));
+         writeIntegerField("day_number", data.getDayNumber());
+         writeIntegerField("month_number", data.getMonthNumber());
+         writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
+
+         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(d -> data.getWeeklyDay(d)).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         if (!weeklyDays.isEmpty())
+         {
+            m_writer.writeList("weekly_days", weeklyDays);
+         }
+         m_writer.writeEndObject();
+      }
    }
 
    /**
@@ -418,7 +590,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          case DATE:
          {
-            writeDateField(fieldName, value);
+            writeTimestampField(fieldName, value);
             break;
          }
 
@@ -648,7 +820,7 @@ public final class JsonWriter extends AbstractProjectWriter
     * @param fieldName field name
     * @param value field value
     */
-   private void writeDateField(String fieldName, Object value) throws IOException
+   private void writeTimestampField(String fieldName, Object value) throws IOException
    {
       if (value != null)
       {
@@ -661,6 +833,34 @@ public final class JsonWriter extends AbstractProjectWriter
             Date val = (Date) value;
             m_writer.writeNameValuePair(fieldName, val);
          }
+      }
+   }
+
+   /**
+    * Write a date field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeDateField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         m_writer.writeNameValuePairAsDate(fieldName, (Date) value);
+      }
+   }
+
+   /**
+    * Write a time field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeTimeField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         m_writer.writeNameValuePairAsTime(fieldName, (Date) value);
       }
    }
 
@@ -752,8 +952,8 @@ public final class JsonWriter extends AbstractProjectWriter
       for (DateRange entry : list)
       {
          m_writer.writeStartObject(null);
-         writeDateField("start", entry.getStart());
-         writeDateField("end", entry.getEnd());
+         writeTimestampField("start", entry.getStart());
+         writeTimestampField("end", entry.getEnd());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();

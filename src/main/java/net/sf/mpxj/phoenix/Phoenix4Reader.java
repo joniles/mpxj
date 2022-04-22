@@ -223,9 +223,9 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       // Add default working hours for working days
       for (Day day : Day.values())
       {
+         ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
          {
-            ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
             hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
             hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
          }

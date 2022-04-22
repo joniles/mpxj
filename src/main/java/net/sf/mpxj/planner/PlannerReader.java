@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -77,7 +76,6 @@ import net.sf.mpxj.planner.schema.Days;
 import net.sf.mpxj.planner.schema.DefaultWeek;
 import net.sf.mpxj.planner.schema.Interval;
 import net.sf.mpxj.planner.schema.OverriddenDayType;
-import net.sf.mpxj.planner.schema.OverriddenDayTypes;
 import net.sf.mpxj.planner.schema.Predecessor;
 import net.sf.mpxj.planner.schema.Predecessors;
 import net.sf.mpxj.planner.schema.Project;
@@ -176,14 +174,16 @@ public final class PlannerReader extends AbstractProjectStreamReader
          {
             readCalendar(cal, null);
          }
-
-         Integer defaultCalendarID = getInteger(project.getCalendar());
-         m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
-         if (m_defaultCalendar != null)
-         {
-            m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
-         }
       }
+
+      Integer defaultCalendarID = getInteger(project.getCalendar());
+      m_defaultCalendar = m_projectFile.getCalendarByUniqueID(defaultCalendarID);
+      if (m_defaultCalendar == null)
+      {
+         m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+      }
+
+      m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
    }
 
    /**
@@ -207,26 +207,26 @@ public final class PlannerReader extends AbstractProjectStreamReader
       mpxjCalendar.setParent(parentMpxjCalendar);
 
       //
-      // Set working and non working days
+      // Read the hours for each day type
+      //
+      Map<String, List<DateRange>> map = getHoursMap(plannerCalendar);
+
+      //
+      // Set the hours for each day based on the day type
       //
       DefaultWeek dw = plannerCalendar.getDefaultWeek();
-      setWorkingDay(mpxjCalendar, Day.MONDAY, dw.getMon());
-      setWorkingDay(mpxjCalendar, Day.TUESDAY, dw.getTue());
-      setWorkingDay(mpxjCalendar, Day.WEDNESDAY, dw.getWed());
-      setWorkingDay(mpxjCalendar, Day.THURSDAY, dw.getThu());
-      setWorkingDay(mpxjCalendar, Day.FRIDAY, dw.getFri());
-      setWorkingDay(mpxjCalendar, Day.SATURDAY, dw.getSat());
-      setWorkingDay(mpxjCalendar, Day.SUNDAY, dw.getSun());
+      setHours(map, mpxjCalendar, Day.MONDAY, dw.getMon());
+      setHours(map, mpxjCalendar, Day.TUESDAY, dw.getTue());
+      setHours(map, mpxjCalendar, Day.WEDNESDAY, dw.getWed());
+      setHours(map, mpxjCalendar, Day.THURSDAY, dw.getThu());
+      setHours(map, mpxjCalendar, Day.FRIDAY, dw.getFri());
+      setHours(map, mpxjCalendar, Day.SATURDAY, dw.getSat());
+      setHours(map, mpxjCalendar, Day.SUNDAY, dw.getSun());
 
       //
-      // Set working hours
+      // Process any exception days
       //
-      processWorkingHours(mpxjCalendar, plannerCalendar);
-
-      //
-      // Process exception days
-      //
-      processExceptionDays(mpxjCalendar, plannerCalendar);
+      processExceptionDays(map, mpxjCalendar, plannerCalendar);
 
       m_eventManager.fireCalendarReadEvent(mpxjCalendar);
 
@@ -241,162 +241,66 @@ public final class PlannerReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Set the working/non-working status of a weekday.
+    * Create a list of hours for each day type.
     *
-    * @param mpxjCalendar MPXJ calendar
-    * @param mpxjDay day of the week
-    * @param plannerDay planner day type
+    * @param plannerCalendar Planner calendar
+    * @return day type map
     */
-   private void setWorkingDay(ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
+   private Map<String, List<DateRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
    {
-      DayType dayType = DayType.DEFAULT;
-
-      if (plannerDay != null)
+      Map<String, List<DateRange>> result = new HashMap<>();
+      for (OverriddenDayType type : plannerCalendar.getOverriddenDayTypes().getOverriddenDayType())
       {
-         switch (getInt(plannerDay))
+         List<DateRange> hours = new ArrayList<>();
+         for (Interval interval : type.getInterval())
          {
-            case 0:
-            {
-               dayType = DayType.WORKING;
-               break;
-            }
-
-            case 1:
-            {
-               dayType = DayType.NON_WORKING;
-               break;
-            }
+            hours.add(new DateRange(getTime(interval.getStart()), getTime(interval.getEnd())));
          }
+         result.put(type.getId(), hours);
       }
-
-      mpxjCalendar.setWorkingDay(mpxjDay, dayType);
+      return result;
    }
 
    /**
-    * Add the appropriate working hours to each working day.
+    * Set the day type and any working hours for a given day.
     *
-    * @param mpxjCalendar MPXJ calendar
-    * @param plannerCalendar Planner calendar
+    * @param map day type map
+    * @param mpxjCalendar Planner calendar
+    * @param mpxjDay MPXJ calendar
+    * @param plannerDay Planner day type
     */
-   private void processWorkingHours(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private void setHours(Map<String, List<DateRange>> map, ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
    {
-      OverriddenDayTypes types = plannerCalendar.getOverriddenDayTypes();
-      if (types != null)
+      List<DateRange> dateRanges = map.get(plannerDay);
+      if (dateRanges == null)
       {
-         List<OverriddenDayType> typeList = types.getOverriddenDayType();
-         Iterator<OverriddenDayType> iter = typeList.iterator();
-         OverriddenDayType odt = null;
-         while (iter.hasNext())
+         // Note that ID==2 is the hard coded "use base" day type
+         if (mpxjCalendar.getParent() == null || !plannerDay.equals("2"))
          {
-            odt = iter.next();
-            if (getInt(odt.getId()) != 0)
-            {
-               odt = null;
-               continue;
-            }
-
-            break;
+            mpxjCalendar.setWorkingDay(mpxjDay, DayType.NON_WORKING);
+            mpxjCalendar.addCalendarHours(mpxjDay);
          }
-
-         if (odt != null)
+         else
          {
-            List<Interval> intervalList = odt.getInterval();
-            ProjectCalendarHours mondayHours = null;
-            ProjectCalendarHours tuesdayHours = null;
-            ProjectCalendarHours wednesdayHours = null;
-            ProjectCalendarHours thursdayHours = null;
-            ProjectCalendarHours fridayHours = null;
-            ProjectCalendarHours saturdayHours = null;
-            ProjectCalendarHours sundayHours = null;
-
-            if (mpxjCalendar.isWorkingDay(Day.MONDAY))
-            {
-               mondayHours = mpxjCalendar.addCalendarHours(Day.MONDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.TUESDAY))
-            {
-               tuesdayHours = mpxjCalendar.addCalendarHours(Day.TUESDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.WEDNESDAY))
-            {
-               wednesdayHours = mpxjCalendar.addCalendarHours(Day.WEDNESDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.THURSDAY))
-            {
-               thursdayHours = mpxjCalendar.addCalendarHours(Day.THURSDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.FRIDAY))
-            {
-               fridayHours = mpxjCalendar.addCalendarHours(Day.FRIDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.SATURDAY))
-            {
-               saturdayHours = mpxjCalendar.addCalendarHours(Day.SATURDAY);
-            }
-
-            if (mpxjCalendar.isWorkingDay(Day.SUNDAY))
-            {
-               sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
-            }
-
-            for (Interval interval : intervalList)
-            {
-               Date startTime = getTime(interval.getStart());
-               Date endTime = getTime(interval.getEnd());
-
-               m_defaultWorkingHours.add(new DateRange(startTime, endTime));
-
-               if (mondayHours != null)
-               {
-                  mondayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (tuesdayHours != null)
-               {
-                  tuesdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (wednesdayHours != null)
-               {
-                  wednesdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (thursdayHours != null)
-               {
-                  thursdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (fridayHours != null)
-               {
-                  fridayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (saturdayHours != null)
-               {
-                  saturdayHours.addRange(new DateRange(startTime, endTime));
-               }
-
-               if (sundayHours != null)
-               {
-                  sundayHours.addRange(new DateRange(startTime, endTime));
-               }
-            }
+            mpxjCalendar.setWorkingDay(mpxjDay, DayType.DEFAULT);
          }
+      }
+      else
+      {
+         mpxjCalendar.setWorkingDay(mpxjDay, DayType.WORKING);
+         ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(mpxjDay);
+         dateRanges.forEach(hours::addRange);
       }
    }
 
    /**
     * Process exception days.
     *
+    * @param map day type map
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
-   private void processExceptionDays(ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private void processExceptionDays(Map<String, List<DateRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
    {
       Days days = plannerCalendar.getDays();
       if (days != null)
@@ -408,12 +312,10 @@ public final class PlannerReader extends AbstractProjectStreamReader
             {
                Date exceptionDate = getDate(day.getDate());
                ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
-               if (getInt(day.getId()) == 0)
+               List<DateRange> dateRanges = map.get(day.getId());
+               if (dateRanges != null)
                {
-                  for (DateRange range : m_defaultWorkingHours)
-                  {
-                     exception.addRange(range);
-                  }
+                  dateRanges.forEach(exception::addRange);
                }
             }
          }
@@ -1012,7 +914,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private ProjectCalendar m_defaultCalendar;
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-   private final List<DateRange> m_defaultWorkingHours = new ArrayList<>();
 
    private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static

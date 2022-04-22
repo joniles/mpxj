@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -123,4 +124,5 @@ public class StructuredTextRecord
 
    public static final String RECORD_NUMBER_ATTRIBUTE = "_record_number";
    public static final String RECORD_NAME_ATTRIBUTE = "_record_name";
+   public static final StructuredTextRecord EMPTY = new StructuredTextRecord(Collections.emptyMap(), Collections.emptyList());
 }

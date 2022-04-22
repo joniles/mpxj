@@ -299,10 +299,10 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             int minutesPerMonth = 4 * minutesPerWeek;
             int minutesPerYear = 52 * minutesPerWeek;
 
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
-            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
-            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
-            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
 
          m_eventManager.fireCalendarReadEvent(calendar);
@@ -321,7 +321,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    {
       int value = hours.intValue();
       int startHour = 0;
-      ProjectCalendarHours calendarHours = null;
+      ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
 
       Calendar cal = DateHelper.popCalendar();
       cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -359,11 +359,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          cal.set(Calendar.HOUR_OF_DAY, endHour);
          Date endDate = cal.getTime();
 
-         if (calendarHours == null)
-         {
-            calendarHours = calendar.addCalendarHours(day);
-            calendar.setWorkingDay(day, true);
-         }
+         calendar.setWorkingDay(day, true);
          calendarHours.addRange(new DateRange(startDate, endDate));
          startHour = endHour;
       }

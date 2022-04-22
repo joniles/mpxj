@@ -888,6 +888,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          for (StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
          {
             Day day = DAY_MAP.get(hours.getDayOfWeek());
+            ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
+
             List<WorkTimeType> workTime = hours.getWorkTime();
             if (workTime.isEmpty() || workTime.get(0) == null)
             {
@@ -896,8 +898,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             else
             {
                calendar.setWorkingDay(day, true);
-
-               ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
                for (WorkTimeType work : workTime)
                {
                   if (work != null)
@@ -937,10 +937,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Double rowHoursPerMonth = row.getHoursPerMonth();
       Double rowHoursPerYear = row.getHoursPerYear();
 
-      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
-      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
-      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
-      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+      calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setCalendarMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setCalendarMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
 
       //
       // If we're missing any of these figures, generate them.
@@ -978,22 +978,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          if (rowHoursPerDay == null)
          {
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
          }
 
          if (rowHoursPerWeek == null)
          {
-            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
          }
 
          if (rowHoursPerMonth == null)
          {
-            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
          }
 
          if (rowHoursPerYear == null)
          {
-            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
       }
 

@@ -208,9 +208,9 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
    private void readWeekDay(ProjectCalendar mpxjCalendar, WeekDay day)
    {
       mpxjCalendar.setWorkingDay(day.getDay(), day.isIsDayWorking());
+      ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day.getDay());
       if (day.isIsDayWorking())
       {
-         ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day.getDay());
          for (Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
             hours.addRange(new DateRange(period.getFrom(), period.getTo()));

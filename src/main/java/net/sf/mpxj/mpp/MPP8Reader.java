@@ -293,14 +293,22 @@ final class MPP8Reader implements MPPVariantReader
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day))
                   {
-                     hours = cal.addCalendarHours(net.sf.mpxj.Day.getInstance(index + 1));
+                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
                      hours.addRange(new DateRange(defaultStart1, defaultEnd1));
                      hours.addRange(new DateRange(defaultStart2, defaultEnd2));
+                  }
+                  else
+                  {
+                     if (baseCalendarID <= 0)
+                     {
+                        cal.addCalendarHours(Day.getInstance(index + 1));
+                     }
                   }
                }
                else
                {
                   periodCount = MPPUtility.getShort(extData, offset + 2);
+                  hours = cal.addCalendarHours(Day.getInstance(index + 1));
                   if (periodCount == 0)
                   {
                      cal.setWorkingDay(day, false);
@@ -308,7 +316,6 @@ final class MPP8Reader implements MPPVariantReader
                   else
                   {
                      cal.setWorkingDay(day, true);
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
 
                      for (periodIndex = 0; periodIndex < periodCount; periodIndex++)
                      {

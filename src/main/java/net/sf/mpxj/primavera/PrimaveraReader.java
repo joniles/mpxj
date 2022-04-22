@@ -414,10 +414,10 @@ final class PrimaveraReader
          DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
          for (Day day : Day.values())
          {
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (day != Day.SATURDAY && day != Day.SUNDAY)
             {
                calendar.setWorkingDay(day, true);
-               ProjectCalendarHours hours = calendar.addCalendarHours(day);
                hours.addRange(defaultHourRange);
             }
             else
@@ -435,10 +435,10 @@ final class PrimaveraReader
       Double rowHoursPerMonth = getHoursPerPeriod(row, "month_hr_cnt");
       Double rowHoursPerYear = getHoursPerPeriod(row, "year_hr_cnt");
 
-      calendar.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
-      calendar.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
-      calendar.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
-      calendar.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+      calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setCalendarMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setCalendarMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
 
       //
       // If we're missing any of these figures, generate them.
@@ -476,22 +476,22 @@ final class PrimaveraReader
 
          if (rowHoursPerDay == null)
          {
-            calendar.setMinutesPerDay(Integer.valueOf(minutesPerDay));
+            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
          }
 
          if (rowHoursPerWeek == null)
          {
-            calendar.setMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
          }
 
          if (rowHoursPerMonth == null)
          {
-            calendar.setMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
          }
 
          if (rowHoursPerYear == null)
          {
-            calendar.setMinutesPerYear(Integer.valueOf(minutesPerYear));
+            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
          }
       }
 
@@ -524,40 +524,39 @@ final class PrimaveraReader
     */
    private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
    {
-      for (StructuredTextRecord dayRecord : daysOfWeek.getChildren())
+      Map<Day, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> Day.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> Day.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
+
+      for (Day day : Day.values())
       {
-         processCalendarHours(calendar, dayRecord);
+         StructuredTextRecord dayRecord = days.get(day);
+         processCalendarHours(day, calendar, dayRecord == null ? StructuredTextRecord.EMPTY : dayRecord);
       }
    }
 
    /**
     * Process hours in a working day.
     *
+    * @param day day to process
     * @param calendar project calendar
     * @param dayRecord working day data
     */
-   private void processCalendarHours(ProjectCalendar calendar, StructuredTextRecord dayRecord)
+   private void processCalendarHours(Day day, ProjectCalendar calendar, StructuredTextRecord dayRecord)
    {
-      // ... for each day of the week
-      Day day = Day.getInstance(Integer.parseInt(dayRecord.getRecordName()));
-      if (day != null)
+      // Get hours
+      ProjectCalendarHours hours = calendar.addCalendarHours(day);
+      List<StructuredTextRecord> recHours = dayRecord.getChildren();
+      if (recHours.size() == 0)
       {
-         // Get hours
-         List<StructuredTextRecord> recHours = dayRecord.getChildren();
-         if (recHours.size() == 0)
+         // No data -> not working
+         calendar.setWorkingDay(day, false);
+      }
+      else
+      {
+         calendar.setWorkingDay(day, true);
+         // Read hours
+         for (StructuredTextRecord recWorkingHours : recHours)
          {
-            // No data -> not working
-            calendar.setWorkingDay(day, false);
-         }
-         else
-         {
-            calendar.setWorkingDay(day, true);
-            // Read hours
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            for (StructuredTextRecord recWorkingHours : recHours)
-            {
-               addHours(hours, recWorkingHours);
-            }
+            addHours(hours, recWorkingHours);
          }
       }
    }
