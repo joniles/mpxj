@@ -260,7 +260,7 @@ public class CustomerDataTest
     */
    @AfterClass public static void generateFieldReport() throws Exception
    {
-      if (!JvmHelper.isIkvm())
+      if (OS_IS_WINDOWS && !JvmHelper.isIkvm())
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
@@ -637,7 +637,7 @@ public class CustomerDataTest
     */
    private void debugFailure(File baseline, String writerType, File test) throws IOException
    {
-      String copyCommand = System.getProperty("os.name").toLowerCase().contains("windows") ? "copy /y" : "cp";
+      String copyCommand = OS_IS_WINDOWS ? "copy /y" : "cp";
 
       System.out.println();
       System.out.println("Baseline: " + baseline.getPath());
@@ -693,7 +693,7 @@ public class CustomerDataTest
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
 
+   private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
 }
