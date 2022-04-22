@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.2.1">
+			<action dev="joniles" type="update">JsonWriter now includes calendar data as part of its output.</action>
+			<action dev="joniles" type="update">The calendar methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been renamed `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear`. (Note: this is a breaking change if you were previously using these renamed methods.)</action>
+			<action dev="joniles" type="update">General improvements to make calendar data read from different file formats more consistent.</action>
 		</release>
 		<release date="2022-03-06" version="10.2.0">
 			<action dev="joniles" type="update">Improvements to writing currency, rate and units amounts to MSPDI files.</action>
