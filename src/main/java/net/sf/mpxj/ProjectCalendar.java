@@ -172,6 +172,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * @deprecated use setCalendarMinutesPerDay
+    */
+   @Deprecated public void setMinutesPerDay(Integer minutes)
+   {
+      setCalendarMinutesPerDay(minutes);
+   }
+
+   /**
     * Set the number of minutes per day for this calendar.
     *
     * @param minutes number of minutes
@@ -189,6 +197,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public Integer getCalendarMinutesPerDay()
    {
       return m_calendarMinutesPerDay;
+   }
+
+   /**
+    * @deprecated use setCalendarMinutesPerWeek
+    */
+   @Deprecated public void setMinutesPerWeek(Integer minutes)
+   {
+      setCalendarMinutesPerWeek(minutes);
    }
 
    /**
@@ -212,6 +228,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * @deprecated use setCalendarMinutesPerMonth
+    */
+   @Deprecated public void setMinutesPerMonth(Integer minutes)
+   {
+      setCalendarMinutesPerMonth(minutes);
+   }
+
+   /**
     * Set the number of minutes per month for this calendar.
     *
     * @param minutes number of minutes
@@ -229,6 +253,14 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public Integer getCalendarMinutesPerMonth()
    {
       return m_calendarMinutesPerMonth;
+   }
+
+   /**
+    * @deprecated use setCalendarMinutesPerYear
+    */
+   @Deprecated public void setMinutesPerYear(Integer minutes)
+   {
+      setCalendarMinutesPerYear(minutes);
    }
 
    /**
