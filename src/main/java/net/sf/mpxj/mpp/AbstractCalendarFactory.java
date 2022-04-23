@@ -166,7 +166,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   {
                      if (baseCalendarID <= 0)
                      {
-                        Stream.of(Day.values()).forEach(d -> cal.addCalendarHours(d));
+                        Stream.of(Day.values()).forEach(cal::addCalendarHours);
                      }
                   }
                   else

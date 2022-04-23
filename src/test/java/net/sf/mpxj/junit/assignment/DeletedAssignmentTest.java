@@ -43,7 +43,7 @@ public class DeletedAssignmentTest
 {
    /**
     * Test to exercise the test case provided for SourceForge bug #248.
-    * https://sourceforge.net/p/mpxj/bugs/248/
+    * <a href="https://sourceforge.net/p/mpxj/bugs/248/">https://sourceforge.net/p/mpxj/bugs/248/</a>
     */
    @Test public void testSourceForge248() throws Exception
    {

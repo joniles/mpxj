@@ -436,7 +436,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("month_number", data.getMonthNumber());
          writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(d -> data.getWeeklyDay(d)).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
             m_writer.writeList("weekly_days", weeklyDays);

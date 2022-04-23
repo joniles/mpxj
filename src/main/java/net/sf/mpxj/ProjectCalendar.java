@@ -1979,7 +1979,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_workingDateCache.clear();
       m_startTimeCache.clear();
       m_getDateLastResult = null;
-      getDerivedCalendars().forEach(c -> c.clearWorkingDateCache());
+      getDerivedCalendars().forEach(ProjectCalendar::clearWorkingDateCache);
    }
 
    /**

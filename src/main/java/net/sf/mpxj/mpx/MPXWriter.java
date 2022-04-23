@@ -534,6 +534,22 @@ public final class MPXWriter extends AbstractProjectWriter
       m_eventManager.fireResourceWrittenEvent(record);
    }
 
+   private ProjectCalendar normalizeResourceCalendar(ProjectCalendar calendar)
+   {
+      ProjectCalendar result;
+      if (calendar.isDerived() && calendar.getResources().size() == 1)
+      {
+         // We have a derived calendar associated with just one resource
+         result = calendar;
+      }
+      else
+      {
+         // We have a base calendar, or we are associated with multiple resources
+         result = new ProjectCalendar(m_projectFile);
+      }
+      return result;
+   }
+
    /**
     * Write notes.
     *

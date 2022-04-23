@@ -1480,7 +1480,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void validateCalendars()
    {
-      m_projectFile.getCalendars().forEach(c -> validateCalendar(c));
+      m_projectFile.getCalendars().forEach(this::validateCalendar);
    }
 
    /**

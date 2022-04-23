@@ -1350,7 +1350,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public ProjectCalendar getCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID(getResourceCalendarUniqueID());
+      return getParentFile().getCalendars().getByUniqueID(getCalendarUniqueID());
    }
 
    /**
@@ -1363,12 +1363,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       if (calendar == null)
       {
-         setResourceCalendarUniqueID(null);
+         setCalendarUniqueID(null);
       }
       else
       {
          calendar.setResource(this);
-         setResourceCalendarUniqueID(calendar.getUniqueID());
+         setCalendarUniqueID(calendar.getUniqueID());
       }
    }
 
