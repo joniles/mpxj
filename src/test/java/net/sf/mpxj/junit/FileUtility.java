@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 /**
  * Utility methods for handling files.
@@ -46,8 +47,8 @@ public final class FileUtility
 
       result = true;
 
-      InputStream input1 = new BufferedInputStream(new FileInputStream(file1));
-      InputStream input2 = new BufferedInputStream(new FileInputStream(file2));
+      InputStream input1 = new BufferedInputStream(Files.newInputStream(file1.toPath()));
+      InputStream input2 = new BufferedInputStream(Files.newInputStream(file2.toPath()));
       int c1;
       int c2;
 

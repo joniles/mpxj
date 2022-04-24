@@ -509,7 +509,7 @@ public class CustomerDataTest
          if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
          {
             m_xerReader.setLinkCrossProjectRelations(true);
-            m_xerReader.readAll(new FileInputStream(file));
+            m_xerReader.readAll(Files.newInputStream(file.toPath()));
          }
       }
 
