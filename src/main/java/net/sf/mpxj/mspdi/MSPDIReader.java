@@ -206,7 +206,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             m_projectFile.getProjectProperties().setDefaultCalendarName(defaultCalendar.getName());
          }
 
-         return (m_projectFile);
+         //
+         // Prune unused resource calendars
+         //
+         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
+
+         return m_projectFile;
       }
 
       catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
