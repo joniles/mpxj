@@ -529,23 +529,44 @@ public final class MPXWriter extends AbstractProjectWriter
       if (record.getCalendar() != null)
       {
          writeCalendar(record.getCalendar());
+         //writeCalendar(normalizeResourceCalendar(record, record.getCalendar()));
       }
 
       m_eventManager.fireResourceWrittenEvent(record);
    }
 
-   private ProjectCalendar normalizeResourceCalendar(ProjectCalendar calendar)
+   private boolean isResourceCalendar(ProjectCalendar calendar)
+   {
+      // We treat this as a resource calendar if:
+      // 1. It is a derived calendar
+      // 2. It's not the base calendar for any other derived calendars
+      // 3. It is associated with exactly one resource
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
+   }
+
+   private ProjectCalendar normalizeResourceCalendar(Resource resource, ProjectCalendar calendar)
    {
       ProjectCalendar result;
-      if (calendar.isDerived() && calendar.getResources().size() == 1)
+      if (isResourceCalendar(calendar))
       {
          // We have a derived calendar associated with just one resource
          result = calendar;
       }
       else
       {
-         // We have a base calendar, or we are associated with multiple resources
+         // We have a base calendar, or we are associated with multiple resources.
+         // We 'll create a temporary calendar to ensure the definition will
+         // be recognised by MS Project.
          result = new ProjectCalendar(m_projectFile);
+         result.setParent(calendar);
+         result.setName(resource.getName());
+         result.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
       }
       return result;
    }

@@ -175,9 +175,6 @@ public class MppCalendarTest
    {
       DateFormat tf = new SimpleDateFormat("HH:mm");
 
-      List<ProjectCalendar> baseCalendars = mpp.getCalendars();
-      assertEquals(8, baseCalendars.size());
-
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
@@ -214,10 +211,7 @@ public class MppCalendarTest
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       DateFormat tf = new SimpleDateFormat("HH:mm");
-
-      List<ProjectCalendar> baseCalendars = mpp.getCalendars();
-      assertEquals(2, baseCalendars.size());
-
+      
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());

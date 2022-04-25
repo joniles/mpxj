@@ -30,7 +30,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.ProjectCalendar;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -165,6 +167,11 @@ public final class MPPReader extends AbstractProjectStreamReader
             }
             validationRelations(task);
          }
+
+         //
+         // Prune unused resource calendars
+         //
+         projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
 
          //
          // Ensure that the unique ID counters are correct
