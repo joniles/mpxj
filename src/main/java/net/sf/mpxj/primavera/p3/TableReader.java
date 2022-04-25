@@ -24,7 +24,6 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
