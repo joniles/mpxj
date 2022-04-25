@@ -123,7 +123,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
                   ProjectCalendar cal;
 
-                  if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
+                  if (baseCalendarID <= 0 || baseCalendarID == calendarID.intValue())
                   {
                      if (varData != null || defaultCalendarData != null)
                      {
@@ -139,6 +139,16 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                      }
 
                      cal.setName(calVarData.getUnicodeString(calendarID, getCalendarNameVarDataType()));
+
+                     // In theory, base calendar's should not have a resource ID attached to them.
+                     // In practice, I've seen a few sample files where this is the case.
+                     // As long as the resource ID isn't already linked to a calendar, we'll
+                     // use the resource ID.
+                     int resourceID = MPPUtility.getInt(fixedData, offset + getResourceIDOffset());
+                     if (resourceID > 0 && !resourceMap.containsKey(resourceID))
+                     {
+                        resourceMap.put(Integer.valueOf(resourceID), cal);
+                     }
                   }
                   else
                   {
