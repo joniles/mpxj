@@ -325,15 +325,16 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeResourceCalendar(ProjectCalendar record) throws IOException
    {
-      //
-      // Test used to ensure that we don't write the default calendar used for the "Unassigned" resource
-      //
-      if (record.getParent() == null || record.getResource() != null)
-      {
-         writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record.getParent() == null ? null : record.getParent().getName(), record);
-      }
+      writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record.getParent() == null ? null : record.getParent().getName(), record);
    }
 
+   /**
+    * Write a calendar.
+    *
+    * @param recordNumber record number rep[resenting calendar type
+    * @param name calendar name
+    * @param record calendar data
+    */
    private void writeCalendarDetail(int recordNumber, String name, ProjectCalendar record) throws IOException
    {
       m_buffer.setLength(0);

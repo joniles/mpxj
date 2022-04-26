@@ -50,7 +50,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public String getName()
    {
-      return (m_name);
+      return m_name;
    }
 
    /**

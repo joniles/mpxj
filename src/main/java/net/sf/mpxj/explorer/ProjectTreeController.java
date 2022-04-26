@@ -50,6 +50,7 @@ import net.sf.mpxj.Group;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDateRanges;
 import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -295,6 +296,14 @@ public class ProjectTreeController
          }
       }
 
+      List<ProjectCalendarWeek> weeks = calendar.getWorkWeeks();
+      if (!weeks.isEmpty())
+      {
+         MpxjTreeNode workingWeeksFolder = new MpxjTreeNode("Working Weeks");
+         calendarNode.add(workingWeeksFolder);
+         addWorkingWeeks(workingWeeksFolder, weeks);
+      }
+
       List<ProjectCalendar> derivedCalendars = calendar.getDerivedCalendars();
       if (!derivedCalendars.isEmpty())
       {
@@ -302,6 +311,25 @@ public class ProjectTreeController
          calendarNode.add(derivedCalendarsFolder);
          addCalendars(derivedCalendarsFolder, derivedCalendars);
       }
+   }
+
+   private void addWorkingWeeks(MpxjTreeNode parentNode, List<ProjectCalendarWeek> weeks)
+   {
+      weeks.forEach(w -> addWorkingWeek(parentNode, w));
+   }
+
+   private void addWorkingWeek(MpxjTreeNode parentNode, ProjectCalendarWeek week)
+   {
+      MpxjTreeNode weekNode = new MpxjTreeNode(week)
+      {
+         @Override public String toString()
+         {
+            String name = week.getName();
+            return name == null || name.isEmpty() ? "Unnamed Week" : name;
+         }
+      };
+
+      parentNode.add(weekNode);
    }
 
    /**
