@@ -1237,9 +1237,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       populateExpandedExceptions();
       if (!m_expandedExceptions.isEmpty())
       {
-         // TODO: no longer necessary?
-         sortExceptions();
-
          int low = 0;
          int high = m_expandedExceptions.size() - 1;
          long targetDate = date.getTime();
