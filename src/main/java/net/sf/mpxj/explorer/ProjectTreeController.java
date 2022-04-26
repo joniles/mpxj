@@ -85,7 +85,7 @@ public class ProjectTreeController
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
-   private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions");
+   private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent");
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
@@ -250,10 +250,12 @@ public class ProjectTreeController
     */
    private void addCalendars(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (ProjectCalendar calendar : file.getCalendars())
-      {
-         addCalendar(parentNode, calendar);
-      }
+      addCalendars(parentNode, file.getCalendars().stream().filter(c -> c.getParent() == null).collect(Collectors.toList()));
+   }
+
+   private void addCalendars(MpxjTreeNode parentNode, List<ProjectCalendar> calendars)
+   {
+      calendars.stream().forEach(c -> addCalendar(parentNode, c));
    }
 
    /**
@@ -281,12 +283,24 @@ public class ProjectTreeController
          addCalendarDay(daysFolder, calendar, day);
       }
 
-      MpxjTreeNode exceptionsFolder = new MpxjTreeNode("Exceptions");
-      calendarNode.add(exceptionsFolder);
-
-      for (ProjectCalendarException exception : calendar.getCalendarExceptions())
+      List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
+      if (!exceptions.isEmpty())
       {
-         addCalendarException(exceptionsFolder, exception);
+         MpxjTreeNode exceptionsFolder = new MpxjTreeNode("Exceptions");
+         calendarNode.add(exceptionsFolder);
+
+         for (ProjectCalendarException exception : exceptions)
+         {
+            addCalendarException(exceptionsFolder, exception);
+         }
+      }
+
+      List<ProjectCalendar> derivedCalendars = calendar.getDerivedCalendars();
+      if (!derivedCalendars.isEmpty())
+      {
+         MpxjTreeNode derivedCalendarsFolder = new MpxjTreeNode("Derived Calendars");
+         calendarNode.add(derivedCalendarsFolder);
+         addCalendars(derivedCalendarsFolder, derivedCalendars);
       }
    }
 
