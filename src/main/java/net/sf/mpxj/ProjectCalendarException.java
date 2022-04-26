@@ -179,6 +179,17 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       return (result);
    }
 
+   /**
+    * Returns true if any part of the supplied calendar exception overlaps this one.
+    *
+    * @param exception calendar exception to test
+    * @return true if there is any overlap
+    */
+   public boolean contains(ProjectCalendarException exception)
+   {
+      return !(DateHelper.compare(m_toDate, exception.m_fromDate) < 0 || DateHelper.compare(exception.m_toDate, m_fromDate) < 0);
+   }
+
    @Override public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();

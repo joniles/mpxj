@@ -42,6 +42,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
@@ -190,8 +191,12 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
          for (Day day : Day.values())
          {
-            // TODO: this is an approximation
-            calendar.addDefaultCalendarHours(day);
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            if (calendar.isWorkingDay(day))
+            {
+               hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
+               hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+            }
          }
       }
 

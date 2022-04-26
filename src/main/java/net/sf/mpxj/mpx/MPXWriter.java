@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -232,9 +233,10 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       for (ProjectCalendar cal : m_projectFile.getCalendars())
       {
-         if (cal.getResource() == null)
+         if (!isResourceCalendar(cal))
          {
             writeBaseCalendar(cal);
+            //writeBaseCalendar(normalizeBaseCalendar(cal));
          }
       }
 
@@ -372,7 +374,7 @@ public final class MPXWriter extends AbstractProjectWriter
          //
          // A quirk of MS Project is that these exceptions must be
          // in date order in the file, otherwise they are ignored.
-         // The getCalendarExceptions method now guarantees that
+         // The getExpandedCalendarExceptions method now guarantees that
          // the exceptions list is sorted when retrieved.
          //
          for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
@@ -535,7 +537,7 @@ public final class MPXWriter extends AbstractProjectWriter
       if (record.getCalendar() != null)
       {
          writeResourceCalendar(record.getCalendar());
-         //writeCalendar(normalizeResourceCalendar(record, record.getCalendar()));
+         //writeResourceCalendar(normalizeResourceCalendar(record, record.getCalendar()));
       }
 
       m_eventManager.fireResourceWrittenEvent(record);
@@ -550,6 +552,73 @@ public final class MPXWriter extends AbstractProjectWriter
       return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
    }
 
+   private ProjectCalendar normalizeBaseCalendar(ProjectCalendar calendar)
+   {
+      ProjectCalendar result;
+      if (calendar.isDerived())
+      {
+         // Create a temporary "flattened" calendar
+         result = new ProjectCalendar(m_projectFile);
+         result.setName(calendar.getName());
+         populateDays(result, calendar);
+         populateExceptions(result, calendar);
+      }
+      else
+      {
+         result = calendar;
+      }
+
+      return result;
+   }
+
+   private void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   {
+      List<ProjectCalendarException> targetExceptions = target.getExpandedCalendarExceptions();
+      for (ProjectCalendarException exception : source.getExpandedCalendarExceptions())
+      {
+         List<ProjectCalendarException> collisions = targetExceptions.stream().filter(e -> e.contains(exception)).collect(Collectors.toList());
+         if (collisions.isEmpty())
+         {
+            ProjectCalendarException newException = target.addCalendarException(exception.getFromDate(), exception.getToDate());
+            for (DateRange range :exception)
+            {
+               newException.addRange(range);
+            }
+         }
+         else
+         {
+            System.out.println("HANDLE COLLISIONS");
+         }
+      }
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         populateExceptions(target, parent);
+      }
+   }
+
    private ProjectCalendar normalizeResourceCalendar(Resource resource, ProjectCalendar calendar)
    {
       ProjectCalendar result;
@@ -561,7 +630,7 @@ public final class MPXWriter extends AbstractProjectWriter
       else
       {
          // We have a base calendar, or we are associated with multiple resources.
-         // We 'll create a temporary calendar to ensure the definition will
+         // We'll create a temporary derived calendar to ensure the definition will
          // be recognised by MS Project.
          result = new ProjectCalendar(m_projectFile);
          result.setParent(calendar);

@@ -51,7 +51,7 @@ public final class DateRange implements Comparable<DateRange>
     */
    public Date getStart()
    {
-      return (m_start);
+      return m_start;
    }
 
    /**
@@ -61,8 +61,9 @@ public final class DateRange implements Comparable<DateRange>
     */
    public Date getEnd()
    {
-      return (m_end);
+      return m_end;
    }
+
 
    /**
     * This method compares a target date with a date range. The method will

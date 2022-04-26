@@ -1237,6 +1237,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       populateExpandedExceptions();
       if (!m_expandedExceptions.isEmpty())
       {
+         // TODO: no longer necessary?
          sortExceptions();
 
          int low = 0;
@@ -1273,7 +1274,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          // Check base calendar as well for an exception.
          exception = getParent().getException(date);
       }
-      return (exception);
+      return exception;
    }
 
    /**
