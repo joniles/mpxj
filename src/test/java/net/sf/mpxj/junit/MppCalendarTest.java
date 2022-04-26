@@ -211,7 +211,7 @@ public class MppCalendarTest
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
       DateFormat tf = new SimpleDateFormat("HH:mm");
-      
+
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());

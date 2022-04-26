@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -316,7 +315,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeBaseCalendar(ProjectCalendar record) throws IOException
    {
-      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER,  record.getName(), record);
+      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER, record.getName(), record);
    }
 
    /**
@@ -630,7 +629,7 @@ public final class MPXWriter extends AbstractProjectWriter
          if (targetExceptions.stream().noneMatch(e -> e.contains(exception)))
          {
             ProjectCalendarException newException = target.addCalendarException(exception.getFromDate(), exception.getToDate());
-            for (DateRange range :exception)
+            for (DateRange range : exception)
             {
                newException.addRange(range);
             }
