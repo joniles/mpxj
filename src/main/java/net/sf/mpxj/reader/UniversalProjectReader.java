@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -710,7 +711,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         is = new FileInputStream(file);
+         is = Files.newInputStream(file.toPath());
          if (is.available() > 1350)
          {
             InputStreamHelper.skip(is, 1024);

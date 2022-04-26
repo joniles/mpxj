@@ -167,6 +167,11 @@ public final class MPPReader extends AbstractProjectStreamReader
          }
 
          //
+         // Prune unused resource calendars
+         //
+         projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
+
+         //
          // Ensure that the unique ID counters are correct
          //
          config.updateUniqueCounters();

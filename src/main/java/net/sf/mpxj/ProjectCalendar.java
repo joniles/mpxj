@@ -1237,8 +1237,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       populateExpandedExceptions();
       if (!m_expandedExceptions.isEmpty())
       {
-         sortExceptions();
-
          int low = 0;
          int high = m_expandedExceptions.size() - 1;
          long targetDate = date.getTime();
@@ -1273,7 +1271,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          // Check base calendar as well for an exception.
          exception = getParent().getException(date);
       }
-      return (exception);
+      return exception;
    }
 
    /**
@@ -1979,7 +1977,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_workingDateCache.clear();
       m_startTimeCache.clear();
       m_getDateLastResult = null;
-      getDerivedCalendars().forEach(c -> c.clearWorkingDateCache());
+      getDerivedCalendars().forEach(ProjectCalendar::clearWorkingDateCache);
    }
 
    /**

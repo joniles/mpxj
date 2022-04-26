@@ -24,10 +24,10 @@
 package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 
@@ -100,7 +100,7 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
       }
       else
       {
-         OutputStream os = new FileOutputStream(file);
+         OutputStream os = Files.newOutputStream(file.toPath());
          FixedLengthInputStream inputStream = new FixedLengthInputStream(stream, dataSizeValue);
          Blast blast = new Blast();
          blast.blast(inputStream, os);

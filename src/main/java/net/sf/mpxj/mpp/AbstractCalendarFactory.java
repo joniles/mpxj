@@ -123,7 +123,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
                   ProjectCalendar cal;
 
-                  if (baseCalendarID == 0 || baseCalendarID == -1 || baseCalendarID == calendarID.intValue())
+                  if (baseCalendarID <= 0 || baseCalendarID == calendarID.intValue())
                   {
                      if (varData != null || defaultCalendarData != null)
                      {
@@ -139,6 +139,16 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                      }
 
                      cal.setName(calVarData.getUnicodeString(calendarID, getCalendarNameVarDataType()));
+
+                     // In theory, base calendars should not have a resource ID attached to them.
+                     // In practice, I've seen a few sample files where this is the case.
+                     // As long as the resource ID isn't already linked to a calendar, we'll
+                     // use the resource ID.
+                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
+                     if (resourceID.intValue() > 0 && !resourceMap.containsKey(resourceID))
+                     {
+                        resourceMap.put(resourceID, cal);
+                     }
                   }
                   else
                   {
@@ -151,11 +161,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                         cal = m_file.addDefaultDerivedCalendar();
                      }
 
-                     if (baseCalendarID > 0)
-                     {
-                        baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
-                     }
-
+                     baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
                      Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }
@@ -166,7 +172,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   {
                      if (baseCalendarID <= 0)
                      {
-                        Stream.of(Day.values()).forEach(d -> cal.addCalendarHours(d));
+                        Stream.of(Day.values()).forEach(cal::addCalendarHours);
                      }
                   }
                   else

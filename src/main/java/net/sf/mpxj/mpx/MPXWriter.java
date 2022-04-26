@@ -232,9 +232,9 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       for (ProjectCalendar cal : m_projectFile.getCalendars())
       {
-         if (cal.getResource() == null)
+         if (!isResourceCalendar(cal))
          {
-            writeCalendar(cal);
+            writeBaseCalendar(normalizeBaseCalendar(cal));
          }
       }
 
@@ -309,73 +309,79 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a calendar.
+    * Write a base calendar.
     *
     * @param record calendar instance
     */
-   private void writeCalendar(ProjectCalendar record) throws IOException
+   private void writeBaseCalendar(ProjectCalendar record) throws IOException
    {
-      //
-      // Test used to ensure that we don't write the default calendar used for the "Unassigned" resource
-      //
-      if (record.getParent() == null || record.getResource() != null)
+      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER, record.getName(), record);
+   }
+
+   /**
+    * Write a resource calendar.
+    *
+    * @param record calendar instance
+    */
+   private void writeResourceCalendar(ProjectCalendar record) throws IOException
+   {
+      writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record.getParent() == null ? null : record.getParent().getName(), record);
+   }
+
+   /**
+    * Write a calendar.
+    *
+    * @param recordNumber record number rep[resenting calendar type
+    * @param name calendar name
+    * @param record calendar data
+    */
+   private void writeCalendarDetail(int recordNumber, String name, ProjectCalendar record) throws IOException
+   {
+      m_buffer.setLength(0);
+      m_buffer.append(recordNumber);
+      m_buffer.append(m_delimiter);
+      if (name != null)
       {
-         m_buffer.setLength(0);
-
-         if (record.getParent() == null)
-         {
-            m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
-            m_buffer.append(m_delimiter);
-            if (record.getName() != null)
-            {
-               m_buffer.append(record.getName());
-            }
-         }
-         else
-         {
-            m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
-            m_buffer.append(m_delimiter);
-            m_buffer.append(record.getParent().getName());
-         }
-
-         for (DayType day : record.getDays())
-         {
-            if (day == null)
-            {
-               day = DayType.DEFAULT;
-            }
-            m_buffer.append(m_delimiter);
-            m_buffer.append(day.getValue());
-         }
-
-         m_buffer.append(MPXConstants.EOL);
-         m_writer.write(m_buffer.toString());
-
-         ProjectCalendarHours[] hours = record.getHours();
-         for (ProjectCalendarHours hour : hours)
-         {
-            if (hour != null)
-            {
-               writeCalendarHours(record, hour);
-            }
-         }
-
-         if (!record.getExpandedCalendarExceptions().isEmpty())
-         {
-            //
-            // A quirk of MS Project is that these exceptions must be
-            // in date order in the file, otherwise they are ignored.
-            // The getCalendarExceptions method now guarantees that
-            // the exceptions list is sorted when retrieved.
-            //
-            for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
-            {
-               writeCalendarException(record, ex);
-            }
-         }
-
-         m_eventManager.fireCalendarWrittenEvent(record);
+         m_buffer.append(name);
       }
+
+      for (DayType day : record.getDays())
+      {
+         if (day == null)
+         {
+            day = DayType.DEFAULT;
+         }
+         m_buffer.append(m_delimiter);
+         m_buffer.append(day.getValue());
+      }
+
+      m_buffer.append(MPXConstants.EOL);
+      m_writer.write(m_buffer.toString());
+
+      ProjectCalendarHours[] hours = record.getHours();
+      for (ProjectCalendarHours hour : hours)
+      {
+         if (hour != null)
+         {
+            writeCalendarHours(record, hour);
+         }
+      }
+
+      if (!record.getExpandedCalendarExceptions().isEmpty())
+      {
+         //
+         // A quirk of MS Project is that these exceptions must be
+         // in date order in the file, otherwise they are ignored.
+         // The getExpandedCalendarExceptions method now guarantees that
+         // the exceptions list is sorted when retrieved.
+         //
+         for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
+         {
+            writeCalendarException(record, ex);
+         }
+      }
+
+      m_eventManager.fireCalendarWrittenEvent(record);
    }
 
    /**
@@ -528,10 +534,152 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       if (record.getCalendar() != null)
       {
-         writeCalendar(record.getCalendar());
+         writeResourceCalendar(normalizeResourceCalendar(record, record.getCalendar()));
       }
 
       m_eventManager.fireResourceWrittenEvent(record);
+   }
+
+   /**
+    * Determine if this is a valid resource calendar.
+    *
+    * @param calendar calendar to test
+    * @return true if this is a valid resource calendar
+    */
+   private boolean isResourceCalendar(ProjectCalendar calendar)
+   {
+      // We treat this as a resource calendar if:
+      // 1. It is a derived calendar
+      // 2. It's not the base calendar for any other derived calendars
+      // 3. It is associated with exactly one resource
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
+   }
+
+   /**
+    * A base calendar cannot be derived from another calendar.
+    * If the current calendar is derived, create a temporary flattened
+    * version which is functionally equivalent.
+    *
+    * @param calendar base calendar
+    * @return normalized base calendar
+    */
+   private ProjectCalendar normalizeBaseCalendar(ProjectCalendar calendar)
+   {
+      ProjectCalendar result;
+      if (calendar.isDerived())
+      {
+         // Create a temporary "flattened" calendar
+         result = new ProjectCalendar(m_projectFile);
+         result.setName(calendar.getName());
+         populateDays(result, calendar);
+         populateExceptions(result, calendar);
+      }
+      else
+      {
+         result = calendar;
+      }
+
+      return result;
+   }
+
+   /**
+    * Copies days and hours to a temporary flattened calendar.
+    *
+    * @param target target flattened calendar
+    * @param source source calendar
+    */
+   private void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   /**
+    * Copies exceptions into a temporary flattened calendar.
+    *
+    * @param target flattened calendar
+    * @param source source calendar
+    */
+   private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   {
+      List<ProjectCalendarException> targetExceptions = target.getExpandedCalendarExceptions();
+      for (ProjectCalendarException exception : source.getExpandedCalendarExceptions())
+      {
+         // We're dealing with expanded exceptions, which each cover a single day.
+         // Therefore, if we don't have an exception in the target calendar
+         // whose range matches the source exception, we can add the source exception
+         // to the target calendar. If we do find a match, the target calendar's exception
+         // overrides the source calendar's exception, so we can ignore it.
+         if (targetExceptions.stream().noneMatch(e -> e.contains(exception)))
+         {
+            ProjectCalendarException newException = target.addCalendarException(exception.getFromDate(), exception.getToDate());
+            for (DateRange range : exception)
+            {
+               newException.addRange(range);
+            }
+         }
+      }
+
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         populateExceptions(target, parent);
+      }
+   }
+
+   /**
+    * If we have a resource which shares a calendar with other resources,
+    * * or the resource uses a base calendar directly, then
+    * we need to create a temporary derived calendar to ensure the generated
+    * MPX file conforms to MS Project's expectations.
+    *
+    * @param resource Resource instance
+    * @param calendar calendar linked to the resource
+    * @return normalized resource calendar
+    */
+   private ProjectCalendar normalizeResourceCalendar(Resource resource, ProjectCalendar calendar)
+   {
+      ProjectCalendar result;
+      if (isResourceCalendar(calendar))
+      {
+         // We have a derived calendar associated with just one resource
+         result = calendar;
+      }
+      else
+      {
+         // We have a base calendar, or we are associated with multiple resources.
+         // We'll create a temporary derived calendar to ensure the definition will
+         // be recognised by MS Project.
+         result = new ProjectCalendar(m_projectFile);
+         result.setParent(calendar);
+         result.setName(resource.getName());
+         result.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+         result.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+      }
+      return result;
    }
 
    /**

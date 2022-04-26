@@ -130,7 +130,7 @@ public final class HtmlHelper
    }
 
    /**
-    * Based on HtmlToPlainText from https://github.com/jhy/jsoup.
+    * Based on HtmlToPlainText from <a href="https://github.com/jhy/jsoup">https://github.com/jhy/jsoup</a>.
     */
    private static class FormattingVisitor implements NodeVisitor
    {

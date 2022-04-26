@@ -27,7 +27,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -39,9 +38,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import net.sf.mpxj.common.JvmHelper;
-import net.sf.mpxj.common.MarshallerHelper;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,6 +47,8 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.JdbcOdbcHelper;
+import net.sf.mpxj.common.JvmHelper;
+import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -509,7 +507,7 @@ public class CustomerDataTest
          if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
          {
             m_xerReader.setLinkCrossProjectRelations(true);
-            m_xerReader.readAll(new FileInputStream(file));
+            m_xerReader.readAll(Files.newInputStream(file.toPath()));
          }
       }
 

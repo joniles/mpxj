@@ -45,7 +45,7 @@ import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure working day calculations operate as expected across multi-day calendar exceptions.
- * https://github.com/joniles/mpxj/issues/125
+ * <a href="https://github.com/joniles/mpxj/issues/125">https://github.com/joniles/mpxj/issues/125</a>
  */
 public class MultiDayExceptionsTest
 {

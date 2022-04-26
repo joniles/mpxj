@@ -24,9 +24,9 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -60,7 +60,7 @@ public class PoiTreeController
 
       try
       {
-         is = new FileInputStream(file);
+         is = Files.newInputStream(file.toPath());
          POIFSFileSystem fs = new POIFSFileSystem(is);
          m_model.setFile(fs);
       }
