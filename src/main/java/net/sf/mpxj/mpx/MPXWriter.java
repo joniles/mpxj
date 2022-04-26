@@ -315,15 +315,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeBaseCalendar(ProjectCalendar record) throws IOException
    {
-      String name = record.getName();
-      m_buffer.setLength(0);
-      m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
-      m_buffer.append(m_delimiter);
-      if (name != null)
-      {
-         m_buffer.append(name);
-      }
-      writeCalendarDetail(record);
+      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER,  record.getName(), record);
    }
 
    /**
@@ -338,20 +330,20 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       if (record.getParent() == null || record.getResource() != null)
       {
-         String name = record.getParent() == null ? null : record.getParent().getName();
-         m_buffer.setLength(0);
-         m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
-         m_buffer.append(m_delimiter);
-         if (name != null)
-         {
-            m_buffer.append(name);
-         }
-         writeCalendarDetail(record);
+         writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record.getParent() == null ? null : record.getParent().getName(), record);
       }
    }
 
-   private void writeCalendarDetail(ProjectCalendar record) throws IOException
+   private void writeCalendarDetail(int recordNumber, String name, ProjectCalendar record) throws IOException
    {
+      m_buffer.setLength(0);
+      m_buffer.append(recordNumber);
+      m_buffer.append(m_delimiter);
+      if (name != null)
+      {
+         m_buffer.append(name);
+      }
+
       for (DayType day : record.getDays())
       {
          if (day == null)
