@@ -235,8 +235,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          if (!isResourceCalendar(cal))
          {
-            writeBaseCalendar(cal);
-            //writeBaseCalendar(normalizeBaseCalendar(cal));
+            writeBaseCalendar(normalizeBaseCalendar(cal));
          }
       }
 
@@ -536,13 +535,18 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       if (record.getCalendar() != null)
       {
-         writeResourceCalendar(record.getCalendar());
-         //writeResourceCalendar(normalizeResourceCalendar(record, record.getCalendar()));
+         writeResourceCalendar(normalizeResourceCalendar(record, record.getCalendar()));
       }
 
       m_eventManager.fireResourceWrittenEvent(record);
    }
 
+   /**
+    * Determine if this is a valid resource calendar.
+    *
+    * @param calendar calendar to test
+    * @return true if this is a valid resource calendar
+    */
    private boolean isResourceCalendar(ProjectCalendar calendar)
    {
       // We treat this as a resource calendar if:
@@ -552,6 +556,14 @@ public final class MPXWriter extends AbstractProjectWriter
       return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
    }
 
+   /**
+    * A base calendar cannot be derived from another calendar.
+    * If the current calendar is derived, create a temporary flattened
+    * version which is functionally equivalent.
+    *
+    * @param calendar base calendar
+    * @return normalized base calendar
+    */
    private ProjectCalendar normalizeBaseCalendar(ProjectCalendar calendar)
    {
       ProjectCalendar result;
@@ -571,6 +583,12 @@ public final class MPXWriter extends AbstractProjectWriter
       return result;
    }
 
+   /**
+    * Copies days and hours to a temporary flattened calendar.
+    *
+    * @param target target flattened calendar
+    * @param source source calendar
+    */
    private void populateDays(ProjectCalendar target, ProjectCalendar source)
    {
       for (Day day : Day.values())
@@ -593,6 +611,12 @@ public final class MPXWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Copies exceptions into a temporary flattened calendar.
+    *
+    * @param target flattened calendar
+    * @param source source calendar
+    */
    private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
    {
       List<ProjectCalendarException> targetExceptions = target.getExpandedCalendarExceptions();
@@ -613,8 +637,8 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      // Work down the hierarchy, adding any exception which haven't been overridden
-      // by derived calendars.
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
       ProjectCalendar parent = source.getParent();
       if (parent != null)
       {
@@ -622,6 +646,16 @@ public final class MPXWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * If we have a resource which shares a calendar with other resources,
+    * * or the resource uses a base calendar directly, then
+    * we need to create a temporary derived calendar to ensure the generated
+    * MPX file conforms to MS Project's expectations.
+    *
+    * @param resource Resource instance
+    * @param calendar calendar linked to the resource
+    * @return normalized resource calendar
+    */
    private ProjectCalendar normalizeResourceCalendar(Resource resource, ProjectCalendar calendar)
    {
       ProjectCalendar result;
