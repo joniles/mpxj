@@ -598,8 +598,12 @@ public final class MPXWriter extends AbstractProjectWriter
       List<ProjectCalendarException> targetExceptions = target.getExpandedCalendarExceptions();
       for (ProjectCalendarException exception : source.getExpandedCalendarExceptions())
       {
-         List<ProjectCalendarException> collisions = targetExceptions.stream().filter(e -> e.contains(exception)).collect(Collectors.toList());
-         if (collisions.isEmpty())
+         // We're dealing with expanded exceptions, which each cover a single day.
+         // Therefore, if we don't have an exception in the target calendar
+         // whose range matches the source exception, we can add the source exception
+         // to the target calendar. If we do find a match, the target calendar's exception
+         // overrides the source calendar's exception, so we can ignore it.
+         if (targetExceptions.stream().noneMatch(e -> e.contains(exception)))
          {
             ProjectCalendarException newException = target.addCalendarException(exception.getFromDate(), exception.getToDate());
             for (DateRange range :exception)
@@ -607,11 +611,10 @@ public final class MPXWriter extends AbstractProjectWriter
                newException.addRange(range);
             }
          }
-         else
-         {
-            System.out.println("HANDLE COLLISIONS");
-         }
       }
+
+      // Work down the hierarchy, adding any exception which haven't been overridden
+      // by derived calendars.
       ProjectCalendar parent = source.getParent();
       if (parent != null)
       {

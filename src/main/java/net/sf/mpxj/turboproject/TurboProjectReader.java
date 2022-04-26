@@ -259,9 +259,9 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          Resource resource = m_projectFile.addResource();
          setFields(RESOURCE_FIELDS, row, resource);
          resource.setNotesObject(new Notes(resource.getNotes()));
+         resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(row.getInteger("CALENDAR_ID")));
 
          m_eventManager.fireResourceReadEvent(resource);
-         // TODO: Correctly handle calendar
       }
    }
 
