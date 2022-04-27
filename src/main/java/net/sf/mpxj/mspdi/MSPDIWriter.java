@@ -562,44 +562,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Project.Calendars.Calendar.WeekDays days = m_factory.createProjectCalendarsCalendarWeekDays();
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time;
-      ProjectCalendarHours bch;
-
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
-
-      for (int loop = 1; loop < 8; loop++)
+      for (Day mpxjDay : Day.values())
       {
-         DayType workingFlag = mpxjCalendar.getWorkingDay(Day.getInstance(loop));
-
-         if (workingFlag != DayType.DEFAULT)
-         {
-            Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
-            dayList.add(day);
-            day.setDayType(BigInteger.valueOf(loop));
-            day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
-
-            if (workingFlag == DayType.WORKING)
-            {
-               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
-               day.setWorkingTimes(times);
-               List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
-
-               bch = mpxjCalendar.getCalendarHours(Day.getInstance(loop));
-               if (bch != null)
-               {
-                  for (DateRange range : bch)
-                  {
-                     if (range != null)
-                     {
-                        time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
-                        timesList.add(time);
-
-                        time.setFromTime(range.getStart());
-                        time.setToTime(range.getEnd());
-                     }
-                  }
-               }
-            }
-         }
+         writeDay(mpxjCalendar, mpxjDay, dayList);
       }
 
       //
@@ -611,8 +577,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       //
-      // Do not add a weekdays tag to the calendar unless it
-      // has valid entries.
+      // Do not add a weekdays tag to the calendar unless it has valid entries.
       // Fixes SourceForge bug 1854747: MPXJ and MSP 2007 XML formats
       //
       if (!dayList.isEmpty())
@@ -624,7 +589,43 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
-      return (calendar);
+      return calendar;
+   }
+
+   private void writeDay(ProjectCalendar mpxjCalendar, Day mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
+   {
+      DayType workingFlag = mpxjCalendar.getWorkingDay(mpxjDay);
+
+      if (workingFlag != DayType.DEFAULT)
+      {
+         Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
+         dayList.add(day);
+         day.setDayType(BigInteger.valueOf(mpxjDay.getValue()));
+         day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
+
+         if (workingFlag == DayType.WORKING)
+         {
+            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
+            day.setWorkingTimes(times);
+            List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
+
+            ProjectCalendarHours bch = mpxjCalendar.getCalendarHours(mpxjDay);
+            if (bch != null)
+            {
+               for (DateRange range : bch)
+               {
+                  if (range != null)
+                  {
+                     Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
+                     timesList.add(time);
+
+                     time.setFromTime(range.getStart());
+                     time.setToTime(range.getEnd());
+                  }
+               }
+            }
+         }
+      }
    }
 
    /**
