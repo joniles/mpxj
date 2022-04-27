@@ -563,8 +563,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return calendar;
       }
 
-/* TODO: temporary
-
       // Create a temporary "flattened" calendar
       ProjectCalendar newCalendar = new ProjectCalendar(m_projectFile);
       newCalendar.setName(calendar.getName());
@@ -573,8 +571,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       populateExceptions(newCalendar, calendar);
 
       return newCalendar;
-*/
-      return calendar;
    }
 
    /**
@@ -616,7 +612,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // We create a copy of the current expanded exceptions as adding new exceptions
       // to the calendar will clear the original list.
       List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
-      
+
       for (ProjectCalendarException sourceException : source.getCalendarExceptions())
       {
          boolean collision = false;
@@ -665,6 +661,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          populateExceptions(target, parent);
       }
    }
+
    /**
     * Create a temporary derived calendar to ensure that we can write the expected structure
     * for a resource calendar to the MSPDI file.
