@@ -712,6 +712,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * This method writes data for a single calendar to an MSPDI file.
     *
     * @param mpxjCalendar MPXJ calendar data
+    * @param isBaseCalendar true if we're writing a base calendar
     * @return New MSPDI calendar instance
     */
    private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar, Boolean isBaseCalendar)
@@ -732,7 +733,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create a list of normal days
       //
       Project.Calendars.Calendar.WeekDays days = m_factory.createProjectCalendarsCalendarWeekDays();
-      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time;
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
       for (Day mpxjDay : Day.values())
       {
