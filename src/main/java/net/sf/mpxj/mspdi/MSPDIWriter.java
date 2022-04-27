@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -529,12 +530,53 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Calendars.Calendar> calendar = calendars.getCalendar();
 
       //
-      // Process each calendar in turn
+      // Identify valid derived calendars, in theory all other calendars should be base calendars
       //
-      for (ProjectCalendar cal : m_projectFile.getCalendars())
+      Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(this::isValidDerivedCalendar).collect(Collectors.toSet());
+      List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
+
+      //
+      // Normalize any of the base calendars as required
+      //
+      for (ProjectCalendar baseCalendar : baseCalendars)
       {
-         calendar.add(writeCalendar(cal));
+         if (baseCalendar.isDerived())
+         {
+            System.out.println("Need to flatten " + baseCalendar.getName());
+         }
+
+         List<Resource> resources = baseCalendar.getResources();
+         if (!resources.isEmpty())
+         {
+            resources.forEach(r -> System.out.println("Need to derive calendar from " + baseCalendar.getName() + " for resource " + r.getName()));
+         }
       }
+
+      //
+      // Write the calendars, base calendars first, derived calendars second
+      // sorted by unique ID.
+      //
+      baseCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
+      List<ProjectCalendar> derivedCalendars = new ArrayList<>(derivedCalendarSet);
+      derivedCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
+
+      baseCalendars.stream().map(this::writeCalendar).forEach(calendar::add);
+      derivedCalendars.stream().map(this::writeCalendar).forEach(calendar::add);
+   }
+
+   /**
+    * Determine if this is a valid derived calendar.
+    *
+    * @param calendar calendar to test
+    * @return true if this is a valid resource calendar
+    */
+   private boolean isValidDerivedCalendar(ProjectCalendar calendar)
+   {
+      // We treat this as a valid derived (resource) calendar if:
+      // 1. It is a derived calendar
+      // 2. It's not the base calendar for any other derived calendars
+      // 3. It is associated with exactly one resource
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
    }
 
    /**
@@ -592,6 +634,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return calendar;
    }
 
+   /**
+    * Write details for a single day.
+    *
+    * @param mpxjCalendar parent calendar
+    * @param mpxjDay day to write
+    * @param dayList MSPDI day list
+    */
    private void writeDay(ProjectCalendar mpxjCalendar, Day mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
       DayType workingFlag = mpxjCalendar.getWorkingDay(mpxjDay);
@@ -1360,7 +1409,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Duration levelingDelay = mpx.getLevelingDelay();
          double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
-         // We're assuming that the caller has configured the leveling delay with the correct units
+         // We're assuming that the caller has configured the leveling delay with the correct units,
          // so we're not using the leveling delay format attribute of the task.
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay, false));
       }
@@ -2059,7 +2108,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Writes the timephased data for a resource assignment.
     *
     * @param mpx MPXJ assignment
-    * @param xml MSDPI assignment
+    * @param xml MSPDI assignment
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
