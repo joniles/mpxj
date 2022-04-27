@@ -540,20 +540,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
 
       //
-      // Normalize any of the base calendars as required
+      // Create temporary flattened base calendars, derived resource calendars
       //
-      for (ProjectCalendar baseCalendar : baseCalendars)
-      {
-         if (baseCalendar.isDerived())
-         {
-            System.out.println("Need to flatten " + baseCalendar.getName());
-         }
-
-         // Create temporary derived calendars for resources
-         // which are linked directly to base calendars.
-         baseCalendar.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(baseCalendar, r)));
-      }
-
+      baseCalendars = baseCalendars.stream().map(this::flattenBaseCalendar).collect(Collectors.toList());
+      baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
+      
       //
       // Write the calendars, base calendars first, derived calendars second
       // sorted by unique ID.
@@ -564,6 +555,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       baseCalendars.stream().map(c -> writeCalendar(c, Boolean.TRUE)).forEach(calendar::add);
       derivedCalendars.stream().map(c -> writeCalendar(c, Boolean.FALSE)).forEach(calendar::add);
+   }
+
+   private ProjectCalendar flattenBaseCalendar(ProjectCalendar calendar)
+   {
+      if (!calendar.isDerived())
+      {
+         return calendar;
+      }
+
+      System.out.println("Need to flatten " + calendar.getName());
+
+      return calendar;
    }
 
    /**
