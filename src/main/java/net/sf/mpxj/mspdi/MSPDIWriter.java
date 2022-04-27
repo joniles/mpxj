@@ -615,6 +615,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (ProjectCalendarException sourceException : source.getCalendarExceptions())
       {
+         // For each source exception we need to see if it collides with an existing exception
+         // in the target calendar. To do this wek compare the expanded version of the source exception
+         // with the expanded version of all the target calendar exceptions.
          boolean collision = false;
          List<ProjectCalendarException> expandedSourceExceptions = sourceException.getExpandedExceptions();
          for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
@@ -628,6 +631,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (collision)
          {
+            // If we have a collision then we can't add the exception in it origina form.
+            // We'll expand it and add any of the expanded exception which don't collide.
+            // This gives us a union of the exceptions, allowing the target calendar
+            // exceptions to override those in the source calendar where they collide.
             for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
             {
                if (expandedTargetExceptions.stream().noneMatch(e -> e.contains(expandedSourceException)))
