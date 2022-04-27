@@ -544,10 +544,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       baseCalendars = baseCalendars.stream().map(this::flattenBaseCalendar).collect(Collectors.toList());
       baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
-      
+
       //
-      // Write the calendars, base calendars first, derived calendars second
-      // sorted by unique ID.
+      // Write the calendars, base calendars first, derived calendars second, sorted by unique ID.
       //
       baseCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
       List<ProjectCalendar> derivedCalendars = new ArrayList<>(derivedCalendarSet);
@@ -564,11 +563,108 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return calendar;
       }
 
-      System.out.println("Need to flatten " + calendar.getName());
+/* TODO: temporary
 
+      // Create a temporary "flattened" calendar
+      ProjectCalendar newCalendar = new ProjectCalendar(m_projectFile);
+      newCalendar.setName(calendar.getName());
+      newCalendar.setUniqueID(calendar.getUniqueID());
+      populateDays(newCalendar, calendar);
+      populateExceptions(newCalendar, calendar);
+
+      return newCalendar;
+*/
       return calendar;
    }
 
+   /**
+    * Copies days and hours to a temporary flattened calendar.
+    *
+    * @param target target flattened calendar
+    * @param source source calendar
+    */
+   private void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   /**
+    * Copies exceptions into a temporary flattened calendar.
+    *
+    * @param target flattened calendar
+    * @param source source calendar
+    */
+   private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   {
+      // We create a copy of the current expanded exceptions as adding new exceptions
+      // to the calendar will clear the original list.
+      List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
+      
+      for (ProjectCalendarException sourceException : source.getCalendarExceptions())
+      {
+         boolean collision = false;
+         List<ProjectCalendarException> expandedSourceExceptions = sourceException.getExpandedExceptions();
+         for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+         {
+            collision = expandedTargetExceptions.stream().anyMatch(e -> e.contains(expandedSourceException));
+            if (collision)
+            {
+               break;
+            }
+         }
+
+         if (collision)
+         {
+            for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+            {
+               if (expandedTargetExceptions.stream().noneMatch(e -> e.contains(expandedSourceException)))
+               {
+                  ProjectCalendarException newException = target.addCalendarException(expandedSourceException.getFromDate(), expandedSourceException.getToDate());
+                  for (DateRange range : expandedSourceException)
+                  {
+                     newException.addRange(range);
+                  }
+               }
+            }
+         }
+         else
+         {
+            // There is no collision between the source exception and the exceptions in the target calendar.
+            // We can just add a verbatim copy of the source exception.
+            ProjectCalendarException newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
+            newException.setRecurring(sourceException.getRecurring());
+            for (DateRange range : sourceException)
+            {
+               newException.addRange(range);
+            }
+         }
+      }
+
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         populateExceptions(target, parent);
+      }
+   }
    /**
     * Create a temporary derived calendar to ensure that we can write the expected structure
     * for a resource calendar to the MSPDI file.
