@@ -216,6 +216,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_extendedAttributesInUse = new HashSet<>();
          m_customFieldValueItems = new HashMap<>();
+         m_resouceCalendarMap = new HashMap<>();
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -242,6 +243,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = null;
          m_extendedAttributesInUse = null;
          m_customFieldValueItems = null;
+         m_resouceCalendarMap = null;
       }
    }
 
@@ -522,6 +524,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeCalendars(Project project)
    {
+      m_projectFile.getProjectConfig().updateCalendarUniqueCounter();
+
       //
       // Create the new MSPDI calendar list
       //
@@ -545,11 +549,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
             System.out.println("Need to flatten " + baseCalendar.getName());
          }
 
-         List<Resource> resources = baseCalendar.getResources();
-         if (!resources.isEmpty())
-         {
-            resources.forEach(r -> System.out.println("Need to derive calendar from " + baseCalendar.getName() + " for resource " + r.getName()));
-         }
+         // Create temporary derived calendars for resources
+         // which are linked directly to base calendars.
+         baseCalendar.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(baseCalendar, r)));
       }
 
       //
@@ -560,8 +562,39 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<ProjectCalendar> derivedCalendars = new ArrayList<>(derivedCalendarSet);
       derivedCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
 
-      baseCalendars.stream().map(this::writeCalendar).forEach(calendar::add);
-      derivedCalendars.stream().map(this::writeCalendar).forEach(calendar::add);
+      baseCalendars.stream().map(c -> writeCalendar(c, Boolean.TRUE)).forEach(calendar::add);
+      derivedCalendars.stream().map(c -> writeCalendar(c, Boolean.FALSE)).forEach(calendar::add);
+   }
+
+   /**
+    * Create a temporary derived calendar to ensure that we can write the expected structure
+    * for a resource calendar to the MSPDI file.
+    *
+    * @param baseCalendar calendar to derive from
+    * @param resource link the new calendar to this resource
+    * @return derived calendar
+    */
+   private ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
+   {
+      ProjectCalendar derivedCalendar = new ProjectCalendar(m_projectFile);
+      derivedCalendar.setParent(baseCalendar);
+      derivedCalendar.setName(resource.getName());
+      derivedCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+
+      if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
+      {
+         derivedCalendar.setUniqueID(Integer.valueOf(m_projectFile.getProjectConfig().getNextCalendarUniqueID()));
+      }
+
+      m_resouceCalendarMap.put(resource.getUniqueID(), derivedCalendar.getUniqueID());
+
+      return derivedCalendar;
    }
 
    /**
@@ -585,14 +618,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpxjCalendar MPXJ calendar data
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar)
+   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar, Boolean isBaseCalendar)
    {
       //
       // Create a calendar
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberHelper.getBigInteger(mpxjCalendar.getUniqueID()));
-      calendar.setIsBaseCalendar(Boolean.valueOf(!mpxjCalendar.isDerived()));
+      calendar.setIsBaseCalendar(isBaseCalendar);
 
       ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
@@ -982,7 +1015,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {
-         xml.setCalendarUID(NumberHelper.getBigInteger(cal.getUniqueID()));
+         // If we've created a temporary derived calendar for this resource
+         // ensure that we use the correct calendar ID.
+         Integer calendarUniqueID = m_resouceCalendarMap.get(mpx.getUniqueID());
+         xml.setCalendarUID(NumberHelper.getBigInteger(calendarUniqueID == null ? cal.getUniqueID() : calendarUniqueID));
       }
 
       xml.setAccrueAt(mpx.getAccrueAt());
@@ -2381,6 +2417,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<FieldType> m_extendedAttributesInUse;
 
    private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
+
+   private Map<Integer, Integer> m_resouceCalendarMap;
 
    private boolean m_compatibleOutput = true;
 
