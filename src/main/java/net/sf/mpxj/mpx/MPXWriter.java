@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -618,7 +619,10 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
    {
-      List<ProjectCalendarException> targetExceptions = target.getExpandedCalendarExceptions();
+      // We create a copy of the current expanded exceptions as adding new exceptions
+      // to the calendar will clear the original list.
+      List<ProjectCalendarException> targetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
+
       for (ProjectCalendarException exception : source.getExpandedCalendarExceptions())
       {
          // We're dealing with expanded exceptions, which each cover a single day.

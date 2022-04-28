@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -215,6 +216,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_extendedAttributesInUse = new HashSet<>();
          m_customFieldValueItems = new HashMap<>();
+         m_resouceCalendarMap = new HashMap<>();
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -241,6 +243,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_factory = null;
          m_extendedAttributesInUse = null;
          m_customFieldValueItems = null;
+         m_resouceCalendarMap = null;
       }
    }
 
@@ -521,6 +524,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeCalendars(Project project)
    {
+      // Ensure that if we need to generate some temporary calendars
+      // we can assign valid unique IDs.
+      m_projectFile.getProjectConfig().updateCalendarUniqueCounter();
+
       //
       // Create the new MSPDI calendar list
       //
@@ -529,28 +536,209 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Calendars.Calendar> calendar = calendars.getCalendar();
 
       //
-      // Process each calendar in turn
+      // Identify valid derived calendars, in theory all other calendars should be base calendars
       //
-      for (ProjectCalendar cal : m_projectFile.getCalendars())
+      Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(this::isValidDerivedCalendar).collect(Collectors.toSet());
+      List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
+
+      //
+      // Create temporary flattened base calendars, derived resource calendars
+      //
+      baseCalendars = baseCalendars.stream().map(this::flattenBaseCalendar).collect(Collectors.toList());
+      baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
+
+      //
+      // Write the calendars, base calendars first, derived calendars second, sorted by unique ID.
+      //
+      baseCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
+      List<ProjectCalendar> derivedCalendars = new ArrayList<>(derivedCalendarSet);
+      derivedCalendars.sort(Comparator.comparing(ProjectCalendar::getUniqueID));
+
+      baseCalendars.stream().map(c -> writeCalendar(c, Boolean.TRUE)).forEach(calendar::add);
+      derivedCalendars.stream().map(c -> writeCalendar(c, Boolean.FALSE)).forEach(calendar::add);
+   }
+
+   /**
+    * Creates a temporary base calendar by flattening an existing calendar's
+    * hierarchy.
+    *
+    * @param calendar calendar to flatten
+    * @return flattened calendar
+    */
+   private ProjectCalendar flattenBaseCalendar(ProjectCalendar calendar)
+   {
+      if (!calendar.isDerived())
       {
-         calendar.add(writeCalendar(cal));
+         return calendar;
       }
+
+      // Create a temporary "flattened" calendar
+      ProjectCalendar newCalendar = new ProjectCalendar(m_projectFile);
+      newCalendar.setName(calendar.getName());
+      newCalendar.setUniqueID(calendar.getUniqueID());
+      populateDays(newCalendar, calendar);
+      populateExceptions(newCalendar, calendar);
+
+      return newCalendar;
+   }
+
+   /**
+    * Copies days and hours to a temporary flattened calendar.
+    *
+    * @param target target flattened calendar
+    * @param source source calendar
+    */
+   private void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   /**
+    * Copies exceptions into a temporary flattened calendar.
+    *
+    * @param target flattened calendar
+    * @param source source calendar
+    */
+   private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   {
+      // We create a copy of the current expanded exceptions as adding new exceptions
+      // to the calendar will clear the original list.
+      List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
+
+      for (ProjectCalendarException sourceException : source.getCalendarExceptions())
+      {
+         // For each source exception we need to see if it collides with an existing exception
+         // in the target calendar. To do this wek compare the expanded version of the source exception
+         // with the expanded version of all the target calendar exceptions.
+         boolean collision = false;
+         List<ProjectCalendarException> expandedSourceExceptions = sourceException.getExpandedExceptions();
+         for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+         {
+            collision = expandedTargetExceptions.stream().anyMatch(e -> e.contains(expandedSourceException));
+            if (collision)
+            {
+               break;
+            }
+         }
+
+         if (collision)
+         {
+            // If we have a collision then we can't add the exception in it original form.
+            // We'll expand it and add any of the expanded exception which don't collide.
+            // This gives us a union of the exceptions, allowing the target calendar
+            // exceptions to override those in the source calendar where they collide.
+            for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+            {
+               if (expandedTargetExceptions.stream().noneMatch(e -> e.contains(expandedSourceException)))
+               {
+                  ProjectCalendarException newException = target.addCalendarException(expandedSourceException.getFromDate(), expandedSourceException.getToDate());
+                  for (DateRange range : expandedSourceException)
+                  {
+                     newException.addRange(range);
+                  }
+               }
+            }
+         }
+         else
+         {
+            // There is no collision between the source exception and the exceptions in the target calendar.
+            // We can just add a verbatim copy of the source exception.
+            ProjectCalendarException newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
+            newException.setRecurring(sourceException.getRecurring());
+            for (DateRange range : sourceException)
+            {
+               newException.addRange(range);
+            }
+         }
+      }
+
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         populateExceptions(target, parent);
+      }
+   }
+
+   /**
+    * Create a temporary derived calendar to ensure that we can write the expected structure
+    * for a resource calendar to the MSPDI file.
+    *
+    * @param baseCalendar calendar to derive from
+    * @param resource link the new calendar to this resource
+    * @return derived calendar
+    */
+   private ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
+   {
+      ProjectCalendar derivedCalendar = new ProjectCalendar(m_projectFile);
+      derivedCalendar.setParent(baseCalendar);
+      derivedCalendar.setName(resource.getName());
+      derivedCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+
+      if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
+      {
+         derivedCalendar.setUniqueID(Integer.valueOf(m_projectFile.getProjectConfig().getNextCalendarUniqueID()));
+      }
+
+      m_resouceCalendarMap.put(resource.getUniqueID(), derivedCalendar.getUniqueID());
+
+      return derivedCalendar;
+   }
+
+   /**
+    * Determine if this is a valid derived calendar.
+    *
+    * @param calendar calendar to test
+    * @return true if this is a valid resource calendar
+    */
+   private boolean isValidDerivedCalendar(ProjectCalendar calendar)
+   {
+      // We treat this as a valid derived (resource) calendar if:
+      // 1. It is a derived calendar
+      // 2. It's not the base calendar for any other derived calendars
+      // 3. It is associated with exactly one resource
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResources().size() == 1;
    }
 
    /**
     * This method writes data for a single calendar to an MSPDI file.
     *
     * @param mpxjCalendar MPXJ calendar data
+    * @param isBaseCalendar true if we're writing a base calendar
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar)
+   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar, Boolean isBaseCalendar)
    {
       //
       // Create a calendar
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberHelper.getBigInteger(mpxjCalendar.getUniqueID()));
-      calendar.setIsBaseCalendar(Boolean.valueOf(!mpxjCalendar.isDerived()));
+      calendar.setIsBaseCalendar(isBaseCalendar);
 
       ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
@@ -561,45 +749,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create a list of normal days
       //
       Project.Calendars.Calendar.WeekDays days = m_factory.createProjectCalendarsCalendarWeekDays();
-      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time;
-      ProjectCalendarHours bch;
-
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
-
-      for (int loop = 1; loop < 8; loop++)
+      for (Day mpxjDay : Day.values())
       {
-         DayType workingFlag = mpxjCalendar.getWorkingDay(Day.getInstance(loop));
-
-         if (workingFlag != DayType.DEFAULT)
-         {
-            Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
-            dayList.add(day);
-            day.setDayType(BigInteger.valueOf(loop));
-            day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
-
-            if (workingFlag == DayType.WORKING)
-            {
-               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
-               day.setWorkingTimes(times);
-               List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
-
-               bch = mpxjCalendar.getCalendarHours(Day.getInstance(loop));
-               if (bch != null)
-               {
-                  for (DateRange range : bch)
-                  {
-                     if (range != null)
-                     {
-                        time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
-                        timesList.add(time);
-
-                        time.setFromTime(range.getStart());
-                        time.setToTime(range.getEnd());
-                     }
-                  }
-               }
-            }
-         }
+         writeDay(mpxjCalendar, mpxjDay, dayList);
       }
 
       //
@@ -611,8 +764,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       //
-      // Do not add a weekdays tag to the calendar unless it
-      // has valid entries.
+      // Do not add a weekdays tag to the calendar unless it has valid entries.
       // Fixes SourceForge bug 1854747: MPXJ and MSP 2007 XML formats
       //
       if (!dayList.isEmpty())
@@ -624,7 +776,50 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
-      return (calendar);
+      return calendar;
+   }
+
+   /**
+    * Write details for a single day.
+    *
+    * @param mpxjCalendar parent calendar
+    * @param mpxjDay day to write
+    * @param dayList MSPDI day list
+    */
+   private void writeDay(ProjectCalendar mpxjCalendar, Day mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
+   {
+      DayType workingFlag = mpxjCalendar.getWorkingDay(mpxjDay);
+
+      if (workingFlag != DayType.DEFAULT)
+      {
+         Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
+         dayList.add(day);
+         day.setDayType(BigInteger.valueOf(mpxjDay.getValue()));
+         day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
+
+         if (workingFlag == DayType.WORKING)
+         {
+            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
+            day.setWorkingTimes(times);
+            List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
+
+            ProjectCalendarHours bch = mpxjCalendar.getCalendarHours(mpxjDay);
+            if (bch != null)
+            {
+               for (DateRange range : bch)
+               {
+                  if (range != null)
+                  {
+                     Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
+                     timesList.add(time);
+
+                     time.setFromTime(range.getStart());
+                     time.setToTime(range.getEnd());
+                  }
+               }
+            }
+         }
+      }
    }
 
    /**
@@ -932,7 +1127,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {
-         xml.setCalendarUID(NumberHelper.getBigInteger(cal.getUniqueID()));
+         // If we've created a temporary derived calendar for this resource
+         // ensure that we use the correct calendar ID.
+         Integer calendarUniqueID = m_resouceCalendarMap.get(mpx.getUniqueID());
+         xml.setCalendarUID(NumberHelper.getBigInteger(calendarUniqueID == null ? cal.getUniqueID() : calendarUniqueID));
       }
 
       xml.setAccrueAt(mpx.getAccrueAt());
@@ -1359,7 +1557,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Duration levelingDelay = mpx.getLevelingDelay();
          double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
-         // We're assuming that the caller has configured the leveling delay with the correct units
+         // We're assuming that the caller has configured the leveling delay with the correct units,
          // so we're not using the leveling delay format attribute of the task.
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(levelingDelay, false));
       }
@@ -2058,7 +2256,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * Writes the timephased data for a resource assignment.
     *
     * @param mpx MPXJ assignment
-    * @param xml MSDPI assignment
+    * @param xml MSPDI assignment
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
@@ -2331,6 +2529,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Set<FieldType> m_extendedAttributesInUse;
 
    private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
+
+   private Map<Integer, Integer> m_resouceCalendarMap;
 
    private boolean m_compatibleOutput = true;
 

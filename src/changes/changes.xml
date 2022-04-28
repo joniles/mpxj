@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.3.0">
 			<action dev="joniles" type="update">General improvements to make calendar data read from different file formats more consistent.</action>
+			<action dev="joniles" type="update">Update `MPXWriter` amd `MSPDIWriter` to ensure that calendars are correctly structured in the form required by Microsoft Project.</action>
 			<action dev="joniles" type="update">`JsonWriter` now includes calendar data as part of its output.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been depracetd, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.</action>
 			<action dev="joniles" type="update">The `Resource` methods `addResourceCalendar`, `setResourceCalendar`, `getResourceCalendar`, `setResourceCalendarUniqueID` and `getResourceCalendarUniqueID` have been deprecated and replaced by `addCalendar`, `setCalendar`, `getCalendar`, `setCalendarUniqueID` and `getCalendarUniqueID` respectively.</action>
@@ -69,7 +70,7 @@
 		<release date="2021-09-28" version="9.7.0">
 			<action dev="joniles" type="add">Add Sprint ID and Board Status ID attributes to task.</action>
 			<action dev="joniles" type="add">Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.</action>
-			<action dev="joniles" type="update">Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</action>
+			<action dev="joniles" type="update">Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default, durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</action>
 			<action dev="joniles" type="update">Update JsonWriter to use a relevant calendar when converting durations.</action>
 			<action dev="joniles" type="update">Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.</action>
 			<action dev="joniles" type="update">Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.</action>
@@ -92,7 +93,7 @@
 		</release>
 		<release date="2021-08-22" version="9.5.2">
 			<action dev="joniles" type="add">Add Must Finish By date to project properties.</action>
-			<action dev="joniles" type="add">Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</action>
+			<action dev="joniles" type="add">Add support for the task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</action>
 			<action dev="joniles" type="update">Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated</action>
 			<action dev="joniles" type="update">Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.</action>
 			<action dev="joniles" type="update">Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.</action>
@@ -178,7 +179,7 @@
 			<action dev="joniles" type="update">Add Remaining Late Start and Remaining Late Finish attributes to Task.</action>
 			<action dev="joniles" type="update">Add Critical Activity Type attribute to Project Properties</action>
 			<action dev="joniles" type="update">Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.</action>
-			<action dev="joniles" type="update">Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.</action>
+			<action dev="joniles" type="update">Read Remaining Late Start and Remaining Late finish from P6 database and XER files.</action>
 			<action dev="joniles" type="update">Ensure that WBS entries without child activities are not marked as critical.</action>
 			<action dev="joniles" type="update">Don't attempt to set the critical flag when reading XER and PMXML files where the schedule is using "longest path" to determine critical activities. (MPXJ currently doesn't have enough information to be able to determine the correct value for the critical flag in this situation).</action>
 			<action dev="joniles" type="update">Ensure cost, duration, date and work attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.</action>
@@ -293,9 +294,9 @@
 			<action dev="joniles" type="update">Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)</action>
 			<action dev="joniles" type="update">Import milestone constraints from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)</action>
-			<action dev="joniles" type="update">Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)</action>
+			<action dev="joniles" type="update">Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Gracefully handle a missing table name when reading an XER file.</action>
-			<action dev="joniles" type="update">Gracefully handle a unexpected calendar data when reading an XER file.</action>
+			<action dev="joniles" type="update">Gracefully handle an unexpected calendar data when reading an XER file.</action>
 			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>
 			<action dev="joniles" type="update">Import all schedule and leveling options from XER files.</action>
 			<action dev="joniles" type="update">Ensure project calendars are read from PMXML files.</action>
@@ -1381,7 +1382,7 @@
 			<action dev="joniles" type="add">Implemented French MPX file format translation (contributed by Benoit Baranne).</action>
 			<action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>
 			<action dev="joniles" type="update">Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</action>
-			<action dev="joniles" type="fix">Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</action>
+			<action dev="joniles" type="fix">Fixed a bug where deleted constraints in an MPP9 file were not being ignored.</action>
 			<action dev="joniles" type="update">Updated to make replace the int relation type in the Relation class with instances of the RelationType class.</action>
 			<action dev="joniles" type="update">Updated to derive RelationList from AbstractList.</action>
 			<action dev="joniles" type="add">Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</action>
@@ -1392,7 +1393,7 @@
 			<action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not being read.</action>
 			<action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
 			<action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
-			<action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
+			<action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more than one entry.</action>
 			<action dev="joniles" type="fix">Updated to fix unreliable retrieval of project start and end dates from certain MPP files.</action>
 			<action dev="joniles" type="fix">Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).</action>
 			<action dev="joniles" type="fix">Fixed a bug when reading durations in elapsed days from an MPP file.</action>
@@ -1474,7 +1475,7 @@
 		</release>
 		<release date="2003-12-02" version="0.0.19">
 			<action dev="joniles" type="fix">Fixed a bug reading table data from certain MPP8 files</action>
-			<action dev="joniles" type="update">Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</action>
+			<action dev="joniles" type="update">Updated MSPDI support to use the latest version of JAXB (from JWSDP-1.3)</action>
 			<action dev="joniles" type="update">Re-implemented base and resource calendars as a single MPXCalendar class</action>
 			<action dev="joniles" type="update">Updated support for base calendars and resource calendars for all file formats</action>
 			<action dev="joniles" type="update">Improved MPXException to print details of any nested exception when a stack trace is printed.</action>
