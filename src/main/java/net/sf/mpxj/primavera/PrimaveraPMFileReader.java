@@ -65,7 +65,6 @@ import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
-import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
@@ -1024,7 +1023,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
          resource.setParentID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
-         setCalendar(resource, xml.getCalendarObjectId());
+         resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -1046,62 +1045,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setName(role.getName());
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
-      }
-   }
-
-   /**
-    * Links a calendar to a resource.
-    *
-    * @param resource Resource instance
-    * @param calendarID calendar ID
-    */
-   private void setCalendar(Resource resource, Integer calendarID)
-   {
-      if (calendarID != null)
-      {
-         ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(calendarID);
-         if (calendar != null)
-         {
-            if (calendar.isDerived())
-            {
-               //
-               // Primavera seems to allow a calendar to be shared between resources
-               // whereas in the MS Project model there is a one-to-one
-               // relationship. If we find a calendar is shared between resources,
-               // take a copy of it so each resource has its own copy.
-               //
-               if (calendar.getResource() == null)
-               {
-                  resource.setCalendar(calendar);
-                  calendar.setName(resource.getName());
-               }
-               else
-               {
-                  ProjectCalendar copy = m_projectFile.addCalendar();
-                  copy.copy(calendar);
-                  copy.setName(resource.getName());
-                  resource.setCalendar(copy);
-               }
-            }
-            else
-            {
-               //
-               // If the resource is linked to a base calendar, derive
-               // a default calendar from the base calendar.
-               //
-               ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
-               resourceCalendar.setParent(calendar);
-               resourceCalendar.setName(resource.getName());
-               resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-               resourceCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-               resource.setCalendar(resourceCalendar);
-            }
-         }
       }
    }
 

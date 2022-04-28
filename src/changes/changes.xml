@@ -7,7 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.3.0">
 			<action dev="joniles" type="update">General improvements to make calendar data read from different file formats more consistent.</action>
-			<action dev="joniles" type="update">When reading a Powerproject schedule MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.</action>
+			<action dev="joniles" type="update">When reading P6 and Powerproject schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.</action>
 			<action dev="joniles" type="update">Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.</action>
 			<action dev="joniles" type="update">`JsonWriter` now includes calendar data as part of its output.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been depracetd, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.</action>
