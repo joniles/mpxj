@@ -560,7 +560,9 @@ final class PrimaveraPMProjectWriter
    {
       CalendarType xml = m_factory.createCalendarType();
       m_apibo.getCalendar().add(xml);
-      String type = mpxj.getResource() == null ? "Global" : "Resource";
+
+      List<Resource> calendarResources = mpxj.getResources();
+      String type = calendarResources.isEmpty() ? "Global" : "Resource";
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
@@ -569,7 +571,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setBaseCalendarObjectId(getCalendarUniqueID(mpxj.getParent()));
       xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
-      xml.setIsPersonal(mpxj.getResource() == null ? Boolean.FALSE : Boolean.TRUE);
+      xml.setIsPersonal(Boolean.valueOf(calendarResources.size() == 1));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setType(type);
