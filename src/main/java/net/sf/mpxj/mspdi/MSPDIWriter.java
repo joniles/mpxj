@@ -556,6 +556,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       derivedCalendars.stream().map(c -> writeCalendar(c, Boolean.FALSE)).forEach(calendar::add);
    }
 
+   /**
+    * Creates a temporary base calendar by flattening an existing calendar's
+    * hierarchy.
+    *
+    * @param calendar calendar to flatten
+    * @return flattened calendar
+    */
    private ProjectCalendar flattenBaseCalendar(ProjectCalendar calendar)
    {
       if (!calendar.isDerived())
@@ -631,7 +638,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (collision)
          {
-            // If we have a collision then we can't add the exception in it origina form.
+            // If we have a collision then we can't add the exception in it original form.
             // We'll expand it and add any of the expanded exception which don't collide.
             // This gives us a union of the exceptions, allowing the target calendar
             // exceptions to override those in the source calendar where they collide.
