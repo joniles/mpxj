@@ -1189,10 +1189,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Retrieve the resource to which this calendar is linked.
     *
     * @return resource instance
+    * @deprecated use getResources method to find resources associated with this calendar
     */
-   public Resource getResource()
+   @Deprecated public Resource getResource()
    {
-      return (m_resource);
+      return getResources().stream().findFirst().orElse(null);
    }
 
    /**
@@ -1202,10 +1203,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * a default name.
     *
     * @param resource resource instance
+    * @deprecated no longer required, will be removed without replacement
     */
-   public void setResource(Resource resource)
+   @Deprecated public void setResource(Resource resource)
    {
-      m_resource = resource;
+      // Deprecated - do nothing
    }
 
    /**
@@ -1781,7 +1783,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       pw.println("   ID=" + m_uniqueID);
       pw.println("   name=" + getName());
       pw.println("   baseCalendarName=" + (getParent() == null ? "" : getParent().getName()));
-      pw.println("   resource=" + (m_resource == null ? "" : m_resource.getName()));
 
       for (Day day : Day.values())
       {
@@ -2093,11 +2094,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Flag indicating if the list of weeks is sorted.
     */
    private boolean m_weeksSorted;
-
-   /**
-    * This resource to which this calendar is attached.
-    */
-   private Resource m_resource;
 
    /**
     * Caches used to speed up date calculations.

@@ -11,6 +11,8 @@
 			<action dev="joniles" type="update">Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.</action>
 			<action dev="joniles" type="update">`JsonWriter` now includes calendar data as part of its output.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been depracetd, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.</action>
+			<action dev="joniles" type="update">The ProjectCalendar method `setResource` has been deprecated and will not be replaced. Use the Resource method `setCalendar` or `setCalendarUniqueID` to link a calendar with a resource.</action>
+			<action dev="joniles" type="update">The ProjectCalendar method `getResource` has been deprecated. Use the `getResources` method instead to retrieve all resources linked with a calendar.</action>
 			<action dev="joniles" type="update">The `Resource` methods `addResourceCalendar`, `setResourceCalendar`, `getResourceCalendar`, `setResourceCalendarUniqueID` and `getResourceCalendarUniqueID` have been deprecated and replaced by `addCalendar`, `setCalendar`, `getCalendar`, `setCalendarUniqueID` and `getCalendarUniqueID` respectively.</action>
 		</release>
 		<release date="2022-03-06" version="10.2.0">

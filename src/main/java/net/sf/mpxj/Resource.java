@@ -1367,7 +1367,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       }
       else
       {
-         calendar.setResource(this);
          setCalendarUniqueID(calendar.getUniqueID());
       }
    }
