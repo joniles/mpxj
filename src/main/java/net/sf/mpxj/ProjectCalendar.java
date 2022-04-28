@@ -1828,13 +1828,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * @param file the parent file to which this record belongs.
     * @param taskCalendar task calendar to merge
     * @param resourceCalendar resource calendar to merge
+    * @deprecated Removed without replacement
     */
-   public ProjectCalendar(ProjectFile file, ProjectCalendar taskCalendar, ProjectCalendar resourceCalendar)
+   @Deprecated public ProjectCalendar(ProjectFile file, ProjectCalendar taskCalendar, ProjectCalendar resourceCalendar)
    {
       m_projectFile = file;
-
-      // Set the resource
-      setResource(resourceCalendar.getResource());
 
       // Merge the exceptions
 
