@@ -524,6 +524,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeCalendars(Project project)
    {
+      // Ensure that if we need to generate some temporary calendars
+      // we can assign valid unique IDs.
       m_projectFile.getProjectConfig().updateCalendarUniqueCounter();
 
       //
