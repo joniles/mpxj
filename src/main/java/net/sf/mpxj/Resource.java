@@ -1431,6 +1431,13 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       }
 
       ProjectCalendar calendar = getParentFile().addCalendar();
+      String name = getName();
+      if (name == null || name.isEmpty())
+      {
+         name = "Unnamed Resource";
+      }
+
+      calendar.setName(name);
       setCalendar(calendar);
       return calendar;
    }

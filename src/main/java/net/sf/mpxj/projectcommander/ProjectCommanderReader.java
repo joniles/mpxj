@@ -591,7 +591,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       Block calendarBlock = getChildBlock(block, "CCalendar");
       if (calendarBlock != null)
       {
-         resource.setCalendar(readCalendar(calendarBlock));
+         ProjectCalendar calendar = readCalendar(calendarBlock);
+         calendar.setName(resource.getName());
+         resource.setCalendar(calendar);
       }
 
       m_eventManager.fireResourceReadEvent(resource);

@@ -175,7 +175,7 @@ final class AstaReader
          resource.setEmailAddress(row.getString("EMAIL_ADDRESS"));
          // EFFORT_TIME_UNIT
          resource.setName(row.getString("NASE"));
-         resource.setCalendar(deriveResourceCalendar(row.getInteger("CALENDAV")));
+         resource.setCalendar(deriveResourceCalendar(row.getInteger("CALENDAV"), resource.getName()));
          resource.setMaxUnits(Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setInitials(getInitials(resource.getName()));
@@ -206,7 +206,7 @@ final class AstaReader
          resource.setCostPerUse(row.getDouble("COST_PER_USEDEFAULTSAMOUNT"));
          resource.setPeakUnits(Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100));
          resource.setName(row.getString("NASE"));
-         resource.setCalendar(deriveResourceCalendar(row.getInteger("CALENDAV")));
+         resource.setCalendar(deriveResourceCalendar(row.getInteger("CALENDAV"), resource.getName()));
          resource.setAvailableFrom(row.getDate("AVAILABLE_FROM"));
          resource.setAvailableTo(row.getDate("AVAILABLE_TO"));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
@@ -221,10 +221,11 @@ final class AstaReader
     * @param parentCalendarID calendar from which resource calendar is derived
     * @return new calendar for a resource
     */
-   private ProjectCalendar deriveResourceCalendar(Integer parentCalendarID)
+   private ProjectCalendar deriveResourceCalendar(Integer parentCalendarID, String name)
    {
       ProjectCalendar calendar = m_project.addDefaultDerivedCalendar();
       calendar.setUniqueID(Integer.valueOf(m_project.getProjectConfig().getNextCalendarUniqueID()));
+      calendar.setName(name);
       calendar.setParent(m_project.getCalendarByUniqueID(parentCalendarID));
       return calendar;
    }

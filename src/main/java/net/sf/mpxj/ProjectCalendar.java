@@ -1206,12 +1206,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public void setResource(Resource resource)
    {
       m_resource = resource;
-      String name = m_resource.getName();
-      if (name == null || name.length() == 0)
-      {
-         name = "Unnamed Resource";
-      }
-      setName(name);
    }
 
    /**

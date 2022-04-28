@@ -1073,11 +1073,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                if (calendar.getResource() == null)
                {
                   resource.setCalendar(calendar);
+                  calendar.setName(resource.getName());
                }
                else
                {
                   ProjectCalendar copy = m_projectFile.addCalendar();
                   copy.copy(calendar);
+                  copy.setName(resource.getName());
                   resource.setCalendar(copy);
                }
             }
@@ -1089,6 +1091,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                //
                ProjectCalendar resourceCalendar = m_projectFile.addCalendar();
                resourceCalendar.setParent(calendar);
+               resourceCalendar.setName(resource.getName());
                resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
                resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);

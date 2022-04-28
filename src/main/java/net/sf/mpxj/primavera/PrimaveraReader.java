@@ -629,7 +629,7 @@ final class PrimaveraReader
       {
          Resource resource = m_project.addResource();
          processFields(m_resourceFields, row, resource);
-         resource.setCalendar(getResourceCalendar(row.getInteger("clndr_id")));
+         resource.setCalendar(getResourceCalendar(row.getInteger("clndr_id"), resource.getName()));
 
          // Even though we're not filling in a rate, filling in a time unit can still be useful
          // so that we know what rate time unit was originally used in Primavera.
@@ -675,7 +675,7 @@ final class PrimaveraReader
     * @param calendarID calendar ID
     * @return calendar for resource
     */
-   private ProjectCalendar getResourceCalendar(Integer calendarID)
+   private ProjectCalendar getResourceCalendar(Integer calendarID, String name)
    {
       ProjectCalendar result = null;
       if (calendarID != null)
@@ -691,6 +691,7 @@ final class PrimaveraReader
             {
                ProjectCalendar resourceCalendar = m_project.addCalendar();
                resourceCalendar.setParent(calendar);
+               resourceCalendar.setName(name);
                resourceCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
                resourceCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
                resourceCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
@@ -710,11 +711,13 @@ final class PrimaveraReader
                if (calendar.getResource() == null)
                {
                   result = calendar;
+                  calendar.setName(name);
                }
                else
                {
                   ProjectCalendar copy = m_project.addCalendar();
                   copy.copy(calendar);
+                  copy.setName(name);
                   result = copy;
                }
             }

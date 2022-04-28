@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.Resource;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -170,6 +172,23 @@ public final class MPPReader extends AbstractProjectStreamReader
          // Prune unused resource calendars
          //
          projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
+
+         //
+         // Resource calendars without names inherit the resource name
+         //
+         for (Resource resource : projectFile.getResources())
+         {
+            ProjectCalendar calendar = resource.getCalendar();
+            if (calendar != null && (calendar.getName() == null || calendar.getName().isEmpty()))
+            {
+               String name = resource.getName();
+               if (name == null || name.isEmpty())
+               {
+                  name = "Unnamed Resource";
+               }
+               calendar.setName(name);
+            }
+         }
 
          //
          // Ensure that the unique ID counters are correct

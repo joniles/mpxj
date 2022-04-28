@@ -328,7 +328,12 @@ public final class MerlinReader extends AbstractProjectFileReader
             ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
-               calendar.setName(resource.getName());
+               String name = resource.getName();
+               if (name == null || name.isEmpty())
+               {
+                  name = "Unnamed Resource";
+               }
+               calendar.setName(name);
                resource.setCalendar(calendar);
             }
          }
