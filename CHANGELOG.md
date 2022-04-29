@@ -1,6 +1,16 @@
 # Changelog
 
-## 10.2.1 (unreleased)
+## 10.3.1 (unreleased)
+
+## 10.3.0 (2022-04-29)
+* General improvements to make calendar data read from different file formats more consistent.
+* When reading P6 and Powerproject schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.
+* Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.
+* `JsonWriter` now includes calendar data as part of its output.
+* The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been deprecated, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.
+* The ProjectCalendar method `setResource` has been deprecated and will not be replaced. Use the Resource method `setCalendar` or `setCalendarUniqueID` to link a calendar with a resource.
+* The ProjectCalendar method `getResource` has been deprecated. Use the `getResources` method instead to retrieve all resources linked with a calendar.
+* The `Resource` methods `addResourceCalendar`, `setResourceCalendar`, `getResourceCalendar`, `setResourceCalendarUniqueID` and `getResourceCalendarUniqueID` have been deprecated and replaced by `addCalendar`, `setCalendar`, `getCalendar`, `setCalendarUniqueID` and `getCalendarUniqueID` respectively.
 
 ## 10.2.0 (2022-03-06)
 * Improvements to writing currency, rate and units amounts to MSPDI files.
@@ -60,7 +70,7 @@
 ## 9.7.0 (2021-09-28)
 * Add Sprint ID and Board Status ID attributes to task.
 * Introduce the TimeUnitDefaultsContainer to allow constants for time unit conversions to be obtained from both project properties and calendars.
-* Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)
+* Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default, durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)
 * Update JsonWriter to use a relevant calendar when converting durations.
 * Ensure default calendar is set correctly when reading XER and PMXML files, and P6 databases.
 * Use default hours per day/week/month/year when reading P6 XER files or databases if these values are not present.
@@ -83,7 +93,7 @@
 
 ## 9.5.2 (2021-08-22)
 * Add Must Finish By date to project properties.
-* Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
+* Add support for the task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.
 * Rename ProjectFile.getStartDate() and ProjectFile.getFinishDate() methods for clarity. Original method names are marked as deprecated
 * Ensure that all activities in a PMXML file have a CalendarID attribute to ensure compatibility with older versions of P6.
 * Ensure that the user's selected progress period is used to set the project's status date attribute when reading Asta PP files.
@@ -169,7 +179,7 @@
 * Add Remaining Late Start and Remaining Late Finish attributes to Task.
 * Add Critical Activity Type attribute to Project Properties
 * Read Remaining Early Start, Remaining Late Start, Remaining Early Finish and Remaining Late finish from and write to PMXML files.
-* Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.
+* Read Remaining Late Start and Remaining Late finish from P6 database and XER files.
 * Ensure that WBS entries without child activities are not marked as critical.
 * Don't attempt to set the critical flag when reading XER and PMXML files where the schedule is using "longest path" to determine critical activities. (MPXJ currently doesn't have enough information to be able to determine the correct value for the critical flag in this situation).
 * Ensure cost, duration, date and work attributes are rolled up to WBS entries for P6 schedules read from PMXML files, XER files and P6 databases.
@@ -284,9 +294,9 @@
 * Fix CVE-2020-25020: XXE vulnerability (with thanks to Sangeetha Rajesh S, ZOHO Corporation)
 * Import milestone constraints from Asta schedules (Contributed by Dave McKay)
 * Handle elapsed durations in Asta schedules (Based on a contribution by Dave McKay)
-* Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)
+* Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)
 * Gracefully handle a missing table name when reading an XER file.
-* Gracefully handle a unexpected calendar data when reading an XER file.
+* Gracefully handle an unexpected calendar data when reading an XER file.
 * Correctly handle XER files with multi-byte character encoding.
 * Import all schedule and leveling options from XER files.
 * Ensure project calendars are read from PMXML files.
@@ -1372,7 +1382,7 @@
 * Implemented French MPX file format translation (contributed by Benoit Baranne).
 * Fixed a bug reading assignment work contour attribute.
 * Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.
-* Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.
+* Fixed a bug where deleted constraints in an MPP9 file were not being ignored.
 * Updated to make replace the int relation type in the Relation class with instances of the RelationType class.
 * Updated to derive RelationList from AbstractList.
 * Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.
@@ -1383,7 +1393,7 @@
 * Fixed a bug where occasionally a task in MPP9 files were not being read.
 * Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.
 * Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.
-* Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.
+* Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more than one entry.
 * Updated to fix unreliable retrieval of project start and end dates from certain MPP files.
 * Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).
 * Fixed a bug when reading durations in elapsed days from an MPP file.
@@ -1465,7 +1475,7 @@
 
 ## 0.0.19 (2003-12-02)
 * Fixed a bug reading table data from certain MPP8 files
-* Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)
+* Updated MSPDI support to use the latest version of JAXB (from JWSDP-1.3)
 * Re-implemented base and resource calendars as a single MPXCalendar class
 * Updated support for base calendars and resource calendars for all file formats
 * Improved MPXException to print details of any nested exception when a stack trace is printed.

@@ -641,13 +641,6 @@ module MPXJ
       get_duration_value(attribute_values['budget_work'])
     end
 
-    # Retrieve the Calendar value
-    #
-    # @return Calendar value
-    def calendar
-      attribute_values['calendar']
-    end
-
     # Retrieve the Calendar GUID value
     #
     # @return Calendar GUID value
@@ -4303,7 +4296,6 @@ module MPXJ
       'budget' => :boolean,
       'budget_cost' => :currency,
       'budget_work' => :work,
-      'calendar' => :binary,
       'calendar_guid' => :guid,
       'calendar_unique_id' => :integer,
       'can_level' => :boolean,

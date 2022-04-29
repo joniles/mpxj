@@ -1425,13 +1425,6 @@ module MPXJ
       get_duration_value(attribute_values['budget_work'])
     end
 
-    # Retrieve the Task Calendar value
-    #
-    # @return Task Calendar value
-    def calendar
-      attribute_values['calendar']
-    end
-
     # Retrieve the Calendar Unique ID value
     #
     # @return Calendar Unique ID value
@@ -8384,7 +8377,6 @@ module MPXJ
       'board_status_id' => :integer,
       'budget_cost' => :currency,
       'budget_work' => :work,
-      'calendar' => :binary,
       'calendar_unique_id' => :integer,
       'category_of_work' => :string,
       'complete_through' => :date,
