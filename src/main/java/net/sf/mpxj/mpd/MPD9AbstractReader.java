@@ -584,7 +584,17 @@ abstract class MPD9AbstractReader
             resource.setNotesObject(new RtfNotes(notes));
          }
 
-         resource.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
+         ProjectCalendar calendar = m_project.getCalendarByUniqueID(row.getInteger("RES_CAL_UID"));
+         if (calendar != null && (calendar.getName() == null || calendar.getName().isEmpty()))
+         {
+            String name = resource.getName();
+            if (name == null || name.isEmpty())
+            {
+               name = "Unnamed Resource";
+            }
+            calendar.setName(name);
+         }
+         resource.setCalendar(calendar);
 
          //
          // Calculate the cost variance
