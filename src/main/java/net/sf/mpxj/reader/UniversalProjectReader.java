@@ -42,9 +42,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.common.CloseIgnoringInputStream;
 import net.sf.mpxj.common.JdbcOdbcHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.util.CloseIgnoringInputStream;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
