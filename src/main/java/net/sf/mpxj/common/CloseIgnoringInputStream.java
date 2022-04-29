@@ -30,12 +30,20 @@ import java.io.InputStream;
  * Useful with {@link org.apache.poi.poifs.filesystem.POIFSFileSystem}, where you want
  *  to control the close yourself.
  */
-public class CloseIgnoringInputStream extends FilterInputStream {
-   public CloseIgnoringInputStream(InputStream in) {
-      super(in);
+public class CloseIgnoringInputStream extends FilterInputStream
+{
+   /**
+    * Constructor.
+    *
+    * @param is input stream to wrap.
+    */
+   public CloseIgnoringInputStream(InputStream is)
+   {
+      super(is);
    }
 
-   public void close() {
+   @Override public void close()
+   {
       // Does nothing and ignores closing the wrapped stream
    }
 }
