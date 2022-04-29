@@ -10,7 +10,7 @@
 		<property name="current.version" value="10.3.0" />
 
 		<!-- Environment Configuration-->
-		<property name="maven.cmd" value="c:/java/apache-maven-3.6.3/bin/mvn.cmd"/>
+		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
 		<property name="ruby.cmd" value="C:/Ruby23/bin/bundle.bat"/>
 		<property name="python.cmd" value="c:/windows/py.exe" />
 		<property name="nuget.cmd" value="${basedir}/../nuget/nuget.exe" />
