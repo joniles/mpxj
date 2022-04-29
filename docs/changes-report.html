@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2022-04-19</li>
+        <li id="publishDate">Last Published: 2022-04-29</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,46 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a10.2.1">Release 10.2.1 &#x2013; unreleased</h3>
+<h3 id="a10.3.1">Release 10.3.1 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a10.3.0">Release 10.3.0 &#x2013; 2022-04-29</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>General improvements to make calendar data read from different file formats more consistent.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading P6 and Powerproject schedules MPXJ will no longer create an &quot;artificial&quot; resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>`JsonWriter` now includes calendar data as part of its output.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been deprecated, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The ProjectCalendar method `setResource` has been deprecated and will not be replaced. Use the Resource method `setCalendar` or `setCalendarUniqueID` to link a calendar with a resource.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The ProjectCalendar method `getResource` has been deprecated. Use the `getResources` method instead to retrieve all resources linked with a calendar.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `Resource` methods `addResourceCalendar`, `setResourceCalendar`, `getResourceCalendar`, `setResourceCalendarUniqueID` and `getResourceCalendarUniqueID` have been deprecated and replaced by `addCalendar`, `setCalendar`, `getCalendar`, `setCalendarUniqueID` and `getCalendarUniqueID` respectively.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a10.2.0">Release 10.2.0 &#x2013; 2022-03-06</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -282,7 +320,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</td>
+<td>Duration attributes are no longer returned as Duration instances by the ruby gem, they are now returned as floating point numbers. By default, durations are expressed in seconds. A new optional argument to MPXJ::Reader.read allows you to change the units used to express durations. (Note: this is a breaking change for users of the ruby gem)</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -370,7 +408,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/add.gif" alt="Add" title="Add" /></td>
-<td>Add support for task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</td>
+<td>Add support for the task attributes Longest Path, External Early Start and External Early Finish, and ensure they can be read from P6 schedules.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -690,7 +728,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Read Remaining Remaining Late Start and Remaining Late finish from P6 database and XER files.</td>
+<td>Read Remaining Late Start and Remaining Late finish from P6 database and XER files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -1124,7 +1162,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from from Asta schedules (Contributed by Dave McKay)</td>
+<td>Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -1132,7 +1170,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Gracefully handle a unexpected calendar data when reading an XER file.</td>
+<td>Gracefully handle an unexpected calendar data when reading an XER file.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -5214,7 +5252,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
-<td>Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</td>
+<td>Fixed a bug where deleted constraints in an MPP9 file were not being ignored.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -5258,7 +5296,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
-<td>Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</td>
+<td>Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more than one entry.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
@@ -5574,7 +5612,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</td>
+<td>Updated MSPDI support to use the latest version of JAXB (from JWSDP-1.3)</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
