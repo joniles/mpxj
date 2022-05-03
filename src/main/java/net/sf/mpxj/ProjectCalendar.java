@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -53,6 +54,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendar(ProjectFile file)
    {
       m_projectFile = file;
+      setCalendar(this);
 
       if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -304,7 +306,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendarWeek addWorkWeek()
    {
       ProjectCalendarWeek week = new ProjectCalendarWeek();
-      week.setParent(this);
+      week.setCalendar(this);
       m_workWeeks.add(week);
       m_weeksSorted = false;
       clearWorkingDateCache();
@@ -435,14 +437,15 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       // Silently ignore this here.
       if (calendar != this)
       {
-         super.setParent(calendar);
+         m_parent = calendar;
+         Arrays.stream(Day.values()).filter(d -> getWorkingDay(d) == null).forEach(d -> setWorkingDay(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
 
-   @Override public ProjectCalendar getParent()
+   public ProjectCalendar getParent()
    {
-      return (ProjectCalendar) super.getParent();
+      return m_parent;
    }
 
    /**
@@ -2062,11 +2065,26 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public final ProjectFile getParentFile()
    {
-      return (m_projectFile);
+      return m_projectFile;
    }
 
    /**
-    * Reference to parent ProjectFile.
+    * Determine if this calendar is derived from another.
+    *
+    * @return true if this calendar is derived from another calendar
+    */
+   public boolean isDerived()
+   {
+      return m_parent != null;
+   }
+
+   /**
+    * Parent calendar.
+    */
+   private ProjectCalendar m_parent;
+
+   /**
+    * Parent project.
     */
    private final ProjectFile m_projectFile;
 
