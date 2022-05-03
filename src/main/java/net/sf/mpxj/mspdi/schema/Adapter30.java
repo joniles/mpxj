@@ -7,19 +7,20 @@
 
 package net.sf.mpxj.mspdi.schema;
 
+import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter11 extends XmlAdapter<String, Number>
+public class Adapter30 extends XmlAdapter<String, UUID>
 {
 
-   public Number unmarshal(String value)
+   public UUID unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
    }
 
-   public String marshal(Number value)
+   public String marshal(UUID value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
    }
 
 }

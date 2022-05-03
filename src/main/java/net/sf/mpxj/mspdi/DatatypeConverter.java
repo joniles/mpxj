@@ -1900,6 +1900,27 @@ public final class DatatypeConverter
       return (value);
    }
 
+   public static final Number parsePercentComplete(String value)
+   {
+      Number result;
+
+      if (value.contains("."))
+      {
+         result = Double.valueOf(value);
+      }
+      else
+      {
+         result = Integer.valueOf(value);
+      }
+
+      return result;
+   }
+
+   public static final String printPercentComplete(Number value)
+   {
+      return value.toString();
+   }
+
    /**
     * This method is called to set the parent file for the current
     * write operation. This allows task and resource write events
