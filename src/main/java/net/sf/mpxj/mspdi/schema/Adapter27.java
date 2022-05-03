@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all") public class Adapter12 extends XmlAdapter<String, UUID>
+@SuppressWarnings("all") public class Adapter27 extends XmlAdapter<String, UUID>
 {
 
    public UUID unmarshal(String value)

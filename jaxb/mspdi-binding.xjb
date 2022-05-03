@@ -268,7 +268,7 @@
    </jxb:bindings>
 
    <!-- Assignment.ExtendedAttribute.ValueGUID -->
-   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='ExtendedAttribute']/xsd:complexType/xsd:sequence/xsd:element[@name='ValueGUID']">
+   <jxb:bindings node="//xsd:element[@name='Assignment']//xsd:element[@name='ExtendedAttribute']/xsd:complexType/xsd:sequence/xsd:element[@name='ValueGUID']">
       <jxb:bindings node=".">
          <jxb:property>
             <jxb:baseType>
@@ -279,6 +279,5 @@
          </jxb:property>
       </jxb:bindings>
    </jxb:bindings>
-
   </jxb:bindings>
 </jxb:bindings>
