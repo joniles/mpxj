@@ -10,7 +10,7 @@ package net.sf.mpxj.phoenix.schema.phoenix4;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.Day;
 
-public class Adapter8 extends XmlAdapter<String, Day>
+@SuppressWarnings("all") public class Adapter8 extends XmlAdapter<String, Day>
 {
 
    public Day unmarshal(String value)

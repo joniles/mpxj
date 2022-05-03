@@ -1900,6 +1900,13 @@ public final class DatatypeConverter
       return (value);
    }
 
+   /**
+    * Parse percent complete values. Attempts to handle the case where
+    * decimal values have been used rather than integers.
+    *
+    * @param value string value
+    * @return numeric value
+    */
    public static final Number parsePercentComplete(String value)
    {
       Number result;
@@ -1916,6 +1923,13 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Print a percent complete value. Ensure that we print an
+    * integer value, and apply rounding if the value is a decimal.
+    *
+    * @param value numeric value
+    * @return string representation
+    */
    public static final String printPercentComplete(Number value)
    {
       return Integer.toString((int) Math.round(value.doubleValue()));

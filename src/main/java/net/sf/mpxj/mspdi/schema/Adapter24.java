@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TaskType;
 
-public class Adapter24 extends XmlAdapter<String, TaskType>
+@SuppressWarnings("all") public class Adapter24 extends XmlAdapter<String, TaskType>
 {
 
    public TaskType unmarshal(String value)

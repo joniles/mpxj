@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter2 extends XmlAdapter<String, BigDecimal>
+@SuppressWarnings("all") public class Adapter2 extends XmlAdapter<String, BigDecimal>
 {
 
    public BigDecimal unmarshal(String value)

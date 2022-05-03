@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.CurrencySymbolPosition;
 
-public class Adapter7 extends XmlAdapter<String, CurrencySymbolPosition>
+@SuppressWarnings("all") public class Adapter7 extends XmlAdapter<String, CurrencySymbolPosition>
 {
 
    public CurrencySymbolPosition unmarshal(String value)

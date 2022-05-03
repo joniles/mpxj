@@ -2152,7 +2152,7 @@ import net.sf.mpxj.WorkGroup;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
 {
    "saveVersion",
    "uid",

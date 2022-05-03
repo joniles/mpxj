@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter5 extends XmlAdapter<String, Date>
+@SuppressWarnings("all") public class Adapter5 extends XmlAdapter<String, Date>
 {
 
    public Date unmarshal(String value)

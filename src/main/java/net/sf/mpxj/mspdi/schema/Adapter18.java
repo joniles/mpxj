@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.AccrueType;
 
-public class Adapter18 extends XmlAdapter<String, AccrueType>
+@SuppressWarnings("all") public class Adapter18 extends XmlAdapter<String, AccrueType>
 {
 
    public AccrueType unmarshal(String value)

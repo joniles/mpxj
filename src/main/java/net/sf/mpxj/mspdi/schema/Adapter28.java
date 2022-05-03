@@ -9,7 +9,7 @@ package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter28 extends XmlAdapter<String, Number>
+@SuppressWarnings("all") public class Adapter28 extends XmlAdapter<String, Number>
 {
 
    public Number unmarshal(String value)

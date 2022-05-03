@@ -9,7 +9,7 @@ package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter1 extends XmlAdapter<String, Boolean>
+@SuppressWarnings("all") public class Adapter1 extends XmlAdapter<String, Boolean>
 {
 
    public Boolean unmarshal(String value)

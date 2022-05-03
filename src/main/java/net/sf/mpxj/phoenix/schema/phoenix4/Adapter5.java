@@ -10,7 +10,7 @@ package net.sf.mpxj.phoenix.schema.phoenix4;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.RelationType;
 
-public class Adapter5 extends XmlAdapter<String, RelationType>
+@SuppressWarnings("all") public class Adapter5 extends XmlAdapter<String, RelationType>
 {
 
    public RelationType unmarshal(String value)

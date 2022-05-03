@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.WorkGroup;
 
-public class Adapter17 extends XmlAdapter<String, WorkGroup>
+@SuppressWarnings("all") public class Adapter17 extends XmlAdapter<String, WorkGroup>
 {
 
    public WorkGroup unmarshal(String value)

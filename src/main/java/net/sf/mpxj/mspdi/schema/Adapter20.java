@@ -10,7 +10,7 @@ package net.sf.mpxj.mspdi.schema;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.BookingType;
 
-public class Adapter20 extends XmlAdapter<String, BookingType>
+@SuppressWarnings("all") public class Adapter20 extends XmlAdapter<String, BookingType>
 {
 
    public BookingType unmarshal(String value)
