@@ -104,7 +104,7 @@ public final class NumberHelper
 
       try
       {
-         result = Integer.valueOf(Integer.parseInt(value));
+         result = value == null ? null : Integer.valueOf(Integer.parseInt(value));
       }
 
       catch (Exception ex)

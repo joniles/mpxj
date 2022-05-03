@@ -99,7 +99,10 @@ final class Record
       try
       {
          String number = list.remove(0);
-         m_recordNumber = Integer.valueOf(number);
+         if (!"PX".equals(number))
+         {
+            m_recordNumber = Integer.valueOf(number);
+         }
       }
       catch (NumberFormatException ex)
       {

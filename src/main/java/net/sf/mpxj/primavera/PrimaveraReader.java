@@ -572,7 +572,7 @@ final class PrimaveraReader
       String endText = hoursRecord.getAttribute("f");
 
       // Ignore incomplete records
-      if (startText == null || endText == null)
+      if (startText == null || endText == null || startText.isEmpty() || endText.isEmpty())
       {
          return;
       }

@@ -69,21 +69,19 @@ final class FastTrackUtility
     */
    public static String getString(byte[] buffer, int offset, int length)
    {
-      try
-      {
-         String result = new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
-
-         // Strip trailing invalid characters
-         while (!result.isEmpty() && isInvalidCharacter(result.charAt(result.length() - 1)))
-         {
-            result = result.substring(0, result.length() - 1);
-         }
-         return result;
-      }
-      catch (StringIndexOutOfBoundsException ex)
+      if (offset > buffer.length - length)
       {
          throw new UnexpectedStructureException();
       }
+
+      String result = new String(buffer, offset, length, FastTrackData.getInstance().getCharset());
+
+      // Strip trailing invalid characters
+      while (!result.isEmpty() && isInvalidCharacter(result.charAt(result.length() - 1)))
+      {
+         result = result.substring(0, result.length() - 1);
+      }
+      return result;
    }
 
    private static boolean isInvalidCharacter(char c)
