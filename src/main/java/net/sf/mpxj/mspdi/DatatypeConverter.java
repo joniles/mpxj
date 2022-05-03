@@ -1918,7 +1918,7 @@ public final class DatatypeConverter
 
    public static final String printPercentComplete(Number value)
    {
-      return value.toString();
+      return Integer.toString((int)Math.round(value.doubleValue()));
    }
 
    /**
