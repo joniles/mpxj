@@ -502,7 +502,7 @@
 													</xs:element>
 													<xs:element name="device_per_base">
 														<xs:complexType>
-															<xs:attribute name="network" type="xs:int"></xs:attribute>
+															<xs:attribute name="network" type="xs:double"></xs:attribute>
 															<xs:attribute name="barchart" type="xs:double"></xs:attribute>
 														</xs:complexType>
 													</xs:element>
