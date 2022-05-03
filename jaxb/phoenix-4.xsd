@@ -568,8 +568,8 @@
 												<xs:attribute name="type" type="xs:string"></xs:attribute>
 												<xs:attribute name="equality" type="xs:string"></xs:attribute>
 												<xs:attribute name="field" type="xs:string"></xs:attribute>
-												<xs:attribute name="value1" type="xs:int"></xs:attribute>
-												<xs:attribute name="value2" type="xs:int"></xs:attribute>
+												<xs:attribute name="value1" type="xs:string"></xs:attribute>
+												<xs:attribute name="value2" type="xs:string"></xs:attribute>
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
