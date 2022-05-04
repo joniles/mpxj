@@ -615,7 +615,25 @@ final class AstaReader
       //Related_Documents
       task.setCalendar(calendar);
 
-      task.setDuration(task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish()));
+      task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
+   }
+
+
+   private ProjectCalendar deriveEffectiveCalendar(Task task)
+   {
+      ProjectCalendar result = task.getEffectiveCalendar();
+      if (result == null)
+      {
+         if (m_project.getCalendars().isEmpty())
+         {
+            result = m_project.addDefaultBaseCalendar();
+         }
+         else
+         {
+            result = m_project.getCalendars().get(0);
+         }
+      }
+      return result;
    }
 
    /**

@@ -307,6 +307,8 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
 
          m_eventManager.fireCalendarReadEvent(calendar);
       }
+
+      m_projectFile.setDefaultCalendar(m_projectFile.getCalendars().findOrCreateDefaultCalendar());
    }
 
    /**

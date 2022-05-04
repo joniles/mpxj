@@ -93,6 +93,8 @@ public final class SDEFReader extends AbstractProjectStreamReader
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
 
+      project.setDefaultCalendar(project.getCalendars().findOrCreateDefaultCalendar());
+
       return project;
    }
 
