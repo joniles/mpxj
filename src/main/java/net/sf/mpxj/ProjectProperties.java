@@ -590,17 +590,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    public ProjectCalendar getDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID(getDefaultCalendarUniqueID());
-   }
-
-   public void setDefaultCalendarUniqueID(Integer id)
-   {
-      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, id);
-   }
-
-   public Integer getDefaultCalendarUniqueID()
-   {
-      return (Integer) getCachedValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
+      return getParentFile().getCalendars().getByUniqueID((Integer) getCachedValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**

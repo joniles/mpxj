@@ -361,7 +361,13 @@ final class MPP8Reader implements MPPVariantReader
       }
 
       updateBaseCalendarNames(baseCalendars);
-      m_file.getProjectProperties().setDefaultCalendar(m_file.getCalendars().getByName(m_projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME)));
+
+      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(m_projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+      if (projectDefaultCalendar == null)
+      {
+         projectDefaultCalendar = m_file.getCalendars().findOrCreateDefaultCalendar();
+      }
+      m_file.getProjectProperties().setDefaultCalendar(projectDefaultCalendar);
    }
 
    /**

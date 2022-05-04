@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.common.NumberHelper;
+
 /**
  * Manages the collection of calendars belonging to a project.
  */
@@ -95,6 +97,30 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
 
       return (calendar);
+   }
+
+   public ProjectCalendar findOrCreateDefaultCalendar()
+   {
+      ProjectCalendar result = getByName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
+      if (result == null)
+      {
+         if (!isEmpty())
+         {
+            result = get(0);
+         }
+         else
+         {
+            result = addDefaultBaseCalendar();
+            if (NumberHelper.getInt(result.getUniqueID()) == 0)
+            {
+               ProjectConfig config = m_projectFile.getProjectConfig();
+               config.updateCalendarUniqueCounter();
+               result.setUniqueID(config.getNextCalendarUniqueID());
+            }
+         }
+      }
+
+      return result;
    }
 
    /**

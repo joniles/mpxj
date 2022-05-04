@@ -45,6 +45,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.ProjectCalendarContainer;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -207,6 +208,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processCalendars() throws Exception
    {
       List<Row> rows = getRows("select * from zcalendar where zproject=?", m_projectID);
+      ProjectCalendar defaultCalendar = null;
       for (Row row : rows)
       {
          ProjectCalendar calendar = m_project.addCalendar();
@@ -215,7 +217,19 @@ public final class MerlinReader extends AbstractProjectFileReader
          processDays(calendar);
          processExceptions(calendar);
          m_eventManager.fireCalendarReadEvent(calendar);
+
+         if (NumberHelper.getInt(row.getInteger("Z_OPT")) == 5)
+         {
+            defaultCalendar = calendar;
+         }
       }
+
+      if (defaultCalendar == null)
+      {
+         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
+      }
+
+      m_project.setDefaultCalendar(defaultCalendar);
    }
 
    /**

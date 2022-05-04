@@ -41,6 +41,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
@@ -71,6 +72,7 @@ public final class SageReader extends AbstractProjectStreamReader
             lines.add(line);
          }
 
+         processCalendars();
          processTasks(lines);
          processPredecessors(lines);
 
@@ -92,6 +94,12 @@ public final class SageReader extends AbstractProjectStreamReader
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Collections.singletonList(read(inputStream));
+   }
+
+   private void processCalendars()
+   {
+      ProjectCalendar defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+      m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
    }
 
    /**

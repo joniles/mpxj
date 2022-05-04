@@ -348,10 +348,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       // Ensure that the default calendar is set in the project properties
       //
       ProjectCalendar defaultCalendar = map.get(project.getCalendarUID());
-      if (defaultCalendar != null)
+      if (defaultCalendar == null)
       {
-         m_projectFile.setDefaultCalendar(defaultCalendar);
+         defaultCalendar = m_projectFile.getCalendars().findOrCreateDefaultCalendar();
       }
+
+      m_projectFile.setDefaultCalendar(defaultCalendar);
    }
 
    /**

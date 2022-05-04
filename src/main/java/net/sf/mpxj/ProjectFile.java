@@ -73,10 +73,16 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public void validateUniqueIDsForMicrosoftProject()
    {
+      // The default calendar is a special case as we hold
+      // a reference to its ID in the project properties.
+      // We'll grab a copy of it here then set it again
+      // after we've renumbered, so the ID value is correct.
+      ProjectCalendar defaultCalendar = getDefaultCalendar();
       m_tasks.validateUniqueIDsForMicrosoftProject();
       m_resources.validateUniqueIDsForMicrosoftProject();
       m_assignments.validateUniqueIDsForMicrosoftProject();
       m_calendars.validateUniqueIDsForMicrosoftProject();
+      setDefaultCalendar(defaultCalendar);
    }
 
    /**
@@ -543,21 +549,6 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar getDefaultCalendar()
    {
-//      String calendarName = m_properties.getDefaultCalendarName();
-//      ProjectCalendar calendar = getCalendarByName(calendarName);
-//      if (calendar == null)
-//      {
-//         if (m_calendars.isEmpty())
-//         {
-//            calendar = addDefaultBaseCalendar();
-//         }
-//         else
-//         {
-//            calendar = m_calendars.get(0);
-//         }
-//      }
-//      return calendar;
-
       return getProjectProperties().getDefaultCalendar();
    }
 

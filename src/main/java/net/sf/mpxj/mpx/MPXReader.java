@@ -1488,7 +1488,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       ProjectCalendar defaultCalendar = calendars.getByName(m_defaultCalendarName);
       if (defaultCalendar == null)
       {
-         defaultCalendar = calendars.addDefaultBaseCalendar();
+         defaultCalendar = calendars.findOrCreateDefaultCalendar();
       }
       m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
    }
