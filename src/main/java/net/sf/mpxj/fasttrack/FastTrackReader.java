@@ -105,7 +105,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
       m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();
-      config.setAutoCalendarUniqueID(false);
       config.setAutoTaskID(false);
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
