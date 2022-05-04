@@ -594,6 +594,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case TIME:
+         {
+            writeTimeField(fieldName, value);
+            break;
+         }
+
          case RATE_UNITS:
          case TIME_UNITS:
          {
