@@ -1,6 +1,11 @@
 # Changelog
 
-## 10.3.1 (unreleased)
+## 10.4.0 (unreleased)
+* Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).
+* Ensure that percent complete values can be read from MSPDI files even if the values are decimals.
+* Improve handling of the default calendar when reading certain MSPDI files.
+* Improve reading certain Phoenix PPX files.
+* Improve reading certain FastTrack FTS files.
 
 ## 10.3.0 (2022-04-29)
 * General improvements to make calendar data read from different file formats more consistent.
