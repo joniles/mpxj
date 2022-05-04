@@ -201,7 +201,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
-<!--
+
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-correct.xsd" />
 		</exec>
@@ -211,11 +211,9 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema p6apibo.xsd" />
 		</exec>
--->
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 ${basedir}/jaxb/phoenix-4.xsd" />
 		</exec>
-<!--		
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 ${basedir}/jaxb/phoenix-5.xsd" />
 		</exec>
@@ -228,7 +226,7 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema ${basedir}/jaxb/gantt-designer.xsd" />
 		</exec>
--->
+
 		<delete>
 			<fileset dir="${basedir}" includes="*.xjb" defaultexcludes="no" />
 		</delete>
