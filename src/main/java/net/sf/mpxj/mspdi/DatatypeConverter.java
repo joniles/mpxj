@@ -1901,6 +1901,41 @@ public final class DatatypeConverter
    }
 
    /**
+    * Parse percent complete values. Attempts to handle the case where
+    * decimal values have been used rather than integers.
+    *
+    * @param value string value
+    * @return numeric value
+    */
+   public static final Number parsePercentComplete(String value)
+   {
+      Number result;
+
+      if (value.contains("."))
+      {
+         result = Double.valueOf(value);
+      }
+      else
+      {
+         result = Integer.valueOf(value);
+      }
+
+      return result;
+   }
+
+   /**
+    * Print a percent complete value. Ensure that we print an
+    * integer value, and apply rounding if the value is a decimal.
+    *
+    * @param value numeric value
+    * @return string representation
+    */
+   public static final String printPercentComplete(Number value)
+   {
+      return Integer.toString((int) Math.round(value.doubleValue()));
+   }
+
+   /**
     * This method is called to set the parent file for the current
     * write operation. This allows task and resource write events
     * to be captured and passed to any file listeners.

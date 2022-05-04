@@ -268,13 +268,78 @@
    </jxb:bindings>
 
    <!-- Assignment.ExtendedAttribute.ValueGUID -->
-   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='ExtendedAttribute']/xsd:complexType/xsd:sequence/xsd:element[@name='ValueGUID']">
+   <jxb:bindings node="//xsd:element[@name='Assignment']//xsd:element[@name='ExtendedAttribute']/xsd:complexType/xsd:sequence/xsd:element[@name='ValueGUID']">
       <jxb:bindings node=".">
          <jxb:property>
             <jxb:baseType>
                <jxb:javaType name="java.util.UUID"
                              parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
                              printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Task.PercentComplete -->
+   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='PercentComplete']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Number"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Task.PhysicalPercentComplete -->
+   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='PhysicalPercentComplete']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Number"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Task.PercentWorkComplete -->
+   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='PercentWorkComplete']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Number"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.PercentWorkComplete -->
+   <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='PercentWorkComplete']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Number"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Assignment.PercentWorkComplete -->
+   <jxb:bindings node="//xsd:element[@name='Assignment']//xsd:element[@name='PercentWorkComplete']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Number"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete"/>
             </jxb:baseType>
          </jxb:property>
       </jxb:bindings>

@@ -1184,7 +1184,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRateUnits()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPeakUnits(DatatypeConverter.printUnits(mpx.getPeakUnits()));
-      xml.setPercentWorkComplete(NumberHelper.getBigInteger(mpx.getPercentWorkComplete()));
+      xml.setPercentWorkComplete(mpx.getPercentWorkComplete());
       xml.setPhonetics(mpx.getPhonetics());
       xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
       xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));
@@ -1584,9 +1584,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
-      xml.setPercentComplete(NumberHelper.getBigInteger(mpx.getPercentageComplete()));
-      xml.setPercentWorkComplete(NumberHelper.getBigInteger(mpx.getPercentageWorkComplete()));
-      xml.setPhysicalPercentComplete(NumberHelper.getBigInteger(mpx.getPhysicalPercentComplete()));
+      xml.setPercentComplete(mpx.getPercentageComplete());
+      xml.setPercentWorkComplete(mpx.getPercentageWorkComplete());
+      xml.setPhysicalPercentComplete(mpx.getPhysicalPercentComplete());
       xml.setPriority(DatatypeConverter.printPriority(mpx.getPriority()));
       xml.setRecurring(Boolean.valueOf(mpx.getRecurring()));
       xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
@@ -2089,7 +2089,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
-      xml.setPercentWorkComplete(NumberHelper.getBigInteger(mpx.getPercentageWorkComplete()));
+      xml.setPercentWorkComplete(mpx.getPercentageWorkComplete());
       xml.setRateScale(mpx.getVariableRateUnits() == null ? null : DatatypeConverter.printTimeUnit(mpx.getVariableRateUnits()));
       xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
       xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));

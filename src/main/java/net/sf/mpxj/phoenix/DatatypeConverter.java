@@ -176,7 +176,7 @@ public final class DatatypeConverter
    {
       Date result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && value.length() != 0 && !value.equals(NOT_A_DATE_TIME))
       {
          try
          {
@@ -355,6 +355,8 @@ public final class DatatypeConverter
       DAY_TO_NAME.put(Day.SATURDAY, "Sat");
       DAY_TO_NAME.put(Day.SUNDAY, "Sun");
    }
+
+   private static final String NOT_A_DATE_TIME = "not-a-date-time";
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
       DateFormat df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
