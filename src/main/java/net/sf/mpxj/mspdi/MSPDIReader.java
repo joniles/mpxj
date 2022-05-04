@@ -198,12 +198,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.updateUniqueCounters();
 
          //
-         // Ensure that the default calendar name is set in the project properties
+         // Ensure that the default calendar is set in the project properties
          //
          ProjectCalendar defaultCalendar = calendarMap.get(project.getCalendarUID());
          if (defaultCalendar != null)
          {
-            m_projectFile.getProjectProperties().setDefaultCalendarName(defaultCalendar.getName());
+            m_projectFile.setDefaultCalendar(defaultCalendar);
          }
 
          //
@@ -248,7 +248,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
       properties.setBaselineForEarnedValue(NumberHelper.getInteger(project.getBaselineForEarnedValue()));
-      properties.setDefaultCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
       properties.setCategory(project.getCategory());
       properties.setCompany(project.getCompany());
       properties.setCreationDate(project.getCreationDate());
@@ -351,19 +350,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             readCalendar(cal, map, baseCalendars);
          }
          updateBaseCalendarNames(baseCalendars, map);
-      }
-
-      try
-      {
-         ProjectProperties properties = m_projectFile.getProjectProperties();
-         BigInteger calendarID = new BigInteger(properties.getDefaultCalendarName());
-         ProjectCalendar calendar = map.get(calendarID);
-         m_projectFile.setDefaultCalendar(calendar);
-      }
-
-      catch (Exception ex)
-      {
-         // Ignore exceptions
       }
    }
 

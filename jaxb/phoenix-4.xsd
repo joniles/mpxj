@@ -465,7 +465,7 @@
 												<xs:sequence>
 													<xs:element name="network_activity">
 														<xs:complexType>
-															<xs:attribute name="id" type="xs:int"></xs:attribute>
+															<xs:attribute name="id" type="xs:string"></xs:attribute>
 															<xs:attribute name="line" type="xs:int"></xs:attribute>
 														</xs:complexType>
 													</xs:element>
@@ -502,7 +502,7 @@
 													</xs:element>
 													<xs:element name="device_per_base">
 														<xs:complexType>
-															<xs:attribute name="network" type="xs:int"></xs:attribute>
+															<xs:attribute name="network" type="xs:double"></xs:attribute>
 															<xs:attribute name="barchart" type="xs:double"></xs:attribute>
 														</xs:complexType>
 													</xs:element>
@@ -568,8 +568,8 @@
 												<xs:attribute name="type" type="xs:string"></xs:attribute>
 												<xs:attribute name="equality" type="xs:string"></xs:attribute>
 												<xs:attribute name="field" type="xs:string"></xs:attribute>
-												<xs:attribute name="value1" type="xs:int"></xs:attribute>
-												<xs:attribute name="value2" type="xs:int"></xs:attribute>
+												<xs:attribute name="value1" type="xs:string"></xs:attribute>
+												<xs:attribute name="value2" type="xs:string"></xs:attribute>
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
