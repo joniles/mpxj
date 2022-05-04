@@ -99,6 +99,9 @@ final class Record
       try
       {
          String number = list.remove(0);
+
+         // We expect `PX` when we read the file creation record.
+         // Don't attempt to parse this.
          if (!"PX".equals(number))
          {
             m_recordNumber = Integer.valueOf(number);
