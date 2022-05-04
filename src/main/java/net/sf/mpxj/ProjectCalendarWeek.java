@@ -33,6 +33,27 @@ import net.sf.mpxj.common.DateHelper;
  */
 public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 {
+
+   /**
+    * Set the calendar to which this week belongs.
+    *
+    * @param calendar
+    */
+   public void setCalendar(ProjectCalendar calendar)
+   {
+      m_calendar = calendar;
+   }
+
+   /**
+    * Retrieve the calendar to which this week belongs.
+    *
+    * @return parent calendar
+    */
+   public ProjectCalendar getCalendar()
+   {
+      return m_calendar;
+   }
+
    /**
     * Calendar name.
     *
@@ -76,45 +97,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * If this week is derived from another week, this method
-    * will return the parent week.
-    *
-    * @return parent week
-    */
-   public ProjectCalendarWeek getParent()
-   {
-      return m_parent;
-   }
-
-   /**
-    * Set the parent from which this week is derived.
-    *
-    * @param parent parent week
-    */
-   void setParent(ProjectCalendarWeek parent)
-   {
-      m_parent = parent;
-
-      for (int loop = 0; loop < m_days.length; loop++)
-      {
-         if (m_days[loop] == null)
-         {
-            m_days[loop] = DayType.DEFAULT;
-         }
-      }
-   }
-
-   /**
-    * Flag indicating if this week is derived from another week.
-    *
-    * @return true if this week is derived from another
-    */
-   public boolean isDerived()
-   {
-      return (m_parent != null);
-   }
-
-   /**
     * Adds a set of hours to this calendar without assigning them to
     * a particular day.
     *
@@ -122,7 +104,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public ProjectCalendarHours addCalendarHours()
    {
-      return (new ProjectCalendarHours(this));
+      return new ProjectCalendarHours(this);
    }
 
    /**
@@ -136,7 +118,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public ProjectCalendarHours getCalendarHours(Day day)
    {
-      return (m_hours[day.getValue() - 1]);
+      return m_hours[day.getValue() - 1];
    }
 
    /**
@@ -147,7 +129,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public ProjectCalendarHours[] getHours()
    {
-      return (m_hours);
+      return m_hours;
    }
 
    /**
@@ -168,7 +150,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
          // If this is a base calendar, and we have no hours, then we
          // have a problem - so we add the default hours and try again
          //
-         if (m_parent == null)
+         if (m_calendar.getParent() == null)
          {
             // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
             addDefaultCalendarHours(day);
@@ -176,7 +158,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
          }
          else
          {
-            result = m_parent.getHours(day);
+            result = m_calendar.getParent().getHours(day);
          }
       }
       return result;
@@ -278,7 +260,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public DayType[] getDays()
    {
-      return (m_days);
+      return m_days;
    }
 
    /**
@@ -294,9 +276,9 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 
       if (value == DayType.DEFAULT)
       {
-         if (m_parent != null)
+         if (m_calendar.getParent() != null)
          {
-            result = m_parent.isWorkingDay(day);
+            result = m_calendar.getParent().isWorkingDay(day);
          }
          else
          {
@@ -354,7 +336,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 
       if (working == null)
       {
-         if (isDerived())
+         if (m_calendar.isDerived())
          {
             value = DayType.DEFAULT;
          }
@@ -400,7 +382,12 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * Calendar name.
+    * Parent calendar.
+    */
+   private ProjectCalendar m_calendar;
+
+   /**
+    * Working week name.
     */
    private String m_name;
 
@@ -408,11 +395,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     * Date range for which this week is valid, null if this is the default week.
     */
    private DateRange m_dateRange;
-
-   /**
-    * Parent week from which this is derived, if any.
-    */
-   private ProjectCalendarWeek m_parent;
 
    /**
     * Working hours for each day.

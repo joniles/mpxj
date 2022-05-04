@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -552,7 +553,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Date toDate = exception.getTimePeriod().getToDate();
 
       // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
-      // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project
+      // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project,
       // so we will ignore it too!
       if (fromDate != null && toDate != null)
       {
@@ -729,42 +730,70 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          for (WorkWeek xmlWeek : ww.getWorkWeek())
          {
-            ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
-            week.setName(xmlWeek.getName());
-            Date startTime = xmlWeek.getTimePeriod().getFromDate();
-            Date endTime = xmlWeek.getTimePeriod().getToDate();
-            week.setDateRange(new DateRange(startTime, endTime));
+            readWorkWeek(mpxjCalendar, xmlWeek);
+         }
+      }
+   }
 
-            WeekDays xmlWeekDays = xmlWeek.getWeekDays();
-            if (xmlWeekDays != null)
+   /**
+    * Read a single work week associated with a calendar.
+    *
+    * @param mpxjCalendar parent calendar
+    * @param xmlWeek work week data
+    */
+   private void readWorkWeek(ProjectCalendar mpxjCalendar, WorkWeek xmlWeek)
+   {
+      ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
+      week.setName(xmlWeek.getName());
+      week.setDateRange(new DateRange(xmlWeek.getTimePeriod().getFromDate(), xmlWeek.getTimePeriod().getToDate()));
+
+      WeekDays xmlWeekDays = xmlWeek.getWeekDays();
+      if (xmlWeekDays != null)
+      {
+         Map<Day, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> Day.getInstance(d.getDayType().intValue()), d -> d));
+         for (Day day : Day.values())
+         {
+            WeekDay xmlWeekDay = map.get(day);
+            if (xmlWeekDay == null)
             {
-               for (WeekDay xmlWeekDay : xmlWeekDays.getWeekDay())
+               week.setWorkingDay(day, false);
+            }
+            else
+            {
+               readWorkWeekDay(week, day, xmlWeekDay);
+            }
+         }
+      }
+   }
+
+   /**
+    * Read a day from a work week associated with a calendar.
+    *
+    * @param week parent week
+    * @param day day to read
+    * @param xmlWeekDay day data
+    */
+   private void readWorkWeekDay(ProjectCalendarWeek week, Day day, WeekDay xmlWeekDay)
+   {
+      week.setWorkingDay(day, BooleanHelper.getBoolean(xmlWeekDay.isDayWorking()));
+      ProjectCalendarHours hours = week.addCalendarHours(day);
+
+      Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes times = xmlWeekDay.getWorkingTimes();
+      if (times != null)
+      {
+         for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
+         {
+            Date startTime = period.getFromTime();
+            Date endTime = period.getToTime();
+
+            if (startTime != null && endTime != null)
+            {
+               if (startTime.getTime() >= endTime.getTime())
                {
-                  int dayNumber = xmlWeekDay.getDayType().intValue();
-                  Day day = Day.getInstance(dayNumber);
-                  week.setWorkingDay(day, BooleanHelper.getBoolean(xmlWeekDay.isDayWorking()));
-                  ProjectCalendarHours hours = week.addCalendarHours(day);
-
-                  Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes times = xmlWeekDay.getWorkingTimes();
-                  if (times != null)
-                  {
-                     for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
-                     {
-                        startTime = period.getFromTime();
-                        endTime = period.getToTime();
-
-                        if (startTime != null && endTime != null)
-                        {
-                           if (startTime.getTime() >= endTime.getTime())
-                           {
-                              endTime = DateHelper.addDays(endTime, 1);
-                           }
-
-                           hours.addRange(new DateRange(startTime, endTime));
-                        }
-                     }
-                  }
+                  endTime = DateHelper.addDays(endTime, 1);
                }
+
+               hours.addRange(new DateRange(startTime, endTime));
             }
          }
       }
