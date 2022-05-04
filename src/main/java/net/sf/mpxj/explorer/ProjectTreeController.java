@@ -86,7 +86,8 @@ public class ProjectTreeController
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
-   private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent");
+   private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent", "getCalendar", "getWorkWeeks");
+   private static final Set<String> CALENDAR_WEEK_EXCLUDED_METHODS = excludedMethods("getCalendar", "getDays", "getHours");
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
@@ -320,7 +321,7 @@ public class ProjectTreeController
 
    private void addWorkingWeek(MpxjTreeNode parentNode, ProjectCalendarWeek week)
    {
-      MpxjTreeNode weekNode = new MpxjTreeNode(week)
+      MpxjTreeNode weekNode = new MpxjTreeNode(week, CALENDAR_WEEK_EXCLUDED_METHODS)
       {
          @Override public String toString()
          {
@@ -330,6 +331,15 @@ public class ProjectTreeController
       };
 
       parentNode.add(weekNode);
+      
+      MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
+      weekNode.add(daysFolder);
+
+      for (Day day : Day.values())
+      {
+         addCalendarDay(daysFolder, week, day);
+      }
+
    }
 
    /**
@@ -339,7 +349,7 @@ public class ProjectTreeController
     * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendar calendar, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarWeek calendar, final Day day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {
