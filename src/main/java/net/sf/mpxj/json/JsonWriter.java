@@ -590,14 +590,13 @@ public final class JsonWriter extends AbstractProjectWriter
 
          case DATE:
          {
-            if (TIME_FIELDS.contains(fieldType))
-            {
-               writeTimeField(fieldName, value);
-            }
-            else
-            {
-               writeTimestampField(fieldName, value);
-            }
+            writeTimestampField(fieldName, value);
+            break;
+         }
+
+         case TIME:
+         {
+            writeTimeField(fieldName, value);
             break;
          }
 
@@ -1185,6 +1184,4 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID));
    private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID));
-
-   private static final Set<FieldType> TIME_FIELDS = new HashSet<>(Arrays.asList(ProjectField.DEFAULT_START_TIME, ProjectField.DEFAULT_END_TIME));
 }
