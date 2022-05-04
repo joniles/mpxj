@@ -34,11 +34,21 @@ import net.sf.mpxj.common.DateHelper;
 public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 {
 
+   /**
+    * Set the calendar to which this week belongs.
+    *
+    * @param calendar
+    */
    public void setCalendar(ProjectCalendar calendar)
    {
       m_calendar = calendar;
    }
 
+   /**
+    * Retrieve the calendar to which this week belongs.
+    *
+    * @return parent calendar
+    */
    public ProjectCalendar getCalendar()
    {
       return m_calendar;

@@ -443,6 +443,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       }
    }
 
+   /**
+    * Retrieve the parent calendar, or {@code null} if the
+    * calendar does not have a parent.
+    *
+    * @return parent calendar
+    */
    public ProjectCalendar getParent()
    {
       return m_parent;
