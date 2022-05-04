@@ -199,15 +199,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.updateUniqueCounters();
 
          //
-         // Ensure that the default calendar is set in the project properties
-         //
-         ProjectCalendar defaultCalendar = calendarMap.get(project.getCalendarUID());
-         if (defaultCalendar != null)
-         {
-            m_projectFile.setDefaultCalendar(defaultCalendar);
-         }
-
-         //
          // Prune unused resource calendars
          //
          m_projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
@@ -351,6 +342,15 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             readCalendar(cal, map, baseCalendars);
          }
          updateBaseCalendarNames(baseCalendars, map);
+      }
+
+      //
+      // Ensure that the default calendar is set in the project properties
+      //
+      ProjectCalendar defaultCalendar = map.get(project.getCalendarUID());
+      if (defaultCalendar != null)
+      {
+         m_projectFile.setDefaultCalendar(defaultCalendar);
       }
    }
 

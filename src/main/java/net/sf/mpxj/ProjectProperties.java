@@ -97,7 +97,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       setProjectTitle("Project1");
       setCompany(null);
       setManager(null);
-      setDefaultCalendarName(DEFAULT_CALENDAR_NAME);
       setStartDate(null);
       setFinishDate(null);
       setScheduleFrom(DEFAULT_SCHEDULE_FROM);
@@ -566,25 +565,42 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Sets the Calendar used. 'Standard' if no value is set.
     *
     * @param calendarName Calendar name
+    * @deprecated use `setDefaultCalendar()` or `setDefaultCalendarUniqueID()`
     */
-   public void setDefaultCalendarName(String calendarName)
+   @Deprecated public void setDefaultCalendarName(String calendarName)
    {
-      if (calendarName == null || calendarName.length() == 0)
-      {
-         calendarName = DEFAULT_CALENDAR_NAME;
-      }
-
-      set(ProjectField.DEFAULT_CALENDAR_NAME, calendarName);
    }
 
    /**
     * Gets the Calendar used. 'Standard' if no value is set.
     *
     * @return Calendar name
+    * @deprecated use `getDefaultCalendar().getName()`
     */
-   public String getDefaultCalendarName()
+   @Deprecated  public String getDefaultCalendarName()
    {
-      return (String) getCachedValue(ProjectField.DEFAULT_CALENDAR_NAME);
+      ProjectCalendar defaultCalendar = getDefaultCalendar();
+      return defaultCalendar == null ? null : defaultCalendar.getName();
+   }
+
+   public void setDefaultCalendar(ProjectCalendar calendar)
+   {
+      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, calendar.getUniqueID());
+   }
+
+   public ProjectCalendar getDefaultCalendar()
+   {
+      return getParentFile().getCalendars().getByUniqueID(getDefaultCalendarUniqueID());
+   }
+
+   public void setDefaultCalendarUniqueID(Integer id)
+   {
+      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, id);
+   }
+
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return (Integer) getCachedValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
    }
 
    /**

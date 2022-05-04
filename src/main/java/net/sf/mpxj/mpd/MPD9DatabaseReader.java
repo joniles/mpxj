@@ -180,6 +180,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       updateBaseCalendarNames();
 
       processCalendarData(m_project.getCalendars());
+
+      m_project.getProjectProperties().setDefaultCalendar(m_project.getCalendars().getByName(m_defaultCalendarName));
    }
 
    /**

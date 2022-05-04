@@ -543,20 +543,22 @@ public final class ProjectFile implements ChildTaskContainer
     */
    public ProjectCalendar getDefaultCalendar()
    {
-      String calendarName = m_properties.getDefaultCalendarName();
-      ProjectCalendar calendar = getCalendarByName(calendarName);
-      if (calendar == null)
-      {
-         if (m_calendars.isEmpty())
-         {
-            calendar = addDefaultBaseCalendar();
-         }
-         else
-         {
-            calendar = m_calendars.get(0);
-         }
-      }
-      return calendar;
+//      String calendarName = m_properties.getDefaultCalendarName();
+//      ProjectCalendar calendar = getCalendarByName(calendarName);
+//      if (calendar == null)
+//      {
+//         if (m_calendars.isEmpty())
+//         {
+//            calendar = addDefaultBaseCalendar();
+//         }
+//         else
+//         {
+//            calendar = m_calendars.get(0);
+//         }
+//      }
+//      return calendar;
+
+      return getProjectProperties().getDefaultCalendar();
    }
 
    /**
@@ -568,7 +570,7 @@ public final class ProjectFile implements ChildTaskContainer
    {
       if (calendar != null)
       {
-         m_properties.setDefaultCalendarName(calendar.getName());
+         m_properties.setDefaultCalendar(calendar);
       }
    }
 

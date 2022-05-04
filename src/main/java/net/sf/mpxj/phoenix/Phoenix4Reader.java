@@ -187,7 +187,7 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          ProjectCalendar defaultCalendar = m_projectFile.getCalendarByName(phoenixProject.getDefaultCalendar());
          if (defaultCalendar != null)
          {
-            m_projectFile.getProjectProperties().setDefaultCalendarName(defaultCalendar.getName());
+            m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
          }
       }
    }

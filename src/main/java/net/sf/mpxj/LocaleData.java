@@ -2421,7 +2421,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_TITLE.getValue()] = "Project Title";
       PROJECT_COLUMNS_ARRAY[ProjectField.COMPANY.getValue()] = "Company";
       PROJECT_COLUMNS_ARRAY[ProjectField.MANAGER.getValue()] = "Manager";
-      PROJECT_COLUMNS_ARRAY[ProjectField.DEFAULT_CALENDAR_NAME.getValue()] = "Default Calendar Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DEFAULT_CALENDAR_UNIQUE_ID.getValue()] = "Default Calendar Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULE_FROM.getValue()] = "Schedule From";
       PROJECT_COLUMNS_ARRAY[ProjectField.CURRENT_DATE.getValue()] = "Current Date";
       PROJECT_COLUMNS_ARRAY[ProjectField.COMMENTS.getValue()] = "Comments";

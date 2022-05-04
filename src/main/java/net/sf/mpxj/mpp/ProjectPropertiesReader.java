@@ -66,7 +66,6 @@ public final class ProjectPropertiesReader
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
          ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
          ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
-         ph.setDefaultCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
          ph.setDefaultStartTime(props.getTime(Props.START_TIME));
          ph.setDefaultEndTime(props.getTime(Props.END_TIME));
          ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));

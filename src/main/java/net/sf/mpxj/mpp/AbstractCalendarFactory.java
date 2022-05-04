@@ -191,6 +191,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       }
 
       updateBaseCalendarNames(baseCalendars, calendarMap);
+      m_file.getProjectProperties().setDefaultCalendar(m_file.getCalendars().getByName(projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME)));
    }
 
    /**
