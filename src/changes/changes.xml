@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.4.0">
+			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>
 			<action dev="joniles" type="update">Ensure that percent complete values can be read from MSPDI files even if the values are decimals.</action>
 			<action dev="joniles" type="update">Improve handling of the default calendar when reading certain MSPDI files.</action>
 			<action dev="joniles" type="update">Improve reading certain Phoenix PPX files.</action>
