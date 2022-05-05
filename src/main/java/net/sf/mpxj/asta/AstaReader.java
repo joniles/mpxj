@@ -615,7 +615,32 @@ final class AstaReader
       //Related_Documents
       task.setCalendar(calendar);
 
-      task.setDuration(task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish()));
+      task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
+   }
+
+   /**
+    * This is a hacky solution to the problem that at the point in the process we have not
+    * determined the default calendar. We need a better way to understand how date calculations
+    * should be carried out for summary tasks.
+    *
+    * @param task task from which to derive the effective calendar
+    * @return effective calendar
+    */
+   private ProjectCalendar deriveEffectiveCalendar(Task task)
+   {
+      ProjectCalendar result = task.getEffectiveCalendar();
+      if (result == null)
+      {
+         if (m_project.getCalendars().isEmpty())
+         {
+            result = m_project.addDefaultBaseCalendar();
+         }
+         else
+         {
+            result = m_project.getCalendars().get(0);
+         }
+      }
+      return result;
    }
 
    /**
@@ -1278,9 +1303,12 @@ final class AstaReader
       // Set the default calendar for the project
       // and remove its use as a task-specific calendar.
       //
-      if (defaultCalendar != null)
+      if (defaultCalendar == null)
       {
-         m_project.setDefaultCalendar(defaultCalendar);
+         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
+      }
+      else
+      {
          for (Task task : m_project.getTasks())
          {
             if (task.getCalendar() == defaultCalendar)
@@ -1289,6 +1317,8 @@ final class AstaReader
             }
          }
       }
+
+      m_project.setDefaultCalendar(defaultCalendar);
    }
 
    /**

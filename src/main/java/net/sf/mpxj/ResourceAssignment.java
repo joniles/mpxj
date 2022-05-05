@@ -2839,12 +2839,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       {
          case UNIQUE_ID:
          {
-            ProjectFile parent = getParentFile();
-            if (oldValue != null)
-            {
-               parent.getResourceAssignments().unmapUniqueID((Integer) oldValue);
-            }
-            parent.getResourceAssignments().mapUniqueID((Integer) newValue, this);
+            getParentFile().getResourceAssignments().clearUniqueIDMap();
             break;
          }
 

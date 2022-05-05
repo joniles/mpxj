@@ -302,8 +302,8 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendar(ProjectCalendar calendar) throws IOException
    {
       m_writer.writeStartObject(null);
-      writeIntegerField("unique_id", calendar.getUniqueID());
-      writeIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
+      writeMandatoryIntegerField("unique_id", calendar.getUniqueID());
+      writeMandatoryIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
       writeStringField("name", calendar.getName());
       writeIntegerField("minutes_per_day", calendar.getCalendarMinutesPerDay());
       writeIntegerField("minutes_per_week", calendar.getCalendarMinutesPerWeek());
@@ -704,6 +704,20 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeIntegerField(String fieldName, Object value) throws IOException
    {
       writeIntegerField(null, fieldName, value);
+   }
+
+   /**
+    * Write an integer field to the JSON file. Always write this field even if it is zero.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
+   private void writeMandatoryIntegerField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         m_writer.writeNameValuePair(fieldName, ((Number) value).intValue());
+      }
    }
 
    /**
@@ -1183,5 +1197,5 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID));
-   private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID));
+   private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID, ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
 }

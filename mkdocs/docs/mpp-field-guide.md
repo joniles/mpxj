@@ -47,7 +47,7 @@ Date Order|✓|✓|✓|✓
 Date Separator|✓|✓|✓|✓
 Days per Month|✓|✓|✓|✓
 Decimal Separator|✓|✓|✓|✓
-Default Calendar Name|✓|✓|✓|✓
+Default Calendar Unique ID|✓|✓|✓|✓
 Default End Time|✓|✓|✓|✓
 Default Overtime Rate| |✓|✓|✓
 Default Standard Rate| |✓|✓|✓

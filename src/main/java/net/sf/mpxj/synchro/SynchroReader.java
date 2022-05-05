@@ -129,7 +129,12 @@ public final class SynchroReader extends AbstractProjectStreamReader
          processCalendar(row);
       }
 
-      m_project.setDefaultCalendar(m_calendarMap.get(reader.getDefaultCalendarUUID()));
+      ProjectCalendar calendar = m_calendarMap.get(reader.getDefaultCalendarUUID());
+      if (calendar == null)
+      {
+         calendar = m_project.getCalendars().findOrCreateDefaultCalendar();
+      }
+      m_project.setDefaultCalendar(calendar);
    }
 
    /**

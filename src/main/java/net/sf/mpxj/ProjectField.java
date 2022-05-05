@@ -56,7 +56,7 @@ public enum ProjectField implements FieldType
    PROJECT_TITLE(DataType.STRING),
    COMPANY(DataType.STRING),
    MANAGER(DataType.STRING),
-   DEFAULT_CALENDAR_NAME(DataType.STRING),
+   DEFAULT_CALENDAR_UNIQUE_ID(DataType.INTEGER),
    SCHEDULE_FROM(DataType.SCHEDULE_FROM),
    CURRENT_DATE(DataType.DATE),
    COMMENTS(DataType.STRING),

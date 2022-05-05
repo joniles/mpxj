@@ -39,6 +39,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
@@ -222,6 +223,8 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    private void readCalendars()
    {
       // TODO: understand the calendar data representation.
+      ProjectCalendar defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+      m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
    }
 
    /**

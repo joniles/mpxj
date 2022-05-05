@@ -183,7 +183,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
       }
 
-      m_projectFile.getProjectProperties().setDefaultCalendarName(m_defaultCalendar.getName());
+      m_projectFile.getProjectProperties().setDefaultCalendar(m_defaultCalendar);
    }
 
    /**

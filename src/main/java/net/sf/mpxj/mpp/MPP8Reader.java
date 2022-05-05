@@ -128,6 +128,7 @@ final class MPP8Reader implements MPPVariantReader
       m_calendarMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
+      m_projectProps = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }
@@ -143,16 +144,16 @@ final class MPP8Reader implements MPPVariantReader
       m_calendarMap = null;
       m_projectDir = null;
       m_viewDir = null;
+      m_projectProps = null;
    }
 
    /**
     * Process the project properties data.
     */
-   private void processProjectProperties() throws MPXJException, IOException
+   private void processProjectProperties() throws MPXJException
    {
-      Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
       ProjectPropertiesReader reader = new ProjectPropertiesReader();
-      reader.process(m_file, props, m_root);
+      reader.process(m_file, m_projectProps, m_root);
    }
 
    /**
@@ -360,6 +361,13 @@ final class MPP8Reader implements MPPVariantReader
       }
 
       updateBaseCalendarNames(baseCalendars);
+
+      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(m_projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+      if (projectDefaultCalendar == null)
+      {
+         projectDefaultCalendar = m_file.getCalendars().findOrCreateDefaultCalendar();
+      }
+      m_file.getProjectProperties().setDefaultCalendar(projectDefaultCalendar);
    }
 
    /**
@@ -1368,6 +1376,7 @@ final class MPP8Reader implements MPPVariantReader
    private DirectoryEntry m_root;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private Props8 m_projectProps;
 
    /**
     * Task data types.

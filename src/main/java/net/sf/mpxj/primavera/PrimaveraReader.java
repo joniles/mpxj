@@ -345,16 +345,12 @@ final class PrimaveraReader
       config.setAutoCalendarUniqueID(true);
       config.updateCalendarUniqueCounter();
 
-      if (m_defaultCalendarID != null)
+      ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
+      if (defaultCalendar == null)
       {
-         ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
-         // Primavera XER files can sometimes not contain a definition of the default
-         // project calendar so only try to set if we find a definition.
-         if (defaultCalendar != null)
-         {
-            m_project.setDefaultCalendar(defaultCalendar);
-         }
+         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
       }
+      m_project.setDefaultCalendar(defaultCalendar);
    }
 
    /**

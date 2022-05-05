@@ -43,6 +43,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarContainer;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
@@ -584,7 +585,6 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setProjectTitle(record.getString(0));
       properties.setCompany(record.getString(1));
       properties.setManager(record.getString(2));
-      properties.setDefaultCalendarName(record.getString(3));
       properties.setStartDate(record.getDateTime(4));
       properties.setFinishDate(record.getDateTime(5));
       properties.setScheduleFrom(record.getScheduleFrom(6));
@@ -610,6 +610,8 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setSubject(record.getString(26));
       properties.setAuthor(record.getString(27));
       properties.setKeywords(record.getString(28));
+
+      m_defaultCalendarName = record.getString(3);
    }
 
    /**
@@ -1480,7 +1482,15 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void validateCalendars()
    {
-      m_projectFile.getCalendars().forEach(this::validateCalendar);
+      ProjectCalendarContainer calendars = m_projectFile.getCalendars();
+      calendars.forEach(this::validateCalendar);
+
+      ProjectCalendar defaultCalendar = calendars.getByName(m_defaultCalendarName);
+      if (defaultCalendar == null)
+      {
+         defaultCalendar = calendars.findOrCreateDefaultCalendar();
+      }
+      m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
    }
 
    /**
@@ -1683,6 +1693,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    private char m_delimiter;
    private MPXJFormats m_formats;
    private List<DeferredRelationship> m_deferredRelationships;
+   private String m_defaultCalendarName;
 
    /**
     * This member data is used to hold the outline level number of the

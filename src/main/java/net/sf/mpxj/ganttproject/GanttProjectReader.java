@@ -198,6 +198,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    {
       m_mpxjCalendar = m_projectFile.addCalendar();
       m_mpxjCalendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
+      m_projectFile.getProjectProperties().setDefaultCalendar(m_mpxjCalendar);
 
       Calendars gpCalendar = ganttProject.getCalendars();
       setWorkingDays(m_mpxjCalendar, gpCalendar);

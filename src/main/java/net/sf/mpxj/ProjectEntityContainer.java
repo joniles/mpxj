@@ -94,28 +94,25 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     */
    public T getByUniqueID(Integer id)
    {
+      if (m_uniqueIDMap.size() != size())
+      {
+         clearUniqueIDMap();
+         for (T item : this)
+         {
+            m_uniqueIDMap.put(item.getUniqueID(), item);
+         }
+      }
       return m_uniqueIDMap.get(id);
    }
 
    /**
-    * Remove the Unique ID to instance mapping.
-    *
-    * @param id Unique ID to remove
+    * Clear the unique ID map. This will force the map to be
+    * re-created next time we try to look something up by
+    * unique ID.
     */
-   public void unmapUniqueID(Integer id)
+   public void clearUniqueIDMap()
    {
-      m_uniqueIDMap.remove(id);
-   }
-
-   /**
-    * Add a Unique ID to instance mapping.
-    *
-    * @param id Unique ID
-    * @param entity instance
-    */
-   public void mapUniqueID(Integer id, T entity)
-   {
-      m_uniqueIDMap.put(id, entity);
+      m_uniqueIDMap.clear();
    }
 
    protected final ProjectFile m_projectFile;

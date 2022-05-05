@@ -130,7 +130,6 @@ abstract class MPD9AbstractReader
       properties.setProjectTitle(row.getString("PROJ_PROP_TITLE"));
       properties.setCompany(row.getString("PROJ_PROP_COMPANY"));
       properties.setManager(row.getString("PROJ_PROP_MANAGER"));
-      properties.setDefaultCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
       properties.setStartDate(row.getDate("PROJ_INFO_START_DATE"));
       properties.setFinishDate(row.getDate("PROJ_INFO_FINISH_DATE"));
       properties.setScheduleFrom(ScheduleFrom.getInstance(1 - row.getInt("PROJ_INFO_SCHED_FROM")));
@@ -228,6 +227,8 @@ abstract class MPD9AbstractReader
       //    PROJ_CHECKEDOUTBY
       //    PROJ_CHECKEDOUTDATE
       //    RESERVED_BINARY_DATA
+
+      m_defaultCalendarName = row.getString("PROJ_INFO_CAL_NAME");
    }
 
    /**
@@ -1315,6 +1316,7 @@ abstract class MPD9AbstractReader
    protected Integer m_projectID;
    protected ProjectFile m_project;
    protected EventManager m_eventManager;
+   protected String m_defaultCalendarName;
 
    private boolean m_autoWBS = true;
 

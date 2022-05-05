@@ -5566,12 +5566,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       {
          case UNIQUE_ID:
          {
-            ProjectFile parent = getParentFile();
-            if (oldValue != null)
-            {
-               parent.getTasks().unmapUniqueID((Integer) oldValue);
-            }
-            parent.getTasks().mapUniqueID((Integer) newValue, this);
+            getParentFile().getTasks().clearUniqueIDMap();
             break;
          }
 

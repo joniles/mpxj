@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
@@ -117,7 +118,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
       addListenersToProject(m_project);
 
       // processProject();
-      // processCalendars();
+      processCalendars();
       processResources();
       processTasks();
       processDependencies();
@@ -125,6 +126,12 @@ public final class FastTrackReader extends AbstractProjectFileReader
       rollupValues();
 
       return m_project;
+   }
+
+   private void processCalendars()
+   {
+      ProjectCalendar defaultCalendar = m_project.addDefaultBaseCalendar();
+      m_project.getProjectProperties().setDefaultCalendar(defaultCalendar);
    }
 
    /**

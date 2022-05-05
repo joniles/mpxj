@@ -40,11 +40,11 @@ public class CostAccountContainer extends ProjectEntityContainer<CostAccount>
 
    @Override public void added(CostAccount account)
    {
-      mapUniqueID(account.getUniqueID(), account);
+      clearUniqueIDMap();
    }
 
    @Override public void removed(CostAccount account)
    {
-      unmapUniqueID(account.getUniqueID());
+      clearUniqueIDMap();
    }
 }
