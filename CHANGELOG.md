@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.4.0 (unreleased)
+## 10.5.0 (unreleased)
+
+## 10.4.0 (2022-05-05)
 * Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).
 * The `ProjectProperties` methds `getDefaultCalendarName()` and `setDefaultCalendarName()` have been deprecated. Use `getDefaultCalendar()` and `setDefaultCalendar()` instead.
 * Ensure that percent complete values can be read from MSPDI files even if the values are decimals.

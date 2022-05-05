@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="10.3.0" />
+		<property name="current.version" value="10.4.0" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
@@ -57,7 +57,7 @@
 		<property name="jsoup.classpath" refid="jsoup.path" />
 		<property name="junit.classpath" refid="junit.path" />
 	</target>
-		
+
 	<target name="update-version-numbers" depends="init" description="Ensure that version numbers in the code are up-to-date">
 		<replaceregexp file="${basedir}/pom.xml"
 		               match="&lt;!-- MPXJ --&gt;&lt;version&gt;.*&lt;/version&gt;"
