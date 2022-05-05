@@ -368,11 +368,11 @@ module MPXJ
       attribute_values['decimal_separator']
     end
 
-    # Retrieve the Default Calendar Name value
+    # Retrieve the Default Calendar Unique ID value
     #
-    # @return Default Calendar Name value
-    def default_calendar_name
-      attribute_values['default_calendar_name']
+    # @return Default Calendar Unique ID value
+    def default_calendar_unique_id
+      get_integer_value(attribute_values['default_calendar_unique_id'])
     end
 
     # Retrieve the Default Duration Is Fixed value
@@ -393,7 +393,7 @@ module MPXJ
     #
     # @return Default End Time value
     def default_end_time
-      get_date_value(attribute_values['default_end_time'])
+      attribute_values['default_end_time']
     end
 
     # Retrieve the Default Fixed Cost Accrual value
@@ -421,7 +421,7 @@ module MPXJ
     #
     # @return Default Start Time value
     def default_start_time
-      get_date_value(attribute_values['default_start_time'])
+      attribute_values['default_start_time']
     end
 
     # Retrieve the Default Task Earned Value Method value
@@ -2423,14 +2423,14 @@ module MPXJ
       'date_separator' => :char,
       'days_per_month' => :integer,
       'decimal_separator' => :char,
-      'default_calendar_name' => :string,
+      'default_calendar_unique_id' => :integer,
       'default_duration_is_fixed' => :boolean,
       'default_duration_units' => :time_units,
-      'default_end_time' => :date,
+      'default_end_time' => :time,
       'default_fixed_cost_accrual' => :accrue,
       'default_overtime_rate' => :rate,
       'default_standard_rate' => :rate,
-      'default_start_time' => :date,
+      'default_start_time' => :time,
       'default_task_earned_value_method' => :earned_value_method,
       'default_task_type' => :task_type,
       'default_work_units' => :time_units,
