@@ -331,7 +331,7 @@ public class ProjectTreeController
       };
 
       parentNode.add(weekNode);
-      
+
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       weekNode.add(daysFolder);
 

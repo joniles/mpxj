@@ -618,7 +618,6 @@ final class AstaReader
       task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
    }
 
-
    private ProjectCalendar deriveEffectiveCalendar(Task task)
    {
       ProjectCalendar result = task.getEffectiveCalendar();

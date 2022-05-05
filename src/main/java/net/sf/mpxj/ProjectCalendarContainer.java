@@ -99,6 +99,15 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       return (calendar);
    }
 
+   /**
+    * If we're calling this method, we don't have a reliable way to identify
+    * the default calendar. As that's the case we'll try to find a calendar
+    * called "Standard". If that doesn't exist, but we have some calendars,
+    * we'll just use the first one. Finally, if we have no calendars we'll
+    * create ourselves a default one.
+    *
+    * @return default project calendar
+    */
    public ProjectCalendar findOrCreateDefaultCalendar()
    {
       ProjectCalendar result = getByName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
@@ -115,7 +124,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
             {
                ProjectConfig config = m_projectFile.getProjectConfig();
                config.updateCalendarUniqueCounter();
-               result.setUniqueID(config.getNextCalendarUniqueID());
+               result.setUniqueID(Integer.valueOf(config.getNextCalendarUniqueID()));
             }
          }
       }

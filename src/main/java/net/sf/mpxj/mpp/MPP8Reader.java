@@ -128,7 +128,7 @@ final class MPP8Reader implements MPPVariantReader
       m_calendarMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
-      m_projectProps =  new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
+      m_projectProps = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }

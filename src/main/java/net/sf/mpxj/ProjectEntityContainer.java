@@ -105,6 +105,11 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       return m_uniqueIDMap.get(id);
    }
 
+   /**
+    * Clear the unique ID map. This will force the map to be
+    * re-created next time we try to look something up by
+    * unique ID.
+    */
    public void clearUniqueIDMap()
    {
       m_uniqueIDMap.clear();

@@ -569,6 +569,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Deprecated public void setDefaultCalendarName(String calendarName)
    {
+      setDefaultCalendar(getParentFile().getCalendars().getByName(calendarName));
    }
 
    /**
@@ -577,17 +578,27 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * @return Calendar name
     * @deprecated use `getDefaultCalendar().getName()`
     */
-   @Deprecated  public String getDefaultCalendarName()
+   @Deprecated public String getDefaultCalendarName()
    {
       ProjectCalendar defaultCalendar = getDefaultCalendar();
       return defaultCalendar == null ? null : defaultCalendar.getName();
    }
 
+   /**
+    * Set the default calendar for this project.
+    *
+    * @param calendar default calendar
+    */
    public void setDefaultCalendar(ProjectCalendar calendar)
    {
       set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, calendar.getUniqueID());
    }
 
+   /**
+    * Retrieve the default calendar for this project.
+    *
+    * @return default calendar
+    */
    public ProjectCalendar getDefaultCalendar()
    {
       return getParentFile().getCalendars().getByUniqueID((Integer) getCachedValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
@@ -3026,11 +3037,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Default percent complete value.
     */
    private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf(0);
-
-   /**
-    * Default calendar name.
-    */
-   private static final String DEFAULT_CALENDAR_NAME = "Standard";
 
    /**
     * Default days per week.
