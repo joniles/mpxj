@@ -239,6 +239,9 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
+      ProjectCalendar defaultCalendar = m_projectFile.getDefaultCalendar();
+      String defaultCalendarName = defaultCalendar == null ? null : defaultCalendar.getName();
+
       //
       // Project Header Record
       //
@@ -251,7 +254,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(properties.getManager()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(properties.getDefaultCalendarName()));
+      m_buffer.append(format(defaultCalendarName));
       m_buffer.append(m_delimiter);
 
       m_buffer.append(format(formatDateTime(properties.getStartDate())));

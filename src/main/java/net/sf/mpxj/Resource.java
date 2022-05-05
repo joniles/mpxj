@@ -2777,12 +2777,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       {
          case UNIQUE_ID:
          {
-            ProjectFile parent = getParentFile();
-            if (oldValue != null)
-            {
-               parent.getResources().unmapUniqueID((Integer) oldValue);
-            }
-            parent.getResources().mapUniqueID((Integer) newValue, this);
+            getParentFile().getResources().clearUniqueIDMap();
 
             if (!m_assignments.isEmpty())
             {

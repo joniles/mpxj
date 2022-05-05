@@ -40,11 +40,11 @@ public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCate
 
    @Override public void added(ExpenseCategory category)
    {
-      mapUniqueID(category.getUniqueID(), category);
+      clearUniqueIDMap();
    }
 
    @Override public void removed(ExpenseCategory category)
    {
-      unmapUniqueID(category.getUniqueID());
+      clearUniqueIDMap();
    }
 }

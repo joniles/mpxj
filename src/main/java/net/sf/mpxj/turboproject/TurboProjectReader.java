@@ -217,6 +217,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
          m_eventManager.fireCalendarReadEvent(child);
       }
+
+      m_projectFile.setDefaultCalendar(m_projectFile.getCalendars().findOrCreateDefaultCalendar());
    }
 
    /**

@@ -1296,9 +1296,12 @@ final class AstaReader
       // Set the default calendar for the project
       // and remove its use as a task-specific calendar.
       //
-      if (defaultCalendar != null)
+      if (defaultCalendar == null)
       {
-         m_project.setDefaultCalendar(defaultCalendar);
+         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
+      }
+      else
+      {
          for (Task task : m_project.getTasks())
          {
             if (task.getCalendar() == defaultCalendar)
@@ -1307,6 +1310,8 @@ final class AstaReader
             }
          }
       }
+
+      m_project.setDefaultCalendar(defaultCalendar);
    }
 
    /**

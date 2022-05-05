@@ -1152,15 +1152,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    @Override public void setUniqueID(Integer uniqueID)
    {
-      ProjectFile parent = getParentFile();
-
-      if (m_uniqueID != null)
-      {
-         parent.getCalendars().unmapUniqueID(m_uniqueID);
-      }
-
-      parent.getCalendars().mapUniqueID(uniqueID, this);
-
+      getParentFile().getCalendars().clearUniqueIDMap();
       m_uniqueID = uniqueID;
    }
 

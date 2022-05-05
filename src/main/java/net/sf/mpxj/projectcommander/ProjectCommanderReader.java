@@ -116,6 +116,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    private void readCalendars()
    {
       m_data.getBlocks().stream().filter(block -> "CCalendar".equals(block.getName())).forEach(this::readCalendar);
+      m_projectFile.setDefaultCalendar(m_projectFile.getCalendars().findOrCreateDefaultCalendar());
    }
 
    /**
