@@ -37,7 +37,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    /**
     * Set the calendar to which this week belongs.
     *
-    * @param calendar
+    * @param calendar parent calendar
     */
    public void setCalendar(ProjectCalendar calendar)
    {

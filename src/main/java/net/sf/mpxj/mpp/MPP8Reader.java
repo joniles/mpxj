@@ -150,7 +150,7 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * Process the project properties data.
     */
-   private void processProjectProperties() throws MPXJException, IOException
+   private void processProjectProperties() throws MPXJException
    {
       ProjectPropertiesReader reader = new ProjectPropertiesReader();
       reader.process(m_file, m_projectProps, m_root);
