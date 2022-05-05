@@ -618,6 +618,14 @@ final class AstaReader
       task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
    }
 
+   /**
+    * This is a hacky solution to the problem that at the point in the process we have not
+    * determined the default calendar. We need a better way to understand how date calculations
+    * should be carried out for summary tasks.
+    *
+    * @param task task from which to derive the effective calendar
+    * @return effective calendar
+    */
    private ProjectCalendar deriveEffectiveCalendar(Task task)
    {
       ProjectCalendar result = task.getEffectiveCalendar();
