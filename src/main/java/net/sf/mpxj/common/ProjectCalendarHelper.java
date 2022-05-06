@@ -1,0 +1,192 @@
+/*
+ * file:       ProjectCalendarHelper.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2022
+ * date:       06/05/2022
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.common;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
+import net.sf.mpxj.DayType;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Resource;
+
+/**
+ * Helper methods for working with {@code ProjectCalendar} instances.
+ */
+public final class ProjectCalendarHelper
+{
+   /**
+    * Creates a temporary base calendar by flattening an existing calendar's
+    * hierarchy. This is typically used to create a calendar which is compatible
+    * with Microsoft Project.
+    *
+    * @param calendar calendar to flatten
+    * @return flattened calendar
+    */
+   public static ProjectCalendar createTemporaryFlattendCalendar(ProjectCalendar calendar)
+   {
+      if (!calendar.isDerived())
+      {
+         return calendar;
+      }
+
+      ProjectCalendar newCalendar = new ProjectCalendar(calendar.getParentFile());
+      newCalendar.setName(calendar.getName());
+      newCalendar.setUniqueID(calendar.getUniqueID());
+      populateDays(newCalendar, calendar);
+      populateExceptions(newCalendar, calendar);
+
+      return newCalendar;
+   }
+
+   /**
+    * Create a temporary derived calendar. This is typically used to
+    * create a calendar which is compatible with Microsoft Project.
+    *
+    * @param baseCalendar calendar to derive from
+    * @param resource link the new calendar to this resource
+    * @return derived calendar
+    */
+   public static ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
+   {
+      ProjectFile file = baseCalendar.getParentFile();
+      ProjectCalendar derivedCalendar = new ProjectCalendar(file);
+      derivedCalendar.setParent(baseCalendar);
+      derivedCalendar.setName(resource.getName());
+      derivedCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
+      derivedCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+
+      if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
+      {
+         derivedCalendar.setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
+      }
+
+      return derivedCalendar;
+   }
+
+   /**
+    * Copies days and hours to a temporary flattened calendar.
+    *
+    * @param target target flattened calendar
+    * @param source source calendar
+    */
+   private static void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   /**
+    * Copies exceptions into a temporary flattened calendar.
+    *
+    * @param target flattened calendar
+    * @param source source calendar
+    */
+   private static void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   {
+      // We create a copy of the current expanded exceptions as adding new exceptions
+      // to the calendar will clear the original list.
+      List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
+
+      for (ProjectCalendarException sourceException : source.getCalendarExceptions())
+      {
+         // For each source exception we need to see if it collides with an existing exception
+         // in the target calendar. To do this wek compare the expanded version of the source exception
+         // with the expanded version of all the target calendar exceptions.
+         boolean collision = false;
+         List<ProjectCalendarException> expandedSourceExceptions = sourceException.getExpandedExceptions();
+         for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+         {
+            collision = expandedTargetExceptions.stream().anyMatch(e -> e.contains(expandedSourceException));
+            if (collision)
+            {
+               break;
+            }
+         }
+
+         if (collision)
+         {
+            // If we have a collision then we can't add the exception in it original form.
+            // We'll expand it and add any of the expanded exception which don't collide.
+            // This gives us a union of the exceptions, allowing the target calendar
+            // exceptions to override those in the source calendar where they collide.
+            for (ProjectCalendarException expandedSourceException : expandedSourceExceptions)
+            {
+               if (expandedTargetExceptions.stream().noneMatch(e -> e.contains(expandedSourceException)))
+               {
+                  ProjectCalendarException newException = target.addCalendarException(expandedSourceException.getFromDate(), expandedSourceException.getToDate());
+                  for (DateRange range : expandedSourceException)
+                  {
+                     newException.addRange(range);
+                  }
+               }
+            }
+         }
+         else
+         {
+            // There is no collision between the source exception and the exceptions in the target calendar.
+            // We can just add a verbatim copy of the source exception.
+            ProjectCalendarException newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
+            newException.setRecurring(sourceException.getRecurring());
+            for (DateRange range : sourceException)
+            {
+               newException.addRange(range);
+            }
+         }
+      }
+
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         populateExceptions(target, parent);
+      }
+   }
+}
