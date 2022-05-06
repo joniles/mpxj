@@ -30,8 +30,12 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -84,6 +88,8 @@ public final class MPXWriter extends AbstractProjectWriter
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getProjectProperties().getMpxCodePage().getCharset());
       m_buffer = new StringBuilder();
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
+      m_calendarNameSet = new HashSet<>();
+      m_calendarNameMap = new HashMap<>();
 
       try
       {
@@ -99,6 +105,8 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer = null;
          m_locale = null;
          m_formats = null;
+         m_calendarNameSet = null;
+         m_calendarNameMap = null;
       }
    }
 
@@ -240,7 +248,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
       ProjectCalendar defaultCalendar = m_projectFile.getDefaultCalendar();
-      String defaultCalendarName = defaultCalendar == null ? null : defaultCalendar.getName();
+      String defaultCalendarName = defaultCalendar == null ? null : m_calendarNameMap.get(defaultCalendar.getUniqueID());
 
       //
       // Project Header Record
@@ -319,7 +327,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeBaseCalendar(ProjectCalendar record) throws IOException
    {
-      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER, record.getName(), record);
+      writeCalendarDetail(MPXConstants.BASE_CALENDAR_RECORD_NUMBER, record);
    }
 
    /**
@@ -329,25 +337,23 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeResourceCalendar(ProjectCalendar record) throws IOException
    {
-      writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record.getParent() == null ? null : record.getParent().getName(), record);
+      writeCalendarDetail(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER, record);
    }
 
    /**
     * Write a calendar.
     *
     * @param recordNumber record number rep[resenting calendar type
-    * @param name calendar name
     * @param record calendar data
     */
-   private void writeCalendarDetail(int recordNumber, String name, ProjectCalendar record) throws IOException
+   private void writeCalendarDetail(int recordNumber, ProjectCalendar record) throws IOException
    {
+      String name = m_calendarNameMap.get(record.getParent() == null ? record.getUniqueID() : record.getParent().getUniqueID());
+
       m_buffer.setLength(0);
       m_buffer.append(recordNumber);
       m_buffer.append(m_delimiter);
-      if (name != null)
-      {
-         m_buffer.append(name);
-      }
+      m_buffer.append(format(name));
 
       for (DayType day : record.getDays())
       {
@@ -569,6 +575,33 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private ProjectCalendar normalizeBaseCalendar(ProjectCalendar calendar)
    {
+      //
+      // Ensure all base calendars have a name
+      //
+      String name = calendar.getName();
+      if (name == null || name.isEmpty())
+      {
+         name = "Calendar";
+      }
+
+      //
+      // Ensure all base calendar names are unique
+      //
+      if (m_calendarNameSet.contains(name))
+      {
+         int index = 1;
+         String newName;
+         do
+         {
+            newName = name + " " + (index++);
+         } while (m_calendarNameSet.contains(newName));
+
+         name = newName;
+      }
+      m_calendarNameSet.add(name);
+
+      m_calendarNameMap.put(calendar.getUniqueID(), name);
+
       ProjectCalendar result;
       if (calendar.isDerived())
       {
@@ -577,6 +610,7 @@ public final class MPXWriter extends AbstractProjectWriter
          result.setName(calendar.getName());
          populateDays(result, calendar);
          populateExceptions(result, calendar);
+         m_calendarNameMap.put(result.getUniqueID(), name);
       }
       else
       {
@@ -1613,4 +1647,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private boolean m_useLocaleDefaults = true;
    private StringBuilder m_buffer;
    private MPXJFormats m_formats;
+
+   private Set<String> m_calendarNameSet;
+   private Map<Integer, String> m_calendarNameMap;
 }
