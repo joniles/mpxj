@@ -599,10 +599,13 @@ public final class MPXWriter extends AbstractProjectWriter
 
          name = newName;
       }
-      m_calendarNameSet.add(name);
 
+      m_calendarNameSet.add(name);
       m_calendarNameMap.put(calendar.getUniqueID(), name);
 
+      //
+      // Flatten calendar if required
+      //
       ProjectCalendar result;
       if (calendar.isDerived())
       {
