@@ -545,7 +545,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create temporary flattened base calendars, derived resource calendars
       //
-      baseCalendars = baseCalendars.stream().map(ProjectCalendarHelper::createTemporaryFlattendCalendar).collect(Collectors.toList());
+      baseCalendars = baseCalendars.stream().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
       baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
 
       //

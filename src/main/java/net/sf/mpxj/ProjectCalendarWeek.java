@@ -26,6 +26,10 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -308,7 +312,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public DayType getWorkingDay(Day day)
    {
-      return (m_days[day.getValue() - 1]);
+      return m_days[day.getValue() - 1];
    }
 
    /**
@@ -351,6 +355,47 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       }
 
       m_days[day.getValue() - 1] = value;
+   }
+
+   public List<ProjectCalendarException> convertToRecurringExceptions()
+   {
+      // We can't expand the default week
+      if (m_dateRange == null)
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      List<ProjectCalendarException> result = new ArrayList<>();
+      Date fromDate = m_dateRange.getStart();
+      Date toDate = m_dateRange.getEnd();
+
+      //
+      // Generate a recurring exception for each day
+      //
+      for (Day day : Day.values())
+      {
+         if (getWorkingDay(day) == DayType.DEFAULT)
+         {
+            continue;
+         }
+
+         ProjectCalendarException ex = new ProjectCalendarException(fromDate, toDate);
+         for (DateRange hours : getCalendarHours(day))
+         {
+            ex.addRange(hours);
+         }
+
+         RecurringData recurrence = new RecurringData();
+         recurrence.setRecurrenceType(RecurrenceType.WEEKLY);
+         recurrence.setStartDate(fromDate);
+         recurrence.setUseEndDate(true);
+         recurrence.setWeeklyDay(day, true);
+         ex.setRecurring(recurrence);
+
+         result.add(ex);
+      }
+
+      return result;
    }
 
    @Override public int compareTo(ProjectCalendarWeek o)

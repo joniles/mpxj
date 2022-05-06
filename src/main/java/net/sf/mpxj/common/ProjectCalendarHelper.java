@@ -32,6 +32,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 
@@ -48,7 +49,7 @@ public final class ProjectCalendarHelper
     * @param calendar calendar to flatten
     * @return flattened calendar
     */
-   public static ProjectCalendar createTemporaryFlattendCalendar(ProjectCalendar calendar)
+   public static ProjectCalendar createTemporaryFlattenedCalendar(ProjectCalendar calendar)
    {
       if (!calendar.isDerived())
       {
@@ -59,6 +60,7 @@ public final class ProjectCalendarHelper
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       populateDays(newCalendar, calendar);
+      populateWorkingWeeks(newCalendar, calendar);
       populateExceptions(newCalendar, calendar);
 
       return newCalendar;
@@ -187,6 +189,27 @@ public final class ProjectCalendarHelper
       if (parent != null)
       {
          populateExceptions(target, parent);
+      }
+   }
+
+   private static void populateWorkingWeeks(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (ProjectCalendarWeek sourceWeek : source.getWorkWeeks())
+      {
+         ProjectCalendarWeek targetWeek = target.addWorkWeek();
+         for (Day day : Day.values())
+         {
+            targetWeek.setWorkingDay(day, sourceWeek.getWorkingDay(day));
+            ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
+            if (sourceHours != null)
+            {
+               ProjectCalendarHours targetHours = targetWeek.addCalendarHours(day);
+               for(DateRange range : sourceHours)
+               {
+                  targetHours.addRange(range);
+               }
+            }
+         }
       }
    }
 }
