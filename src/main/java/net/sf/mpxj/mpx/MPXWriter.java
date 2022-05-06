@@ -594,7 +594,8 @@ public final class MPXWriter extends AbstractProjectWriter
          do
          {
             newName = name + " " + (index++);
-         } while (m_calendarNameSet.contains(newName));
+         }
+         while (m_calendarNameSet.contains(newName));
 
          name = newName;
       }
