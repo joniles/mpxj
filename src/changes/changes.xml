@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.5.0">
 			<action dev="joniles" type="update">Updated `MPXWriter` to ensure: calendar names are quoted if necessary, all calendars have names, all calendar names are unique.</action>
+			<action dev="joniles" type="update">Updated `MPXReader` to recognise `wk` as a valid time unit.</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>

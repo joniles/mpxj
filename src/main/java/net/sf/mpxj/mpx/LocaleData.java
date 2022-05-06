@@ -198,6 +198,7 @@ public final class LocaleData extends ListResourceBundle
       TIME_UNITS_ARRAY_DATA[TimeUnit.WEEKS.getValue()] = new String[]
       {
          "w",
+         "wk",
          "weeks"
       };
 
