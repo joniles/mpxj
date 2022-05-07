@@ -623,10 +623,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create a list of exceptions
       //
-      if (!mpxjCalendar.getCalendarExceptions().isEmpty() || !mpxjCalendar.getWorkWeeks().isEmpty())
-      {
-         writeExceptions(mpxjCalendar, calendar, dayList);
-      }
+      writeExceptions(mpxjCalendar, calendar, dayList);
 
       //
       // Do not add a weekdays tag to the calendar unless it has valid entries.
@@ -783,6 +780,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       // Exceptions in an MSPDI file need to be sorted, or they are ignored.
       List<ProjectCalendarException> exceptions = new ArrayList<>(mpxjCalendar.getCalendarExceptions());
+      if (exceptions.isEmpty())
+      {
+         return;
+      }
       Collections.sort(exceptions);
 
       Exceptions ce = m_factory.createProjectCalendarsCalendarExceptions();
