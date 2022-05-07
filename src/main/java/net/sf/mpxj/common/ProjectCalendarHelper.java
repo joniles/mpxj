@@ -61,7 +61,7 @@ public final class ProjectCalendarHelper
       newCalendar.setUniqueID(calendar.getUniqueID());
       populateDays(newCalendar, calendar);
       populateWorkingWeeks(newCalendar, calendar);
-      populateExceptions(newCalendar, calendar);
+      mergeExceptions(newCalendar, calendar);
 
       return newCalendar;
    }
@@ -125,21 +125,33 @@ public final class ProjectCalendarHelper
    }
 
    /**
-    * Copies exceptions into a temporary flattened calendar.
+    * Merge exceptions recursively from the source calendar (and any calendars from which it is derived)
+    * into the target calendar.
     *
-    * @param target flattened calendar
-    * @param source source calendar
+    * @param target target calendar to receive exceptions
+    * @param source source calendar from which exceptions are read
     */
-   private static void populateExceptions(ProjectCalendar target, ProjectCalendar source)
+   public static void mergeExceptions(ProjectCalendar target, ProjectCalendar source)
    {
-      // We create a copy of the current expanded exceptions as adding new exceptions
-      // to the calendar will clear the original list.
+      mergeExceptions(target, source.getCalendarExceptions());
+
+      // Work down the hierarchy adding any exceptions which haven't been overridden
+      // by calendars higher up the hierarchy.
+      ProjectCalendar parent = source.getParent();
+      if (parent != null)
+      {
+         mergeExceptions(target, parent);
+      }
+   }
+
+   public static void mergeExceptions(ProjectCalendar target, List<ProjectCalendarException> sourceExceptions)
+   {
       List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
 
-      for (ProjectCalendarException sourceException : source.getCalendarExceptions())
+      for (ProjectCalendarException sourceException : sourceExceptions)
       {
          // For each source exception we need to see if it collides with an existing exception
-         // in the target calendar. To do this wek compare the expanded version of the source exception
+         // in the target calendar. To do this we compare the expanded version of the source exception
          // with the expanded version of all the target calendar exceptions.
          boolean collision = false;
          List<ProjectCalendarException> expandedSourceExceptions = sourceException.getExpandedExceptions();
@@ -154,7 +166,7 @@ public final class ProjectCalendarHelper
 
          if (collision)
          {
-            // If we have a collision then we can't add the exception in it original form.
+            // If we have a collision then we can't add the exception in its original form.
             // We'll expand it and add any of the expanded exception which don't collide.
             // This gives us a union of the exceptions, allowing the target calendar
             // exceptions to override those in the source calendar where they collide.
@@ -181,14 +193,6 @@ public final class ProjectCalendarHelper
                newException.addRange(range);
             }
          }
-      }
-
-      // Work down the hierarchy adding any exceptions which haven't been overridden
-      // by calendars higher up the hierarchy.
-      ProjectCalendar parent = source.getParent();
-      if (parent != null)
-      {
-         populateExceptions(target, parent);
       }
    }
 

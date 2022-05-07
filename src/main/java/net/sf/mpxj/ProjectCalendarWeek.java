@@ -365,9 +365,21 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
          throw new UnsupportedOperationException();
       }
 
+      // Avoid generating exceptions beyond the bounds of the project
       List<ProjectCalendarException> result = new ArrayList<>();
+      Date earliestStartDate = m_calendar.getParentFile().getEarliestStartDate();
       Date fromDate = m_dateRange.getStart();
+      if (DateHelper.compare(earliestStartDate, fromDate) > 0)
+      {
+         fromDate = earliestStartDate;
+      }
+
+      Date latestFinishDate = m_calendar.getParentFile().getLatestFinishDate();
       Date toDate = m_dateRange.getEnd();
+      if (DateHelper.compare(toDate, latestFinishDate) > 0)
+      {
+         toDate = latestFinishDate;
+      }
 
       //
       // Generate a recurring exception for each day
@@ -380,14 +392,20 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
          }
 
          ProjectCalendarException ex = new ProjectCalendarException(fromDate, toDate);
-         for (DateRange hours : getCalendarHours(day))
+         ProjectCalendarHours hours = getCalendarHours(day);
+         // TODO: for consistency this should never be null, just empty?
+         if (hours != null)
          {
-            ex.addRange(hours);
+            for (DateRange range : hours)
+            {
+               ex.addRange(range);
+            }
          }
 
          RecurringData recurrence = new RecurringData();
          recurrence.setRecurrenceType(RecurrenceType.WEEKLY);
          recurrence.setStartDate(fromDate);
+         recurrence.setFinishDate(toDate);
          recurrence.setUseEndDate(true);
          recurrence.setWeeklyDay(day, true);
          ex.setRecurring(recurrence);
