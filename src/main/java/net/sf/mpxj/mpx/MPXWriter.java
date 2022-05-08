@@ -378,15 +378,14 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      if (!record.getExpandedCalendarExceptions().isEmpty())
+      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(record);
+      if (!expandedExceptions.isEmpty())
       {
          //
          // A quirk of MS Project is that these exceptions must be
          // in date order in the file, otherwise they are ignored.
-         // The getExpandedCalendarExceptions method now guarantees that
-         // the exceptions list is sorted when retrieved.
          //
-         for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
+         for (ProjectCalendarException ex : expandedExceptions)
          {
             writeCalendarException(record, ex);
          }

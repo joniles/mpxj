@@ -96,6 +96,29 @@ public final class ProjectCalendarHelper
       return derivedCalendar;
    }
 
+   public static List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
+   {
+      List<ProjectCalendarException> result;
+
+      if (calendar.getWorkWeeks().isEmpty())
+      {
+         result = calendar.getExpandedCalendarExceptions();
+      }
+      else
+      {
+         ProjectCalendar temporaryCalendar = new ProjectCalendar(calendar.getParentFile());
+         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
+         for (ProjectCalendarWeek week : calendar.getWorkWeeks())
+         {
+            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions());
+         }
+
+         result = temporaryCalendar.getExpandedCalendarExceptions();
+      }
+
+      return result;
+   }
+
    /**
     * Copies days and hours to a temporary flattened calendar.
     *

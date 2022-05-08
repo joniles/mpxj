@@ -705,18 +705,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
-   private List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
-   {
-      ProjectCalendar temporaryCalendar = new ProjectCalendar(calendar.getParentFile());
-      ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
-      for (ProjectCalendarWeek week : calendar.getWorkWeeks())
-      {
-         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions());
-      }
-
-      return temporaryCalendar.getExpandedCalendarExceptions();
-   }
-
    /**
     * Write exceptions in the format used by MSPDI files prior to Project 2007.
     *
@@ -725,15 +713,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeExceptions9(ProjectCalendar mpxjCalendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
-      List<ProjectCalendarException> exceptions;
-      if (mpxjCalendar.getWorkWeeks().isEmpty())
-      {
-         exceptions = mpxjCalendar.getExpandedCalendarExceptions();
-      }
-      else
-      {
-         exceptions = getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
-      }
+      List<ProjectCalendarException> exceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
 
       // Exceptions in an MSPDI file need to be sorted, or they are ignored.
       // Expanded exceptions from a calendar are sorted by default.
