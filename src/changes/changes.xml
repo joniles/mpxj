@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Updated `MPXReader` to recognise `wk` as a valid time unit.</action>
 			<action dev="joniles" type="update">Updated `MPXWriter`, `PrimaveraPMFileWriter`, `SDEFWriter` and `PlannerWriter` to ensure any working weeks defined by a calendar are represented by exceptons.</action>
 			<action dev="joniles" type="update">Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.</action>
+			<action dev="joniles" type="update">Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>
