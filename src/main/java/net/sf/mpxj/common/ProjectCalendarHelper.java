@@ -252,7 +252,7 @@ public final class ProjectCalendarHelper
             if (sourceHours != null)
             {
                ProjectCalendarHours targetHours = targetWeek.addCalendarHours(day);
-               for(DateRange range : sourceHours)
+               for (DateRange range : sourceHours)
                {
                   targetHours.addRange(range);
                }
