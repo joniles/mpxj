@@ -591,6 +591,7 @@ final class PrimaveraPMProjectWriter
          xmlStandardWorkWeek.getStandardWorkHours().add(xmlHours);
          xmlHours.setDayOfWeek(getDayName(day));
 
+         // Working days/hours are not inherited between calendars, just exceptions.
          for (DateRange range : mpxj.getHours(day))
          {
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
