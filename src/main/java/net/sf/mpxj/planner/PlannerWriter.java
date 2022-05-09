@@ -60,6 +60,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -333,7 +334,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void processExceptionDays(ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
    {
-      for (ProjectCalendarException mpxjCalendarException : mpxjCalendar.getExpandedCalendarExceptions())
+      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
+      for (ProjectCalendarException mpxjCalendarException : expandedExceptions)
       {
          Date rangeStartDay = mpxjCalendarException.getFromDate();
          Date rangeEndDay = mpxjCalendarException.getToDate();

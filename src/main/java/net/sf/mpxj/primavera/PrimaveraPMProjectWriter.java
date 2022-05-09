@@ -56,6 +56,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
@@ -603,12 +604,13 @@ final class PrimaveraPMProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      if (!mpxj.getCalendarExceptions().isEmpty())
+      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
+      if (!expandedExceptions.isEmpty())
       {
          Calendar calendar = DateHelper.popCalendar();
          Set<Date> exceptionDates = new HashSet<>();
 
-         for (ProjectCalendarException mpxjException : mpxj.getExpandedCalendarExceptions())
+         for (ProjectCalendarException mpxjException : expandedExceptions)
          {
             calendar.setTime(mpxjException.getFromDate());
             while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())

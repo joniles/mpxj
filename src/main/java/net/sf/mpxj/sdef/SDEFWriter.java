@@ -58,6 +58,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -198,12 +199,13 @@ public final class SDEFWriter extends AbstractProjectWriter
    {
       for (ProjectCalendar record : records)
       {
-         if (!record.getCalendarExceptions().isEmpty())
+         List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(record);
+         if (!expandedExceptions.isEmpty())
          {
             List<String> formattedExceptions = new ArrayList<>();
             String recordPrefix = "HOLI " + SDEFmethods.lset(record.getUniqueID().toString(), 2);
 
-            for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
+            for (ProjectCalendarException ex : expandedExceptions)
             {
                generateCalendarExceptions(ex, formattedExceptions);
             }
