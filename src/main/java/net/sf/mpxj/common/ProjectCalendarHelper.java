@@ -96,6 +96,15 @@ public final class ProjectCalendarHelper
       return derivedCalendar;
    }
 
+   /**
+    * Expand any exceptions in the given calendar, and include any working weeks
+    * defined by this calendar as exceptions. This is typically used to communicate
+    * working time accurately when the consuming application does not have the concept
+    * of working weeks.
+    *
+    * @param calendar calendar to process
+    * @return expanded exceptions, including working weeks
+    */
    public static List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
    {
       List<ProjectCalendarException> result;
@@ -120,34 +129,6 @@ public final class ProjectCalendarHelper
    }
 
    /**
-    * Copies days and hours to a temporary flattened calendar.
-    *
-    * @param target target flattened calendar
-    * @param source source calendar
-    */
-   private static void populateDays(ProjectCalendar target, ProjectCalendar source)
-   {
-      for (Day day : Day.values())
-      {
-         // Populate day types and hours
-         ProjectCalendarHours hours = source.getHours(day);
-         ProjectCalendarHours newHours = target.addCalendarHours(day);
-         if (hours == null || hours.getRangeCount() == 0)
-         {
-            target.setWorkingDay(day, DayType.NON_WORKING);
-         }
-         else
-         {
-            target.setWorkingDay(day, DayType.WORKING);
-            for (DateRange range : hours)
-            {
-               newHours.addRange(range);
-            }
-         }
-      }
-   }
-
-   /**
     * Merge exceptions recursively from the source calendar (and any calendars from which it is derived)
     * into the target calendar.
     *
@@ -167,6 +148,12 @@ public final class ProjectCalendarHelper
       }
    }
 
+   /**
+    * Merge the supplied list of exceptions into the target calendar.
+    *
+    * @param target calendar into which the exceptions are merged
+    * @param sourceExceptions exceptions to merge
+    */
    public static void mergeExceptions(ProjectCalendar target, List<ProjectCalendarException> sourceExceptions)
    {
       List<ProjectCalendarException> expandedTargetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
@@ -219,6 +206,40 @@ public final class ProjectCalendarHelper
       }
    }
 
+   /**
+    * Copies days and hours from one calendar to another.
+    *
+    * @param target target calendar
+    * @param source source calendar
+    */
+   private static void populateDays(ProjectCalendar target, ProjectCalendar source)
+   {
+      for (Day day : Day.values())
+      {
+         // Populate day types and hours
+         ProjectCalendarHours hours = source.getHours(day);
+         ProjectCalendarHours newHours = target.addCalendarHours(day);
+         if (hours == null || hours.getRangeCount() == 0)
+         {
+            target.setWorkingDay(day, DayType.NON_WORKING);
+         }
+         else
+         {
+            target.setWorkingDay(day, DayType.WORKING);
+            for (DateRange range : hours)
+            {
+               newHours.addRange(range);
+            }
+         }
+      }
+   }
+
+   /**
+    * Copies working weeks from one calendar to another.
+    *
+    * @param target target calendar
+    * @param source source calendar
+    */
    private static void populateWorkingWeeks(ProjectCalendar target, ProjectCalendar source)
    {
       for (ProjectCalendarWeek sourceWeek : source.getWorkWeeks())

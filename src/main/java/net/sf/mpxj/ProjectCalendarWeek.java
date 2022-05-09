@@ -357,6 +357,12 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       m_days[day.getValue() - 1] = value;
    }
 
+   /**
+    * Converts this working week into a set of equivalent recurring exceptions.
+    * Note that this can't be applied to the default working week.
+    *
+    * @return recurring exceptions equivalent to this working week
+    */
    public List<ProjectCalendarException> convertToRecurringExceptions()
    {
       // We can't expand the default week
