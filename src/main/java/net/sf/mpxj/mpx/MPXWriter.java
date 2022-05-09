@@ -27,7 +27,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,6 +65,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -377,15 +377,14 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      if (!record.getExpandedCalendarExceptions().isEmpty())
+      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(record);
+      if (!expandedExceptions.isEmpty())
       {
          //
          // A quirk of MS Project is that these exceptions must be
          // in date order in the file, otherwise they are ignored.
-         // The getExpandedCalendarExceptions method now guarantees that
-         // the exceptions list is sorted when retrieved.
          //
-         for (ProjectCalendarException ex : record.getExpandedCalendarExceptions())
+         for (ProjectCalendarException ex : expandedExceptions)
          {
             writeCalendarException(record, ex);
          }
@@ -609,11 +608,7 @@ public final class MPXWriter extends AbstractProjectWriter
       ProjectCalendar result;
       if (calendar.isDerived())
       {
-         // Create a temporary "flattened" calendar
-         result = new ProjectCalendar(m_projectFile);
-         result.setName(calendar.getName());
-         populateDays(result, calendar);
-         populateExceptions(result, calendar);
+         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
          m_calendarNameMap.put(result.getUniqueID(), name);
       }
       else
@@ -622,72 +617,6 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
       return result;
-   }
-
-   /**
-    * Copies days and hours to a temporary flattened calendar.
-    *
-    * @param target target flattened calendar
-    * @param source source calendar
-    */
-   private void populateDays(ProjectCalendar target, ProjectCalendar source)
-   {
-      for (Day day : Day.values())
-      {
-         // Populate day types and hours
-         ProjectCalendarHours hours = source.getHours(day);
-         ProjectCalendarHours newHours = target.addCalendarHours(day);
-         if (hours == null || hours.getRangeCount() == 0)
-         {
-            target.setWorkingDay(day, DayType.NON_WORKING);
-         }
-         else
-         {
-            target.setWorkingDay(day, DayType.WORKING);
-            for (DateRange range : hours)
-            {
-               newHours.addRange(range);
-            }
-         }
-      }
-   }
-
-   /**
-    * Copies exceptions into a temporary flattened calendar.
-    *
-    * @param target flattened calendar
-    * @param source source calendar
-    */
-   private void populateExceptions(ProjectCalendar target, ProjectCalendar source)
-   {
-      // We create a copy of the current expanded exceptions as adding new exceptions
-      // to the calendar will clear the original list.
-      List<ProjectCalendarException> targetExceptions = new ArrayList<>(target.getExpandedCalendarExceptions());
-
-      for (ProjectCalendarException exception : source.getExpandedCalendarExceptions())
-      {
-         // We're dealing with expanded exceptions, which each cover a single day.
-         // Therefore, if we don't have an exception in the target calendar
-         // whose range matches the source exception, we can add the source exception
-         // to the target calendar. If we do find a match, the target calendar's exception
-         // overrides the source calendar's exception, so we can ignore it.
-         if (targetExceptions.stream().noneMatch(e -> e.contains(exception)))
-         {
-            ProjectCalendarException newException = target.addCalendarException(exception.getFromDate(), exception.getToDate());
-            for (DateRange range : exception)
-            {
-               newException.addRange(range);
-            }
-         }
-      }
-
-      // Work down the hierarchy adding any exceptions which haven't been overridden
-      // by calendars higher up the hierarchy.
-      ProjectCalendar parent = source.getParent();
-      if (parent != null)
-      {
-         populateExceptions(target, parent);
-      }
    }
 
    /**
@@ -710,19 +639,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
       else
       {
-         // We have a base calendar, or we are associated with multiple resources.
-         // We'll create a temporary derived calendar to ensure the definition will
-         // be recognised by MS Project.
-         result = new ProjectCalendar(m_projectFile);
-         result.setParent(calendar);
-         result.setName(resource.getName());
-         result.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-         result.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+         result = ProjectCalendarHelper.createTemporaryDerivedCalendar(calendar, resource);
       }
       return result;
    }
@@ -1152,7 +1069,7 @@ public final class MPXWriter extends AbstractProjectWriter
          result = stripLineBreaks(result, MPXConstants.EOL_PLACEHOLDER_STRING);
 
          //
-         // Finally we check to ensure that there are no embedded
+         // Finally, we check to ensure that there are no embedded
          // quotes or separator characters in the value. If there are, then
          // we quote the value and escape any existing quote characters.
          //

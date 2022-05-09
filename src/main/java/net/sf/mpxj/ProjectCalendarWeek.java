@@ -26,6 +26,10 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -308,7 +312,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public DayType getWorkingDay(Day day)
    {
-      return (m_days[day.getValue() - 1]);
+      return m_days[day.getValue() - 1];
    }
 
    /**
@@ -351,6 +355,71 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       }
 
       m_days[day.getValue() - 1] = value;
+   }
+
+   /**
+    * Converts this working week into a set of equivalent recurring exceptions.
+    * Note that this can't be applied to the default working week.
+    *
+    * @return recurring exceptions equivalent to this working week
+    */
+   public List<ProjectCalendarException> convertToRecurringExceptions()
+   {
+      // We can't expand the default week
+      if (m_dateRange == null)
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      // Avoid generating exceptions beyond the bounds of the project
+      List<ProjectCalendarException> result = new ArrayList<>();
+      Date earliestStartDate = m_calendar.getParentFile().getEarliestStartDate();
+      Date fromDate = m_dateRange.getStart();
+      if (DateHelper.compare(earliestStartDate, fromDate) > 0)
+      {
+         fromDate = earliestStartDate;
+      }
+
+      Date latestFinishDate = m_calendar.getParentFile().getLatestFinishDate();
+      Date toDate = m_dateRange.getEnd();
+      if (DateHelper.compare(toDate, latestFinishDate) > 0)
+      {
+         toDate = latestFinishDate;
+      }
+
+      //
+      // Generate a recurring exception for each day
+      //
+      for (Day day : Day.values())
+      {
+         if (getWorkingDay(day) == DayType.DEFAULT)
+         {
+            continue;
+         }
+
+         ProjectCalendarException ex = new ProjectCalendarException(fromDate, toDate);
+         ProjectCalendarHours hours = getCalendarHours(day);
+         // TODO: for consistency this should never be null, just empty?
+         if (hours != null)
+         {
+            for (DateRange range : hours)
+            {
+               ex.addRange(range);
+            }
+         }
+
+         RecurringData recurrence = new RecurringData();
+         recurrence.setRecurrenceType(RecurrenceType.WEEKLY);
+         recurrence.setStartDate(fromDate);
+         recurrence.setFinishDate(toDate);
+         recurrence.setUseEndDate(true);
+         recurrence.setWeeklyDay(day, true);
+         ex.setRecurring(recurrence);
+
+         result.add(ex);
+      }
+
+      return result;
    }
 
    @Override public int compareTo(ProjectCalendarWeek o)
