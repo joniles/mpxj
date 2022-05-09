@@ -1,8 +1,8 @@
 /*
- * file:       ActivityType.java
+ * file:       CalendarType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2021
- * date:       2021-02-10
+ * copyright:  (c) Packwood Software 2022
+ * date:       2022-05-09
  */
 
 /*
@@ -24,14 +24,11 @@
 package net.sf.mpxj;
 
 /**
- * P6 Activity type.
+ * P6 Calendar Types.
  */
-public enum ActivityType
+public enum CalendarType
 {
-   TASK_DEPENDENT,
-   RESOURCE_DEPENDENT,
-   LEVEL_OF_EFFORT,
-   START_MILESTONE,
-   FINISH_MILESTONE,
-   WBS_SUMMARY
+   GLOBAL,
+   PROJECT,
+   RESOURCE
 }

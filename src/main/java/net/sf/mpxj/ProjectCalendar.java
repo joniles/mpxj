@@ -2129,6 +2129,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private Integer m_calendarMinutesPerWeek;
    private Integer m_calendarMinutesPerMonth;
    private Integer m_calendarMinutesPerYear;
+   private CalendarType m_type;
 
    /**
     * Default base calendar name to use when none is supplied.
