@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -108,11 +109,13 @@ public final class SDEFWriter extends AbstractProjectWriter
 
       try
       {
+         List<ProjectCalendar> calendars = m_projectFile.getTasks().stream().map(t -> t.getEffectiveCalendar()).distinct().map(c -> ProjectCalendarHelper.createTemporaryFlattenedCalendar(c)).collect(Collectors.toList());
+
          // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
          writeFileCreationRecord(); // VOLM
          writeProjectProperties(m_projectFile.getProjectProperties()); // PROJ
-         writeCalendars(m_projectFile.getCalendars()); // CLDR
-         writeExceptions(m_projectFile.getCalendars()); // HOLI
+         writeCalendars(calendars); // CLDR
+         writeExceptions(calendars); // HOLI
          writeTasks(m_projectFile.getTasks()); // ACTV
          writePredecessors(m_projectFile.getTasks()); // PRED
          // skipped UNIT cost record for now
@@ -309,15 +312,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
          m_buffer.append(formattedConstraintDate).append(" ");
          m_buffer.append(conType);
-         if (record.getCalendar() == null)
-         {
-            m_buffer.append("1 ");
-         }
-         else
-         {
-            m_buffer.append(SDEFmethods.lset(record.getCalendar().getUniqueID().toString(), 1)).append(" ");
-         }
-
+         m_buffer.append(SDEFmethods.lset(record.getEffectiveCalendar().getUniqueID().toString(), 1)).append(" ");
          m_buffer.append(BooleanHelper.getBoolean(record.getHammockCode()) ? "Y " : "  ");
          m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4)).append(" ");
