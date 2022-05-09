@@ -2076,6 +2076,29 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       return m_parent != null;
    }
 
+   public CalendarType getType()
+   {
+      return m_type;
+   }
+
+   public void setType(CalendarType type)
+   {
+      if (type != null)
+      {
+         m_type = type;
+      }
+   }
+
+   public boolean getPersonal()
+   {
+      return m_personal;
+   }
+
+   public void setPersonal(boolean personal)
+   {
+      m_personal = personal;
+   }
+
    /**
     * Parent calendar.
     */
@@ -2129,7 +2152,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private Integer m_calendarMinutesPerWeek;
    private Integer m_calendarMinutesPerMonth;
    private Integer m_calendarMinutesPerYear;
-   private CalendarType m_type;
+   private CalendarType m_type = CalendarType.GLOBAL;
+   private boolean m_personal;
 
    /**
     * Default base calendar name to use when none is supplied.
