@@ -359,23 +359,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       //plannerResource.getOvtRate();
       //plannerResource.getUnits();
       //plannerResource.getProperties();
-
-      ProjectCalendar calendar = mpxjResource.addCalendar();
-
-      calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
-
-      ProjectCalendar baseCalendar = m_projectFile.getCalendarByUniqueID(getInteger(plannerResource.getCalendar()));
-      if (baseCalendar == null)
-      {
-         baseCalendar = m_defaultCalendar;
-      }
-      calendar.setParent(baseCalendar);
+      mpxjResource.setCalendar(m_projectFile.getCalendarByUniqueID(getInteger(plannerResource.getCalendar())));
 
       m_eventManager.fireResourceReadEvent(mpxjResource);
    }
