@@ -213,7 +213,7 @@ Please see the legal folder within the distribution for details of the
 licences for the third party libraries used by MPXJ.
 
 ## Acknowledgements
-This product includes functionality provided by the following tools and libraries:
+This product includes functionality provided by:
 
 * [POI](http://poi.apache.org/).
 * [IKVM.NET](http://www.ikvm.net/).
@@ -222,3 +222,7 @@ This product includes functionality provided by the following tools and librarie
 * [ZLIB/CONTRIB](https://github.com/madler/zlib).
 * [JWAT](http://jwat.org/).
 * [JSOUP](http://jsoup.org/).
+
+This product has been built with the assistance of:
+
+* [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) Java Profiler
