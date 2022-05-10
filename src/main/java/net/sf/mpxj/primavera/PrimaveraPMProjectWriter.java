@@ -548,14 +548,33 @@ final class PrimaveraPMProjectWriter
    {
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
-         writeCalendar(calendar);
+         writeCalendar(normalizeCalendar(calendar));
       }
+   }
+
+   /**
+    * Tries to ensure that the calendar structure we write matches P6's expectations.
+    *
+    * @param calendar calendar to normalize
+    * @return normalized calendar
+    */
+   private ProjectCalendar normalizeCalendar(ProjectCalendar calendar)
+   {
+      ProjectCalendar result = calendar;
+      if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
+      {
+         // Global calendar in P6 are not derived from other calendars.
+         // If this calendar is marked as a global calendar and it is
+         // derived then we'll flatten it.
+         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
+      }
+      return result;
    }
 
    /**
     * This method writes data for an individual calendar to a PM XML file.
     *
-    * @param mpxj ProjectCalander instance
+    * @param mpxj ProjectCalendar instance
     */
    private void writeCalendar(ProjectCalendar mpxj)
    {
