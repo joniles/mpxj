@@ -580,8 +580,7 @@ final class PrimaveraPMProjectWriter
    {
       CalendarType xml = m_factory.createCalendarType();
       m_apibo.getCalendar().add(xml);
-
-      List<Resource> calendarResources = mpxj.getResources();
+      
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
