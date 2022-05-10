@@ -399,6 +399,29 @@
 </a>
 <h3>Uses of <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a> in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a></h3>
 <table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> that return <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#createTemporaryDerivedCalendar-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.Resource-">createTemporaryDerivedCalendar</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;baseCalendar,
+                              <a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
+<div class="block">Create a temporary derived calendar.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#createTemporaryFlattenedCalendar-net.sf.mpxj.ProjectCalendar-">createTemporaryFlattenedCalendar</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar)</code>
+<div class="block">Creates a temporary base calendar by flattening an existing calendar's
+ hierarchy.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
 <caption><span>Methods in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> with parameters of type <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
@@ -406,6 +429,42 @@
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#createTemporaryDerivedCalendar-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.Resource-">createTemporaryDerivedCalendar</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;baseCalendar,
+                              <a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
+<div class="block">Create a temporary derived calendar.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#createTemporaryFlattenedCalendar-net.sf.mpxj.ProjectCalendar-">createTemporaryFlattenedCalendar</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar)</code>
+<div class="block">Creates a temporary base calendar by flattening an existing calendar's
+ hierarchy.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&gt;</code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#getExpandedExceptionsWithWorkWeeks-net.sf.mpxj.ProjectCalendar-">getExpandedExceptionsWithWorkWeeks</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar)</code>
+<div class="block">Expand any exceptions in the given calendar, and include any working weeks
+ defined by this calendar as exceptions.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#mergeExceptions-net.sf.mpxj.ProjectCalendar-java.util.List-">mergeExceptions</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;target,
+               <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&gt;&nbsp;sourceExceptions)</code>
+<div class="block">Merge the supplied list of exceptions into the target calendar.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><span class="typeNameLabel">ProjectCalendarHelper.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/ProjectCalendarHelper.html#mergeExceptions-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.ProjectCalendar-">mergeExceptions</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;target,
+               <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;source)</code>
+<div class="block">Merge exceptions recursively from the source calendar (and any calendars from which it is derived)
+ into the target calendar.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">TimephasedCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
@@ -414,7 +473,7 @@
  format to make it easy to work with.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><span class="typeNameLabel">AbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/AbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
@@ -423,7 +482,7 @@
  format to make it easy to work with.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">TimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>

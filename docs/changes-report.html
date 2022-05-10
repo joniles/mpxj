@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2022-05-05</li>
+        <li id="publishDate">Last Published: 2022-05-10</li>
           </ul>
         </div>
       </header>
@@ -69,7 +69,31 @@
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
 <h3 id="a10.5.0">Release 10.5.0 &#x2013; unreleased</h3>
-<p>No changes in this release.</p></section><section>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `MPXWriter` to ensure: calendar names are quoted if necessary, all calendars have names, all calendar names are unique.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `MPXReader` to recognise `wk` as a valid time unit.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `MPXWriter`, `PrimaveraPMFileWriter`, `SDEFWriter` and `PlannerWriter` to ensure any working weeks defined by a calendar are represented by exceptons.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the &quot;legacy&quot; exception definition used by Microsoft Project prior to 2007.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a10.4.0">Release 10.4.0 &#x2013; 2022-05-05</h3>
 <table border="0" class="table table-striped">
 <tr class="a">

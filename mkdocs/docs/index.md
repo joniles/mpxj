@@ -214,6 +214,7 @@ licences for the third party libraries used by MPXJ.
 
 ## Acknowledgements
 This product includes functionality provided by the following tools and libraries:
+
 * [POI](http://poi.apache.org/).
 * [IKVM.NET](http://www.ikvm.net/).
 * [RTF Parser Kit](https://github.com/joniles/rtfparserkit). 

@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -233,94 +233,100 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparab
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#compareTo-net.sf.mpxj.ProjectCalendarWeek-">compareTo</a></span>(<a href="../../../net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj">ProjectCalendarWeek</a>&nbsp;o)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#convertToRecurringExceptions--">convertToRecurringExceptions</a></span>()</code>
+<div class="block">Converts this working week into a set of equivalent recurring exceptions.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getCalendar--">getCalendar</a></span>()</code>
 <div class="block">Retrieve the calendar to which this week belongs.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getCalendarHours-net.sf.mpxj.Day-">getCalendarHours</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method retrieves the calendar hours for the specified day.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DateRange.html" title="class in net.sf.mpxj">DateRange</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDateRange--">getDateRange</a></span>()</code>
 <div class="block">Retrieves the data range for which this week is valid.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getDays--">getDays</a></span>()</code>
 <div class="block">Retrieve an array representing the days of the week for this calendar.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours--">getHours</a></span>()</code>
 <div class="block">Retrieve an array representing all of the calendar hours defined
  by this calendar.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getHours-net.sf.mpxj.Day-">getHours</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method retrieves the calendar hours for the specified day.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getName--">getName</a></span>()</code>
 <div class="block">Calendar name.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#getWorkingDay-net.sf.mpxj.Day-">getWorkingDay</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">This method allows the retrieval of the actual working day flag,
  which can take the values DEFAULT, WORKING, or NONWORKING.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#isWorkingDay-net.sf.mpxj.Day-">isWorkingDay</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day)</code>
 <div class="block">Method indicating whether a day is a working or non-working day.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#removeHoursFromDay-net.sf.mpxj.ProjectCalendarHours-">removeHoursFromDay</a></span>(<a href="../../../net/sf/mpxj/ProjectCalendarHours.html" title="class in net.sf.mpxj">ProjectCalendarHours</a>&nbsp;hours)</code>
 <div class="block">Removes a set of calendar hours from the day to which they
  are currently attached.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setCalendar-net.sf.mpxj.ProjectCalendar-">setCalendar</a></span>(<a href="../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar)</code>
 <div class="block">Set the calendar to which this week belongs.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setDateRange-net.sf.mpxj.DateRange-">setDateRange</a></span>(<a href="../../../net/sf/mpxj/DateRange.html" title="class in net.sf.mpxj">DateRange</a>&nbsp;range)</code>
 <div class="block">Sets the date range for this week.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setName-java.lang.String-">setName</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
 <div class="block">Calendar name.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay-net.sf.mpxj.Day-boolean-">setWorkingDay</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day,
              boolean&nbsp;working)</code>
 <div class="block">convenience method for setting working or non-working days.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#setWorkingDay-net.sf.mpxj.Day-net.sf.mpxj.DayType-">setWorkingDay</a></span>(<a href="../../../net/sf/mpxj/Day.html" title="enum in net.sf.mpxj">Day</a>&nbsp;day,
              <a href="../../../net/sf/mpxj/DayType.html" title="enum in net.sf.mpxj">DayType</a>&nbsp;working)</code>
@@ -329,7 +335,7 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparab
  identify the required day.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectCalendarWeek.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -721,6 +727,21 @@ implements <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparab
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>day</code> - required day</dd>
 <dd><code>working</code> - flag indicating if the day is a working day</dd>
+</dl>
+</li>
+</ul>
+<a name="convertToRecurringExceptions--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>convertToRecurringExceptions</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/sf/mpxj/ProjectCalendarException.html" title="class in net.sf.mpxj">ProjectCalendarException</a>&gt;&nbsp;convertToRecurringExceptions()</pre>
+<div class="block">Converts this working week into a set of equivalent recurring exceptions.
+ Note that this can't be applied to the default working week.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>recurring exceptions equivalent to this working week</dd>
 </dl>
 </li>
 </ul>
