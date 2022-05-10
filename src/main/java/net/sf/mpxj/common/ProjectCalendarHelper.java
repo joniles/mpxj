@@ -59,6 +59,13 @@ public final class ProjectCalendarHelper
       ProjectCalendar newCalendar = new ProjectCalendar(calendar.getParentFile());
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
+      newCalendar.setType(calendar.getType());
+      newCalendar.setPersonal(calendar.getPersonal());
+      newCalendar.setCalendarMinutesPerDay(calendar.getCalendarMinutesPerDay());
+      newCalendar.setCalendarMinutesPerWeek(calendar.getCalendarMinutesPerWeek());
+      newCalendar.setCalendarMinutesPerMonth(calendar.getMinutesPerMonth());
+      newCalendar.setCalendarMinutesPerYear(calendar.getCalendarMinutesPerYear());
+
       populateDays(newCalendar, calendar);
       populateWorkingWeeks(newCalendar, calendar);
       mergeExceptions(newCalendar, calendar);
