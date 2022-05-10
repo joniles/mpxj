@@ -367,7 +367,7 @@ final class PrimaveraReader
       calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
       calendar.setType(CALENDAR_TYPE_MAP.get(row.getString("clndr_type")));
-      calendar.setPersonal(BooleanHelper.getBoolean(row.getBoolean("rsrc_private")));
+      calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       if (row.getBoolean("default_flag") && m_defaultCalendarID == null)
       {

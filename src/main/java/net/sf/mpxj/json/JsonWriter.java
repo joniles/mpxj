@@ -306,7 +306,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeMandatoryIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
       writeStringField("name", calendar.getName());
       writeStringField("type", calendar.getType().toString());
-      writeBooleanField("personal", calendar.getPersonal());
+      writeBooleanField("personal", Boolean.valueOf(calendar.getPersonal()));
       writeIntegerField("minutes_per_day", calendar.getCalendarMinutesPerDay());
       writeIntegerField("minutes_per_week", calendar.getCalendarMinutesPerWeek());
       writeIntegerField("minutes_per_month", calendar.getCalendarMinutesPerMonth());

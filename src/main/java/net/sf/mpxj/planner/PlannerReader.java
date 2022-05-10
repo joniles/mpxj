@@ -327,7 +327,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param plannerProject Root node of the Planner file
     */
-   private void readResources(Project plannerProject) throws MPXJException
+   private void readResources(Project plannerProject)
    {
       Resources resources = plannerProject.getResources();
       if (resources != null)
@@ -344,7 +344,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param plannerResource Resource data
     */
-   private void readResource(net.sf.mpxj.planner.schema.Resource plannerResource) throws MPXJException
+   private void readResource(net.sf.mpxj.planner.schema.Resource plannerResource)
    {
       Resource mpxjResource = m_projectFile.addResource();
 
