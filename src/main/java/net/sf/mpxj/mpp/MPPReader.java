@@ -172,7 +172,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          //
          // Prune unused resource calendars
          //
-         projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
+         projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResourceCount() == 0);
 
          //
          // Resource calendar post processing
@@ -186,7 +186,7 @@ public final class MPPReader extends AbstractProjectStreamReader
                if (calendar.isDerived())
                {
                   calendar.setType(CalendarType.RESOURCE);
-                  calendar.setPersonal(calendar.getResources().size() == 1);
+                  calendar.setPersonal(calendar.getResourceCount() == 1);
                }
 
                // Resource calendars without names inherit the resource name

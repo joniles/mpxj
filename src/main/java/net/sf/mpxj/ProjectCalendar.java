@@ -1197,6 +1197,11 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       return getResources().stream().findFirst().orElse(null);
    }
 
+   public int getResourceCount()
+   {
+      return (int)getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).count();
+   }
+
    /**
     * Sets the resource to which this calendar is linked. Note that this
     * method updates the calendar's name to be the same as the resource name.

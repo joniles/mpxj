@@ -216,7 +216,7 @@ public class CustomerDataTest
             project = null;
          }
 
-         if (project != null)
+         if (project != null && useFieldReporter())
          {
             FIELD_REPORTER.process(project);
          }
@@ -250,7 +250,10 @@ public class CustomerDataTest
     */
    @BeforeClass public static void initializeFieldReport()
    {
-      FIELD_REPORTER.clear();
+      if (useFieldReporter())
+      {
+         FIELD_REPORTER.clear();
+      }
    }
 
    /**
@@ -258,11 +261,16 @@ public class CustomerDataTest
     */
    @AfterClass public static void generateFieldReport() throws Exception
    {
-      if (OS_IS_WINDOWS && !JvmHelper.isIkvm())
+      if (useFieldReporter())
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
       }
+   }
+
+   private static boolean useFieldReporter()
+   {
+      return OS_IS_WINDOWS && !JvmHelper.isIkvm();
    }
 
    /**
@@ -296,7 +304,11 @@ public class CustomerDataTest
             System.err.println("Failed to validate Primavera database project baseline " + projectName);
             result = Boolean.FALSE;
          }
-         FIELD_REPORTER.process(project);
+
+         if (useFieldReporter())
+         {
+            FIELD_REPORTER.process(project);
+         }
       }
       catch (Exception e)
       {
@@ -446,7 +458,10 @@ public class CustomerDataTest
 
             //testWriters(mpxj);
 
-            FIELD_REPORTER.process(mpxj);
+            if (useFieldReporter())
+            {
+               FIELD_REPORTER.process(mpxj);
+            }
          }
 
          catch (Exception ex)

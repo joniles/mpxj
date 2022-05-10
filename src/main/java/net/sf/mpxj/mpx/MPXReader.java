@@ -1505,7 +1505,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             if (calendar.isDerived())
             {
                calendar.setType(CalendarType.RESOURCE);
-               calendar.setPersonal(calendar.getResources().size() == 1);
+               calendar.setPersonal(calendar.getResourceCount() == 1);
             }
          }
       }
