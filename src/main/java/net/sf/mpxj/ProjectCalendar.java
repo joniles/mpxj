@@ -1176,6 +1176,38 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * This method retrieves the calendar hours for the specified day.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param day Day instance
+    * @return calendar hours
+    */
+   public ProjectCalendarHours getHours(Day day)
+   {
+      ProjectCalendarHours result = getCalendarHours(day);
+      if (result == null)
+      {
+         //
+         // If this is a base calendar, and we have no hours, then we
+         // have a problem - so we add the default hours and try again
+         //
+         if (m_parent == null)
+         {
+            // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
+            addDefaultCalendarHours(day);
+            result = getCalendarHours(day);
+         }
+         else
+         {
+            result = m_parent.getHours(day);
+         }
+      }
+      return result;
+   }
+
+   /**
     * Modifier method to set the unique ID of this calendar.
     *
     * @param uniqueID unique identifier
@@ -2060,7 +2092,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          case WORKING:
          {
-            ranges = week.getHours(day);
+            ranges = week.getCalendarHours(day);
             break;
          }
 

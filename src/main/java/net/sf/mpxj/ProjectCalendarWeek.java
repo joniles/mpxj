@@ -137,38 +137,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * This method retrieves the calendar hours for the specified day.
-    * Note that if this is a derived calendar, then this method
-    * will refer to the base calendar where no hours are specified
-    * in the derived calendar.
-    *
-    * @param day Day instance
-    * @return calendar hours
-    */
-   public ProjectCalendarHours getHours(Day day)
-   {
-      ProjectCalendarHours result = getCalendarHours(day);
-      if (result == null)
-      {
-         //
-         // If this is a base calendar, and we have no hours, then we
-         // have a problem - so we add the default hours and try again
-         //
-         if (m_calendar.getParent() == null)
-         {
-            // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
-            addDefaultCalendarHours(day);
-            result = getCalendarHours(day);
-         }
-         else
-         {
-            result = m_calendar.getParent().getHours(day);
-         }
-      }
-      return result;
-   }
-
-   /**
     * This is a convenience method used to add a default set of calendar
     * hours to a calendar.
     */
@@ -411,7 +379,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       {
          pw.println("   [Day " + day);
          pw.println("      type=" + getWorkingDay(day));
-         pw.println("      hours=" + getHours(day));
+         pw.println("      hours=" + getCalendarHours(day));
          pw.println("   ]");
       }
 

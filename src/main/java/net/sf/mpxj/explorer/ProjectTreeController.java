@@ -359,7 +359,7 @@ public class ProjectTreeController
          }
       };
       parentNode.add(dayNode);
-      addHours(dayNode, calendar.getHours(day));
+      addHours(dayNode, calendar.getCalendarHours(day));
    }
 
    /**
