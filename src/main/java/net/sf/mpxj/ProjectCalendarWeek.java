@@ -220,7 +220,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * convenience method for setting working or non-working days.
+    * Convenience method for setting working or non-working days.
     *
     * @param day required day
     * @param working flag indicating if the day is a working day
@@ -240,25 +240,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     */
    public void setWorkingDay(Day day, DayType working)
    {
-      DayType value;
-
-      if (working == null)
-      {
-         if (m_calendar.isDerived())
-         {
-            value = DayType.DEFAULT;
-         }
-         else
-         {
-            value = DayType.WORKING;
-         }
-      }
-      else
-      {
-         value = working;
-      }
-
-      m_days[day.getValue() - 1] = value;
+      m_days[day.getValue() - 1] = working;
    }
 
    /**
