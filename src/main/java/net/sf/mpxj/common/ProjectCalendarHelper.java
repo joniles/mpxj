@@ -126,7 +126,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
          for (ProjectCalendarWeek week : calendar.getWorkWeeks())
          {
-            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions());
+            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(calendar));
          }
 
          result = temporaryCalendar.getExpandedCalendarExceptions();

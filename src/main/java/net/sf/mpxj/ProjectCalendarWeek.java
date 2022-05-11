@@ -37,27 +37,6 @@ import net.sf.mpxj.common.DateHelper;
  */
 public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 {
-
-   /**
-    * Set the calendar to which this week belongs.
-    *
-    * @param calendar parent calendar
-    */
-   public void setCalendar(ProjectCalendar calendar)
-   {
-      m_calendar = calendar;
-   }
-
-   /**
-    * Retrieve the calendar to which this week belongs.
-    *
-    * @return parent calendar
-    */
-   public ProjectCalendar getCalendar()
-   {
-      return m_calendar;
-   }
-
    /**
     * Calendar name.
     *
@@ -249,7 +228,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
     *
     * @return recurring exceptions equivalent to this working week
     */
-   public List<ProjectCalendarException> convertToRecurringExceptions()
+   public List<ProjectCalendarException> convertToRecurringExceptions(ProjectCalendar calendar)
    {
       // We can't expand the default week
       if (m_dateRange == null)
@@ -259,14 +238,14 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
 
       // Avoid generating exceptions beyond the bounds of the project
       List<ProjectCalendarException> result = new ArrayList<>();
-      Date earliestStartDate = m_calendar.getParentFile().getEarliestStartDate();
+      Date earliestStartDate = calendar.getParentFile().getEarliestStartDate();
       Date fromDate = m_dateRange.getStart();
       if (DateHelper.compare(earliestStartDate, fromDate) > 0)
       {
          fromDate = earliestStartDate;
       }
 
-      Date latestFinishDate = m_calendar.getParentFile().getLatestFinishDate();
+      Date latestFinishDate = calendar.getParentFile().getLatestFinishDate();
       Date toDate = m_dateRange.getEnd();
       if (DateHelper.compare(toDate, latestFinishDate) > 0)
       {
@@ -335,11 +314,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       pw.flush();
       return (os.toString());
    }
-
-   /**
-    * Parent calendar.
-    */
-   private ProjectCalendar m_calendar;
 
    /**
     * Working week name.

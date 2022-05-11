@@ -54,7 +54,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendar(ProjectFile file)
    {
       m_projectFile = file;
-      setCalendar(this);
 
       if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -306,7 +305,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendarWeek addWorkWeek()
    {
       ProjectCalendarWeek week = new ProjectCalendarWeek();
-      week.setCalendar(this);
       m_workWeeks.add(week);
       m_weeksSorted = false;
       clearWorkingDateCache();
