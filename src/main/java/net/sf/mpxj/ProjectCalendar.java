@@ -1175,7 +1175,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the number of resources using this calendar.
-    * 
+    *
     * @return number of resources
     */
    public int getResourceCount()
@@ -2065,7 +2065,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Retrieve the calendar type. Defaults to Global.
-    * 
+    *
     * @return calendar type
     */
    public CalendarType getType()
@@ -2076,7 +2076,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Set the calendar type.
     * This will ignore any attempt to set the type to {@code null}
-    * 
+    *
     * @param type calendar type
     */
    public void setType(CalendarType type)
@@ -2090,7 +2090,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    /**
     * Returns true if this is a personal calendar.
     * Defaults to false.
-    * 
+    *
     * @return true if a personal calendar
     */
    public boolean getPersonal()
@@ -2100,7 +2100,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
    /**
     * Set the flag to indicate if this is  personal calendar.
-    * 
+    *
     * @param personal true if this is a personal calendar
     */
    public void setPersonal(boolean personal)

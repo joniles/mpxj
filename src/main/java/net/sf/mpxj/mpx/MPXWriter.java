@@ -397,6 +397,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write calendar hours.
     *
     * @param parentCalendar parent calendar instance
+    * @param day day to which these hours are attached
     * @param record calendar hours instance
     */
    private void writeCalendarHours(ProjectCalendar parentCalendar, Day day, ProjectCalendarHours record) throws IOException

@@ -70,7 +70,6 @@ import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
