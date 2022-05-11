@@ -41,7 +41,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarDateRanges;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
@@ -179,7 +179,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param ranges time ranges from a Synchro table
     * @param container time range container
     */
-   private void processRanges(List<DateRange> ranges, ProjectCalendarDateRanges container)
+   private void processRanges(List<DateRange> ranges, ProjectCalendarHours container)
    {
       if (ranges != null)
       {

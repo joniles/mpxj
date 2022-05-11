@@ -50,7 +50,7 @@ import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarDateRanges;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.RecurringData;
@@ -371,7 +371,7 @@ public final class JsonWriter extends AbstractProjectWriter
     *
     * @param hours working hours
     */
-   private void writeCalendarHours(ProjectCalendarDateRanges hours) throws IOException
+   private void writeCalendarHours(ProjectCalendarHours hours) throws IOException
    {
       if (hours != null && hours.getRangeCount() != 0)
       {

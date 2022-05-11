@@ -368,12 +368,12 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
-      ProjectCalendarHours[] hours = record.getHours();
-      for (ProjectCalendarHours hour : hours)
+      for (Day day : Day.values())
       {
-         if (hour != null)
+         ProjectCalendarHours hours = record.getCalendarHours(day);
+         if (hours != null)
          {
-            writeCalendarHours(record, hour);
+            writeCalendarHours(record, day, hours);
          }
       }
 
@@ -397,9 +397,10 @@ public final class MPXWriter extends AbstractProjectWriter
     * Write calendar hours.
     *
     * @param parentCalendar parent calendar instance
+    * @param day day to which these hours are attached
     * @param record calendar hours instance
     */
-   private void writeCalendarHours(ProjectCalendar parentCalendar, ProjectCalendarHours record) throws IOException
+   private void writeCalendarHours(ProjectCalendar parentCalendar, Day day, ProjectCalendarHours record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -434,7 +435,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_buffer.append(recordNumber);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDay()));
+      m_buffer.append(format(day));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range1.getStart())));
       m_buffer.append(m_delimiter);

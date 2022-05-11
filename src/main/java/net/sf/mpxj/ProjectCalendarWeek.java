@@ -101,17 +101,6 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * Adds a set of hours to this calendar without assigning them to
-    * a particular day.
-    *
-    * @return calendar hours instance
-    */
-   public ProjectCalendarHours addCalendarHours()
-   {
-      return new ProjectCalendarHours(this);
-   }
-
-   /**
     * This method retrieves the calendar hours for the specified day.
     * Note that this method only returns the hours specification for the
     * current calendar.If this is a derived calendar, it does not refer to
@@ -180,49 +169,26 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    }
 
    /**
-    * Used to add working hours to the calendar. Note that the MPX file
-    * definition allows a maximum of 7 calendar hours records to be added to
-    * a single calendar.
+    * Used to add working hours to the calendar.
     *
-    * @param day day number
+    * @param day target day
     * @return new ProjectCalendarHours instance
     */
    public ProjectCalendarHours addCalendarHours(Day day)
    {
-      ProjectCalendarHours bch = new ProjectCalendarHours(this);
-      bch.setDay(day);
+      ProjectCalendarHours bch = new ProjectCalendarHours();
       m_hours[day.getValue() - 1] = bch;
-      return (bch);
+      return bch;
    }
 
    /**
-    * Attaches a pre-existing set of hours to the correct
-    * day within the calendar.
+    * Used to remove working hours from the calendar.
     *
-    * @param hours calendar hours instance
+    * @param day target day
     */
-   public void attachHoursToDay(ProjectCalendarHours hours)
+   public void removeCalendarHours(Day day)
    {
-      if (hours.getParentCalendar() != this)
-      {
-         throw new IllegalArgumentException();
-      }
-      m_hours[hours.getDay().getValue() - 1] = hours;
-   }
-
-   /**
-    * Removes a set of calendar hours from the day to which they
-    * are currently attached.
-    *
-    * @param hours calendar hours instance
-    */
-   public void removeHoursFromDay(ProjectCalendarHours hours)
-   {
-      if (hours.getParentCalendar() != this)
-      {
-         throw new IllegalArgumentException();
-      }
-      m_hours[hours.getDay().getValue() - 1] = null;
+      m_hours[day.getValue() - 1] = null;
    }
 
    /**

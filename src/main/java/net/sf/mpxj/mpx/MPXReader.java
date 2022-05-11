@@ -267,8 +267,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          {
             if (m_lastBaseCalendar != null)
             {
-               ProjectCalendarHours hours = m_lastBaseCalendar.addCalendarHours();
-               populateCalendarHours(record, hours);
+               populateCalendarHours(record, m_lastBaseCalendar);
             }
 
             break;
@@ -346,8 +345,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          {
             if (m_lastResourceCalendar != null)
             {
-               ProjectCalendarHours hours = m_lastResourceCalendar.addCalendarHours();
-               populateCalendarHours(record, hours);
+               populateCalendarHours(record, m_lastResourceCalendar);
             }
 
             break;
@@ -619,11 +617,11 @@ public final class MPXReader extends AbstractProjectStreamReader
     * Populates a calendar hours instance.
     *
     * @param record MPX record
-    * @param hours calendar hours instance
+    * @param calendar parent calendar
     */
-   private void populateCalendarHours(Record record, ProjectCalendarHours hours) throws MPXJException
+   private void populateCalendarHours(Record record, ProjectCalendar calendar) throws MPXJException
    {
-      hours.setDay(Day.getInstance(NumberHelper.getInt(record.getInteger(0))));
+      ProjectCalendarHours hours = calendar.addCalendarHours(Day.getInstance(NumberHelper.getInt(record.getInteger(0))));
       addDateRange(hours, record.getTime(1), record.getTime(2));
       addDateRange(hours, record.getTime(3), record.getTime(4));
       addDateRange(hours, record.getTime(5), record.getTime(6));
