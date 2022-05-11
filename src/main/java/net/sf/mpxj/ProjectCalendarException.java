@@ -35,7 +35,7 @@ import net.sf.mpxj.common.NumberHelper;
  * an MPX file. It is used to define exceptions to the working days described
  * in both base and resource calendars.
  */
-public final class ProjectCalendarException extends ProjectCalendarDateRanges implements Comparable<ProjectCalendarException>
+public final class ProjectCalendarException extends ProjectCalendarHours implements Comparable<ProjectCalendarException>
 {
    /**
     * Package private constructor.

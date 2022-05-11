@@ -475,7 +475,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       Date result = m_startTimeCache.get(date);
       if (result == null)
       {
-         ProjectCalendarDateRanges ranges = getRanges(date, null, null);
+         ProjectCalendarHours ranges = getRanges(date, null, null);
          if (ranges == null)
          {
             result = getParentFile().getProjectProperties().getDefaultStartTime();
@@ -503,7 +503,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       if (date != null)
       {
-         ProjectCalendarDateRanges ranges = getRanges(date, null, null);
+         ProjectCalendarHours ranges = getRanges(date, null, null);
          if (ranges == null)
          {
             result = getParentFile().getProjectProperties().getDefaultEndTime();
@@ -627,7 +627,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             // in this day. We need to calculate the time of day at which
             // our work ends.
             //
-            ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
+            ProjectCalendarHours ranges = getRanges(cal.getTime(), cal, null);
 
             //
             // Now we have the range of working hours for this day,
@@ -797,7 +797,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             // in this day. We need to calculate the time of day at which
             // our work starts.
             //
-            ProjectCalendarDateRanges ranges = getRanges(cal.getTime(), cal, null);
+            ProjectCalendarHours ranges = getRanges(cal.getTime(), cal, null);
 
             //
             // Now we have the range of working hours for this day,
@@ -890,7 +890,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
 
       if (ranges != null)
       {
@@ -965,7 +965,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarDateRanges ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
       if (ranges != null)
       {
          //
@@ -1076,7 +1076,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private boolean isWorkingDate(Date date, Day day)
    {
-      ProjectCalendarDateRanges ranges = getRanges(date, null, day);
+      ProjectCalendarHours ranges = getRanges(date, null, day);
       return ranges.getRangeCount() != 0;
    }
 
@@ -1317,7 +1317,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    public Duration getWork(Date date, TimeUnit format)
    {
-      ProjectCalendarDateRanges ranges = getRanges(date, null, null);
+      ProjectCalendarHours ranges = getRanges(date, null, null);
       long time = getTotalTime(ranges);
       return convertFormat(time, format);
    }
@@ -1358,7 +1358,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
          if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
          {
-            ProjectCalendarDateRanges ranges = getRanges(startDate, null, null);
+            ProjectCalendarHours ranges = getRanges(startDate, null, null);
             if (ranges.getRangeCount() != 0)
             {
                totalTime = getTotalTime(ranges, startDate, endDate);
@@ -1407,7 +1407,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
                   //
                   // Skip this day if it has no working time
                   //
-                  ProjectCalendarDateRanges ranges = getRanges(currentDate, null, day);
+                  ProjectCalendarHours ranges = getRanges(currentDate, null, day);
                   if (ranges.getRangeCount() == 0)
                   {
                      continue;
@@ -1423,7 +1423,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             //
             // We are now at the last day
             //
-            ProjectCalendarDateRanges ranges = getRanges(endDate, null, day);
+            ProjectCalendarHours ranges = getRanges(endDate, null, day);
             if (ranges.getRangeCount() != 0)
             {
                totalTime += getTotalTime(ranges, DateHelper.getDayStartDate(endDate), endDate);
@@ -1552,7 +1552,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * @param after true to report time after intersection, false to report time before
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarDateRanges exception, Date date, boolean after)
+   private long getTotalTime(ProjectCalendarHours exception, Date date, boolean after)
    {
       long currentTime = DateHelper.getCanonicalTime(date).getTime();
       long total = 0;
@@ -1570,7 +1570,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * @param exception calendar exception
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarDateRanges exception)
+   private long getTotalTime(ProjectCalendarHours exception)
    {
       long total = 0;
       for (DateRange range : exception)
@@ -1589,7 +1589,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * @param endDate time range end
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarDateRanges hours, Date startDate, Date endDate)
+   private long getTotalTime(ProjectCalendarHours hours, Date startDate, Date endDate)
    {
       long total = 0;
       if (startDate.getTime() != endDate.getTime())
@@ -1969,9 +1969,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * @param day optional day instance
     * @return working hours
     */
-   private ProjectCalendarDateRanges getRanges(Date date, Calendar cal, Day day)
+   private ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
    {
-      ProjectCalendarDateRanges ranges = getException(date);
+      ProjectCalendarHours ranges = getException(date);
       if (ranges == null)
       {
          ProjectCalendarWeek week = getWorkWeek(date);
@@ -2178,7 +2178,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
 
-   private static final ProjectCalendarDateRanges EMPTY_DATE_RANGES = new ProjectCalendarDateRanges()
+   private static final ProjectCalendarHours EMPTY_DATE_RANGES = new ProjectCalendarHours()
    {
       // No implementation
    };

@@ -23,12 +23,81 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public final class ProjectCalendarHours extends ProjectCalendarDateRanges
+public class ProjectCalendarHours implements Iterable<DateRange>
 {
+   /**
+    * Add a date range to the list of date ranges.
+    *
+    * @param range date range
+    */
+   public void addRange(DateRange range)
+   {
+      m_ranges.add(range);
+   }
+
+   /**
+    * Retrieve the date range at the specified index.
+    * The index is zero based, and this method will return
+    * null if the requested date range does not exist.
+    *
+    * @param index range index
+    * @return date range instance
+    */
+   public DateRange getRange(int index)
+   {
+      DateRange result;
+
+      if (index >= 0 && index < m_ranges.size())
+      {
+         result = m_ranges.get(index);
+      }
+      else
+      {
+         result = DateRange.EMPTY_RANGE;
+      }
+
+      return result;
+   }
+
+   /**
+    * Replace a date range at the specified index.
+    *
+    * @param index range index
+    * @param value DateRange instance
+    */
+   public void setRange(int index, DateRange value)
+   {
+      m_ranges.set(index, value);
+   }
+
+   /**
+    * Retrieve an iterator to allow the list of date ranges to be traversed.
+    *
+    * @return iterator.
+    */
+   @Override public Iterator<DateRange> iterator()
+   {
+      return m_ranges.iterator();
+   }
+
+   /**
+    * Returns the number of date ranges associated with this instance.
+    *
+    * @return number of date ranges
+    */
+   public int getRangeCount()
+   {
+      return m_ranges.size();
+   }
+
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
@@ -40,4 +109,6 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
       sb.append("]");
       return (sb.toString());
    }
+
+   private final List<DateRange> m_ranges = new ArrayList<>();
 }
