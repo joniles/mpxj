@@ -1074,6 +1074,36 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Method indicating whether a day is a working or non-working day.
+    *
+    * @param day required day
+    * @return true if this is a working day
+    */
+   public boolean isWorkingDay(Day day)
+   {
+      DayType value = getWorkingDay(day);
+      boolean result;
+
+      if (value == DayType.DEFAULT)
+      {
+         if (m_parent != null)
+         {
+            result = m_parent.isWorkingDay(day);
+         }
+         else
+         {
+            result = (day != Day.SATURDAY && day != Day.SUNDAY);
+         }
+      }
+      else
+      {
+         result = (value == DayType.WORKING);
+      }
+
+      return (result);
+   }
+
+   /**
     * This method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions.
     *
