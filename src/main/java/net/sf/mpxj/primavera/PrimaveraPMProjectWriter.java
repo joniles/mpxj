@@ -548,22 +548,39 @@ final class PrimaveraPMProjectWriter
    {
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
-         writeCalendar(calendar);
+         writeCalendar(normalizeCalendar(calendar));
       }
+   }
+
+   /**
+    * Tries to ensure that the calendar structure we write matches P6's expectations.
+    *
+    * @param calendar calendar to normalize
+    * @return normalized calendar
+    */
+   private ProjectCalendar normalizeCalendar(ProjectCalendar calendar)
+   {
+      ProjectCalendar result = calendar;
+      if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
+      {
+         // Global calendar in P6 are not derived from other calendars.
+         // If this calendar is marked as a global calendar and it is
+         // derived then we'll flatten it.
+         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
+      }
+      return result;
    }
 
    /**
     * This method writes data for an individual calendar to a PM XML file.
     *
-    * @param mpxj ProjectCalander instance
+    * @param mpxj ProjectCalendar instance
     */
    private void writeCalendar(ProjectCalendar mpxj)
    {
       CalendarType xml = m_factory.createCalendarType();
       m_apibo.getCalendar().add(xml);
 
-      List<Resource> calendarResources = mpxj.getResources();
-      String type = calendarResources.isEmpty() ? "Global" : "Resource";
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
@@ -572,10 +589,10 @@ final class PrimaveraPMProjectWriter
 
       xml.setBaseCalendarObjectId(getCalendarUniqueID(mpxj.getParent()));
       xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
-      xml.setIsPersonal(Boolean.valueOf(calendarResources.size() == 1));
+      xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setType(type);
+      xml.setType(CALENDAR_TYPE_MAP.get(mpxj.getType()));
 
       xml.setHoursPerDay(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerDay()) / 60.0));
       xml.setHoursPerWeek(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerWeek()) / 60.0));
@@ -1876,6 +1893,14 @@ final class PrimaveraPMProjectWriter
    {
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "Critical Float");
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "Longest Path");
+   }
+
+   private static final Map<net.sf.mpxj.CalendarType, String> CALENDAR_TYPE_MAP = new HashMap<>();
+   static
+   {
+      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.GLOBAL, "Global");
+      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.PROJECT, "Project");
+      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.RESOURCE, "Resource");
    }
 
    private final ProjectFile m_projectFile;

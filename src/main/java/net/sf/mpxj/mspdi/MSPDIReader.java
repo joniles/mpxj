@@ -44,6 +44,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.CalendarType;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -201,7 +202,35 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          // Prune unused resource calendars
          //
-         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResources().isEmpty());
+         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResourceCount() == 0);
+
+         //
+         // Resource calendar post processing
+         //
+         for (Resource resource : m_projectFile.getResources())
+         {
+            ProjectCalendar calendar = resource.getCalendar();
+            if (calendar != null)
+            {
+               // Configure the calendar type
+               if (calendar.isDerived())
+               {
+                  calendar.setType(CalendarType.RESOURCE);
+                  calendar.setPersonal(calendar.getResourceCount() == 1);
+               }
+
+               // Resource calendars without names inherit the resource name
+               if (calendar.getName() == null || calendar.getName().isEmpty())
+               {
+                  String name = resource.getName();
+                  if (name == null || name.isEmpty())
+                  {
+                     name = "Unnamed Resource";
+                  }
+                  calendar.setName(name);
+               }
+            }
+         }
 
          return m_projectFile;
       }

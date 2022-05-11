@@ -12,6 +12,8 @@
 			<action dev="joniles" type="update">Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.</action>
 			<action dev="joniles" type="update">Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.</action>
 			<action dev="joniles" type="update">When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.</action>
+			<action dev="joniles" type="update">Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.</action>
+			<action dev="joniles" type="update">Add suppport for writing the calendar type and personal calendar flag to PMXML files.</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>

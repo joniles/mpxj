@@ -366,6 +366,8 @@ final class PrimaveraReader
       Integer id = row.getInteger("clndr_id");
       calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
+      calendar.setType(CALENDAR_TYPE_MAP.get(row.getString("clndr_type")));
+      calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       if (row.getBoolean("default_flag") && m_defaultCalendarID == null)
       {
@@ -2335,6 +2337,14 @@ final class PrimaveraReader
    {
       CRITICAL_ACTIVITY_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
       CRITICAL_ACTIVITY_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
+   }
+
+   private static final Map<String, net.sf.mpxj.CalendarType> CALENDAR_TYPE_MAP = new HashMap<>();
+   static
+   {
+      CALENDAR_TYPE_MAP.put("CA_Base", net.sf.mpxj.CalendarType.GLOBAL);
+      CALENDAR_TYPE_MAP.put("CA_Project", net.sf.mpxj.CalendarType.PROJECT);
+      CALENDAR_TYPE_MAP.put("CA_Rsrc", net.sf.mpxj.CalendarType.RESOURCE);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

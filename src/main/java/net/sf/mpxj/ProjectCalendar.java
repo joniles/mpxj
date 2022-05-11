@@ -1198,6 +1198,16 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Retrieve the number of resources using this calendar.
+    * 
+    * @return number of resources
+    */
+   public int getResourceCount()
+   {
+      return (int) getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).count();
+   }
+
+   /**
     * Sets the resource to which this calendar is linked. Note that this
     * method updates the calendar's name to be the same as the resource name.
     * If the resource does not yet have a name, then the calendar is given
@@ -2077,6 +2087,51 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Retrieve the calendar type. Defaults to Global.
+    * 
+    * @return calendar type
+    */
+   public CalendarType getType()
+   {
+      return m_type;
+   }
+
+   /**
+    * Set the calendar type.
+    * This will ignore any attempt to set the type to {@code null}
+    * 
+    * @param type calendar type
+    */
+   public void setType(CalendarType type)
+   {
+      if (type != null)
+      {
+         m_type = type;
+      }
+   }
+
+   /**
+    * Returns true if this is a personal calendar.
+    * Defaults to false.
+    * 
+    * @return true if a personal calendar
+    */
+   public boolean getPersonal()
+   {
+      return m_personal;
+   }
+
+   /**
+    * Set the flag to indicate if this is  personal calendar.
+    * 
+    * @param personal true if this is a personal calendar
+    */
+   public void setPersonal(boolean personal)
+   {
+      m_personal = personal;
+   }
+
+   /**
     * Parent calendar.
     */
    private ProjectCalendar m_parent;
@@ -2129,6 +2184,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    private Integer m_calendarMinutesPerWeek;
    private Integer m_calendarMinutesPerMonth;
    private Integer m_calendarMinutesPerYear;
+   private CalendarType m_type = CalendarType.GLOBAL;
+   private boolean m_personal;
 
    /**
     * Default base calendar name to use when none is supplied.

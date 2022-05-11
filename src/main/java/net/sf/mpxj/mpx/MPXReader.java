@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -1491,6 +1492,23 @@ public final class MPXReader extends AbstractProjectStreamReader
          defaultCalendar = calendars.findOrCreateDefaultCalendar();
       }
       m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
+
+      //
+      // Resource calendar post processing
+      //
+      for (Resource resource : m_projectFile.getResources())
+      {
+         ProjectCalendar calendar = resource.getCalendar();
+         if (calendar != null)
+         {
+            // Configure the calendar type
+            if (calendar.isDerived())
+            {
+               calendar.setType(CalendarType.RESOURCE);
+               calendar.setPersonal(calendar.getResourceCount() == 1);
+            }
+         }
+      }
    }
 
    /**
