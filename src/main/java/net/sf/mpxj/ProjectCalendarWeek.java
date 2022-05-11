@@ -203,7 +203,7 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
    /**
     * Used to add working hours to the calendar.
     *
-    * @param day day number
+    * @param day target day
     * @return new ProjectCalendarHours instance
     */
    public ProjectCalendarHours addCalendarHours(Day day)
@@ -211,6 +211,16 @@ public class ProjectCalendarWeek implements Comparable<ProjectCalendarWeek>
       ProjectCalendarHours bch = new ProjectCalendarHours();
       m_hours[day.getValue() - 1] = bch;
       return bch;
+   }
+
+   /**
+    * Used to remove working hours from the calendar.
+    *
+    * @param day target day
+    */
+   public void removeCalendarHours(Day day)
+   {
+      m_hours[day.getValue() - 1] = null;
    }
 
    /**

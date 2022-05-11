@@ -389,9 +389,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Used to add working hours to the calendar. Note that the MPX file
-    * definition allows a maximum of 7 calendar hours records to be added to
-    * a single calendar.
+    * Used to add working hours to the calendar.
     *
     * @param day day number
     * @return new ProjectCalendarHours instance
@@ -400,6 +398,17 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    {
       clearWorkingDateCache();
       return super.addCalendarHours(day);
+   }
+
+   /**
+    * Used to remove working hours from the calendar.
+    *
+    * @param day target day
+    */
+   public void removeCalendarHours(Day day)
+   {
+      clearWorkingDateCache();
+      super.removeCalendarHours(day);
    }
 
    /**
