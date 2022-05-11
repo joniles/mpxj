@@ -70,7 +70,6 @@ import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarDateRanges;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
@@ -564,7 +563,7 @@ final class PrimaveraReader
     * @param ranges hours container
     * @param hoursRecord hours record
     */
-   private void addHours(ProjectCalendarDateRanges ranges, StructuredTextRecord hoursRecord)
+   private void addHours(ProjectCalendarHours ranges, StructuredTextRecord hoursRecord)
    {
       String startText = hoursRecord.getAttribute("s");
       String endText = hoursRecord.getAttribute("f");
