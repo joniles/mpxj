@@ -29,53 +29,6 @@ package net.sf.mpxj;
  */
 public final class ProjectCalendarHours extends ProjectCalendarDateRanges
 {
-   /**
-    * Default constructor.
-    *
-    * @param parentCalendar the parent calendar for this instance
-    */
-   ProjectCalendarHours(ProjectCalendarWeek parentCalendar)
-   {
-      m_parentCalendar = parentCalendar;
-   }
-
-   /**
-    * Retrieve the parent calendar for these hours.
-    *
-    * @return parent calendar
-    */
-   public ProjectCalendarWeek getParentCalendar()
-   {
-      return (m_parentCalendar);
-   }
-
-   /**
-    * Get day.
-    *
-    * @return day instance
-    */
-   public Day getDay()
-   {
-      return (m_day);
-   }
-
-   /**
-    * Set day.
-    *
-    * @param d day instance
-    */
-   public void setDay(Day d)
-   {
-      if (m_day != null)
-      {
-         m_parentCalendar.removeHoursFromDay(this);
-      }
-
-      m_day = d;
-
-      m_parentCalendar.attachHoursToDay(this);
-   }
-
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
@@ -87,7 +40,4 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
       sb.append("]");
       return (sb.toString());
    }
-
-   private final ProjectCalendarWeek m_parentCalendar;
-   private Day m_day;
 }

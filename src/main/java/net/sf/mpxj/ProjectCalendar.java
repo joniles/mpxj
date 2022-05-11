@@ -403,30 +403,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
-    * Attaches a pre-existing set of hours to the correct
-    * day within the calendar.
-    *
-    * @param hours calendar hours instance
-    */
-   @Override public void attachHoursToDay(ProjectCalendarHours hours)
-   {
-      clearWorkingDateCache();
-      super.attachHoursToDay(hours);
-   }
-
-   /**
-    * Removes a set of calendar hours from the day to which they
-    * are currently attached.
-    *
-    * @param hours calendar hours instance
-    */
-   @Override public void removeHoursFromDay(ProjectCalendarHours hours)
-   {
-      clearWorkingDateCache();
-      super.removeHoursFromDay(hours);
-   }
-
-   /**
     * Sets the ProjectCalendar instance from which this calendar is derived.
     *
     * @param calendar base calendar instance
@@ -1960,11 +1936,12 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
          }
       }
 
-      for (ProjectCalendarHours hours : getHours())
+      for (Day day : Day.values())
       {
+         ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)
          {
-            ProjectCalendarHours copyHours = cal.addCalendarHours(hours.getDay());
+            ProjectCalendarHours copyHours = cal.addCalendarHours(day);
             for (DateRange range : hours)
             {
                copyHours.addRange(new DateRange(range.getStart(), range.getEnd()));
