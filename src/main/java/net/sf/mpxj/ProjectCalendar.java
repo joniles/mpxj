@@ -2012,14 +2012,26 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
             }
             day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          }
+         
+         switch(week.getWorkingDay(day))
+         {
+            case NON_WORKING:
+            {
+               ranges = EMPTY_DATE_RANGES;
+               break;
+            }
 
-         if (week.isWorkingDay(day))
-         {
-            ranges = week.getHours(day);
-         }
-         else
-         {
-            ranges = EMPTY_DATE_RANGES;
+            case WORKING:
+            {
+               ranges = week.getHours(day);
+               break;
+            }
+
+            case DEFAULT:
+            {
+               ranges = m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
+               break;
+            }
          }
       }
       return ranges;
