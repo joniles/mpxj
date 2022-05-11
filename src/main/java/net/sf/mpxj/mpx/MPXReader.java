@@ -1481,15 +1481,17 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void validateCalendars()
    {
+      // Ensure we have a default calendar
       ProjectCalendarContainer calendars = m_projectFile.getCalendars();
-      calendars.forEach(this::validateCalendar);
-
       ProjectCalendar defaultCalendar = calendars.getByName(m_defaultCalendarName);
       if (defaultCalendar == null)
       {
          defaultCalendar = calendars.findOrCreateDefaultCalendar();
       }
       m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
+
+      // Ensure each individual calendar is valid
+      calendars.forEach(this::validateCalendar);
 
       //
       // Resource calendar post processing
