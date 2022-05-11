@@ -1994,46 +1994,53 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private ProjectCalendarDateRanges getRanges(Date date, Calendar cal, Day day)
    {
+      // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarDateRanges ranges = getException(date);
-      if (ranges == null)
+      if (ranges != null)
       {
-         ProjectCalendarWeek week = getWorkWeek(date);
-         if (week == null)
+         return ranges;
+      }
+
+      // Determine which week definition to use
+      ProjectCalendarWeek week = getWorkWeek(date);
+      if (week == null)
+      {
+         week = this;
+      }
+
+      // Determine the day of the week of if we don't have it
+      if (day == null)
+      {
+         if (cal == null)
          {
-            week = this;
+            cal = Calendar.getInstance();
+            cal.setTime(date);
+         }
+         day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+      }
+
+      // Use the day type to retrieve the ranges
+      switch(week.getWorkingDay(day))
+      {
+         case NON_WORKING:
+         {
+            ranges = EMPTY_DATE_RANGES;
+            break;
          }
 
-         if (day == null)
+         case WORKING:
          {
-            if (cal == null)
-            {
-               cal = Calendar.getInstance();
-               cal.setTime(date);
-            }
-            day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+            ranges = week.getHours(day);
+            break;
          }
-         
-         switch(week.getWorkingDay(day))
+
+         case DEFAULT:
          {
-            case NON_WORKING:
-            {
-               ranges = EMPTY_DATE_RANGES;
-               break;
-            }
-
-            case WORKING:
-            {
-               ranges = week.getHours(day);
-               break;
-            }
-
-            case DEFAULT:
-            {
-               ranges = m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
-               break;
-            }
+            ranges = m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
+            break;
          }
       }
+
       return ranges;
    }
 
