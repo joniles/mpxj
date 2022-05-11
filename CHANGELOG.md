@@ -3,8 +3,9 @@
 ## 10.5.0 (unreleased)
 * Updated `MPXWriter` to ensure: calendar names are quoted if necessary, all calendars have names, all calendar names are unique.
 * Updated `MPXReader` to recognise `wk` as a valid time unit.
-* Updated `MPXWriter` to ensure any working weeks defined by a calendar are represented by exceptons.
+* Updated `MPXWriter`, `PrimaveraPMFileWriter`, `SDEFWriter` and `PlannerWriter` to ensure any working weeks defined by a calendar are represented by exceptons.
 * Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.
+* Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.
 
 ## 10.4.0 (2022-05-05)
 * Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).
