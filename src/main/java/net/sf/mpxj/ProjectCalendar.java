@@ -1174,20 +1174,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       ProjectCalendarHours result = getCalendarHours(day);
       if (result == null)
       {
-         //
-         // If this is a base calendar, and we have no hours, then we
-         // have a problem - so we add the default hours and try again
-         //
-         if (m_parent == null)
-         {
-            // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
-            addDefaultCalendarHours(day);
-            result = getCalendarHours(day);
-         }
-         else
-         {
-            result = m_parent.getHours(day);
-         }
+         result = m_parent.getHours(day);
       }
       return result;
    }
