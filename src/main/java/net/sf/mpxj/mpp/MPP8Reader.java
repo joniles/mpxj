@@ -295,8 +295,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     hours.addRange(new DateRange(defaultStart1, defaultEnd1));
-                     hours.addRange(new DateRange(defaultStart2, defaultEnd2));
+                     hours.add(new DateRange(defaultStart1, defaultEnd1));
+                     hours.add(new DateRange(defaultStart2, defaultEnd2));
                   }
                   else
                   {
@@ -322,7 +322,7 @@ final class MPP8Reader implements MPPVariantReader
                      {
                         start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 16 + (periodIndex * 4));
-                        hours.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+                        hours.add(new DateRange(start, new Date(start.getTime() + duration)));
                      }
                   }
                }
@@ -349,7 +349,7 @@ final class MPP8Reader implements MPPVariantReader
                      {
                         start = MPPUtility.getTime(extData, offset + 12 + (exceptionPeriodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 20 + (exceptionPeriodIndex * 4));
-                        exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+                        exception.add(new DateRange(start, new Date(start.getTime() + duration)));
                      }
                   }
                }

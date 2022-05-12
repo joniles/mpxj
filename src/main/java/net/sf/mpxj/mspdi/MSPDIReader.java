@@ -512,7 +512,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.addRange(new DateRange(startTime, endTime));
+               hours.add(new DateRange(startTime, endTime));
             }
          }
       }
@@ -547,7 +547,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               exception.addRange(new DateRange(startTime, endTime));
+               exception.add(new DateRange(startTime, endTime));
             }
          }
       }
@@ -607,7 +607,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                      endTime = DateHelper.addDays(endTime, 1);
                   }
 
-                  bce.addRange(new DateRange(startTime, endTime));
+                  bce.add(new DateRange(startTime, endTime));
                }
             }
          }
@@ -824,7 +824,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.addRange(new DateRange(startTime, endTime));
+               hours.add(new DateRange(startTime, endTime));
             }
          }
       }

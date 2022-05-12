@@ -199,7 +199,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
             {
-               ranges.get(day).forEach(hours::addRange);
+               ranges.get(day).forEach(hours::add);
             }
          }
 
@@ -268,7 +268,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate, exceptionDate);
          if (!calendar.isWorkingDay(day))
          {
-            ranges.get(day).forEach(ex::addRange);
+            ranges.get(day).forEach(ex::add);
          }
       }
    }

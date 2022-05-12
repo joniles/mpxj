@@ -152,8 +152,8 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (calendar.isWorkingDay(day))
          {
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
 

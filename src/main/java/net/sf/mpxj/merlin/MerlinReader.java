@@ -272,7 +272,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.addRange(new DateRange(startTime, endTime));
+               hours.add(new DateRange(startTime, endTime));
             }
          }
       }
@@ -307,7 +307,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               exception.addRange(new DateRange(startTime, endTime));
+               exception.add(new DateRange(startTime, endTime));
             }
          }
       }

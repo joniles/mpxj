@@ -902,7 +902,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   if (work != null)
                   {
-                     calendarHours.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                     calendarHours.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                   }
                }
             }
@@ -923,7 +923,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null && work.getStart() != null && work.getFinish() != null)
                {
-                  pce.addRange(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                  pce.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -961,12 +961,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                continue;
             }
 
-            if (hours.getRangeCount() > 0)
+            if (hours.size() > 0)
             {
                ++workingDays;
-               for (int index = 0; index < hours.getRangeCount(); index++)
+               for (int index = 0; index < hours.size(); index++)
                {
-                  DateRange range = hours.getRange(index);
+                  DateRange range = hours.get(index);
                   long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
                   minutesPerWeek += (milliseconds / (1000 * 60));
                }

@@ -51,8 +51,8 @@ class CalendarRecord extends AbstractSDEFRecord
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (workingDay)
          {
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
       context.getEventManager().fireCalendarReadEvent(calendar);

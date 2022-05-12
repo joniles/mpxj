@@ -414,7 +414,7 @@ final class PrimaveraReader
             if (day != Day.SATURDAY && day != Day.SUNDAY)
             {
                calendar.setWorkingDay(day, true);
-               hours.addRange(defaultHourRange);
+               hours.add(defaultHourRange);
             }
             else
             {
@@ -455,12 +455,12 @@ final class PrimaveraReader
                continue;
             }
 
-            if (hours.getRangeCount() > 0)
+            if (hours.size() > 0)
             {
                ++workingDays;
-               for (int index = 0; index < hours.getRangeCount(); index++)
+               for (int index = 0; index < hours.size(); index++)
                {
-                  DateRange range = hours.getRange(index);
+                  DateRange range = hours.get(index);
                   long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
                   minutesPerWeek += (milliseconds / (1000 * 60));
                }
@@ -585,7 +585,7 @@ final class PrimaveraReader
       {
          Date start = m_calendarTimeFormat.parse(startText);
          Date end = m_calendarTimeFormat.parse(endText);
-         ranges.addRange(new DateRange(start, end));
+         ranges.add(new DateRange(start, end));
       }
 
       catch (ParseException e)

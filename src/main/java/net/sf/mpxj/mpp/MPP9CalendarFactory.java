@@ -122,7 +122,7 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
                {
                   start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
                   duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
-                  exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+                  exception.add(new DateRange(start, new Date(start.getTime() + duration)));
                }
             }
          }

@@ -1610,8 +1610,8 @@ final class AstaReader
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
                if (dayType == DayType.WORKING)
                {
-                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+                  hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                  hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
                }
             }
          }
@@ -1675,7 +1675,7 @@ final class AstaReader
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
                if (type == DayType.WORKING)
                {
-                  hours.addRange(new DateRange(startTime, endTime));
+                  hours.add(new DateRange(startTime, endTime));
                   week.setDayType(currentDay, DayType.WORKING);
                }
 

@@ -242,8 +242,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
          {
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
    }
@@ -303,8 +303,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          // TODO: not sure how NEUTRAL should be handled
          if ("WORKING_DAY".equals(date.getType()))
          {
-            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            exception.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            exception.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
    }

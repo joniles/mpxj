@@ -649,7 +649,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          end = cal.getTime();
          DateHelper.pushCalendar(cal);
 
-         hours.addRange(new DateRange(start, end));
+         hours.add(new DateRange(start, end));
       }
    }
 
@@ -692,7 +692,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    {
       if (start != null && finish != null)
       {
-         exception.addRange(new DateRange(start, finish));
+         exception.add(new DateRange(start, finish));
       }
    }
 
@@ -1541,8 +1541,8 @@ public final class MPXReader extends AbstractProjectStreamReader
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
                if (dayType == DayType.WORKING)
                {
-                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+                  hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                  hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
                }
             }
          }
