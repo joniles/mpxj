@@ -213,7 +213,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            hours.addRange(new DateRange(period.getFrom(), period.getTo()));
+            hours.add(new DateRange(period.getFrom(), period.getTo()));
          }
       }
    }
@@ -231,7 +231,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            mpxjException.addRange(new DateRange(period.getFrom(), period.getTo()));
+            mpxjException.add(new DateRange(period.getFrom(), period.getTo()));
          }
       }
    }

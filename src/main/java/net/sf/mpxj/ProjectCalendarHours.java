@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,16 +32,22 @@ import java.util.List;
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public class ProjectCalendarHours implements Iterable<DateRange>
+public class ProjectCalendarHours extends AbstractList<DateRange>
 {
+   @Override public boolean add(DateRange range)
+   {
+      return m_ranges.add(range);
+   }
+
    /**
     * Add a date range to the list of date ranges.
     *
     * @param range date range
+    * @deprecated use {@code add}
     */
-   public void addRange(DateRange range)
+   @Deprecated public void addRange(DateRange range)
    {
-      m_ranges.add(range);
+      add(range);
    }
 
    /**
@@ -50,8 +57,26 @@ public class ProjectCalendarHours implements Iterable<DateRange>
     *
     * @param index range index
     * @return date range instance
+    * @deprecated use {@code get}
     */
-   public DateRange getRange(int index)
+   @Deprecated public DateRange getRange(int index)
+   {
+      return get(index);
+   }
+
+   /**
+    * Replace a date range at the specified index.
+    *
+    * @param index range index
+    * @param value DateRange instance
+    * @deprecated use {@code set}
+    */
+   @Deprecated public void setRange(int index, DateRange value)
+   {
+      set(index, value);
+   }
+
+   @Override public DateRange get(int index)
    {
       DateRange result;
 
@@ -68,17 +93,6 @@ public class ProjectCalendarHours implements Iterable<DateRange>
    }
 
    /**
-    * Replace a date range at the specified index.
-    *
-    * @param index range index
-    * @param value DateRange instance
-    */
-   public void setRange(int index, DateRange value)
-   {
-      m_ranges.set(index, value);
-   }
-
-   /**
     * Retrieve an iterator to allow the list of date ranges to be traversed.
     *
     * @return iterator.
@@ -88,14 +102,20 @@ public class ProjectCalendarHours implements Iterable<DateRange>
       return m_ranges.iterator();
    }
 
+   @Override public int size()
+   {
+      return m_ranges.size();
+   }
+
    /**
     * Returns the number of date ranges associated with this instance.
     *
     * @return number of date ranges
+    * @deprecated use {@code size}
     */
-   public int getRangeCount()
+   @Deprecated public int getRangeCount()
    {
-      return m_ranges.size();
+      return size();
    }
 
    @Override public String toString()

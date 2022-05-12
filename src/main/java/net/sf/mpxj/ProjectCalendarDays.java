@@ -114,8 +114,8 @@ public abstract class ProjectCalendarDays
 
       if (day != Day.SATURDAY && day != Day.SUNDAY)
       {
-         hours.addRange(DEFAULT_WORKING_MORNING);
-         hours.addRange(DEFAULT_WORKING_AFTERNOON);
+         hours.add(DEFAULT_WORKING_MORNING);
+         hours.add(DEFAULT_WORKING_AFTERNOON);
       }
    }
 

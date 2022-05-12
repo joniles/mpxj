@@ -107,7 +107,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
          {
             for (DateRange range : hours)
             {
-               ex.addRange(range);
+               ex.add(range);
             }
          }
 

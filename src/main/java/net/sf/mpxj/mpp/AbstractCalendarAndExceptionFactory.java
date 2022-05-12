@@ -110,7 +110,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   {
                      start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
                      duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+                     exception.add(new DateRange(start, new Date(start.getTime() + duration)));
                   }
                }
 
@@ -306,7 +306,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                cal.setTime(startTime);
                cal.add(Calendar.SECOND, durationInSeconds);
                Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
-               hours.addRange(new DateRange(startTime, finishTime));
+               hours.add(new DateRange(startTime, finishTime));
             }
             DateHelper.pushCalendar(cal);
          }

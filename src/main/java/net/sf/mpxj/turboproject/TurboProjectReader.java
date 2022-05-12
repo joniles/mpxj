@@ -194,8 +194,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
             {
-               hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-               hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+               hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+               hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
             }
          }
       }
@@ -243,8 +243,8 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          ProjectCalendarException exception = calendar.addCalendarException(date, date);
          if (row.getBoolean("WORKING"))
          {
-            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            exception.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            exception.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
 
          currentExceptionID = row.getInteger("NEXT_CALENDAR_EXCEPTION_ID");

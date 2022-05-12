@@ -194,7 +194,7 @@ public final class ProjectCalendarHelper
                   ProjectCalendarException newException = target.addCalendarException(expandedSourceException.getFromDate(), expandedSourceException.getToDate());
                   for (DateRange range : expandedSourceException)
                   {
-                     newException.addRange(range);
+                     newException.add(range);
                   }
                }
             }
@@ -207,7 +207,7 @@ public final class ProjectCalendarHelper
             newException.setRecurring(sourceException.getRecurring());
             for (DateRange range : sourceException)
             {
-               newException.addRange(range);
+               newException.add(range);
             }
          }
       }
@@ -226,7 +226,7 @@ public final class ProjectCalendarHelper
          // Populate day types and hours
          ProjectCalendarHours hours = source.getHours(day);
          ProjectCalendarHours newHours = target.addCalendarHours(day);
-         if (hours == null || hours.getRangeCount() == 0)
+         if (hours == null || hours.size() == 0)
          {
             target.setDayType(day, DayType.NON_WORKING);
          }
@@ -235,7 +235,7 @@ public final class ProjectCalendarHelper
             target.setDayType(day, DayType.WORKING);
             for (DateRange range : hours)
             {
-               newHours.addRange(range);
+               newHours.add(range);
             }
          }
       }
@@ -261,7 +261,7 @@ public final class ProjectCalendarHelper
                ProjectCalendarHours targetHours = targetWeek.addCalendarHours(day);
                for (DateRange range : sourceHours)
                {
-                  targetHours.addRange(range);
+                  targetHours.add(range);
                }
             }
          }

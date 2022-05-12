@@ -489,7 +489,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          }
          else
          {
-            result = ranges.getRange(0).getStart();
+            result = ranges.get(0).getStart();
          }
          result = DateHelper.getCanonicalTime(result);
          m_startTimeCache.put(new Date(date.getTime()), result);
@@ -518,8 +518,8 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          }
          else
          {
-            Date rangeStart = ranges.getRange(0).getStart();
-            Date rangeFinish = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
+            Date rangeStart = ranges.get(0).getStart();
+            Date rangeFinish = ranges.get(ranges.size() - 1).getEnd();
             Date startDay = DateHelper.getDayStartDate(rangeStart);
             Date finishDay = DateHelper.getDayStartDate(rangeFinish);
 
@@ -814,9 +814,9 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
             Date currentDateFinishTime = DateHelper.getCanonicalTime(currentDate);
             boolean firstRange = true;
             // Traverse from end to start
-            for (int i = ranges.getRangeCount() - 1; i >= 0; i--)
+            for (int i = ranges.size() - 1; i >= 0; i--)
             {
-               DateRange range = ranges.getRange(i);
+               DateRange range = ranges.get(i);
                //
                // Skip this range if its start is after our end time
                //
@@ -1114,7 +1114,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    private boolean isWorkingDate(Date date, Day day)
    {
       ProjectCalendarHours ranges = getRanges(date, null, day);
-      return ranges.getRangeCount() != 0;
+      return ranges.size() != 0;
    }
 
    /**
@@ -1415,7 +1415,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
          {
             ProjectCalendarHours ranges = getRanges(startDate, null, null);
-            if (ranges.getRangeCount() != 0)
+            if (ranges.size() != 0)
             {
                totalTime = getTotalTime(ranges, startDate, endDate);
             }
@@ -1464,7 +1464,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
                   // Skip this day if it has no working time
                   //
                   ProjectCalendarHours ranges = getRanges(currentDate, null, day);
-                  if (ranges.getRangeCount() == 0)
+                  if (ranges.size() == 0)
                   {
                      continue;
                   }
@@ -1480,7 +1480,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
             // We are now at the last day
             //
             ProjectCalendarHours ranges = getRanges(endDate, null, day);
-            if (ranges.getRangeCount() != 0)
+            if (ranges.size() != 0)
             {
                totalTime += getTotalTime(ranges, DateHelper.getDayStartDate(endDate), endDate);
             }
@@ -1903,18 +1903,18 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          while (true)
          {
             // Find next range start
-            if (taskHours.getRangeCount() > taskIndex)
+            if (taskHours.size() > taskIndex)
             {
-               range1 = taskHours.getRange(taskIndex);
+               range1 = taskHours.get(taskIndex);
             }
             else
             {
                break;
             }
 
-            if (resourceHours.getRangeCount() > resourceIndex)
+            if (resourceHours.size() > resourceIndex)
             {
-               range2 = resourceHours.getRange(resourceIndex);
+               range2 = resourceHours.get(resourceIndex);
             }
             else
             {
@@ -1951,7 +1951,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
             if (end != null && end.compareTo(start) > 0)
             {
                // Found a block
-               hours.addRange(new DateRange(start, end));
+               hours.add(new DateRange(start, end));
             }
          }
       }
@@ -1987,7 +1987,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          ProjectCalendarException copyException = addCalendarException(ex.getFromDate(), ex.getToDate());
          for (DateRange range : ex)
          {
-            copyException.addRange(new DateRange(range.getStart(), range.getEnd()));
+            copyException.add(new DateRange(range.getStart(), range.getEnd()));
          }
       }
 
@@ -2001,7 +2001,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
             ProjectCalendarHours copyHours = cal.addCalendarHours(day);
             for (DateRange range : hours)
             {
-               copyHours.addRange(new DateRange(range.getStart(), range.getEnd()));
+               copyHours.add(new DateRange(range.getStart(), range.getEnd()));
             }
          }
       }
