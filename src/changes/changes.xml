@@ -17,6 +17,9 @@
 			<action dev="joniles" type="update">When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.</action>
 			<action dev="joniles" type="update">Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.</action>
 			<action dev="joniles" type="update">Add suppport for writing the calendar type and personal calendar flag to PMXML files.</action>
+			<action dev="joniles" type="update">Updated the calendar class hierarchy: `ProjectCalendar` and `ProjectCalendarWeek` both now inherit from a new class `ProjectCalendarDays`. Note that `ProjectCalendar` is no longer a subclass of `ProjectCalendarWeek`.</action>
+			<action dev="joniles" type="update">The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.</action>
+			<action dev="joniles" type="update">The `ProjectCalendar` method `copy` has been deprecated, without replacement.</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>

@@ -1,8 +1,8 @@
 /*
- * file:       AbstractCalendar.java
+ * file:       ProjectCalendarDays.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       08/11/2011
+ * copyright:  (c) Packwood Software 2022
+ * date:       2022-05-12
  */
 
 /*
