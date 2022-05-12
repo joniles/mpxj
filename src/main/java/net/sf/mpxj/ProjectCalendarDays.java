@@ -82,9 +82,9 @@ public abstract class ProjectCalendarDays
     */
    public void addDefaultCalendarHours()
    {
-      for (int i = 1; i <= 7; i++)
+      for (Day day : Day.values())
       {
-         addDefaultCalendarHours(Day.getInstance(i));
+         addDefaultCalendarHours(day);
       }
    }
 
