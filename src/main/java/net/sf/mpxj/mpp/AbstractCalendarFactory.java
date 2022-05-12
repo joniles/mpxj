@@ -255,10 +255,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   cal.setWorkingDay(day, workingDay);
                   if (workingDay)
                   {
-                     for (DateRange range : defaultCalendar.getHours(day))
-                     {
-                        hours.add(range);
-                     }
+                     hours.addAll(defaultCalendar.getHours(day));
                   }
                }
             }
@@ -296,10 +293,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             {
                cal.setWorkingDay(day, true);
                hours = cal.addCalendarHours(Day.getInstance(index + 1));
-               for (DateRange range : dateRanges)
-               {
-                  hours.add(range);
-               }
+               hours.addAll(dateRanges);
             }
          }
       }

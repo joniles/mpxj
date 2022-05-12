@@ -192,10 +192,7 @@ public final class ProjectCalendarHelper
                if (expandedTargetExceptions.stream().noneMatch(e -> e.contains(expandedSourceException)))
                {
                   ProjectCalendarException newException = target.addCalendarException(expandedSourceException.getFromDate(), expandedSourceException.getToDate());
-                  for (DateRange range : expandedSourceException)
-                  {
-                     newException.add(range);
-                  }
+                  newException.addAll(expandedSourceException);
                }
             }
          }
@@ -205,10 +202,7 @@ public final class ProjectCalendarHelper
             // We can just add a verbatim copy of the source exception.
             ProjectCalendarException newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
             newException.setRecurring(sourceException.getRecurring());
-            for (DateRange range : sourceException)
-            {
-               newException.add(range);
-            }
+            newException.addAll(sourceException);
          }
       }
    }
@@ -233,10 +227,7 @@ public final class ProjectCalendarHelper
          else
          {
             target.setDayType(day, DayType.WORKING);
-            for (DateRange range : hours)
-            {
-               newHours.add(range);
-            }
+            newHours.addAll(hours);
          }
       }
    }
@@ -259,10 +250,7 @@ public final class ProjectCalendarHelper
             if (sourceHours != null)
             {
                ProjectCalendarHours targetHours = targetWeek.addCalendarHours(day);
-               for (DateRange range : sourceHours)
-               {
-                  targetHours.add(range);
-               }
+               targetHours.addAll(sourceHours);
             }
          }
       }

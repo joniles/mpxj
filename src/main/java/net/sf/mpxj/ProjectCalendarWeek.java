@@ -105,10 +105,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
          // TODO: for consistency this should never be null, just empty?
          if (hours != null)
          {
-            for (DateRange range : hours)
-            {
-               ex.add(range);
-            }
+            ex.addAll(hours);
          }
 
          RecurringData recurrence = new RecurringData();

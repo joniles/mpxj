@@ -964,9 +964,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (int index = 0; index < hours.size(); index++)
+               for (DateRange range : hours)
                {
-                  DateRange range = hours.get(index);
                   long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
                   minutesPerWeek += (milliseconds / (1000 * 60));
                }
