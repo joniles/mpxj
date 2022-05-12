@@ -52,9 +52,9 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -242,8 +242,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
          {
-            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-            hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
    }
@@ -303,8 +303,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          // TODO: not sure how NEUTRAL should be handled
          if ("WORKING_DAY".equals(date.getType()))
          {
-            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-            exception.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            exception.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
    }

@@ -403,7 +403,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     *
     * @param day target day
     */
-   public void removeCalendarHours(Day day)
+   @Override public void removeCalendarHours(Day day)
    {
       clearWorkingDateCache();
       super.removeCalendarHours(day);
@@ -2054,7 +2054,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       }
 
       // Use the day type to retrieve the ranges
-      switch(week.getDayType(day))
+      switch (week.getDayType(day))
       {
          case NON_WORKING:
          {

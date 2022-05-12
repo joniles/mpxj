@@ -39,8 +39,8 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.Pair;
 
@@ -245,8 +245,8 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day))
                   {
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-                     hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+                     hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                     hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
                   }
                }
                else

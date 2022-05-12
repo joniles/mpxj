@@ -63,6 +63,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
     * Converts this working week into a set of equivalent recurring exceptions.
     * Note that this can't be applied to the default working week.
     *
+    * @param calendar calendar used for context in the conversion
     * @return recurring exceptions equivalent to this working week
     */
    public List<ProjectCalendarException> convertToRecurringExceptions(ProjectCalendar calendar)

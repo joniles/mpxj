@@ -1597,6 +1597,26 @@ final class AstaReader
          }
       }
 
+      //
+      // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
+      //
+      for (Day day : Day.values())
+      {
+         if (calendar.getCalendarHours(day) == null)
+         {
+            DayType dayType = calendar.getDayType(day);
+            if (dayType != DayType.DEFAULT)
+            {
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               if (dayType == DayType.WORKING)
+               {
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+               }
+            }
+         }
+      }
+      
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 
