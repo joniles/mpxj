@@ -277,17 +277,17 @@ public final class PlannerReader extends AbstractProjectStreamReader
          // Note that ID==2 is the hard coded "use base" day type
          if (mpxjCalendar.getParent() == null || !plannerDay.equals("2"))
          {
-            mpxjCalendar.setWorkingDay(mpxjDay, DayType.NON_WORKING);
+            mpxjCalendar.setDayType(mpxjDay, DayType.NON_WORKING);
             mpxjCalendar.addCalendarHours(mpxjDay);
          }
          else
          {
-            mpxjCalendar.setWorkingDay(mpxjDay, DayType.DEFAULT);
+            mpxjCalendar.setDayType(mpxjDay, DayType.DEFAULT);
          }
       }
       else
       {
-         mpxjCalendar.setWorkingDay(mpxjDay, DayType.WORKING);
+         mpxjCalendar.setDayType(mpxjDay, DayType.WORKING);
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(mpxjDay);
          dateRanges.forEach(hours::addRange);
       }

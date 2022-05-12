@@ -421,7 +421,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getWorkingDay(d) == null).forEach(d -> setWorkingDay(d, DayType.DEFAULT));
+         Arrays.stream(Day.values()).filter(d -> getDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -1064,7 +1064,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public boolean isWorkingDay(Day day)
    {
-      DayType value = getWorkingDay(day);
+      DayType value = getDayType(day);
       boolean result;
 
       if (value == DayType.DEFAULT)
@@ -1830,7 +1830,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       for (Day day : Day.values())
       {
          pw.println("   [Day " + day);
-         pw.println("      type=" + getWorkingDay(day));
+         pw.println("      type=" + getDayType(day));
          pw.println("      hours=" + getHours(day));
          pw.println("   ]");
       }
@@ -1970,8 +1970,9 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     * Copy the settings from another calendar to this calendar.
     *
     * @param cal calendar data source
+    * @deprecated without replacement
     */
-   public void copy(ProjectCalendar cal)
+   @Deprecated public void copy(ProjectCalendar cal)
    {
       setName(cal.getName());
       setParent(cal.getParent());
@@ -1980,8 +1981,6 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       m_calendarMinutesPerWeek = cal.m_calendarMinutesPerWeek;
       m_calendarMinutesPerMonth = cal.m_calendarMinutesPerMonth;
       m_calendarMinutesPerYear = cal.m_calendarMinutesPerYear;
-
-      System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
 
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
@@ -1994,6 +1993,8 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
 
       for (Day day : Day.values())
       {
+         setDayType(day, cal.getDayType(day));
+
          ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)
          {
@@ -2053,7 +2054,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       }
 
       // Use the day type to retrieve the ranges
-      switch(week.getWorkingDay(day))
+      switch(week.getDayType(day))
       {
          case NON_WORKING:
          {

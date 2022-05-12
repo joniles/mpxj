@@ -94,7 +94,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       //
       for (Day day : Day.values())
       {
-         if (getWorkingDay(day) == DayType.DEFAULT)
+         if (getDayType(day) == DayType.DEFAULT)
          {
             continue;
          }
@@ -142,7 +142,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       for (Day day : Day.values())
       {
          pw.println("   [Day " + day);
-         pw.println("      type=" + getWorkingDay(day));
+         pw.println("      type=" + getDayType(day));
          pw.println("      hours=" + getCalendarHours(day));
          pw.println("   ]");
       }

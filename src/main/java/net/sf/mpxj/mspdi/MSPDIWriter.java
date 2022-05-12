@@ -650,7 +650,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeDay(ProjectCalendar mpxjCalendar, Day mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
-      DayType workingFlag = mpxjCalendar.getWorkingDay(mpxjDay);
+      DayType workingFlag = mpxjCalendar.getDayType(mpxjDay);
 
       if (workingFlag != DayType.DEFAULT)
       {
@@ -929,7 +929,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             for (int loop = 1; loop < 8; loop++)
             {
-               DayType workingFlag = week.getWorkingDay(Day.getInstance(loop));
+               DayType workingFlag = week.getDayType(Day.getInstance(loop));
 
                if (workingFlag != DayType.DEFAULT)
                {
