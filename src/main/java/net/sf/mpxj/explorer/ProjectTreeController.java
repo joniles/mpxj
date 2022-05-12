@@ -36,6 +36,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ChildTaskContainer;
@@ -349,7 +350,7 @@ public class ProjectTreeController
     * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarWeek calendar, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final Day day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {
