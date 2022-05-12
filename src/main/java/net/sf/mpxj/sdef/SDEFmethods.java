@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.sdef;
 
-import net.sf.mpxj.DayType;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 
 /**
@@ -123,19 +123,10 @@ class SDEFmethods
    public static String workDays(ProjectCalendar input)
    {
       StringBuilder result = new StringBuilder();
-      DayType[] test = input.getDays(); // get the array from MPXJ ProjectCalendar
-      for (DayType i : test)
-      { // go through every day in the given array
-         if (i == DayType.NON_WORKING)
-         {
-            result.append("N"); // only put N for non-working day of the week
-         }
-         else
-         {
-            result.append("Y"); // Assume WORKING day unless NON_WORKING
-         }
+      for (Day day : Day.values())
+      {
+         result.append(input.isWorkingDay(day) ? 'Y' : 'N');
       }
-      return result.toString(); // According to USACE specs., exceptions will be specified in HOLI records
+      return result.toString();
    }
-
 }

@@ -355,14 +355,15 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(name));
 
-      for (DayType day : record.getDays())
+      for (Day day : Day.values())
       {
-         if (day == null)
+         DayType type = record.getDayType(day);
+         if (type == null)
          {
-            day = DayType.DEFAULT;
+            type = DayType.DEFAULT;
          }
          m_buffer.append(m_delimiter);
-         m_buffer.append(day.getValue());
+         m_buffer.append(type.getValue());
       }
 
       m_buffer.append(MPXConstants.EOL);

@@ -109,7 +109,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
       try
       {
-         List<ProjectCalendar> calendars = m_projectFile.getTasks().stream().map(t -> t.getEffectiveCalendar()).distinct().map(c -> ProjectCalendarHelper.createTemporaryFlattenedCalendar(c)).collect(Collectors.toList());
+         List<ProjectCalendar> calendars = m_projectFile.getTasks().stream().map(Task::getEffectiveCalendar).distinct().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
 
          // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
          writeFileCreationRecord(); // VOLM

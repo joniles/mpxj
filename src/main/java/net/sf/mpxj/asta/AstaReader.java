@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
@@ -1555,11 +1556,12 @@ final class AstaReader
             Integer workPatternID = row.getInteger("WORK_PATTERN");
             if (!workPatternID.equals(dominantWorkPatternID))
             {
-               ProjectCalendarWeek week;
+               ProjectCalendarDays week;
                if (defaultWeekSet)
                {
-                  week = calendar.addWorkWeek();
-                  week.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+                  ProjectCalendarWeek newWeek = calendar.addWorkWeek();
+                  newWeek.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+                  week = newWeek;
                }
                else
                {
@@ -1595,6 +1597,26 @@ final class AstaReader
          }
       }
 
+      //
+      // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
+      //
+      for (Day day : Day.values())
+      {
+         if (calendar.getCalendarHours(day) == null)
+         {
+            DayType dayType = calendar.getDayType(day);
+            if (dayType != DayType.DEFAULT)
+            {
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               if (dayType == DayType.WORKING)
+               {
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+               }
+            }
+         }
+      }
+      
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 
@@ -1607,7 +1629,7 @@ final class AstaReader
     * @param timeEntryMap time entry map
     * @param exceptionTypeMap exception type map
     */
-   private void processWorkPattern(ProjectCalendarWeek week, Integer workPatternID, Map<Integer, Row> workPatternMap, Map<Integer, List<Row>> timeEntryMap, Map<Integer, DayType> exceptionTypeMap)
+   private void processWorkPattern(ProjectCalendarDays week, Integer workPatternID, Map<Integer, Row> workPatternMap, Map<Integer, List<Row>> timeEntryMap, Map<Integer, DayType> exceptionTypeMap)
    {
       Row workPatternRow = workPatternMap.get(workPatternID);
       if (workPatternRow != null)
@@ -1623,7 +1645,7 @@ final class AstaReader
             // Haven't worked out how the start day is determined.
             Day currentDay = Day.SUNDAY;
             ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-            Arrays.fill(week.getDays(), DayType.NON_WORKING);
+            Arrays.stream(Day.values()).forEach(d -> week.setDayType(d, DayType.NON_WORKING));
 
             for (Row row : timeEntryRows)
             {
@@ -1654,7 +1676,7 @@ final class AstaReader
                if (type == DayType.WORKING)
                {
                   hours.addRange(new DateRange(startTime, endTime));
-                  week.setWorkingDay(currentDay, DayType.WORKING);
+                  week.setDayType(currentDay, DayType.WORKING);
                }
 
                lastEndTime = endTime.getTime();

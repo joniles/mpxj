@@ -44,7 +44,7 @@ import net.sf.mpxj.common.NumberHelper;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectCalendarWeek implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
+public final class ProjectCalendar extends ProjectCalendarDays implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -54,7 +54,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendar(ProjectFile file)
    {
       m_projectFile = file;
-      setCalendar(this);
 
       if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -306,7 +305,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    public ProjectCalendarWeek addWorkWeek()
    {
       ProjectCalendarWeek week = new ProjectCalendarWeek();
-      week.setCalendar(this);
       m_workWeeks.add(week);
       m_weeksSorted = false;
       clearWorkingDateCache();
@@ -405,7 +403,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     *
     * @param day target day
     */
-   public void removeCalendarHours(Day day)
+   @Override public void removeCalendarHours(Day day)
    {
       clearWorkingDateCache();
       super.removeCalendarHours(day);
@@ -423,7 +421,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getWorkingDay(d) == null).forEach(d -> setWorkingDay(d, DayType.DEFAULT));
+         Arrays.stream(Day.values()).filter(d -> getDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -1059,6 +1057,36 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
    }
 
    /**
+    * Method indicating whether a day is a working or non-working day.
+    *
+    * @param day required day
+    * @return true if this is a working day
+    */
+   public boolean isWorkingDay(Day day)
+   {
+      DayType value = getDayType(day);
+      boolean result;
+
+      if (value == DayType.DEFAULT)
+      {
+         if (m_parent != null)
+         {
+            result = m_parent.isWorkingDay(day);
+         }
+         else
+         {
+            result = (day != Day.SATURDAY && day != Day.SUNDAY);
+         }
+      }
+      else
+      {
+         result = (value == DayType.WORKING);
+      }
+
+      return (result);
+   }
+
+   /**
     * This method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions.
     *
@@ -1127,6 +1155,25 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       }
       DateHelper.pushCalendar(cal);
 
+      return result;
+   }
+
+   /**
+    * This method retrieves the calendar hours for the specified day.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param day Day instance
+    * @return calendar hours
+    */
+   public ProjectCalendarHours getHours(Day day)
+   {
+      ProjectCalendarHours result = getCalendarHours(day);
+      if (result == null)
+      {
+         result = m_parent.getHours(day);
+      }
       return result;
    }
 
@@ -1783,7 +1830,7 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       for (Day day : Day.values())
       {
          pw.println("   [Day " + day);
-         pw.println("      type=" + getWorkingDay(day));
+         pw.println("      type=" + getDayType(day));
          pw.println("      hours=" + getHours(day));
          pw.println("   ]");
       }
@@ -1923,8 +1970,9 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     * Copy the settings from another calendar to this calendar.
     *
     * @param cal calendar data source
+    * @deprecated without replacement
     */
-   public void copy(ProjectCalendar cal)
+   @Deprecated public void copy(ProjectCalendar cal)
    {
       setName(cal.getName());
       setParent(cal.getParent());
@@ -1933,8 +1981,6 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
       m_calendarMinutesPerWeek = cal.m_calendarMinutesPerWeek;
       m_calendarMinutesPerMonth = cal.m_calendarMinutesPerMonth;
       m_calendarMinutesPerYear = cal.m_calendarMinutesPerYear;
-
-      System.arraycopy(cal.getDays(), 0, getDays(), 0, getDays().length);
 
       for (ProjectCalendarException ex : cal.m_exceptions)
       {
@@ -1947,6 +1993,8 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
 
       for (Day day : Day.values())
       {
+         setDayType(day, cal.getDayType(day));
+
          ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)
          {
@@ -1980,34 +2028,53 @@ public final class ProjectCalendar extends ProjectCalendarWeek implements Projec
     */
    private ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
    {
+      // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarHours ranges = getException(date);
-      if (ranges == null)
+      if (ranges != null)
       {
-         ProjectCalendarWeek week = getWorkWeek(date);
-         if (week == null)
-         {
-            week = this;
-         }
+         return ranges;
+      }
 
-         if (day == null)
-         {
-            if (cal == null)
-            {
-               cal = Calendar.getInstance();
-               cal.setTime(date);
-            }
-            day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         }
+      // Determine which week definition to use
+      ProjectCalendarDays week = getWorkWeek(date);
+      if (week == null)
+      {
+         week = this;
+      }
 
-         if (week.isWorkingDay(day))
+      // Determine the day of the week of if we don't have it
+      if (day == null)
+      {
+         if (cal == null)
          {
-            ranges = week.getHours(day);
+            cal = Calendar.getInstance();
+            cal.setTime(date);
          }
-         else
+         day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+      }
+
+      // Use the day type to retrieve the ranges
+      switch (week.getDayType(day))
+      {
+         case NON_WORKING:
          {
             ranges = EMPTY_DATE_RANGES;
+            break;
+         }
+
+         case WORKING:
+         {
+            ranges = week.getCalendarHours(day);
+            break;
+         }
+
+         case DEFAULT:
+         {
+            ranges = m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
+            break;
          }
       }
+
       return ranges;
    }
 

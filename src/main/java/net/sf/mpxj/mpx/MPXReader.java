@@ -45,9 +45,9 @@ import net.sf.mpxj.FileVersion;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarContainer;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -714,13 +714,13 @@ public final class MPXReader extends AbstractProjectStreamReader
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
 
-      calendar.setWorkingDay(Day.SUNDAY, record.getDayType(1));
-      calendar.setWorkingDay(Day.MONDAY, record.getDayType(2));
-      calendar.setWorkingDay(Day.TUESDAY, record.getDayType(3));
-      calendar.setWorkingDay(Day.WEDNESDAY, record.getDayType(4));
-      calendar.setWorkingDay(Day.THURSDAY, record.getDayType(5));
-      calendar.setWorkingDay(Day.FRIDAY, record.getDayType(6));
-      calendar.setWorkingDay(Day.SATURDAY, record.getDayType(7));
+      calendar.setDayType(Day.SUNDAY, record.getDayType(1));
+      calendar.setDayType(Day.MONDAY, record.getDayType(2));
+      calendar.setDayType(Day.TUESDAY, record.getDayType(3));
+      calendar.setDayType(Day.WEDNESDAY, record.getDayType(4));
+      calendar.setDayType(Day.THURSDAY, record.getDayType(5));
+      calendar.setDayType(Day.FRIDAY, record.getDayType(6));
+      calendar.setDayType(Day.SATURDAY, record.getDayType(7));
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
@@ -1481,15 +1481,17 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void validateCalendars()
    {
+      // Ensure we have a default calendar
       ProjectCalendarContainer calendars = m_projectFile.getCalendars();
-      calendars.forEach(this::validateCalendar);
-
       ProjectCalendar defaultCalendar = calendars.getByName(m_defaultCalendarName);
       if (defaultCalendar == null)
       {
          defaultCalendar = calendars.findOrCreateDefaultCalendar();
       }
       m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
+
+      // Ensure each individual calendar is valid
+      calendars.forEach(this::validateCalendar);
 
       //
       // Resource calendar post processing
@@ -1521,7 +1523,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       // then we assume it was intended to have a parent calendar, so we set the
       // parent to be the default calendar for this project.
       //
-      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getWorkingDay(d) == DayType.DEFAULT))
+      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getDayType(d) == DayType.DEFAULT))
       {
          calendar.setParent(m_projectFile.getDefaultCalendar());
       }
@@ -1533,14 +1535,14 @@ public final class MPXReader extends AbstractProjectStreamReader
       {
          if (calendar.getCalendarHours(day) == null)
          {
-            DayType dayType = calendar.getWorkingDay(day);
+            DayType dayType = calendar.getDayType(day);
             if (dayType != DayType.DEFAULT)
             {
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
                if (dayType == DayType.WORKING)
                {
-                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_MORNING);
-                  hours.addRange(ProjectCalendarWeek.DEFAULT_WORKING_AFTERNOON);
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+                  hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
                }
             }
          }

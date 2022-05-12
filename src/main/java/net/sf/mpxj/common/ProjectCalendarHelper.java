@@ -87,13 +87,13 @@ public final class ProjectCalendarHelper
       ProjectCalendar derivedCalendar = new ProjectCalendar(file);
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
-      derivedCalendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-      derivedCalendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.SUNDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.MONDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.TUESDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.WEDNESDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.THURSDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.FRIDAY, DayType.DEFAULT);
+      derivedCalendar.setDayType(Day.SATURDAY, DayType.DEFAULT);
 
       if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
       {
@@ -126,7 +126,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
          for (ProjectCalendarWeek week : calendar.getWorkWeeks())
          {
-            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions());
+            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(calendar));
          }
 
          result = temporaryCalendar.getExpandedCalendarExceptions();
@@ -228,11 +228,11 @@ public final class ProjectCalendarHelper
          ProjectCalendarHours newHours = target.addCalendarHours(day);
          if (hours == null || hours.getRangeCount() == 0)
          {
-            target.setWorkingDay(day, DayType.NON_WORKING);
+            target.setDayType(day, DayType.NON_WORKING);
          }
          else
          {
-            target.setWorkingDay(day, DayType.WORKING);
+            target.setDayType(day, DayType.WORKING);
             for (DateRange range : hours)
             {
                newHours.addRange(range);
@@ -254,7 +254,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarWeek targetWeek = target.addWorkWeek();
          for (Day day : Day.values())
          {
-            targetWeek.setWorkingDay(day, sourceWeek.getWorkingDay(day));
+            targetWeek.setDayType(day, sourceWeek.getDayType(day));
             ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
             if (sourceHours != null)
             {

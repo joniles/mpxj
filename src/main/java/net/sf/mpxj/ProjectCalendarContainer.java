@@ -88,13 +88,13 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       ProjectCalendar calendar = add();
 
-      calendar.setWorkingDay(Day.SUNDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.MONDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.TUESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.WEDNESDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.THURSDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.FRIDAY, DayType.DEFAULT);
-      calendar.setWorkingDay(Day.SATURDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.SUNDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.MONDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.TUESDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.WEDNESDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.THURSDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.FRIDAY, DayType.DEFAULT);
+      calendar.setDayType(Day.SATURDAY, DayType.DEFAULT);
 
       return (calendar);
    }

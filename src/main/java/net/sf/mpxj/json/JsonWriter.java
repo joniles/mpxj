@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
@@ -355,12 +356,12 @@ public final class JsonWriter extends AbstractProjectWriter
     *
     * @param week working week
     */
-   private void writeCalendarDays(ProjectCalendarWeek week) throws IOException
+   private void writeCalendarDays(ProjectCalendarDays week) throws IOException
    {
       for (Day day : Day.values())
       {
          m_writer.writeStartObject(day.name().toLowerCase());
-         writeStringField("type", week.getWorkingDay(day).toString().toLowerCase());
+         writeStringField("type", week.getDayType(day).toString().toLowerCase());
          writeCalendarHours(week.getCalendarHours(day));
          m_writer.writeEndObject();
       }
