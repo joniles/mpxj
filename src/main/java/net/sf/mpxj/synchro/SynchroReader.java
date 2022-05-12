@@ -183,10 +183,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       if (ranges != null)
       {
-         for (DateRange range : ranges)
-         {
-            container.add(range);
-         }
+         container.addAll(ranges);
       }
    }
 
