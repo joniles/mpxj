@@ -118,7 +118,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public boolean getWorking()
    {
-      return (getRangeCount() != 0);
+      return (size() != 0);
    }
 
    /**
@@ -147,10 +147,10 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
             Date startDate = DateHelper.getDayStartDate(date);
             Date endDate = DateHelper.getDayEndDate(date);
             ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
-            int rangeCount = getRangeCount();
+            int rangeCount = size();
             for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
             {
-               newException.addRange(getRange(rangeIndex));
+               newException.add(get(rangeIndex));
             }
             result.add(newException);
          }

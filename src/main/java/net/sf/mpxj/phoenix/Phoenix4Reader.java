@@ -226,8 +226,8 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
          {
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
-            hours.addRange(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+            hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
    }

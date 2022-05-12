@@ -362,7 +362,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Date endDate = cal.getTime();
 
          calendar.setWorkingDay(day, true);
-         calendarHours.addRange(new DateRange(startDate, endDate));
+         calendarHours.add(new DateRange(startDate, endDate));
          startHour = endHour;
       }
 

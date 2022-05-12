@@ -160,7 +160,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
       for (Day day : Day.values())
       {
-         calendar.setWorkingDay(day, calendar.getCalendarHours(day).getRangeCount() > 0);
+         calendar.setWorkingDay(day, calendar.getCalendarHours(day).size() > 0);
       }
 
       for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))
@@ -185,7 +185,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       {
          for (DateRange range : ranges)
          {
-            container.addRange(range);
+            container.add(range);
          }
       }
    }

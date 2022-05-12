@@ -416,19 +416,19 @@ public final class MPXWriter extends AbstractProjectWriter
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      DateRange range1 = record.getRange(0);
+      DateRange range1 = record.get(0);
       if (range1 == null)
       {
          range1 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range2 = record.getRange(1);
+      DateRange range2 = record.get(1);
       if (range2 == null)
       {
          range2 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range3 = record.getRange(2);
+      DateRange range3 = record.get(2);
       if (range3 == null)
       {
          range3 = DateRange.EMPTY_RANGE;
@@ -480,17 +480,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(0).getStart())));
+      m_buffer.append(format(formatTime(record.get(0).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(0).getEnd())));
+      m_buffer.append(format(formatTime(record.get(0).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(1).getStart())));
+      m_buffer.append(format(formatTime(record.get(1).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(1).getEnd())));
+      m_buffer.append(format(formatTime(record.get(1).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(2).getStart())));
+      m_buffer.append(format(formatTime(record.get(2).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getRange(2).getEnd())));
+      m_buffer.append(format(formatTime(record.get(2).getEnd())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 

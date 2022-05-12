@@ -374,7 +374,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarHours(ProjectCalendarHours hours) throws IOException
    {
-      if (hours != null && hours.getRangeCount() != 0)
+      if (hours != null && hours.size() != 0)
       {
          m_writer.writeStartList("hours");
          for (DateRange range : hours)

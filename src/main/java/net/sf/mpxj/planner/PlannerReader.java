@@ -289,7 +289,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       {
          mpxjCalendar.setDayType(mpxjDay, DayType.WORKING);
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(mpxjDay);
-         dateRanges.forEach(hours::addRange);
+         dateRanges.forEach(hours::add);
       }
    }
 
@@ -315,7 +315,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
                List<DateRange> dateRanges = map.get(day.getId());
                if (dateRanges != null)
                {
-                  dateRanges.forEach(exception::addRange);
+                  dateRanges.forEach(exception::add);
                }
             }
          }
