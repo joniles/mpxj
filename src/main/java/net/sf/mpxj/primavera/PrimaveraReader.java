@@ -447,8 +447,9 @@ final class PrimaveraReader
          int minutesPerWeek = 0;
          int workingDays = 0;
 
-         for (ProjectCalendarHours hours : calendar.getHours())
+         for (Day day : Day.values())
          {
+            ProjectCalendarHours hours = calendar.getCalendarHours(day);
             if (hours == null)
             {
                continue;

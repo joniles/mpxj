@@ -69,8 +69,9 @@ public abstract class ProjectCalendarDays
     * by this calendar.
     *
     * @return array of calendar hours
+    * @deprecated use {@code getCalendarHours}
     */
-   public ProjectCalendarHours[] getHours()
+   @Deprecated public ProjectCalendarHours[] getHours()
    {
       return m_hours;
    }
