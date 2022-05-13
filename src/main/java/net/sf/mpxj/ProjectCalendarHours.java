@@ -118,6 +118,11 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
       return size();
    }
 
+   @Override public void clear()
+   {
+      m_ranges.clear();
+   }
+
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
