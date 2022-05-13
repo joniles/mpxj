@@ -239,7 +239,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
          {
             if (isBaseCalendar)
             {
-               hours = cal.addCalendarHours(Day.getInstance(index + 1));
+               hours = cal.addCalendarHours(day);
                if (defaultCalendar == null)
                {
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
