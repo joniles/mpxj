@@ -133,7 +133,20 @@ for (Day day : Day.values()) {
 }
 ```
 
+Here's the output:
 
+```
+SUNDAY is a Non-working day ()
+MONDAY is a Non-working day ()
+TUESDAY is a Working day (08:00-12:00, 13:00-17:00)
+WEDNESDAY is a Working day (08:00-12:00, 13:00-17:00)
+THURSDAY is a Working day (08:00-12:00, 13:00-17:00)
+FRIDAY is a Working day (08:00-12:00, 13:00-17:00)
+SATURDAY is a Working day ()
+```
+
+The one thing we're missing now is that although we have set Saturday to be a
+working day, it doesn't have any working hours.
 
 ## To Do
 Reader prerequisites.
