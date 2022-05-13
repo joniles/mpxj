@@ -122,6 +122,18 @@ So now our output looks like this:
 08:00-12:00, 13:00-17:00
 ```
 
+Let's use this method to take a look at the whole week again:
+
+```java
+for (Day day : Day.values()) {
+ String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
+ System.out.println(day
+    + " is a " + working + " day ("
+    + formatDateRanges(calendar.getHours(day)) + ")");
+}
+```
+
+
 
 ## To Do
 Reader prerequisites.
