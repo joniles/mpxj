@@ -21,6 +21,7 @@
 			<action dev="joniles" type="update">Updated the calendar class hierarchy: `ProjectCalendar` and `ProjectCalendarWeek` both now inherit from a new class `ProjectCalendarDays`. Note that `ProjectCalendar` is no longer a subclass of `ProjectCalendarWeek`.</action>
 			<action dev="joniles" type="update">The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` method `copy` has been deprecated, without replacement.</action>
+			<action dev="joniles" type="update">Added a `getWork` method to `ProjectCalendar` which calculates the amount of work given a `Day` instance.</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>

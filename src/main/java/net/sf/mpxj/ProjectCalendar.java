@@ -1269,6 +1269,11 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public ProjectCalendarException getException(Date date)
    {
+      if (date == null)
+      {
+         return null;
+      }
+
       ProjectCalendarException exception = null;
 
       // We're working with expanded exceptions, which includes any recurring exceptions
@@ -1321,6 +1326,11 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public ProjectCalendarWeek getWorkWeek(Date date)
    {
+      if (date == null)
+      {
+         return null;
+      }
+
       ProjectCalendarWeek week = null;
       if (!m_workWeeks.isEmpty())
       {
@@ -1360,11 +1370,28 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          // Check base calendar as well for a work week.
          week = getParent().getWorkWeek(date);
       }
-      return (week);
+      return week;
    }
 
    /**
     * Retrieves the amount of work on a given day, and
+    * returns it in the specified format. Note that
+    * as we're working with a day rather than a specific date,
+    * we'll be providing the "default" amount of work,
+    * unchanged by exceptions or working weeks.
+    *
+    * @param day target day
+    * @param format required format
+    * @return work duration
+    */
+   public Duration getWork(Day day, TimeUnit format)
+   {
+      ProjectCalendarHours ranges = getRanges(null, null, day);
+      return convertFormat(getTotalTime(ranges), format);
+   }
+
+   /**
+    * Retrieves the amount of work on a given date, and
     * returns it in the specified format.
     *
     * @param date target date
@@ -1374,8 +1401,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public Duration getWork(Date date, TimeUnit format)
    {
       ProjectCalendarHours ranges = getRanges(date, null, null);
-      long time = getTotalTime(ranges);
-      return convertFormat(time, format);
+      return convertFormat(getTotalTime(ranges), format);
    }
 
    /**
