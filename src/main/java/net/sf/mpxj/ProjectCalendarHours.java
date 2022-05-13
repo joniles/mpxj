@@ -64,6 +64,11 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
       return get(index);
    }
 
+   @Override public DateRange set(int index, DateRange value)
+   {
+      return m_ranges.set(index, value);
+   }
+
    /**
     * Replace a date range at the specified index.
     *
