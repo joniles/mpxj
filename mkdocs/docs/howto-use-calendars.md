@@ -299,16 +299,110 @@ So we have our 24 hours of work on Saturday!
 After working a few of these 24 hour days on Saturdays, we might be in need of a
 vacation! How can we add this to our calendar?
 
+So far we've been working with the `Day` class to make changes to days of the
+week, rather than any specific date. Now we'll need to work with a specific
+date, and add an "exception" for this date. The terminology here can be
+slightly confusing when coming from a programming background, but the term
+exception is often used by scheduling applications in the context of making
+ad-hoc adjustments to a calendar.
 
-TODO: adding working time
+```java
+DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+Date exceptionDate = df.parse("10/05/2022");
 
+boolean workingDate = calendar.isWorkingDate(exceptionDate);
+System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
+```
+
+In the code above we're creating a `Date` instance to represent the date we want
+to add an exception for. The code uses the `isWorkingDate` method to determine
+whether or not the  given date is a working day. Before we add the exception,
+here's the output we get:
+
+```
+10/05/2022 is a working day
+```
+
+Now we can create our exception.
+
+```java
+ProjectCalendarException exception = calendar.addCalendarException(exceptionDate, exceptionDate);
+exception.setName("A day off");
+```
+
+The code above illustrates adding an exception for a single day, hence we're
+passing the same date twice to the `addCalendarException` method (i.e. this is
+the start date and the end date of the exception). The time component of the
+`Date` instance you pass in here is irrelevant, the exception is always
+effective from the beginning of the day of the start date, to the end of the
+day of the finish date. The code above also shows that optionally an exception
+can be named, this can make it easier to understand the purpose of each exception. Now if we re-run our code which 
+displays whether our chosen date is a working day, this is what we see:
+
+```
+10/05/2022 is a non-working day
+```
+
+We have successfully added an exception to turn this date into a day off!
+
+Perhaps we were being a little too generous in giving ourselves the entire day
+off, perhaps in this case we should make this a half day instead. To do hat, we
+just need to add a time range to the exception:
+
+```java
+startTime = DateHelper.getTime(8, 0);
+finishTime = DateHelper.getTime(12, 0);
+exception.add(new DateRange(startTime, finishTime));
+```
+
+Now if we look at our chosen date, this is what we see:
+
+```
+10/05/2022 is a working day
+```
+
+Let's take a closer look at what's happening on that day:
+
+```java
+System.out.println("Working time on Tuesdays is normally "
+   + calendar.getWork(Day.TUESDAY, TimeUnit.HOURS) + " but on "
+   + df.format(exceptionDate) + " it is "
+   + calendar.getWork(exceptionDate, TimeUnit.HOURS));
+```
+
+The code above shows how we use the `getWork` method which takes a `Day` as an
+argument to look at what the default working hours are on a Tuesday, then we
+use the `getWork` method which takes a `Date` instance as an argument to see
+what's happening on the specific Tuesday of our exception. Here's the output we
+get:
+
+```
+Working time on Tuesdays is normally 8.0h but on 10/05/2022 it is 4.0h
+```
+
+We can see the effect of adding a `DateRange` to our exception: we've gone from
+an exception which changes a working day into a non-working day to an exception
+which just changes the number of working hours in the day. This same approach
+can be used to change a date which falls on a day that's typically non-working
+(for example a Sunday) into a working day, just be adding an exception with
+some working hours.
+
+TODO: adding working time exceptions
+recurring exceptions
+
+other calendar attributes section?
+calendar minutes per attributes
 
 ## Working Weeks
 
+## Expanded Exceptions
+
 ## Calendar Hierarchies
 
-## Calendars 
-
+## Calendars in the Wild
+Reading calendars.
+Changes made when writing calendars.
+Note resource, project, and personal calendars from P6.
 
 ## To Do
 Reader prerequisites.
