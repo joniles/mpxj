@@ -1616,7 +1616,7 @@ final class AstaReader
             }
          }
       }
-      
+
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 

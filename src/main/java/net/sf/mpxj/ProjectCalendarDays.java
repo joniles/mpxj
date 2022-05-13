@@ -251,25 +251,25 @@ public abstract class ProjectCalendarDays
             }
             break;
          }
-// Ideally we'd provide default hours here, but that causes backward compatibility issue
-// We can deal with  this when we remove deprecated methods ready for version 11.0.0.
-// TODO: Update implementation to derive DayType from hours in MPXJ 11.0.0
-//
-//         case WORKING:
-//         {
-//            // Ensure working days have some hours
-//            List<DateRange> hours = getCalendarHours(day);
-//            if (hours == null)
-//            {
-//               hours = addCalendarHours(day);
-//            }
-//
-//            if (hours.isEmpty())
-//            {
-//               hours.add(DEFAULT_WORKING_MORNING);
-//               hours.add(DEFAULT_WORKING_AFTERNOON);
-//            }
-//         }
+
+         // Ideally we'd provide default hours here, but that causes backward compatibility issue
+         // We can deal with  this when we remove deprecated methods ready for version 11.0.0.
+         // TODO: Update implementation to derive DayType from hours in MPXJ 11.0.0
+         case WORKING:
+         {
+            //            // Ensure working days have some hours
+            //            List<DateRange> hours = getCalendarHours(day);
+            //            if (hours == null)
+            //            {
+            //               hours = addCalendarHours(day);
+            //            }
+            //
+            //            if (hours.isEmpty())
+            //            {
+            //               hours.add(DEFAULT_WORKING_MORNING);
+            //               hours.add(DEFAULT_WORKING_AFTERNOON);
+            //            }
+         }
       }
    }
 

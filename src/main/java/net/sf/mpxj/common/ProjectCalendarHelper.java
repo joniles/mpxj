@@ -26,7 +26,6 @@ package net.sf.mpxj.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
