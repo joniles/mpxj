@@ -384,7 +384,7 @@ We can see the effect of adding a `DateRange` to our exception: we've gone from
 an exception which changes a working day into a non-working day to an exception
 which just changes the number of working hours in the day. This same approach
 can be used to change a date which falls on a day that's typically non-working
-(for example a Sunday) into a working day, just be adding an exception with
+(for example a Sunday) into a working day, just by adding an exception with
 some working hours.
 
 TODO: adding working time exceptions
