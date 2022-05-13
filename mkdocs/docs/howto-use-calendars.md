@@ -68,6 +68,7 @@ FRIDAY is a Working day
 SATURDAY is a Working day
 ```
 
+## Working Hours
 So far, all we have done is set a flag which tells us whether a day is working
 or non-working. How do we know the working times on those days? We can use the
 `getHours` method to find that information:
@@ -146,11 +147,74 @@ SATURDAY is a Working day ()
 ```
 
 The one thing we're missing now is that although we have set Saturday to be a
-working day, it doesn't have any working hours.
+working day, it doesn't have any working hours. MPXJ has some constants which
+can be used to help us add some working hours:
+
+```java
+hours = calendar.getCalendarHours(Day.SATURDAY);
+hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
+hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+```
+
+Now when we examine our week this is what we see:
+
+```
+SUNDAY is a Non-working day ()
+MONDAY is a Non-working day ()
+TUESDAY is a Working day (08:00-12:00, 13:00-17:00)
+WEDNESDAY is a Working day (08:00-12:00, 13:00-17:00)
+THURSDAY is a Working day (08:00-12:00, 13:00-17:00)
+FRIDAY is a Working day (08:00-12:00, 13:00-17:00)
+SATURDAY is a Working day (08:00-12:00, 13:00-17:00)
+```
+
+> The version of MPXJ at the time of writing (10.5.0) has a limitation
+> that if `setDayType` is used to make a day into a working day, we don't
+> automatically add working hours for it. This behaviour is likely to
+> change with the next major version of MPXJ.
+
+What if we want to supply some working hours different from the defaults we've
+used so far? To set our own working hours we just need to create as many
+`DateRange` instances as we need using a pair of `Date` instances for each one
+to represent the start and end times. The year, month and day compoents of each
+`Date` are ignored. Here's an example of using Java's `Calendar` class
+to set a new working time for Saturday:
+
+```java
+Calendar javaCalendar = Calendar.getInstance();
+javaCalendar.set(Calendar.HOUR_OF_DAY, 9);
+javaCalendar.set(Calendar.MINUTE, 0);
+Date startTime = javaCalendar.getTime();
+
+javaCalendar.set(Calendar.HOUR_OF_DAY, 14);
+javaCalendar.set(Calendar.MINUTE, 30);
+Date finishTime = javaCalendar.getTime();
+
+hours = calendar.getCalendarHours(Day.SATURDAY);
+hours.clear();
+hours.add(new DateRange(startTime, finishTime));
+```
+
+Now when we look at the working hours for Saturday, this is what we see:
+
+```
+SATURDAY is a Working day (09:00-14:30)
+```
+
+MPXJ actually provides a helper method to simplify this process, here's the
+equivalent code:
+
+```java
+startTime = DateHelper.getTime(9, 0);
+finishTime = DateHelper.getTime(14, 30);
+```
+
+
 
 ## To Do
+24 hour working/midnigh handling
 Reader prerequisites.
 Timezones.
-Task and REsource relationships with the calendar.
+Task and Resource relationships with the calendar.
 
 
