@@ -10,7 +10,7 @@ Let's see how calendars work in MPXJ. First let's try creating one. As it
 happens, the `ProjectFile` class provides a convenience method to create a
 default calendar. The calendar it creates is modelled on the `Standard`
 calendar you'd see in Microsoft Project if you created a new project. This
-default calendar defines Monday to Friday as workng days, with 8 working hours
+default calendar defines Monday to Friday as working days, with 8 working hours
 each day (8am to noon, then 1pm to 5pm).
 
 ```java
@@ -176,7 +176,7 @@ SATURDAY is a Working day (08:00-12:00, 13:00-17:00)
 What if we want to supply some working hours different from the defaults we've
 used so far? To set our own working hours we just need to create as many
 `DateRange` instances as we need using a pair of `Date` instances for each one
-to represent the start and end times. The year, month and day compoents of each
+to represent the start and end times. The year, month and day components of each
 `Date` are ignored. Here's an example of using Java's `Calendar` class
 to set a new working time for Saturday:
 
@@ -209,10 +209,108 @@ startTime = DateHelper.getTime(9, 0);
 finishTime = DateHelper.getTime(14, 30);
 ```
 
+Now we've seen how we can create our own ranges of working time for a day, let's
+tackle a slightly more challenging case: dealing with midnight. Our first step
+is to take a look at the actual amount of working time we've set up on Saturday.
+To do this we call the `getWork` method, as shown below.
+
+```java
+Duration duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
+System.out.println(duration);
+```
+
+This `getWork` method determines the total amount of work on the given day, and
+returns this in the format we specify. In this case we've asked for hours, and
+we'll be receiving the result as a `Duration` object. `Duration` simply
+combines the duration amount with an instance of the `TimeUnit` enumeration so
+we always know the units of the duration amount.
+
+Running the code above give us this output:
+
+```
+5.5h
+```
+
+As you can see, the `toString` method of `Duration` give us a
+nicely formatted result, complete with an abbreviation for the units.
+
+Let's try to change Saturday to be 24 hour working. First we'll configure a
+midnight to midnight date range:
+
+```java
+startTime = DateHelper.getTime(0, 0);
+finishTime = DateHelper.getTime(0, 0);
+hours.clear();
+hours.add(new DateRange(startTime, finishTime));
+System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
+```
+
+This looks reasonable:
+
+```
+00:00-00:00
+```
+
+Now let's see how much work this represents:
+
+```java
+duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
+System.out.println(duration);
+```
+
+```
+0.0h
+```
+
+Oh dear, that's not what we're expecting! This is one of the "gotchas" of the
+way MPXJ works presently: if we want to use midnight at the end of a date
+range, we actually need to explicitly create a time which is "+1 day" from our
+start time. The code below shows how we can do this using `Calendar`.
+
+```java
+javaCalendar.set(Calendar.HOUR_OF_DAY, 0);
+javaCalendar.set(Calendar.MINUTE, 0);
+startTime = javaCalendar.getTime();
+
+javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
+finishTime = javaCalendar.getTime();
+
+hours.clear();
+hours.add(new DateRange(startTime, finishTime));
+System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
+```
+
+We still end up with a range which looks like this:
+
+```
+00:00-00:00
+```
+
+But crucially now if we re-run the duration calculation, we get:
+
+```
+24.0h
+```
+
+So we have our 24 hours of work on Saturday!
+
+## Exceptions
+
+After working a few of these 24 hour days on Saturdays, we might be in need of a
+vacation! How can we add this to our calendar?
+
+
+TODO: adding working time
+
+
+## Working Weeks
+
+## Calendar Hierarchies
+
+## Calendars 
 
 
 ## To Do
-24 hour working/midnigh handling
 Reader prerequisites.
 Timezones.
 Task and Resource relationships with the calendar.
