@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.List;
+
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -225,6 +227,50 @@ public abstract class ProjectCalendarDays
    public void setDayType(Day day, DayType type)
    {
       m_days[day.getValue() - 1] = type;
+
+      switch (type)
+      {
+         case DEFAULT:
+         {
+            // Default days should not have hours
+            removeCalendarHours(day);
+            break;
+         }
+
+         case NON_WORKING:
+         {
+            // Non-working days should have an empty list
+            List<DateRange> hours = getCalendarHours(day);
+            if (hours == null)
+            {
+               addCalendarHours(day);
+            }
+            else
+            {
+               hours.clear();
+            }
+            break;
+         }
+// Ideally we'd provide default hours here, but that causes backward compatibility issue
+// We can deal with  this when we remove deprecated methods ready for version 11.0.0.
+// TODO: Update implementation to derive DayType from hours in MPXJ 11.0.0
+//
+//         case WORKING:
+//         {
+//            // Ensure working days have some hours
+//            List<DateRange> hours = getCalendarHours(day);
+//            if (hours == null)
+//            {
+//               hours = addCalendarHours(day);
+//            }
+//
+//            if (hours.isEmpty())
+//            {
+//               hours.add(DEFAULT_WORKING_MORNING);
+//               hours.add(DEFAULT_WORKING_AFTERNOON);
+//            }
+//         }
+      }
    }
 
    /**
