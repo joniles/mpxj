@@ -6,28 +6,31 @@ be used to decide when work on each task could start and how much elapsed time
 will be required to complete the tasks.
 
 ## Calendars in MPXJ
-Let's see how calendars work in MPXJ. First let's try creating one:
+Let's see how calendars work in MPXJ. First let's try creating one. As it
+happens, the `ProjectFile` class provides a convenience method to create a
+default calendar. The calendar it creates is modelled on the `Standard`
+calendar you'd see in Microsoft Project if you created a new project. This
+default calendar defines Monday to Friday as workng days, with 8 working hours
+each day (8am to noon, then 1pm to 5pm).
 
 ```java
 ProjectFile file = new ProjectFile();
 ProjectCalendar calendar = file.addDefaultBaseCalendar();
+System.out.println("The calendar name is " + calendar.getName());
 ```
 
-As it happens, the `ProjectFile` class provides a convenience method to create a
-default calendar. This is modelled on the `Standard` calendar you'd see in
-Microsoft Project if you created a new project. This default calendar defines
-Monday to Friday as workng days, with 8 working hours  each day (8am to noon,
-then 1pm to 5pm).
+As you can see from the code above, the calendar also has a name which we can
+set to distinguish between different calendars.
 
 ## Working Days
-Let's see what the calendar can tell us. First we'l use the `Day` enumeration
+Let's see what the calendar can tell us. First we'll use the `Day` enumeration
 to retrieve the working/non-working state for each day.
 
 ```java
 for (Day day : Day.values())
 {
-    String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
-    System.out.println(day + " is a " + working + " day");
+   String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
+   System.out.println(day + " is a " + working + " day");
 }
 ```
 
@@ -76,7 +79,7 @@ an end date as an inclusive range. Let's try printing these `DateRange` instance
 to our output to see what we get:
 
 ```java
-ProjectCalendarHours hours = calendar.getHours(Day.TUESDAY);
+List<DateRange> hours = calendar.getHours(Day.TUESDAY);
 hours.forEach(System.out::println);
 ```
 
@@ -89,15 +92,40 @@ Here's the output:
 
 This isn't quite what we were expecting! What's happening here is that
 `DateRange` is using `java.util.Date` values to represent the start and end of
-the range. As these `java.util.Date` represents a full timestamp, we're seeing
-the entire timestamp here in our output. The day, month and year components of
-the timestamp have been set to a default value (in this case January 1st
-0001).
+the range, and the `toString` method of the `dateRange` class is just using
+these values directly. As these `java.util.Date` represents a full timestamp,
+we're seeing the entire timestamp here in our output. The day, month and year
+components of the timestamp have been set to a default value (in this case
+January 1st 0001).
 
 > As work on MPXJ started in 2002, `java.util.Date` was the logical choice
-> for representing dates, times and timestamps.
+> for representing dates, times and timestamps. Since Java 1.8, `LocalTime`
+> would probably be a better representation for these values. This is likely
+> to be a future enhancement to MPXJ.
+
+Let's add a method to format the hours of a day tidily for display:
+
+```java
+private String formatDateRanges(List<DateRange> hours) {
+  DateFormat df = new SimpleDateFormat("HH:mm");
+  return hours.stream()
+     .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
+     .collect(Collectors.joining(", "));
+}
+```
+
+In a real application we probably wouldn't want to instantiate a new
+`DateFormat` each time we call the method, but this is fine as a demonstration.
+So now our output looks like this:
+
+```
+08:00-12:00, 13:00-17:00
+```
 
 
 ## To Do
-Timezones
+Reader prerequisites.
+Timezones.
+Task and REsource relationships with the calendar.
+
 
