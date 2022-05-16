@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
@@ -493,12 +492,12 @@ public final class DateHelper
    public static long getTotalDurationInMilliseconds(List<DateRange> timeRanges)
    {
       return timeRanges.stream().mapToLong(r -> getDurationInMilliseconds(r.getStart(), r.getEnd())).sum();
-//      long total = 0;
-//      for (DateRange range : timeRanges)
-//      {
-//         total += getDurationInMilliseconds(range.getStart(), range.getEnd());
-//      }
-//      return total;
+      //      long total = 0;
+      //      for (DateRange range : timeRanges)
+      //      {
+      //         total += getDurationInMilliseconds(range.getStart(), range.getEnd());
+      //      }
+      //      return total;
    }
 
    /**
