@@ -336,8 +336,9 @@ the start date and the end date of the exception). The time component of the
 `Date` instance you pass in here is irrelevant, the exception is always
 effective from the beginning of the day of the start date, to the end of the
 day of the finish date. The code above also shows that optionally an exception
-can be named, this can make it easier to understand the purpose of each exception. Now if we re-run our code which 
-displays whether our chosen date is a working day, this is what we see:
+can be named, this can make it easier to understand the purpose of each
+exception. Now if we re-run our code which displays whether our chosen date is
+a working day, this is what we see:
 
 ```
 10/05/2022 is a non-working day
@@ -346,7 +347,7 @@ displays whether our chosen date is a working day, this is what we see:
 We have successfully added an exception to turn this date into a day off!
 
 Perhaps we were being a little too generous in giving ourselves the entire day
-off, perhaps in this case we should make this a half day instead. To do hat, we
+off, perhaps in this case we should make this a half day instead. To do that, we
 just need to add a time range to the exception:
 
 ```java
@@ -387,13 +388,62 @@ can be used to change a date which falls on a day that's typically non-working
 (for example a Sunday) into a working day, just by adding an exception with
 some working hours.
 
-TODO: adding working time exceptions
-recurring exceptions
+We can also use a single exception to affect a number of days. First let's
+write a little code to see the number of working hours over a range of days:
 
-other calendar attributes section?
-calendar minutes per attributes
+```java
+Calendar start = Calendar.getInstance();
+start.setTime(df.parse("23/05/2022"));
+Calendar end = Calendar.getInstance();
+end.setTime(df.parse("28/05/2022"));
+
+for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+   System.out.println(df.format(date) + "\t" + calendar.getWork(date, TimeUnit.HOURS));
+}
+```
+
+Running this code with our calendar as its stands produces this output for the
+example week we're using:
+
+```
+23/05/2022  0.0h
+24/05/2022  8.0h
+25/05/2022  8.0h
+26/05/2022  8.0h
+27/05/2022  8.0h
+```
+
+Let's add an exception which covers Tuesday to Thursday that week (24th to
+26th), and changes the working hours, so there are now only four hours of work
+per day (9am to 12pm):
+
+```java
+Date exceptionStartDate = df.parse("24/05/2022");
+Date exceptionEndDate = df.parse("26/05/2022");
+exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
+startTime = DateHelper.getTime(9, 0);
+finishTime = DateHelper.getTime(13, 0);
+exception.add(new DateRange(startTime, finishTime));
+``` 
+
+Running our code again to print out the working hours for each day now gives us
+this output:
+
+```
+23/05/2022  0.0h
+24/05/2022  4.0h
+25/05/2022  4.0h
+26/05/2022  4.0h
+27/05/2022  8.0h
+```
+
+As we can see, we've changed multiple days with this single exception.
+
+
 
 ## Working Weeks
+
+## Recurring Exceptions
 
 ## Expanded Exceptions
 
@@ -408,5 +458,11 @@ Note resource, project, and personal calendars from P6.
 Reader prerequisites.
 Timezones.
 Task and Resource relationships with the calendar.
+
+recurring exceptions
+
+other calendar attributes section?
+calendar minutes per attributes
+
 
 
