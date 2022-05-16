@@ -1,9 +1,9 @@
 /*
-* file:       ProjectCalendar.java
-* author:     Jon Iles
-* copyright:  (c) Packwood Software 2002-2003
-* date:       28/11/2003
-*/
+ * file:       ProjectCalendar.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2002-2003
+ * date:       28/11/2003
+ */
 
 /*
  * This library is free software; you can redistribute it and/or modify it
