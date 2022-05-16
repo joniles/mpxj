@@ -29,21 +29,21 @@ to retrieve the working/non-working state for each day.
 ```java
 for (Day day : Day.values())
 {
-   String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
-   System.out.println(day + " is a " + working + " day");
+   String dayType = calendar.getCalendarDayType(day).toString();
+   System.out.println(day + " is a " + dayType + " day");
 }
 ```
 
 Running the code shown above will produce output like this:
 
 ```
-SUNDAY is a Non-working day
-MONDAY is a Working day
-TUESDAY is a Working day
-WEDNESDAY is a Working day
-THURSDAY is a Working day
-FRIDAY is a Working day
-SATURDAY is a Non-working day
+SUNDAY is a NON_WORKING day
+MONDAY is a WORKING day
+TUESDAY is a WORKING day
+WEDNESDAY is a WORKING day
+THURSDAY is a WORKING day
+FRIDAY is a WORKING day
+SATURDAY is a NON_WORKING day
 ```
 
 We can use the `setWorkingDay` method to change our pattern of working day.
@@ -59,13 +59,13 @@ Now if we use the loop we saw previously to inspect the week days, we'll see
 this output:
 
 ```
-SUNDAY is a Non-working day
-MONDAY is a Non-working day
-TUESDAY is a Working day
-WEDNESDAY is a Working day
-THURSDAY is a Working day
-FRIDAY is a Working day
-SATURDAY is a Working day
+SUNDAY is a NON_WORKING day
+MONDAY is a NON_WORKING day
+TUESDAY is a WORKING day
+WEDNESDAY is a WORKING day
+THURSDAY is a WORKING day
+FRIDAY is a WORKING day
+SATURDAY is a WORKING day
 ```
 
 ## Working Hours
@@ -108,10 +108,10 @@ Let's add a method to format the hours of a day tidily for display:
 
 ```java
 private String formatDateRanges(List<DateRange> hours) {
-  DateFormat df = new SimpleDateFormat("HH:mm");
-  return hours.stream()
-     .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
-     .collect(Collectors.joining(", "));
+   DateFormat df = new SimpleDateFormat("HH:mm");
+   return hours.stream()
+      .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
+      .collect(Collectors.joining(", "));
 }
 ```
 
@@ -127,23 +127,23 @@ Let's use this method to take a look at the whole week again:
 
 ```java
 for (Day day : Day.values()) {
- String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
- System.out.println(day
-    + " is a " + working + " day ("
-    + formatDateRanges(calendar.getCalendarHours(day)) + ")");
+   String dayType = calendar.getCalendarDayType(day).toString();
+   System.out.println(day
+      + " is a " + dayType + " day ("
+      + formatDateRanges(calendar.getCalendarHours(day)) + ")");
 }
 ```
 
 Here's the output:
 
 ```
-SUNDAY is a Non-working day ()
-MONDAY is a Non-working day ()
-TUESDAY is a Working day (08:00-12:00, 13:00-17:00)
-WEDNESDAY is a Working day (08:00-12:00, 13:00-17:00)
-THURSDAY is a Working day (08:00-12:00, 13:00-17:00)
-FRIDAY is a Working day (08:00-12:00, 13:00-17:00)
-SATURDAY is a Working day ()
+SUNDAY is a NON_WORKING day ()
+MONDAY is a NON_WORKING day ()
+TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+SATURDAY is a WORKING day ()
 ```
 
 The one thing we're missing now is that although we have set Saturday to be a
@@ -159,13 +159,13 @@ hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
 Now when we examine our week this is what we see:
 
 ```
-SUNDAY is a Non-working day ()
-MONDAY is a Non-working day ()
-TUESDAY is a Working day (08:00-12:00, 13:00-17:00)
-WEDNESDAY is a Working day (08:00-12:00, 13:00-17:00)
-THURSDAY is a Working day (08:00-12:00, 13:00-17:00)
-FRIDAY is a Working day (08:00-12:00, 13:00-17:00)
-SATURDAY is a Working day (08:00-12:00, 13:00-17:00)
+SUNDAY is a NON_WORKING day ()
+MONDAY is a NON_WORKING day ()
+TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+SATURDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 ```
 
 > The version of MPXJ at the time of writing (10.5.0) has a limitation
@@ -198,7 +198,7 @@ hours.add(new DateRange(startTime, finishTime));
 Now when we look at the working hours for Saturday, this is what we see:
 
 ```
-SATURDAY is a Working day (09:00-14:30)
+SATURDAY is a WORKING day (09:00-14:30)
 ```
 
 MPXJ actually provides a helper method to simplify this process, here's the
@@ -453,17 +453,111 @@ work pattern using exceptions: we'd need six in total, one for each of the
 three sets of weekend days, and one for each of the three sets of week days.
 
 An alternative way to do this is to set up a new working week, using the
-`ProjectCalendarWeek` class. The `ProjectCalendar` we've been working with so
+`ProjectCalendarWeek` class. "Working Week" is perhaps a slightly misleading
+name, as a `ProjectCalendarWeek` can be set up for an arbitrary range of dates,
+from a few days to many weeks. What it represents is the pattern of working an
+non-working time over the seven days of a week, and this pattern is applied
+from the start to the end of the date range we configure.
+
+
+The `ProjectCalendar` we've been working with so
 far is actually already a form of working week (they share a common parent
 class). The main differences between the two are that a `ProjectCalendarWeek`
 allows us to specify the range of dates over which it is effective, and a
 `ProjectCalendarWeek` does not have exceptions: exceptions are only added to
-a `ProjectCalendar`.
+a `ProjectCalendar`. Here's how our example looks in code:
 
-The code below shows how we can represent the October crunch period as part of
-our calendar: 
+```java
+calendar = file.addDefaultBaseCalendar();
+ProjectCalendarWeek week = calendar.addWorkWeek();
+week.setName("Crunch Time!");
 
+Date weekStart = df.parse("01/10/2022");
+Date weekEnd = df.parse("21/10/2022");
+week.setDateRange(new DateRange(weekStart, weekEnd));
 
+Arrays.stream(Day.values()).forEach(d -> week.setWorkingDay(d, true));
+```
+
+For a fresh start, we'll create a new `ProjectCalendar` instance. With this
+we'll add a new working week definition and give it a name, to make it easily
+identifiable. Now we'll set the dates for which this work pattern is valid
+(in this case the first three weeks of October). Finally we mark every day as a
+working day.
+
+Next we can set up our weekend 9am to 5pm working pattern:
+
+```java
+startTime = DateHelper.getTime(9, 0);
+finishTime = DateHelper.getTime(17, 0);
+DateRange weekendHours = new DateRange(startTime, finishTime);
+Arrays.asList(Day.SATURDAY, Day.SUNDAY)
+   .stream().forEach(d -> week.addCalendarHours(d).add(weekendHours));
+```
+
+Finally we can set up our weekday 5am to 9pm pattern:
+
+```java
+startTime = DateHelper.getTime(5, 0);
+finishTime = DateHelper.getTime(21, 0);
+DateRange weekdayHours = new DateRange(startTime, finishTime);
+Arrays.asList(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY)
+   .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
+```
+
+As `ProjectCalendar` and `ProjectCalendarWeek` are both derived from the same
+parent class, we can use the same code we did previously to examine how our new
+`ProjectCalendarWeek` instance looks:
+
+```
+SUNDAY is a WORKING day (09:00-17:00)
+MONDAY is a WORKING day (05:00-21:00)
+TUESDAY is a WORKING day (05:00-21:00)
+WEDNESDAY is a WORKING day (05:00-21:00)
+THURSDAY is a WORKING day (05:00-21:00)
+FRIDAY is a WORKING day (05:00-21:00)
+SATURDAY is a WORKING day (09:00-17:00)
+```
+
+To see the effect that our new working week has had on the calendar, let's first
+take a look at the week running up to the start of our crunch period. Using the
+same code we worked with previously to present working hours for a range of
+dates we see this output:
+
+```
+24/09/2022  0.0h
+25/09/2022  0.0h
+26/09/2022  8.0h
+27/09/2022  8.0h
+28/09/2022  8.0h
+29/09/2022  8.0h
+30/09/2022  8.0h
+```
+
+So starting from Saturday 24th we can see that we have that standard working
+pattern: weekends are non-working (zero working hours), and week days have 8
+hours of working time.
+
+Now let's look at the first week of our crunch period:
+
+```
+01/10/2022  8.0h
+02/10/2022  8.0h
+03/10/2022  16.0h
+04/10/2022  16.0h
+05/10/2022  16.0h
+06/10/2022  16.0h
+07/10/2022  16.0h
+```
+
+We can see that the crunch is in full effect, we're working 8 hour days at the
+weekend, and 16 hour days for the rest of the week - not something I'd like to
+try for any length of time!
+
+To summarise: the `ProjectCalendar` instance itself defines the _default_
+working and non-working pattern for the seven week days. Additional working
+weeks can be added to the calendar which override this pattern for specific
+date ranges.
 
 ## Recurring Exceptions
 
@@ -480,11 +574,4 @@ Note resource, project, and personal calendars from P6.
 Reader prerequisites.
 Timezones.
 Task and Resource relationships with the calendar.
-
-recurring exceptions
-
-other calendar attributes section?
-calendar minutes per attributes
-
-
-
+Other `ProjectCalendar` attributes and their uses.
