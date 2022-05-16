@@ -441,23 +441,27 @@ As we can see, we've changed multiple days with this single exception.
 
 ## Working Weeks
 So far we've looked at using `ProjectCalendarException`, which can make one
-change (add or change working hours, or make days non-working) and
+change (add working hours, change working hours, or make days non-working) and
 apply that change to one day or a contiguous range of days. What if we want to
 make more complex changes to the working pattern of a calendar?
 
-One way to do this is to set up one or more "working weeks", using the
+Let's imagine that our project has a three week "crunch" period at the beginning
+of October where we will need to work 16 hour days, Monday through Friday, and
+8 hour days at weekends. (I hope this is a fictional example and you'd don't
+have to work at such a high intensity in real life!). We _could_ construct this
+work pattern using exceptions: we'd need six in total, one for each of the
+three sets of weekend days, and one for each of the three sets of week days.
+
+An alternative way to do this is to set up a new working week, using the
 `ProjectCalendarWeek` class. The `ProjectCalendar` we've been working with so
 far is actually already a form of working week (they share a common parent
 class). The main differences between the two are that a `ProjectCalendarWeek`
 allows us to specify the range of dates over which it is effective, and a
-`ProjectCalendarWeek` does not have exceptions: exceptions are always added to
+`ProjectCalendarWeek` does not have exceptions: exceptions are only added to
 a `ProjectCalendar`.
 
-Let's imagine that our project has a two week "crunch" period at the beginning of
-October where we will need to work 16 hour days, seven days a week (I hope you
-this is a fictional example and you'd don't have to work at such a high
-intensity in real life!).
-
+The code below shows how we can represent the October crunch period as part of
+our calendar: 
 
 
 
