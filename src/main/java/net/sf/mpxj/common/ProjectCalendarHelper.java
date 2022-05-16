@@ -244,7 +244,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarWeek targetWeek = target.addWorkWeek();
          for (Day day : Day.values())
          {
-            targetWeek.setDayType(day, sourceWeek.getDayType(day));
+            targetWeek.setDayType(day, sourceWeek.getCalendarDayType(day));
             ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
             if (sourceHours != null)
             {

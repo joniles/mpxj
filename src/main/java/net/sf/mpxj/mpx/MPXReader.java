@@ -1523,7 +1523,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       // then we assume it was intended to have a parent calendar, so we set the
       // parent to be the default calendar for this project.
       //
-      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getDayType(d) == DayType.DEFAULT))
+      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getCalendarDayType(d) == DayType.DEFAULT))
       {
          calendar.setParent(m_projectFile.getDefaultCalendar());
       }
@@ -1535,7 +1535,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       {
          if (calendar.getCalendarHours(day) == null)
          {
-            DayType dayType = calendar.getDayType(day);
+            DayType dayType = calendar.getCalendarDayType(day);
             if (dayType != DayType.DEFAULT)
             {
                ProjectCalendarHours hours = calendar.addCalendarHours(day);

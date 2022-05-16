@@ -167,7 +167,7 @@ public abstract class ProjectCalendarDays
     *
     * @param day required day
     * @return value of underlying working day flag
-    * @deprecated use {@code getDayType}
+    * @deprecated use {@code getCalendarDayType}
     */
    @Deprecated public DayType getWorkingDay(Day day)
    {
@@ -187,7 +187,7 @@ public abstract class ProjectCalendarDays
     * @param day required day
     * @return value of underlying working day flag
     */
-   public DayType getDayType(Day day)
+   public DayType getCalendarDayType(Day day)
    {
       return m_days[day.getValue() - 1];
    }
