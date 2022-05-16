@@ -27,8 +27,11 @@ import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Task;
@@ -476,6 +479,61 @@ public final class DateHelper
       Date result = cal.getTime();
       pushCalendar(cal);
       return result;
+   }
+
+   /**
+    * Retrieves the amount of working time represented by
+    * a list of DateRange instances. Each DateRange instance
+    * represents a start and finish time, the date components
+    * of the Date instance are ignored.
+    *
+    * @param timeRanges list of time ranges
+    * @return total duration of the supplied time range in milliseconds
+    */
+   public static long getTotalDurationInMilliseconds(List<DateRange> timeRanges)
+   {
+      return timeRanges.stream().mapToLong(r -> getDurationInMilliseconds(r.getStart(), r.getEnd())).sum();
+//      long total = 0;
+//      for (DateRange range : timeRanges)
+//      {
+//         total += getDurationInMilliseconds(range.getStart(), range.getEnd());
+//      }
+//      return total;
+   }
+
+   /**
+    * Retrieves the duration in milliseconds between time values.
+    * As the time values are represented by Date instances, which are timestamps, the
+    * day month and year components are normalised using getCanonical time, so we're
+    * only measuring the difference between the time values.
+    *
+    * @param start start time
+    * @param end end time
+    * @return duration between start and end time in milliseconds
+    */
+   public static long getDurationInMilliseconds(Date start, Date end)
+   {
+      long total = 0;
+      if (start != null && end != null)
+      {
+         Date startTime = getCanonicalTime(start);
+         Date endTime = getCanonicalTime(end);
+
+         Date startDay = getDayStartDate(start);
+         Date finishDay = getDayStartDate(end);
+
+         //
+         // Handle the case where the end of the range is at midnight -
+         // this will show up as the start and end days not matching
+         //
+         if (startDay.getTime() != finishDay.getTime())
+         {
+            endTime = addDays(endTime, 1);
+         }
+
+         total = (endTime.getTime() - startTime.getTime());
+      }
+      return total;
    }
 
    /**

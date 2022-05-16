@@ -357,7 +357,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       for (Day day : Day.values())
       {
-         DayType type = record.getDayType(day);
+         DayType type = record.getCalendarDayType(day);
          if (type == null)
          {
             type = DayType.DEFAULT;

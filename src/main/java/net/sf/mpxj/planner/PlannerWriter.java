@@ -630,7 +630,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private boolean isWorkingDay(ProjectCalendar mpxjCalendar, Day day)
    {
       boolean result = false;
-      net.sf.mpxj.DayType type = mpxjCalendar.getDayType(day);
+      net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);
       if (type == null)
       {
          type = net.sf.mpxj.DayType.DEFAULT;
@@ -678,7 +678,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getWorkingDayString(ProjectCalendar mpxjCalendar, Day day)
    {
       String result = null;
-      net.sf.mpxj.DayType type = mpxjCalendar.getDayType(day);
+      net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);
       if (type == null)
       {
          type = net.sf.mpxj.DayType.DEFAULT;

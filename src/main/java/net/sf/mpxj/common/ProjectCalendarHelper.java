@@ -26,7 +26,6 @@ package net.sf.mpxj.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
@@ -245,7 +244,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarWeek targetWeek = target.addWorkWeek();
          for (Day day : Day.values())
          {
-            targetWeek.setDayType(day, sourceWeek.getDayType(day));
+            targetWeek.setDayType(day, sourceWeek.getCalendarDayType(day));
             ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
             if (sourceHours != null)
             {

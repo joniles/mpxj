@@ -1,4 +1,4 @@
-/*
+ /*
  * file:       ProjectCalendar.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2003
@@ -421,7 +421,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
+         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -1057,6 +1057,34 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
+    * Retrieve the day type. If this is a derived calendar and the day type is
+    * DEFAULT, recurse through the calendar hierarchy to find the effective
+    * day type. Note that if teh calendar hierarchy has been incorrectly
+    * configured and that the base calendar defines the day as DEFAULT,
+    * this implementation will assume Saturday and Sunday are non-working
+    * days.
+    *
+    * @param day required day
+    * @return day type
+    */
+   public DayType getDayType(Day day)
+   {
+      DayType result = getCalendarDayType(day);
+      if (result == DayType.DEFAULT)
+      {
+         if (m_parent == null)
+         {
+            result = (day == Day.SATURDAY || day == Day.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
+         }
+         else
+         {
+            result = m_parent.getDayType(day);
+         }
+      }
+      return result;
+   }
+
+   /**
     * Method indicating whether a day is a working or non-working day.
     *
     * @param day required day
@@ -1064,26 +1092,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public boolean isWorkingDay(Day day)
    {
-      DayType value = getDayType(day);
-      boolean result;
-
-      if (value == DayType.DEFAULT)
-      {
-         if (m_parent != null)
-         {
-            result = m_parent.isWorkingDay(day);
-         }
-         else
-         {
-            result = (day != Day.SATURDAY && day != Day.SUNDAY);
-         }
-      }
-      else
-      {
-         result = (value == DayType.WORKING);
-      }
-
-      return (result);
+      return getDayType(day) == DayType.WORKING;
    }
 
    /**
@@ -1387,7 +1396,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public Duration getWork(Day day, TimeUnit format)
    {
       ProjectCalendarHours ranges = getRanges(null, null, day);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(DateHelper.getTotalDurationInMilliseconds(ranges), format);
    }
 
    /**
@@ -1401,7 +1410,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public Duration getWork(Date date, TimeUnit format)
    {
       ProjectCalendarHours ranges = getRanges(date, null, null);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(DateHelper.getTotalDurationInMilliseconds(ranges), format);
    }
 
    /**
@@ -1498,7 +1507,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
                   //
                   // Add the working time for the whole day
                   //
-                  totalTime += getTotalTime(ranges);
+                  totalTime += DateHelper.getTotalDurationInMilliseconds(ranges);
                }
             }
 
@@ -1646,23 +1655,6 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
-    * Retrieves the amount of working time represented by
-    * a calendar exception.
-    *
-    * @param exception calendar exception
-    * @return length of time in milliseconds
-    */
-   private long getTotalTime(ProjectCalendarHours exception)
-   {
-      long total = 0;
-      for (DateRange range : exception)
-      {
-         total += getTime(range.getStart(), range.getEnd());
-      }
-      return (total);
-   }
-
-   /**
     * This method calculates the total amount of working time in a single
     * day, which intersects with the supplied time range.
     *
@@ -1706,13 +1698,13 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
                }
                else
                {
-                  total += getTime(start, end, canoncialRangeStart, canonicalRangeEnd);
+                  total += getDurationOfOverlap(start, end, canoncialRangeStart, canonicalRangeEnd);
                }
             }
          }
       }
 
-      return (total);
+      return total;
    }
 
    /**
@@ -1769,61 +1761,27 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
-    * Retrieves the amount of time between two date time values. Note that
-    * these values are converted into canonical values to remove the
-    * date component.
+    * This method returns the length of overlapping time in milliseconds
+    * between two time ranges.
     *
-    * @param start start time
-    * @param end end time
-    * @return length of time
-    */
-   private long getTime(Date start, Date end)
-   {
-      long total = 0;
-      if (start != null && end != null)
-      {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalTime(end);
-
-         Date startDay = DateHelper.getDayStartDate(start);
-         Date finishDay = DateHelper.getDayStartDate(end);
-
-         //
-         // Handle the case where the end of the range is at midnight -
-         // this will show up as the start and end days not matching
-         //
-         if (startDay.getTime() != finishDay.getTime())
-         {
-            endTime = DateHelper.addDays(endTime, 1);
-         }
-
-         total = (endTime.getTime() - startTime.getTime());
-      }
-      return (total);
-   }
-
-   /**
-    * This method returns the length of overlapping time between two time
-    * ranges.
-    *
-    * @param start1 start of first range
-    * @param end1 end of first range
-    * @param start2 start of second range
-    * @param end2 end of second range
+    * @param startTime1 start of first range
+    * @param endTime1 end of first range
+    * @param startTime2 start of second range
+    * @param endTime2 end of second range
     * @return overlapping time in milliseconds
     */
-   private long getTime(Date start1, Date end1, Date start2, Date end2)
+   private long getDurationOfOverlap(Date startTime1, Date endTime1, Date startTime2, Date endTime2)
    {
       long total = 0;
 
-      if (start1 != null && end1 != null && start2 != null && end2 != null)
+      if (startTime1 != null && endTime1 != null && startTime2 != null && endTime2 != null)
       {
          long start;
          long end;
 
-         start = Math.max(start1.getTime(), start2.getTime());
+         start = Math.max(startTime1.getTime(), startTime2.getTime());
 
-         end = Math.min(end1.getTime(), end2.getTime());
+         end = Math.min(endTime1.getTime(), endTime2.getTime());
 
          if (start < end)
          {
@@ -1831,7 +1789,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          }
       }
 
-      return (total);
+      return total;
    }
 
    /**
@@ -1856,7 +1814,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       for (Day day : Day.values())
       {
          pw.println("   [Day " + day);
-         pw.println("      type=" + getDayType(day));
+         pw.println("      type=" + getCalendarDayType(day));
          pw.println("      hours=" + getHours(day));
          pw.println("   ]");
       }
@@ -2019,7 +1977,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
 
       for (Day day : Day.values())
       {
-         setDayType(day, cal.getDayType(day));
+         setDayType(day, cal.getCalendarDayType(day));
 
          ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)
@@ -2080,7 +2038,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       }
 
       // Use the day type to retrieve the ranges
-      switch (week.getDayType(day))
+      switch (week.getCalendarDayType(day))
       {
          case NON_WORKING:
          {

@@ -167,7 +167,7 @@ public abstract class ProjectCalendarDays
     *
     * @param day required day
     * @return value of underlying working day flag
-    * @deprecated use {@code getDayType}
+    * @deprecated use {@code getCalendarDayType}
     */
    @Deprecated public DayType getWorkingDay(Day day)
    {
@@ -175,19 +175,13 @@ public abstract class ProjectCalendarDays
    }
 
    /**
-    * This method allows the retrieval of the actual working day flag,
-    * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
-    * from the isWorkingDay method as it retrieves the actual flag value.
-    * The isWorkingDay method will always refer back to the base calendar
-    * to get a boolean value if the underlying flag value is DEFAULT. If
-    * isWorkingDay were the only method available to access this flag,
-    * it would not be possible to determine that a resource calendar
-    * had one or more flags set to DEFAULT.
+    * Retrieves the day type for a given day from this calendar.
+    * Doe not reference a base calendar or any exceptions or working weeks.
     *
     * @param day required day
-    * @return value of underlying working day flag
+    * @return day type
     */
-   public DayType getDayType(Day day)
+   public DayType getCalendarDayType(Day day)
    {
       return m_days[day.getValue() - 1];
    }
@@ -272,7 +266,7 @@ public abstract class ProjectCalendarDays
 //         }
       }
    }
-
+   
    /**
     * Working week name.
     */
