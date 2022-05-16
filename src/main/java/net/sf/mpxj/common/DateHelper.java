@@ -492,12 +492,6 @@ public final class DateHelper
    public static long getTotalDurationInMilliseconds(List<DateRange> timeRanges)
    {
       return timeRanges.stream().mapToLong(r -> getDurationInMilliseconds(r.getStart(), r.getEnd())).sum();
-      //      long total = 0;
-      //      for (DateRange range : timeRanges)
-      //      {
-      //         total += getDurationInMilliseconds(range.getStart(), range.getEnd());
-      //      }
-      //      return total;
    }
 
    /**
