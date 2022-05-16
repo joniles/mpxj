@@ -71,16 +71,16 @@ SATURDAY is a Working day
 ## Working Hours
 So far, all we have done is set a flag which tells us whether a day is working
 or non-working. How do we know the working times on those days? We can use the
-`getHours` method to find that information:
+`getCalendarHours` method to find that information:
 
 
-`getHours` returns a `List` of `DateRange` instances. `DateRange` is a
+`getCalendarHours` returns a `List` of `DateRange` instances. `DateRange` is a
 simple immutable class which represents a span of time between a start date and
 an end date as an inclusive range. Let's try printing these `DateRange` instances
 to our output to see what we get:
 
 ```java
-List<DateRange> hours = calendar.getHours(Day.TUESDAY);
+List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
 hours.forEach(System.out::println);
 ```
 
@@ -130,7 +130,7 @@ for (Day day : Day.values()) {
  String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
  System.out.println(day
     + " is a " + working + " day ("
-    + formatDateRanges(calendar.getHours(day)) + ")");
+    + formatDateRanges(calendar.getCalendarHours(day)) + ")");
 }
 ```
 
@@ -242,7 +242,7 @@ startTime = DateHelper.getTime(0, 0);
 finishTime = DateHelper.getTime(0, 0);
 hours.clear();
 hours.add(new DateRange(startTime, finishTime));
-System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
+System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
 ```
 
 This looks reasonable:
@@ -277,7 +277,7 @@ finishTime = javaCalendar.getTime();
 
 hours.clear();
 hours.add(new DateRange(startTime, finishTime));
-System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
+System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
 ```
 
 We still end up with a range which looks like this:
@@ -439,9 +439,27 @@ this output:
 
 As we can see, we've changed multiple days with this single exception.
 
-
-
 ## Working Weeks
+So far we've looked at using `ProjectCalendarException`, which can make one
+change (add or change working hours, or make days non-working) and
+apply that change to one day or a contiguous range of days. What if we want to
+make more complex changes to the working pattern of a calendar?
+
+One way to do this is to set up one or more "working weeks", using the
+`ProjectCalendarWeek` class. The `ProjectCalendar` we've been working with so
+far is actually already a form of working week (they share a common parent
+class). The main differences between the two are that a `ProjectCalendarWeek`
+allows us to specify the range of dates over which it is effective, and a
+`ProjectCalendarWeek` does not have exceptions: exceptions are always added to
+a `ProjectCalendar`.
+
+Let's imagine that our project has a two week "crunch" period at the beginning of
+October where we will need to work 16 hour days, seven days a week (I hope you
+this is a fictional example and you'd don't have to work at such a high
+intensity in real life!).
+
+
+
 
 ## Recurring Exceptions
 
