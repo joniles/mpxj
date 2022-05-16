@@ -356,7 +356,7 @@ public class ProjectTreeController
       {
          @Override public String toString()
          {
-            return day.name() + " (" + calendar.getDayType(day) + ")";
+            return day.name() + " (" + calendar.getCalendarDayType(day) + ")";
          }
       };
       parentNode.add(dayNode);

@@ -1604,7 +1604,7 @@ final class AstaReader
       {
          if (calendar.getCalendarHours(day) == null)
          {
-            DayType dayType = calendar.getDayType(day);
+            DayType dayType = calendar.getCalendarDayType(day);
             if (dayType != DayType.DEFAULT)
             {
                ProjectCalendarHours hours = calendar.addCalendarHours(day);
@@ -1616,7 +1616,7 @@ final class AstaReader
             }
          }
       }
-      
+
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 

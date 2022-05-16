@@ -361,7 +361,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (Day day : Day.values())
       {
          m_writer.writeStartObject(day.name().toLowerCase());
-         writeStringField("type", week.getDayType(day).toString().toLowerCase());
+         writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
          writeCalendarHours(week.getCalendarHours(day));
          m_writer.writeEndObject();
       }

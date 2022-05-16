@@ -421,7 +421,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
+         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -1057,6 +1057,34 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
+    * Retrieve the day type. If this is a derived calendar and the day type is
+    * DEFAULT, recurse through the calendar hierarchy to find the effective
+    * day type. Note that if teh calendar hierarchy has been incorrectly
+    * configured and that the base calendar defines the day as DEFAULT,
+    * this implementation will assume Saturday and Sunday are non-working
+    * days.
+    *
+    * @param day required day
+    * @return day type
+    */
+   public DayType getDayType(Day day)
+   {
+      DayType result = getCalendarDayType(day);
+      if (result == DayType.DEFAULT)
+      {
+         if (m_parent == null)
+         {
+            result = (day == Day.SATURDAY || day == Day.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
+         }
+         else
+         {
+            result = m_parent.getDayType(day);
+         }
+      }
+      return result;
+   }
+
+   /**
     * Method indicating whether a day is a working or non-working day.
     *
     * @param day required day
@@ -1064,26 +1092,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public boolean isWorkingDay(Day day)
    {
-      DayType value = getDayType(day);
-      boolean result;
-
-      if (value == DayType.DEFAULT)
-      {
-         if (m_parent != null)
-         {
-            result = m_parent.isWorkingDay(day);
-         }
-         else
-         {
-            result = (day != Day.SATURDAY && day != Day.SUNDAY);
-         }
-      }
-      else
-      {
-         result = (value == DayType.WORKING);
-      }
-
-      return (result);
+      return getDayType(day) == DayType.WORKING;
    }
 
    /**
@@ -1856,7 +1865,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       for (Day day : Day.values())
       {
          pw.println("   [Day " + day);
-         pw.println("      type=" + getDayType(day));
+         pw.println("      type=" + getCalendarDayType(day));
          pw.println("      hours=" + getHours(day));
          pw.println("   ]");
       }
@@ -2019,7 +2028,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
 
       for (Day day : Day.values())
       {
-         setDayType(day, cal.getDayType(day));
+         setDayType(day, cal.getCalendarDayType(day));
 
          ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)
@@ -2080,7 +2089,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       }
 
       // Use the day type to retrieve the ranges
-      switch (week.getDayType(day))
+      switch (week.getCalendarDayType(day))
       {
          case NON_WORKING:
          {
