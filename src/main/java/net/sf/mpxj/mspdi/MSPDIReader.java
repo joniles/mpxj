@@ -586,48 +586,59 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
       // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project,
       // so we will ignore it too!
-      if (fromDate != null && toDate != null)
+      if (fromDate == null && toDate == null)
       {
-         ProjectCalendarException bce = bc.addCalendarException(fromDate, toDate);
-         bce.setName(exception.getName());
-         readRecurringData(bce, exception);
-         Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
-         if (times != null)
+         return;
+      }
+
+      ProjectCalendarException bce;
+      RecurringData recurringData = readRecurringData(exception, fromDate, toDate);
+      if (recurringData != null && !recurringData.isValid())
+      {
+         return;
+      }
+
+      if (recurringData == null)
+      {
+         bce = bc.addCalendarException(fromDate, toDate);
+      }
+      else
+      {
+         bce = bc.addCalendarException(recurringData);
+      }
+      bce.setName(exception.getName());
+
+      Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes times = exception.getWorkingTimes();
+      if (times != null)
+      {
+         List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
+         for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
          {
-            List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-            for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
+            Date startTime = period.getFromTime();
+            Date endTime = period.getToTime();
+
+            if (startTime != null && endTime != null)
             {
-               Date startTime = period.getFromTime();
-               Date endTime = period.getToTime();
-
-               if (startTime != null && endTime != null)
+               if (startTime.getTime() >= endTime.getTime())
                {
-                  if (startTime.getTime() >= endTime.getTime())
-                  {
-                     endTime = DateHelper.addDays(endTime, 1);
-                  }
-
-                  bce.add(new DateRange(startTime, endTime));
+                  endTime = DateHelper.addDays(endTime, 1);
                }
+
+               bce.add(new DateRange(startTime, endTime));
             }
          }
       }
    }
 
-   /**
-    * Read recurring data for a calendar exception.
-    *
-    * @param bce MPXJ calendar exception
-    * @param exception XML calendar exception
-    */
-   private void readRecurringData(ProjectCalendarException bce, Project.Calendars.Calendar.Exceptions.Exception exception)
+   private RecurringData readRecurringData(Project.Calendars.Calendar.Exceptions.Exception exception, Date fromDate, Date toDate)
    {
+      RecurringData rd = null;
       RecurrenceType rt = getRecurrenceType(NumberHelper.getInt(exception.getType()));
       if (rt != null)
       {
-         RecurringData rd = new RecurringData();
-         rd.setStartDate(bce.getFromDate());
-         rd.setFinishDate(bce.getToDate());
+         rd = new RecurringData();
+         rd.setStartDate(fromDate);
+         rd.setFinishDate(toDate);
          rd.setRecurrenceType(rt);
          rd.setRelative(getRelative(NumberHelper.getInt(exception.getType())));
          rd.setOccurrences(NumberHelper.getInteger(exception.getOccurrences()));
@@ -681,13 +692,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          // Flatten daily recurring exceptions if they only result in one date range.
          //
-         bce.setRecurring(rd);
-         if (rd.getRecurrenceType() == RecurrenceType.DAILY && bce.getExpandedExceptions().size() == 1)
+         if (rd.getRecurrenceType() == RecurrenceType.DAILY && NumberHelper.getInt(rd.getFrequency()) == 1)
          {
-            bce.setRecurring(null);
-
+            rd = null;
          }
       }
+      return rd;
    }
 
    /**

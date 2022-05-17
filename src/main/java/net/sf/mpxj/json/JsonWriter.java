@@ -408,15 +408,28 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarException(ProjectCalendarException ex) throws IOException
    {
-      DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
       m_writer.writeStartObject(null);
-      writeStringField("name", ex.getName());
-      writeDateField("from", ex.getFromDate());
-      writeDateField("to", ex.getToDate());
-      writeStringField("type", type.toString().toLowerCase());
+      writeCalendarExceptionDetails(ex);
       writeCalendarHours(ex);
       writeRecurringData(ex.getRecurring());
       m_writer.writeEndObject();
+   }
+
+   /**
+    * Write basic header details for a calendar exception.
+    *
+    * @param ex calendar exception
+    */
+   private void writeCalendarExceptionDetails(ProjectCalendarException ex) throws IOException
+   {
+      DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
+      writeStringField("name", ex.getName());
+      if (ex.getRecurring() == null)
+      {
+         writeDateField("from", ex.getFromDate());
+         writeDateField("to", ex.getToDate());
+      }
+      writeStringField("type", type.toString().toLowerCase());
    }
 
    /**
