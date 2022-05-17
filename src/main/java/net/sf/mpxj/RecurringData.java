@@ -893,9 +893,20 @@ public class RecurringData
          }
       }
 
-      pw.print(" From " + m_startDate);
-      pw.print(" For " + m_occurrences + " occurrences");
-      pw.print(" To " + m_finishDate);
+      if (m_startDate != null)
+      {
+         pw.print(" From " + m_startDate);
+      }
+
+      if (m_occurrences != null)
+      {
+         pw.print(" For " + m_occurrences + " occurrences");
+      }
+
+      if (m_finishDate != null)
+      {
+         pw.print(" To " + m_finishDate);
+      }
 
       pw.println("]");
       pw.flush();
