@@ -22,6 +22,9 @@
 			<action dev="joniles" type="update">The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` method `copy` has been deprecated, without replacement.</action>
 			<action dev="joniles" type="update">Added a `getWork` method to `ProjectCalendar` which calculates the amount of work given a `Day` instance.</action>
+			<action dev="joniles" type="update">Added `removeWorkWeek` and `removeCalendarException` methods to `ProjectCalendar`.</action>
+			<action dev="joniles" type="update">Recurring exceptions are now added to a `ProjectCalendar` using the `addCalendarException` method which takes a `recurringData` instance its argument.</action>
+			<action dev="joniles" type="update">The `ProjectCalendarException` method `setRecurringData` has been removed, recurring exceptions should be added using the `addCalendarExcepton` method described above. (Note: this will be a breaking change if you were creating recurring exceptions)</action>
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>
