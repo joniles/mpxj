@@ -415,6 +415,11 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndObject();
    }
 
+   /**
+    * Write basic header details for a calendar exception.
+    *
+    * @param ex calendar exception
+    */
    private void writeCalendarExceptionDetails(ProjectCalendarException ex) throws IOException
    {
       DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
