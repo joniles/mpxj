@@ -312,6 +312,17 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
+    * Remove a work week from the calendar.
+    *
+    * @param week week to remove
+    */
+   public void removeWorkWeek(ProjectCalendarWeek week)
+   {
+      m_workWeeks.remove(week);
+      clearWorkingDateCache();
+   }
+
+   /**
     * Clears the list of calendar exceptions.
     */
    public void clearWorkWeeks()
@@ -328,7 +339,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public List<ProjectCalendarWeek> getWorkWeeks()
    {
-      return m_workWeeks;
+      return Collections.unmodifiableList(m_workWeeks);
    }
 
    /**
@@ -373,6 +384,18 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
+    * Remove an exception from the calendar.
+    *
+    * @param exception exception to remove
+    */
+   public void removeCalendarException(ProjectCalendarException exception)
+   {
+      m_exceptions.remove(exception);
+      m_expandedExceptions.clear();
+      clearWorkingDateCache();
+   }
+
+   /**
     * Clears the list of calendar exceptions.
     */
    public void clearCalendarExceptions()
@@ -393,7 +416,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public List<ProjectCalendarException> getCalendarExceptions()
    {
       sortExceptions();
-      return m_exceptions;
+      return Collections.unmodifiableList(m_exceptions);
    }
 
    /**
@@ -406,7 +429,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public List<ProjectCalendarException> getExpandedCalendarExceptions()
    {
       populateExpandedExceptions();
-      return m_expandedExceptions;
+      return Collections.unmodifiableList(m_expandedExceptions);
    }
 
    /**
@@ -1237,7 +1260,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public List<Task> getTasks()
    {
-      return getParentFile().getTasks().stream().filter(t -> m_uniqueID.equals(t.getCalendarUniqueID())).collect(Collectors.toList());
+      return Collections.unmodifiableList(getParentFile().getTasks().stream().filter(t -> m_uniqueID.equals(t.getCalendarUniqueID())).collect(Collectors.toList()));
    }
 
    /**
@@ -1247,7 +1270,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public List<Resource> getResources()
    {
-      return getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList());
+      return Collections.unmodifiableList(getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList()));
    }
 
    /**
@@ -1873,7 +1896,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return m_projectFile.getCalendars().stream().filter(c -> c.getParent() != null && m_uniqueID.equals(c.getParent().getUniqueID())).collect(Collectors.toList());
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.getParent() != null && m_uniqueID.equals(c.getParent().getUniqueID())).collect(Collectors.toList()));
    }
 
    @Override public String toString()
