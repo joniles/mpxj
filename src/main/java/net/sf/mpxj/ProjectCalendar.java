@@ -341,7 +341,17 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public ProjectCalendarException addCalendarException(Date fromDate, Date toDate)
    {
-      ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate);
+      return addCalendarException(fromDate, toDate, null);
+   }
+
+   public ProjectCalendarException addCalendarException(RecurringData recurringData)
+   {
+      return addCalendarException(null, null, recurringData);
+   }
+
+   private ProjectCalendarException addCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   {
+      ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate, recurringData);
       m_exceptions.add(bce);
       m_expandedExceptions.clear();
       m_exceptionsSorted = false;

@@ -100,21 +100,20 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
             continue;
          }
 
-         ProjectCalendarException ex = new ProjectCalendarException(fromDate, toDate);
-         ProjectCalendarHours hours = getCalendarHours(day);
-         // TODO: for consistency this should never be null, just empty?
-         if (hours != null)
-         {
-            ex.addAll(hours);
-         }
-
          RecurringData recurrence = new RecurringData();
          recurrence.setRecurrenceType(RecurrenceType.WEEKLY);
          recurrence.setStartDate(fromDate);
          recurrence.setFinishDate(toDate);
          recurrence.setUseEndDate(true);
          recurrence.setWeeklyDay(day, true);
-         ex.setRecurring(recurrence);
+
+         ProjectCalendarException ex = new ProjectCalendarException(recurrence);
+         ProjectCalendarHours hours = getCalendarHours(day);
+         // TODO: for consistency this should never be null, just empty?
+         if (hours != null)
+         {
+            ex.addAll(hours);
+         }
 
          result.add(ex);
       }
