@@ -540,7 +540,7 @@ hours of working time.
 
 Now let's look at the first week of our crunch period:
 
-```
+```console
 01/10/2022  8.0h
 02/10/2022  8.0h
 03/10/2022  16.0h
@@ -568,17 +568,42 @@ want to represent a regularly occurring exception which will change our default
 working pattern such as, for example, Christmas Day or Thanksgiving? To deal
 with this we can use recurring exceptions.
 
-A recurring exception can be created simply by attaching a `RecurringData`
-instance to an exception:
+A recurring exception can be created simply by passing an instance of
+`RecurringData` to the `addCalendarException` method.
 
 ```java
 RecurringData recurringData = new RecurringData();
 exception = calendar.addCalendarException(recurringData);
 ```
 
+Let's create a simple recurence for 1st January for five years:
 
+```java
+recurringData.setRecurrenceType(RecurrenceType.YEARLY);
+recurringData.setOccurrences(5);
+recurringData.setDayNumber(Integer.valueOf(1));
+recurringData.setMonthNumber(Integer.valueOf(1));
+recurringData.setStartDate(df.parse("01/01/2023"));
+System.out.println(recurringData);
+```
 
-## Expanded Exceptions
+The `toString` method on the `RecurringData` class tries to describe the recurrence as best it can, here's the output
+we'll see from the code above:
+
+```console
+[RecurringData Yearly on the 1 January From Sun Jan 01 00:00:00 GMT 2023 For 5 occurrences]
+```
+
+The example above shows a very simple configuration. Full details of how to use
+`RecurringData` are provided elsewhere as they are beyond the scope of this
+section.
+
+Before we move on from recurring exceptions, one useful feature of the
+`ProjectCalendarException` class is the `getExpandedExceptions` method. This
+will convert a recurring exception into a list of individual exceptions
+representing each time the recurring exception will affect the calendar. You
+may find this useful if you need to display or pass this data on for
+consumption elsewhere.
 
 ## Calendar Hierarchies
 
