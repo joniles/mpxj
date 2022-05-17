@@ -42,7 +42,6 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
@@ -408,15 +407,19 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          if (calendar != null)
          {
             Date date = row.getDate("DATE");
-            ProjectCalendarException exception = calendar.addCalendarException(date, date);
+
             if (row.getBoolean("ANNUAL"))
             {
+               // TODO set end date based on project end date?
                RecurringData recurring = new RecurringData();
                recurring.setRecurrenceType(RecurrenceType.YEARLY);
                recurring.setYearlyAbsoluteFromDate(date);
                recurring.setStartDate(date);
-               exception.setRecurring(recurring);
-               // TODO set end date based on project end date
+               calendar.addCalendarException(recurring);
+            }
+            else
+            {
+               calendar.addCalendarException(date, date);
             }
          }
       }

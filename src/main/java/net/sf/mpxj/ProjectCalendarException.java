@@ -45,8 +45,19 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    ProjectCalendarException(Date fromDate, Date toDate)
    {
+      this(fromDate, toDate, null);
+   }
+
+   ProjectCalendarException(RecurringData recurringData)
+   {
+      this(null, null, recurringData);
+   }
+
+   ProjectCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   {
       m_fromDate = DateHelper.getDayStartDate(fromDate);
       m_toDate = DateHelper.getDayEndDate(toDate);
+      m_recurring = recurringData;
    }
 
    /**
@@ -76,7 +87,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public Date getFromDate()
    {
-      return (m_fromDate);
+      return m_recurring == null ? m_fromDate : m_recurring.getCalculatedFirstDate();
    }
 
    /**
@@ -86,7 +97,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public Date getToDate()
    {
-      return (m_toDate);
+      return m_recurring == null ? m_toDate : DateHelper.getDayEndDate(m_recurring.getCalculatedLastDate());
    }
 
    /**
@@ -101,24 +112,13 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
    }
 
    /**
-    * Set the recurrence data associated with this exception.
-    * Set this to null if this is a default single day exception.
-    *
-    * @param recurring recurrence data
-    */
-   public void setRecurring(RecurringData recurring)
-   {
-      m_recurring = recurring;
-   }
-
-   /**
     * Gets working status.
     *
     * @return boolean value
     */
    public boolean getWorking()
    {
-      return (size() != 0);
+      return size() != 0;
    }
 
    /**
@@ -176,7 +176,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
          result = (DateHelper.compare(getFromDate(), getToDate(), date) == 0);
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -187,13 +187,13 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public boolean contains(ProjectCalendarException exception)
    {
-      return !(DateHelper.compare(m_toDate, exception.m_fromDate) < 0 || DateHelper.compare(exception.m_toDate, m_fromDate) < 0);
+      return !(DateHelper.compare(getToDate(), exception.getFromDate()) < 0 || DateHelper.compare(exception.getToDate(), getFromDate()) < 0);
    }
 
    @Override public int compareTo(ProjectCalendarException o)
    {
-      long fromTime1 = m_fromDate.getTime();
-      long fromTime2 = o.m_fromDate.getTime();
+      long fromTime1 = getFromDate().getTime();
+      long fromTime2 = o.getFromDate().getTime();
       return (Long.compare(fromTime1, fromTime2));
    }
 
@@ -206,10 +206,13 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
          sb.append(" name=").append(m_name);
       }
       sb.append(" working=").append(getWorking());
-      sb.append(" fromDate=").append(m_fromDate);
-      sb.append(" toDate=").append(m_toDate);
 
-      if (m_recurring != null)
+      if (m_recurring == null)
+      {
+         sb.append(" fromDate=").append(m_fromDate);
+         sb.append(" toDate=").append(m_toDate);
+      }
+      else
       {
          sb.append(" recurring=").append(m_recurring);
       }
@@ -225,6 +228,6 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
 
    private final Date m_fromDate;
    private final Date m_toDate;
+   private final RecurringData m_recurring;
    private String m_name;
-   private RecurringData m_recurring;
 }

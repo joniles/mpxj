@@ -199,8 +199,15 @@ public final class ProjectCalendarHelper
          {
             // There is no collision between the source exception and the exceptions in the target calendar.
             // We can just add a verbatim copy of the source exception.
-            ProjectCalendarException newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
-            newException.setRecurring(sourceException.getRecurring());
+            ProjectCalendarException newException;
+            if (sourceException.getRecurring() == null)
+            {
+               newException = target.addCalendarException(sourceException.getFromDate(), sourceException.getToDate());
+            }
+            else
+            {
+               newException = target.addCalendarException(sourceException.getRecurring());
+            }
             newException.addAll(sourceException);
          }
       }
