@@ -560,6 +560,27 @@ weeks can be added to the calendar which override this pattern for specific
 date ranges.
 
 ## Recurring Exceptions
+So far we've seen how exceptions can be used to override to default the working
+pattern established by a calendar for either a single day, or for a contiguous
+range of days. We've also seen how an entirely new seven-day working pattern
+can be applied across a range of dates by using working weeks. But what if we
+want to represent a regularly occurring exception which will change our default
+working pattern like, for example, Christmas Day or Thanksgiving? To deal with 
+these we can use recurring exceptions.
+
+A recurring exception can be created simply by attaching a `RecurringData`
+instance to an exception:
+
+```java
+exceptionStartDate = df.parse("25/12/2022");
+exceptionEndDate = df.parse("25/12/2030");
+exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
+
+RecurringData recurringData = new RecurringData();
+exception.setRecurring(recurringData);
+```
+
+
 
 ## Expanded Exceptions
 
