@@ -338,22 +338,42 @@ public class RecurringData
       return m_dates;
    }
 
+   /**
+    * Returns true if the configuration is valid,
+    * i.e. it returns one or more start dates.
+    *
+    * @return true if the configuration is valid
+    */
    public boolean isValid()
    {
       populateDates();
       return m_dates.length > 0;
    }
 
+   /**
+    * Retrieve the first calculated date on which an exception
+    * will actually occur. The user-supplied start date may
+    * not align with the dates generated for the exception.
+    *
+    * @return first calculated exception date
+    */
    public Date getCalculatedFirstDate()
    {
       populateDates();
       return m_dates[0];
    }
 
+   /**
+    * Retrieve the last calculated date on which an exception
+    * will actually occur.  The user-supplied finish date may
+    * not align with the dates generated for the exception.
+    *
+    * @return last calculated exception date
+    */
    public Date getCalculatedLastDate()
    {
       populateDates();
-      return m_dates[m_dates.length-1];
+      return m_dates[m_dates.length - 1];
    }
 
    private void populateDates()

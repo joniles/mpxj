@@ -332,8 +332,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
-    * Used to add exceptions to the calendar. The MPX standard defines
-    * a limit of 250 exceptions per calendar.
+    * Add an exception to the calendar.
     *
     * @param fromDate exception start date
     * @param toDate exception end date
@@ -344,11 +343,25 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       return addCalendarException(fromDate, toDate, null);
    }
 
+   /**
+    * Add a recurring exception to the calendar.
+    *
+    * @param recurringData RecurringData instance used to define the exception occurrences
+    * @return ProjectCalendarException instance
+    */
    public ProjectCalendarException addCalendarException(RecurringData recurringData)
    {
       return addCalendarException(null, null, recurringData);
    }
 
+   /**
+    * Internal method to add a normal or recurring exception to the calendar.
+    *
+    * @param fromDate exception start date
+    * @param toDate exception end date
+    * @param recurringData RecurringData instance used to define the exception occurrences
+    * @return ProjectCalendarException instance
+    */
    private ProjectCalendarException addCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
    {
       ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate, recurringData);
