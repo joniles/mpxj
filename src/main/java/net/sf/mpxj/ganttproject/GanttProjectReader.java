@@ -298,7 +298,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
          Date exceptionDate = calendar.getTime();
          DateHelper.pushCalendar(calendar);
-         ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
+         ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
 
          // TODO: not sure how NEUTRAL should be handled
          if ("WORKING_DAY".equals(date.getType()))

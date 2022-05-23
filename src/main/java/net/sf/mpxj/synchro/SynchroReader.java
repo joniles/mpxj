@@ -166,7 +166,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))
       {
          Date date = assignment.getDate("DATE");
-         processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date, date));
+         processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date));
       }
 
       m_calendarMap.put(row.getUUID("UUID"), calendar);

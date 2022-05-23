@@ -47,7 +47,7 @@ class HolidayRecord extends AbstractSDEFRecord
             Date date = getDate(index);
             if (date != null)
             {
-               calendar.addCalendarException(date, date);
+               calendar.addCalendarException(date);
             }
          }
       }
