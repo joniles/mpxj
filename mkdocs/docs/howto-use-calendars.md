@@ -616,7 +616,7 @@ and have all of our other calendars inherit it?
 
 As it happens, we can do this as our calendars can be organised into a
 hierarchy, with each "child" calendar inheriting its configuration from
-its "parent" calendar and overriding that configuration as required(rather like
+a "parent" calendar and overriding that configuration as required rather like
 a class hierarchy in a programing language).
 
 
