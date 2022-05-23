@@ -326,19 +326,17 @@ here's the output we get:
 Now we can create our exception.
 
 ```java
-ProjectCalendarException exception = calendar.addCalendarException(exceptionDate, exceptionDate);
+ProjectCalendarException exception = calendar.addCalendarException(exceptionDate);
 exception.setName("A day off");
 ```
 
-The code above illustrates adding an exception for a single day, hence we're
-passing the same date twice to the `addCalendarException` method (i.e. this is
-the start date and the end date of the exception). The time component of the
-`Date` instance you pass in here is irrelevant, the exception is always
-effective from the beginning of the day of the start date, to the end of the
-day of the finish date. The code above also shows that optionally an exception
-can be named, this can make it easier to understand the purpose of each
-exception. Now if we re-run our code which displays whether our chosen date is
-a working day, this is what we see:
+The code above illustrates adding an exception for a single day. The time
+component of the `Date` instance you pass in here is irrelevant, the exception
+is always effective from the beginning of the day to the end of the day. The
+code above also shows that optionally an exception can be named, this can make
+it easier to understand the purpose of each exception. Now if we re-run our
+code which displays whether our chosen date is a working day, this is what we
+see:
 
 ```
 10/05/2022 is a non-working day
@@ -426,8 +424,10 @@ finishTime = DateHelper.getTime(13, 0);
 exception.add(new DateRange(startTime, finishTime));
 ``` 
 
-Running our code again to print out the working hours for each day now gives us
-this output:
+Here we can see that we're using a differnt version of the
+`addCalendarException` method which takes a start and an end date, rather that
+just a single date. Running our code again to print out the working hours for
+each day now gives us this output:
 
 ```
 23/05/2022  0.0h
@@ -587,8 +587,8 @@ recurringData.setStartDate(df.parse("01/01/2023"));
 System.out.println(recurringData);
 ```
 
-The `toString` method on the `RecurringData` class tries to describe the recurrence as best it can, here's the output
-we'll see from the code above:
+The `toString` method on the `RecurringData` class tries to describe the
+recurrence as best it can, here's the output we'll see from the code above:
 
 ```console
 [RecurringData Yearly on the 1 January From Sun Jan 01 00:00:00 GMT 2023 For 5 occurrences]
@@ -614,13 +614,167 @@ holidays and so on. We could set all of this up programmatically of course, but
 wouldn't it be great if we could change this kind of detail in just one place,
 and have all of our other calendars inherit it?
 
+### Creating a Calendar Hierarchy
 As it happens, we can do this as our calendars can be organised into a
 hierarchy, with each "child" calendar inheriting its configuration from
 a "parent" calendar and overriding that configuration as required rather like
 a class hierarchy in a programing language).
 
+```java
+ProjectFile file = new ProjectFile();
+ProjectCalendar parentCalendar = file.addDefaultBaseCalendar();
+Date christmasDay = df.parse("25/12/2023");
+parentCalendar.addCalendarException(christmasDay);
+```
+
+In the example above we've used the familiar `addDefaultBaseCalendar` method to
+create a simple calendar, and called `addCalendarException` to add an
+exception for Christmas Day 2023.
+
+```java
+ProjectCalendar childCalendar = file.addDefaultDerivedCalendar();
+childCalendar.setParent(parentCalendar);
+System.out.println(christmasDay + " is a working day: "
+   + childCalendar.isWorkingDate(christmasDay));
+```
+
+Now we've created `childCalendar`, using a method we've not seen before,
+`addDefaultBaseCalendar` (we'll talk about this method in more detail in a
+minute), and we've used the new calendar's `setParent` method to attach
+`parentCalendar` as its parent. We can see the effect of this when we check to
+see if Christmas Day 2023 is a working day. This is a Monday so by default it
+will be a working day, but as `childCalendar` is inheriting from
+`parentCalendar` it picks up the exception defined in `parentCalendar` and
+makes Christmas Day a non-working day.
+
+Here's the output when our code is executed:
+
+```
+Mon Dec 25 00:00:00 GMT 2023 is a working day: false
+```
+
+We can also do the same thing with day types:
+
+```java
+parentCalendar.setDayType(Day.TUESDAY, DayType.NON_WORKING);
+System.out.println("Is " + Day.TUESDAY + " a working day: "
+   + childCalendar.isWorkingDay(Day.TUESDAY));
+```
+
+In the example above we've set Tuesday to be a non-working day in the parent
+calendar, and we can see that this is inherited by the child calendar. Here's
+the output we see when we execute our code:
+
+```
+Is TUESDAY a working day: false
+```
+
+So what's special about the "derived calendar" we;ve just created
+(`childCalendar`), why is it different to the normal calendar, and what's the
+difference between the `addDefaultBaseCalendar` and `addDefaultDerivedCalendar`
+methods?
+
+The answer to this question lies in the `DayType` enumeration. Let's
+take a look at the day types for `parentCalendar`.
+
+```
+SUNDAY is a NON_WORKING day
+MONDAY is a WORKING day
+TUESDAY is a NON_WORKING day
+WEDNESDAY is a WORKING day
+THURSDAY is a WORKING day
+FRIDAY is a WORKING day
+SATURDAY is a NON_WORKING day
+```
+
+So far so good, we have a mixture of working an non-working days, and we can see
+that as part of our last example we set Tuesday to be a non-working day. Now
+let's take a look at `childCalendar`:
+
+```
+SUNDAY is a DEFAULT day
+MONDAY is a DEFAULT day
+TUESDAY is a DEFAULT day
+WEDNESDAY is a DEFAULT day
+THURSDAY is a DEFAULT day
+FRIDAY is a DEFAULT day
+SATURDAY is a DEFAULT day
+```
+
+Ah-ha! Here we can see that the `DayType` enumeration actually has a third value
+alongside `WORKING` and `NON_WORKING`: `DEFAULT`. The `DEFAULT` value simply
+means that we should inherit the parent calendar's settings for this particular
+day: so whether the day is working, non-working, what the working hours are,
+and so on.
+
+We can override the day type we're inheriting from the base calendar:
+
+```java
+childCalendar.setDayType(Day.TUESDAY, DayType.WORKING);
+Date startTime = DateHelper.getTime(9, 0);
+Date finishTime = DateHelper.getTime(12, 30);
+childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
+```
+
+In the code above we're explicitly setting Tuesday to be a working day, rather than inheriting
+the settings for Tuesday from the parent calendar, then we're adding the working hours we want for Tuesday.
+
+Earlier we said we come back and look at the `addDefaultDerivedCalendar` method
+in a little more detail. The main difference between
+`addDefaultDerivedCalendar` and `addDefaultBaseCalendar` is that the calendar
+created by `addDefaultDerivedCalendar` has no working hours defined, and all
+day types are set to `DEFAULT` so everything is inherited from the parent
+calendar.
+
+### Working with a Calendar Hierarchy
+In general when working with a calendar hierarchy, if we use a calendar to
+determine working/non-working time, working hours, and so on for a given date,
+anything configured in a child calendar will always override what we find in
+the parent calendar. So for example if we have exceptions or working weeks
+configured in a child calendar, these will override anything found in a parent
+calendar. If we're asking the calendar a question about a particular day
+(rather than a date), for example Monday, Tuesday and so on, we'll use
+information from the child calendar if the day type is `WORKING` or
+`NON_WORKING`, otherwise we'll work our way up the calendar hierarchy until we
+find the first ancestor calendar which does not specify the day type as
+`DEFAULT`, and we'll use the configuration for the day in question from that
+calendar.
+
+This brings us on to an interesting question: how do we know if we ask the
+calendar for a piece of information, whether that's come from the calendar
+whose method we've just called, or if the response we've received has come from
+another calendar somewhere further up the calendar hierarchy?
+
+As it happens there are only two calendar attributes for which this is relevant:
+day type and hours. For day type the calendar provides two methods, `getDayType`, which
+will return a result from the current calendar or a parent calendar, and `getCalendarDayType`
+which only looks at the current calendar when returning a result. Thus if we just want
+to look at the configuration of the current calendar, and ignore any parent calendars we'd use 
+`getCalendarDayType`.
+
+Similarly when we want to look at the working hours for a given day we'd use
+`getHours`(which will consult parent calendars if the current calendar doesn't
+define working hours for the day we're interested in), and we'd use
+`getCalendarHours` to just look at the current calendar, ignoring any parent
+calendars.
+
+## How deep is your Hierarchy?
+
+MPXJ will allow you to create an arbitrarily deep hierarchy of calendars if you
+wish by establishing parent-child relationships between the calendars you
+create. Most schedule application file formats will only support a limited
+hierarchy of calendars, which you will see when you read files of this type
+when using MPXJ. If you are using MPXJ to create or modify schedule data, when
+you write the results to a file MPXJ will attempt to ensure that the calendars
+it writes to the file format you have chosen reflect what the target
+application is expecting. This means that MPXJ may end up "flattening" or
+otherwise simplifying a set of calendars and their hierarchy to ensure that
+they are read correctly by the target application and are "functionally
+equivalent" in use.
 
 ## Calendar Container
+
+So far - looked at creating and configuring...
 
 For convenience we used the `addDefaultBaseCalendar` You can use the `ProjectFile` method `addCalendar` to add a new calendar without
 any defaults, you'll 
@@ -631,7 +785,7 @@ Changes made when writing calendars.
 Note resource, project, and personal calendars from P6.
 
 ## To Do
-Reader prerequisites.
+Reader prerequisites - for whole book.
 Timezones.
 Task and Resource relationships with the calendar.
 Other `ProjectCalendar` attributes and their uses.
