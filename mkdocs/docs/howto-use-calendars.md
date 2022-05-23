@@ -746,10 +746,11 @@ whose method we've just called, or if the response we've received has come from
 another calendar somewhere further up the calendar hierarchy?
 
 As it happens there are only two calendar attributes for which this is relevant:
-day type and hours. For day type the calendar provides two methods, `getDayType`, which
-will return a result from the current calendar or a parent calendar, and `getCalendarDayType`
-which only looks at the current calendar when returning a result. Thus if we just want
-to look at the configuration of the current calendar, and ignore any parent calendars we'd use 
+day type and hours. For day type the calendar provides two methods,
+`getDayType`, which will return a result from the current calendar or a parent
+calendar, and `getCalendarDayType` which only looks at the current calendar
+when returning a result. Thus if we just want to look at the configuration of
+the current calendar, and ignore any parent calendars we'd use
 `getCalendarDayType`.
 
 Similarly when we want to look at the working hours for a given day we'd use
@@ -759,12 +760,13 @@ define working hours for the day we're interested in), and we'd use
 calendars.
 
 ## How deep is your Hierarchy?
-
 MPXJ will allow you to create an arbitrarily deep hierarchy of calendars if you
 wish by establishing parent-child relationships between the calendars you
 create. Most schedule application file formats will only support a limited
 hierarchy of calendars, which you will see when you read files of this type
-when using MPXJ. If you are using MPXJ to create or modify schedule data, when
+when using MPXJ.
+
+If you are using MPXJ to create or modify schedule data, when
 you write the results to a file MPXJ will attempt to ensure that the calendars
 it writes to the file format you have chosen reflect what the target
 application is expecting. This means that MPXJ may end up "flattening" or
@@ -774,18 +776,136 @@ equivalent" in use.
 
 ## Calendar Container
 
-So far - looked at creating and configuring...
+So far we've looked at creating and configuring calendars. If we've just read a
+schedule in from a file, how can we examine the calendars it contains? Let's
+set up some calendars and take a look:
 
-For convenience we used the `addDefaultBaseCalendar` You can use the `ProjectFile` method `addCalendar` to add a new calendar without
-any defaults, you'll 
+```java
+ProjectFile file = new ProjectFile();
+ProjectCalendar calendar1 = file.addCalendar();
+calendar1.setName("Calendar 1");
 
-## Calendars in the Wild
-Reading calendars.
-Changes made when writing calendars.
-Note resource, project, and personal calendars from P6.
+ProjectCalendar calendar2 = file.addCalendar();
+calendar2.setName("Calendar 2");
+
+ProjectCalendar calendar3 = file.addCalendar();
+calendar2.setName("Calendar 3");
+
+```
+
+Our sample code above creates three calendars, each with a distinct name. To see
+what calendars our file contains we can use the `ProjectFile` method
+`getCalendars`:
+
+```java
+file.getCalendars().forEach(c -> System.out.println(c.getName()));
+```
+
+Which gives us the following output, as we'd expect:
+
+```
+Calendar 1
+Calendar 2
+Calendar 3
+```
+
+The `getCalendars` method returns an object which implements the
+`List<ProjectCalendar>` interface, but it also does more for us than just that.
+The actual object being returned is a `ProjectCalendarContainer`, which is in
+charge of managing the calendars in the file and making it easy to access
+them.
+
+The typical way this is done is through the use of the calendar's Unique ID
+attribute. Each calendar has an `Integer` Unique ID, typically this is
+read as part of the calendar information from a schedule file, or if you are
+creating a schedule yourself, the default is for the Unique ID to be
+automatically populated. Let's see:
+
+
+```java
+file.getCalendars().forEach(c -> System.out.println(c.getName() 
+   + " (Unique ID: " + c.getUniqueID() + ")"));
+```
+
+Here's what we get:
+
+```
+Calendar 1 (Unique ID: 1)
+Calendar 2 (Unique ID: 2)
+Calendar 3 (Unique ID: 3)
+```
+
+Let's use a Unique ID to retrieve a calendar:
+
+```java
+ProjectCalendar calendar = file.getCalendars().getByUniqueID(2);
+System.out.println(calendar.getName());
+```
+
+Here's the result of running this code:
+
+```
+Calendar 2
+```
+
+The `ProjectCalendarContainer` also allows us to retrieve calendars by name,
+although that's not recommended as MPXJ doesn't enforce presence or uniqueness
+constraints on calendar names.
+
+Most of the time accessing a calendar from some other part of MPXJ is handled
+for you, for example to retrieve a resource's calendar you just need to call
+the `Resource` method `getCalendar` rather than having to use
+`ProjectCalendarContainer` to retrieve it by Unique ID.
+
+## Calendar Hierarchies in the Wild
+As noted in an earlier section, although MPXJ can support arbitrarily deep
+hierarchies of calendars, the schedule applications it can work with generally
+don't support this. The notes below outline some of the different cases.
+
+### Microsoft Project
+Microsoft Project uses two-tiers of calendars. The first tier are referred to
+as "base calendars", one of which is marked as the default calendar for the
+project. Work is scheduled based on the default calendar, unless a task
+explicitly selects a different base calendar to use when being scheduled. Each
+resource will have its own calendar, which is always derived from a base
+calendar. Note that, as you might expect, material resources don't have a
+calendar!
+
+### Primavera P6
+The situation with P6 is a little more complicated, although it's still a
+two-tier arrangement. P6 has the concept of Global calendars (broadly similar
+to base calendars in Microsoft Project). These can be assigned to activities in
+any project. Global calendars are never derived from other calendars.
+
+You can also have Project calendars which, as their name suggests,
+can only be assigned to activities in the project to which they belong. Project
+calendars can be derived from a Global Calendar, or they can have no parent calendar.
+
+Finally you can have two types of resource calendar: Shared, or Personal.
+These can either be derived from a Global calendar, or can have no parent.
+A Shared resource calendar can be assigned to multiple resources, but a Personal
+resource calendar can only be assigned to a single resource.
+
+When reading a P6 schedule, the `ProjectCalendar` method `getType` can be used
+to retrieve the calendar type (Global, Shared, or Personal), while the
+`getPersonal` method returns a Boolean flag indicating if the calendar is a
+Personal resource calendar.
+
+### Others
+ConceptDraw, Planner, SureTrak and TurboProject all support some form of
+calendar hierarchy, although Planner is the only one which definitely supports
+an arbitrarily deep nested calendar structure.
+
+## Other Calendar Methods
+
+### Attributes
+
+### Relationships
+
+Task and Resource relationships with the calendar.
+Other `ProjectCalendar` attributes and their uses.
+
 
 ## To Do
 Reader prerequisites - for whole book.
-Timezones.
-Task and Resource relationships with the calendar.
-Other `ProjectCalendar` attributes and their uses.
+Timezones - probably a book level note
