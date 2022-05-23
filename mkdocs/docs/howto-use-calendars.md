@@ -7,11 +7,11 @@ will be required to complete the tasks.
 
 ## Calendars in MPXJ
 Let's see how calendars work in MPXJ. First let's try creating one. As it
-happens, the `ProjectFile` class provides a convenience method to create a
-default calendar. The calendar it creates is modelled on the `Standard`
-calendar you'd see in Microsoft Project if you created a new project. This
-default calendar defines Monday to Friday as working days, with 8 working hours
-each day (8am to noon, then 1pm to 5pm).
+happens, the `ProjectFile` class provides a convenience method
+`addDefaultBaseCalendar` to create a default calendar. The calendar it creates
+is modelled on the `Standard` calendar you'd see in Microsoft Project if you
+created a new project. This default calendar defines Monday to Friday as
+working days, with 8 working hours each day (8am to noon, then 1pm to 5pm).
 
 ```java
 ProjectFile file = new ProjectFile();
@@ -606,6 +606,24 @@ may find this useful if you need to display or pass this data on for
 consumption elsewhere.
 
 ## Calendar Hierarchies
+Now we've seen how to set up an individual calendar, perhaps we could go ahead
+and create calendars for all of the people who will be working on our project?
+What we'd quickly find is that a considerable amount of the information in each
+calendar will be the same: the same working week pattern, the same public
+holidays and so on. We could set all of this up programmatically of course, but
+wouldn't it be great if we could change this kind of detail in just one place,
+and have all of our other calendars inherit it?
+
+As it happens, we can do this as our calendars can be organised into a
+hierarchy, with each "child" calendar inheriting its configuration from
+its "parent" calendar and overriding that configuration as required(rather like
+a class hierarchy in a programing language).
+
+
+## Calendar Container
+
+For convenience we used the `addDefaultBaseCalendar` You can use the `ProjectFile` method `addCalendar` to add a new calendar without
+any defaults, you'll 
 
 ## Calendars in the Wild
 Reading calendars.
