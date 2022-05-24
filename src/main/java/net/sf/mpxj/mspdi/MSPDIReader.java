@@ -442,13 +442,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
       else
       {
-         bc.setDayType(Day.SUNDAY, DayType.DEFAULT);
-         bc.setDayType(Day.MONDAY, DayType.DEFAULT);
-         bc.setDayType(Day.TUESDAY, DayType.DEFAULT);
-         bc.setDayType(Day.WEDNESDAY, DayType.DEFAULT);
-         bc.setDayType(Day.THURSDAY, DayType.DEFAULT);
-         bc.setDayType(Day.FRIDAY, DayType.DEFAULT);
-         bc.setDayType(Day.SATURDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
       }
 
       readWorkWeeks(calendar, bc);

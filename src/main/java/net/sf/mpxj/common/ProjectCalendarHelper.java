@@ -86,13 +86,13 @@ public final class ProjectCalendarHelper
       ProjectCalendar derivedCalendar = new ProjectCalendar(file);
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
-      derivedCalendar.setDayType(Day.SUNDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.MONDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.TUESDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.WEDNESDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.THURSDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.FRIDAY, DayType.DEFAULT);
-      derivedCalendar.setDayType(Day.SATURDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
+      derivedCalendar.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
 
       if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
       {
@@ -228,11 +228,11 @@ public final class ProjectCalendarHelper
          ProjectCalendarHours newHours = target.addCalendarHours(day);
          if (hours == null || hours.size() == 0)
          {
-            target.setDayType(day, DayType.NON_WORKING);
+            target.setCalendarDayType(day, DayType.NON_WORKING);
          }
          else
          {
-            target.setDayType(day, DayType.WORKING);
+            target.setCalendarDayType(day, DayType.WORKING);
             newHours.addAll(hours);
          }
       }
@@ -251,7 +251,7 @@ public final class ProjectCalendarHelper
          ProjectCalendarWeek targetWeek = target.addWorkWeek();
          for (Day day : Day.values())
          {
-            targetWeek.setDayType(day, sourceWeek.getCalendarDayType(day));
+            targetWeek.setCalendarDayType(day, sourceWeek.getCalendarDayType(day));
             ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
             if (sourceHours != null)
             {

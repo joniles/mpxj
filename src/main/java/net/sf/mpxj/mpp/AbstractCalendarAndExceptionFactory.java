@@ -297,7 +297,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       int dayType = MPPUtility.getShort(data, offset);
       if (dayType == 1)
       {
-         week.setDayType(day, DayType.DEFAULT);
+         week.setCalendarDayType(day, DayType.DEFAULT);
       }
       else
       {
@@ -305,11 +305,11 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          int rangeCount = MPPUtility.getShort(data, offset + 2);
          if (rangeCount == 0)
          {
-            week.setDayType(day, DayType.NON_WORKING);
+            week.setCalendarDayType(day, DayType.NON_WORKING);
          }
          else
          {
-            week.setDayType(day, DayType.WORKING);
+            week.setCalendarDayType(day, DayType.WORKING);
             Calendar cal = DateHelper.popCalendar();
             for (int index = 0; index < rangeCount; index++)
             {

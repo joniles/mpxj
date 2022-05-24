@@ -261,7 +261,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             }
             else
             {
-               cal.setDayType(day, DayType.DEFAULT);
+               cal.setCalendarDayType(day, DayType.DEFAULT);
             }
          }
          else

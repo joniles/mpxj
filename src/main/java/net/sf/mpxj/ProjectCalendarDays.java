@@ -201,7 +201,7 @@ public abstract class ProjectCalendarDays
     */
    public void setWorkingDay(Day day, boolean working)
    {
-      setDayType(day, (working ? DayType.WORKING : DayType.NON_WORKING));
+      setCalendarDayType(day, (working ? DayType.WORKING : DayType.NON_WORKING));
    }
 
    /**
@@ -223,8 +223,20 @@ public abstract class ProjectCalendarDays
     *
     * @param day required day
     * @param type day type flag
+    * @deprecated use {@code setCalendarDayType}
     */
-   public void setDayType(Day day, DayType type)
+   @Deprecated public void setDayType(Day day, DayType type)
+   {
+      setCalendarDayType(day, type);
+   }
+
+   /**
+    * Set the type of a given day.
+    *
+    * @param day required day
+    * @param type day type flag
+    */
+   public void setCalendarDayType(Day day, DayType type)
    {
       m_days[day.getValue() - 1] = type;
 

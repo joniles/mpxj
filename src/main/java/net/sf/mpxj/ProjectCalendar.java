@@ -478,7 +478,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setDayType(d, DayType.DEFAULT));
+         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setCalendarDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -2085,7 +2085,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
 
       for (Day day : Day.values())
       {
-         setDayType(day, cal.getCalendarDayType(day));
+         setCalendarDayType(day, cal.getCalendarDayType(day));
 
          ProjectCalendarHours hours = getCalendarHours(day);
          if (hours != null)

@@ -1645,7 +1645,7 @@ final class AstaReader
             // Haven't worked out how the start day is determined.
             Day currentDay = Day.SUNDAY;
             ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-            Arrays.stream(Day.values()).forEach(d -> week.setDayType(d, DayType.NON_WORKING));
+            Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
 
             for (Row row : timeEntryRows)
             {
@@ -1676,7 +1676,7 @@ final class AstaReader
                if (type == DayType.WORKING)
                {
                   hours.add(new DateRange(startTime, endTime));
-                  week.setDayType(currentDay, DayType.WORKING);
+                  week.setCalendarDayType(currentDay, DayType.WORKING);
                }
 
                lastEndTime = endTime.getTime();

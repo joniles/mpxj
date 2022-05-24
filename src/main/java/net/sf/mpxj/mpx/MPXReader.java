@@ -714,13 +714,13 @@ public final class MPXReader extends AbstractProjectStreamReader
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
 
-      calendar.setDayType(Day.SUNDAY, record.getDayType(1));
-      calendar.setDayType(Day.MONDAY, record.getDayType(2));
-      calendar.setDayType(Day.TUESDAY, record.getDayType(3));
-      calendar.setDayType(Day.WEDNESDAY, record.getDayType(4));
-      calendar.setDayType(Day.THURSDAY, record.getDayType(5));
-      calendar.setDayType(Day.FRIDAY, record.getDayType(6));
-      calendar.setDayType(Day.SATURDAY, record.getDayType(7));
+      calendar.setCalendarDayType(Day.SUNDAY, record.getDayType(1));
+      calendar.setCalendarDayType(Day.MONDAY, record.getDayType(2));
+      calendar.setCalendarDayType(Day.TUESDAY, record.getDayType(3));
+      calendar.setCalendarDayType(Day.WEDNESDAY, record.getDayType(4));
+      calendar.setCalendarDayType(Day.THURSDAY, record.getDayType(5));
+      calendar.setCalendarDayType(Day.FRIDAY, record.getDayType(6));
+      calendar.setCalendarDayType(Day.SATURDAY, record.getDayType(7));
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
