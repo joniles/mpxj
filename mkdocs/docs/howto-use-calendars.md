@@ -71,13 +71,13 @@ SATURDAY is a WORKING day
 ## Working Hours
 So far, all we have done is set a flag which tells us whether a day is working
 or non-working. How do we know the working times on those days? We can use the
-`getCalendarHours` method to find that information:
+`getCalendarHours` method to find that information.
 
 
-`getCalendarHours` returns a `List` of `DateRange` instances. `DateRange` is a
-simple immutable class which represents a span of time between a start date and
-an end date as an inclusive range. Let's try printing these `DateRange` instances
-to our output to see what we get:
+The `getCalendarHours` method returns a `List` of `DateRange` instances.
+`DateRange` is a simple immutable class which represents a span of time between
+a start date and an end date as an inclusive range. Let's try printing these
+`DateRange` instances to our output to see what we get:
 
 ```java
 List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
@@ -94,7 +94,7 @@ Here's the output:
 This isn't quite what we were expecting! What's happening here is that
 `DateRange` is using `java.util.Date` values to represent the start and end of
 the range, and the `toString` method of the `dateRange` class is just using
-these values directly. As these `java.util.Date` represents a full timestamp,
+these values directly. As these `java.util.Date` represent a full timestamp,
 we're seeing the entire timestamp here in our output. The day, month and year
 components of the timestamp have been set to a default value (in this case
 January 1st 0001).
@@ -169,7 +169,7 @@ SATURDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 ```
 
 > The version of MPXJ at the time of writing (10.5.0) has a limitation
-> that if `setDayType` is used to make a day into a working day, we don't
+> that if `setCalendarDayType` is used to make a day into a working day, we don't
 > automatically add working hours for it. This behaviour is likely to
 > change with the next major version of MPXJ.
 
@@ -311,7 +311,8 @@ DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 Date exceptionDate = df.parse("10/05/2022");
 
 boolean workingDate = calendar.isWorkingDate(exceptionDate);
-System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
+System.out.println(df.format(exceptionDate) + " is a "
+   + (workingDate ? "working" : "non-working") + " day");
 ```
 
 In the code above we're creating a `Date` instance to represent the date we want
@@ -424,7 +425,7 @@ finishTime = DateHelper.getTime(13, 0);
 exception.add(new DateRange(startTime, finishTime));
 ``` 
 
-Here we can see that we're using a differnt version of the
+Here we can see that we're using a different version of the
 `addCalendarException` method which takes a start and an end date, rather that
 just a single date. Running our code again to print out the working hours for
 each day now gives us this output:
@@ -540,7 +541,7 @@ hours of working time.
 
 Now let's look at the first week of our crunch period:
 
-```console
+```
 01/10/2022  8.0h
 02/10/2022  8.0h
 03/10/2022  16.0h
@@ -601,9 +602,9 @@ section.
 Before we move on from recurring exceptions, one useful feature of the
 `ProjectCalendarException` class is the `getExpandedExceptions` method. This
 will convert a recurring exception into a list of individual exceptions
-representing each time the recurring exception will affect the calendar. You
-may find this useful if you need to display or pass this data on for
-consumption elsewhere.
+representing each date or range of dates the recurring exception will affect
+the calendar. You may find this useful if you need to display or pass this data
+on for consumption elsewhere.
 
 ## Calendar Hierarchies
 Now we've seen how to set up an individual calendar, perhaps we could go ahead
@@ -617,8 +618,11 @@ and have all of our other calendars inherit it?
 ### Creating a Calendar Hierarchy
 As it happens, we can do this as our calendars can be organised into a
 hierarchy, with each "child" calendar inheriting its configuration from
-a "parent" calendar and overriding that configuration as required rather like
-a class hierarchy in a programing language).
+a "parent" calendar and overriding that configuration as required rather like a
+class hierarchy in a programing language). This will allow us to have one
+shared "base" calendar for everyone, with derived calendars used for
+individuals on our team where we need to add variation, for example personal
+vacation time and so on.
 
 ```java
 ProjectFile file = new ProjectFile();
@@ -656,7 +660,7 @@ Mon Dec 25 00:00:00 GMT 2023 is a working day: false
 We can also do the same thing with day types:
 
 ```java
-parentCalendar.setDayType(Day.TUESDAY, DayType.NON_WORKING);
+parentCalendar.setCalendarDayType(Day.TUESDAY, DayType.NON_WORKING);
 System.out.println("Is " + Day.TUESDAY + " a working day: "
    + childCalendar.isWorkingDay(Day.TUESDAY));
 ```
@@ -669,7 +673,7 @@ the output we see when we execute our code:
 Is TUESDAY a working day: false
 ```
 
-So what's special about the "derived calendar" we;ve just created
+So what's special about the "derived calendar" we've just created
 (`childCalendar`), why is it different to the normal calendar, and what's the
 difference between the `addDefaultBaseCalendar` and `addDefaultDerivedCalendar`
 methods?
@@ -710,7 +714,7 @@ and so on.
 We can override the day type we're inheriting from the base calendar:
 
 ```java
-childCalendar.setDayType(Day.TUESDAY, DayType.WORKING);
+childCalendar.setCalendarDayType(Day.TUESDAY, DayType.WORKING);
 Date startTime = DateHelper.getTime(9, 0);
 Date finishTime = DateHelper.getTime(12, 30);
 childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
@@ -752,7 +756,7 @@ relevant. These are summarised by the table below.
 
 | Attribute | Set | Get | Get with Hierarchy |
 |-----------|-----|-----|--------------------|
-| Day Type          | `setDayType`                 | `getCalendarDayType`         | `getDayType`        |
+| Day Type          | `setCalendarDayType`         | `getCalendarDayType`         | `getDayType`        |
 | Hours             | `addCalendarHours`           | `getCalendarHours`           | `getHours`          |
 | Minutes Per Day   | `setCalendarMinutesPerDay`   | `getCalendarMinutesPerDay`   | `getMinutesPerDay`  |
 | Minutes Per Week  | `setCalendarMinutesPerWeek`  | `getCalendarMinutesPerWeek`  | `getMinutesPerWeek` |
@@ -789,23 +793,25 @@ simplifying a set of calendars and their hierarchy to ensure that they are read
 correctly by the target application and are "functionally equivalent" in use.
 
 ### Microsoft Project
-Microsoft Project uses two-tiers of calendars. The first tier are referred to
-as "base calendars", one of which is marked as the default calendar for the
-project. Work is scheduled based on the default calendar, unless a task
-explicitly selects a different base calendar to use when being scheduled. Each
+Microsoft Project uses two tiers of calendars. The first tier of calendars are
+referred to as "base calendars", one of which is marked as the default calendar
+for the project. Work is scheduled based on the default calendar, unless a task
+explicitly selects a different base calendar to use when being scheduled, or
+resources with their own calendars have been assigned to the task. Each
 resource will have its own calendar, which is always derived from a base
-calendar. Note that, as you might expect, material resources don't have a
-calendar!
+calendar.
+
+> Note that, as you might expect, material resources don't have a calendar!
 
 ### Primavera P6
 The situation with P6 is a little more complicated, although it's still a
-two-tier arrangement. P6 has the concept of Global calendars (broadly similar
+two tier arrangement. P6 has the concept of Global calendars (broadly similar
 to base calendars in Microsoft Project). These can be assigned to activities in
 any project. Global calendars are never derived from other calendars.
 
-You can also have Project calendars which, as their name suggests,
-can only be assigned to activities in the project to which they belong. Project
-calendars can be derived from a Global Calendar, or they can have no parent calendar.
+You can also have Project calendars which, as their name suggests, can only be
+assigned to activities in the project to which they belong. Project calendars
+can be derived from a Global Calendar, or they can have no parent calendar.
 
 Finally you can have two types of resource calendar: Shared, or Personal.
 These can either be derived from a Global calendar, or can have no parent.
@@ -896,25 +902,43 @@ Here's the result of running this code:
 Calendar 2
 ```
 
-The `ProjectCalendarContainer` also allows us to retrieve calendars by name,
-although that's not recommended as MPXJ doesn't enforce presence or uniqueness
-constraints on calendar names.
+> The `ProjectCalendarContainer` class also allows us to retrieve calendars by
+> name, although that's not recommended as MPXJ doesn't enforce presence or
+> uniqueness constraints on calendar names.
 
 Most of the time accessing a calendar from some other part of MPXJ is handled
 for you, for example to retrieve a resource's calendar you just need to call
 the `Resource` method `getCalendar` rather than having to use
 `ProjectCalendarContainer` to retrieve it by Unique ID.
 
-## Other Calendar Methods
+## Calendar Relationships
+The `ProjectCalendar` class provides a variety of methods to allow us to explore
+how it relates to other calendars and the rest of the schedule.
 
-### Attributes
+As we've been discussing the hierarchy of calendars, the first method we can try
+is `isDerived`, which will return `true` if this calendar has been derived from
+a parent calendar. Alongside this we can also use the `getParent` method to 
+retrieve this calendar's parent. We can traverse a hierarchy of calendars using
+this method until `getParent` returns `null` at which point we know we have
+reached a "base" calendar and can go no further.
 
-### Relationships
+Calendars can also be assigned to both Tasks and Resources. The `getTasks` and
+`getResources` methods will each retrieve a list of the tasks and resources
+which explicitly use this calendar.
 
-Task and Resource relationships with the calendar.
-Other `ProjectCalendar` attributes and their uses.
+Finally, earlier in this section we mentioned the idea of the default calendar
+for a project. We can set or retrieve the default calendar using the
+`ProjectFile` methods `setDefaultCalendar` and `getDefaultCalendar`, as
+illustrated below.
 
+```java
+ProjectFile file = new ProjectFile();
+ProjectCalendar calendar = file.addDefaultBaseCalendar();
+file.setDefaultCalendar(calendar);
+System.out.println("The default calendar name is "
+   + file.getDefaultCalendar().getName());
+```
 
-## To Do
-Reader prerequisites - for whole book.
-Timezones - probably a book level note
+As the name suggests, the default calendar will be used for all date, time,
+duration and work calculations if no other calendar has been assigned
+explicitly.
