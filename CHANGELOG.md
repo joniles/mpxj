@@ -1,11 +1,27 @@
 # Changelog
 
-## 10.5.0 (unreleased)
+## 10.6.0 (unreleased)
+
+## 10.5.0 (2022-05-24)
+* The `ProjectCalendaWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
+* The `ProjectCalendar` methods `attachHoursToDay` and `removeHoursFromDay` have been removed. Use the `addCalendarHours` and `removeCalendarHours` methods instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
+* The class hierarchy for `ProjectCalendarHours` and `ProjectCalendarException` has been simplified, but there should be no impact for uses of these classes.
+* The `ProjectCalendarHours` class now implements the `List` interface. Methods in this class not part ofthe `List` interface have been deprecated in favour of the equivalent `List` methods.
 * Updated `MPXWriter` to ensure: calendar names are quoted if necessary, all calendars have names, all calendar names are unique.
 * Updated `MPXReader` to recognise `wk` as a valid time unit.
 * Updated `MPXWriter`, `PrimaveraPMFileWriter`, `SDEFWriter` and `PlannerWriter` to ensure any working weeks defined by a calendar are represented by exceptons.
 * Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.
 * Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.
+* When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.
+* Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.
+* Add suppport for writing the calendar type and personal calendar flag to PMXML files.
+* Updated the calendar class hierarchy: `ProjectCalendar` and `ProjectCalendarWeek` both now inherit from a new class `ProjectCalendarDays`. Note that `ProjectCalendar` is no longer a subclass of `ProjectCalendarWeek`.
+* The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.
+* The `ProjectCalendar` method `copy` has been deprecated, without replacement.
+* Added a `getWork` method to `ProjectCalendar` which calculates the amount of work given a `Day` instance.
+* Added `removeWorkWeek` and `removeCalendarException` methods to `ProjectCalendar`.
+* Recurring exceptions are now added to a `ProjectCalendar` using the `addCalendarException` method which takes a `recurringData` instance its argument.
+* The `ProjectCalendarException` method `setRecurringData` has been removed, recurring exceptions should be added using the `addCalendarExcepton` method described above. (Note: this will be a breaking change if you were creating recurring exceptions)
 
 ## 10.4.0 (2022-05-05)
 * Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).
