@@ -419,7 +419,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             }
             else
             {
-               calendar.addCalendarException(date, date);
+               calendar.addCalendarException(date);
             }
          }
       }

@@ -311,7 +311,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
             if (day.getType().equals("day-type"))
             {
                Date exceptionDate = getDate(day.getDate());
-               ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate, exceptionDate);
+               ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
                List<DateRange> dateRanges = map.get(day.getId());
                if (dateRanges != null)
                {

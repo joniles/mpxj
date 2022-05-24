@@ -240,7 +240,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          }
 
          Date date = row.getDate("DATE");
-         ProjectCalendarException exception = calendar.addCalendarException(date, date);
+         ProjectCalendarException exception = calendar.addCalendarException(date);
          if (row.getBoolean("WORKING"))
          {
             exception.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);

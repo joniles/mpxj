@@ -819,7 +819,7 @@ public class RecurringData
       DateFormatSymbols dfs = new DateFormatSymbols();
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
-      pw.print("[RecurringData");
+      pw.print("[RecurringData ");
       pw.print(m_recurrenceType);
 
       switch (m_recurrenceType)

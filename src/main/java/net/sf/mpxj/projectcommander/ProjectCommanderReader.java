@@ -265,7 +265,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          DateHelper.pushCalendar(cal);
 
-         ProjectCalendarException ex = calendar.addCalendarException(exceptionDate, exceptionDate);
+         ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
          if (!calendar.isWorkingDay(day))
          {
             ex.addAll(ranges.get(day));

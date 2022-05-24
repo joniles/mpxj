@@ -345,6 +345,17 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    /**
     * Add an exception to the calendar.
     *
+    * @param date exception date
+    * @return ProjectCalendarException instance
+    */
+   public ProjectCalendarException addCalendarException(Date date)
+   {
+      return addCalendarException(date, date, null);
+   }
+
+   /**
+    * Add an exception to the calendar.
+    *
     * @param fromDate exception start date
     * @param toDate exception end date
     * @return ProjectCalendarException instance

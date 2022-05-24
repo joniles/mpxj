@@ -159,7 +159,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
       for (Gantt.Holidays.Holiday holiday : gantt.getHolidays().getHoliday())
       {
-         ProjectCalendarException exception = calendar.addCalendarException(holiday.getDate(), holiday.getDate());
+         ProjectCalendarException exception = calendar.addCalendarException(holiday.getDate());
          exception.setName(holiday.getContent());
       }
 
