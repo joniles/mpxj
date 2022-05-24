@@ -40,6 +40,7 @@ like to be featured in this list.
 * Lighthouse [www.artifactsoftware.com](http://www.artifactsoftware.com)
 * LiveProject [www.kadonk.com](http://www.kadonk.com)
 * Merlin [www.projectwizards.net](http://www.projectwizards.net/)
+* Milestones Professional [kidasa.com](https://kidasa.com/)
 * MOOS Project Viewer [www.moosprojectviewer.com](http://www.moosprojectviewer.com)
 * mpower [www.monitor-mpower.com](http://www.monitor-mpower.com)
 * Mpp Viewer [www.sourceforge.net/projects/mppviewer](http://sourceforge.net/projects/mppviewer/)
