@@ -449,7 +449,7 @@ make more complex changes to the working pattern of a calendar?
 Let's imagine that our project has a three week "crunch" period at the beginning
 of October where we will need to work 16 hour days, Monday through Friday, and
 8 hour days at weekends. (I hope this is a fictional example and you'd don't
-have to work at such a high intensity in real life!). We _could_ construct this
+have to work at such a high intensity in real life!). We *could* construct this
 work pattern using exceptions: we'd need six in total, one for each of the
 three sets of weekend days, and one for each of the three sets of week days.
 
@@ -555,7 +555,7 @@ We can see that the crunch is in full effect, we're working 8 hour days at the
 weekend, and 16 hour days for the rest of the week - not something I'd like to
 try for any length of time!
 
-To summarise: the `ProjectCalendar` instance itself defines the _default_
+To summarise: the `ProjectCalendar` instance itself defines the *default*
 working and non-working pattern for the seven week days. Additional working
 weeks can be added to the calendar which override this pattern for specific
 date ranges.
@@ -766,12 +766,12 @@ relevant. These are summarised by the table below.
 The first column give us the name of the attribute, and the second column give
 the name of the method we'd call to set that attribute for the current
 calendar. The third column gives us the name of the method we'd use to retrieve
-the attribute _from the current calendar only_ (i.e this will ignore any parent
+the attribute *from the current calendar only* (i.e this will ignore any parent
 calendars). Finally the last column gives us the name of the method we'd call
 to retrieve the attribute from the current calendar, or inherit that attribute
 from a parent calendar if it is not present in the current calendar.
 
-> We haven't looked at the _Minutes Per X_ attributes so far. The values
+> We haven't looked at the *Minutes Per X* attributes so far. The values
 > they contain are used when calculating working time. One interesting 
 > point to note is that if no calendars in a hierarchy define these values
 > the default values will be retrieved from from the `ProjectFile`
