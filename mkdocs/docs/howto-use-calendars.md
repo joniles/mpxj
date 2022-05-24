@@ -764,21 +764,55 @@ MPXJ will allow you to create an arbitrarily deep hierarchy of calendars if you
 wish by establishing parent-child relationships between the calendars you
 create. Most schedule application file formats will only support a limited
 hierarchy of calendars, which you will see when you read files of this type
-when using MPXJ.
+when using MPXJ. The notes below briefly outlines how calendar hierarchies
+operate in some of the applications MPXJ can work with.
 
-If you are using MPXJ to create or modify schedule data, when
-you write the results to a file MPXJ will attempt to ensure that the calendars
-it writes to the file format you have chosen reflect what the target
-application is expecting. This means that MPXJ may end up "flattening" or
-otherwise simplifying a set of calendars and their hierarchy to ensure that
-they are read correctly by the target application and are "functionally
-equivalent" in use.
+If you are using MPXJ to create or modify schedule data, when you write the
+results to a file MPXJ will attempt to ensure that the calendars it writes to
+the file format you have chosen reflect what the target application is
+expecting. This means that MPXJ may end up "flattening" or otherwise
+simplifying a set of calendars and their hierarchy to ensure that they are read
+correctly by the target application and are "functionally equivalent" in use.
+
+### Microsoft Project
+Microsoft Project uses two-tiers of calendars. The first tier are referred to
+as "base calendars", one of which is marked as the default calendar for the
+project. Work is scheduled based on the default calendar, unless a task
+explicitly selects a different base calendar to use when being scheduled. Each
+resource will have its own calendar, which is always derived from a base
+calendar. Note that, as you might expect, material resources don't have a
+calendar!
+
+### Primavera P6
+The situation with P6 is a little more complicated, although it's still a
+two-tier arrangement. P6 has the concept of Global calendars (broadly similar
+to base calendars in Microsoft Project). These can be assigned to activities in
+any project. Global calendars are never derived from other calendars.
+
+You can also have Project calendars which, as their name suggests,
+can only be assigned to activities in the project to which they belong. Project
+calendars can be derived from a Global Calendar, or they can have no parent calendar.
+
+Finally you can have two types of resource calendar: Shared, or Personal.
+These can either be derived from a Global calendar, or can have no parent.
+A Shared resource calendar can be assigned to multiple resources, but a Personal
+resource calendar can only be assigned to a single resource.
+
+When reading a P6 schedule, the `ProjectCalendar` method `getType` can be used
+to retrieve the calendar type (Global, Shared, or Personal), while the
+`getPersonal` method returns a Boolean flag indicating if the calendar is a
+Personal resource calendar.
+
+### Others
+ConceptDraw, Planner, SureTrak and TurboProject all support some form of
+calendar hierarchy, although Planner is the only one which definitely supports
+an arbitrarily deep nested calendar structure.
 
 ## Calendar Container
-
-So far we've looked at creating and configuring calendars. If we've just read a
-schedule in from a file, how can we examine the calendars it contains? Let's
-set up some calendars and take a look:
+So far we've looked at creating and configuring calendars, and lining them
+together in a hierarchy. If we've just read a schedule in from a file, how can
+we examine the calendars it contains? Let's set up some calendars and take a
+look:
 
 ```java
 ProjectFile file = new ProjectFile();
@@ -856,45 +890,6 @@ Most of the time accessing a calendar from some other part of MPXJ is handled
 for you, for example to retrieve a resource's calendar you just need to call
 the `Resource` method `getCalendar` rather than having to use
 `ProjectCalendarContainer` to retrieve it by Unique ID.
-
-## Calendar Hierarchies in the Wild
-As noted in an earlier section, although MPXJ can support arbitrarily deep
-hierarchies of calendars, the schedule applications it can work with generally
-don't support this. The notes below outline some of the different cases.
-
-### Microsoft Project
-Microsoft Project uses two-tiers of calendars. The first tier are referred to
-as "base calendars", one of which is marked as the default calendar for the
-project. Work is scheduled based on the default calendar, unless a task
-explicitly selects a different base calendar to use when being scheduled. Each
-resource will have its own calendar, which is always derived from a base
-calendar. Note that, as you might expect, material resources don't have a
-calendar!
-
-### Primavera P6
-The situation with P6 is a little more complicated, although it's still a
-two-tier arrangement. P6 has the concept of Global calendars (broadly similar
-to base calendars in Microsoft Project). These can be assigned to activities in
-any project. Global calendars are never derived from other calendars.
-
-You can also have Project calendars which, as their name suggests,
-can only be assigned to activities in the project to which they belong. Project
-calendars can be derived from a Global Calendar, or they can have no parent calendar.
-
-Finally you can have two types of resource calendar: Shared, or Personal.
-These can either be derived from a Global calendar, or can have no parent.
-A Shared resource calendar can be assigned to multiple resources, but a Personal
-resource calendar can only be assigned to a single resource.
-
-When reading a P6 schedule, the `ProjectCalendar` method `getType` can be used
-to retrieve the calendar type (Global, Shared, or Personal), while the
-`getPersonal` method returns a Boolean flag indicating if the calendar is a
-Personal resource calendar.
-
-### Others
-ConceptDraw, Planner, SureTrak and TurboProject all support some form of
-calendar hierarchy, although Planner is the only one which definitely supports
-an arbitrarily deep nested calendar structure.
 
 ## Other Calendar Methods
 
