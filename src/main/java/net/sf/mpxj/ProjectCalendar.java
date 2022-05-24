@@ -73,13 +73,13 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       Integer result = m_calendarMinutesPerDay;
       if (result == null)
       {
-         if (getParent() == null)
+         if (m_parent == null)
          {
             result = getParentFile().getProjectProperties().getMinutesPerDay();
          }
          else
          {
-            result = getParent().getMinutesPerDay();
+            result = m_parent.getMinutesPerDay();
          }
       }
 
@@ -98,13 +98,13 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       Integer result = m_calendarMinutesPerWeek;
       if (result == null)
       {
-         if (getParent() == null)
+         if (m_parent == null)
          {
             result = getParentFile().getProjectProperties().getMinutesPerWeek();
          }
          else
          {
-            result = getParent().getMinutesPerWeek();
+            result = m_parent.getMinutesPerWeek();
          }
       }
 
@@ -123,13 +123,13 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       Integer result = m_calendarMinutesPerMonth;
       if (result == null)
       {
-         if (getParent() == null)
+         if (m_parent == null)
          {
             result = getParentFile().getProjectProperties().getMinutesPerMonth();
          }
          else
          {
-            result = getParent().getMinutesPerMonth();
+            result = m_parent.getMinutesPerMonth();
          }
       }
 
@@ -148,13 +148,13 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       Integer result = m_calendarMinutesPerYear;
       if (result == null)
       {
-         if (getParent() == null)
+         if (m_parent == null)
          {
             result = getParentFile().getProjectProperties().getMinutesPerYear();
          }
          else
          {
-            result = getParent().getMinutesPerYear();
+            result = m_parent.getMinutesPerYear();
          }
       }
 
@@ -1376,10 +1376,10 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          }
       }
 
-      if (exception == null && getParent() != null)
+      if (exception == null && m_parent != null)
       {
          // Check base calendar as well for an exception.
-         exception = getParent().getException(date);
+         exception = m_parent.getException(date);
       }
       return exception;
    }
@@ -1431,10 +1431,10 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
          }
       }
 
-      if (week == null && getParent() != null)
+      if (week == null && m_parent != null)
       {
          // Check base calendar as well for a work week.
-         week = getParent().getWorkWeek(date);
+         week = m_parent.getWorkWeek(date);
       }
       return week;
    }
@@ -1907,7 +1907,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.getParent() != null && m_uniqueID.equals(c.getParent().getUniqueID())).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -1917,7 +1917,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
       pw.println("[ProjectCalendar");
       pw.println("   ID=" + m_uniqueID);
       pw.println("   name=" + getName());
-      pw.println("   baseCalendarName=" + (getParent() == null ? "" : getParent().getName()));
+      pw.println("   baseCalendarName=" + (m_parent == null ? "" : m_parent.getName()));
 
       for (Day day : Day.values())
       {
