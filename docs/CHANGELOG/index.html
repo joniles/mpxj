@@ -11,7 +11,7 @@
         <link rel="canonical" href="http://www.mpxj.org/CHANGELOG/">
       
       <link rel="icon" href="../images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.14">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.3de6f41f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -261,8 +261,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1050-unreleased" class="md-nav__link">
-    10.5.0 (unreleased)
+  <a href="#1060-unreleased" class="md-nav__link">
+    10.6.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1050-2022-05-24" class="md-nav__link">
+    10.5.0 (2022-05-24)
   </a>
   
 </li>
@@ -2158,12 +2165,60 @@
       
       
         <label class="md-nav__link" for="__nav_6">
+          How to Use...
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="How to Use..." data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          How to Use...
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-calendars/" class="md-nav__link">
+        Calendars
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
           Field Guides...
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Field Guides..." data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Field Guides...
         </label>
@@ -2275,8 +2330,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1050-unreleased" class="md-nav__link">
-    10.5.0 (unreleased)
+  <a href="#1060-unreleased" class="md-nav__link">
+    10.6.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1050-2022-05-24" class="md-nav__link">
+    10.5.0 (2022-05-24)
   </a>
   
 </li>
@@ -3630,13 +3692,28 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1050-unreleased">10.5.0 (unreleased)</h2>
+<h2 id="1060-unreleased">10.6.0 (unreleased)</h2>
+<h2 id="1050-2022-05-24">10.5.0 (2022-05-24)</h2>
 <ul>
+<li>The <code>ProjectCalendaWeek</code> methods <code>addCalendarHours()</code>, <code>attachHoursToDay</code>, <code>removeHoursFromDay</code> have been removed. Use <code>addCalendarHours(day)</code>, <code>removeCalendarHours(day)</code> instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</li>
+<li>The <code>ProjectCalendar</code> methods <code>attachHoursToDay</code> and <code>removeHoursFromDay</code> have been removed. Use the <code>addCalendarHours</code> and <code>removeCalendarHours</code> methods instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</li>
+<li>The class hierarchy for <code>ProjectCalendarHours</code> and <code>ProjectCalendarException</code> has been simplified, but there should be no impact for uses of these classes.</li>
+<li>The <code>ProjectCalendarHours</code> class now implements the <code>List</code> interface. Methods in this class not part ofthe <code>List</code> interface have been deprecated in favour of the equivalent <code>List</code> methods.</li>
 <li>Updated <code>MPXWriter</code> to ensure: calendar names are quoted if necessary, all calendars have names, all calendar names are unique.</li>
 <li>Updated <code>MPXReader</code> to recognise <code>wk</code> as a valid time unit.</li>
 <li>Updated <code>MPXWriter</code>, <code>PrimaveraPMFileWriter</code>, <code>SDEFWriter</code> and <code>PlannerWriter</code> to ensure any working weeks defined by a calendar are represented by exceptons.</li>
 <li>Updated <code>MSPDIWriter</code> to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.</li>
 <li>Updated <code>SDEFWriter</code> to ensure: only relevant calendars are written, and derived calendars are flattened.</li>
+<li>When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.</li>
+<li>Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.</li>
+<li>Add suppport for writing the calendar type and personal calendar flag to PMXML files.</li>
+<li>Updated the calendar class hierarchy: <code>ProjectCalendar</code> and <code>ProjectCalendarWeek</code> both now inherit from a new class <code>ProjectCalendarDays</code>. Note that <code>ProjectCalendar</code> is no longer a subclass of <code>ProjectCalendarWeek</code>.</li>
+<li>The <code>getHours</code> and <code>isWorkingDay</code> methods have been moved up to <code>ProjectCalendar</code> from the <code>ProjectCalendarWeek</code> class.</li>
+<li>The <code>ProjectCalendar</code> method <code>copy</code> has been deprecated, without replacement.</li>
+<li>Added a <code>getWork</code> method to <code>ProjectCalendar</code> which calculates the amount of work given a <code>Day</code> instance.</li>
+<li>Added <code>removeWorkWeek</code> and <code>removeCalendarException</code> methods to <code>ProjectCalendar</code>.</li>
+<li>Recurring exceptions are now added to a <code>ProjectCalendar</code> using the <code>addCalendarException</code> method which takes a <code>recurringData</code> instance its argument.</li>
+<li>The <code>ProjectCalendarException</code> method <code>setRecurringData</code> has been removed, recurring exceptions should be added using the <code>addCalendarExcepton</code> method described above. (Note: this will be a breaking change if you were creating recurring exceptions)</li>
 </ul>
 <h2 id="1040-2022-05-05">10.4.0 (2022-05-05)</h2>
 <ul>
@@ -5482,7 +5559,7 @@
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.c2e1ee47.min.js"></script>
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
       
     
   </body>
