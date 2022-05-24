@@ -732,7 +732,9 @@ determine working/non-working time, working hours, and so on for a given date,
 anything configured in a child calendar will always override what we find in
 the parent calendar. So for example if we have exceptions or working weeks
 configured in a child calendar, these will override anything found in a parent
-calendar. If we're asking the calendar a question about a particular day
+calendar.
+
+If we're asking the calendar a question about a particular day
 (rather than a date), for example Monday, Tuesday and so on, we'll use
 information from the child calendar if the day type is `WORKING` or
 `NON_WORKING`, otherwise we'll work our way up the calendar hierarchy until we
@@ -745,19 +747,31 @@ calendar for a piece of information, whether that's come from the calendar
 whose method we've just called, or if the response we've received has come from
 another calendar somewhere further up the calendar hierarchy?
 
-As it happens there are only two calendar attributes for which this is relevant:
-day type and hours. For day type the calendar provides two methods,
-`getDayType`, which will return a result from the current calendar or a parent
-calendar, and `getCalendarDayType` which only looks at the current calendar
-when returning a result. Thus if we just want to look at the configuration of
-the current calendar, and ignore any parent calendars we'd use
-`getCalendarDayType`.
+As it happens there are only a small number of attributes for which this is
+relevant. These are summarised by the table below.
 
-Similarly when we want to look at the working hours for a given day we'd use
-`getHours`(which will consult parent calendars if the current calendar doesn't
-define working hours for the day we're interested in), and we'd use
-`getCalendarHours` to just look at the current calendar, ignoring any parent
-calendars.
+| Attribute | Set | Get | Get with Hierarchy |
+|-----------|-----|-----|--------------------|
+| Day Type          | `setDayType`                 | `getCalendarDayType`         | `getDayType`        |
+| Hours             | `addCalendarHours`           | `getCalendarHours`           | `getHours`          |
+| Minutes Per Day   | `setCalendarMinutesPerDay`   | `getCalendarMinutesPerDay`   | `getMinutesPerDay`  |
+| Minutes Per Week  | `setCalendarMinutesPerWeek`  | `getCalendarMinutesPerWeek`  | `getMinutesPerWeek` |
+| Minutes Per Month | `setCalendarMinutesPerMonth` | `getCalendarMinutesPerMonth` | `getMinutesPerWeek` |
+| Minutes Per Year  | `setCalendarMinutesPerYear`  | `getCalendarMinutesPerYear`  | `getMinutesPerYear` |
+
+The first column give us the name of the attribute, and the second column give
+the name of the method we'd call to set that attribute for the current
+calendar. The third column gives us the name of the method we'd use to retrieve
+the attribute _from the current calendar only_ (i.e this will ignore any parent
+calendars). Finally the last column gives us the name of the method we'd call
+to retrieve the attribute from the current calendar, or inherit that attribute
+from a parent calendar if it is not present in the current calendar.
+
+> We haven't looked at the _Minutes Per X_ attributes so far. The values
+> they contain are used when calculating working time. One interesting 
+> point to note is that if no calendars in a hierarchy define these values
+> the default values will be retrieved from from the `ProjectFile`
+> configuration, which is represented by the `ProjectConfig` class.
 
 ## How deep is your Hierarchy?
 MPXJ will allow you to create an arbitrarily deep hierarchy of calendars if you
