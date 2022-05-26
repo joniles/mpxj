@@ -526,11 +526,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       if (fieldType != null)
       {
          UserFieldDataType dataType = UserFieldDataType.getInstanceFromXmlName(udf.getDataType());
-         String name = udf.getTitle();
-         FieldType field = addUserDefinedField(fieldType, dataType, name);
+         FieldType field = allocateUserDefinedField(fieldType, dataType);
          if (field != null)
          {
             m_fieldTypeMap.put(udf.getObjectId(), field);
+            m_projectFile.getCustomFields().getCustomField(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
          }
       }
    }
@@ -540,10 +540,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param fieldType parent object type
     * @param dataType UDF data type
-    * @param name UDF name
     * @return FieldType instance
     */
-   private FieldType addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
+   private FieldType allocateUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType)
    {
       FieldType field = null;
       CustomFieldContainer container = m_projectFile.getCustomFields();
@@ -560,7 +559,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                }
                while (container.getCustomField(field).getAlias() != null);
 
-               container.getCustomField(field).setAlias(name);
                break;
             }
 
@@ -572,7 +570,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                }
                while (container.getCustomField(field).getAlias() != null);
 
-               container.getCustomField(field).setAlias(name);
                break;
             }
 
@@ -584,7 +581,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                }
                while (container.getCustomField(field).getAlias() != null);
 
-               container.getCustomField(field).setAlias(name);
                break;
             }
 

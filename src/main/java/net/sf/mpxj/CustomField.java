@@ -100,6 +100,28 @@ public class CustomField
    }
 
    /**
+    * Retrieve the Unique ID for this field.
+    *
+    * @return Unique ID
+    */
+   public Integer getUniqueID()
+   {
+      return m_uniqueID;
+   }
+
+   /**
+    * Set the Unique ID for this field.
+    *
+    * @param uniqueID Unique ID
+    * @return this to allow method chaining
+    */
+   public CustomField setUniqueID(Integer uniqueID)
+   {
+      m_uniqueID = uniqueID;
+      return this;
+   }
+
+   /**
     * Retrieve the mask definitions for this field.
     *
     * @return list of mask definitions
@@ -119,5 +141,6 @@ public class CustomField
    private final CustomFieldLookupTable m_table;
    private final GraphicalIndicator m_indicator;
    private final List<CustomFieldValueMask> m_masks;
+   private Integer m_uniqueID;
    private String m_alias;
 }

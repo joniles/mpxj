@@ -278,14 +278,17 @@ final class PrimaveraReader
          String tableName = row.getString("table_name");
          tableNameMap.put(fieldId, tableName);
 
-         FieldTypeClass fieldType = FIELD_TYPE_MAP.get(tableName);
-         if (fieldType != null)
+         FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(tableName);
+         if (fieldTypeClass != null)
          {
             String fieldDataType = row.getString("logical_data_type");
-            String fieldName = row.getString("udf_type_label");
-
-            m_udfFields.put(fieldId, fieldName);
-            addUserDefinedField(fieldType, UserFieldDataType.valueOf(fieldDataType), fieldName);
+            FieldType fieldType = allocateUserDefinedField(fieldTypeClass, UserFieldDataType.valueOf(fieldDataType));
+            if (fieldType != null)
+            {
+               String fieldName = row.getString("udf_type_label");
+               m_udfFields.put(fieldId, fieldType);
+               m_project.getCustomFields().getCustomField(fieldType).setAlias(fieldName).setUniqueID(fieldId);
+            }
          }
       }
 
@@ -1035,56 +1038,53 @@ final class PrimaveraReader
    }
 
    /**
-    * Configure a new user defined field.
+    * Allocate a UDF to one of the available custom fields.
     *
-    * @param fieldType field type
+    * @param fieldTypeClass field type
     * @param dataType field data type
-    * @param name field name
     */
-   private void addUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType, String name)
+   private FieldType allocateUserDefinedField(FieldTypeClass fieldTypeClass, UserFieldDataType dataType)
    {
+      FieldType fieldType = null;
+
       try
       {
-         switch (fieldType)
+         switch (fieldTypeClass)
          {
             case TASK:
-               TaskField taskField;
-
+            {
                do
                {
-                  taskField = m_taskUdfCounters.nextField(TaskField.class, dataType);
+                  fieldType = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
-               while (m_taskFields.containsKey(taskField) || m_wbsFields.containsKey(taskField));
-
-               m_project.getCustomFields().getCustomField(taskField).setAlias(name);
-
+               while (m_taskFields.containsKey(fieldType) || m_wbsFields.containsKey(fieldType));
                break;
+            }
+
             case RESOURCE:
-               ResourceField resourceField;
-
+            {
                do
                {
-                  resourceField = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
+                  fieldType = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                }
-               while (m_resourceFields.containsKey(resourceField));
-
-               m_project.getCustomFields().getCustomField(resourceField).setAlias(name);
-
+               while (m_resourceFields.containsKey(fieldType));
                break;
+            }
+
             case ASSIGNMENT:
-               AssignmentField assignmentField;
-
+            {
                do
                {
-                  assignmentField = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
+                  fieldType = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
                }
-               while (m_assignmentFields.containsKey(assignmentField));
-
-               m_project.getCustomFields().getCustomField(assignmentField).setAlias(name);
-
+               while (m_assignmentFields.containsKey(fieldType));
                break;
+            }
+
             default:
+            {
                break;
+            }
          }
       }
 
@@ -1098,6 +1098,8 @@ final class PrimaveraReader
          // ignore it when we read in the values.
          //
       }
+
+      return fieldType;
    }
 
    /**
@@ -1110,10 +1112,9 @@ final class PrimaveraReader
    private void addUDFValue(FieldTypeClass fieldType, FieldContainer container, Row row)
    {
       Integer fieldId = row.getInteger("udf_type_id");
-      String fieldName = m_udfFields.get(fieldId);
+      FieldType field = m_udfFields.get(fieldId);
 
       Object value;
-      FieldType field = m_project.getCustomFields().getFieldByAlias(fieldType, fieldName);
       if (field != null)
       {
          DataType fieldDataType = field.getDataType();
@@ -2188,7 +2189,7 @@ final class PrimaveraReader
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
 
-   private final Map<Integer, String> m_udfFields = new HashMap<>();
+   private final Map<Integer, FieldType> m_udfFields = new HashMap<>();
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();

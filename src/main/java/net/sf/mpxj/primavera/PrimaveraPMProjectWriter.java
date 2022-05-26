@@ -24,6 +24,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -296,9 +297,14 @@ final class PrimaveraPMProjectWriter
             title = cf.getFieldType().getName();
          }
 
-         UDFTypeType udf = m_factory.createUDFTypeType();
-         udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
+         Integer objectID = cf.getUniqueID();
+         if (objectID == null)
+         {
+            objectID = Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType()));
+         }
 
+         UDFTypeType udf = m_factory.createUDFTypeType();
+         udf.setObjectId(objectID);
          udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
          udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
          udf.setTitle(title);
@@ -1456,6 +1462,8 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+
       for (CustomField cf : m_sortedCustomFieldsList)
       {
          FieldType fieldType = cf.getFieldType();
@@ -1464,8 +1472,14 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
+               Integer objectID = customFields.getCustomField(fieldType).getUniqueID();
+               if (objectID == null)
+               {
+                  objectID = FieldTypeHelper.getFieldID(fieldType);
+               }
+
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
+               udf.setTypeObjectId(objectID);
                setUserFieldValue(udf, fieldType.getDataType(), value);
                out.add(udf);
             }
