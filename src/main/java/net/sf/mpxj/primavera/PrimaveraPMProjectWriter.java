@@ -24,6 +24,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -297,8 +298,7 @@ final class PrimaveraPMProjectWriter
          }
 
          UDFTypeType udf = m_factory.createUDFTypeType();
-         udf.setObjectId(Integer.valueOf(FieldTypeHelper.getFieldID(cf.getFieldType())));
-
+         udf.setObjectId(cf.getUniqueID());
          udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
          udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
          udf.setTitle(title);
@@ -1456,6 +1456,8 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+
       for (CustomField cf : m_sortedCustomFieldsList)
       {
          FieldType fieldType = cf.getFieldType();
@@ -1465,7 +1467,7 @@ final class PrimaveraPMProjectWriter
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(FieldTypeHelper.getFieldID(fieldType));
+               udf.setTypeObjectId(customFields.getCustomField(fieldType).getUniqueID().intValue());
                setUserFieldValue(udf, fieldType.getDataType(), value);
                out.add(udf);
             }

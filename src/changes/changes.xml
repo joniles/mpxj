@@ -6,9 +6,10 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.6.0">
+			<action dev="joniles" type="update">Added support for reading and writing the unique ID of P6 user defined fields via new `getUniqueID` and `setUniqueID` methods on `CustomField (based on a suggestion by Wes Lund).</action>
 		</release>
 		<release date="2022-05-24" version="10.5.0">
-			<action dev="joniles" type="update">The `ProjectCalendaWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</action>
+			<action dev="joniles" type="update">The `ProjectCalendarWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` methods `attachHoursToDay` and `removeHoursFromDay` have been removed. Use the `addCalendarHours` and `removeCalendarHours` methods instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</action>
 			<action dev="joniles" type="update">The class hierarchy for `ProjectCalendarHours` and `ProjectCalendarException` has been simplified, but there should be no impact for uses of these classes.</action>
 			<action dev="joniles" type="update">The `ProjectCalendarHours` class now implements the `List` interface. Methods in this class not part ofthe `List` interface have been deprecated in favour of the equivalent `List` methods.</action>
