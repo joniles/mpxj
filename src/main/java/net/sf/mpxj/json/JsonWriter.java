@@ -73,6 +73,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -251,6 +252,14 @@ public final class JsonWriter extends AbstractProjectWriter
       if (field.getAlias() != null)
       {
          m_writer.writeStartObject(null);
+
+         Integer uniqueID = field.getUniqueID();
+         if (uniqueID != FieldTypeHelper.getFieldID(field.getFieldType()))
+         {
+            // Only write this attribute is we have a non-default value
+            m_writer.writeNameValuePair("unique_id", field.getUniqueID());
+         }
+
          m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());
          m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
          m_writer.writeNameValuePair("field_alias", field.getAlias());
