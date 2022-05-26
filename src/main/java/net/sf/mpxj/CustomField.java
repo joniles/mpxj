@@ -26,6 +26,8 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.mpxj.common.FieldTypeHelper;
+
 /**
  * Configuration detail for a custom field.
  */
@@ -40,6 +42,7 @@ public class CustomField
    public CustomField(FieldType field, CustomFieldContainer parent)
    {
       m_field = field;
+      m_uniqueID = FieldTypeHelper.getFieldID(field);
       m_parent = parent;
       m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
@@ -101,6 +104,9 @@ public class CustomField
 
    /**
     * Retrieve the Unique ID for this field.
+    * If this value is not set explicitly,
+    * it defaults to the field ID used by
+    * Microsoft Project.
     *
     * @return Unique ID
     */
