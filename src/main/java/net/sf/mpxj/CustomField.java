@@ -42,7 +42,6 @@ public class CustomField
    public CustomField(FieldType field, CustomFieldContainer parent)
    {
       m_field = field;
-      m_uniqueID = FieldTypeHelper.getFieldID(field);
       m_parent = parent;
       m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
@@ -112,6 +111,10 @@ public class CustomField
     */
    public Integer getUniqueID()
    {
+      if (m_uniqueID == null)
+      {
+         m_uniqueID = Integer.valueOf(FieldTypeHelper.getFieldID(m_field));
+      }
       return m_uniqueID;
    }
 

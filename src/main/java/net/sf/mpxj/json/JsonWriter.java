@@ -254,10 +254,10 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
 
          Integer uniqueID = field.getUniqueID();
-         if (uniqueID != FieldTypeHelper.getFieldID(field.getFieldType()))
+         if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
          {
             // Only write this attribute is we have a non-default value
-            m_writer.writeNameValuePair("unique_id", field.getUniqueID());
+            m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
          }
 
          m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());

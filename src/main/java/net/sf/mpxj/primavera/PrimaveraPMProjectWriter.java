@@ -1467,7 +1467,7 @@ final class PrimaveraPMProjectWriter
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(customFields.getCustomField(fieldType).getUniqueID());
+               udf.setTypeObjectId(customFields.getCustomField(fieldType).getUniqueID().intValue());
                setUserFieldValue(udf, fieldType.getDataType(), value);
                out.add(udf);
             }

@@ -1042,6 +1042,7 @@ final class PrimaveraReader
     *
     * @param fieldTypeClass field type
     * @param dataType field data type
+    * @return FieldType instance for allocated field
     */
    private FieldType allocateUserDefinedField(FieldTypeClass fieldTypeClass, UserFieldDataType dataType)
    {
