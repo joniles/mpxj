@@ -36,11 +36,13 @@ public class ActivityCode
     * Constructor.
     *
     * @param uniqueID activity code unique ID
+    * @param scope activity code scope
     * @param name activity code name
     */
-   public ActivityCode(Integer uniqueID, String name)
+   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, String name)
    {
       m_uniqueID = uniqueID;
+      m_scope = scope;
       m_name = name;
    }
 
@@ -52,6 +54,16 @@ public class ActivityCode
    public Integer getUniqueID()
    {
       return m_uniqueID;
+   }
+
+   /**
+    * Retrieve the scope of this activity code.
+    *
+    * @return activity code scope
+    */
+   public ActivityCodeScope getScope()
+   {
+      return m_scope;
    }
 
    /**
@@ -90,6 +102,8 @@ public class ActivityCode
    }
 
    private final Integer m_uniqueID;
+   private final ActivityCodeScope m_scope;
+
    private final String m_name;
    private final List<ActivityCodeValue> m_values = new ArrayList<>();
 }

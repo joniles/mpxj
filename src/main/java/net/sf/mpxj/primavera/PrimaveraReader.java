@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
@@ -229,7 +230,7 @@ final class PrimaveraReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), row.getString("actv_code_type"));
+         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), ACTIVITY_CODE_SCOPE_MAP.get(row.getString("actv_code_type_scope")), row.getString("actv_code_type"));
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
@@ -2346,6 +2347,15 @@ final class PrimaveraReader
       CALENDAR_TYPE_MAP.put("CA_Base", net.sf.mpxj.CalendarType.GLOBAL);
       CALENDAR_TYPE_MAP.put("CA_Project", net.sf.mpxj.CalendarType.PROJECT);
       CALENDAR_TYPE_MAP.put("CA_Rsrc", net.sf.mpxj.CalendarType.RESOURCE);
+   }
+
+
+   private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_Global", ActivityCodeScope.GLOBAL);
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_EPS", ActivityCodeScope.EPS);
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_Project", ActivityCodeScope.PROJECT);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

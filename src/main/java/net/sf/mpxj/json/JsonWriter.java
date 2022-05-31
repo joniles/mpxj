@@ -1044,6 +1044,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject(null);
 
       writeIntegerField("unique_id", code.getUniqueID());
+      writeStringField("scope", code.getScope());
       writeStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {

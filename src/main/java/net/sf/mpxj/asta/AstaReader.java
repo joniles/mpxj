@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
@@ -2015,7 +2016,7 @@ final class AstaReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("ID"), row.getString("NAME"));
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, row.getString("NAME"));
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
