@@ -2013,10 +2013,11 @@ final class AstaReader
       ActivityCodeContainer container = m_project.getActivityCodes();
       Map<Integer, ActivityCode> codeMap = new HashMap<>();
       Map<Integer, ActivityCodeValue> valueMap = new HashMap<>();
+      int sequenceNumber = 0;
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, row.getString("NAME"));
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, Integer.valueOf(++sequenceNumber), row.getString("NAME"));
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }

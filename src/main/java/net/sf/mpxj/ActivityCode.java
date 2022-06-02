@@ -39,10 +39,11 @@ public class ActivityCode
     * @param scope activity code scope
     * @param name activity code name
     */
-   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, String name)
+   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer sequenceNumber, String name)
    {
       m_uniqueID = uniqueID;
       m_scope = scope;
+      m_sequenceNumber = sequenceNumber;
       m_name = name;
    }
 
@@ -64,6 +65,16 @@ public class ActivityCode
    public ActivityCodeScope getScope()
    {
       return m_scope;
+   }
+
+   /**
+    * Retrieve the sequence number of this activity code.
+    *
+    * @return sequence number
+    */
+   public Integer getSequenceNumber()
+   {
+      return m_sequenceNumber;
    }
 
    /**
@@ -103,7 +114,7 @@ public class ActivityCode
 
    private final Integer m_uniqueID;
    private final ActivityCodeScope m_scope;
-
+   private final Integer m_sequenceNumber;
    private final String m_name;
    private final List<ActivityCodeValue> m_values = new ArrayList<>();
 }
