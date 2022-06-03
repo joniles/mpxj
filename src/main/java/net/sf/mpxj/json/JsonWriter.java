@@ -1043,9 +1043,9 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject(null);
 
-      writeIntegerField("unique_id", code.getUniqueID());
+      writeMandatoryIntegerField("unique_id", code.getUniqueID());
       writeStringField("scope", code.getScope());
-      writeIntegerField("sequence_number", code.getSequenceNumber());
+      writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
       writeStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
@@ -1067,7 +1067,8 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeActivityCodeValue(ActivityCodeValue value) throws IOException
    {
       m_writer.writeStartObject(null);
-      writeIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
       writeStringField("desription", value.getDescription());
       if (value.getParent() != null)

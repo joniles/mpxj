@@ -36,10 +36,11 @@ public class ActivityCodeValue
     * @param name value name
     * @param description value description
     */
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, String name, String description)
+   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description)
    {
       m_type = type;
       m_uniqueID = uniqueID;
+      m_sequenceNumber = sequenceNumber;
       m_name = name;
       m_description = description;
    }
@@ -62,6 +63,11 @@ public class ActivityCodeValue
    public Integer getUniqueID()
    {
       return m_uniqueID;
+   }
+
+   public Integer getSequenceNumber()
+   {
+      return m_sequenceNumber;
    }
 
    /**
@@ -111,6 +117,7 @@ public class ActivityCodeValue
 
    private final ActivityCode m_type;
    private final Integer m_uniqueID;
+   private final Integer m_sequenceNumber;
    private final String m_name;
    private final String m_description;
    private ActivityCodeValue m_parent;

@@ -95,9 +95,9 @@ public class ActivityCode
     * @param description value description
     * @return ActivityCodeValue instance
     */
-   public ActivityCodeValue addValue(Integer uniqueID, String name, String description)
+   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description)
    {
-      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, name, description);
+      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description);
       m_values.add(value);
       return value;
    }
