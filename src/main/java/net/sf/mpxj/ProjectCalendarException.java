@@ -190,6 +190,17 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       return !(DateHelper.compare(getToDate(), exception.getFromDate()) < 0 || DateHelper.compare(exception.getToDate(), getFromDate()) < 0);
    }
 
+   /**
+    * Used to determine if this exception makes the days it is
+    * applied to into working days or non-working days.
+    *
+    * @return {@code true} if this exception makes the dates it is applied to into working days
+    */
+   public boolean isWorkgin()
+   {
+      return !isEmpty();
+   }
+
    @Override public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = getFromDate().getTime();
