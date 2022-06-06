@@ -196,7 +196,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     *
     * @return {@code true} if this exception makes the dates it is applied to into working days
     */
-   public boolean isWorkgin()
+   public boolean isWorking()
    {
       return !isEmpty();
    }
