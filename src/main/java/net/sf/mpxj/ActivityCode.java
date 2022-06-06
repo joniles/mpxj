@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,9 +96,9 @@ public class ActivityCode
     * @param description value description
     * @return ActivityCodeValue instance
     */
-   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description)
+   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
-      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description);
+      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description, color);
       m_values.add(value);
       return value;
    }

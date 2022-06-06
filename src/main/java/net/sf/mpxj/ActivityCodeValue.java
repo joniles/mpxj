@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.awt.Color;
+
 /**
  * Represents an individual activity code value.
  */
@@ -36,13 +38,14 @@ public class ActivityCodeValue
     * @param name value name
     * @param description value description
     */
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description)
+   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
       m_type = type;
       m_uniqueID = uniqueID;
       m_sequenceNumber = sequenceNumber;
       m_name = name;
       m_description = description;
+      m_color = color;
    }
 
    /**
@@ -91,6 +94,16 @@ public class ActivityCodeValue
    }
 
    /**
+    * Retrieves the color associated with this value.
+    *
+    * @return Color instance
+    */
+   public Color getColor()
+   {
+      return m_color;
+   }
+
+   /**
     * Retrieve the parent ActivityCodeValue.
     *
     * @return parent ActivityCodeValue
@@ -120,5 +133,6 @@ public class ActivityCodeValue
    private final Integer m_sequenceNumber;
    private final String m_name;
    private final String m_description;
+   private final Color m_color;
    private ActivityCodeValue m_parent;
 }

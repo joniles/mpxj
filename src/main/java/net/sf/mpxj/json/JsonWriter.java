@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.json;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -1071,6 +1072,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
       writeStringField("desription", value.getDescription());
+      writeColorField("color", value.getColor());
       if (value.getParent() != null)
       {
          writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
@@ -1192,6 +1194,16 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeNameValuePair(fieldName, type.name());
          }
+      }
+   }
+
+   private void writeColorField(String name, Color value) throws IOException
+   {
+      if (value != null)
+      {
+         String stringValue = "000000" + Integer.toHexString(value.getRGB()).toUpperCase();
+         stringValue = "#" + stringValue.substring(stringValue.length() - 6);
+         m_writer.writeNameValuePair(name, stringValue);
       }
    }
 

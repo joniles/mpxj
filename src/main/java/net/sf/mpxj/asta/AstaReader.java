@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.asta;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -2028,7 +2029,7 @@ final class AstaReader
          if (code != null)
          {
             Integer sequenceNumber = Integer.valueOf(code.getValues().size() + 1);
-            ActivityCodeValue value = code.addValue(row.getInteger("ID"), sequenceNumber, row.getString("SHORT_NAME"), row.getString("NAME"));
+            ActivityCodeValue value = code.addValue(row.getInteger("ID"), sequenceNumber, row.getString("SHORT_NAME"), row.getString("NAME"), null);
             valueMap.put(value.getUniqueID(), value);
          }
       }
