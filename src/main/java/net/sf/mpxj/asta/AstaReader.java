@@ -2018,7 +2018,7 @@ final class AstaReader
       for (Row row : types)
       {
          Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
-         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, sequenceNumber, row.getString("NAME"));
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, sequenceNumber, row.getString("NAME"));
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
