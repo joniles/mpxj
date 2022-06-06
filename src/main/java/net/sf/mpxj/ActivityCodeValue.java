@@ -35,6 +35,7 @@ public class ActivityCodeValue
     *
     * @param type parent activity code type
     * @param uniqueID unique ID
+    * @param sequenceNumber value sequence number
     * @param name value name
     * @param description value description
     * @param color value color
@@ -69,6 +70,11 @@ public class ActivityCodeValue
       return m_uniqueID;
    }
 
+   /**
+    * Retrieves the sequence number for this value.
+    *
+    * @return sequence number
+    */
    public Integer getSequenceNumber()
    {
       return m_sequenceNumber;

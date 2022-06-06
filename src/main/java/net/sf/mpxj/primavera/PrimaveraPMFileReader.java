@@ -733,7 +733,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Color result = null;
       if (value != null && value.length() > 1 && value.charAt(0) == '#')
       {
-         result = new Color(Integer.valueOf(value.substring(1), 16));
+         result = new Color(Integer.parseInt(value.substring(1), 16));
       }
       return result;
    }

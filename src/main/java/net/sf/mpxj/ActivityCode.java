@@ -109,8 +109,10 @@ public class ActivityCode
     * Add a value to this activity code.
     *
     * @param uniqueID value unique ID
+    * @param sequenceNumber value sequence number
     * @param name value name
     * @param description value description
+    * @param color value color
     * @return ActivityCodeValue instance
     */
    public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)

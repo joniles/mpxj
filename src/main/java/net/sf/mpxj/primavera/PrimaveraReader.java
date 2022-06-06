@@ -269,7 +269,7 @@ final class PrimaveraReader
       Color result = null;
       if (value != null && value.length() > 0)
       {
-         result = new Color(Integer.valueOf(value, 16));
+         result = new Color(Integer.parseInt(value, 16));
       }
       return result;
    }
@@ -2359,7 +2359,6 @@ final class PrimaveraReader
       CALENDAR_TYPE_MAP.put("CA_Project", net.sf.mpxj.CalendarType.PROJECT);
       CALENDAR_TYPE_MAP.put("CA_Rsrc", net.sf.mpxj.CalendarType.RESOURCE);
    }
-
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
    static

@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -37,10 +36,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.mpxj.ActivityCodeScope;
-import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
@@ -53,6 +51,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
