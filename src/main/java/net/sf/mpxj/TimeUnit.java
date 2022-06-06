@@ -35,83 +35,85 @@ public enum TimeUnit implements MpxjEnum
    /**
     * Constant representing Minutes.
     */
-   MINUTES(0, "m"),
+   MINUTES(0, "m", false),
 
    /**
     * Constant representing Hours.
     */
-   HOURS(1, "h"),
+   HOURS(1, "h", false),
 
    /**
     * Constant representing Days.
     */
-   DAYS(2, "d"),
+   DAYS(2, "d", false),
 
    /**
     * Constant representing Weeks.
     */
-   WEEKS(3, "w"),
+   WEEKS(3, "w", false),
 
    /**
     * Constant representing Months.
     */
-   MONTHS(4, "mo"),
+   MONTHS(4, "mo", false),
 
    /**
     * Constant representing Percent.
     */
-   PERCENT(5, "%"),
+   PERCENT(5, "%", false),
 
    /**
     * Constant representing Years.
     */
-   YEARS(6, "y"),
+   YEARS(6, "y", false),
 
    /**
     * Constant representing Elapsed Minutes.
     */
-   ELAPSED_MINUTES(7, "em"),
+   ELAPSED_MINUTES(7, "em", true),
 
    /**
     * Constant representing Elapsed Hours.
     */
-   ELAPSED_HOURS(8, "eh"),
+   ELAPSED_HOURS(8, "eh", true),
 
    /**
     * Constant representing Elapsed Days.
     */
-   ELAPSED_DAYS(9, "ed"),
+   ELAPSED_DAYS(9, "ed", true),
 
    /**
     * Constant representing Elapsed Weeks.
     */
-   ELAPSED_WEEKS(10, "ew"),
+   ELAPSED_WEEKS(10, "ew", true),
 
    /**
     * Constant representing Elapsed Months.
     */
-   ELAPSED_MONTHS(11, "emo"),
+   ELAPSED_MONTHS(11, "emo", true),
 
    /**
     * Constant representing Elapsed Years.
     */
-   ELAPSED_YEARS(12, "ey"),
+   ELAPSED_YEARS(12, "ey", true),
 
    /**
     * Constant representing Elapsed Percent.
     */
-   ELAPSED_PERCENT(13, "e%");
+   ELAPSED_PERCENT(13, "e%", true);
 
    /**
     * Private constructor.
     *
     * @param type int version of the enum
     * @param name enum name
+    * @param elapsed trur if this is an elapsed duration
     */
-   TimeUnit(int type, String name)
+   TimeUnit(int type, String name, boolean elapsed)
    {
       m_value = type;
       m_name = name;
+      m_elapsed = elapsed;
    }
 
    /**
@@ -169,6 +171,16 @@ public enum TimeUnit implements MpxjEnum
       return (m_name);
    }
 
+   /**
+    * Determine if this is an elapsed time unit.
+    *
+    * @return true if this is an elapsed time unit
+    */
+   public boolean isElapsed()
+   {
+      return m_elapsed;
+   }
+
    @Override public String toString()
    {
       return (getName());
@@ -184,4 +196,5 @@ public enum TimeUnit implements MpxjEnum
     */
    private final int m_value;
    private final String m_name;
+   private final boolean m_elapsed;
 }

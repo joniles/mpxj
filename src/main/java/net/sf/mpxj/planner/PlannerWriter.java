@@ -57,6 +57,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -412,7 +413,6 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerResource.setNote(mpxjResource.getNotes());
       plannerResource.setShortName(mpxjResource.getInitials());
       plannerResource.setType(mpxjResource.getType() == ResourceType.MATERIAL ? "2" : "1");
-      //plannerResource.setStdRate();
       //plannerResource.setOvtRate();
       plannerResource.setUnits("0");
       //plannerResource.setProperties();
@@ -460,7 +460,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          plannerTask.setType("normal");
       }
-      plannerTask.setWork(getDurationString(mpxjTask.getWork()));
+      plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));
 
       ConstraintType mpxjConstraintType = mpxjTask.getConstraintType();
@@ -500,6 +500,23 @@ public final class PlannerWriter extends AbstractProjectWriter
       }
    }
 
+   private Duration getWork(Task task)
+   {
+      Duration result = task.getWork();
+
+      if (result != null && result.getDuration() != 0)
+      {
+         return result;
+      }
+
+      if (result == null || result.getDuration() == 0)
+      {
+         return task.getDuration();
+      }
+
+      return result;
+   }
+
    /**
     * This method writes predecessor data to a Planner file.
     * We have to deal with a slight anomaly in this method that is introduced
@@ -527,11 +544,34 @@ public final class PlannerWriter extends AbstractProjectWriter
          Predecessor plannerPredecessor = m_factory.createPredecessor();
          plannerPredecessor.setId(getIntegerString(++id));
          plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-         plannerPredecessor.setLag(getDurationString(rel.getLag()));
+         plannerPredecessor.setLag(getDurationString(calculateLag(rel)));
          plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
          predecessorList.add(plannerPredecessor);
          m_eventManager.fireRelationWrittenEvent(rel);
       }
+   }
+
+   private Duration calculateLag(Relation relation)
+   {
+      Duration lag = relation.getLag();
+      return lag;
+
+//      if (lag == null || lag.getDuration() == 0 || lag.getUnits().isElapsed())
+//      {
+//         return lag;
+//      }
+//
+//      if (lag.getUnits() == TimeUnit.PERCENT)
+//      {
+//         Duration targetDuration = relation.getTargetTask().getDuration();
+//         double percentValue = lag.getDuration();
+//         double durationValue =  targetDuration.getDuration();
+//         durationValue = (durationValue * percentValue) / 100.0;
+//         lag = Duration.getInstance(durationValue, targetDuration.getUnits());
+//      }
+
+
+// TODO convert to elapsed units
    }
 
    /**
