@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -423,12 +424,11 @@ public final class PlannerReader extends AbstractProjectStreamReader
       mpxjTask.setPercentageWorkComplete(percentComplete);
       mpxjTask.setPriority(getPriority(plannerTask.getPriority()));
       mpxjTask.setType(getTaskType(plannerTask.getScheduling()));
-      //plannerTask.getStart(); // Start day, time is always 00:00?
+      // If present, prefer to use work start as this has the time component set.
+      // The start attribute always seems to default to a time component of 00:00
+      mpxjTask.setStart(getDateTime(Optional.ofNullable(plannerTask.getWorkStart()).orElse(plannerTask.getStart())));
       mpxjTask.setMilestone(plannerTask.getType().equals("milestone"));
-
       mpxjTask.setWork(getDuration(plannerTask.getWork()));
-
-      mpxjTask.setStart(getDateTime(plannerTask.getWorkStart()));
 
       // Additional non-standard attribute - useful for generating schedules to be read by MPXJ
       String wbs = plannerTask.getWbs();
@@ -536,7 +536,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
             Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
             if (predecessorTask != null)
             {
-               Duration lag = getDuration(predecessor.getLag());
+               Duration lag = getLagDuration(predecessor.getLag());
                if (lag == null)
                {
                   lag = Duration.getInstance(0, TimeUnit.HOURS);
@@ -845,7 +845,27 @@ public final class PlannerReader extends AbstractProjectStreamReader
          }
       }
 
-      return (result);
+      return result;
+   }
+
+   /**
+    * Lag durations in Planner are elapsed time rather than working time.
+    *
+    * @param value time value in seconds
+    * @return duration as elapsed hours
+    */
+   private Duration getLagDuration(String value)
+   {
+      Duration result = null;
+
+      if (value != null && value.length() != 0)
+      {
+         double seconds = getLong(value);
+         double hours = seconds / (60 * 60);
+         result = Duration.getInstance(hours, TimeUnit.ELAPSED_HOURS);
+      }
+
+      return result;
    }
 
    /**

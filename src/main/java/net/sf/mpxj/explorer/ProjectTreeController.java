@@ -371,6 +371,11 @@ public class ProjectTreeController
     */
    private void addHours(MpxjTreeNode parentNode, ProjectCalendarHours hours)
    {
+      if (hours == null)
+      {
+         return;
+      }
+
       for (DateRange range : hours)
       {
          final DateRange r = range;
