@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +44,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -696,7 +698,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode(type.getObjectId(), type.getName());
+         ActivityCode code = new ActivityCode(type.getObjectId(), ACTIVITY_CODE_SCOPE_MAP.get(type.getScope()), type.getProjectObjectId(), type.getSequenceNumber(), type.getName());
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
@@ -710,7 +712,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getCodeValue(), typeValue.getDescription());
+            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), getColor(typeValue.getColor()));
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
@@ -724,6 +726,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             child.setParent(parent);
          }
       }
+   }
+
+   private Color getColor(String value)
+   {
+      Color result = null;
+      if (value != null && value.length() > 1 && value.charAt(0) == '#')
+      {
+         result = new Color(Integer.parseInt(value.substring(1), 16));
+      }
+      return result;
    }
 
    /**
@@ -2446,6 +2458,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       CRITICAL_ACTIVITY_MAP.put("Critical Float", CriticalActivityType.TOTAL_FLOAT);
       CRITICAL_ACTIVITY_MAP.put("Longest Path", CriticalActivityType.LONGEST_PATH);
+   }
+
+   private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_CODE_SCOPE_MAP.put("Global", ActivityCodeScope.GLOBAL);
+      ACTIVITY_CODE_SCOPE_MAP.put("EPS", ActivityCodeScope.EPS);
+      ACTIVITY_CODE_SCOPE_MAP.put("Project", ActivityCodeScope.PROJECT);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

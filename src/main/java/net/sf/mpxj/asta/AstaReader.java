@@ -36,9 +36,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
@@ -51,6 +51,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
@@ -2015,7 +2016,8 @@ final class AstaReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("ID"), row.getString("NAME"));
+         Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, sequenceNumber, row.getString("NAME"));
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
@@ -2025,7 +2027,8 @@ final class AstaReader
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("ID"), row.getString("SHORT_NAME"), row.getString("NAME"));
+            Integer sequenceNumber = Integer.valueOf(code.getValues().size() + 1);
+            ActivityCodeValue value = code.addValue(row.getInteger("ID"), sequenceNumber, row.getString("SHORT_NAME"), row.getString("NAME"), null);
             valueMap.put(value.getUniqueID(), value);
          }
       }

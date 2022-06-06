@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
@@ -229,7 +231,7 @@ final class PrimaveraReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), row.getString("actv_code_type"));
+         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), ACTIVITY_CODE_SCOPE_MAP.get(row.getString("actv_code_type_scope")), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"));
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
@@ -239,7 +241,7 @@ final class PrimaveraReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getString("short_name"), row.getString("actv_code_name"));
+            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), getColor(row.getString("color")));
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
@@ -260,6 +262,16 @@ final class PrimaveraReader
          List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
          list.add(row.getInteger("actv_code_id"));
       }
+   }
+
+   private Color getColor(String value)
+   {
+      Color result = null;
+      if (value != null && value.length() > 0)
+      {
+         result = new Color(Integer.parseInt(value, 16));
+      }
+      return result;
    }
 
    /**
@@ -2346,6 +2358,14 @@ final class PrimaveraReader
       CALENDAR_TYPE_MAP.put("CA_Base", net.sf.mpxj.CalendarType.GLOBAL);
       CALENDAR_TYPE_MAP.put("CA_Project", net.sf.mpxj.CalendarType.PROJECT);
       CALENDAR_TYPE_MAP.put("CA_Rsrc", net.sf.mpxj.CalendarType.RESOURCE);
+   }
+
+   private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_Global", ActivityCodeScope.GLOBAL);
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_EPS", ActivityCodeScope.EPS);
+      ACTIVITY_CODE_SCOPE_MAP.put("AS_Project", ActivityCodeScope.PROJECT);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

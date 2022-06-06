@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.json;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -1043,7 +1044,10 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject(null);
 
-      writeIntegerField("unique_id", code.getUniqueID());
+      writeMandatoryIntegerField("unique_id", code.getUniqueID());
+      writeStringField("scope", code.getScope());
+      writeIntegerField("scope_unique_id", code.getScopeUniqueID());
+      writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
       writeStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
@@ -1065,9 +1069,11 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeActivityCodeValue(ActivityCodeValue value) throws IOException
    {
       m_writer.writeStartObject(null);
-      writeIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
       writeStringField("desription", value.getDescription());
+      writeColorField("color", value.getColor());
       if (value.getParent() != null)
       {
          writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
@@ -1189,6 +1195,16 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeNameValuePair(fieldName, type.name());
          }
+      }
+   }
+
+   private void writeColorField(String name, Color value) throws IOException
+   {
+      if (value != null)
+      {
+         String stringValue = "000000" + Integer.toHexString(value.getRGB()).toUpperCase();
+         stringValue = "#" + stringValue.substring(stringValue.length() - 6);
+         m_writer.writeNameValuePair(name, stringValue);
       }
    }
 
