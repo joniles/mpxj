@@ -37,6 +37,7 @@ public class ActivityCodeValue
     * @param uniqueID unique ID
     * @param name value name
     * @param description value description
+    * @param color value color
     */
    public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
