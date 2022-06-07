@@ -536,7 +536,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
             Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
             if (predecessorTask != null)
             {
-               Duration lag = getDuration(predecessor.getLag());
+               Duration lag = getLagDuration(predecessor.getLag());
                if (lag == null)
                {
                   lag = Duration.getInstance(0, TimeUnit.HOURS);
@@ -845,7 +845,27 @@ public final class PlannerReader extends AbstractProjectStreamReader
          }
       }
 
-      return (result);
+      return result;
+   }
+
+   /**
+    * Lag durations in Planner are elapsed time rather than working time.
+    *
+    * @param value time value in seconds
+    * @return duration as elapsed hours
+    */
+   private Duration getLagDuration(String value)
+   {
+      Duration result = null;
+
+      if (value != null && value.length() != 0)
+      {
+         double seconds = getLong(value);
+         double hours = seconds / (60 * 60);
+         result = Duration.getInstance(hours, TimeUnit.ELAPSED_HOURS);
+      }
+
+      return result;
    }
 
    /**
