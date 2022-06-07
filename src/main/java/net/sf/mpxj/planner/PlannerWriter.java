@@ -442,6 +442,11 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList)
    {
+      if (mpxjTask.getNull())
+      {
+         return;
+      }
+
       net.sf.mpxj.planner.schema.Task plannerTask = m_factory.createTask();
       taskList.add(plannerTask);
       plannerTask.setEnd(getDateTimeString(mpxjTask.getFinish()));
@@ -452,20 +457,11 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
       plannerTask.setStart(getDateTimeString(DateHelper.getDayStartDate(mpxjTask.getStart())));
-      if (mpxjTask.getMilestone())
-      {
-         plannerTask.setType("milestone");
-      }
-      else
-      {
-         plannerTask.setType("normal");
-      }
+      plannerTask.setType(mpxjTask.getMilestone() ? "milestone" : "normal");
       plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));
-
       writeConstraint(mpxjTask, plannerTask);
       writePredecessors(mpxjTask, plannerTask);
-
       m_eventManager.fireTaskWrittenEvent(mpxjTask);
 
       //
