@@ -561,34 +561,42 @@ public final class PlannerWriter extends AbstractProjectWriter
          Predecessor plannerPredecessor = m_factory.createPredecessor();
          plannerPredecessor.setId(getIntegerString(++id));
          plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-         plannerPredecessor.setLag(getDurationString(calculateLag(rel)));
+         plannerPredecessor.setLag(getDurationString(getLag(rel)));
          plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
          predecessorList.add(plannerPredecessor);
          m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
 
-   private Duration calculateLag(Relation relation)
+   /**
+    * Determine the correct value for lag.
+    *
+    * @param relation relation data
+    * @return required lag value
+    */
+   private Duration getLag(Relation relation)
    {
       Duration lag = relation.getLag();
+
+      // No lag? No change required.
+      if (lag == null || lag.getDuration() == 0 || lag.getUnits().isElapsed())
+      {
+         return lag;
+      }
+
+      // Calculate the effect of percent lag
+      if (lag.getUnits() == TimeUnit.PERCENT)
+      {
+         Duration targetDuration = relation.getTargetTask().getDuration();
+         double percentValue = lag.getDuration();
+         double durationValue =  targetDuration.getDuration();
+         durationValue = (durationValue * percentValue) / 100.0;
+         lag = Duration.getInstance(durationValue, targetDuration.getUnits());
+      }
+
       return lag;
 
-//      if (lag == null || lag.getDuration() == 0 || lag.getUnits().isElapsed())
-//      {
-//         return lag;
-//      }
-//
-//      if (lag.getUnits() == TimeUnit.PERCENT)
-//      {
-//         Duration targetDuration = relation.getTargetTask().getDuration();
-//         double percentValue = lag.getDuration();
-//         double durationValue =  targetDuration.getDuration();
-//         durationValue = (durationValue * percentValue) / 100.0;
-//         lag = Duration.getInstance(durationValue, targetDuration.getUnits());
-//      }
-
-
-// TODO convert to elapsed units
+      // TODO convert to elapsed units
    }
 
    /**
