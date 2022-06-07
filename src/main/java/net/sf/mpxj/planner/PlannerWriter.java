@@ -544,12 +544,17 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writePredecessors(Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {
+      List<Relation> predecessors = mpxjTask.getPredecessors();
+      if (predecessors.isEmpty())
+      {
+         return;
+      }
+
       Predecessors plannerPredecessors = m_factory.createPredecessors();
       plannerTask.setPredecessors(plannerPredecessors);
       List<Predecessor> predecessorList = plannerPredecessors.getPredecessor();
       int id = 0;
 
-      List<Relation> predecessors = mpxjTask.getPredecessors();
       for (Relation rel : predecessors)
       {
          Integer taskUniqueID = rel.getTargetTask().getUniqueID();
