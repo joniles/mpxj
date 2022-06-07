@@ -463,29 +463,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));
 
-      ConstraintType mpxjConstraintType = mpxjTask.getConstraintType();
-      if (mpxjConstraintType != ConstraintType.AS_SOON_AS_POSSIBLE)
-      {
-         Constraint plannerConstraint = m_factory.createConstraint();
-         plannerTask.setConstraint(plannerConstraint);
-         if (mpxjConstraintType == ConstraintType.START_NO_EARLIER_THAN)
-         {
-            plannerConstraint.setType("start-no-earlier-than");
-         }
-         else
-         {
-            if (mpxjConstraintType == ConstraintType.MUST_START_ON)
-            {
-               plannerConstraint.setType("must-start-on");
-            }
-         }
-
-         plannerConstraint.setTime(getDateTimeString(mpxjTask.getConstraintDate()));
-      }
-
-      //
-      // Write predecessors
-      //
+      writeConstraint(mpxjTask, plannerTask);
       writePredecessors(mpxjTask, plannerTask);
 
       m_eventManager.fireTaskWrittenEvent(mpxjTask);
@@ -497,6 +475,44 @@ public final class PlannerWriter extends AbstractProjectWriter
       for (Task task : mpxjTask.getChildTasks())
       {
          writeTask(task, childTaskList);
+      }
+   }
+
+   private void writeConstraint(Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
+   {
+      ConstraintType mpxjConstraintType = mpxjTask.getConstraintType();
+      if (mpxjConstraintType != null && mpxjConstraintType != ConstraintType.AS_SOON_AS_POSSIBLE)
+      {
+         String plannerConstraintType = null;
+
+         switch (mpxjConstraintType)
+         {
+            case MUST_START_ON:
+            case START_ON:
+            {
+               plannerConstraintType = "must-start-on";
+               break;
+            }
+
+            case START_NO_EARLIER_THAN:
+            {
+               plannerConstraintType = "start-no-earlier-than";
+               break;
+            }
+
+            default:
+            {
+               break;
+            }
+         }
+
+         if (plannerConstraintType != null)
+         {
+            Constraint plannerConstraint = m_factory.createConstraint();
+            plannerTask.setConstraint(plannerConstraint);
+            plannerConstraint.setType(plannerConstraintType);
+            plannerConstraint.setTime(getDateTimeString(mpxjTask.getConstraintDate()));
+         }
       }
    }
 
