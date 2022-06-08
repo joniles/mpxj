@@ -83,6 +83,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             remainderInserted = false;
          }
 
+         Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
+
          while (assignment != null)
          {
             Date startDay = DateHelper.getDayStartDate(assignment.getStart());
@@ -122,10 +124,13 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                break;
             }
 
-            TimephasedWork[] split = splitFirstDay(calendar, assignment);
+            TimephasedWork[] split = splitFirstDay(calendar, assignment, calendarWork);
             if (split[0] != null)
             {
-               result.add(split[0]);
+               TimephasedWork firstDayAssignment = split[0];
+               result.add(firstDayAssignment);
+               Duration firstDayCalendarWork = calendar.getWork(firstDayAssignment.getStart(), firstDayAssignment.getFinish(), TimeUnit.MINUTES);
+               calendarWork = Duration.getInstance((calendarWork.getDuration() - firstDayCalendarWork.getDuration()), TimeUnit.MINUTES);
             }
 
             if (assignment.equals(split[1]))
@@ -148,7 +153,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param assignment timephased assignment span
     * @return first day and remainder assignments
     */
-   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment)
+   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment, Duration calendarWork)
    {
       TimephasedWork[] result = new TimephasedWork[2];
 
@@ -157,7 +162,6 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       //
       Date assignmentStart = assignment.getStart();
       Date assignmentFinish = assignment.getFinish();
-      Duration calendarWork = calendar.getWork(assignmentStart, assignmentFinish, TimeUnit.MINUTES);
       Duration assignmentWork = assignment.getTotalAmount();
 
       if (calendarWork.getDuration() != 0)
