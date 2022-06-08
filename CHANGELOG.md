@@ -15,6 +15,7 @@
 * Don't write emply predecessor lists to Planner files.
 * Improve handling of lag duration when writing Planner files.
 * Improve ProjectCalendar start date calculation when we have long runs of non-working days.
+* Performance enhancement for timephased data normalisation.
 
 ## 10.5.0 (2022-05-24)
 * The `ProjectCalendarWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
