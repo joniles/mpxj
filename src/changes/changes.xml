@@ -13,6 +13,10 @@
 			<action dev="joniles" type="update">Improve reading task start from certain Planner files.</action>
 			<action dev="joniles" type="update">Improve reading predecessor lag values from Planner files.</action>
 			<action dev="joniles" type="update">Ensure calendar hierarchy is written correctly to Planner files.</action>
+			<action dev="joniles" type="update">Don't write null tasks to Planner files as Planner will not read files which contain them.</action>
+			<action dev="joniles" type="update">When writing Planner file, ignore constrainyt types which Planer can't represent.</action>
+			<action dev="joniles" type="update">Don't write emply predecessor lists to Planner files.</action>
+			<action dev="joniles" type="update">Improve handling of lag duration when writing Planner files.</action>
 		</release>
 		<release date="2022-05-24" version="10.5.0">
 			<action dev="joniles" type="update">The `ProjectCalendarWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</action>
