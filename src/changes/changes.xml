@@ -20,6 +20,7 @@
 			<action dev="joniles" type="update">Don't write emply predecessor lists to Planner files.</action>
 			<action dev="joniles" type="update">Improve handling of lag duration when writing Planner files.</action>
 			<action dev="joniles" type="update">Improve ProjectCalendar start date calculation when we have long runs of non-working days.</action>
+			<action dev="joniles" type="update">Performance enhancement for timephased data normalisation.</action>
 		</release>
 		<release date="2022-05-24" version="10.5.0">
 			<action dev="joniles" type="update">The `ProjectCalendarWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</action>
