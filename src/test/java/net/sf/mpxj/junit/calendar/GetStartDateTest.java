@@ -22,37 +22,23 @@
 
 package net.sf.mpxj.junit.calendar;
 
-import java.io.File;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.junit.Test;
 
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.RecurrenceType;
-import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
-import org.junit.Test;
-
-import static net.sf.mpxj.junit.MpxjAssert.isMicrosoftAccessJdbcAvailable;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests to ensure basic calendar details are read correctly.
