@@ -57,6 +57,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -170,9 +171,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).collect(Collectors.toList());
-      sortedCalendarList.sort((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID()));
-
+      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
       for (ProjectCalendar mpxjCalendar : sortedCalendarList)
       {
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();
@@ -442,6 +441,11 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writeTask(Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList)
    {
+      if (mpxjTask.getNull())
+      {
+         return;
+      }
+
       net.sf.mpxj.planner.schema.Task plannerTask = m_factory.createTask();
       taskList.add(plannerTask);
       plannerTask.setEnd(getDateTimeString(mpxjTask.getFinish()));
@@ -452,42 +456,11 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
       plannerTask.setStart(getDateTimeString(DateHelper.getDayStartDate(mpxjTask.getStart())));
-      if (mpxjTask.getMilestone())
-      {
-         plannerTask.setType("milestone");
-      }
-      else
-      {
-         plannerTask.setType("normal");
-      }
-      plannerTask.setWork(getDurationString(mpxjTask.getWork()));
+      plannerTask.setType(mpxjTask.getMilestone() ? "milestone" : "normal");
+      plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));
-
-      ConstraintType mpxjConstraintType = mpxjTask.getConstraintType();
-      if (mpxjConstraintType != ConstraintType.AS_SOON_AS_POSSIBLE)
-      {
-         Constraint plannerConstraint = m_factory.createConstraint();
-         plannerTask.setConstraint(plannerConstraint);
-         if (mpxjConstraintType == ConstraintType.START_NO_EARLIER_THAN)
-         {
-            plannerConstraint.setType("start-no-earlier-than");
-         }
-         else
-         {
-            if (mpxjConstraintType == ConstraintType.MUST_START_ON)
-            {
-               plannerConstraint.setType("must-start-on");
-            }
-         }
-
-         plannerConstraint.setTime(getDateTimeString(mpxjTask.getConstraintDate()));
-      }
-
-      //
-      // Write predecessors
-      //
+      writeConstraint(mpxjTask, plannerTask);
       writePredecessors(mpxjTask, plannerTask);
-
       m_eventManager.fireTaskWrittenEvent(mpxjTask);
 
       //
@@ -498,6 +471,61 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          writeTask(task, childTaskList);
       }
+   }
+
+   private void writeConstraint(Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
+   {
+      ConstraintType mpxjConstraintType = mpxjTask.getConstraintType();
+      if (mpxjConstraintType != null && mpxjConstraintType != ConstraintType.AS_SOON_AS_POSSIBLE)
+      {
+         String plannerConstraintType = null;
+
+         switch (mpxjConstraintType)
+         {
+            case MUST_START_ON:
+            case START_ON:
+            {
+               plannerConstraintType = "must-start-on";
+               break;
+            }
+
+            case START_NO_EARLIER_THAN:
+            {
+               plannerConstraintType = "start-no-earlier-than";
+               break;
+            }
+
+            default:
+            {
+               break;
+            }
+         }
+
+         if (plannerConstraintType != null)
+         {
+            Constraint plannerConstraint = m_factory.createConstraint();
+            plannerTask.setConstraint(plannerConstraint);
+            plannerConstraint.setType(plannerConstraintType);
+            plannerConstraint.setTime(getDateTimeString(mpxjTask.getConstraintDate()));
+         }
+      }
+   }
+
+   private Duration getWork(Task task)
+   {
+      Duration result = task.getWork();
+
+      if (result != null && result.getDuration() != 0)
+      {
+         return result;
+      }
+
+      if (result == null || result.getDuration() == 0)
+      {
+         return task.getDuration();
+      }
+
+      return result;
    }
 
    /**
@@ -515,23 +543,105 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writePredecessors(Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {
+      List<Relation> predecessors = mpxjTask.getPredecessors();
+      if (predecessors.isEmpty())
+      {
+         return;
+      }
+
       Predecessors plannerPredecessors = m_factory.createPredecessors();
       plannerTask.setPredecessors(plannerPredecessors);
       List<Predecessor> predecessorList = plannerPredecessors.getPredecessor();
       int id = 0;
 
-      List<Relation> predecessors = mpxjTask.getPredecessors();
       for (Relation rel : predecessors)
       {
          Integer taskUniqueID = rel.getTargetTask().getUniqueID();
          Predecessor plannerPredecessor = m_factory.createPredecessor();
          plannerPredecessor.setId(getIntegerString(++id));
          plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-         plannerPredecessor.setLag(getDurationString(rel.getLag()));
+         plannerPredecessor.setLag(getDurationString(getLag(rel)));
          plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
          predecessorList.add(plannerPredecessor);
          m_eventManager.fireRelationWrittenEvent(rel);
       }
+   }
+
+   /**
+    * Determine the correct value for lag.
+    *
+    * @param relation relation data
+    * @return required lag value
+    */
+   private Duration getLag(Relation relation)
+   {
+      Duration lag = relation.getLag();
+
+      // No lag? No change required.
+      if (lag == null || lag.getDuration() == 0 || lag.getUnits().isElapsed())
+      {
+         return lag;
+      }
+
+      // Calculate the effect of percent lag
+      if (lag.getUnits() == TimeUnit.PERCENT)
+      {
+         Duration targetDuration = relation.getTargetTask().getDuration();
+         double percentValue = lag.getDuration();
+         double durationValue =  targetDuration.getDuration();
+         durationValue = (durationValue * percentValue) / 100.0;
+         lag = Duration.getInstance(durationValue, targetDuration.getUnits());
+      }
+
+      // Bail out if we already have elapsed units
+      if (lag.getUnits().isElapsed())
+      {
+         return lag;
+      }
+
+      // Convert the lag to an elapsed duration.
+      Date predecessorDate;
+      Date successorDate;
+
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            predecessorDate = relation.getTargetTask().getStart();
+            successorDate = relation.getSourceTask().getStart();
+            break;
+         }
+
+         case FINISH_FINISH:
+         {
+            predecessorDate = relation.getTargetTask().getFinish();
+            successorDate = relation.getSourceTask().getFinish();
+            break;
+         }
+
+         case START_FINISH:
+         {
+            predecessorDate = relation.getTargetTask().getStart();
+            successorDate = relation.getSourceTask().getFinish();
+            break;
+         }
+
+         default:
+         {
+            predecessorDate = relation.getTargetTask().getFinish();
+            successorDate = relation.getSourceTask().getStart();
+            break;
+         }
+      }
+
+      // Bail if we don't have two dates
+      if (successorDate == null || predecessorDate == null)
+      {
+         return lag;
+      }
+
+      double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      return Duration.getInstance(minutes, TimeUnit.ELAPSED_MINUTES);
    }
 
    /**
