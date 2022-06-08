@@ -411,6 +411,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerResource.setNote(mpxjResource.getNotes());
       plannerResource.setShortName(mpxjResource.getInitials());
       plannerResource.setType(mpxjResource.getType() == ResourceType.MATERIAL ? "2" : "1");
+      //plannerResource.setStdRate();
       //plannerResource.setOvtRate();
       plannerResource.setUnits("0");
       //plannerResource.setProperties();
