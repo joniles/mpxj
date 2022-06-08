@@ -1,9 +1,23 @@
 # Changelog
 
-## 10.6.0 (unreleased)
+## 10.7.0 (unreleased)
+
+## 10.6.0 (2022-06-08)
+* Added support for reading and writing the unique ID of P6 user defined fields via new `getUniqueID` and `setUniqueID` methods on `CustomField (based on a suggestion by Wes Lund).
+* Added support for reading and writing scope, scope ID, and sequence number attributes for activity codes (based on a suggestion by Wes Lund).
+* Added support for reading and writing sequence number and color attributes for activity code values (based on a suggestion by Wes Lund).
+* Added `isWorking` method to `ProjectCalendarException` to make it clearer how to determine if the exception changes the dates it is applied to into working or non-working days.
+* Improve reading task start from certain Planner files.
+* Improve reading predecessor lag values from Planner files.
+* Ensure calendar hierarchy is written correctly to Planner files.
+* Don't write null tasks to Planner files as Planner will not read files which contain them.
+* When writing Planner file, ignore constrainyt types which Planer can't represent.
+* Don't write emply predecessor lists to Planner files.
+* Improve handling of lag duration when writing Planner files.
+* Improve ProjectCalendar start date calculation when we have long runs of non-working days.
 
 ## 10.5.0 (2022-05-24)
-* The `ProjectCalendaWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
+* The `ProjectCalendarWeek` methods `addCalendarHours()`, `attachHoursToDay`, `removeHoursFromDay` have been removed. Use `addCalendarHours(day)`, `removeCalendarHours(day)` instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
 * The `ProjectCalendar` methods `attachHoursToDay` and `removeHoursFromDay` have been removed. Use the `addCalendarHours` and `removeCalendarHours` methods instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)
 * The class hierarchy for `ProjectCalendarHours` and `ProjectCalendarException` has been simplified, but there should be no impact for uses of these classes.
 * The `ProjectCalendarHours` class now implements the `List` interface. Methods in this class not part ofthe `List` interface have been deprecated in favour of the equivalent `List` methods.
