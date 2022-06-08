@@ -171,9 +171,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).collect(Collectors.toList());
-      sortedCalendarList.sort((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID()));
-
+      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
       for (ProjectCalendar mpxjCalendar : sortedCalendarList)
       {
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();
@@ -633,6 +631,12 @@ public final class PlannerWriter extends AbstractProjectWriter
             successorDate = relation.getSourceTask().getStart();
             break;
          }
+      }
+
+      // Bail if we don't have two dates
+      if (successorDate == null || predecessorDate == null)
+      {
+         return lag;
       }
 
       double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
