@@ -164,7 +164,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    public void setWriteTimephasedData(boolean value)
    {
-      m_writeTimphasedData = value;
+      m_writeTimephasedData = value;
    }
 
    /**
@@ -175,7 +175,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    public boolean getWriteTimephasedData()
    {
-      return m_writeTimphasedData;
+      return m_writeTimephasedData;
    }
 
    /**
@@ -2128,7 +2128,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (m_writeTimphasedData && mpx.getHasTimephasedData())
+      if (m_writeTimephasedData && mpx.getHasTimephasedData())
       {
          List<TimephasedDataType> list = xml.getTimephasedData();
          ProjectCalendar calendar = mpx.getCalendar();
@@ -2404,7 +2404,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private boolean m_splitTimephasedAsDays = true;
 
-   private boolean m_writeTimphasedData;
+   private boolean m_writeTimephasedData;
 
    private SaveVersion m_saveVersion = SaveVersion.Project2016;
 
