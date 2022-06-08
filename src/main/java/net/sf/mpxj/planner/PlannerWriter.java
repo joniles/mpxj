@@ -594,9 +594,49 @@ public final class PlannerWriter extends AbstractProjectWriter
          lag = Duration.getInstance(durationValue, targetDuration.getUnits());
       }
 
-      return lag;
+      // Bail out if we already have elapsed units
+      if (lag.getUnits().isElapsed())
+      {
+         return lag;
+      }
 
-      // TODO convert to elapsed units
+      // Convert the lag to an elapsed duration.
+      Date predecessorDate;
+      Date successorDate;
+
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            predecessorDate = relation.getTargetTask().getStart();
+            successorDate = relation.getSourceTask().getStart();
+            break;
+         }
+
+         case FINISH_FINISH:
+         {
+            predecessorDate = relation.getTargetTask().getFinish();
+            successorDate = relation.getSourceTask().getFinish();
+            break;
+         }
+
+         case START_FINISH:
+         {
+            predecessorDate = relation.getTargetTask().getStart();
+            successorDate = relation.getSourceTask().getFinish();
+            break;
+         }
+
+         default:
+         {
+            predecessorDate = relation.getTargetTask().getFinish();
+            successorDate = relation.getSourceTask().getStart();
+            break;
+         }
+      }
+
+      double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      return Duration.getInstance(minutes, TimeUnit.ELAPSED_MINUTES);
    }
 
    /**
