@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.junit;
 
+import net.sf.mpxj.junit.calendar.GetStartDateTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -151,6 +152,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    LocaleDataTest.class,
    MultiDayExceptionsTest.class,
    SemVerTest.class,
+   GetStartDateTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

@@ -794,6 +794,23 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    public Date getStartDate(Date finishDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
+
+      //
+      // We want to avoid the case where a calendar doesn't
+      // have enough working days defined to calculate]a start date. We will stop
+      // searching if we reach the project start date. If we don't have
+      // a project start date defined, we'll allow the search to go back one year.
+      //
+      Date projectStartDate = properties.getStartDate();
+      if (projectStartDate == null)
+      {
+         Calendar cal = DateHelper.popCalendar(new Date());
+         cal.add(Calendar.DAY_OF_YEAR, -365);
+         projectStartDate = cal.getTime();
+         DateHelper.pushCalendar(cal);
+      }
+      long projectStart = projectStartDate.getTime();
+
       // Note: Using a double allows us to handle date values that are accurate up to seconds.
       //       However, it also means we need to truncate the value to 2 decimals to make the
       //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
@@ -828,25 +845,19 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
             //
             // Move the calendar backward to the previous working day
             //
-            int count = 0;
             Day day;
             do
             {
-               if (count > 7)
+               // Protect against a calendar with all days non-working
+               if (cal.getTimeInMillis() < projectStart)
                {
-                  break; // Protect against a calendar with all days non-working
+                  return null;
                }
-               count++;
+
                cal.add(Calendar.DAY_OF_YEAR, -1);
                day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
             }
             while (!isWorkingDate(cal.getTime(), day));
-
-            if (count > 7)
-            {
-               // We have a calendar with no working days.
-               return null;
-            }
 
             //
             // Retrieve the finish time for this day
