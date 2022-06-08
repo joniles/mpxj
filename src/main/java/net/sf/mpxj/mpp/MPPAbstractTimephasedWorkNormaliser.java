@@ -151,6 +151,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     *
     * @param calendar current calendar
     * @param assignment timephased assignment span
+    * @param calendarWork working hours for assignment from the calendar
     * @return first day and remainder assignments
     */
    private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment, Duration calendarWork)
