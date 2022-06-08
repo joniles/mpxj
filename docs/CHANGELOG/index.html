@@ -261,8 +261,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1060-unreleased" class="md-nav__link">
-    10.6.0 (unreleased)
+  <a href="#1070-unreleased" class="md-nav__link">
+    10.7.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1060-2022-06-08" class="md-nav__link">
+    10.6.0 (2022-06-08)
   </a>
   
 </li>
@@ -2330,8 +2337,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1060-unreleased" class="md-nav__link">
-    10.6.0 (unreleased)
+  <a href="#1070-unreleased" class="md-nav__link">
+    10.7.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1060-2022-06-08" class="md-nav__link">
+    10.6.0 (2022-06-08)
   </a>
   
 </li>
@@ -3692,10 +3706,26 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1060-unreleased">10.6.0 (unreleased)</h2>
+<h2 id="1070-unreleased">10.7.0 (unreleased)</h2>
+<h2 id="1060-2022-06-08">10.6.0 (2022-06-08)</h2>
+<ul>
+<li>Added support for reading and writing the unique ID of P6 user defined fields via new <code>getUniqueID</code> and <code>setUniqueID</code> methods on `CustomField (based on a suggestion by Wes Lund).</li>
+<li>Added support for reading and writing scope, scope ID, and sequence number attributes for activity codes (based on a suggestion by Wes Lund).</li>
+<li>Added support for reading and writing sequence number and color attributes for activity code values (based on a suggestion by Wes Lund).</li>
+<li>Added <code>isWorking</code> method to <code>ProjectCalendarException</code> to make it clearer how to determine if the exception changes the dates it is applied to into working or non-working days.</li>
+<li>Improve reading task start from certain Planner files.</li>
+<li>Improve reading predecessor lag values from Planner files.</li>
+<li>Ensure calendar hierarchy is written correctly to Planner files.</li>
+<li>Don't write null tasks to Planner files as Planner will not read files which contain them.</li>
+<li>When writing Planner file, ignore constrainyt types which Planer can't represent.</li>
+<li>Don't write emply predecessor lists to Planner files.</li>
+<li>Improve handling of lag duration when writing Planner files.</li>
+<li>Improve ProjectCalendar start date calculation when we have long runs of non-working days.</li>
+<li>Performance enhancement for timephased data normalisation.</li>
+</ul>
 <h2 id="1050-2022-05-24">10.5.0 (2022-05-24)</h2>
 <ul>
-<li>The <code>ProjectCalendaWeek</code> methods <code>addCalendarHours()</code>, <code>attachHoursToDay</code>, <code>removeHoursFromDay</code> have been removed. Use <code>addCalendarHours(day)</code>, <code>removeCalendarHours(day)</code> instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</li>
+<li>The <code>ProjectCalendarWeek</code> methods <code>addCalendarHours()</code>, <code>attachHoursToDay</code>, <code>removeHoursFromDay</code> have been removed. Use <code>addCalendarHours(day)</code>, <code>removeCalendarHours(day)</code> instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</li>
 <li>The <code>ProjectCalendar</code> methods <code>attachHoursToDay</code> and <code>removeHoursFromDay</code> have been removed. Use the <code>addCalendarHours</code> and <code>removeCalendarHours</code> methods instead. (Note: this will be a breaking change if you were using the original methods to create or modify a schedule)</li>
 <li>The class hierarchy for <code>ProjectCalendarHours</code> and <code>ProjectCalendarException</code> has been simplified, but there should be no impact for uses of these classes.</li>
 <li>The <code>ProjectCalendarHours</code> class now implements the <code>List</code> interface. Methods in this class not part ofthe <code>List</code> interface have been deprecated in favour of the equivalent <code>List</code> methods.</li>
