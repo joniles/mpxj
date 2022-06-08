@@ -588,7 +588,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          Duration targetDuration = relation.getTargetTask().getDuration();
          double percentValue = lag.getDuration();
-         double durationValue =  targetDuration.getDuration();
+         double durationValue = targetDuration.getDuration();
          durationValue = (durationValue * percentValue) / 100.0;
          lag = Duration.getInstance(durationValue, targetDuration.getUnits());
       }
