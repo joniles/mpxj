@@ -8,6 +8,7 @@ like to be featured in this list.
 * a-dato [www.a-dato.net](http://www.a-dato.net)
 * Afinion Project Viewer [www.afinion.de](http://www.afinion.de)
 * allProView [www.allproview.com](http://www.allproview.com)
+* Atlas Authority [atlasauthority.com](https://atlasauthority.com/)
 * Aurea Savvion BPM Studio [www.aurea.com](https://www.aurea.com/)
 * Celoxis [www.celoxis.com](http://www.celoxis.com)
 * Change Inspector [www.changeinspector.com](http://www.changeinspector.com)
