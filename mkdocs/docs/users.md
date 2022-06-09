@@ -48,6 +48,7 @@ like to be featured in this list.
 * OmniPlan [www.omnigroup.com](http://www.omnigroup.com)
 * OnePager [www.onepager.com](https://www.onepager.com/)
 * Onepoint Project [www.onepoint-project.com](http://www.onepoint-project.com)
+* Opdec [www.opdec.com](https://www.opdec.com/)
 * OpenProj [openproj.org](http://openproj.org/)
 * Pavone [www.pavone.com](http://www.pavone.com)
 * Pemari [www.pemari.com](http://www.pemari.com)
