@@ -22,6 +22,7 @@ markdown_extensions:
 nav:
   - 'Overview': 'index.md'
   - 'Changes': 'CHANGELOG.md'
+  - 'Supported Formats': 'supported-formats.md'
   - 'Getting Started':
     - 'Getting Started': 'howto-start.md'
     - 'Building MPXJ': 'howto-build.md'
