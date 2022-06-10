@@ -3,7 +3,7 @@ Welcome to MPXJ! This library enables you to read project plans (sometimes known
 as schedules or programmes) from a variety of file formats and databases, and
 can also write that information to a variety of file formats.
 
-The library is loosely based around on data structures which follow the way
+The library is based on data structures which follow the way
 schedule data is represented by Microsoft Project, extended to accommodate
 features and concepts from other applications.
 
@@ -28,8 +28,8 @@ Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
 it to be used  from any .Net programming language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
-native Ruby access to read from schedule files using MPXJ, and a [Python
-package](https://pypi.org/project/mpxj/) which wraps the Java library to
+native Ruby access to read from schedule files using MPXJ, and a
+[Python package](https://pypi.org/project/mpxj/) which wraps the Java library to
 provide full read/write access to schedule files.
 
 You may be able to leverage MPXJ from other languages too, for example the 
@@ -63,7 +63,7 @@ Please see the legal folder within the distribution for details of the
 licences for the third party libraries used by MPXJ.
 
 ## Acknowledgements
-This product includes functionality provided by:
+This library includes functionality provided by:
 
 * [POI](http://poi.apache.org/).
 * [IKVM.NET](http://www.ikvm.net/).
@@ -73,6 +73,6 @@ This product includes functionality provided by:
 * [JWAT](http://jwat.org/).
 * [JSOUP](http://jsoup.org/).
 
-This product has been built with the assistance of:
+This library has been built with the assistance of:
 
 * [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) Java Profiler

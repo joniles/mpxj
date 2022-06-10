@@ -8,14 +8,14 @@
       
       
       
-        <link rel="canonical" href="http://www.mpxj.org/howto-read-suretrak/">
+        <link rel="canonical" href="http://www.mpxj.org/howto-start-java/">
       
       <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
-        <title>SureTrak files - MPXJ</title>
+        <title>Getting Started with Java - MPXJ</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-read-suretrak-files" class="md-skip">
+        <a href="#gettsing-started-with-java" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SureTrak files
+              Getting Started with Java
             
           </span>
         </div>
@@ -256,12 +256,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -282,11 +284,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../howto-start-java/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Getting Started with Java
       </a>
+      
     </li>
   
 
@@ -402,14 +414,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
@@ -528,59 +538,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          SureTrak files
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../howto-read-suretrak/" class="md-nav__link">
         SureTrak files
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reading-stx-files" class="md-nav__link">
-    Reading STX files
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-a-suretrak-directory" class="md-nav__link">
-    Reading a SureTrak directory
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1053,28 +1015,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reading-stx-files" class="md-nav__link">
-    Reading STX files
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-a-suretrak-directory" class="md-nav__link">
-    Reading a SureTrak directory
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1085,72 +1025,34 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/joniles/mpxj/edit/master/docs/howto-read-suretrak.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/joniles/mpxj/edit/master/docs/howto-start-java.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="how-to-read-suretrak-files">How To: Read SureTrak files</h1>
-<p>A Primavera SureTrak installation stores project data as a database consisting
-of a number of individual files. In a typical SureTrak installation files for a
-number of different projects live in a single projects directory. A SureTrak
-user can back up an individual project to create an STX file, which is a
-compressed archive containing all of the files from a single project.</p>
-<h2 id="reading-stx-files">Reading STX files</h2>
-<p>The simplest way to read an STX file is to use the <code>UniversalProjectReader</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span><span class="w"></span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// ...</span><span class="w"></span>
-
-<span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span><span class="w"></span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.stx&quot;</span><span class="p">);</span><span class="w"></span>
+<h1 id="gettsing-started-with-java">Gettsing Started with Java</h1>
+<p>MPXJ is built to work with versions of Java from 1.8 onwards. For many people,
+the easiest way to get started with MPXJ and its dependencies is to use Maven.
+Just include the following in your POM to register MPXJ as a  dependency of your
+project:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>net.sf.mpxj<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>mpxj<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>10.6.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
-<p>You can work directly with the <code>SureTrakSTXFileReader</code> by replacing
-<code>UniversalProjectReader</code> with <code>SureTrakSTXFileReader</code>, although this offers no
-particular advantage as there are no additional configuration settings available
-on the <code>SureTrakSTXFileReader</code> class.</p>
-<h2 id="reading-a-suretrak-directory">Reading a SureTrak directory</h2>
-<p>If you are working with a directory containing SureTrak project data you have
-two options. If you know that the directory only contains a single project, you
-can use the <code>UniversalProjectReader</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span><span class="w"></span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// ...</span><span class="w"></span>
-
-<span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span><span class="w"></span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-suretrak-directory&quot;</span><span class="p">);</span><span class="w"></span>
-</code></pre></div>
-<p>If the directory happens to contain multiple projects the
-<code>UniversalProjectReader</code> will simply read the first one it finds, in alphabetic
-order.</p>
-<p>If you know that the directory you are working with contains multiple projects,
-you will need to use the <code>SureTrakDatabaseReader</code> class.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span><span class="w"></span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span><span class="w"></span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// ...</span><span class="w"></span>
-
-<span class="c1">// Find a list of the project names</span><span class="w"></span>
-<span class="n">String</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-suretrak-directory&quot;</span><span class="p">;</span><span class="w"></span>
-<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projectNames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SureTrakDatabaseReader</span><span class="p">.</span><span class="na">listProjectNames</span><span class="p">(</span><span class="n">directory</span><span class="p">);</span><span class="w"></span>
-
-<span class="c1">// Tell the reader which project to work with</span><span class="w"></span>
-<span class="n">P3DatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SureTrakDatabaseReader</span><span class="p">();</span><span class="w"></span>
-<span class="n">reader</span><span class="p">.</span><span class="na">setProjectName</span><span class="p">(</span><span class="n">projectNames</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
-
-<span class="c1">// Read the project</span><span class="w"></span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">directory</span><span class="p">);</span><span class="w"></span>
-</code></pre></div>
-<p>As the example above shows, the <code>SureTrakDatabaseReader</code> class provides a method
-which lists the names of the SureTrak projects it finds in a directory. You can
-then select which project you want to load, and call the <code>setProjectName</code> method
-of the reader to make this selection. You can then call the <code>read</code> method
-passing in the name of the directory, and the reader will extract data for the
-selected project.</p>
+<p>The traditional method of downloading the MPXJ distribution as a zip file 
+can also be used. Distributions can be found at
+<a href="https://www.github.com/joniles/mpxj/releases">GitHub</a> and
+<a href="http://sourceforge.net/project/showfiles.php?group_id=70649">SourceForge</a>.</p>
+<p>The zip files contain all of the source, the MPXJ JAR file in the root of the
+zip file, with the libraries on which MPXJ depends being found in the <code>lib</code>
+directory of the zip file. These libraries will need to be available on your
+classpath in order to use all of the MPXJ functionality. The <code>script</code> directory
+in the zip file contains a batch file and a shell script which show how this
+can be done.</p>
+<p>You'll find a general introduction to MPXJ's functionality <a href="../howto-start/">here</a>.</p>
 
               
             </article>
@@ -1166,7 +1068,7 @@ selected project.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../howto-read-p3/" class="md-footer__link md-footer__link--prev" aria-label="Previous: P3 files" rel="prev">
+        <a href="../supported-formats/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Supported Formats" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1175,20 +1077,20 @@ selected project.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              P3 files
+              Supported Formats
             </div>
           </div>
         </a>
       
       
         
-        <a href="../howto-read-turboproject/" class="md-footer__link md-footer__link--next" aria-label="Next: TurboProject files" rel="next">
+        <a href="../howto-dotnet/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started with .Net" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              TurboProject files
+              Getting Started with .Net
             </div>
           </div>
           <div class="md-footer__button md-icon">
