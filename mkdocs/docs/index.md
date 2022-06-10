@@ -23,15 +23,9 @@ More details of the supported file formats can be found
 MPXJ is written and maintained in Java, however this is no barrier to using
 its functionality in other languages.
 
-Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), the MPXJ distribution
-also contains a native .Net DLL version of MPXJ and its library dependencies.
-This allows MPXJ to be used  from any .Net programming language (for example,
-C#, Visual Basic  and so on), without in most cases needing to be aware that the
-original code was written  in Java. As part of the MPXJ release process the
-Java and .Net libraries are both exercised using the same set of regression
-tests to ensure that their behaviour is identical. Both the Java and .Net
-versions of the library are used in production commercial applications - so you
-can be confident that the code will work for you!
+Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
+[available for .Net](https://www.nuget.org/packages?q=net.sf.mpxj), allowing
+it to be used  from any .Net programming language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
 native Ruby access to read from schedule files using MPXJ, and a [Python
@@ -42,77 +36,20 @@ You may be able to leverage MPXJ from other languages too, for example the
 [PHP/Java Bridge](http://php-java-bridge.sourceforge.net)
 can be used to expose the complete MPXJ API in PHP.
 
+## Contact
 
-### Working with Java
+I'm keen to hear from you about how you are using MPXJ, please
+[drop me a note](mailto:jon.iles@bcs.org.uk).
 
-MPXJ is built to work with versions of Java from 1.8 onwards. For many people,
-the easiest way to get started with MPXJ and its dependencies is to use Maven.
-Just include the following in your POM to register MPXJ as a  dependency of your
-project:
+If you use MPXJ as a part of an application that you redistribute, commercially
+or otherwise, let me know and I'll include a link to your website on the
+[MPXJ users page](users.md).
 
-```xml
-<dependency>
-  <groupId>net.sf.mpxj</groupId>
-  <artifactId>mpxj</artifactId>
-  <version>10.4.0</version>
-</dependency>
-```
-
-The traditional method of downloading the MPXJ distribution as a zip file 
-can also be used. Distributions can be found at 
-[SourceForge](http://sourceforge.net/project/showfiles.php?group_id=70649)
-and also at [GitHub](https://www.github.com/joniles/mpxj/releases).
-
-The zip files contain all of the source, the MPXJ JAR file in the root of the
-zip file, with the libraries on which MPXJ depends being found in the `lib`
-directory of the zip file. These libraries will need to be available on your
-classpath in order to use all of the MPXJ functionality.
-
-You'll find a general introduction to MPXJ's functionality [here](howto-start.md).
-
-### Working with .Net
-
-For many people the easiest way to work with MPXJ is to download the packages via
-[NuGet](http://www.nuget.org/packages?q=mpxj). The .Net assemblies and their
-dependencies can also be found in the zip file distribution from
-[SourceForge](http://sourceforge.net/project/showfiles.php?group_id=70649)
-or [GitHub](https://www.github.com/joniles/mpxj/releases).
-You'll find a general introduction to MPXJ's functionality [here](howto-start.md)
-and specific details about working with .Net [here](howto-dotnet.md).
-
-### Working with Ruby
-MPXJ is available as a RubyGem, which can be installed using
-```
-gem install mpxj
-```
-or included in you Gemfile and installed using `bundler`. Note that the
-Ruby version of MPXJ is just a wrapper around the Java library, and provides
-read-only access to schedule data. You can find some documentation for the
-Gem [here](https://rubygems.org/gems/mpxj)
-
-### Working with Python
-MPXJ is available as a Python Package, which can be installed using
-```
-pip install mpxj
-```
-You can find some documentation for the
-Package [here](https://pypi.org/project/mpxj/)
-
-## Keep in touch
-I'm keen to hear from you about how you are using MPXJ,
-please [drop me a note](mailto:jon.iles@bcs.org.uk).
-
-If you use MPXJ as a part of an application that you redistribute,
-commercially or otherwise, drop me a line and I'll include
-a link to your website on the [MPXJ users page](users.md).
-
-## You can help me
-Please let me know what features you'd like to see added
-to MPXJ. In addition to feature requests, if you have schedule
-files that can't be read, or don't contain the data you
-expect, or have a file format you'd like MPXJ to read,
-please let me know. The more of this feedback you can give me, the
-better I can make MPXJ!
+Please let me know what features you'd like to see added to MPXJ. In addition to
+feature requests, if you have schedule files that can't be read, or don't
+contain the data you expect, or have a file format you'd like MPXJ to read,
+please let me know. The more of this feedback you can give me, the better I can
+make MPXJ!
 
 ## Licensing
 MPXJ is distributed under the terms of the

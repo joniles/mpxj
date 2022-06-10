@@ -20,14 +20,17 @@ markdown_extensions:
   - pymdownx.superfences
 
 nav:
-  - 'Overview': 'index.md'
+  - 'Introduction': 'index.md'
   - 'Changes': 'CHANGELOG.md'
   - 'Supported Formats': 'supported-formats.md'
   - 'Getting Started':
-    - 'Getting Started': 'howto-start.md'
+    - 'Getting Started with Java': 'howto-start-java.md'
+    - 'Getting Started with .Net': 'howto-dotnet.md'
+    - 'Getting Started with Python': 'howto-start-python.md'
+    - 'Getting Started with Ruby': 'howto-start-ruby.md'
+    - 'Getting Started with COM': 'howto-com.md'
+    - 'MPXJ Basics': 'howto-start.md'
     - 'Building MPXJ': 'howto-build.md'
-    - 'MPXJ and .Net': 'howto-dotnet.md'
-    - 'MPXJ and COM': 'howto-com.md'
     - 'Converting Files': 'howto-convert.md'
   - 'How to Read...':
     - 'MPX Files': 'howto-read-mpx.md'
