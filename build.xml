@@ -813,6 +813,12 @@
 		               replace='](https://www.mpxj.org/\1/)'
 		               byline="true">
 		</replaceregexp>
+
+		<replaceregexp file="${basedir}/readme.md"
+		               match='# Introduction'
+		               replace='# MPXJ'
+		               byline="true">
+		</replaceregexp>
 	</target>
 
 	<target name="maven-test" depends="init" description="Execute maven and run tests">
