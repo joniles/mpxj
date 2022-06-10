@@ -778,7 +778,7 @@
 	</target>
 
 	<!-- Ensure mkdocs-material is installed: py -m pip install - -upgrade mkdocs-material -->
-	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build" description="Produce site content"/>
+	<target name="site-build" depends="changelog, mkdocs-site-build, maven-site-build, readme-build" description="Produce site content"/>
 
 	<target name="mkdocs-site-build" depends="init" description="Execute mkdocs to produce site content">
 		<property name="docs.dir" value="${basedir}/docs" />
@@ -803,6 +803,16 @@
 		    replace=""
 			flags="gis"
 			byline="false"/>
+	</target>
+
+	<target name="readme-build" depends="init" description="Populate readme.md">
+		<copy file="${basedir}/mkdocs/docs/index.md" tofile="${basedir}/readme.md"/>
+
+		<replaceregexp file="${basedir}/readme.md"
+		               match='\]\((.+)\.md\)'
+		               replace='](https://www.mpxj.org/\1/)'
+		               byline="true">
+		</replaceregexp>
 	</target>
 
 	<target name="maven-test" depends="init" description="Execute maven and run tests">

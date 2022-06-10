@@ -1,11 +1,16 @@
-# MPXJ and .Net
+# Getting Started with .Net
+For many people the easiest way to work with MPXJ is via
+[NuGet](http://www.nuget.org/packages?q=mpxj). The .Net assemblies and their
+dependencies can also be found in the zip file distribution from
+[GitHub](https://www.github.com/joniles/mpxj/releases) or
+[SourceForge](http://sourceforge.net/project/showfiles.php?group_id=70649).
+
+You'll find a general introduction to MPXJ's functionality [here](howto-start.md).
 
 ## MPXJ assemblies
-MPXJ ships with both a Java library (`mpxj.jar`) and a set of .Net Framework
-and .Net Core assemblies, which can be found in the `src.net\lib\net45` and
-`src.net\lib\netcoreapp3.1` folders of the distribution respectively. MPXJ is
-also available through[NuGet](http://www.nuget.org/packages?q=mpxj). This is
-the recommeded way to use MPXJ.
+MPXJ ships with a set of .Net Framework and .Net Core assemblies, which are
+managed for you by NuGet or can be found in the `src.net\lib\net45` and
+`src.net\lib\netcoreapp3.1` folders of the distribution respectively.
 
 There are actually three different .Net DLLs shipped with MPXJ - you only need
 one of these:
@@ -55,9 +60,9 @@ Task task = projectFile.AddTask();
 ## MPXJ dependencies
 Once you have selected the version of the MPXJ DLL most suitable for your
 project, you will need to add its dependencies. If you are using NuGet to
-manage your dependencies, this is done for you automatically. The files you
-need will all be in the relevant sub folder with the `src.net\lib` folder of
-the MPXJ distribution.
+manage your dependencies, this is done for you automatically. If you are
+managing the dependencies manually, the files you need will all be in the
+relevant sub folder with the `src.net\lib` folder of the MPXJ distribution.
 
 ## .Net samples
 MPXJ ships with some sample files which can be found in the `src.net\samples`
@@ -80,22 +85,25 @@ a type called `Date` rather than a .Net `DateTime`, and collections which
 don't expose the familiar `IEnumerable` interface.
 
 To simplify the translation between Java and .Net types, a set of extension
-methods have been provided. You'll find these extension methods in the `src.net\utilities`
-folder, in a project called `MpxjUtilities`. This project contains
-extension methods which enhance both Java and .Net classes to make it easier to
-pass data to and from the API. For example the extension method `ToIEnumerable` 
-is added to Java collection data types which allows them to be iterated using 
-the familiar `foreach` .Net syntax.
+methods have been provided. These are included n the NuGet package, and the
+source can be found in the `src.net\utilities` folder, in a project called
+`MpxjUtilities`. This project contains extension methods which enhance both
+Java and .Net classes to make it easier to pass data to and from the API. For
+example the extension method `ToIEnumerable` is added to Java collection data
+types which allows them to be iterated using the familiar `foreach` .Net
+syntax.
 
-To use these extension methods, simply add a reference to the 
-`MpxjUtilities` assembly in your own project. The methods themselves are
-documented in the source, and examples of their use can be seen in the samples
-provided in the `src.net\samples` folder.
+To use these extension methods, simply add a reference to the `MpxjUtilities`
+assembly in your own project. The methods themselves are documented in the
+source, and examples of their use can be seen in the samples provided in the
+`src.net\samples` folder.
 
 ## MPXJ and the GAC
-For your convenience two batch files are provided in the `src.net\lib\net45` directory:
-`mpxj-gac-install.bat` and `mpxj-gac-uninstall.bat`. These batch files install
-the MPXJ assemblies into the GAC and uninstall the MPXJ assemblies from the GAC 
-using the [`gacutil`](http://msdn.microsoft.com/en-us/library/ex0ss12c(v=vs.110))
-global assembly cache tool. Note that these batch files assume that `gacutil` is
+
+For your convenience two batch files are provided in the `src.net\lib\net45`
+directory: `mpxj-gac-install.bat` and `mpxj-gac-uninstall.bat`. These batch
+files install the MPXJ assemblies into the GAC and uninstall the MPXJ
+assemblies from the GAC using the
+[`gacutil`](http://msdn.microsoft.com/en-us/library/ex0ss12c(v=vs.110)) global
+assembly cache tool. Note that these batch files assume that `gacutil` is
 available on the path.

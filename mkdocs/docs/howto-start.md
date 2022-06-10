@@ -1,4 +1,4 @@
-# Getting Started
+# MPXJ Basics
 
 The MPXJ library allows various formats of Microsoft Project file formats, and
 file formats from other project planning applications
@@ -55,7 +55,8 @@ ProjectReader reader = new UniversalProjectReader ();
 ProjectFile project = reader.read("example.mpp");
 for (Resource resource : project.getAllResources())
 {
-   System.out.println("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID() + ")");
+   System.out.println("Resource: " + resource.getName()
+      + " (Unique ID=" + resource.getUniqueID() + ")");
 }
 ```
 
@@ -77,7 +78,8 @@ ProjectReader reader = new UniversalProjectReader ();
 ProjectFile project = reader.read("example.mpp");
 for (Task task : project.getAllTasks())
 {
-   System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID());
+   System.out.println("Task: " + task.getName() + " ID=" + task.getID()
+      + " Unique ID=" + task.getUniqueID());
 }
 ```
 
