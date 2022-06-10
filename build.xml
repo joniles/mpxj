@@ -809,7 +809,7 @@
 		<copy file="${basedir}/mkdocs/docs/index.md" tofile="${basedir}/readme.md"/>
 
 		<replaceregexp file="${basedir}/readme.md"
-		               match='\]\((+*)\.md\)'
+		               match='\]\((.+)\.md\)'
 		               replace='](https://www.mpxj.org/\1/)'
 		               byline="true">
 		</replaceregexp>

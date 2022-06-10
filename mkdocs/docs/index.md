@@ -28,8 +28,8 @@ Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
 it to be used  from any .Net programming language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
-native Ruby access to read from schedule files using MPXJ, and a [Python
-package](https://pypi.org/project/mpxj/) which wraps the Java library to
+native Ruby access to read from schedule files using MPXJ, and a
+[Python package](https://pypi.org/project/mpxj/) which wraps the Java library to
 provide full read/write access to schedule files.
 
 You may be able to leverage MPXJ from other languages too, for example the 
