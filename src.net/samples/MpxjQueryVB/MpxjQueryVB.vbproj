@@ -137,8 +137,8 @@
     <Reference Include="IKVM.Runtime.JNI">
       <HintPath>..\..\lib\net45\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
-    <Reference Include="jsoup-1.14.2">
-      <HintPath>..\..\lib\net45\jsoup-1.14.2.dll</HintPath>
+    <Reference Include="jsoup-1.15.1">
+      <HintPath>..\..\lib\net45\jsoup-1.15.1.dll</HintPath>
     </Reference>
     <Reference Include="mpxj-for-vb">
       <HintPath>..\..\lib\net45\mpxj-for-vb.dll</HintPath>
