@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.7.0">
+			<action dev="joniles" type="update">Update jsoup to 1.15.1.</action>
 		</release>
 		<release date="2022-06-08" version="10.6.0">
 			<action dev="joniles" type="update">Added support for reading and writing the unique ID of P6 user defined fields via new `getUniqueID` and `setUniqueID` methods on `CustomField (based on a suggestion by Wes Lund).</action>
