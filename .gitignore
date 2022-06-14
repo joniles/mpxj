@@ -17,6 +17,7 @@
 /src.net/**/obj
 /src.net/**/*.user
 /src.net/**/*.suo
+/src.net/**/*.vs
 /src.ruby/mpxj/doc
 /src.ruby/mpxj/legal
 /src.ruby/mpxj/pkg
