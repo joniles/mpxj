@@ -1,8 +1,9 @@
 # Changelog
 
-## 10.7.0 (unreleased)
-* Update sqlite-jdbc 3.36.0.3
-* Update jsoup to 1.15.1.
+## 10.6.1 (unreleased)
+* Updated to use POI 5.2.2
+* Updated to use sqlite-jdbc 3.36.0.3
+* Updated to use jsoup 1.15.1
 
 ## 10.6.0 (2022-06-08)
 * Added support for reading and writing the unique ID of P6 user defined fields via new `getUniqueID` and `setUniqueID` methods on `CustomField (based on a suggestion by Wes Lund).
