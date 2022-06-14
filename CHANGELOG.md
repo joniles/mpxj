@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.6.1 (unreleased)
+## 10.7.0 (unreleased)
+
+## 10.6.1 (2022-06-14)
 * Updated to use POI 5.2.2
 * Updated to use sqlite-jdbc 3.36.0.3
 * Updated to use jsoup 1.15.1
