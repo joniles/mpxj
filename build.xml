@@ -29,10 +29,12 @@
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 
 		<!-- Dependencies -->
-		<property name="poi.jar" value="poi-5.0.0" />
-		<property name="poifs.jar" value="poifs-5.0.0"/>
+		<property name="poi.jar" value="poi-5.2.2" />
+		<property name="poifs.jar" value="poifs-5.2.2"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
+		<property name="commons-io.jar" value="commons-io-2.11.0" />
 		<property name="commons-math.jar" value="commons-math3-3.6.1" />
+		<property name="log4j-api.jar" value="log4j-api-2.17.2" />
 		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
 		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.36.0.3" />
 		<property name="jsoup.jar" value="jsoup-1.15.1" />
@@ -42,7 +44,9 @@
 		<!-- Dependency Paths -->
 		<path id="poi.path"><pathelement location="${lib.dir}/${poi.jar}.jar" /></path>
 		<path id="commons-collections.path"><pathelement location="${lib.dir}/${commons-collections.jar}.jar" /></path>
+		<path id="commons-io.path"><pathelement location="${lib.dir}/${commons-io.jar}.jar" /></path>
 		<path id="commons-math.path"><pathelement location="${lib.dir}/${commons-math.jar}.jar" /></path>
+		<path id="log4j-api.path"><pathelement location="${lib.dir}/${log4j-api.jar}.jar" /></path>
 		<path id="rtfparserkit.path"><pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" /></path>
 		<path id="sqlite-jdbc.path"><pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" /></path>
 		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
@@ -51,7 +55,9 @@
 		<!-- Dependency Classpaths -->
 		<property name="poi.classpath" refid="poi.path" />
 		<property name="commons-collections.classpath" refid="commons-collections.path" />
+		<property name="commons-io.classpath" refid="commons-io.path" />
 		<property name="commons-math.classpath" refid="commons-math.path" />
+		<property name="log4j-api.classpath" refid="log4j-api.path" />
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
 		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="jsoup.classpath" refid="jsoup.path" />
@@ -241,7 +247,9 @@
 		<property name="lib.net45.dir" value="${basedir}/src.net/lib/net45" />
 		<property name="poi.net45.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.net45.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-io.net45.dll" value="${lib.net45.dir}\${commons-io.jar}.dll" />
 		<property name="commons-math.net45.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
+		<property name="log4j-api.net45.dll" value="${lib.net45.dir}\${log4j-api.jar}.dll" />
 		<property name="rtfparserkit.net45.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
 		<property name="sqlite-jdbc.net45.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="jsoup.net45.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
@@ -266,7 +274,9 @@
 		<property name="lib.nca31.dir" value="${basedir}/src.net/lib/netcoreapp3.1" />
 		<property name="poi.nca31.dll" value="${lib.nca31.dir}\${poi.jar}.dll" />
 		<property name="commons-collections.nca31.dll" value="${lib.nca31.dir}\${commons-collections.jar}.dll" />
+		<property name="commons-io.nca31.dll" value="${lib.nca31.dir}\${commons-io.jar}.dll" />
 		<property name="commons-math.nca31.dll" value="${lib.nca31.dir}\${commons-math.jar}.dll" />
+		<property name="log4j-api.nca31.dll" value="${lib.nca31.dir}\${log4j-api.jar}.dll" />
 		<property name="rtfparserkit.nca31.dll" value="${lib.nca31.dir}\${rtfparserkit.jar}.dll" />
 		<property name="sqlite-jdbc.nca31.dll" value="${lib.nca31.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="jsoup.nca31.dll" value="${lib.nca31.dir}\${jsoup.jar}.dll" />
@@ -451,14 +461,22 @@
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-io.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-math.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${log4j-api.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
 		     version of POI which removes the parts we don't use and avoids Java language constructs
 		     which IKVM doesn't like. https://github.com/joniles/poifs -->
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.net45.dll} -reference:${commons-math.net45.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.net45.dll} -reference:${commons-io.net45.dll} -reference:${commons-math.net45.dll} -reference:${log4j-api.net45.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
@@ -601,14 +619,22 @@
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-io.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-math.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${log4j-api.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
 		     version of POI which removes the parts we don't use and avoids Java language constructs
 		     which IKVM doesn't like. https://github.com/joniles/poifs -->
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${commons-collections.nca31.dll} -reference:${commons-math.nca31.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${commons-collections.nca31.dll} -reference:${commons-io.nca31.dll} -reference:${commons-math.nca31.dll} -reference:${log4j-api.nca31.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
@@ -753,8 +779,10 @@
 
 		<path id="emmarun.path">
 			<path refid="poi.path" />
-			<path refid="comons-collections.path" />
-			<path refid="comons-math.path" />
+			<path refid="commons-collections.path" />
+			<path refid="commons-io.path" />
+			<path refid="commons-math.path" />
+			<path refid="log4j-api.path" />
 			<path refid="rtfparserkit.path" />
 			<path refid="sqlite-jdbc.path" />
 			<path refid="jsoup.path" />
