@@ -6,6 +6,7 @@
 /src.net/lib/**/mpxj*.dll
 /src.net/lib/**/poi*.dll
 /src.net/lib/**/commons-*.dll
+/src.net/lib/**/log4j*.dll
 /src.net/lib/**/rtfparserkit*.dll
 /src.net/lib/**/sqlite-jdbc*.dll
 /src.net/lib/**/jsoup*.dll
@@ -15,7 +16,7 @@
 /src.net/**/bin
 /src.net/**/obj
 /src.net/**/*.user
-/src.net/*.suo
+/src.net/**/*.suo
 /src.ruby/mpxj/doc
 /src.ruby/mpxj/legal
 /src.ruby/mpxj/pkg
