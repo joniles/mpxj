@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="commons-io-2.11.0">
+      <HintPath>..\..\lib\netcoreapp3.1\commons-io-2.11.0.dll</HintPath>
+    </Reference>
     <Reference Include="IKVM.AWT.WinForms">
       <HintPath>..\..\lib\netcoreapp3.1\IKVM.AWT.WinForms.dll</HintPath>
     </Reference>
@@ -96,20 +99,23 @@
     <Reference Include="jsoup-1.15.1">
       <HintPath>..\..\lib\netcoreapp3.1\jsoup-1.15.1.dll</HintPath>
     </Reference>
+    <Reference Include="log4j-api-2.17.2">
+      <HintPath>..\..\lib\netcoreapp3.1\log4j-api-2.17.2.dll</HintPath>
+    </Reference>
     <Reference Include="mpxj-for-csharp">
       <HintPath>..\..\lib\netcoreapp3.1\mpxj-for-csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="poi-5.0.0">
-      <HintPath>..\..\lib\netcoreapp3.1\poi-5.0.0.dll</HintPath>
     </Reference>
     <Reference Include="commons-collections4-4.4">
       <HintPath>..\..\lib\netcoreapp3.1\commons-collections4-4.4.dll</HintPath>
     </Reference>
+    <Reference Include="poi-5.2.2">
+      <HintPath>..\..\lib\netcoreapp3.1\poi-5.2.2.dll</HintPath>
+    </Reference>
     <Reference Include="rtfparserkit-1.16.0">
       <HintPath>..\..\lib\netcoreapp3.1\rtfparserkit-1.16.0.dll</HintPath>
     </Reference>
-    <Reference Include="sqlite-jdbc-3.36.3">
-      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.36.3.dll</HintPath>
+    <Reference Include="sqlite-jdbc-3.36.0.3">
+      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.36.0.3.dll</HintPath>
     </Reference>
   </ItemGroup>
 

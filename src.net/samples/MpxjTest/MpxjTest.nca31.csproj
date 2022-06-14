@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="commons-io-2.11.0">
+      <HintPath>..\..\lib\netcoreapp3.1\commons-io-2.11.0.dll</HintPath>
+    </Reference>
     <Reference Include="IKVM.AWT.WinForms">
       <HintPath>..\..\lib\netcoreapp3.1\IKVM.AWT.WinForms.dll</HintPath>
     </Reference>
@@ -96,6 +99,9 @@
     <Reference Include="jsoup-1.15.1">
       <HintPath>..\..\lib\netcoreapp3.1\jsoup-1.15.1.dll</HintPath>
     </Reference>
+    <Reference Include="log4j-api-2.17.2">
+      <HintPath>..\..\lib\netcoreapp3.1\log4j-api-2.17.2.dll</HintPath>
+    </Reference>
     <Reference Include="mpxj">
       <HintPath>..\..\lib\netcoreapp3.1\mpxj.dll</HintPath>
     </Reference>
@@ -105,17 +111,17 @@
     <Reference Include="junit">
       <HintPath>..\..\lib\netcoreapp3.1\junit.dll</HintPath>
     </Reference>
-    <Reference Include="poi-5.0.0">
-      <HintPath>..\..\lib\netcoreapp3.1\poi-5.0.0.dll</HintPath>
-    </Reference>
     <Reference Include="commons-collections4-4.4">
       <HintPath>..\..\lib\netcoreapp3.1\commons-collections4-4.4.dll</HintPath>
+    </Reference>
+    <Reference Include="poi-5.2.2">
+      <HintPath>..\..\lib\netcoreapp3.1\poi-5.2.2.dll</HintPath>
     </Reference>
     <Reference Include="rtfparserkit-1.16.0">
       <HintPath>..\..\lib\netcoreapp3.1\rtfparserkit-1.16.0.dll</HintPath>
     </Reference>
-    <Reference Include="sqlite-jdbc-3.36.3">
-      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.36.3.dll</HintPath>
+    <Reference Include="sqlite-jdbc-3.36.0.3">
+      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.36.0.3.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -137,7 +143,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-    <NativeLibs Include="..\..\lib\netcoreapp3.1\windows\*"/>
+    <NativeLibs Include="..\..\lib\netcoreapp3.1\windows\*" />
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -145,7 +151,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-    <NativeLibs Include="..\..\lib\netcoreapp3.1\osx\*"/>
+    <NativeLibs Include="..\..\lib\netcoreapp3.1\osx\*" />
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -153,7 +159,7 @@
   </ItemGroup>
 
     <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-    <NativeLibs Include="..\..\lib\netcoreapp3.1\linux\*"/>
+    <NativeLibs Include="..\..\lib\netcoreapp3.1\linux\*" />
     <None Include="@(NativeLibs)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
