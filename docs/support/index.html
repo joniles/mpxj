@@ -8,14 +8,14 @@
       
       
       
-        <link rel="canonical" href="http://www.mpxj.org/howto-read-fasttrack/">
+        <link rel="canonical" href="http://www.mpxj.org/support/">
       
       <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
-        <title>FastTrack files - MPXJ</title>
+        <title>Support - MPXJ</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-read-fasttrack-schedule-files" class="md-skip">
+        <a href="#support" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              FastTrack files
+              Support
             
           </span>
         </div>
@@ -241,11 +241,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../support/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Support
       </a>
+      
     </li>
   
 
@@ -417,14 +427,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
@@ -585,52 +593,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          FastTrack files
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../howto-read-fasttrack/" class="md-nav__link">
         FastTrack files
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reading-fts-files" class="md-nav__link">
-    Reading FTS files
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1061,21 +1028,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reading-fts-files" class="md-nav__link">
-    Reading FTS files
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1086,29 +1038,20 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/joniles/mpxj/edit/master/docs/howto-read-fasttrack.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/joniles/mpxj/edit/master/docs/support.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="how-to-read-fasttrack-schedule-files">How To: Read FastTrack Schedule files</h1>
-<p>FastTrack Schedule writes schedule data to FTS files. Note that MPXJ has only
-been tested with FTS files produced by FastTrack 10.</p>
-<h2 id="reading-fts-files">Reading FTS files</h2>
-<p>The simplest way to read an FTS file is to use the <code>UniversalProjectReader</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span><span class="w"></span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span><span class="w"></span>
-
-<span class="c1">// ...</span><span class="w"></span>
-
-<span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span><span class="w"></span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.fts&quot;</span><span class="p">);</span><span class="w"></span>
-</code></pre></div>
-<p>You can work directly with the <code>FastTrackReader</code> by replacing
-<code>UniversalProjectReader</code> with <code>FastTrackReader</code>, although this offers no
-particular advantage as there are no additional configuration settings available
-on the <code>FastTrackReader</code> class.</p>
+<h1 id="support">Support</h1>
+<p>Support and feature requests can be opened on MPXJ's
+<a href="https://github.com/joniles/mpxj/issues">issue tracker</a>. I will respond
+to these as time permits.</p>
+<p>For more pressing issues, commercial support is available via my
+company <a href="https://www.timephased.com/">Timephased</a>. I can also provide
+consultancy around the use of MPXJ and implementation services. Please
+<a href="mailto:jon.iles@bcs.org.uk">contact me directly</a> for further details.</p>
 
               
             </article>
@@ -1124,7 +1067,7 @@ on the <code>FastTrackReader</code> class.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../howto-read-projectlibre/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ProjectLibre files" rel="prev">
+        <a href="../CHANGELOG/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Changes" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1133,20 +1076,20 @@ on the <code>FastTrackReader</code> class.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              ProjectLibre files
+              Changes
             </div>
           </div>
         </a>
       
       
         
-        <a href="../howto-read-ganttproject/" class="md-footer__link md-footer__link--next" aria-label="Next: GanttProject files" rel="next">
+        <a href="../supported-formats/" class="md-footer__link md-footer__link--next" aria-label="Next: File Formats" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              GanttProject files
+              File Formats
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -7,7 +7,7 @@ The library is based on data structures which follow the way
 schedule data is represented by Microsoft Project, extended to accommodate
 features and concepts from other applications.
 
-## Supported Formats
+## File Formats
 MPXJ can read file formats including MPX, MPP, MSPDI, MPD, Planner, Primavera
 P6, Primavera P3, SureTrak, Asta Powerproject, Asta Easyplan, Phoenix,
 Fasttrack, GanttProject, TurboProject, ConceptDraw PROJECT, Synchro, Gantt
@@ -19,7 +19,7 @@ More details of the supported file formats can be found
 [here](https://www.mpxj.org/supported-formats/).
 
 
-## Supported Languages
+## Languages
 MPXJ is written and maintained in Java, however this is no barrier to using
 its functionality in other languages.
 
@@ -37,19 +37,18 @@ You may be able to leverage MPXJ from other languages too, for example the
 can be used to expose the complete MPXJ API in PHP.
 
 ## Contact
+Having problems? Need support? All the details you need can be found on the
+[support page](https://www.mpxj.org/support/).
 
-I'm keen to hear from you about how you are using MPXJ, please
-[drop me a note](mailto:jon.iles@bcs.org.uk).
+Using MPXJ successfully somewhere? I'd
+[love to hear from you](mailto:jon.iles@bcs.org.uk) about your experiences.
+Do tell me what's missing or what could be better - I can use this feedback
+to guide future development work. It would also be great to add a link to your
+website from the [MPXJ users page](https://www.mpxj.org/users/).
 
-If you use MPXJ as a part of an application that you redistribute, commercially
-or otherwise, let me know and I'll include a link to your website on the
-[MPXJ users page](https://www.mpxj.org/users/).
-
-Please let me know what features you'd like to see added to MPXJ. In addition to
-feature requests, if you have schedule files that can't be read, or don't
-contain the data you expect, or have a file format you'd like MPXJ to read,
-please let me know. The more of this feedback you can give me, the better I can
-make MPXJ!
+Finally, if you're deriving value from MPXJ, please consider
+[sponsoring me](https://github.com/sponsors/joniles) to ensure I can continue
+enhancing and maintaining the library. Thank you!
 
 ## Licensing
 MPXJ is distributed under the terms of the
