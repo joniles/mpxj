@@ -23,9 +23,9 @@
 
 package net.sf.mpxj.utility.clean;
 
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * Cleans text by replacing it with random replacements words.
@@ -136,18 +135,15 @@ public class CleanByReplacementStrategy implements CleanStrategy
     */
    private void loadDictionary()
    {
-      URL url = getClass().getClassLoader().getResource("net/sf/mpxj/utility/clean/words.txt");
-      if (url == null)
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("net/sf/mpxj/utility/clean/words.txt"))))
       {
-         throw new RuntimeException("Unable to load words");
+         while (reader.ready())
+         {
+            processWord(reader.readLine());
+         }
       }
 
-      try (Stream<String> stream = Files.lines(Paths.get(url.toURI())))
-      {
-         stream.forEach(this::processWord);
-      }
-
-      catch (Exception ex)
+      catch (IOException ex)
       {
          throw new RuntimeException(ex);
       }
