@@ -2,6 +2,10 @@
 
 ## 10.7.0 (unreleased)
 
+## 10.6.2 (2022-06-29)
+* Ensure `ProjectCleanUtility` can load dictionary words from distribution jar.
+* Improve handling of calendars without days read from PMXML files.
+
 ## 10.6.1 (2022-06-14)
 * Updated to use POI 5.2.2
 * Updated to use sqlite-jdbc 3.36.0.3
