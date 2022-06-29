@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.7.0">
 			<action dev="joniles" type="update">Ensure `ProjectCleanUtility` can load dictionary words from distribution jar.</action>
+			<action dev="joniles" type="update">Improve handling of calendars without days read from PMXML files.</action>
 		</release>
 		<release date="2022-06-14" version="10.6.1">
 			<action dev="joniles" type="update">Updated to use POI 5.2.2</action>

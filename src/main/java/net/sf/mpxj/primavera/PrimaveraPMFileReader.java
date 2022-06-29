@@ -890,28 +890,41 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_defaultCalendarObjectID = id;
       }
 
+      Map<Day, StandardWorkHours> hoursMap = new HashMap<>();
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
       {
          for (StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
          {
-            Day day = DAY_MAP.get(hours.getDayOfWeek());
-            ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
+            hoursMap.put(DAY_MAP.get(hours.getDayOfWeek()), hours);
+         }
+      }
 
-            List<WorkTimeType> workTime = hours.getWorkTime();
-            if (workTime.isEmpty() || workTime.get(0) == null)
+      for (Day day : Day.values())
+      {
+         // If we don't have an entry for a day, use default values
+         StandardWorkHours hours = hoursMap.get(day);
+         if (hours == null)
+         {
+            calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
+            calendar.addDefaultCalendarHours(day);
+            continue;
+         }
+
+         ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
+         List<WorkTimeType> workTime = hours.getWorkTime();
+         if (workTime.isEmpty() || workTime.get(0) == null)
+         {
+            calendar.setWorkingDay(day, false);
+         }
+         else
+         {
+            calendar.setWorkingDay(day, true);
+            for (WorkTimeType work : workTime)
             {
-               calendar.setWorkingDay(day, false);
-            }
-            else
-            {
-               calendar.setWorkingDay(day, true);
-               for (WorkTimeType work : workTime)
+               if (work != null)
                {
-                  if (work != null)
-                  {
-                     calendarHours.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
-                  }
+                  calendarHours.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
