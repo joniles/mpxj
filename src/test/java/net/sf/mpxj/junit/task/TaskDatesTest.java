@@ -65,11 +65,6 @@ public class TaskDatesTest
    private void testTaskDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       ProjectFile project = reader.read(file);
       int maxIndex = 10;
       for (int index = 1; index <= maxIndex; index++)

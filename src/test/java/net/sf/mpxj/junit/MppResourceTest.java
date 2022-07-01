@@ -41,6 +41,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -149,8 +150,7 @@ public class MppResourceTest
     */
    @Test public void testMpd9Resource() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      MPDDatabaseReader reader = new MPDDatabaseReader();
+      MPDFileReader reader = new MPDFileReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpp9resource.mpd"));
       testResources(mpp);
       testNotes(mpp);

@@ -1,0 +1,90 @@
+/*
+ * file:       MPDFileReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2022
+ * date:       01/07/2022
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.mpd;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.sql.DataSource;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
+import net.sf.mpxj.reader.AbstractProjectFileReader;
+
+/**
+ * This class provides a generic front end to read project data from
+ * a database.
+ */
+public final class MPDFileReader extends AbstractProjectFileReader
+{
+   /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current database.
+    *
+    * @return Map instance containing ID and name pairs
+    */
+   public Map<Integer, String> listProjects(File file) throws MPXJException
+   {
+      return new MPD9FileReader().listProjects(file);
+   }
+
+   /**
+    * Set the ID of the project to be read.
+    *
+    * @param projectID project ID
+    */
+   public void setProjectID(int projectID)
+   {
+      m_projectID = Integer.valueOf(projectID);
+   }
+
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
+      MPD9FileReader reader = new MPD9FileReader();
+      reader.setProjectID(m_projectID == null ? Integer.valueOf(1) : m_projectID);
+      return reader.read(file);
+   }
+
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      MPD9FileReader reader = new MPD9FileReader();
+      List<ProjectFile> result = new ArrayList<>();
+      Set<Integer> ids = reader.listProjects(file).keySet();
+      for (Integer id : ids)
+      {
+         reader.setProjectID(id);
+         result.add(reader.read(file));
+      }
+      return result;
+   }
+
+   private Integer m_projectID;
+}

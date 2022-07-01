@@ -66,11 +66,6 @@ public class TaskStartsTest
    private void testTaskStartDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       boolean isMpxFile = reader instanceof MPXReader;
       int maxIndex = isMpxFile ? 5 : 10;
       ProjectFile project = reader.read(file);

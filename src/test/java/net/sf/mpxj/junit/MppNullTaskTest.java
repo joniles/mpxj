@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -99,8 +100,7 @@ public class MppNullTaskTest
     */
    @Test public void testMpd9NullTasks() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile project = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9nulltasks.mpd"));
+      ProjectFile project = new MPDFileReader().read(MpxjTestData.filePath("mpp9nulltasks.mpd"));
       testNullTasks(project);
    }
 

@@ -64,11 +64,6 @@ public class ProjectPropertiesTest
    private void testProjectProperties(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       ProjectFile project = reader.read(file);

@@ -32,6 +32,7 @@ import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
@@ -108,7 +109,7 @@ public final class ProjectReaderUtility
       READER_MAP.put("MPT", MPPReader.class);
       READER_MAP.put("MPX", MPXReader.class);
       READER_MAP.put("XML", MSPDIReader.class);
-      READER_MAP.put("MPD", MPDDatabaseReader.class);
+      READER_MAP.put("MPD", MPDFileReader.class);
       READER_MAP.put("PLANNER", PlannerReader.class);
       READER_MAP.put("XER", PrimaveraXERFileReader.class);
       READER_MAP.put("PMXML", PrimaveraPMFileReader.class);

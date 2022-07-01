@@ -68,11 +68,6 @@ public class MultiDayExceptionsTest
    private void testMultiDayExceptions(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile project = reader.read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");

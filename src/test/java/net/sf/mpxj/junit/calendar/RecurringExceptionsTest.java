@@ -72,11 +72,6 @@ public class RecurringExceptionsTest
    {
       //System.out.println(file);
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       ProjectFile project = reader.read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
       List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();

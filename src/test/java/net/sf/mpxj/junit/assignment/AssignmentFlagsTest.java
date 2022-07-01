@@ -63,11 +63,6 @@ public class AssignmentFlagsTest
    private void testAssignmentFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       int maxIndex = reader instanceof MPXReader ? 10 : 20;
       ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)

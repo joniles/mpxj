@@ -63,11 +63,6 @@ public class ResourceTextTest
    private void testResourceText(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       int maxIndex = reader instanceof MPXReader ? 10 : 30;
       ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)

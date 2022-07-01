@@ -65,11 +65,6 @@ public class AssignmentAssignmentsTest
    private void testAssignments(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       ProjectFile project = reader.read(file);
 
       Task task1 = project.getTaskByID(Integer.valueOf(1));

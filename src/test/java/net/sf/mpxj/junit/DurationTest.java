@@ -30,6 +30,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -108,8 +109,7 @@ public class DurationTest
     */
    @Test public void testMpd() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpdduration.mpd"));
+      ProjectFile mpp = new MPDFileReader().read(MpxjTestData.filePath("mpdduration.mpd"));
       testDurations(mpp);
    }
 

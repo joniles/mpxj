@@ -62,11 +62,6 @@ public class ResourceMiscTest
    private void testResourceMisc(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       ProjectFile project = reader.read(file);
 
       Resource resource1 = project.getResourceByID(Integer.valueOf(1));

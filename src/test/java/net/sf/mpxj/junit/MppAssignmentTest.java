@@ -37,6 +37,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -117,8 +118,7 @@ public class MppAssignmentTest
     */
    @Test public void testMpdCustomFields() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      MPDDatabaseReader reader = new MPDDatabaseReader();
+      MPDFileReader reader = new MPDFileReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentcustom.mpd"));
       testCustomFields(mpp);
    }
@@ -257,8 +257,7 @@ public class MppAssignmentTest
     */
    @Test public void testMpdFields() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      MPDDatabaseReader reader = new MPDDatabaseReader();
+      MPDFileReader reader = new MPDFileReader();
       ProjectFile mpp = reader.read(MpxjTestData.filePath("mpdassignmentfields.mpd"));
       testFields(mpp, null, null);
    }
