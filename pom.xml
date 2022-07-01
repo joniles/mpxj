@@ -61,6 +61,13 @@
 		    <version>2.3.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.healthmarketscience.jackcess/jackcess -->
+		<dependency>
+			<groupId>com.healthmarketscience.jackcess</groupId>
+			<artifactId>jackcess</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
