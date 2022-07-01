@@ -31,7 +31,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,8 +41,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.healthmarketscience.jackcess.Database;
+import com.healthmarketscience.jackcess.DatabaseBuilder;
 import net.sf.mpxj.common.CloseIgnoringInputStream;
-import net.sf.mpxj.common.JdbcOdbcHelper;
+import net.sf.mpxj.mpd.MPDFileReader;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import net.sf.mpxj.MPXJException;
@@ -430,11 +431,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
+         Set<String> tableNames = populateMdbTableNames(file);
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
-            return readProjectFile(new MPDDatabaseReader(), file);
+            return readProjectFile(new MPDFileReader(), file);
          }
 
          if (tableNames.contains("EXCEPTIONN"))
@@ -779,9 +780,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return tableNames;
    }
 
-   private Set<String> populateJdbcTableNames(String url) throws SQLException
+   private Set<String> populateMdbTableNames(File file) throws Exception
    {
-      return populateTableNames(DriverManager.getConnection(url));
+      try (Database database = DatabaseBuilder.open(file))
+      {
+         return database.getTableNames();
+      }
    }
 
    private Set<String> populateSqliteTableNames(File file) throws Exception

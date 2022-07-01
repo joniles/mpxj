@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit.calendar;
 
-import static net.sf.mpxj.junit.MpxjAssert.isMicrosoftAccessJdbcAvailable;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;

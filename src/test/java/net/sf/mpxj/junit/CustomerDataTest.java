@@ -396,7 +396,7 @@ public class CustomerDataTest
          else
          {
             String name = file.getName().toLowerCase();
-            if ((JvmHelper.isIkvm() || !JdbcOdbcHelper.jdbcOdbcAvailable()) && (name.endsWith(".mpd") || name.endsWith(".mdb")))
+            if ((JvmHelper.isIkvm() || !JdbcOdbcHelper.jdbcOdbcAvailable()) && name.endsWith(".mdb"))
             {
                continue;
             }
