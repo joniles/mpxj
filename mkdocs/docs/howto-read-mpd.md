@@ -1,9 +1,14 @@
 # How To: Read MPD files
 Microsoft Project from Project 98 until Project 2003 could read and write
-schedules as Microsoft Access database files with the extension MPD.
-Coincidentally, Microsoft Project Server shares the same database schema as the
-MPD file format. This means that the `MPDDatabaseReader` class can also be used
-to read data from a Project Server SQL Server database.
+schedules as Microsoft Access database files with the extension MPD. Versions
+of Microsoft Project after 2003 can import projects from MPD databases but
+cannot create or write to them. Project 98 crates a database with a schema
+known as MPD8, which MPXJ does not currently support reading. Project 2000
+onward uses a schema call MPD9 which MPXJ can read.
+
+Coincidentally, Microsoft Project Server originally shared the same database
+schema as the MPD9 file format. This means that the `MPDDatabaseReader` class
+may also be used to read data from a Project Server SQL Server database.
 
 ## Reading MPD files
 The simplest way to read an MPD file is to use the `UniversalProjectReader`:
