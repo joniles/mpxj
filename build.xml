@@ -28,7 +28,7 @@
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
 
-		<!-- Dependencies -->
+		<!-- Runtime Dependencies -->
 		<property name="poi.jar" value="poi-5.2.2" />
 		<property name="poifs.jar" value="poifs-5.2.2"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
@@ -38,6 +38,9 @@
 		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
 		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.36.0.3" />
 		<property name="jsoup.jar" value="jsoup-1.15.1" />
+		<property name="commons-lang3.jar" value="commons-lang3-3.10" />
+
+		<!-- Test Dependencies -->
 		<property name="junit.jar" value="junit-4.13.1"/>
 		<property name="hamcrest.jar" value="hamcrest-core-1.3"/>
 
@@ -50,6 +53,7 @@
 		<path id="rtfparserkit.path"><pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" /></path>
 		<path id="sqlite-jdbc.path"><pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" /></path>
 		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
+		<path id="commons-lang3.path"><pathelement location="${lib.dir}/${commons-lang3.jar}.jar" /></path>
 		<path id="junit.path"><pathelement location="${lib.dir}/${junit.jar}.jar" /></path>
 
 		<!-- Dependency Classpaths -->
@@ -61,6 +65,7 @@
 		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
 		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
 		<property name="jsoup.classpath" refid="jsoup.path" />
+		<property name="commons-lang3.classpath" refid="commons-lang3.path" />
 		<property name="junit.classpath" refid="junit.path" />
 	</target>
 
@@ -253,6 +258,7 @@
 		<property name="rtfparserkit.net45.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
 		<property name="sqlite-jdbc.net45.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="jsoup.net45.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
+		<property name="commons-lang3.net45.dll" value="${lib.net45.dir}\${commons-lang3.jar}.dll" />
 		<property name="junit.net45.dll" value="${lib.net45.dir}\junit.dll" />
 		<property name="mpxj.net45.dll" value="${lib.net45.dir}\mpxj.dll" />
 		<property name="mpxj-test.net45.dll" value="${lib.net45.dir}\mpxj-test.dll" />
@@ -280,6 +286,7 @@
 		<property name="rtfparserkit.nca31.dll" value="${lib.nca31.dir}\${rtfparserkit.jar}.dll" />
 		<property name="sqlite-jdbc.nca31.dll" value="${lib.nca31.dir}\${sqlite-jdbc.jar}.dll" />
 		<property name="jsoup.nca31.dll" value="${lib.nca31.dir}\${jsoup.jar}.dll" />
+		<property name="commons-lang3.nca31.dll" value="${lib.nca31.dir}\${commons-lang3.jar}.dll" />
 		<property name="junit.nca31.dll" value="${lib.nca31.dir}\junit.dll" />
 		<property name="mpxj.nca31.dll" value="${lib.nca31.dir}\mpxj.dll" />
 		<property name="mpxj-test.nca31.dll" value="${lib.nca31.dir}\mpxj-test.dll" />
@@ -360,11 +367,11 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -413,11 +420,11 @@
 			</fileset>
 		</copy>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -438,6 +445,7 @@
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
+				<pathelement location="${commons-lang3.classpath}" />
 			</classpath>
 		</java>
 
@@ -453,6 +461,7 @@
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
+				<pathelement location="${commons-lang3.classpath}" />
 			</classpath>
 		</java>
 
@@ -489,6 +498,10 @@
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${jsoup.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-lang3.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-lang3.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
@@ -596,6 +609,7 @@
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
+				<pathelement location="${commons-lang3.classpath}" />
 			</classpath>
 		</java>
 
@@ -611,6 +625,7 @@
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
+				<pathelement location="${commons-lang3.classpath}" />
 			</classpath>
 		</java>
 
@@ -643,6 +658,10 @@
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${jsoup.jar}.jar" />
+		</exec>
+
+		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-lang3.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-lang3.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
@@ -772,31 +791,6 @@
 				<include name="*.jar"/>
 			</fileset>
 		</delete>
-	</target>
-
-	<target name="coverage" depends="archive" description="Code coverage using Emma">
-		<property name="emma.dir" value="c:\java\emma-2.0.5312" />
-
-		<path id="emmarun.path">
-			<path refid="poi.path" />
-			<path refid="commons-collections.path" />
-			<path refid="commons-io.path" />
-			<path refid="commons-math.path" />
-			<path refid="log4j-api.path" />
-			<path refid="rtfparserkit.path" />
-			<path refid="sqlite-jdbc.path" />
-			<path refid="jsoup.path" />
-			<path refid="junit.path" />
-			<pathelement location="${basedir}/mpxj.jar" />
-		</path>
-
-		<property name="emmarun.classpath" refid="emmarun.path" />
-
-		<property name="filter" value="-javax.*,-com.*,-org.*,-junit.*,-net.sf.mpxj.mspdi.schema.*" />
-
-		<exec executable="java" dir="${basedir}" failonerror="true">
-			<arg line="-Xms64m -Xmx512m -Dmpxj.junit.datadir=${basedir}/junit/data -cp ${emma.dir}/lib/emma.jar emmarun -cp ${emmarun.classpath} -r html -sp ${basedir}/src -ix ${filter} junit.textui.TestRunner net.sf.mpxj.junit.MPXJTest" />
-		</exec>
 	</target>
 
 	<target name="maven-clean" depends="init" description="Cleans the maven directory">
