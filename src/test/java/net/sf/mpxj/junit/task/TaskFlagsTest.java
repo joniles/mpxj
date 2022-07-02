@@ -63,8 +63,9 @@ public class TaskFlagsTest
    private void testTaskFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxIndex = reader instanceof MPXReader ? 10 : 20;
       ProjectFile project = reader.read(file);
+      int maxIndex = reader instanceof MPXReader ? 10 : 20;
+
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));

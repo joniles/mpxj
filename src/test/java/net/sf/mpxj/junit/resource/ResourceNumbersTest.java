@@ -64,8 +64,9 @@ public class ResourceNumbersTest
    private void testResourceNumbers(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxIndex = reader instanceof MPXReader ? 5 : 20;
       ProjectFile project = reader.read(file);
+      int maxIndex = reader instanceof MPXReader ? 5 : 20;
+
       for (int index = 1; index <= maxIndex; index++)
       {
          Resource resource = project.getResourceByID(Integer.valueOf(index));

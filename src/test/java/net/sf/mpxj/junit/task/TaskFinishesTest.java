@@ -66,9 +66,10 @@ public class TaskFinishesTest
    private void testTaskFinishDates(File file) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
+      ProjectFile project = reader.read(file);
       boolean isMpxFile = reader instanceof MPXReader;
       int maxIndex = isMpxFile ? 5 : 10;
-      ProjectFile project = reader.read(file);
+
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));

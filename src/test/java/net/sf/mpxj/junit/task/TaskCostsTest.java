@@ -64,8 +64,9 @@ public class TaskCostsTest
    private void testTaskCosts(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxIndex = reader instanceof MPXReader ? 3 : 10;
       ProjectFile project = reader.read(file);
+      int maxIndex = reader instanceof MPXReader ? 3 : 10;
+
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));

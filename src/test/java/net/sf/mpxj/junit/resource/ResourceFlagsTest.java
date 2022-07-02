@@ -63,8 +63,9 @@ public class ResourceFlagsTest
    private void testResourceFlags(File file) throws MPXJException
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      int maxIndex = reader instanceof MPXReader ? 10 : 20;
       ProjectFile project = reader.read(file);
+      int maxIndex = reader instanceof MPXReader ? 10 : 20;
+
       for (int index = 1; index <= maxIndex; index++)
       {
          Resource resource = project.getResourceByID(Integer.valueOf(index));
