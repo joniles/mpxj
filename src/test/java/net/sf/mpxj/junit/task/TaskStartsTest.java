@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.sf.mpxj.junit.ProjectUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.ProjectFile;
@@ -66,8 +67,7 @@ public class TaskStartsTest
     */
    private void testTaskStartDates(File file) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       boolean isMpxFile = ProjectUtility.projectIs(project, "MPX");
       int maxIndex = isMpxFile ? 5 : 10;
 

@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.List;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -66,8 +67,7 @@ public class TaskLinksTest
     */
    private void testTaskLinks(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
 
       //
       // Test different durations and time units
