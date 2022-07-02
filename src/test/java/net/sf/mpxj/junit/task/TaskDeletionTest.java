@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -87,8 +88,7 @@ public class TaskDeletionTest
     */
    private void testTaskDeletion(File file, String[] expectedNames) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       assertEquals(expectedNames.length + 1, project.getTasks().size());
       for (int index = 0; index < expectedNames.length; index++)
       {

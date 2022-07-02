@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -61,8 +62,7 @@ public class ResourceTypeTest
     */
    private void testResourceType(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ResourceType expectedType;
       Integer mppFileType = project.getProjectProperties().getMppFileType();
       boolean missingCostType = (mppFileType != null && mppFileType.intValue() < 12) || file.getName().endsWith(".mpd") || file.getName().contains("2003-mspdi") || file.getName().contains("2002-mspdi");

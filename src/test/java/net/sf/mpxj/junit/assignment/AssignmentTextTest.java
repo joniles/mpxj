@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -61,9 +62,8 @@ public class AssignmentTextTest
     */
    private void testAssignmentText(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       int maxIndex = 30;
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));

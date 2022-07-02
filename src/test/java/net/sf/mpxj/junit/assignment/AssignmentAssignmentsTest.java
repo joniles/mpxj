@@ -30,6 +30,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -64,9 +65,7 @@ public class AssignmentAssignmentsTest
     */
    private void testAssignments(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
-
+      ProjectFile project = new UniversalProjectReader().read(file);
       Task task1 = project.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task1.getName());
       assertEquals(1, task1.getResourceAssignments().size());

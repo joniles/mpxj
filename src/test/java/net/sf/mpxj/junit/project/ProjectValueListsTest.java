@@ -30,6 +30,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.CustomField;
@@ -66,9 +67,8 @@ public class ProjectValueListsTest
     */
    private void testProjectValueLists(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       CustomFieldContainer container = project.getCustomFields();
 
       CustomField config = container.getCustomField(TaskField.COST1);

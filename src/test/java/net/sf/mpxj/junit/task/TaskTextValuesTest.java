@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -59,8 +60,7 @@ public class TaskTextValuesTest
     */
    private void testTaskTextValues(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getTasks().size());
       for (int loop = 0; loop < EXPECTED_VALUES.length; loop++)
       {

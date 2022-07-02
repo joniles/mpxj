@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.Map;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -63,10 +64,7 @@ public class ProjectPropertiesTest
     */
    private void testProjectProperties(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ProjectProperties properties = project.getProjectProperties();
 
       //

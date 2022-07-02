@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.Day;
@@ -70,9 +71,7 @@ public class RecurringExceptionsTest
     */
    private void testRecurringExceptions(File file) throws MPXJException
    {
-      //System.out.println(file);
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
       List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
 

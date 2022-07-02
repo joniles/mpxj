@@ -31,6 +31,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.AccrueType;
@@ -58,8 +59,7 @@ public class TaskBaselinesTest
    @Test public void testSourceForgeIssue259() throws MPXJException
    {
       File file = new File(MpxjTestData.filePath("generated/task-baselines"), "sf259.mpp");
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       for (int index = 0; index < SF259_BASELINE_STARTS.length; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index + 1));
@@ -86,8 +86,7 @@ public class TaskBaselinesTest
     */
    private void testTaskBaselineValues(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
 
       int startTaskID = 1;
       int maxBaselines = file.getName().contains("project98") || file.getName().contains("project2000") ? 1 : 11;

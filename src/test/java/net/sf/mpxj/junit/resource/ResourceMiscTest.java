@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -61,8 +62,7 @@ public class ResourceMiscTest
     */
    private void testResourceMisc(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
 
       Resource resource1 = project.getResourceByID(Integer.valueOf(1));
       assertEquals("Resource 1", resource1.getName());

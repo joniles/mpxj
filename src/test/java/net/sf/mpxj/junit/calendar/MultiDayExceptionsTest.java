@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.Duration;
@@ -66,9 +67,8 @@ public class MultiDayExceptionsTest
     */
    private void testMultiDayExceptions(File file) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
 
       Date startDate = DateHelper.getDayStartDate(df.parse("23/12/2019"));
