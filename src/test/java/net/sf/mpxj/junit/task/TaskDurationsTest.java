@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.junit.ProjectUtility;
 import org.junit.Test;
 
 import net.sf.mpxj.Duration;
@@ -70,7 +71,7 @@ public class TaskDurationsTest
     */
    private void testDurationValues(File file, ProjectReader reader, ProjectFile project)
    {
-      int maxIndex = reader instanceof MPXReader ? 3 : 10;
+      int maxIndex = ProjectUtility.projectIs(project, "MPX") ? 3 : 10;
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));
@@ -107,7 +108,7 @@ public class TaskDurationsTest
     */
    private void testDurationUnits(File file, ProjectReader reader, ProjectFile project)
    {
-      TimeUnit[] units = (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 8 || reader instanceof MPXReader) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
+      TimeUnit[] units = (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 8 || ProjectUtility.projectIs(project, "MPX")) ? UNITS_PROJECT98 : UNITS_PROJECT2000;
       int maxIndex = reader instanceof MPXReader ? 3 : 10;
 
       int taskID = 11;

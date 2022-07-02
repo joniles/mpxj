@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.junit.ProjectUtility;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -64,7 +65,7 @@ public class ResourceTextTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      int maxIndex = reader instanceof MPXReader ? 10 : 30;
+      int maxIndex = ProjectUtility.projectIs(project, "MPX") ? 10 : 30;
 
       for (int index = 1; index <= maxIndex; index++)
       {

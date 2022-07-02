@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.junit.ProjectUtility;
 import org.junit.Test;
 
 import net.sf.mpxj.ProjectFile;
@@ -67,7 +68,7 @@ public class TaskFinishesTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      boolean isMpxFile = reader instanceof MPXReader;
+      boolean isMpxFile = ProjectUtility.projectIs(project, "MPX");
       int maxIndex = isMpxFile ? 5 : 10;
 
       for (int index = 1; index <= maxIndex; index++)

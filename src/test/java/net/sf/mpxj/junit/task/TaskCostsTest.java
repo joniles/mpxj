@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.junit.ProjectUtility;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -65,7 +66,7 @@ public class TaskCostsTest
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
       ProjectFile project = reader.read(file);
-      int maxIndex = reader instanceof MPXReader ? 3 : 10;
+      int maxIndex = ProjectUtility.projectIs(project, "MPX") ? 3 : 10;
 
       for (int index = 1; index <= maxIndex; index++)
       {
