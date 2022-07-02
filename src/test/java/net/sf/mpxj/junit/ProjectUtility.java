@@ -23,11 +23,6 @@
 
 package net.sf.mpxj.junit;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-
 import net.sf.mpxj.ProjectFile;
 
 /**
@@ -35,6 +30,13 @@ import net.sf.mpxj.ProjectFile;
  */
 public final class ProjectUtility
 {
+   /**
+    * Returns true if the file type property of the schedule matches the supplied value.
+    *
+    * @param file project file
+    * @param type requested file type
+    * @return true if the file type matches
+    */
    public static boolean projectIs(ProjectFile file, String type)
    {
       return type.equals(file.getProjectProperties().getFileType());

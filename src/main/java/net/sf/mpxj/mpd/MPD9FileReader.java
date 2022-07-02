@@ -70,6 +70,7 @@ public final class MPD9FileReader extends MPD9AbstractReader
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
     *
+    * @param file project file
     * @return Map instance containing ID and name pairs
     */
    public Map<Integer, String> listProjects(File file) throws MPXJException
@@ -102,6 +103,7 @@ public final class MPD9FileReader extends MPD9AbstractReader
    /**
     * Read a project from the current data source.
     *
+    * @param file project file
     * @return ProjectFile instance
     */
    public ProjectFile read(File file) throws MPXJException
@@ -453,7 +455,6 @@ public final class MPD9FileReader extends MPD9AbstractReader
       return result;
    }
 
-
    /**
     * Retrieve a number of rows matching the supplied query
     * which takes a single parameter.
@@ -473,7 +474,7 @@ public final class MPD9FileReader extends MPD9AbstractReader
       if (cursor.findFirstRow(keys))
       {
          result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-         while(cursor.findNextRow(keys))
+         while (cursor.findNextRow(keys))
          {
             result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
          }

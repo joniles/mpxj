@@ -25,7 +25,6 @@ package net.sf.mpxj.junit;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.JvmHelper;
 import org.junit.Assume;
 

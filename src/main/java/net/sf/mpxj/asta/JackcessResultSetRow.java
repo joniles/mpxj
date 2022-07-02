@@ -23,21 +23,12 @@
 
 package net.sf.mpxj.asta;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.DataType;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implementation of the Row interface, wrapping a Map.

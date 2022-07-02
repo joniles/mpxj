@@ -24,19 +24,13 @@
 package net.sf.mpxj.mpd;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.sql.DataSource;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -49,6 +43,7 @@ public final class MPDFileReader extends AbstractProjectFileReader
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
     *
+    * @param file project file
     * @return Map instance containing ID and name pairs
     */
    public Map<Integer, String> listProjects(File file) throws MPXJException

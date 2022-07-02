@@ -31,7 +31,6 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
