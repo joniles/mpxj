@@ -368,8 +368,13 @@
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<jar jarfile="${ikvm.working.dir}/mpxj.jar" basedir="${ikvm.classes.dir}" />
-		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
+		<jar jarfile="${ikvm.working.dir}/mpxj.jar">
+			<fileset dir="${ikvm.classes.dir}"/>
+			<fileset dir="${basedir}/src/main/resources"/>
+		</jar>
+		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar">
+			<fileset dir="${ikvm.classes.test.dir}"/>
+		</jar>
 	</target>
 
 	<target name="ikvm-nca31-compile" depends="ikvm-nca31-init" description="Compile everything ready for use with IKVM" if="ikvm.nca31.available">
@@ -421,8 +426,13 @@
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<jar jarfile="${ikvm.working.dir}/mpxj.jar" basedir="${ikvm.classes.dir}" />
-		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar" basedir="${ikvm.classes.test.dir}" />
+		<jar jarfile="${ikvm.working.dir}/mpxj.jar">
+			<fileset dir="${ikvm.classes.dir}"/>
+			<fileset dir="${basedir}/src/main/resources"/>
+		</jar>
+		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar">
+			<fileset dir="${ikvm.classes.test.dir}"/>
+		</jar>
 	</target>
 
 	<target name="ikvm-net45-dll" depends="ikvm-net45-compile" description="Build .net DLLs" if="ikvm.net45.available">
