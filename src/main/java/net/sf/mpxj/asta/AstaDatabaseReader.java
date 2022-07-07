@@ -1,8 +1,8 @@
 /*
- * file:       AstaDatabaseReader.java
+ * file:       AstaMdbReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2022
+ * date:       07/07/2022
  */
 
 /*
@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.sql.DataSource;
-
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -150,13 +150,13 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       rows = getRows("select * from work_pattern_assignment");
       Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
 
-      rows = getRows("select * from exception_assignment order by exception_assignmentid, ordf");
+      rows = sortRows(getRows("select * from exception_assignment"), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
       Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
 
-      rows = getRows("select * from time_entry order by time_entryid, ordf");
+      rows = sortRows(getRows("select * from time_entry"), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
-      rows = getRows("select * from calendar where projid=? order by calendarid", m_projectID);
+      rows = sortRows(getRows("select * from calendar where projid=?", m_projectID), "CALENDARID");
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
@@ -191,8 +191,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> permanentRows = getRows("select * from permanent_resource where projid=? order by permanent_resourceid", m_projectID);
-      List<Row> consumableRows = getRows("select * from consumable_resource where projid=? order by consumable_resourceid", m_projectID);
+      List<Row> permanentRows = sortRows(getRows("select * from permanent_resource where projid=?", m_projectID), "PERMANENT_RESOURCEID");
+      List<Row> consumableRows = sortRows(getRows("select * from consumable_resource where projid=?", m_projectID), "CONSUMABLE_RESOURCEID");
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -213,7 +213,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = getRows("select * from link where projid=? order by linkid", m_projectID);
+      List<Row> rows = sortRows(getRows("select * from link where projid=?", m_projectID), "LINKID");
       List<Row> completedSections = getRows("select * from task_completed_section where projid=?", m_projectID);
       m_reader.processPredecessors(rows, completedSections);
    }
@@ -340,6 +340,21 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
             return result;
          }
       }
+   }
+
+   private List<Row> sortRows(List<Row> rows, String... columnNames)
+   {
+      Comparator<Row> comparator = Comparator.comparing(r -> r.getInteger(columnNames[0]));
+      if (columnNames.length > 1)
+      {
+         for (int index = 1; index < columnNames.length; index++)
+         {
+            String columnName = columnNames[index];
+            comparator = comparator.thenComparing(Comparator.comparing(r -> r.getInteger(columnName)));
+         }
+      }
+      rows.sort(comparator);
+      return rows;
    }
 
    /**
