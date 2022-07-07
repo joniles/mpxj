@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 import net.sf.mpxj.DayType;
@@ -66,7 +68,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       {
          Map<Integer, String> result = new HashMap<>();
 
-         List<Row> rows = getRows("select projid, short_name from project_summary");
+         List<Row> rows = getRows("project_summary", Collections.emptyMap());
          for (Row row : rows)
          {
             Integer id = row.getInteger("PROJID");
@@ -128,9 +130,9 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws SQLException
    {
-      List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
-      List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
-      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
+      List<Row> projectSummaryRows = getRows("project_summary", m_projectKey);
+      List<Row> progressPeriodRows = getRows("progress_period", m_projectKey);
+      List<Row> userSettingsRows = getRows("userr", m_projectKey);
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
@@ -142,22 +144,22 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processCalendars() throws SQLException
    {
-      List<Row> rows = getRows("select * from exceptionn");
+      List<Row> rows = getRows("exceptionn", Collections.emptyMap());
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("select * from work_pattern");
+      rows = getRows("work_pattern", Collections.emptyMap());
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
-      rows = getRows("select * from work_pattern_assignment");
+      rows = getRows("work_pattern_assignment", Collections.emptyMap());
       Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
 
-      rows = sortRows(getRows("select * from exception_assignment"), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
+      rows = sortRows(getRows("exception_assignment", Collections.emptyMap()), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
       Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
 
-      rows = sortRows(getRows("select * from time_entry"), "TIME_ENTRYID", "ORDF");
+      rows = sortRows(getRows("time_entry", Collections.emptyMap()), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
-      rows = sortRows(getRows("select * from calendar where projid=?", m_projectID), "CALENDARID");
+      rows = sortRows(getRows("calendar", m_projectKey), "CALENDARID");
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
@@ -192,8 +194,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> permanentRows = sortRows(getRows("select * from permanent_resource where projid=?", m_projectID), "PERMANENT_RESOURCEID");
-      List<Row> consumableRows = sortRows(getRows("select * from consumable_resource where projid=?", m_projectID), "CONSUMABLE_RESOURCEID");
+      List<Row> permanentRows = sortRows(getRows("permanent_resource", m_projectKey), "PERMANENT_RESOURCEID");
+      List<Row> consumableRows = sortRows(getRows("consumable_resource", m_projectKey), "CONSUMABLE_RESOURCEID");
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -202,10 +204,10 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> bars = getRows("select * from bar where projid=?", m_projectID);
-      List<Row> expandedTasks = getRows("select * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select * from task where projid=?", m_projectID);
-      List<Row> milestones = getRows("select * from milestone where projid=?", m_projectID);
+      List<Row> bars = getRows("bar", m_projectKey);
+      List<Row> expandedTasks = getRows("expanded_task", m_projectKey);
+      List<Row> tasks = getRows("task", m_projectKey);
+      List<Row> milestones = getRows("milestone", m_projectKey);
       m_reader.processTasks(bars, expandedTasks, tasks, milestones);
    }
 
@@ -214,8 +216,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = sortRows(getRows("select * from link where projid=?", m_projectID), "LINKID");
-      List<Row> completedSections = getRows("select * from task_completed_section where projid=?", m_projectID);
+      List<Row> rows = sortRows(getRows("link", m_projectKey), "LINKID");
+      List<Row> completedSections = getRows("task_completed_section", m_projectKey);
       m_reader.processPredecessors(rows, completedSections);
    }
 
@@ -224,8 +226,8 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> allocationRows = getRows("select * from permanent_schedul_allocation where projid=?", m_projectID);
-      List<Row> skillRows = getRows("select * from perm_resource_skill where projid=?", m_projectID);
+      List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey);
+      List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
       List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
       m_reader.processAssignments(permanentAssignments);
    }
@@ -238,6 +240,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
+      m_projectKey = Collections.singletonMap("projid", m_projectID);
    }
 
    /**
@@ -320,18 +323,24 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   /**
-    * Retrieve a number of rows matching the supplied query.
-    *
-    * @param sql query statement
-    * @return result set
-    */
-   private List<Row> getRows(String sql) throws SQLException
+   private List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException
    {
+      String sql = "select * from " + table;
+      if (!keys.isEmpty())
+      {
+         sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
+      }
+
       allocateConnection();
 
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
+         int index = 1;
+         for (Map.Entry<String, Integer> entry : keys.entrySet())
+         {
+            ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
+         }
+
          try (ResultSet rs = ps.executeQuery())
          {
             List<Row> result = new ArrayList<>();
@@ -358,34 +367,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
       rows.sort(comparator);
       return rows;
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query
-    * which takes a single parameter.
-    *
-    * @param sql query statement
-    * @param var bind variable value
-    * @return result set
-    */
-   private List<Row> getRows(String sql, Integer var) throws SQLException
-   {
-      allocateConnection();
-
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
-      {
-         ps.setInt(1, NumberHelper.getInt(var));
-         try (ResultSet rs = ps.executeQuery())
-         {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new MpdResultSetRow(rs, meta));
-            }
-            return result;
-         }
-      }
    }
 
    /**
@@ -472,6 +453,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    private AstaReader m_reader;
    private Integer m_projectID;
+   private Map<String, Integer> m_projectKey;
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
