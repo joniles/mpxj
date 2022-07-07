@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -223,7 +224,9 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select * from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocatiop_of = perm_resource_skill.perm_resource_skillid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.permanent_schedul_allocationid", m_projectID);
+      List<Row> allocationRows = getRows("select * from permanent_schedul_allocation where projid=?", m_projectID);
+      List<Row> skillRows = getRows("select * from perm_resource_skill where projid=?", m_projectID);
+      List<Row> permanentAssignments = joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -383,6 +386,76 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
             return result;
          }
       }
+   }
+
+   /**
+    * Very basic implementation of an inner join between two result sets.
+    *
+    * @param leftRows left result set
+    * @param leftColumn left foreign key column
+    * @param rightTable right table name
+    * @param rightRows right result set
+    * @param rightColumn right primary key column
+    * @return joined result set
+    */
+   private List<Row> joinRows(List<Row> leftRows, String leftColumn, String rightTable, List<Row> rightRows, String rightColumn)
+   {
+      List<Row> result = new ArrayList<>();
+
+      RowComparator leftComparator = new RowComparator(leftColumn);
+      RowComparator rightComparator = new RowComparator(rightColumn);
+      leftRows.sort(leftComparator);
+      rightRows.sort(rightComparator);
+
+      ListIterator<Row> rightIterator = rightRows.listIterator();
+      Row rightRow = rightIterator.hasNext() ? rightIterator.next() : null;
+
+      for (Row leftRow : leftRows)
+      {
+         Integer leftValue = leftRow.getInteger(leftColumn);
+         boolean match = false;
+
+         while (rightRow != null)
+         {
+            Integer rightValue = rightRow.getInteger(rightColumn);
+            int comparison = leftValue.compareTo(rightValue);
+            if (comparison == 0)
+            {
+               match = true;
+               break;
+            }
+
+            if (comparison < 0)
+            {
+               if (rightIterator.hasPrevious())
+               {
+                  rightRow = rightIterator.previous();
+               }
+               break;
+            }
+
+            rightRow = rightIterator.next();
+         }
+
+         if (match && rightRow != null)
+         {
+            Map<String, Object> newMap = new HashMap<>(((MapRow) leftRow).getMap());
+
+            for (Map.Entry<String, Object> entry : ((MapRow) rightRow).getMap().entrySet())
+            {
+               String key = entry.getKey();
+               if (newMap.containsKey(key))
+               {
+                  key = rightTable + "." + key;
+               }
+               newMap.put(key, entry.getValue());
+            }
+
+            result.add(new MapRow(newMap));
+         }
+      }
+
+      return result;
    }
 
    /**
