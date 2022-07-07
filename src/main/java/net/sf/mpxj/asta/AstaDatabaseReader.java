@@ -344,13 +344,13 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
 
    private List<Row> sortRows(List<Row> rows, String... columnNames)
    {
-      Comparator<Row> comparator = Comparator.comparing(r -> r.getInteger(columnNames[0]));
+      Comparator<Row> comparator = Comparator.comparing(r -> Integer.valueOf(r.getInt(columnNames[0])));
       if (columnNames.length > 1)
       {
          for (int index = 1; index < columnNames.length; index++)
          {
             String columnName = columnNames[index];
-            comparator = comparator.thenComparing(Comparator.comparing(r -> r.getInteger(columnName)));
+            comparator = comparator.thenComparing(Comparator.comparing(r -> Integer.valueOf(r.getInt(columnName))));
          }
       }
       rows.sort(comparator);
