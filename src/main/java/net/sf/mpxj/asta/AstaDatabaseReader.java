@@ -30,25 +30,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
-import net.sf.mpxj.DayType;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
+
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
-import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
@@ -79,7 +71,7 @@ public final class AstaDatabaseReader extends AbstractDatabaseReader
       m_connection = connection;
    }
 
-   protected List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException
    {
       String sql = "select * from " + table;
       if (!keys.isEmpty())
@@ -110,9 +102,21 @@ public final class AstaDatabaseReader extends AbstractDatabaseReader
       }
    }
 
+   @Override protected void allocateResources(File file) throws SQLException
+   {
+      String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
+      Properties props = new Properties();
+      props.put("charSet", "Cp1252");
+      m_connection = DriverManager.getConnection(url, props);
+      m_allocatedConnection = true;
+   }
+
    @Override protected void releaseResources()
    {
-      AutoCloseableHelper.closeQuietly(m_connection);
+      if (m_allocatedConnection)
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
    }
 
    /**

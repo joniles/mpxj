@@ -24,10 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,18 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.sql.DataSource;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.JdbcOdbcHelper;
-import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -245,10 +233,16 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
+         allocateResources(file);
          setProjectID(0);
          return read();
       }
 
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+      
       finally
       {
          releaseResources();
@@ -259,6 +253,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
+         allocateResources(file);
          List<ProjectFile> result = new ArrayList<>();
          Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
@@ -269,6 +264,11 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          return result;
       }
 
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
       finally
       {
          releaseResources();
@@ -277,6 +277,8 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
 
    protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException;
 
+   protected abstract void allocateResources(File file) throws SQLException;
+   
    protected abstract void releaseResources();
 
    private List<Row> sortRows(List<Row> rows, String... columnNames)
