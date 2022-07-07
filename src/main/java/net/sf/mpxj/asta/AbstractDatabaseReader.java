@@ -224,7 +224,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
-      m_projectKey = Collections.singletonMap("projid", m_projectID);
+      m_projectKey = Collections.singletonMap("PROJID", m_projectID);
    }
 
 
