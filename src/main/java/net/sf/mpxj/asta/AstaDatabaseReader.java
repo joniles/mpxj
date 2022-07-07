@@ -270,7 +270,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       try
       {
          m_connection = getDatabaseConnection(file);
-         m_projectID = Integer.valueOf(0);
+         setProjectID(0);
          return read();
       }
 
