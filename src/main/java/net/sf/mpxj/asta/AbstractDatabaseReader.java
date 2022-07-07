@@ -24,7 +24,6 @@
 package net.sf.mpxj.asta;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -67,7 +66,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          return result;
       }
 
-      catch (SQLException ex)
+      catch (AstaDatabaseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -99,7 +98,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          return project;
       }
 
-      catch (SQLException ex)
+      catch (AstaDatabaseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -113,7 +112,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Select the project properties row from the database.
     */
-   private void processProjectProperties() throws SQLException
+   private void processProjectProperties() throws AstaDatabaseException
    {
       List<Row> projectSummaryRows = getRows("project_summary", m_projectKey);
       List<Row> progressPeriodRows = getRows("progress_period", m_projectKey);
@@ -127,7 +126,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Process calendars.
     */
-   private void processCalendars() throws SQLException
+   private void processCalendars() throws AstaDatabaseException
    {
       List<Row> rows = getRows("exceptionn", Collections.emptyMap());
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
@@ -177,7 +176,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Process resources.
     */
-   private void processResources() throws SQLException
+   private void processResources() throws AstaDatabaseException
    {
       List<Row> permanentRows = sortRows(getRows("permanent_resource", m_projectKey), "PERMANENT_RESOURCEID");
       List<Row> consumableRows = sortRows(getRows("consumable_resource", m_projectKey), "CONSUMABLE_RESOURCEID");
@@ -187,7 +186,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Process tasks.
     */
-   private void processTasks() throws SQLException
+   private void processTasks() throws AstaDatabaseException
    {
       List<Row> bars = getRows("bar", m_projectKey);
       List<Row> expandedTasks = getRows("expanded_task", m_projectKey);
@@ -199,7 +198,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Process predecessors.
     */
-   private void processPredecessors() throws SQLException
+   private void processPredecessors() throws AstaDatabaseException
    {
       List<Row> rows = sortRows(getRows("link", m_projectKey), "LINKID");
       List<Row> completedSections = getRows("task_completed_section", m_projectKey);
@@ -209,7 +208,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    /**
     * Process resource assignments.
     */
-   private void processAssignments() throws SQLException
+   private void processAssignments() throws AstaDatabaseException
    {
       List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey);
       List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
@@ -238,7 +237,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          return read();
       }
 
-      catch (SQLException ex)
+      catch (AstaDatabaseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -264,7 +263,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          return result;
       }
 
-      catch (SQLException ex)
+      catch (AstaDatabaseException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -275,9 +274,9 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException;
+   protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException;
 
-   protected abstract void allocateResources(File file) throws SQLException;
+   protected abstract void allocateResources(File file) throws AstaDatabaseException;
    
    protected abstract void releaseResources();
 

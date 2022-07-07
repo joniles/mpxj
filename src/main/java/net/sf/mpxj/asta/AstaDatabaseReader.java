@@ -71,7 +71,7 @@ public final class AstaDatabaseReader extends AbstractDatabaseReader
       m_connection = connection;
    }
 
-   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException
    {
       String sql = "select * from " + table;
       if (!keys.isEmpty())
@@ -79,36 +79,52 @@ public final class AstaDatabaseReader extends AbstractDatabaseReader
          sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
       }
 
-      allocateConnection();
-
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      try
       {
-         int index = 1;
-         for (Map.Entry<String, Integer> entry : keys.entrySet())
-         {
-            ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
-         }
+         allocateConnection();
 
-         try (ResultSet rs = ps.executeQuery())
+         try (PreparedStatement ps = m_connection.prepareStatement(sql))
          {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
+            int index = 1;
+            for (Map.Entry<String, Integer> entry : keys.entrySet())
             {
-               result.add(new MpdResultSetRow(rs, meta));
+               ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
             }
-            return result;
+
+            try (ResultSet rs = ps.executeQuery())
+            {
+               List<Row> result = new ArrayList<>();
+               Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+               while (rs.next())
+               {
+                  result.add(new MpdResultSetRow(rs, meta));
+               }
+               return result;
+            }
          }
+      }
+
+      catch (SQLException ex)
+      {
+         throw new AstaDatabaseException(ex);
       }
    }
 
-   @Override protected void allocateResources(File file) throws SQLException
+   @Override protected void allocateResources(File file) throws AstaDatabaseException
    {
-      String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
-      Properties props = new Properties();
-      props.put("charSet", "Cp1252");
-      m_connection = DriverManager.getConnection(url, props);
-      m_allocatedConnection = true;
+      try
+      {
+         String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
+         Properties props = new Properties();
+         props.put("charSet", "Cp1252");
+         m_connection = DriverManager.getConnection(url, props);
+         m_allocatedConnection = true;
+      }
+
+      catch (SQLException ex)
+      {
+         throw new AstaDatabaseException(ex);
+      }
    }
 
    @Override protected void releaseResources()
