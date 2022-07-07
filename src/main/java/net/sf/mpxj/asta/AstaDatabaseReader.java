@@ -226,7 +226,7 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
    {
       List<Row> allocationRows = getRows("select * from permanent_schedul_allocation where projid=?", m_projectID);
       List<Row> skillRows = getRows("select * from perm_resource_skill where projid=?", m_projectID);
-      List<Row> permanentAssignments = joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
+      List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
       m_reader.processAssignments(permanentAssignments);
    }
 
