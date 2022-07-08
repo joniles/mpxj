@@ -1,5 +1,5 @@
 /*
- * file:       AstaMdbReader.java
+ * file:       AbstractDatabaseReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2022
  * date:       07/07/2022
