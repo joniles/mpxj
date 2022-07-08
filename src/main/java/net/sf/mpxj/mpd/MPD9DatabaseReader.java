@@ -29,11 +29,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -79,8 +81,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          Map<Integer, String> result = new HashMap<>();
 
-         List<MpdResultSetRow> rows = getRows("SELECT PROJ_ID, PROJ_NAME FROM MSP_PROJECTS");
-         for (MpdResultSetRow row : rows)
+         List<Row> rows = getRows("MSP_PROJECTS", Collections.emptyMap());
+         for (Row row : rows)
          {
             processProjectListItem(result, row);
          }
@@ -160,7 +162,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processProjectProperties() throws SQLException
    {
-      List<MpdResultSetRow> rows = getRows("SELECT * FROM MSP_PROJECTS WHERE PROJ_ID=?", m_projectID);
+      List<Row> rows = getRows("MSP_PROJECTS", m_projectKey);
       if (!rows.isEmpty())
       {
          processProjectProperties(rows.get(0));
@@ -172,7 +174,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processCalendars() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_CALENDARS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_CALENDARS", m_projectKey))
       {
          processCalendar(row);
       }
@@ -191,9 +193,13 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processCalendarData(List<ProjectCalendar> calendars) throws SQLException
    {
+      Map<String, Integer> keys = new HashMap<>();
+      keys.put("PROJ_ID", m_projectID);
+
       for (ProjectCalendar calendar : calendars)
       {
-         processCalendarData(calendar, getRows("SELECT * FROM MSP_CALENDAR_DATA WHERE PROJ_ID=? AND CAL_UID=?", m_projectID, calendar.getUniqueID()));
+         keys.put("CAL_UID", calendar.getUniqueID());
+         processCalendarData(calendar, getRows("MSP_CALENDAR_DATA", keys));
       }
    }
 
@@ -203,9 +209,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     * @param calendar project calendar
     * @param calendarData hours and exception rows for this calendar
     */
-   private void processCalendarData(ProjectCalendar calendar, List<MpdResultSetRow> calendarData)
+   private void processCalendarData(ProjectCalendar calendar, List<Row> calendarData)
    {
-      for (MpdResultSetRow row : calendarData)
+      for (Row row : calendarData)
       {
          processCalendarData(calendar, row);
       }
@@ -216,7 +222,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processResources() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_RESOURCES WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_RESOURCES", m_projectKey))
       {
          processResource(row);
       }
@@ -229,7 +235,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       if (m_hasResourceBaselines)
       {
-         for (MpdResultSetRow row : getRows("SELECT * FROM MSP_RESOURCE_BASELINES WHERE PROJ_ID=?", m_projectID))
+         for (Row row : getRows("MSP_RESOURCE_BASELINES", m_projectKey))
          {
             processResourceBaseline(row);
          }
@@ -241,7 +247,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processTasks() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_TASKS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_TASKS", m_projectKey))
       {
          processTask(row);
       }
@@ -254,7 +260,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       if (m_hasTaskBaselines)
       {
-         for (MpdResultSetRow row : getRows("SELECT * FROM MSP_TASK_BASELINES WHERE PROJ_ID=?", m_projectID))
+         for (Row row : getRows("MSP_TASK_BASELINES", m_projectKey))
          {
             processTaskBaseline(row);
          }
@@ -266,7 +272,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processLinks() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_LINKS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_LINKS", m_projectKey))
       {
          processLink(row);
       }
@@ -277,7 +283,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processAssignments() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_ASSIGNMENTS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_ASSIGNMENTS", m_projectKey))
       {
          processAssignment(row);
       }
@@ -290,7 +296,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       if (m_hasAssignmentBaselines)
       {
-         for (MpdResultSetRow row : getRows("SELECT * FROM MSP_ASSIGNMENT_BASELINES WHERE PROJ_ID=?", m_projectID))
+         for (Row row : getRows("MSP_ASSIGNMENT_BASELINES", m_projectKey))
          {
             processAssignmentBaseline(row);
          }
@@ -348,7 +354,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processTextFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_TEXT_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_TEXT_FIELDS", m_projectKey))
       {
          processTextField(row);
       }
@@ -359,7 +365,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processNumberFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_NUMBER_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_NUMBER_FIELDS", m_projectKey))
       {
          processNumberField(row);
       }
@@ -370,7 +376,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processFlagFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_FLAG_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_FLAG_FIELDS", m_projectKey))
       {
          processFlagField(row);
       }
@@ -381,7 +387,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processDurationFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_DURATION_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_DURATION_FIELDS", m_projectKey))
       {
          processDurationField(row);
       }
@@ -392,7 +398,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processDateFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_DATE_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_DATE_FIELDS", m_projectKey))
       {
          processDateField(row);
       }
@@ -403,7 +409,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processOutlineCodeFields() throws SQLException
    {
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_CODE_FIELDS WHERE PROJ_ID=?", m_projectID))
+      for (Row row : getRows("MSP_CODE_FIELDS", m_projectKey))
       {
          processOutlineCodeFields(row);
       }
@@ -419,85 +425,33 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       Integer entityID = parentRow.getInteger("CODE_REF_UID");
       Integer outlineCodeEntityID = parentRow.getInteger("CODE_UID");
 
-      for (MpdResultSetRow row : getRows("SELECT * FROM MSP_OUTLINE_CODES WHERE CODE_UID=?", outlineCodeEntityID))
+      for (Row row : getRows("MSP_OUTLINE_CODES", Collections.singletonMap("CODE_UID", outlineCodeEntityID)))
       {
          processOutlineCodeField(entityID, row);
       }
    }
 
-   /**
-    * Retrieve a number of rows matching the supplied query.
-    *
-    * @param sql query statement
-    * @return result set
-    */
-   private List<MpdResultSetRow> getRows(String sql) throws SQLException
+   private List<Row> getRows(String table, Map<String, Integer> keys) throws SQLException
    {
-      allocateConnection();
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      String sql = "select * from " + table;
+      if (!keys.isEmpty())
       {
-         try (ResultSet rs = ps.executeQuery())
-         {
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            List<MpdResultSetRow> result = new ArrayList<>();
-            while (rs.next())
-            {
-               result.add(new MpdResultSetRow(rs, meta));
-            }
-            return result;
-         }
+         sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
       }
-   }
 
-   /**
-    * Retrieve a number of rows matching the supplied query
-    * which takes a single parameter.
-    *
-    * @param sql query statement
-    * @param var bind variable value
-    * @return result set
-    */
-   private List<MpdResultSetRow> getRows(String sql, Integer var) throws SQLException
-   {
       allocateConnection();
-
-      List<MpdResultSetRow> result = new ArrayList<>();
 
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         ps.setInt(1, NumberHelper.getInt(var));
-         try (ResultSet rs = ps.executeQuery())
+         int index = 1;
+         for (Map.Entry<String, Integer> entry : keys.entrySet())
          {
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new MpdResultSetRow(rs, meta));
-            }
-            return result;
+            ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
          }
-      }
-   }
 
-   /**
-    * Retrieve a number of rows matching the supplied query
-    * which takes two parameters.
-    *
-    * @param sql query statement
-    * @param var1 bind variable value
-    * @param var2 bind variable value
-    * @return result set
-    */
-   private List<MpdResultSetRow> getRows(String sql, Integer var1, Integer var2) throws SQLException
-   {
-      allocateConnection();
-
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
-      {
-         ps.setInt(1, NumberHelper.getInt(var1));
-         ps.setInt(2, NumberHelper.getInt(var2));
          try (ResultSet rs = ps.executeQuery())
          {
-            List<MpdResultSetRow> result = new ArrayList<>();
+            List<Row> result = new ArrayList<>();
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {

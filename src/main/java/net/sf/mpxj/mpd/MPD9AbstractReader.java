@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1311,9 +1312,11 @@ abstract class MPD9AbstractReader
    public void setProjectID(Integer projectID)
    {
       m_projectID = projectID;
+      m_projectKey = Collections.singletonMap("PROJ_ID", m_projectID);
    }
 
    protected Integer m_projectID;
+   protected Map<String, Integer> m_projectKey;
    protected ProjectFile m_project;
    protected EventManager m_eventManager;
    protected String m_defaultCalendarName;
