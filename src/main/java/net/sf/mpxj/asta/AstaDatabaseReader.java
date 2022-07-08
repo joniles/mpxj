@@ -1,8 +1,8 @@
 /*
- * file:       AstaMdbReader.java
+ * file:       AstaDatabaseReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2022
- * date:       07/07/2022
+ * copyright:  (c) Packwood Software 2011
+ * date:       07/04/2011
  */
 
 /*
