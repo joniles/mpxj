@@ -52,38 +52,28 @@ import net.sf.mpxj.listener.ProjectListener;
  */
 public final class MPD9FileReader extends MPD9AbstractReader
 {
-   /**
-    * Add a listener to receive events as a project is being read.
-    *
-    * @param listener ProjectListener instance
-    */
-   public void addProjectListener(ProjectListener listener)
+   public void setDatabaseFile(File file)
    {
-      if (m_projectListeners == null)
-      {
-         m_projectListeners = new ArrayList<>();
-      }
-      m_projectListeners.add(listener);
+      m_databaseFile = file;
    }
 
-   /**
-    * Populates a Map instance representing the IDs and names of
-    * projects available in the current database.
-    *
-    * @param file project file
-    * @return Map instance containing ID and name pairs
-    */
-   public Map<Integer, String> listProjects(File file) throws MPXJException
+   protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws MpdException
    {
       try
       {
-         m_databaseFile = file;
-         Map<Integer, String> result = new HashMap<>();
+         openDatabase();
 
-         List<MapRow> rows = getRows("SELECT PROJ_ID, PROJ_NAME FROM MSP_PROJECTS");
-         for (MapRow row : rows)
+         List<Row> result = new ArrayList<>();
+         Table table = m_database.getTable(tableName);
+         List<? extends Column> columns = table.getColumns();
+         Cursor cursor = CursorBuilder.createCursor(table);
+         if (cursor.findFirstRow(keys))
          {
-            processProjectListItem(result, row);
+            result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
+            while (cursor.findNextRow(keys))
+            {
+               result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
+            }
          }
 
          return result;
@@ -91,396 +81,13 @@ public final class MPD9FileReader extends MPD9AbstractReader
 
       catch (IOException ex)
       {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         closeDatabase();
+         throw new MpdException(ex);
       }
    }
 
-   /**
-    * Read a project from the current data source.
-    *
-    * @param file project file
-    * @return ProjectFile instance
-    */
-   public ProjectFile read(File file) throws MPXJException
+   @Override protected void releaseResources()
    {
-      try
-      {
-         m_databaseFile = file;
-         m_project = new ProjectFile();
-         m_eventManager = m_project.getEventManager();
-         m_projectKey = Collections.singletonMap("PROJ_ID", m_projectID);
-
-         ProjectConfig config = m_project.getProjectConfig();
-         config.setAutoTaskID(false);
-         config.setAutoTaskUniqueID(false);
-         config.setAutoResourceID(false);
-         config.setAutoResourceUniqueID(false);
-         config.setAutoOutlineLevel(false);
-         config.setAutoOutlineNumber(false);
-         config.setAutoWBS(false);
-         config.setAutoCalendarUniqueID(false);
-         config.setAutoAssignmentUniqueID(false);
-
-         m_project.getProjectProperties().setFileApplication("Microsoft");
-         m_project.getProjectProperties().setFileType("MPD");
-
-         m_project.getEventManager().addProjectListeners(m_projectListeners);
-
-         processProjectProperties();
-         processCalendars();
-         processResources();
-         processResourceBaselines();
-         processTasks();
-         processTaskBaselines();
-         processLinks();
-         processAssignments();
-         processAssignmentBaselines();
-         processExtendedAttributes();
-         processSubProjects();
-         postProcessing();
-
-         return (m_project);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         reset();
-         closeDatabase();
-      }
-   }
-
-   /**
-    * Select the project properties from the database.
-    */
-   private void processProjectProperties() throws IOException
-   {
-      List<MapRow> rows = getRows("MSP_PROJECTS", m_projectKey);
-      if (!rows.isEmpty())
-      {
-         processProjectProperties(rows.get(0));
-      }
-   }
-
-   /**
-    * Select calendar data from the database.
-    */
-   private void processCalendars() throws IOException
-   {
-      for (MapRow row : getRows("MSP_CALENDARS", m_projectKey))
-      {
-         processCalendar(row);
-      }
-
-      updateBaseCalendarNames();
-
-      processCalendarData(m_project.getCalendars());
-
-      m_project.getProjectProperties().setDefaultCalendar(m_project.getCalendars().getByName(m_defaultCalendarName));
-   }
-
-   /**
-    * Process calendar hours and exception data from the database.
-    *
-    * @param calendars all calendars for the project
-    */
-   private void processCalendarData(List<ProjectCalendar> calendars) throws IOException
-   {
-      Map<String, Integer> keys = new HashMap<>();
-      keys.put("PROJ_ID", m_projectID);
-
-      for (ProjectCalendar calendar : calendars)
-      {
-         keys.put("CAL_UID", calendar.getUniqueID());
-         processCalendarData(calendar, getRows("MSP_CALENDAR_DATA", keys));
-      }
-   }
-
-   /**
-    * Process the hours and exceptions for an individual calendar.
-    *
-    * @param calendar project calendar
-    * @param calendarData hours and exception rows for this calendar
-    */
-   private void processCalendarData(ProjectCalendar calendar, List<MapRow> calendarData)
-   {
-      for (MapRow row : calendarData)
-      {
-         processCalendarData(calendar, row);
-      }
-   }
-
-   /**
-    * Process resources.
-    */
-   private void processResources() throws IOException
-   {
-      for (MapRow row : getRows("MSP_RESOURCES", m_projectKey))
-      {
-         processResource(row);
-      }
-   }
-
-   /**
-    * Process resource baseline values.
-    */
-   private void processResourceBaselines() throws IOException
-   {
-      if (m_hasResourceBaselines)
-      {
-         for (MapRow row : getRows("MSP_RESOURCE_BASELINES", m_projectKey))
-         {
-            processResourceBaseline(row);
-         }
-      }
-   }
-
-   /**
-    * Process tasks.
-    */
-   private void processTasks() throws IOException
-   {
-      for (MapRow row : getRows("MSP_TASKS", m_projectKey))
-      {
-         processTask(row);
-      }
-   }
-
-   /**
-    * Process task baseline values.
-    */
-   private void processTaskBaselines() throws IOException
-   {
-      if (m_hasTaskBaselines)
-      {
-         for (MapRow row : getRows("MSP_TASK_BASELINES", m_projectKey))
-         {
-            processTaskBaseline(row);
-         }
-      }
-   }
-
-   /**
-    * Process links.
-    */
-   private void processLinks() throws IOException
-   {
-      for (MapRow row : getRows("MSP_LINKS", m_projectKey))
-      {
-         processLink(row);
-      }
-   }
-
-   /**
-    * Process resource assignments.
-    */
-   private void processAssignments() throws IOException
-   {
-      for (MapRow row : getRows("MSP_ASSIGNMENTS", m_projectKey))
-      {
-         processAssignment(row);
-      }
-   }
-
-   /**
-    * Process resource assignment baseline values.
-    */
-   private void processAssignmentBaselines() throws IOException
-   {
-      if (m_hasAssignmentBaselines)
-      {
-         for (MapRow row : getRows("MSP_ASSIGNMENT_BASELINES", m_projectKey))
-         {
-            processAssignmentBaseline(row);
-         }
-      }
-   }
-
-   /**
-    * This method reads the extended task and resource attributes.
-    */
-   private void processExtendedAttributes() throws IOException
-   {
-      processTextFields();
-      processNumberFields();
-      processFlagFields();
-      processDurationFields();
-      processDateFields();
-      processOutlineCodeFields();
-   }
-
-   /**
-    * The only indication that a task is a SubProject is the contents
-    * of the subproject file name field. We test these here then add a skeleton
-    * subproject structure to match the way we do things with MPP files.
-    */
-   private void processSubProjects()
-   {
-      int subprojectIndex = 1;
-      for (Task task : m_project.getTasks())
-      {
-         String subProjectFileName = task.getSubprojectName();
-         if (subProjectFileName != null)
-         {
-            String fileName = subProjectFileName;
-            int offset = 0x01000000 + (subprojectIndex * 0x00400000);
-            int index = subProjectFileName.lastIndexOf('\\');
-            if (index != -1)
-            {
-               fileName = subProjectFileName.substring(index + 1);
-            }
-
-            SubProject sp = new SubProject();
-            sp.setFileName(fileName);
-            sp.setFullPath(subProjectFileName);
-            sp.setUniqueIDOffset(Integer.valueOf(offset));
-            sp.setTaskUniqueID(task.getUniqueID());
-            task.setSubProject(sp);
-
-            ++subprojectIndex;
-         }
-      }
-   }
-
-   /**
-    * Reads text field extended attributes.
-    */
-   private void processTextFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_TEXT_FIELDS", m_projectKey))
-      {
-         processTextField(row);
-      }
-   }
-
-   /**
-    * Reads number field extended attributes.
-    */
-   private void processNumberFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_NUMBER_FIELDS", m_projectKey))
-      {
-         processNumberField(row);
-      }
-   }
-
-   /**
-    * Reads flag field extended attributes.
-    */
-   private void processFlagFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_FLAG_FIELDS", m_projectKey))
-      {
-         processFlagField(row);
-      }
-   }
-
-   /**
-    * Reads duration field extended attributes.
-    */
-   private void processDurationFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_DURATION_FIELDS", m_projectKey))
-      {
-         processDurationField(row);
-      }
-   }
-
-   /**
-    * Reads date field extended attributes.
-    */
-   private void processDateFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_DATE_FIELDS", m_projectKey))
-      {
-         processDateField(row);
-      }
-   }
-
-   /**
-    * Process outline code fields.
-    */
-   private void processOutlineCodeFields() throws IOException
-   {
-      for (MapRow row : getRows("MSP_CODE_FIELDS", m_projectKey))
-      {
-         processOutlineCodeFields(row);
-      }
-   }
-
-   /**
-    * Process a single outline code.
-    *
-    * @param parentRow outline code to task mapping table
-    */
-   private void processOutlineCodeFields(Row parentRow) throws IOException
-   {
-      Integer entityID = parentRow.getInteger("CODE_REF_UID");
-      Integer outlineCodeEntityID = parentRow.getInteger("CODE_UID");
-
-      for (MapRow row : getRows("MSP_OUTLINE_CODES", Collections.singletonMap("CODE_UID", outlineCodeEntityID)))
-      {
-         processOutlineCodeField(entityID, row);
-      }
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query.
-    *
-    * @param tableName table name
-    * @return result set
-    */
-   private List<MapRow> getRows(String tableName) throws IOException
-   {
-      openDatabase();
-
-      List<MapRow> result = new ArrayList<>();
-      Table table = m_database.getTable(tableName);
-      List<? extends Column> columns = table.getColumns();
-
-      for (com.healthmarketscience.jackcess.Row row : table)
-      {
-         result.add(new JackcessResultSetRow(row, columns));
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query
-    * which takes a single parameter.
-    *
-    * @param tableName table name
-    * @param keys where clause
-    * @return result set
-    */
-   private List<MapRow> getRows(String tableName, Map<String, Integer> keys) throws IOException
-   {
-      openDatabase();
-
-      List<MapRow> result = new ArrayList<>();
-      Table table = m_database.getTable(tableName);
-      List<? extends Column> columns = table.getColumns();
-      Cursor cursor = CursorBuilder.createCursor(table);
-      if (cursor.findFirstRow(keys))
-      {
-         result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-         while (cursor.findNextRow(keys))
-         {
-            result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-         }
-      }
-
-      return result;
+      closeDatabase();
    }
 
    /**
@@ -535,8 +142,4 @@ public final class MPD9FileReader extends MPD9AbstractReader
    private File m_databaseFile;
    private Database m_database;
    private Map<String, Integer> m_projectKey;
-   private List<ProjectListener> m_projectListeners;
-   private boolean m_hasResourceBaselines;
-   private boolean m_hasTaskBaselines;
-   private boolean m_hasAssignmentBaselines;
 }

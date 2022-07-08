@@ -48,7 +48,9 @@ public final class MPDFileReader extends AbstractProjectFileReader
     */
    public Map<Integer, String> listProjects(File file) throws MPXJException
    {
-      return new MPD9FileReader().listProjects(file);
+      MPD9FileReader reader = new MPD9FileReader();
+      reader.setDatabaseFile(file);
+      return reader.listProjects();
    }
 
    /**
@@ -64,19 +66,21 @@ public final class MPDFileReader extends AbstractProjectFileReader
    @Override public ProjectFile read(File file) throws MPXJException
    {
       MPD9FileReader reader = new MPD9FileReader();
+      reader.setDatabaseFile(file);
       reader.setProjectID(m_projectID == null ? Integer.valueOf(1) : m_projectID);
-      return reader.read(file);
+      return reader.read();
    }
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
       MPD9FileReader reader = new MPD9FileReader();
+      reader.setDatabaseFile(file);
       List<ProjectFile> result = new ArrayList<>();
-      Set<Integer> ids = reader.listProjects(file).keySet();
+      Set<Integer> ids = reader.listProjects().keySet();
       for (Integer id : ids)
       {
          reader.setProjectID(id);
-         result.add(reader.read(file));
+         result.add(reader.read());
       }
       return result;
    }
