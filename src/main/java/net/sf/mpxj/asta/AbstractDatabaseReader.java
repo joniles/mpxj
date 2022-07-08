@@ -274,12 +274,34 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       }
    }
 
+   /**
+    * Retrieve a et of rows from a named table mathcing the supplied keys.
+    *
+    * @param table table to retrieve rows from
+    * @param keys name and integer value keys
+    * @return list of rows
+    */
    protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException;
 
+   /**
+    * Allocate any resources necessary to work with the database before we start reading.
+    *
+    * @param file database file
+    */
    protected abstract void allocateResources(File file) throws AstaDatabaseException;
-   
+
+   /**
+    * Release any resources once we've finished reading.
+    */
    protected abstract void releaseResources();
 
+   /**
+    * Sort rows by the named integer columns.
+    *
+    * @param rows list of rows to sort
+    * @param columnNames columns to sort by
+    * @return sorted rows
+    */
    private List<Row> sortRows(List<Row> rows, String... columnNames)
    {
       Comparator<Row> comparator = Comparator.comparing(r -> Integer.valueOf(r.getInt(columnNames[0])));
