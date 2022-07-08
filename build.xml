@@ -530,21 +530,21 @@
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-test.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${mpxj.net45.dll} -reference:${junit.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-test.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:${mpxj.net45.dll} -reference:${junit.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
@@ -704,21 +704,21 @@
 
 		<!-- Generate the original unmapped DLL -->
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-test.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${mpxj.nca31.dll} -reference:${junit.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-test.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:${mpxj.nca31.dll} -reference:${junit.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-vb.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<!-- Generate a mapped DLL for C# and other .Net languages -->
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
+			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
 		</exec>
 
 		<delete dir="${ikvm.working.dir}" />
