@@ -275,7 +275,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
    }
 
    /**
-    * Retrieve a et of rows from a named table mathcing the supplied keys.
+    * Retrieve a set of rows from a named table matching the supplied keys.
     *
     * @param table table to retrieve rows from
     * @param keys name and integer value keys
@@ -310,7 +310,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          for (int index = 1; index < columnNames.length; index++)
          {
             String columnName = columnNames[index];
-            comparator = comparator.thenComparing(Comparator.comparing(r -> Integer.valueOf(r.getInt(columnName))));
+            comparator = comparator.thenComparing(r -> Integer.valueOf(r.getInt(columnName)));
          }
       }
       rows.sort(comparator);
