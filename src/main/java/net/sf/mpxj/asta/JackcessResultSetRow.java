@@ -1,8 +1,8 @@
 /*
- * file:       MpdResultSetRow.java
+ * file:       JackcessResultSetRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2012
- * date:       29/04/2012
+ * copyright:  (c) Packwood Software 2022
+ * date:       07/07/2022
  */
 
 /*
@@ -23,12 +23,21 @@
 
 package net.sf.mpxj.asta;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.DataType;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implementation of the Row interface, wrapping a Map.
@@ -49,7 +58,7 @@ final class JackcessResultSetRow extends MapRow
       {
          String name = column.getName().toUpperCase();
          DataType type = column.getType();
-         Object value;
+         Object value = null;
 
          switch (type)
          {
@@ -61,6 +70,7 @@ final class JackcessResultSetRow extends MapRow
 
             case MEMO:
             case TEXT:
+            case GUID:
             {
                value = row.getString(name);
                break;
@@ -69,7 +79,11 @@ final class JackcessResultSetRow extends MapRow
             case EXT_DATE_TIME:
             case SHORT_DATE_TIME:
             {
-               value = Date.from(row.getLocalDateTime(name).atZone(ZoneId.systemDefault()).toInstant());
+               LocalDateTime l = row.getLocalDateTime(name);
+               if (l != null)
+               {
+                  value = Date.from(l.atZone(ZoneId.systemDefault()).toInstant());
+               }
                break;
             }
 
@@ -83,7 +97,6 @@ final class JackcessResultSetRow extends MapRow
             }
 
             case BIG_INT:
-            case INT:
             case BYTE:
             case LONG:
             {
@@ -91,6 +104,13 @@ final class JackcessResultSetRow extends MapRow
                break;
             }
 
+            case INT:
+            {
+               value = NumberHelper.getInteger(row.getShort(name));
+               break;
+            }
+
+            case OLE:
             case BINARY:
             {
                value = row.getBytes(name);
@@ -99,7 +119,7 @@ final class JackcessResultSetRow extends MapRow
 
             default:
             {
-               throw new IllegalArgumentException("Unsupported SQL type: " + type + " for column " + name);
+               throw new IllegalArgumentException("Unsupported type: " + type + " for column " + name);
             }
          }
 

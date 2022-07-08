@@ -30,212 +30,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import net.sf.mpxj.DayType;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
-import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class AstaDatabaseReader extends AbstractProjectFileReader
+public final class AstaDatabaseReader extends AbstractDatabaseReader
 {
-   /**
-    * Populates a Map instance representing the IDs and names of
-    * projects available in the current database.
-    *
-    * @return Map instance containing ID and name pairs
-    */
-   public Map<Integer, String> listProjects() throws MPXJException
-   {
-      try
-      {
-         Map<Integer, String> result = new HashMap<>();
-
-         List<Row> rows = getRows("select projid, short_name from project_summary");
-         for (Row row : rows)
-         {
-            Integer id = row.getInteger("PROJID");
-            String name = row.getString("SHORT_NAME");
-            result.put(id, name);
-         }
-
-         return result;
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-   }
-
-   /**
-    * Read a project from the current data source.
-    *
-    * @return ProjectFile instance
-    */
-   public ProjectFile read() throws MPXJException
-   {
-      try
-      {
-         m_reader = new AstaReader();
-         ProjectFile project = m_reader.getProject();
-         addListenersToProject(project);
-
-         processProjectProperties();
-         processCalendars();
-         processResources();
-         processTasks();
-         processPredecessors();
-         processAssignments();
-         // TODO: custom field support (where is udf_data?)
-
-         m_reader = null;
-
-         return project;
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         if (m_allocatedConnection)
-         {
-            AutoCloseableHelper.closeQuietly(m_connection);
-         }
-      }
-   }
-
-   /**
-    * Select the project properties row from the database.
-    */
-   private void processProjectProperties() throws SQLException
-   {
-      List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
-      List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
-      List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
-      Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
-      Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
-      List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
-   }
-
-   /**
-    * Process calendars.
-    */
-   private void processCalendars() throws SQLException
-   {
-      List<Row> rows = getRows("select * from exceptionn");
-      Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
-
-      rows = getRows("select * from work_pattern");
-      Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
-
-      rows = getRows("select * from work_pattern_assignment");
-      Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
-
-      rows = getRows("select * from exception_assignment order by exception_assignmentid, ordf");
-      Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
-
-      rows = getRows("select * from time_entry order by time_entryid, ordf");
-      Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
-
-      rows = getRows("select * from calendar where projid=? order by calendarid", m_projectID);
-      for (Row row : rows)
-      {
-         m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
-      }
-
-      //
-      // In theory the code below can be used to establish parent-child relationships between
-      // calendars, however the resulting calendars aren't assigned to tasks and resources correctly, so
-      // I've left this out for the moment.
-      //
-      /*
-            for (Row row : rows)
-            {
-               ProjectCalendar child = m_reader.getProject().getCalendarByUniqueID(row.getInteger("CALENDARID"));
-               ProjectCalendar parent = m_reader.getProject().getCalendarByUniqueID(row.getInteger("CALENDAR"));
-               if (child != null && parent != null)
-               {
-                  child.setParent(parent);
-               }
-            }
-      */
-
-      //
-      // Update unique counters at this point as we will be generating
-      // resource calendars, and will need to auto generate IDs
-      //
-      m_reader.getProject().getProjectConfig().updateUniqueCounters();
-   }
-
-   /**
-    * Process resources.
-    */
-   private void processResources() throws SQLException
-   {
-      List<Row> permanentRows = getRows("select * from permanent_resource where projid=? order by permanent_resourceid", m_projectID);
-      List<Row> consumableRows = getRows("select * from consumable_resource where projid=? order by consumable_resourceid", m_projectID);
-      m_reader.processResources(permanentRows, consumableRows);
-   }
-
-   /**
-    * Process tasks.
-    */
-   private void processTasks() throws SQLException
-   {
-      List<Row> bars = getRows("select * from bar where projid=?", m_projectID);
-      List<Row> expandedTasks = getRows("select * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select * from task where projid=?", m_projectID);
-      List<Row> milestones = getRows("select * from milestone where projid=?", m_projectID);
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
-   }
-
-   /**
-    * Process predecessors.
-    */
-   private void processPredecessors() throws SQLException
-   {
-      List<Row> rows = getRows("select * from link where projid=? order by linkid", m_projectID);
-      List<Row> completedSections = getRows("select * from task_completed_section where projid=?", m_projectID);
-      m_reader.processPredecessors(rows, completedSections);
-   }
-
-   /**
-    * Process resource assignments.
-    */
-   private void processAssignments() throws SQLException
-   {
-      List<Row> permanentAssignments = getRows("select * from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocatiop_of = perm_resource_skill.perm_resource_skillid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.permanent_schedul_allocationid", m_projectID);
-      m_reader.processAssignments(permanentAssignments);
-   }
-
-   /**
-    * Set the ID of the project to be read.
-    *
-    * @param projectID project ID
-    */
-   public void setProjectID(int projectID)
-   {
-      m_projectID = Integer.valueOf(projectID);
-   }
 
    /**
     * Set the data source. A DataSource or a Connection can be supplied
@@ -259,114 +71,67 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       m_connection = connection;
    }
 
-   @Override public ProjectFile read(File file) throws MPXJException
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException
    {
-      try
+      String sql = "select * from " + table;
+      if (!keys.isEmpty())
       {
-         m_connection = getDatabaseConnection(file);
-         m_projectID = Integer.valueOf(0);
-         return read();
+         sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
       }
 
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(m_connection);
-      }
-   }
-
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
       try
       {
-         m_connection = getDatabaseConnection(file);
-         List<ProjectFile> result = new ArrayList<>();
-         Set<Integer> ids = listProjects().keySet();
-         for (Integer id : ids)
+         allocateConnection();
+
+         try (PreparedStatement ps = m_connection.prepareStatement(sql))
          {
-            m_projectID = id;
-            result.add(read());
+            int index = 1;
+            for (Map.Entry<String, Integer> entry : keys.entrySet())
+            {
+               ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
+            }
+
+            try (ResultSet rs = ps.executeQuery())
+            {
+               List<Row> result = new ArrayList<>();
+               Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+               while (rs.next())
+               {
+                  result.add(new MpdResultSetRow(rs, meta));
+               }
+               return result;
+            }
          }
-         return result;
       }
 
-      finally
+      catch (SQLException ex)
       {
-         AutoCloseableHelper.closeQuietly(m_connection);
+         throw new AstaDatabaseException(ex);
       }
    }
 
-   /**
-    * Create and configure a JDBC/ODBC bridge connection.
-    *
-    * @param file database file to open
-    * @return database connection
-    */
-   private Connection getDatabaseConnection(File file) throws MPXJException
+   @Override protected void allocateResources(File file) throws AstaDatabaseException
    {
       try
       {
          String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
          Properties props = new Properties();
          props.put("charSet", "Cp1252");
-         return DriverManager.getConnection(url, props);
+         m_connection = DriverManager.getConnection(url, props);
+         m_allocatedConnection = true;
       }
 
       catch (SQLException ex)
       {
-         throw new MPXJException("Failed to create connection", ex);
+         throw new AstaDatabaseException(ex);
       }
    }
 
-   /**
-    * Retrieve a number of rows matching the supplied query.
-    *
-    * @param sql query statement
-    * @return result set
-    */
-   private List<Row> getRows(String sql) throws SQLException
+   @Override protected void releaseResources()
    {
-      allocateConnection();
-
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
+      if (m_allocatedConnection)
       {
-         try (ResultSet rs = ps.executeQuery())
-         {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new MpdResultSetRow(rs, meta));
-            }
-            return result;
-         }
-      }
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query
-    * which takes a single parameter.
-    *
-    * @param sql query statement
-    * @param var bind variable value
-    * @return result set
-    */
-   private List<Row> getRows(String sql, Integer var) throws SQLException
-   {
-      allocateConnection();
-
-      try (PreparedStatement ps = m_connection.prepareStatement(sql))
-      {
-         ps.setInt(1, NumberHelper.getInt(var));
-         try (ResultSet rs = ps.executeQuery())
-         {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new MpdResultSetRow(rs, meta));
-            }
-            return result;
-         }
+         AutoCloseableHelper.closeQuietly(m_connection);
       }
    }
 
@@ -382,8 +147,6 @@ public final class AstaDatabaseReader extends AbstractProjectFileReader
       }
    }
 
-   private AstaReader m_reader;
-   private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
