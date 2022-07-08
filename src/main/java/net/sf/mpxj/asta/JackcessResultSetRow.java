@@ -47,8 +47,8 @@ final class JackcessResultSetRow extends MapRow
    /**
     * Constructor.
     *
-    * @param rs result set from which data is drawn
-    * @param meta result set meta data
+    * @param row row from which data is drawn
+    * @param columns column meta data
     */
    public JackcessResultSetRow(com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
    {
@@ -119,7 +119,7 @@ final class JackcessResultSetRow extends MapRow
 
             default:
             {
-               throw new IllegalArgumentException("Unsupported SQL type: " + type + " for column " + name);
+               throw new IllegalArgumentException("Unsupported type: " + type + " for column " + name);
             }
          }
 
