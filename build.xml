@@ -71,6 +71,7 @@
 		<property name="jsoup.classpath" refid="jsoup.path" />
 		<property name="commons-lang3.classpath" refid="commons-lang3.path" />
 		<property name="commons-logging.classpath" refid="commons-logging.path" />
+		<property name="jackcess.classpath" refid="jackcess.path" />
 		<property name="junit.classpath" refid="junit.path" />
 	</target>
 
@@ -376,11 +377,11 @@
 			<include name="**/*.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${jackcess.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -429,11 +430,11 @@
 			</fileset>
 		</copy>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
