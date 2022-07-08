@@ -26,8 +26,6 @@ package net.sf.mpxj.mpd;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,25 +37,23 @@ import com.healthmarketscience.jackcess.CursorBuilder;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
 import com.healthmarketscience.jackcess.Table;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectConfig;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.SubProject;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * This class reads project data from an MPD9 format database.
  */
-public final class MPD9FileReader extends MPD9AbstractReader
+final class MPD9FileReader extends MPD9AbstractReader
 {
+   /**
+    * Set the locatioj of the database to read.
+    * 
+    * @param file database file
+    */
    public void setDatabaseFile(File file)
    {
       m_databaseFile = file;
    }
 
-   protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws MpdException
+   @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws MpdException
    {
       try
       {
@@ -141,5 +137,4 @@ public final class MPD9FileReader extends MPD9AbstractReader
 
    private File m_databaseFile;
    private Database m_database;
-   private Map<String, Integer> m_projectKey;
 }

@@ -25,17 +25,9 @@ package net.sf.mpxj.asta;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.Cursor;
 import com.healthmarketscience.jackcess.CursorBuilder;
@@ -91,7 +83,7 @@ public final class AstaMdbReader extends AbstractDatabaseReader
       }
    }
 
-   @Override protected void allocateResources(File file) throws AstaDatabaseException
+   @Override protected void allocateResources(File file)
    {
       m_databaseFile = file;
    }

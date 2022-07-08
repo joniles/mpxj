@@ -23,15 +23,12 @@
 
 package net.sf.mpxj.mpd;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,23 +37,16 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectConfig;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.SubProject;
-import net.sf.mpxj.Task;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
-import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * This class reads project data from an MPD9 format database.
  */
-public final class MPD9DatabaseReader extends MPD9AbstractReader
+final class MPD9DatabaseReader extends MPD9AbstractReader
 {
-   protected List<Row> getRows(String table, Map<String, Integer> keys) throws MpdException
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws MpdException
    {
       String sql = "select * from " + table;
       if (!keys.isEmpty())

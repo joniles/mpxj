@@ -1671,17 +1671,6 @@ abstract class MPD9AbstractReader
       return (value == null ? defaultValue : value);
    }
 
-   /**
-    * Returns a default value if a null value is found.
-    *
-    * @param value value under test
-    * @param defaultValue default if value is null
-    * @return value
-    */
-   private Integer getDefaultOnNull(Integer value, Integer defaultValue)
-   {
-      return (value == null ? defaultValue : value);
-   }
 
    /**
     * Sets the ID of the project to be read.

@@ -46,7 +46,6 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.FileHelper;
-import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.JvmHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.json.JsonWriter;
