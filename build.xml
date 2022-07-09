@@ -467,6 +467,7 @@
 				<pathelement location="${jsoup.classpath}" />
 				<pathelement location="${commons-lang3.classpath}" />
 				<pathelement location="${commons-logging.classpath}" />
+				<pathelement location="${jackcess.classpath}" />
 			</classpath>
 		</java>
 
@@ -484,6 +485,7 @@
 				<pathelement location="${jsoup.classpath}" />
 				<pathelement location="${commons-lang3.classpath}" />
 				<pathelement location="${commons-logging.classpath}" />
+				<pathelement location="${jackcess.classpath}" />
 			</classpath>
 		</java>
 
@@ -641,6 +643,7 @@
 				<pathelement location="${jsoup.classpath}" />
 				<pathelement location="${commons-lang3.classpath}" />
 				<pathelement location="${commons-logging.classpath}" />
+				<pathelement location="${jackcess.classpath}" />
 			</classpath>
 		</java>
 
@@ -658,6 +661,7 @@
 				<pathelement location="${jsoup.classpath}" />
 				<pathelement location="${commons-lang3.classpath}" />
 				<pathelement location="${commons-logging.classpath}" />
+				<pathelement location="${jackcess.classpath}" />
 			</classpath>
 		</java>
 
