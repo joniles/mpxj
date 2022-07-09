@@ -1,5 +1,5 @@
 /*
- * file:       MpdResultSetRow.java
+ * file:       JackcessResultSetRow.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2012
  * date:       29/04/2012
