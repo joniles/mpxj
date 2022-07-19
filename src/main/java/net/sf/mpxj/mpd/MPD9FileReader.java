@@ -98,6 +98,9 @@ final class MPD9FileReader extends MPD9AbstractReader
       }
    }
 
+   /**
+    * Releases a database connection.
+    */
    private void closeDatabase()
    {
       try
