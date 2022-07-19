@@ -25,7 +25,7 @@
 			<action dev="joniles" type="update">Improve reading predecessor lag values from Planner files.</action>
 			<action dev="joniles" type="update">Ensure calendar hierarchy is written correctly to Planner files.</action>
 			<action dev="joniles" type="update">Don't write null tasks to Planner files as Planner will not read files which contain them.</action>
-			<action dev="joniles" type="update">When writing Planner file, ignore constrainyt types which Planer can't represent.</action>
+			<action dev="joniles" type="update">When writing Planner file, ignore constraint types which Planner can't represent.</action>
 			<action dev="joniles" type="update">Don't write emply predecessor lists to Planner files.</action>
 			<action dev="joniles" type="update">Improve handling of lag duration when writing Planner files.</action>
 			<action dev="joniles" type="update">Improve ProjectCalendar start date calculation when we have long runs of non-working days.</action>
