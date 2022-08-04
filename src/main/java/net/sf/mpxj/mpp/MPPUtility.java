@@ -272,7 +272,7 @@ public final class MPPUtility
    public static final UUID getGUID(byte[] data, int offset)
    {
       UUID result = null;
-      if (data != null && data.length > 15)
+      if (data != null && data.length >= offset+15)
       {
          long long1 = 0;
          long1 |= ((long) (data[offset + 3] & 0xFF)) << 56;
