@@ -130,6 +130,17 @@ public class CustomField
       return this;
    }
 
+   public DataType getDataType()
+   {
+      return m_dataType;
+   }
+
+   public CustomField setDataType(DataType type)
+   {
+      m_dataType = type;
+      return this;
+   }
+
    /**
     * Retrieve the mask definitions for this field.
     *
@@ -152,4 +163,5 @@ public class CustomField
    private final List<CustomFieldValueMask> m_masks;
    private Integer m_uniqueID;
    private String m_alias;
+   private DataType m_dataType;
 }

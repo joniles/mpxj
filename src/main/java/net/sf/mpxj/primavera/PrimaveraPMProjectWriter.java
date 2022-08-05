@@ -1503,6 +1503,7 @@ final class PrimaveraPMProjectWriter
             break;
          }
 
+         case CUSTOM:
          case BINARY:
          {
             udf.setTextValue("");

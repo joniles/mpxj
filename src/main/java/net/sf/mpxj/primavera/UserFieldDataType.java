@@ -106,6 +106,7 @@ public enum UserFieldDataType
    {
       switch (dataType)
       {
+         case CUSTOM:
          case BINARY:
          case STRING:
          case DURATION:

@@ -1003,7 +1003,7 @@ final class MPP14Reader implements MPPVariantReader
       if (taskDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
       }
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskFixed2Data, taskVarData);
@@ -1559,7 +1559,7 @@ final class MPP14Reader implements MPPVariantReader
       if (rscDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldAliasReader(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
       }
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);

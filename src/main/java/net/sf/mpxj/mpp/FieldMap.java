@@ -1115,6 +1115,12 @@ abstract class FieldMap
                break;
             }
 
+            case CUSTOM:
+            {
+               result = varData.getByteArray(id, m_varDataKey);
+               break;
+            }
+
             default:
             {
                //System.out.println("**** UNSUPPORTED VAR DATA TYPE");

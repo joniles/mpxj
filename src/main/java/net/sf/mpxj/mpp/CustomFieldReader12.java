@@ -1,5 +1,5 @@
 /*
- * file:       CustomFieldAliasReader.java
+ * file:       CustomFieldReader12.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2015
  * date:       2014-05-09
@@ -29,7 +29,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 /**
  * Reads field aliases from an MPP file.
  */
-class CustomFieldAliasReader
+class CustomFieldReader12
 {
    /**
     * Constructor.
@@ -37,7 +37,7 @@ class CustomFieldAliasReader
     * @param fields field definition container
     * @param data raw MP data
     */
-   public CustomFieldAliasReader(CustomFieldContainer fields, byte[] data)
+   public CustomFieldReader12(CustomFieldContainer fields, byte[] data)
    {
       m_fields = fields;
       m_data = data;
