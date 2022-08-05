@@ -23,7 +23,13 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.DataType;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -53,14 +59,14 @@ class CustomFieldReader12
          int index = 0;
          int offset = 0;
          // First the length (repeated twice)
-         int length = MPPUtility.getInt(m_data, offset);
+         int aliasBlockSize = MPPUtility.getInt(m_data, offset);
          offset += 8;
          // Then the number of custom columns
          int numberOfAliases = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
          // Then the aliases themselves
-         while (index < numberOfAliases && offset < length)
+         while (index < numberOfAliases && offset < aliasBlockSize)
          {
             // Get the Field ID
             int fieldID = MPPUtility.getInt(m_data, offset);
@@ -86,9 +92,64 @@ class CustomFieldReader12
          // The first block contains alias details
          // The last block may be enterprise custom field details (as per MPP14)
          // Not sure about the other blocks.
+
+         // Skip past the alias block
+         offset = 4 + aliasBlockSize;
+
+         // Unknown block 1: size, size count
+         int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
+         offset += 4;
+         offset += unknownBlock1Size;
+
+         // Unknown block 2: size, size count
+         int unknownBlock2Size = MPPUtility.getInt(m_data, offset);
+         offset += 4;
+         offset += unknownBlock2Size;
+
+         // Field definitions block
+         int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
+         offset += 8;
+
+         int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
+         offset += 4;
+
+         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         {
+            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
+            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
+            offset += 8;
+         }
+
+         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         {
+            int blockSize = MPPUtility.getInt(m_data, offset);
+            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset+4)));
+            int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
+            customField.setDataType(getDataType(dataTypeValue));
+            //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
+            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
+            offset += blockSize;
+         }
+
       }
+   }
+
+   private DataType getDataType(int value)
+   {
+      return DATA_TYPES.get(Integer.valueOf(value));
    }
 
    private final CustomFieldContainer m_fields;
    private final byte[] m_data;
+
+   private static final Map<Integer, DataType> DATA_TYPES = new HashMap<>();
+   static
+   {
+      DATA_TYPES.put(Integer.valueOf(0), DataType.CURRENCY);
+      DATA_TYPES.put(Integer.valueOf(1), DataType.DATE);
+      DATA_TYPES.put(Integer.valueOf(2), DataType.DURATION);
+      DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
+      DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
+      DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
+   };
 }

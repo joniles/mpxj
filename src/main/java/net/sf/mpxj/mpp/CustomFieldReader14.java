@@ -29,6 +29,7 @@ import java.util.Map;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
@@ -108,10 +109,10 @@ class CustomFieldReader14
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
             CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
-            int dataTypeValue = MPPUtility.getInt(m_data, offset + 4);
+            int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
             customField.setDataType(getDataType(dataTypeValue));
             //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
-            //System.out.println(ByteArrayHelper.hexdump(m_data, offset, 88, false));
+            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
             offset += 88;
          }
       }
@@ -128,10 +129,11 @@ class CustomFieldReader14
    private static final Map<Integer, DataType> DATA_TYPES = new HashMap<>();
    static
    {
-      DATA_TYPES.put(Integer.valueOf(5), DataType.CURRENCY);
-      DATA_TYPES.put(Integer.valueOf(8), DataType.STRING);
-      DATA_TYPES.put(Integer.valueOf(11), DataType.BOOLEAN);
-      DATA_TYPES.put(Integer.valueOf(19), DataType.DATE);
-      DATA_TYPES.put(Integer.valueOf(29), DataType.DURATION);
+      DATA_TYPES.put(Integer.valueOf(0), DataType.CURRENCY);
+      DATA_TYPES.put(Integer.valueOf(1), DataType.DATE);
+      DATA_TYPES.put(Integer.valueOf(2), DataType.DURATION);
+      DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
+      DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
+      DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
    };
 }

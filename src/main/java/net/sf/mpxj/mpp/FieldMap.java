@@ -67,6 +67,7 @@ abstract class FieldMap
    public FieldMap(ProjectProperties properties, CustomFieldContainer customFields)
    {
       m_properties = properties;
+      m_customFields = customFields;
       m_stringVarDataReader = new StringVarDataFieldReader(customFields);
       m_doubleVarDataReader = new DoubleVarDataFieldReader(customFields);
       m_timestampVarDataReader = new TimestampVarDataFieldReader(customFields);
@@ -757,7 +758,7 @@ abstract class FieldMap
 
             case VAR_DATA:
             {
-               result = readVarData(id, fixedData, varData);
+               result = readVarData(m_type.getDataType(), id, fixedData, varData);
                break;
             }
 
@@ -968,11 +969,11 @@ abstract class FieldMap
        * @param varData var data block
        * @return field value
        */
-      private Object readVarData(Integer id, byte[][] fixedData, Var2Data varData)
+      private Object readVarData(DataType dataType, Integer id, byte[][] fixedData, Var2Data varData)
       {
          Object result = null;
 
-         switch (m_type.getDataType())
+         switch (dataType)
          {
             case DURATION:
             {
@@ -1117,7 +1118,15 @@ abstract class FieldMap
 
             case CUSTOM:
             {
-               result = varData.getByteArray(id, m_varDataKey);
+               DataType customDataType = m_customFields.getCustomField(m_type).getDataType();
+               if (customDataType == null)
+               {
+                  result = varData.getByteArray(id, m_varDataKey);
+               }
+               else
+               {
+                  result = readVarData(customDataType, id, fixedData, varData);
+               }
                break;
             }
 
@@ -1312,6 +1321,8 @@ abstract class FieldMap
    }
 
    private final ProjectProperties m_properties;
+   private final CustomFieldContainer m_customFields;
+
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;

@@ -1823,9 +1823,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * @param index field index
     * @return field value
     */
-   public byte[] getEnterpriseCustomField(int index)
+   public Object getEnterpriseCustomField(int index)
    {
-      return ((byte[]) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
