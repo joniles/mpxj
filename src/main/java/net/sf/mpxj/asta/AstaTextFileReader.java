@@ -45,7 +45,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  * This class provides a generic front end to read project data from
  * a text-based Asta PP file.
  */
-final class AstaTextFileReader extends AbstractProjectStreamReader
+public final class AstaTextFileReader extends AbstractProjectStreamReader
 {
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {

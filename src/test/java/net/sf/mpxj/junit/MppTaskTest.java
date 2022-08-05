@@ -43,7 +43,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
@@ -124,8 +124,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Task() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9task.mpd"));
+      ProjectFile mpp = new MPDFileReader().read(MpxjTestData.filePath("mpp9task.mpd"));
       testBasicTask(mpp);
    }
 
@@ -188,8 +187,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Baseline() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9baseline.mpd"));
+      ProjectFile mpp = new MPDFileReader().read(MpxjTestData.filePath("mpp9baseline.mpd"));
       testBaselineTasks(mpp);
    }
 
@@ -299,8 +297,7 @@ public class MppTaskTest
     */
    @Test public void testMpd9Relations() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9relations.mpd"));
+      ProjectFile mpp = new MPDFileReader().read(MpxjTestData.filePath("mpp9relations.mpd"));
       testRelations(mpp);
    }
 

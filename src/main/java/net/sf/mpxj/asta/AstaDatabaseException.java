@@ -1,8 +1,8 @@
 /*
- * file:       AstaDatabaseReader.java
+ * file:       AstaDatabaseException.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2022
+ * date:       07/07/2022
  */
 
 /*
@@ -21,15 +21,21 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
 package net.sf.mpxj.asta;
 
 /**
- * This class provides a generic front end to read project data from
- * a database.
- *
- * @deprecated renamed to AstaJdbcReader
+ * Use to wrap exceptions raised by the underlying database implementation.
  */
-@Deprecated public final class AstaDatabaseReader extends AstaJdbcReader
+class AstaDatabaseException extends Exception
 {
-   // Renamed class
+   /**
+    * Constructor.
+    *
+    * @param cause cause exception
+    */
+   public AstaDatabaseException(Exception cause)
+   {
+      super(cause);
+   }
 }

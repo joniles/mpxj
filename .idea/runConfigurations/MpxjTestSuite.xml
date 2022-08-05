@@ -14,7 +14,7 @@
     <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.junit.MpxjTestSuite" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
-    <option name="VM_PARAMETERS" value="-ea -Xmx1g -Djava.library.path=${JDBC_ODBC_DIR} -Dmpxj.junit.privatedir=&quot;${MPXJ_PRIVATE}/data&quot; -Dmpxj.junit.baselinedir=&quot;${MPXJ_PRIVATE}/baseline&quot; -Dmpxj.junit.primavera.file=&quot;${MPXJ_PRIVATE}/primavera/PPMDBSQLite.db&quot; -Dmpxj.junit.primavera.baselinedir=&quot;${MPXJ_PRIVATE}/primavera/baseline&quot;" />
+    <option name="VM_PARAMETERS" value="-ea -Xmx1g -Djava.library.path=${JDBC_ODBC_DIR} -Duser.timezone=&quot;Europe/London&quot; -Dmpxj.junit.privatedir=&quot;${MPXJ_PRIVATE}/data&quot; -Dmpxj.junit.baselinedir=&quot;${MPXJ_PRIVATE}/baseline&quot; -Dmpxj.junit.primavera.file=&quot;${MPXJ_PRIVATE}/primavera/PPMDBSQLite.db&quot; -Dmpxj.junit.primavera.baselinedir=&quot;${MPXJ_PRIVATE}/primavera/baseline&quot;" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

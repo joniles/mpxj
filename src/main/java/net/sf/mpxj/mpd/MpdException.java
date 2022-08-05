@@ -1,8 +1,8 @@
 /*
- * file:       AstaDatabaseReader.java
+ * file:       MpdException.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2022
+ * date:       2022-07-01
  */
 
 /*
@@ -21,15 +21,22 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.asta;
+package net.sf.mpxj.mpd;
 
 /**
- * This class provides a generic front end to read project data from
- * a database.
- *
- * @deprecated renamed to AstaJdbcReader
+ * Exception used internally by the mpd package to wrap the
+ * different types of exceptions produced by JDBC and Jackcess
+ * so that common code can work with either method of database access.
  */
-@Deprecated public final class AstaDatabaseReader extends AstaJdbcReader
+class MpdException extends Exception
 {
-   // Renamed class
+   /**
+    * Constructor.
+    *
+    * @param cause original exception
+    */
+   public MpdException(Exception cause)
+   {
+      super(cause);
+   }
 }

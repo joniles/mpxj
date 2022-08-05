@@ -23,21 +23,18 @@
 
 package net.sf.mpxj.junit.resource;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.junit.ProjectUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.mpx.MPXReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure task custom flags are correctly handled.
@@ -62,14 +59,9 @@ public class ResourceFlagsTest
     */
    private void testResourceFlags(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
+      ProjectFile project = new UniversalProjectReader().read(file);
+      int maxIndex = ProjectUtility.projectIs(project, "MPX") ? 10 : 20;
 
-      int maxIndex = reader instanceof MPXReader ? 10 : 20;
-      ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)
       {
          Resource resource = project.getResourceByID(Integer.valueOf(index));

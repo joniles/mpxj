@@ -1,5 +1,5 @@
 /*
- * file:       MpdResultSetRow.java
+ * file:       MdbResultSetRow.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2012
  * date:       29/04/2012
@@ -37,7 +37,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Implementation of the Row interface, wrapping a Map.
  */
-final class MpdResultSetRow extends MapRow
+final class MdbResultSetRow extends MapRow
 {
    /**
     * Constructor.
@@ -45,7 +45,7 @@ final class MpdResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public MpdResultSetRow(ResultSet rs, Map<String, Integer> meta)
+   public MdbResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
       super(new HashMap<>());

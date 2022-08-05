@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit.calendar;
 
-import static net.sf.mpxj.junit.MpxjAssert.isMicrosoftAccessJdbcAvailable;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -31,6 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.Duration;
@@ -39,9 +39,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure working day calculations operate as expected across multi-day calendar exceptions.
@@ -67,14 +64,8 @@ public class MultiDayExceptionsTest
     */
    private void testMultiDayExceptions(File file) throws Exception
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
 
       Date startDate = DateHelper.getDayStartDate(df.parse("23/12/2019"));

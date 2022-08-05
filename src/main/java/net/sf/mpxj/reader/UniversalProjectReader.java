@@ -31,7 +31,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,17 +41,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.sf.mpxj.common.CloseIgnoringInputStream;
-import net.sf.mpxj.common.JdbcOdbcHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
+import com.healthmarketscience.jackcess.Database;
+import com.healthmarketscience.jackcess.DatabaseBuilder;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.asta.AstaDatabaseFileReader;
-import net.sf.mpxj.asta.AstaDatabaseReader;
-import net.sf.mpxj.asta.AstaFileReader;
+import net.sf.mpxj.asta.AstaMdbReader;
+import net.sf.mpxj.asta.AstaSqliteReader;
+import net.sf.mpxj.asta.AstaTextFileReader;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.CloseIgnoringInputStream;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SQLite;
@@ -61,7 +62,7 @@ import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.merlin.MerlinReader;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
@@ -204,7 +205,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
          {
-            return readProjectFile(new AstaFileReader(), bis);
+            return readProjectFile(new AstaTextFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, MPX_FINGERPRINT))
@@ -430,16 +431,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         Set<String> tableNames = populateJdbcTableNames(JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file));
+         Set<String> tableNames = populateMdbTableNames(file);
 
          if (tableNames.contains("MSP_PROJECTS"))
          {
-            return readProjectFile(new MPDDatabaseReader(), file);
+            return readProjectFile(new MPDFileReader(), file);
          }
 
          if (tableNames.contains("EXCEPTIONN"))
          {
-            return readProjectFile(new AstaDatabaseReader(), file);
+            return readProjectFile(new AstaMdbReader(), file);
          }
 
          return Collections.emptyList();
@@ -469,7 +470,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (tableNames.contains("EXCEPTIONN"))
          {
-            return readProjectFile(new AstaDatabaseFileReader(), file);
+            return readProjectFile(new AstaSqliteReader(), file);
          }
 
          if (tableNames.contains("PROJWBS"))
@@ -779,9 +780,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return tableNames;
    }
 
-   private Set<String> populateJdbcTableNames(String url) throws SQLException
+   private Set<String> populateMdbTableNames(File file) throws Exception
    {
-      return populateTableNames(DriverManager.getConnection(url));
+      try (Database database = DatabaseBuilder.open(file))
+      {
+         return database.getTableNames();
+      }
    }
 
    private Set<String> populateSqliteTableNames(File file) throws Exception

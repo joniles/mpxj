@@ -1,8 +1,8 @@
 /*
- * file:       MPD9DatabaseReader.java
+ * file:       AstaJdbcReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2007
- * date:       2006-02-02
+ * copyright:  (c) Packwood Software 2011
+ * date:       07/04/2011
  */
 
 /*
@@ -21,32 +21,56 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpd;
+package net.sf.mpxj.asta;
 
+import java.io.File;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
-
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 
 /**
- * This class reads project data from an MPD9 format database.
+ * This class provides a generic front end to read project data from
+ * a database.
  */
-final class MPD9DatabaseReader extends MPD9AbstractReader
+public class AstaJdbcReader extends AbstractDatabaseReader
 {
-   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws MpdException
+
+   /**
+    * Set the data source. A DataSource or a Connection can be supplied
+    * to this class to allow connection to the database.
+    *
+    * @param dataSource data source
+    */
+   public void setDataSource(DataSource dataSource)
+   {
+      m_dataSource = dataSource;
+   }
+
+   /**
+    * Sets the connection. A DataSource or a Connection can be supplied
+    * to this class to allow connection to the database.
+    *
+    * @param connection database connection
+    */
+   public void setConnection(Connection connection)
+   {
+      m_connection = connection;
+   }
+
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException
    {
       String sql = "select * from " + table;
       if (!keys.isEmpty())
@@ -72,7 +96,7 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
                Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
                while (rs.next())
                {
-                  result.add(new MpdResultSetRow(rs, meta));
+                  result.add(new MdbResultSetRow(rs, meta));
                }
                return result;
             }
@@ -81,13 +105,33 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
 
       catch (SQLException ex)
       {
-         throw new MpdException(ex);
+         throw new AstaDatabaseException(ex);
+      }
+   }
+
+   @Override protected void allocateResources(File file) throws AstaDatabaseException
+   {
+      try
+      {
+         String url = JdbcOdbcHelper.getMicrosoftAccessJdbcUrl(file);
+         Properties props = new Properties();
+         props.put("charSet", "Cp1252");
+         m_connection = DriverManager.getConnection(url, props);
+         m_allocatedConnection = true;
+      }
+
+      catch (SQLException ex)
+      {
+         throw new AstaDatabaseException(ex);
       }
    }
 
    @Override protected void releaseResources()
    {
-      releaseConnection();
+      if (m_allocatedConnection)
+      {
+         AutoCloseableHelper.closeQuietly(m_connection);
+      }
    }
 
    /**
@@ -99,69 +143,10 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          m_connection = m_dataSource.getConnection();
          m_allocatedConnection = true;
-         queryDatabaseMetaData();
-      }
-   }
-
-   private void releaseConnection()
-   {
-      if (m_allocatedConnection)
-      {
-         AutoCloseableHelper.closeQuietly(m_connection);
-         m_connection = null;
-      }
-   }
-
-   /**
-    * Sets the data source used to read the project data.
-    *
-    * @param dataSource data source
-    */
-   public void setDataSource(DataSource dataSource)
-   {
-      m_dataSource = dataSource;
-   }
-
-   /**
-    * Sets the connection to be used to read the project data.
-    *
-    * @param connection database connection
-    */
-   public void setConnection(Connection connection)
-   {
-      m_connection = connection;
-      queryDatabaseMetaData();
-   }
-
-   /**
-    * Queries database metadata to check for the existence of
-    * specific tables.
-    */
-   private void queryDatabaseMetaData()
-   {
-      try
-      {
-         Set<String> tables = new HashSet<>();
-         DatabaseMetaData dmd = m_connection.getMetaData();
-         try (ResultSet rs = dmd.getTables(null, null, null, null))
-         {
-            while (rs.next())
-            {
-               tables.add(rs.getString("TABLE_NAME"));
-            }
-         }
-         m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
-         m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
-         m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");
-      }
-
-      catch (Exception ex)
-      {
-         // Ignore errors when reading metadata
       }
    }
 
    private DataSource m_dataSource;
-   private boolean m_allocatedConnection;
    private Connection m_connection;
+   private boolean m_allocatedConnection;
 }

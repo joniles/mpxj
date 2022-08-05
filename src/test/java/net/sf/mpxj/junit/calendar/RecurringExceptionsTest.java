@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit.calendar;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -33,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.Day;
@@ -43,9 +43,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure basic calendar details are read correctly.
@@ -70,14 +67,7 @@ public class RecurringExceptionsTest
     */
    private void testRecurringExceptions(File file) throws MPXJException
    {
-      //System.out.println(file);
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
       List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
 

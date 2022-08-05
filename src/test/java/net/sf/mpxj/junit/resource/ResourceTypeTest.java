@@ -23,20 +23,17 @@
 
 package net.sf.mpxj.junit.resource;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure task custom costs are correctly handled.
@@ -61,13 +58,7 @@ public class ResourceTypeTest
     */
    private void testResourceType(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       ResourceType expectedType;
       Integer mppFileType = project.getProjectProperties().getMppFileType();
       boolean missingCostType = (mppFileType != null && mppFileType.intValue() < 12) || file.getName().endsWith(".mpd") || file.getName().contains("2003-mspdi") || file.getName().contains("2002-mspdi");

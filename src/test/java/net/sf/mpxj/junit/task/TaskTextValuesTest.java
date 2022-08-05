@@ -27,14 +27,13 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure the text versions of Start, Finish and Duration are read correctly.
@@ -59,8 +58,7 @@ public class TaskTextValuesTest
     */
    private void testTaskTextValues(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getTasks().size());
       for (int loop = 0; loop < EXPECTED_VALUES.length; loop++)
       {

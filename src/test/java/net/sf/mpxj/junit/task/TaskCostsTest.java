@@ -23,11 +23,12 @@
 
 package net.sf.mpxj.junit.task;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.junit.ProjectUtility;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -35,10 +36,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.mpx.MPXReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure task custom costs are correctly handled.
@@ -63,14 +60,9 @@ public class TaskCostsTest
     */
    private void testTaskCosts(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
+      ProjectFile project = new UniversalProjectReader().read(file);
+      int maxIndex = ProjectUtility.projectIs(project, "MPX") ? 3 : 10;
 
-      int maxIndex = reader instanceof MPXReader ? 3 : 10;
-      ProjectFile project = reader.read(file);
       for (int index = 1; index <= maxIndex; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index));

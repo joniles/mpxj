@@ -54,7 +54,7 @@ public final class AstaFileReader extends AbstractProjectStreamReader
          ProjectReader reader;
          if (SQLITE_TEXT.equals(actualText))
          {
-            reader = new AstaDatabaseFileReader();
+            reader = new AstaSqliteReader();
          }
          else
          {

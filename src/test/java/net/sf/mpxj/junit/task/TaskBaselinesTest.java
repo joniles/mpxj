@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit.task;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -31,6 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.AccrueType;
@@ -41,10 +41,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.ApplicationVersion;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure task baseline values are correctly handled.
@@ -58,8 +55,7 @@ public class TaskBaselinesTest
    @Test public void testSourceForgeIssue259() throws MPXJException
    {
       File file = new File(MpxjTestData.filePath("generated/task-baselines"), "sf259.mpp");
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       for (int index = 0; index < SF259_BASELINE_STARTS.length; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index + 1));
@@ -86,13 +82,7 @@ public class TaskBaselinesTest
     */
    private void testTaskBaselineValues(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
 
       int startTaskID = 1;
       int maxBaselines = file.getName().contains("project98") || file.getName().contains("project2000") ? 1 : 11;

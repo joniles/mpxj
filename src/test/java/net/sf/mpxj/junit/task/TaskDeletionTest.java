@@ -27,14 +27,13 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure deleted tasks, both blank and normal, are handled correctly.
@@ -87,8 +86,7 @@ public class TaskDeletionTest
     */
    private void testTaskDeletion(File file, String[] expectedNames) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      ProjectFile project = reader.read(file);
+      ProjectFile project = new UniversalProjectReader().read(file);
       assertEquals(expectedNames.length + 1, project.getTasks().size());
       for (int index = 0; index < expectedNames.length; index++)
       {

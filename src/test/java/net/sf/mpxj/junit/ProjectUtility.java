@@ -1,8 +1,8 @@
 /*
- * file:       AstaDatabaseReader.java
+ * file:       ProjectUtility.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * copyright:  (c) Packwood Software 2022
+ * date:       2022-07-02
  */
 
 /*
@@ -21,15 +21,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.asta;
+package net.sf.mpxj.junit;
+
+import net.sf.mpxj.ProjectFile;
 
 /**
- * This class provides a generic front end to read project data from
- * a database.
- *
- * @deprecated renamed to AstaJdbcReader
+ * Utility methods for handling projects.
  */
-@Deprecated public final class AstaDatabaseReader extends AstaJdbcReader
+public final class ProjectUtility
 {
-   // Renamed class
+   /**
+    * Returns true if the file type property of the schedule matches the supplied value.
+    *
+    * @param file project file
+    * @param type requested file type
+    * @return true if the file type matches
+    */
+   public static boolean projectIs(ProjectFile file, String type)
+   {
+      return type.equals(file.getProjectProperties().getFileType());
+   }
 }

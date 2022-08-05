@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -53,6 +55,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.ScheduleFrom;
+import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -64,6 +67,7 @@ import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.listener.ProjectListener;
 
 /**
  * This class implements retrieval of data from a project database
@@ -73,9 +77,385 @@ import net.sf.mpxj.common.Pair;
 abstract class MPD9AbstractReader
 {
    /**
+    * Add a listener to receive events as a project is being read.
+    *
+    * @param listener ProjectListener instance
+    */
+   public void addProjectListener(ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new ArrayList<>();
+      }
+      m_projectListeners.add(listener);
+   }
+
+   /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current database.
+    *
+    * @return Map instance containing ID and name pairs
+    */
+   public Map<Integer, String> listProjects() throws MPXJException
+   {
+      try
+      {
+         Map<Integer, String> result = new HashMap<>();
+
+         List<Row> rows = getRows("MSP_PROJECTS", Collections.emptyMap());
+         for (Row row : rows)
+         {
+            processProjectListItem(result, row);
+         }
+
+         return result;
+      }
+
+      catch (MpdException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         releaseResources();
+      }
+   }
+
+   /**
+    * Read a project from the current data source.
+    *
+    * @return ProjectFile instance
+    */
+   public ProjectFile read() throws MPXJException
+   {
+      try
+      {
+         m_project = new ProjectFile();
+         m_eventManager = m_project.getEventManager();
+
+         ProjectConfig config = m_project.getProjectConfig();
+         config.setAutoTaskID(false);
+         config.setAutoTaskUniqueID(false);
+         config.setAutoResourceID(false);
+         config.setAutoResourceUniqueID(false);
+         config.setAutoOutlineLevel(false);
+         config.setAutoOutlineNumber(false);
+         config.setAutoWBS(false);
+         config.setAutoCalendarUniqueID(false);
+         config.setAutoAssignmentUniqueID(false);
+
+         m_project.getProjectProperties().setFileApplication("Microsoft");
+         m_project.getProjectProperties().setFileType("MPD");
+
+         m_project.getEventManager().addProjectListeners(m_projectListeners);
+
+         processProjectProperties();
+         processCalendars();
+         processResources();
+         processResourceBaselines();
+         processTasks();
+         processTaskBaselines();
+         processLinks();
+         processAssignments();
+         processAssignmentBaselines();
+         processExtendedAttributes();
+         processSubProjects();
+         postProcessing();
+
+         return (m_project);
+      }
+
+      catch (MpdException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         reset();
+         releaseResources();
+      }
+   }
+
+   /**
+    * Select the project properties from the database.
+    */
+   private void processProjectProperties() throws MpdException
+   {
+      List<Row> rows = getRows("MSP_PROJECTS", m_projectKey);
+      if (!rows.isEmpty())
+      {
+         processProjectProperties(rows.get(0));
+      }
+   }
+
+   /**
+    * Select calendar data from the database.
+    */
+   private void processCalendars() throws MpdException
+   {
+      for (Row row : getRows("MSP_CALENDARS", m_projectKey))
+      {
+         processCalendar(row);
+      }
+
+      updateBaseCalendarNames();
+
+      processCalendarData(m_project.getCalendars());
+
+      m_project.getProjectProperties().setDefaultCalendar(m_project.getCalendars().getByName(m_defaultCalendarName));
+   }
+
+   /**
+    * Process calendar hours and exception data from the database.
+    *
+    * @param calendars all calendars for the project
+    */
+   private void processCalendarData(List<ProjectCalendar> calendars) throws MpdException
+   {
+      Map<String, Integer> keys = new HashMap<>();
+      keys.put("PROJ_ID", m_projectID);
+
+      for (ProjectCalendar calendar : calendars)
+      {
+         keys.put("CAL_UID", calendar.getUniqueID());
+         processCalendarData(calendar, getRows("MSP_CALENDAR_DATA", keys));
+      }
+   }
+
+   /**
+    * Process the hours and exceptions for an individual calendar.
+    *
+    * @param calendar project calendar
+    * @param calendarData hours and exception rows for this calendar
+    */
+   private void processCalendarData(ProjectCalendar calendar, List<Row> calendarData)
+   {
+      for (Row row : calendarData)
+      {
+         processCalendarData(calendar, row);
+      }
+   }
+
+   /**
+    * Process resources.
+    */
+   private void processResources() throws MpdException
+   {
+      for (Row row : getRows("MSP_RESOURCES", m_projectKey))
+      {
+         processResource(row);
+      }
+   }
+
+   /**
+    * Process resource baseline values.
+    */
+   private void processResourceBaselines() throws MpdException
+   {
+      if (m_hasResourceBaselines)
+      {
+         for (Row row : getRows("MSP_RESOURCE_BASELINES", m_projectKey))
+         {
+            processResourceBaseline(row);
+         }
+      }
+   }
+
+   /**
+    * Process tasks.
+    */
+   private void processTasks() throws MpdException
+   {
+      for (Row row : getRows("MSP_TASKS", m_projectKey))
+      {
+         processTask(row);
+      }
+   }
+
+   /**
+    * Process task baseline values.
+    */
+   private void processTaskBaselines() throws MpdException
+   {
+      if (m_hasTaskBaselines)
+      {
+         for (Row row : getRows("MSP_TASK_BASELINES", m_projectKey))
+         {
+            processTaskBaseline(row);
+         }
+      }
+   }
+
+   /**
+    * Process links.
+    */
+   private void processLinks() throws MpdException
+   {
+      for (Row row : getRows("MSP_LINKS", m_projectKey))
+      {
+         processLink(row);
+      }
+   }
+
+   /**
+    * Process resource assignments.
+    */
+   private void processAssignments() throws MpdException
+   {
+      for (Row row : getRows("MSP_ASSIGNMENTS", m_projectKey))
+      {
+         processAssignment(row);
+      }
+   }
+
+   /**
+    * Process resource assignment baseline values.
+    */
+   private void processAssignmentBaselines() throws MpdException
+   {
+      if (m_hasAssignmentBaselines)
+      {
+         for (Row row : getRows("MSP_ASSIGNMENT_BASELINES", m_projectKey))
+         {
+            processAssignmentBaseline(row);
+         }
+      }
+   }
+
+   /**
+    * This method reads the extended task and resource attributes.
+    */
+   private void processExtendedAttributes() throws MpdException
+   {
+      processTextFields();
+      processNumberFields();
+      processFlagFields();
+      processDurationFields();
+      processDateFields();
+      processOutlineCodeFields();
+   }
+
+   /**
+    * The only indication that a task is a SubProject is the contents
+    * of the subproject file name field. We test these here then add a skeleton
+    * subproject structure to match the way we do things with MPP files.
+    */
+   private void processSubProjects()
+   {
+      int subprojectIndex = 1;
+      for (Task task : m_project.getTasks())
+      {
+         String subProjectFileName = task.getSubprojectName();
+         if (subProjectFileName != null)
+         {
+            String fileName = subProjectFileName;
+            int offset = 0x01000000 + (subprojectIndex * 0x00400000);
+            int index = subProjectFileName.lastIndexOf('\\');
+            if (index != -1)
+            {
+               fileName = subProjectFileName.substring(index + 1);
+            }
+
+            SubProject sp = new SubProject();
+            sp.setFileName(fileName);
+            sp.setFullPath(subProjectFileName);
+            sp.setUniqueIDOffset(Integer.valueOf(offset));
+            sp.setTaskUniqueID(task.getUniqueID());
+            task.setSubProject(sp);
+
+            ++subprojectIndex;
+         }
+      }
+   }
+
+   /**
+    * Reads text field extended attributes.
+    */
+   private void processTextFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_TEXT_FIELDS", m_projectKey))
+      {
+         processTextField(row);
+      }
+   }
+
+   /**
+    * Reads number field extended attributes.
+    */
+   private void processNumberFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_NUMBER_FIELDS", m_projectKey))
+      {
+         processNumberField(row);
+      }
+   }
+
+   /**
+    * Reads flag field extended attributes.
+    */
+   private void processFlagFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_FLAG_FIELDS", m_projectKey))
+      {
+         processFlagField(row);
+      }
+   }
+
+   /**
+    * Reads duration field extended attributes.
+    */
+   private void processDurationFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_DURATION_FIELDS", m_projectKey))
+      {
+         processDurationField(row);
+      }
+   }
+
+   /**
+    * Reads date field extended attributes.
+    */
+   private void processDateFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_DATE_FIELDS", m_projectKey))
+      {
+         processDateField(row);
+      }
+   }
+
+   /**
+    * Process outline code fields.
+    */
+   private void processOutlineCodeFields() throws MpdException
+   {
+      for (Row row : getRows("MSP_CODE_FIELDS", m_projectKey))
+      {
+         processOutlineCodeFields(row);
+      }
+   }
+
+   /**
+    * Process a single outline code.
+    *
+    * @param parentRow outline code to task mapping table
+    */
+   private void processOutlineCodeFields(Row parentRow) throws MpdException
+   {
+      Integer entityID = parentRow.getInteger("CODE_REF_UID");
+      Integer outlineCodeEntityID = parentRow.getInteger("CODE_UID");
+
+      for (Row row : getRows("MSP_OUTLINE_CODES", Collections.singletonMap("CODE_UID", outlineCodeEntityID)))
+      {
+         processOutlineCodeField(entityID, row);
+      }
+   }
+
+   /**
     * Called to reset internal state prior to reading a new project.
     */
-   protected void reset()
+   private void reset()
    {
       m_calendarMap.clear();
       m_baseCalendarReferences.clear();
@@ -88,7 +468,7 @@ abstract class MPD9AbstractReader
     * @param result Map instance containing the results
     * @param row result set row read from the database
     */
-   protected void processProjectListItem(Map<Integer, String> result, Row row)
+   private void processProjectListItem(Map<Integer, String> result, Row row)
    {
       Integer id = row.getInteger("PROJ_ID");
       String name = row.getString("PROJ_NAME");
@@ -100,7 +480,7 @@ abstract class MPD9AbstractReader
     *
     * @param row project properties data
     */
-   protected void processProjectProperties(Row row)
+   private void processProjectProperties(Row row)
    {
       ProjectProperties properties = m_project.getProjectProperties();
 
@@ -236,7 +616,7 @@ abstract class MPD9AbstractReader
     *
     * @param row calendar data
     */
-   protected void processCalendar(Row row)
+   private void processCalendar(Row row)
    {
       Integer uniqueID = row.getInteger("CAL_UID");
       if (NumberHelper.getInt(uniqueID) > 0)
@@ -265,7 +645,7 @@ abstract class MPD9AbstractReader
     * @param calendar parent calendar
     * @param row calendar hours and exception data
     */
-   protected void processCalendarData(ProjectCalendar calendar, Row row)
+   private void processCalendarData(ProjectCalendar calendar, Row row)
    {
       int dayIndex = row.getInt("CD_DAY_OR_EXCEPTION");
       if (dayIndex == 0)
@@ -361,7 +741,7 @@ abstract class MPD9AbstractReader
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     */
-   protected void updateBaseCalendarNames()
+   private void updateBaseCalendarNames()
    {
       for (Pair<ProjectCalendar, Integer> pair : m_baseCalendarReferences)
       {
@@ -380,7 +760,7 @@ abstract class MPD9AbstractReader
     *
     * @param row resource data
     */
-   protected void processResource(Row row)
+   private void processResource(Row row)
    {
       Integer uniqueID = row.getInteger("RES_UID");
       if (uniqueID != null && uniqueID.intValue() >= 0)
@@ -633,7 +1013,7 @@ abstract class MPD9AbstractReader
     *
     * @param row result set row
     */
-   protected void processResourceBaseline(Row row)
+   private void processResourceBaseline(Row row)
    {
       Integer id = row.getInteger("RES_UID");
       Resource resource = m_project.getResourceByUniqueID(id);
@@ -651,7 +1031,7 @@ abstract class MPD9AbstractReader
     *
     * @param row field data
     */
-   protected void processTextField(Row row)
+   private void processTextField(Row row)
    {
       processField(row, "TEXT_FIELD_ID", "TEXT_REF_UID", row.getString("TEXT_VALUE"));
    }
@@ -661,7 +1041,7 @@ abstract class MPD9AbstractReader
     *
     * @param row field data
     */
-   protected void processNumberField(Row row)
+   private void processNumberField(Row row)
    {
       processField(row, "NUM_FIELD_ID", "NUM_REF_UID", row.getDouble("NUM_VALUE"));
    }
@@ -671,7 +1051,7 @@ abstract class MPD9AbstractReader
     *
     * @param row field data
     */
-   protected void processFlagField(Row row)
+   private void processFlagField(Row row)
    {
       processField(row, "FLAG_FIELD_ID", "FLAG_REF_UID", Boolean.valueOf(row.getBoolean("FLAG_VALUE")));
    }
@@ -681,7 +1061,7 @@ abstract class MPD9AbstractReader
     *
     * @param row field data
     */
-   protected void processDurationField(Row row)
+   private void processDurationField(Row row)
    {
       processField(row, "DUR_FIELD_ID", "DUR_REF_UID", MPDUtility.getAdjustedDuration(m_project, row.getInt("DUR_VALUE"), MPDUtility.getDurationTimeUnits(row.getInt("DUR_FMT"))));
    }
@@ -691,7 +1071,7 @@ abstract class MPD9AbstractReader
     *
     * @param row field data
     */
-   protected void processDateField(Row row)
+   private void processDateField(Row row)
    {
       processField(row, "DATE_FIELD_ID", "DATE_REF_UID", row.getDate("DATE_VALUE"));
    }
@@ -702,7 +1082,7 @@ abstract class MPD9AbstractReader
     * @param entityID parent entity
     * @param row field data
     */
-   protected void processOutlineCodeField(Integer entityID, Row row)
+   private void processOutlineCodeField(Integer entityID, Row row)
    {
       processField(row, "OC_FIELD_ID", entityID, row.getString("OC_NAME"));
    }
@@ -715,7 +1095,7 @@ abstract class MPD9AbstractReader
     * @param entityIDColumn column containing the entity ID
     * @param value field value
     */
-   protected void processField(Row row, String fieldIDColumn, String entityIDColumn, Object value)
+   private void processField(Row row, String fieldIDColumn, String entityIDColumn, Object value)
    {
       processField(row, fieldIDColumn, row.getInteger(entityIDColumn), value);
    }
@@ -728,7 +1108,7 @@ abstract class MPD9AbstractReader
     * @param entityID parent entity ID
     * @param value field value
     */
-   protected void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
+   private void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
    {
       int fieldID = row.getInt(fieldIDColumn);
 
@@ -799,7 +1179,7 @@ abstract class MPD9AbstractReader
     *
     * @param row task data
     */
-   protected void processTask(Row row)
+   private void processTask(Row row)
    {
       Integer uniqueID = row.getInteger("TASK_UID");
       if (uniqueID != null && uniqueID.intValue() >= 0)
@@ -1095,7 +1475,7 @@ abstract class MPD9AbstractReader
     *
     * @param row result set row
     */
-   protected void processTaskBaseline(Row row)
+   private void processTaskBaseline(Row row)
    {
       Integer id = row.getInteger("TASK_UID");
       Task task = m_project.getTaskByUniqueID(id);
@@ -1116,7 +1496,7 @@ abstract class MPD9AbstractReader
     *
     * @param row relationship data
     */
-   protected void processLink(Row row)
+   private void processLink(Row row)
    {
       Task predecessorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_PRED_UID"));
       Task successorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_SUCC_UID"));
@@ -1136,7 +1516,7 @@ abstract class MPD9AbstractReader
     *
     * @param row resource assignment data
     */
-   protected void processAssignment(Row row)
+   private void processAssignment(Row row)
    {
       Resource resource = m_project.getResourceByUniqueID(row.getInteger("RES_UID"));
       Task task = m_project.getTaskByUniqueID(row.getInteger("TASK_UID"));
@@ -1208,7 +1588,7 @@ abstract class MPD9AbstractReader
     *
     * @param row result set row
     */
-   protected void processAssignmentBaseline(Row row)
+   private void processAssignmentBaseline(Row row)
    {
       Integer id = row.getInteger("ASSN_UID");
       ResourceAssignment assignment = m_assignmentMap.get(id);
@@ -1227,7 +1607,7 @@ abstract class MPD9AbstractReader
     * Carry out any post-processing required to tidy up
     * the data read from the database.
     */
-   protected void postProcessing()
+   private void postProcessing()
    {
       //
       // Update the internal structure. We'll take this opportunity to
@@ -1286,22 +1666,11 @@ abstract class MPD9AbstractReader
     * @param defaultValue default if value is null
     * @return value
     */
-   public Double getDefaultOnNull(Double value, Double defaultValue)
+   private Double getDefaultOnNull(Double value, Double defaultValue)
    {
       return (value == null ? defaultValue : value);
    }
 
-   /**
-    * Returns a default value if a null value is found.
-    *
-    * @param value value under test
-    * @param defaultValue default if value is null
-    * @return value
-    */
-   public Integer getDefaultOnNull(Integer value, Integer defaultValue)
-   {
-      return (value == null ? defaultValue : value);
-   }
 
    /**
     * Sets the ID of the project to be read.
@@ -1311,14 +1680,25 @@ abstract class MPD9AbstractReader
    public void setProjectID(Integer projectID)
    {
       m_projectID = projectID;
+      m_projectKey = Collections.singletonMap("PROJ_ID", m_projectID);
    }
 
-   protected Integer m_projectID;
-   protected ProjectFile m_project;
-   protected EventManager m_eventManager;
-   protected String m_defaultCalendarName;
+   protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws MpdException;
+
+   protected abstract void releaseResources();
+
+   private Integer m_projectID;
+   private Map<String, Integer> m_projectKey;
+   private ProjectFile m_project;
+   private EventManager m_eventManager;
+   private String m_defaultCalendarName;
 
    private boolean m_autoWBS = true;
+
+   protected boolean m_hasResourceBaselines;
+   protected boolean m_hasTaskBaselines;
+   protected boolean m_hasAssignmentBaselines;
+   private List<ProjectListener> m_projectListeners;
 
    private final Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<>();
    private final List<Pair<ProjectCalendar, Integer>> m_baseCalendarReferences = new ArrayList<>();

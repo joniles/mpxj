@@ -23,13 +23,13 @@
 
 package net.sf.mpxj.junit.assignment;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
 import net.sf.mpxj.MPXJException;
@@ -37,9 +37,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.junit.MpxjTestData;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.ProjectReaderUtility;
 
 /**
  * Tests to ensure basic assignment details are read correctly.
@@ -64,14 +61,7 @@ public class AssignmentAssignmentsTest
     */
    private void testAssignments(File file) throws MPXJException
    {
-      ProjectReader reader = ProjectReaderUtility.getProjectReader(file.getName());
-      if (reader instanceof MPDDatabaseReader && !isMicrosoftAccessJdbcAvailable())
-      {
-         return;
-      }
-
-      ProjectFile project = reader.read(file);
-
+      ProjectFile project = new UniversalProjectReader().read(file);
       Task task1 = project.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task1.getName());
       assertEquals(1, task1.getResourceAssignments().size());

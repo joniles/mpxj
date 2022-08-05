@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit;
 
-import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
 import java.text.DateFormat;
@@ -34,7 +33,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.junit.Test;
@@ -103,8 +102,7 @@ public class MppProjectPropertiesTest
     */
    @Test public void testMpd9() throws Exception
    {
-      assumeMicrosoftAccessJdbcAvailable();
-      ProjectFile mpp = new MPDDatabaseReader().read(MpxjTestData.filePath("mpp9header.mpd"));
+      ProjectFile mpp = new MPDFileReader().read(MpxjTestData.filePath("mpp9header.mpd"));
       testProperties(mpp, false);
    }
 
