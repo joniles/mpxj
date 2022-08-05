@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.7.0">
+			<action dev="joniles" type="update">Use Jackcess to read Asta MDB and Microsoft Project MPD files. This allows these file to be read on platforms other than Windows.</action>
 			<action dev="joniles" type="update">Improve array index validation when reading GUID values from MPP files.</action>
 		</release>
 		<release date="2022-06-29" version="10.6.2">
