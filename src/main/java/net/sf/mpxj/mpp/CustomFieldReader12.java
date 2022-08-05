@@ -29,6 +29,7 @@ import java.util.Map;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
@@ -113,24 +114,47 @@ class CustomFieldReader12
          int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
-         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         offset += numberOfDefinitions * 8;
+         if (offset > m_data.length)
          {
-            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
-            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
-            offset += 8;
+            return;
          }
+
+//         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+//         {
+//            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
+//            System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
+//            offset += 8;
+//         }
 
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
+            if (offset+4 > m_data.length)
+            {
+               return;
+            }
+
             int blockSize = MPPUtility.getInt(m_data, offset);
-            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset+4)));
-            int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-            customField.setDataType(getDataType(dataTypeValue));
-            //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
-            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
+            if (offset + blockSize > m_data.length)
+            {
+               return;
+            }
+
+            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset+4));
+
+            // Don't try to set the data type unless it's a custom field
+            if (fieldType.getDataType() == DataType.CUSTOM)
+            {
+               CustomField customField = m_fields.getCustomField(fieldType);
+               int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
+               customField.setDataType(getDataType(dataTypeValue));
+
+               //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
+               //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
+            }
+
             offset += blockSize;
          }
-
       }
    }
 

@@ -108,11 +108,17 @@ class CustomFieldReader14
          // 88 byte blocks
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
-            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
-            int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-            customField.setDataType(getDataType(dataTypeValue));
-            //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
-            //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
+            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
+
+            // Don't try to set the data type unless it's a custom field
+            if (fieldType.getDataType() == DataType.CUSTOM)
+            {
+               CustomField customField = m_fields.getCustomField(fieldType);
+               int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
+               customField.setDataType(getDataType(dataTypeValue));
+               //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
+               //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
+            }
             offset += 88;
          }
       }
