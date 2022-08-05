@@ -23,28 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.sf.mpxj.DayType;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ResultSetHelper;
-import net.sf.mpxj.common.SQLite;
-import net.sf.mpxj.reader.AbstractProjectFileReader;
-
 /**
  * This class provides a generic front end to read project data from
  * a SQLite-based Asta PP file.
@@ -53,5 +31,5 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  */
 @Deprecated public final class AstaDatabaseFileReader extends AstaSqliteReader
 {
-
+   // Renamed class
 }

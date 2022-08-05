@@ -23,25 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import javax.sql.DataSource;
-
-import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.JdbcOdbcHelper;
-import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ResultSetHelper;
-
 /**
  * This class provides a generic front end to read project data from
  * a database.
@@ -50,5 +31,5 @@ import net.sf.mpxj.common.ResultSetHelper;
  */
 @Deprecated public final class AstaDatabaseReader extends AstaJdbcReader
 {
-
+   // Renamed class
 }

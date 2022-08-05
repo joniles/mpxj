@@ -41,20 +41,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
-import net.sf.mpxj.asta.AstaMdbReader;
-import net.sf.mpxj.asta.AstaSqliteReader;
-import net.sf.mpxj.asta.AstaTextFileReader;
-import net.sf.mpxj.common.CloseIgnoringInputStream;
-import net.sf.mpxj.mpd.MPDFileReader;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.asta.AstaFileReader;
+import net.sf.mpxj.asta.AstaMdbReader;
+import net.sf.mpxj.asta.AstaSqliteReader;
+import net.sf.mpxj.asta.AstaTextFileReader;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.CloseIgnoringInputStream;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SQLite;
@@ -63,6 +62,7 @@ import net.sf.mpxj.fasttrack.FastTrackReader;
 import net.sf.mpxj.ganttdesigner.GanttDesignerReader;
 import net.sf.mpxj.ganttproject.GanttProjectReader;
 import net.sf.mpxj.merlin.MerlinReader;
+import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
