@@ -77,6 +77,15 @@ class CustomFieldReader12
             }
             index++;
          }
+
+         // NOTE: the blocks here all follow the same format.
+         // 4 byte block size (excluding these 4 bytes)
+         // 4 byte block size again
+         // 4 byte item count
+         // N bytes of data (if item count is non-zero)
+         // The first block contains alias details
+         // The last block may be enterprise custom field details (as per MPP14)
+         // Not sure about the other blocks.
       }
    }
 
