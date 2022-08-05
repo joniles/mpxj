@@ -44,13 +44,14 @@ import java.util.regex.Pattern;
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
 import net.sf.mpxj.asta.AstaMdbReader;
+import net.sf.mpxj.asta.AstaSqliteReader;
+import net.sf.mpxj.asta.AstaTextFileReader;
 import net.sf.mpxj.common.CloseIgnoringInputStream;
 import net.sf.mpxj.mpd.MPDFileReader;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.asta.AstaDatabaseFileReader;
 import net.sf.mpxj.asta.AstaFileReader;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
@@ -204,7 +205,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
          {
-            return readProjectFile(new AstaFileReader(), bis);
+            return readProjectFile(new AstaTextFileReader(), bis);
          }
 
          if (matchesFingerprint(buffer, MPX_FINGERPRINT))
@@ -469,7 +470,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (tableNames.contains("EXCEPTIONN"))
          {
-            return readProjectFile(new AstaDatabaseFileReader(), file);
+            return readProjectFile(new AstaSqliteReader(), file);
          }
 
          if (tableNames.contains("PROJWBS"))
