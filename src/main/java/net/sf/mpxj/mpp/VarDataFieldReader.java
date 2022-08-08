@@ -62,19 +62,23 @@ abstract class VarDataFieldReader
 
          // 26 bytes in total: 2 byte mask, 4 byte unique ID, 16 byte GUID, 4 bytes unknown
          int uniqueId = MPPUtility.getInt(data, 2);
-         CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-         if (item == null)
+         UUID guid = MPPUtility.getGUID(data, 6);
+
+         CustomFieldValueItem item;
+         if (uniqueId == -1)
          {
-            // At this point, based on observed data the value of uniqueID is probably 0xFFFF.
-            // Try finding the value by GUID instead.
-            UUID guid = MPPUtility.getGUID(data, 6);
             item = m_customFields.getCustomFieldValueItemByGuid(guid);
+         }
+         else
+         {
+            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
          }
 
          if (item == null)
          {
             // Fall back on the readValue method to make sense of the value.
-            result = readValue(varData, id, type);
+            //result = readValue(varData, id, type);
+            result = guid;
          }
          else
          {

@@ -1511,7 +1511,7 @@ final class PrimaveraPMProjectWriter
 
          case STRING:
          {
-            udf.setTextValue((String) value);
+            udf.setTextValue(value == null ? null : value.toString());
             break;
          }
 
