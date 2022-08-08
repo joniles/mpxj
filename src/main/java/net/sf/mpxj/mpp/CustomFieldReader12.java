@@ -114,27 +114,23 @@ class CustomFieldReader12
          int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
-         offset += numberOfDefinitions * 8;
-         if (offset > m_data.length)
-         {
-            return;
-         }
-
-//         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
-//         {
-//            CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
-//            System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
-//            offset += 8;
-//         }
-
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
-            if (offset+4 > m_data.length)
+            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
+            //CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
+            //System.out.println(fieldType + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
+            offset += 8;
+         }
+
+         //System.out.println(ByteArrayHelper.hexdump(m_data, offset, m_data.length-offset, false));
+         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         {
+            if (offset+2 > m_data.length)
             {
                return;
             }
 
-            int blockSize = MPPUtility.getInt(m_data, offset);
+            int blockSize = MPPUtility.getShort(m_data, offset);
             if (offset + blockSize > m_data.length)
             {
                return;
@@ -148,7 +144,6 @@ class CustomFieldReader12
                CustomField customField = m_fields.getCustomField(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
                customField.setDataType(getDataType(dataTypeValue));
-
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
             }
