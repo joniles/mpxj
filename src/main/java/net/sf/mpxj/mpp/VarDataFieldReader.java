@@ -55,60 +55,34 @@ abstract class VarDataFieldReader
    {
       Object result = null;
 
-      int flag = (varData.getShort(id, type) & 0xFF00);
+      int flag = varData.getShort(id, type);
       if (flag == VALUE_LIST_WITH_ID_MASK || flag == VALUE_LIST_WITHOUT_ID_MASK)
       {
          byte[] data = varData.getByteArray(id, type);
 
-         // 2 byte mask, 4 byte unique ID, 16 byte GUID?, 4 byte unknown?
-         if (data.length == 26)
-         {
-            int uniqueId = MPPUtility.getInt(data, 2);
-            CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-            if (item == null)
-            {
-               // At this point, based on observed data the value of uniqueID is probably 0xFFFF.
-               // Try finding the value by GUID instead.
-               UUID guid = MPPUtility.getGUID(data, 6);
-               item = m_customFields.getCustomFieldValueItemByGuid(guid);
-            }
+         // 26 bytes in total: 2 byte mask, 4 byte unique ID, 16 byte GUID, 4 bytes unknown
+         int uniqueId = MPPUtility.getInt(data, 2);
+         UUID guid = MPPUtility.getGUID(data, 6);
 
-            if (item == null)
-            {
-               // Fall back on the readValue method to make sense of the value.
-               result = readValue(varData, id, type);
-            }
-            else
-            {
-               result = coerceValue(item.getValue());
-            }
+         CustomFieldValueItem item;
+         if (uniqueId == -1)
+         {
+            item = m_customFields.getCustomFieldValueItemByGuid(guid);
          }
          else
          {
-            // Do we potentially have the 2 byte flag, plus a 4 byte unique ID?
-            if (data.length >= 6)
-            {
-               int uniqueId = MPPUtility.getInt(data, 2);
-               CustomFieldValueItem item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-               if (item == null)
-               {
-                  // Can't find a value by Unique ID, fall back on the readValue method to make sense of the value.
-                  result = readValue(varData, id, type);
-               }
-               else
-               {
-                  result = coerceValue(item.getValue());
-               }
-            }
-            else
-            {
-               // None of the types we read have only one or two bytes, so ignore those values.
-               if (data.length > 2)
-               {
-                  // Fall back on the readValue method to make sense of the value.
-                  result = readValue(varData, id, type);
-               }
-            }
+            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+         }
+
+         if (item == null)
+         {
+            // Fall back on the readValue method to make sense of the value.
+            //result = readValue(varData, id, type);
+            result = guid;
+         }
+         else
+         {
+            result = coerceValue(item.getValue());
          }
       }
       else
@@ -139,6 +113,6 @@ abstract class VarDataFieldReader
    protected abstract Object coerceValue(Object value);
 
    private final CustomFieldContainer m_customFields;
-   private static final int VALUE_LIST_WITH_ID_MASK = 0x0700;
-   private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0400;
+   private static final int VALUE_LIST_WITH_ID_MASK = 0x0701;
+   private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0401;
 }
