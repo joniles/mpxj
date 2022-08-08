@@ -297,9 +297,19 @@ final class PrimaveraPMProjectWriter
             title = cf.getFieldType().getName();
          }
 
+         DataType dataType = cf.getFieldType().getDataType();
+         if (dataType == DataType.CUSTOM)
+         {
+            dataType = cf.getDataType();
+             if (dataType == null)
+             {
+                dataType = DataType.BINARY;
+             }
+         }
+
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(cf.getUniqueID());
-         udf.setDataType(UserFieldDataType.inferUserFieldDataType(cf.getFieldType().getDataType()));
+         udf.setDataType(UserFieldDataType.inferUserFieldDataType(dataType));
          udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
          udf.setTitle(title);
          m_apibo.getUDFType().add(udf);
@@ -1466,9 +1476,19 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
+               DataType dataType = fieldType.getDataType();
+               if (dataType == DataType.CUSTOM)
+               {
+                  dataType = cf.getDataType();
+                  if (dataType == null)
+                  {
+                     dataType = DataType.BINARY;
+                  }
+               }
+
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
                udf.setTypeObjectId(customFields.getCustomField(fieldType).getUniqueID().intValue());
-               setUserFieldValue(udf, fieldType.getDataType(), value);
+               setUserFieldValue(udf, dataType, value);
                out.add(udf);
             }
          }
@@ -1503,7 +1523,6 @@ final class PrimaveraPMProjectWriter
             break;
          }
 
-         case CUSTOM:
          case BINARY:
          {
             udf.setTextValue("");
