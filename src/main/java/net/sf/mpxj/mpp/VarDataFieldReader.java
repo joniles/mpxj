@@ -55,7 +55,7 @@ abstract class VarDataFieldReader
    {
       Object result = null;
 
-      int flag = (varData.getShort(id, type) & 0xFF00);
+      int flag = varData.getShort(id, type);
       if (flag == VALUE_LIST_WITH_ID_MASK || flag == VALUE_LIST_WITHOUT_ID_MASK)
       {
          byte[] data = varData.getByteArray(id, type);
@@ -139,6 +139,6 @@ abstract class VarDataFieldReader
    protected abstract Object coerceValue(Object value);
 
    private final CustomFieldContainer m_customFields;
-   private static final int VALUE_LIST_WITH_ID_MASK = 0x0700;
-   private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0400;
+   private static final int VALUE_LIST_WITH_ID_MASK = 0x0701;
+   private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0401;
 }
