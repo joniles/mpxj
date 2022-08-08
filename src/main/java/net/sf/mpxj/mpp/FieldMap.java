@@ -964,6 +964,7 @@ abstract class FieldMap
       /**
        * Read a field value from a var data block.
        *
+       * @param dataType target data type 
        * @param id parent entity ID
        * @param fixedData fixed data block
        * @param varData var data block
@@ -1118,7 +1119,7 @@ abstract class FieldMap
 
             case CUSTOM:
             {
-               DataType customDataType = m_customFields.getCustomField(m_type).getDataType();
+               DataType customDataType = m_customFields.getCustomField(m_type).getCustomFieldDataType();
                if (customDataType == null)
                {
                   result = varData.getByteArray(id, m_varDataKey);
@@ -1321,8 +1322,7 @@ abstract class FieldMap
    }
 
    private final ProjectProperties m_properties;
-   private final CustomFieldContainer m_customFields;
-
+   final CustomFieldContainer m_customFields;
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;

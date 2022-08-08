@@ -300,7 +300,7 @@ final class PrimaveraPMProjectWriter
          DataType dataType = cf.getFieldType().getDataType();
          if (dataType == DataType.CUSTOM)
          {
-            dataType = cf.getDataType();
+            dataType = cf.getCustomFieldDataType();
              if (dataType == null)
              {
                 dataType = DataType.BINARY;
@@ -1479,7 +1479,7 @@ final class PrimaveraPMProjectWriter
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
                {
-                  dataType = cf.getDataType();
+                  dataType = cf.getCustomFieldDataType();
                   if (dataType == null)
                   {
                      dataType = DataType.BINARY;

@@ -265,9 +265,9 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
          m_writer.writeNameValuePair("field_alias", field.getAlias());
 
-         if (field.getDataType() != null)
+         if (field.getCustomFieldDataType() != null)
          {
-            m_writer.writeNameValuePair("field_data_type", field.getDataType().name().toLowerCase());
+            m_writer.writeNameValuePair("field_data_type", field.getCustomFieldDataType().name().toLowerCase());
          }
 
          m_writer.writeEndObject();

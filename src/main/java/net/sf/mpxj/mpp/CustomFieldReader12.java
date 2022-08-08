@@ -30,7 +30,6 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -108,7 +107,8 @@ class CustomFieldReader12
          offset += unknownBlock2Size;
 
          // Field definitions block
-         int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
+         // size repeated twice hence 8 bytes
+         //int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
          offset += 8;
 
          int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
@@ -116,7 +116,7 @@ class CustomFieldReader12
 
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
-            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
+            // FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
             //CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
             //System.out.println(fieldType + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
             offset += 8;
@@ -143,7 +143,7 @@ class CustomFieldReader12
             {
                CustomField customField = m_fields.getCustomField(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               customField.setDataType(getDataType(dataTypeValue));
+               customField.setCustomFieldDataType(getDataType(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
             }
@@ -170,5 +170,5 @@ class CustomFieldReader12
       DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
       DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
       DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
-   };
+   }
 }

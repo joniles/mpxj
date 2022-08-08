@@ -30,7 +30,6 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -87,27 +86,53 @@ class CustomFieldReader14
 
          // Skip past the alias block
          offset = 4 + aliasBlockSize;
-
+         
          // Unknown block 1: size, size count
+         if (offset + 4 > m_data.length)
+         {
+            return;
+         }
          int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
          offset += 4;
          offset += unknownBlock1Size;
+         if (offset > m_data.length)
+         {
+            return;
+         }
 
          // Unknown block 2: size, size count
+         if (offset + 4 > m_data.length)
+         {
+            return;
+         }
          int unknownBlock2Size = MPPUtility.getInt(m_data, offset);
          offset += 4;
          offset += unknownBlock2Size;
+         if (offset > m_data.length)
+         {
+            return;
+         }
 
          // Field definitions block
+         if (offset + 8 > m_data.length)
+         {
+            return;
+         }
          int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
-         int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
+         //int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
          // 88 byte blocks
          for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
+            // stop if we've run out of data
+            if (offset + 88 > m_data.length)
+            {
+               break;               
+            }
+            
             FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
 
             // Don't try to set the data type unless it's a custom field
@@ -115,7 +140,7 @@ class CustomFieldReader14
             {
                CustomField customField = m_fields.getCustomField(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               customField.setDataType(getDataType(dataTypeValue));
+               customField.setCustomFieldDataType(getDataType(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
             }
@@ -141,5 +166,5 @@ class CustomFieldReader14
       DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
       DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
       DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
-   };
+   }
 }

@@ -130,14 +130,25 @@ public class CustomField
       return this;
    }
 
-   public DataType getDataType()
+   /**
+    * Retrieve the actual data type of a custom field.
+    * 
+    * @return custom field data type
+    */
+   public DataType getCustomFieldDataType()
    {
-      return m_dataType;
+      return m_customFieldDataType;
    }
 
-   public CustomField setDataType(DataType type)
+   /**
+    * Set the actual data type of a custom field.
+    * 
+    * @param type custom field data type
+    * @return this to allow method chaining
+    */
+   public CustomField setCustomFieldDataType(DataType type)
    {
-      m_dataType = type;
+      m_customFieldDataType = type;
       return this;
    }
 
@@ -163,5 +174,5 @@ public class CustomField
    private final List<CustomFieldValueMask> m_masks;
    private Integer m_uniqueID;
    private String m_alias;
-   private DataType m_dataType;
+   private DataType m_customFieldDataType;
 }
