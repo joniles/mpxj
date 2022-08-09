@@ -2275,9 +2275,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param index field index
     * @return field value
     */
-   public byte[] getEnterpriseCustomField(int index)
+   public Object getEnterpriseCustomField(int index)
    {
-      return ((byte[]) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**

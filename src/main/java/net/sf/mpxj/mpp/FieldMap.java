@@ -67,6 +67,7 @@ abstract class FieldMap
    public FieldMap(ProjectProperties properties, CustomFieldContainer customFields)
    {
       m_properties = properties;
+      m_customFields = customFields;
       m_stringVarDataReader = new StringVarDataFieldReader(customFields);
       m_doubleVarDataReader = new DoubleVarDataFieldReader(customFields);
       m_timestampVarDataReader = new TimestampVarDataFieldReader(customFields);
@@ -757,7 +758,7 @@ abstract class FieldMap
 
             case VAR_DATA:
             {
-               result = readVarData(id, fixedData, varData);
+               result = readVarData(m_type.getDataType(), id, fixedData, varData);
                break;
             }
 
@@ -963,16 +964,17 @@ abstract class FieldMap
       /**
        * Read a field value from a var data block.
        *
+       * @param dataType target data type 
        * @param id parent entity ID
        * @param fixedData fixed data block
        * @param varData var data block
        * @return field value
        */
-      private Object readVarData(Integer id, byte[][] fixedData, Var2Data varData)
+      private Object readVarData(DataType dataType, Integer id, byte[][] fixedData, Var2Data varData)
       {
          Object result = null;
 
-         switch (m_type.getDataType())
+         switch (dataType)
          {
             case DURATION:
             {
@@ -1112,6 +1114,20 @@ abstract class FieldMap
             case BINARY:
             {
                result = varData.getByteArray(id, m_varDataKey);
+               break;
+            }
+
+            case CUSTOM:
+            {
+               DataType customDataType = m_customFields.getCustomField(m_type).getCustomFieldDataType();
+               if (customDataType == null)
+               {
+                  result = varData.getByteArray(id, m_varDataKey);
+               }
+               else
+               {
+                  result = readVarData(customDataType, id, fixedData, varData);
+               }
                break;
             }
 
@@ -1306,6 +1322,7 @@ abstract class FieldMap
    }
 
    private final ProjectProperties m_properties;
+   final CustomFieldContainer m_customFields;
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;

@@ -131,6 +131,31 @@ public class CustomField
    }
 
    /**
+    * Retrieve the actual data type of a custom field.
+    * (Currently this is only relevant for enterprise custom fields).
+    * Returns null if this is not a custom field or if the type
+    * has not been set.
+    * 
+    * @return custom field data type
+    */
+   public DataType getCustomFieldDataType()
+   {
+      return m_customFieldDataType;
+   }
+
+   /**
+    * Set the actual data type of a custom field.
+    * 
+    * @param type custom field data type
+    * @return this to allow method chaining
+    */
+   public CustomField setCustomFieldDataType(DataType type)
+   {
+      m_customFieldDataType = type;
+      return this;
+   }
+
+   /**
     * Retrieve the mask definitions for this field.
     *
     * @return list of mask definitions
@@ -152,4 +177,5 @@ public class CustomField
    private final List<CustomFieldValueMask> m_masks;
    private Integer m_uniqueID;
    private String m_alias;
+   private DataType m_customFieldDataType;
 }

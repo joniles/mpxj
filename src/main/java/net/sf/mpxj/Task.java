@@ -4037,9 +4037,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * @param index field index
     * @return field value
     */
-   public byte[] getEnterpriseCustomField(int index)
+   public Object getEnterpriseCustomField(int index)
    {
-      return ((byte[]) getCachedValue(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return getCachedValue(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
