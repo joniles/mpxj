@@ -23,9 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
