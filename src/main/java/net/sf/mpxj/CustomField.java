@@ -135,7 +135,7 @@ public class CustomField
     * (Currently this is only relevant for enterprise custom fields).
     * Returns null if this is not a custom field or if the type
     * has not been set.
-    * 
+    *
     * @return custom field data type
     */
    public DataType getCustomFieldDataType()
@@ -145,7 +145,7 @@ public class CustomField
 
    /**
     * Set the actual data type of a custom field.
-    * 
+    *
     * @param type custom field data type
     * @return this to allow method chaining
     */

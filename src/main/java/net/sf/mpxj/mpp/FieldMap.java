@@ -964,7 +964,7 @@ abstract class FieldMap
       /**
        * Read a field value from a var data block.
        *
-       * @param dataType target data type 
+       * @param dataType target data type
        * @param id parent entity ID
        * @param fixedData fixed data block
        * @param varData var data block

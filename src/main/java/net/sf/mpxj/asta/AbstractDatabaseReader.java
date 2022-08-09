@@ -227,7 +227,6 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       m_projectKey = Collections.singletonMap("PROJID", m_projectID);
    }
 
-
    @Override public ProjectFile read(File file) throws MPXJException
    {
       try
@@ -241,7 +240,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-      
+
       finally
       {
          releaseResources();
@@ -386,7 +385,6 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
 
       return result;
    }
-
 
    private AstaReader m_reader;
    private Integer m_projectID;

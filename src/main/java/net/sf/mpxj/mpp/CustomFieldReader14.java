@@ -83,7 +83,7 @@ class CustomFieldReader14
 
          // Skip past the alias block
          offset = 4 + aliasBlockSize;
-         
+
          // Unknown block 1: size, size count
          if (offset + 4 > m_data.length)
          {
@@ -122,14 +122,14 @@ class CustomFieldReader14
          offset += 4;
 
          // 88 byte blocks
-         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
             // stop if we've run out of data
             if (offset + 88 > m_data.length)
             {
-               break;               
+               break;
             }
-            
+
             FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
 
             // Don't try to set the data type unless it's a custom field

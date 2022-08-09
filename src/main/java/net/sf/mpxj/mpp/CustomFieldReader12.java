@@ -111,7 +111,7 @@ class CustomFieldReader12
          int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
-         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
             // FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
             //CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
@@ -120,9 +120,9 @@ class CustomFieldReader12
          }
 
          //System.out.println(ByteArrayHelper.hexdump(m_data, offset, m_data.length-offset, false));
-         for (int definitionIndex=0; definitionIndex < numberOfDefinitions; definitionIndex++)
+         for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
          {
-            if (offset+2 > m_data.length)
+            if (offset + 2 > m_data.length)
             {
                return;
             }
@@ -133,7 +133,7 @@ class CustomFieldReader12
                return;
             }
 
-            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset+4));
+            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset + 4));
 
             // Don't try to set the data type unless it's a custom field
             if (fieldType.getDataType() == DataType.CUSTOM)

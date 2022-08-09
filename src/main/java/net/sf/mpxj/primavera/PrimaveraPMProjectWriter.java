@@ -301,10 +301,10 @@ final class PrimaveraPMProjectWriter
          if (dataType == DataType.CUSTOM)
          {
             dataType = cf.getCustomFieldDataType();
-             if (dataType == null)
-             {
-                dataType = DataType.BINARY;
-             }
+            if (dataType == null)
+            {
+               dataType = DataType.BINARY;
+            }
          }
 
          UDFTypeType udf = m_factory.createUDFTypeType();

@@ -1671,7 +1671,6 @@ abstract class MPD9AbstractReader
       return (value == null ? defaultValue : value);
    }
 
-
    /**
     * Sets the ID of the project to be read.
     *

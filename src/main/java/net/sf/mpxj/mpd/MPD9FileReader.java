@@ -45,7 +45,7 @@ final class MPD9FileReader extends MPD9AbstractReader
 {
    /**
     * Set the locatioj of the database to read.
-    * 
+    *
     * @param file database file
     */
    public void setDatabaseFile(File file)
