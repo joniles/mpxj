@@ -140,7 +140,7 @@ class CustomFieldReader14
             {
                CustomField customField = m_fields.getCustomField(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               customField.setCustomFieldDataType(getDataType(dataTypeValue));
+               customField.setCustomFieldDataType(EnterpriseCustomFieldDataType.getDataType(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
             }
@@ -149,22 +149,6 @@ class CustomFieldReader14
       }
    }
 
-   private DataType getDataType(int value)
-   {
-      return DATA_TYPES.get(Integer.valueOf(value));
-   }
-
    private final CustomFieldContainer m_fields;
    private final byte[] m_data;
-
-   private static final Map<Integer, DataType> DATA_TYPES = new HashMap<>();
-   static
-   {
-      DATA_TYPES.put(Integer.valueOf(0), DataType.CURRENCY);
-      DATA_TYPES.put(Integer.valueOf(1), DataType.DATE);
-      DATA_TYPES.put(Integer.valueOf(2), DataType.DURATION);
-      DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
-      DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
-      DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
-   }
 }
