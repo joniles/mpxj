@@ -132,6 +132,9 @@ public class CustomField
 
    /**
     * Retrieve the actual data type of a custom field.
+    * (Currently this is only relevant for enterprise custom fields).
+    * Returns null if this is not a custom field or if the type
+    * has not been set.
     * 
     * @return custom field data type
     */
