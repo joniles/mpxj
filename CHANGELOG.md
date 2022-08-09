@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.7.0 (unreleased)
+## 10.7.1 (unreleased)
+
+## 10.7.0 (2022-08-09)
 * Use Jackcess to read Asta MDB and Microsoft Project MPD files. This allows these file to be read on platforms other than Windows.
 * Improve support for reading correctly typed values for enterprise custom fields from MPP files.
 * Improve array index validation when reading GUID values from MPP files.
