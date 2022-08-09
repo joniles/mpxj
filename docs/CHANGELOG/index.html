@@ -3808,6 +3808,11 @@
 
 <h1 id="changelog">Changelog</h1>
 <h2 id="1070-unreleased">10.7.0 (unreleased)</h2>
+<ul>
+<li>Use Jackcess to read Asta MDB and Microsoft Project MPD files. This allows these file to be read on platforms other than Windows.</li>
+<li>Improve support for reading correctly typed values for enterprise custom fields from MPP files.</li>
+<li>Improve array index validation when reading GUID values from MPP files.</li>
+</ul>
 <h2 id="1062-2022-06-29">10.6.2 (2022-06-29)</h2>
 <ul>
 <li>Ensure <code>ProjectCleanUtility</code> can load dictionary words from distribution jar.</li>
@@ -3829,7 +3834,7 @@
 <li>Improve reading predecessor lag values from Planner files.</li>
 <li>Ensure calendar hierarchy is written correctly to Planner files.</li>
 <li>Don't write null tasks to Planner files as Planner will not read files which contain them.</li>
-<li>When writing Planner file, ignore constrainyt types which Planer can't represent.</li>
+<li>When writing Planner file, ignore constraint types which Planner can't represent.</li>
 <li>Don't write emply predecessor lists to Planner files.</li>
 <li>Improve handling of lag duration when writing Planner files.</li>
 <li>Improve ProjectCalendar start date calculation when we have long runs of non-working days.</li>
