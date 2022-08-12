@@ -1631,23 +1631,53 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print rate.
+    * Print rate. Ensure the rate is converted to "per hour" before output.
     *
     * @param rate Rate instance
     * @return rate value
     */
    public static final BigDecimal printRateMandatory(Rate rate)
    {
-      BigDecimal result;
       if (rate == null || rate.getAmount() == 0)
       {
-         result = BIGDECIMAL_ZERO;
+         return BIGDECIMAL_ZERO;
       }
-      else
+
+      double amount = rate.getAmount();
+      switch (rate.getUnits())
       {
-         result = new BigDecimal(RATE_NUMBER_FORMAT.get().format(rate.getAmount()));
+         case MINUTES:
+         {
+            amount = amount / 60.0;
+            break;
+         }
+
+         case DAYS:
+         {
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerDay();
+            break;
+         }
+
+         case WEEKS:
+         {
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerWeek();
+            break;
+         }
+
+         case MONTHS:
+         {
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerMonth();
+            break;
+         }
+
+         case YEARS:
+         {
+            amount = (amount * 60.0) / (PARENT_FILE.get().getProjectProperties().getMinutesPerWeek() * 52);
+            break;
+         }
       }
-      return result;
+
+      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(amount));
    }
 
    /**
