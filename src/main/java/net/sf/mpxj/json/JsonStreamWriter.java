@@ -125,8 +125,13 @@ public class JsonStreamWriter
    {
       writeComma();
       writeNewLineIndent();
-      writeName(name);
-      writeNewLineIndent();
+
+      if (name != null)
+      {
+         writeName(name);
+         writeNewLineIndent();
+      }
+
       m_writer.write("[");
       increaseIndent();
    }
