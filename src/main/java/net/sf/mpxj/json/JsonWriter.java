@@ -554,6 +554,11 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write cost rate tables for a resource.
+    *
+    * @param resource parent resource
+    */
    private void writeCostRateTables(Resource resource) throws IOException
    {
       boolean tablesArePopulated = false;
@@ -579,7 +584,7 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a resource's cost rate table.
+    * Write a cost rate table.
     *
     * @param table cost rate table to write
     */
@@ -617,6 +622,12 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write a cost rate.
+    *
+    * @param index cost rate number
+    * @param rate rate value
+    */
    private void writeCostRate(int index, Rate rate) throws IOException
    {
       if (rate != null && rate.getAmount() != 0.0)
@@ -627,6 +638,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a set of fields from a field container to a JSON file.
+    *
     * @param container field container
     * @param fields fields to write
     */
@@ -1038,17 +1050,8 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null && ((Rate) value).getAmount() != 0.0)
       {
-         m_writer.writeNameValuePair(fieldName, formatRate((Rate)value));
+         m_writer.writeNameValuePair(fieldName, ((Rate) value).getAmount() + "/" + ((Rate) value).getUnits());
       }
-   }
-
-   private String formatRate(Rate value)
-   {
-      if (value == null)
-      {
-         return "null";
-      }
-      return value.getAmount() + "/" + value.getUnits();
    }
 
    /**

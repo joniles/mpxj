@@ -227,8 +227,8 @@ public enum ResourceField implements FieldType
 
    TEAMSTATUS_PENDING(DataType.BOOLEAN),
    CV(DataType.CURRENCY),
-   COST_RATE_TABLE(DataType.STRING),
    UPDATE_NEEDED(DataType.BOOLEAN),
+   COST_RATE_TABLE(DataType.STRING),
    ACTUAL_START(DataType.DATE),
    ACTUAL_FINISH(DataType.DATE),
    WORKGROUP(DataType.WORKGROUP),
