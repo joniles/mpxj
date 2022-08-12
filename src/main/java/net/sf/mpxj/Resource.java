@@ -729,6 +729,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.STANDARD_RATE, val);
    }
 
+   public Rate getCurrentStandardRate(int costRateTable)
+   {
+      Rate rate = null;
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
+      if (entry != null)
+      {
+         rate = entry.getStandardRate();
+      }
+      return rate;
+   }
+
    /**
     * Gets Standard Rate field value.
     *
@@ -736,22 +747,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      Rate rate = null;
-      CostRateTable table = getCostRateTable(0);
-      if (table != null)
-      {
-         CostRateTableEntry entry = table.getEntryByDate(new Date());
-         if (entry != null)
-         {
-            rate = entry.getStandardRate();
-         }
-      }
-
+      Rate rate = getCurrentStandardRate(0);
       if (rate == null)
       {
          rate = (Rate) getCachedValue(ResourceField.STANDARD_RATE);
       }
-
       return rate;
    }
 
@@ -805,6 +805,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.OVERTIME_RATE, overtimeRate);
    }
 
+   public Rate getCurrentOvertimeRate(int costRateTable)
+   {
+      Rate rate = null;
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
+      if (entry != null)
+      {
+         rate = entry.getOvertimeRate();
+      }
+      return rate;
+   }
+
    /**
     * Retrieves the overtime rate for this resource.
     *
@@ -812,22 +823,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      Rate rate = null;
-      CostRateTable table = getCostRateTable(0);
-      if (table != null)
-      {
-         CostRateTableEntry entry = table.getEntryByDate(new Date());
-         if (entry != null)
-         {
-            rate = entry.getOvertimeRate();
-         }
-      }
-
+      Rate rate = getCurrentOvertimeRate(0);
       if (rate == null)
       {
          rate = (Rate) getCachedValue(ResourceField.OVERTIME_RATE);
       }
-
       return rate;
    }
 
@@ -881,6 +881,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.COST_PER_USE, costPerUse);
    }
 
+   public Number getCurrentCostPerUse(int costRateTable)
+   {
+      Number cost = null;
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
+      if (entry != null)
+      {
+         cost = entry.getCostPerUse();
+      }
+      return cost;
+   }
+
    /**
     * Retrieve the cost per use.
     *
@@ -888,22 +899,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      Number cost = null;
-      CostRateTable table = getCostRateTable(0);
-      if (table != null)
-      {
-         CostRateTableEntry entry = table.getEntryByDate(new Date());
-         if (entry != null)
-         {
-            cost = entry.getCostPerUse();
-         }
-      }
-
+      Number cost = getCurrentCostPerUse(0);
       if (cost == null)
       {
          cost = (Number) getCachedValue(ResourceField.COST_PER_USE);
       }
-
       return cost;
    }
 
@@ -2710,6 +2710,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public CostRateTable getCostRateTable(int index)
    {
       return index < 0 || index >= CostRateTable.MAX_TABLES ? null : m_costRateTables[index];
+   }
+
+   public CostRateTableEntry getCurrentCostRateTableEntry(int costRateTable)
+   {
+      CostRateTableEntry entry = null;
+      CostRateTable table = getCostRateTable(costRateTable);
+      if (table != null)
+      {
+         entry = table.getEntryByDate(new Date());
+      }
+      return entry;
    }
 
    /**
