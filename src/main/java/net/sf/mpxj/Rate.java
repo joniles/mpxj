@@ -78,6 +78,28 @@ public final class Rate
       return (m_units);
    }
 
+   /**
+    * Compare two rates handling null values.
+    *
+    * @param rate1 rate to compare
+    * @param rate2 rate ro compare
+    * @return true if rates are equal/equivalent
+    */
+   public static boolean equals(Rate rate1, Rate rate2)
+   {
+      if ((rate1 == null || rate1.getAmount() == 0.0) && (rate2 == null || rate2.getAmount() == 0.0))
+      {
+         return true;
+      }
+
+      if (rate1 == null || rate2 == null)
+      {
+         return false;
+      }
+
+      return rate1.equals(rate2);
+   }
+
    @Override public boolean equals(Object obj)
    {
       boolean result = false;
