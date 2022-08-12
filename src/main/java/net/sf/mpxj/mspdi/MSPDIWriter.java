@@ -68,6 +68,7 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -1255,11 +1256,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (int tableIndex = 0; tableIndex < CostRateTable.MAX_TABLES; tableIndex++)
       {
          CostRateTable table = mpx.getCostRateTable(tableIndex);
-         if (table != null)
+         if (costRateTableWriteRequired(tableIndex, mpx, table))
          {
             for (CostRateTableEntry entry : table)
             {
-               if (costRateTableWriteRequired(entry))
+               if (costRateTableEntryWriteRequired(entry))
                {
                   if (ratesList == null)
                   {
@@ -1286,13 +1287,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * This method determines whether the cost rate table should be written.
+    * This method determines whether the cost rate table entry should be written.
     * A default cost rate table should not be written to the file.
     *
     * @param entry cost rate table entry
     * @return boolean flag
     */
-   private boolean costRateTableWriteRequired(CostRateTableEntry entry)
+   private boolean costRateTableEntryWriteRequired(CostRateTableEntry entry)
    {
       boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
       boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
@@ -1300,6 +1301,33 @@ public final class MSPDIWriter extends AbstractProjectWriter
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
       return (fromDate || toDate || costPerUse || overtimeRate || standardRate);
+   }
+
+   /**
+    * Determine if the cost rate table should be written.
+    *
+    * @param index table index
+    * @param resource parent resource
+    * @param table table data
+    * @return true if the table should be written
+    */
+   private boolean costRateTableWriteRequired(int index, Resource resource, CostRateTable table)
+   {
+      // Don't write anything if we don't have a table
+      if (table == null || table.isEmpty())
+      {
+         return false;
+      }
+
+      // Always write if it's not the default table, or if we have more than one entry
+      if (index != 0 || table.size() > 1)
+      {
+         return true;
+      }
+
+      // Don't write if we're the default table and the rate attributes on the resource match what we have here
+      CostRateTableEntry entry = table.get(0);
+      return !Rate.equals(entry.getStandardRate(), resource.getStandardRate()) || !Rate.equals(entry.getOvertimeRate(), resource.getOvertimeRate()) || !NumberHelper.equals(entry.getCostPerUse(), resource.getCostPerUse());
    }
 
    /**
