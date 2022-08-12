@@ -736,7 +736,23 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      return ((Rate) getCachedValue(ResourceField.STANDARD_RATE));
+      Rate rate = null;
+      CostRateTable table = getCostRateTable(0);
+      if (table != null)
+      {
+         CostRateTableEntry entry = table.getEntryByDate(new Date());
+         if (entry != null)
+         {
+            rate = entry.getStandardRate();
+         }
+      }
+
+      if (rate == null)
+      {
+         rate = (Rate) getCachedValue(ResourceField.STANDARD_RATE);
+      }
+
+      return rate;
    }
 
    /**
@@ -796,7 +812,23 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      return ((Rate) getCachedValue(ResourceField.OVERTIME_RATE));
+      Rate rate = null;
+      CostRateTable table = getCostRateTable(0);
+      if (table != null)
+      {
+         CostRateTableEntry entry = table.getEntryByDate(new Date());
+         if (entry != null)
+         {
+            rate = entry.getOvertimeRate();
+         }
+      }
+
+      if (rate == null)
+      {
+         rate = (Rate) getCachedValue(ResourceField.OVERTIME_RATE);
+      }
+
+      return rate;
    }
 
    /**
@@ -856,7 +888,23 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      return ((Number) getCachedValue(ResourceField.COST_PER_USE));
+      Number cost = null;
+      CostRateTable table = getCostRateTable(0);
+      if (table != null)
+      {
+         CostRateTableEntry entry = table.getEntryByDate(new Date());
+         if (entry != null)
+         {
+            cost = entry.getCostPerUse();
+         }
+      }
+
+      if (cost == null)
+      {
+         cost = (Number) getCachedValue(ResourceField.COST_PER_USE);
+      }
+
+      return cost;
    }
 
    /**
