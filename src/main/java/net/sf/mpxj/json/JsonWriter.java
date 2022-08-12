@@ -38,6 +38,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -74,6 +76,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
@@ -280,7 +283,9 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeProperties() throws IOException
    {
       writeAttributeTypes("property_types", ProjectField.values());
-      writeFields("property_values", m_projectFile.getProjectProperties(), ProjectField.values());
+      m_writer.writeStartObject("property_values");
+      writeFields(m_projectFile.getProjectProperties(), ProjectField.values());
+      m_writer.writeEndObject();
    }
 
    /**
@@ -293,7 +298,10 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartList("resources");
       for (Resource resource : m_projectFile.getResources())
       {
-         writeFields(null, resource, ResourceField.values());
+         m_writer.writeStartObject(null);
+         writeFields(resource, ResourceField.values());
+         writeCostRateTables(resource);
+         m_writer.writeEndObject();
       }
       m_writer.writeEndList();
    }
@@ -501,7 +509,9 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTask(Task task) throws IOException
    {
-      writeFields(null, task, TaskField.values());
+      m_writer.writeStartObject(null);
+      writeFields(task, TaskField.values());
+      m_writer.writeEndObject();
       for (Task child : task.getChildTasks())
       {
          writeTask(child);
@@ -518,7 +528,9 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartList("assignments");
       for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
       {
-         writeFields(null, assignment, AssignmentField.values());
+         m_writer.writeStartObject(null);
+         writeFields(assignment, AssignmentField.values());
+         m_writer.writeEndObject();
       }
       m_writer.writeEndList();
    }
@@ -543,14 +555,95 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write cost rate tables for a resource.
+    *
+    * @param resource parent resource
+    */
+   private void writeCostRateTables(Resource resource) throws IOException
+   {
+      boolean tablesArePopulated = false;
+      for (int index=0; index < CostRateTable.MAX_TABLES; index++)
+      {
+         CostRateTable table = resource.getCostRateTable(index);
+         tablesArePopulated = table != null && table.tableIsPopulated();
+         if (tablesArePopulated)
+         {
+            break;
+         }
+      }
+
+      if (tablesArePopulated)
+      {
+         m_writer.writeStartObject("cost_rate_tables");
+         for (int index = 0; index < CostRateTable.MAX_TABLES; index++)
+         {
+            writeCostRateTable(index, resource.getCostRateTable(index));
+         }
+         m_writer.writeEndObject();
+      }
+   }
+
+   /**
+    * Write a cost rate table.
+    *
+    * @param table cost rate table to write
+    */
+   private void writeCostRateTable(int index, CostRateTable table) throws IOException
+   {
+      if (table != null && table.tableIsPopulated())
+      {
+         m_writer.writeStartList(Integer.toString(index));
+         for (CostRateTableEntry entry : table)
+         {
+            Date startDate = entry.getStartDate();
+            if (startDate != null && DateHelper.compare(startDate, DateHelper.START_DATE_NA) <= 0)
+            {
+               startDate = null;
+            }
+
+            Date endDate = entry.getEndDate();
+            if (endDate != null && DateHelper.compare(DateHelper.END_DATE_NA, endDate) <= 0)
+            {
+               endDate = null;
+            }
+
+            m_writer.writeStartObject(null);
+            writeTimestampField("start_date", startDate);
+            writeTimestampField("end_date", endDate);
+            writeDoubleField("cost_per_use", entry.getCostPerUse());
+            m_writer.writeStartObject("rates");
+            writeCostRate(0, entry.getStandardRate());
+            writeCostRate(1, entry.getOvertimeRate());
+            m_writer.writeEndObject();
+
+            m_writer.writeEndObject();
+         }
+         m_writer.writeEndList();
+      }
+   }
+
+   /**
+    * Write a cost rate.
+    *
+    * @param index cost rate number
+    * @param rate rate value
+    */
+   private void writeCostRate(int index, Rate rate) throws IOException
+   {
+      if (rate != null && rate.getAmount() != 0.0)
+      {
+         writeRateField(Integer.toString(index), rate);
+      }
+   }
+
+   /**
     * Write a set of fields from a field container to a JSON file.
-    * @param objectName name of the object, or null if no name required
+    *
     * @param container field container
     * @param fields fields to write
     */
-   private void writeFields(String objectName, FieldContainer container, FieldType[] fields) throws IOException
+   private void writeFields(FieldContainer container, FieldType[] fields) throws IOException
    {
-      m_writer.writeStartObject(objectName);
       for (FieldType field : fields)
       {
          Object value = container.getCurrentValue(field);
@@ -559,7 +652,6 @@ public final class JsonWriter extends AbstractProjectWriter
             writeField(container, field, value);
          }
       }
-      m_writer.writeEndObject();
    }
 
    /**
