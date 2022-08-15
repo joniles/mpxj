@@ -33,7 +33,11 @@ import java.util.UUID;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
+import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
@@ -931,6 +935,80 @@ public final class MPPUtility
          result = NumberHelper.getDouble(value);
       }
       return result;
+   }
+
+   public static void convertRateFromHours(ProjectFile file, Resource resource, ResourceField rateField, ResourceField unitsField)
+   {
+      Rate rate = (Rate) resource.getCachedValue(rateField);
+      if (rate == null)
+      {
+         return;
+      }
+
+      TimeUnit targetUnits = (TimeUnit) resource.getCachedValue(unitsField);
+      if (targetUnits == null)
+      {
+         return;
+      }
+
+      // For "flat" rates (for example, for cost or material resources) where there is
+      // no time component, the MPP file stores a time unit which we recognise
+      // as elapsed minutes. If we encounter this, reset the time units to hours
+      // so we don't try to change the value.
+      // TODO: improve handling of  cost and material rates
+      if (targetUnits == TimeUnit.ELAPSED_MINUTES)
+      {
+         targetUnits = TimeUnit.HOURS;
+      }
+
+      resource.set(rateField, new Rate(convertRateFromHours(file, rate.getAmount(), targetUnits), targetUnits));
+   }
+
+   /**
+    * MPP files store cost as rate per hour, with a separate field to indicate how
+    * the value should be displayed to the end user. This method converts the per
+    * hour rate to the target rate units.
+    *
+    * @param value original value
+    * @param targetUnits target units
+    * @return target rate
+    */
+   public static Double convertRateFromHours(ProjectFile file, double value, TimeUnit targetUnits)
+   {
+      switch (targetUnits)
+      {
+         case MINUTES:
+         {
+            value = value * 60.0;
+            break;
+         }
+
+         case DAYS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerDay().doubleValue()) / 60.0;
+            break;
+         }
+
+         case WEEKS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue()) / 60.0;
+            break;
+         }
+
+         case MONTHS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerMonth().doubleValue()) / 60.0;
+            break;
+         }
+
+         case YEARS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0) / 60.0;
+            break;
+         }
+      }
+
+      return Double.valueOf(NumberHelper.round(value, 2));
    }
 
    /**

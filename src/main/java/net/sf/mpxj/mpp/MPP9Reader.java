@@ -1675,6 +1675,12 @@ final class MPP9Reader implements MPPVariantReader
             resource.setType(ResourceType.MATERIAL);
          }
 
+         //
+         // Convert rate units
+         //
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.STANDARD_RATE, ResourceField.STANDARD_RATE_UNITS);
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.OVERTIME_RATE, ResourceField.OVERTIME_RATE_UNITS);
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }

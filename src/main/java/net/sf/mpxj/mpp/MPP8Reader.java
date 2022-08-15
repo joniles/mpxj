@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.mpxj.ResourceField;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1042,6 +1043,12 @@ final class MPP8Reader implements MPPVariantReader
          {
             resource.setNotesObject(new RtfNotes(notes));
          }
+
+         //
+         // Convert rate units
+         //
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.STANDARD_RATE, ResourceField.STANDARD_RATE_UNITS);
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.OVERTIME_RATE, ResourceField.OVERTIME_RATE_UNITS);
 
          m_eventManager.fireResourceReadEvent(resource);
       }
