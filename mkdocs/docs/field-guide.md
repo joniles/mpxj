@@ -944,7 +944,7 @@ Text30| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 ### Enterprise Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
-Enterprise| | | | | | | |✓| | | | | | | | | | | | | | | 
+Enterprise| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Enterprise Custom Field 3| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Custom Field 4| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Custom Field 5| | | | | | | |✓| | | | | | | | | | | | | | | 

@@ -1654,25 +1654,30 @@ public final class DatatypeConverter
 
          case DAYS:
          {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerDay();
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerDay().doubleValue();
             break;
          }
 
          case WEEKS:
          {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerWeek();
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().doubleValue();
             break;
          }
 
          case MONTHS:
          {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerMonth();
+            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerMonth().doubleValue();
             break;
          }
 
          case YEARS:
          {
-            amount = (amount * 60.0) / (PARENT_FILE.get().getProjectProperties().getMinutesPerWeek() * 52);
+            amount = (amount * 60.0) / (PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().intValue() * 52);
+            break;
+         }
+         
+         default:
+         {
             break;
          }
       }

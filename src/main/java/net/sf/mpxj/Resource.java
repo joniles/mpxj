@@ -729,6 +729,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.STANDARD_RATE, val);
    }
 
+   /**
+    * Retrieve the current standard rate from the specified cost rate table.
+    * 
+    * @param costRateTable cost rate table index
+    * @return current standard rate
+    */
    public Rate getCurrentStandardRate(int costRateTable)
    {
       Rate rate = null;
@@ -765,6 +771,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.STANDARD_RATE_UNITS, units);
    }
 
+   /**
+    * Retrieve the current standard rate units from the specified cost rate table.
+    * 
+    * @param costRateTable cost rate table index
+    * @return current standard rate units
+    */
    public TimeUnit getCurrentStandardRateUnits(int costRateTable)
    {
       TimeUnit units = null;
@@ -821,6 +833,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.OVERTIME_RATE, overtimeRate);
    }
 
+   /**
+    * Retrieve the current overtime rate from the specified cost rate table.
+    * 
+    * @param costRateTable cost rate table index
+    * @return current overtime rate
+    */
    public Rate getCurrentOvertimeRate(int costRateTable)
    {
       Rate rate = null;
@@ -857,6 +875,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.OVERTIME_RATE_UNITS, units);
    }
 
+   /**
+    * Retrieve the current overtime rate units from the specified cost rate table.
+    * 
+    * @param costRateTable cost rate table index
+    * @return current overtime rate units
+    */
    public TimeUnit getCurrentOvertimeRateUnits(int costRateTable)
    {
       TimeUnit units = null;
@@ -913,6 +937,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.COST_PER_USE, costPerUse);
    }
 
+   /**
+    * Retrieve the current cost per use from the specified cost rate table.
+    * 
+    * @param costRateTable cost rate table index
+    * @return current cost per use
+    */
    public Number getCurrentCostPerUse(int costRateTable)
    {
       Number cost = null;
@@ -2744,6 +2774,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return index < 0 || index >= CostRateTable.MAX_TABLES ? null : m_costRateTables[index];
    }
 
+   /**
+    * Retrieve the cost rate table entry effective for the current date.
+    * 
+    * @param costRateTable cost rate table index
+    * @return cost rate table entry
+    */
    public CostRateTableEntry getCurrentCostRateTableEntry(int costRateTable)
    {
       CostRateTableEntry entry = null;
