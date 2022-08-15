@@ -58,6 +58,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
+import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
@@ -1264,7 +1265,7 @@ final class PrimaveraPMProjectWriter
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
                rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(Double.valueOf(entry.getStandardRate().getAmount()));
+               rate.setPricePerUnit(Double.valueOf(RateHelper.convertToHours(m_projectFile, entry.getStandardRate())));
                //rate.setPricePerUnit2(value);
                //rate.setPricePerUnit3(value);
                //rate.setPricePerUnit4(value);

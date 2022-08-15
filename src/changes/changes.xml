@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">The values for a resource's standard rate, overtime rate, and cost per use attributes are now derived from the cost rate table. The values stored on the resource itself are only used if a cost rate table for the resource is not present.</action>
 			<action dev="joniles" type="update">Include cost rate tables in JSON output.</action>
 			<action dev="joniles" type="update">Ensure rates are formatted "per hour" when writing MSPDI files.</action>
+			<action dev="joniles" type="update">Ensure rates are formatted "per hour" when writing PMXML files.</action>
 		</release>
 		<release date="2022-08-09" version="10.7.0">
 			<action dev="joniles" type="update">Use Jackcess to read Asta MDB and Microsoft Project MPD files. This allows these file to be read on platforms other than Windows.</action>

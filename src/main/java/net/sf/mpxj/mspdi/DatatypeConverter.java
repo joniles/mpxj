@@ -58,6 +58,7 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.mpp.MPPUtility;
 
 /**
@@ -1643,46 +1644,7 @@ public final class DatatypeConverter
          return BIGDECIMAL_ZERO;
       }
 
-      double amount = rate.getAmount();
-      switch (rate.getUnits())
-      {
-         case MINUTES:
-         {
-            amount = amount / 60.0;
-            break;
-         }
-
-         case DAYS:
-         {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerDay().doubleValue();
-            break;
-         }
-
-         case WEEKS:
-         {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().doubleValue();
-            break;
-         }
-
-         case MONTHS:
-         {
-            amount = (amount * 60.0) / PARENT_FILE.get().getProjectProperties().getMinutesPerMonth().doubleValue();
-            break;
-         }
-
-         case YEARS:
-         {
-            amount = (amount * 60.0) / (PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().intValue() * 52);
-            break;
-         }
-         
-         default:
-         {
-            break;
-         }
-      }
-
-      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(amount));
+      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(RateHelper.convertToHours(PARENT_FILE.get(), rate)));
    }
 
    /**
