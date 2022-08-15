@@ -586,6 +586,7 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write a cost rate table.
     *
+    * @param index index of this table
     * @param table cost rate table to write
     */
    private void writeCostRateTable(int index, CostRateTable table) throws IOException

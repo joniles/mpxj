@@ -1073,7 +1073,27 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          for (int index = 0; index < CostRateTable.MAX_TABLES; index++)
          {
             CostRateTable table = new CostRateTable();
-            table.add(CostRateTableEntry.DEFAULT_ENTRY);
+            if (index == 0)
+            {
+               Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.STANDARD_RATE);
+               TimeUnit standardRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.STANDARD_RATE_UNITS);
+               standardRateUnits = standardRateUnits == null ? TimeUnit.HOURS : standardRateUnits;
+
+               Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.OVERTIME_RATE);
+               TimeUnit overtimeRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
+               overtimeRateUnits = overtimeRateUnits == null ? TimeUnit.HOURS : overtimeRateUnits;
+
+               Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number)resource.getCachedValue(ResourceField.COST_PER_USE);
+               Date startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
+               Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
+
+               table.add(new CostRateTableEntry(standardRate, standardRateUnits, overtimeRate, overtimeRateUnits, costPerUse, startDate, endDate));
+            }
+            else
+            {
+               table.add(CostRateTableEntry.DEFAULT_ENTRY);
+            }
+
             resource.setCostRateTable(index, table);
          }
       }

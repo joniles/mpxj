@@ -519,7 +519,7 @@ Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Enterprise Custom Field 2| | |✓|✓
 Enterprise Custom Field 3| | |✓|✓
-Enterprise Custom Field 4| | |✓| 
+Enterprise Custom Field 4| | |✓|✓
 Enterprise Custom Field 5| | |✓| 
 Enterprise Custom Field 6| | |✓| 
 Enterprise Custom Field 9| | |✓| 

@@ -33,6 +33,7 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -65,13 +66,15 @@ final class CostRateTableFactory
          //
          if (index == 0)
          {
-            Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : resource.getStandardRate();
-            TimeUnit standardRateUnits = standardRate.getUnits();
+            Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.STANDARD_RATE);
+            TimeUnit standardRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.STANDARD_RATE_UNITS);
+            standardRateUnits = standardRateUnits == null ? TimeUnit.HOURS : standardRateUnits;
 
-            Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : resource.getOvertimeRate();
-            TimeUnit overtimeRateUnits = overtimeRate.getUnits();
+            Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.OVERTIME_RATE);
+            TimeUnit overtimeRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
+            overtimeRateUnits = overtimeRateUnits == null ? TimeUnit.HOURS : overtimeRateUnits;
 
-            Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : resource.getCostPerUse();
+            Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number)resource.getCachedValue(ResourceField.COST_PER_USE);
             Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
             entries.add(new CostRateTableEntry(standardRate, standardRateUnits, overtimeRate, overtimeRateUnits, costPerUse, null, endDate));
