@@ -765,6 +765,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.STANDARD_RATE_UNITS, units);
    }
 
+   public TimeUnit getCurrentStandardRateUnits(int costRateTable)
+   {
+      TimeUnit units = null;
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
+      if (entry != null)
+      {
+         units = entry.getStandardRateFormat();
+      }
+      return units;
+   }
+
    /**
     * Retrieves the format of the standard rate.
     *
@@ -772,7 +783,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public TimeUnit getStandardRateUnits()
    {
-      return (TimeUnit) getCachedValue(ResourceField.STANDARD_RATE_UNITS);
+      TimeUnit units = getCurrentStandardRateUnits(0);
+      if (units == null)
+      {
+         units = (TimeUnit) getCachedValue(ResourceField.STANDARD_RATE_UNITS);
+      }
+      return units;
    }
 
    /**
@@ -841,6 +857,17 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.OVERTIME_RATE_UNITS, units);
    }
 
+   public TimeUnit getCurrentOvertimeRateUnits(int costRateTable)
+   {
+      TimeUnit units = null;
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
+      if (entry != null)
+      {
+         units = entry.getOvertimeRateFormat();
+      }
+      return units;
+   }
+
    /**
     * Retrieves the format of the overtime rate.
     *
@@ -848,7 +875,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public TimeUnit getOvertimeRateUnits()
    {
-      return (TimeUnit) getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
+      TimeUnit units = getCurrentOvertimeRateUnits(0);
+      if (units == null)
+      {
+         units = (TimeUnit) getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
+      }
+      return units;
    }
 
    /**
