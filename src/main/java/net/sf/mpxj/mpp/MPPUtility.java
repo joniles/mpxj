@@ -937,6 +937,15 @@ public final class MPPUtility
       return result;
    }
 
+   /**
+    * Convert from the internal representation of a rate as an amount per hour to the
+    * format presented to the user.
+    *
+    * @param file parent file
+    * @param resource parent resource
+    * @param rateField field holding the rate
+    * @param unitsField field holding the rate's time units
+    */
    public static void convertRateFromHours(ProjectFile file, Resource resource, ResourceField rateField, ResourceField unitsField)
    {
       Rate rate = (Rate) resource.getCachedValue(rateField);
