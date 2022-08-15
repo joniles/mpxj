@@ -1670,7 +1670,7 @@ public final class DatatypeConverter
             targetUnits = TimeUnit.HOURS;
          }
 
-         result = RateHelper.convertFromHours(PARENT_FILE.get(), originalValue.doubleValue(), targetUnits);
+         result = RateHelper.convertFromHours(PARENT_FILE.get(), originalValue, targetUnits);
       }
 
       return result;
