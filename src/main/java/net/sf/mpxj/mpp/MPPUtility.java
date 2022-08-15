@@ -44,6 +44,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.RateHelper;
 
 /**
  * This class provides common functionality used by each of the classes
@@ -970,54 +971,7 @@ public final class MPPUtility
          targetUnits = TimeUnit.HOURS;
       }
 
-      resource.set(rateField, new Rate(convertRateFromHours(file, rate.getAmount(), targetUnits), targetUnits));
-   }
-
-   /**
-    * MPP files store cost as rate per hour, with a separate field to indicate how
-    * the value should be displayed to the end user. This method converts the per
-    * hour rate to the target rate units.
-    *
-    * @param value original value
-    * @param targetUnits target units
-    * @return target rate
-    */
-   public static Double convertRateFromHours(ProjectFile file, double value, TimeUnit targetUnits)
-   {
-      switch (targetUnits)
-      {
-         case MINUTES:
-         {
-            value = value * 60.0;
-            break;
-         }
-
-         case DAYS:
-         {
-            value = (value * file.getProjectProperties().getMinutesPerDay().doubleValue()) / 60.0;
-            break;
-         }
-
-         case WEEKS:
-         {
-            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue()) / 60.0;
-            break;
-         }
-
-         case MONTHS:
-         {
-            value = (value * file.getProjectProperties().getMinutesPerMonth().doubleValue()) / 60.0;
-            break;
-         }
-
-         case YEARS:
-         {
-            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0) / 60.0;
-            break;
-         }
-      }
-
-      return Double.valueOf(NumberHelper.round(value, 2));
+      resource.set(rateField, RateHelper.convertFromHours(file, rate, targetUnits));
    }
 
    /**

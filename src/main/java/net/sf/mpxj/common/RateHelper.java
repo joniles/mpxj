@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.TimeUnit;
 
 /**
  * Utility method for working with Rates.
@@ -80,5 +81,48 @@ public final class RateHelper
       }
 
       return amount;
+   }
+
+   public static Rate convertFromHours(ProjectFile file, Rate rate, TimeUnit targetUnits)
+   {
+      return convertFromHours(file, rate.getAmount(), targetUnits);
+   }
+
+   public static Rate convertFromHours(ProjectFile file, double value, TimeUnit targetUnits)
+   {
+      switch (targetUnits)
+      {
+         case MINUTES:
+         {
+            value = value * 60.0;
+            break;
+         }
+
+         case DAYS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerDay().doubleValue()) / 60.0;
+            break;
+         }
+
+         case WEEKS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue()) / 60.0;
+            break;
+         }
+
+         case MONTHS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerMonth().doubleValue()) / 60.0;
+            break;
+         }
+
+         case YEARS:
+         {
+            value = (value * file.getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0) / 60.0;
+            break;
+         }
+      }
+
+      return new Rate(NumberHelper.round(value, 2), targetUnits);
    }
 }
