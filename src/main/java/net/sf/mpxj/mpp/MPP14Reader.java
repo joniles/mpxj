@@ -1656,9 +1656,15 @@ final class MPP14Reader implements MPPVariantReader
          processResourceEnterpriseColumns(resource, metaData2);
 
          //
+         // Convert rate units
+         //
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.STANDARD_RATE, ResourceField.STANDARD_RATE_UNITS);
+         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.OVERTIME_RATE, ResourceField.OVERTIME_RATE_UNITS);
+
+         //
          // Process cost rate tables
          //
-         CostRateTableFactory crt = new CostRateTableFactory();
+         CostRateTableFactory crt = new CostRateTableFactory(m_file);
          crt.process(resource, 0, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_A)));
          crt.process(resource, 1, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_B)));
          crt.process(resource, 2, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_C)));

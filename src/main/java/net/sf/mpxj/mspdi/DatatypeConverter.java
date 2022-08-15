@@ -1650,19 +1650,30 @@ public final class DatatypeConverter
    /**
     * Parse rate.
     *
-    * @param value rate value
+    * @param originalValue rate value
+    * @param targetUnits targetunits
     * @return Rate instance
     */
-   public static final Rate parseRate(BigDecimal value)
+   public static final Rate parseRate(BigDecimal originalValue, TimeUnit targetUnits)
    {
       Rate result = null;
 
-      if (value != null)
+      if (originalValue != null)
       {
-         result = new Rate(value, TimeUnit.HOURS);
+         // For "flat" rates (for example, for cost or material resources) where there is
+         // no time component, the MPP file stores a time unit which we recognise
+         // as elapsed minutes. If we encounter this, reset the time units to hours
+         // so we don't try to change the value.
+         // TODO: improve handling of  cost and material rates
+         if (targetUnits == TimeUnit.ELAPSED_MINUTES)
+         {
+            targetUnits = TimeUnit.HOURS;
+         }
+
+         result = RateHelper.convertFromHours(PARENT_FILE.get(), originalValue, targetUnits);
       }
 
-      return (result);
+      return result;
    }
 
    /**
