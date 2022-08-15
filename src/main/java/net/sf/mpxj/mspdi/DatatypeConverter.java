@@ -1691,16 +1691,51 @@ public final class DatatypeConverter
     * @param value rate value
     * @return Rate instance
     */
-   public static final Rate parseRate(BigDecimal value)
+   public static final Rate parseRate(BigDecimal originalValue, TimeUnit targetUnits)
    {
       Rate result = null;
 
-      if (value != null)
+      if (originalValue != null)
       {
-         result = new Rate(value, TimeUnit.HOURS);
+         double value = originalValue.doubleValue();
+
+         switch (targetUnits)
+         {
+            case MINUTES:
+            {
+               value = value * 60.0;
+               break;
+            }
+
+            case DAYS:
+            {
+               value = (value * PARENT_FILE.get().getProjectProperties().getMinutesPerDay().doubleValue()) / 60.0;
+               break;
+            }
+
+            case WEEKS:
+            {
+               value = (value * PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().doubleValue()) / 60.0;
+               break;
+            }
+
+            case MONTHS:
+            {
+               value = (value * PARENT_FILE.get().getProjectProperties().getMinutesPerMonth().doubleValue()) / 60.0;
+               break;
+            }
+
+            case YEARS:
+            {
+               value = (value * PARENT_FILE.get().getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0) / 60.0;
+               break;
+            }
+         }
+
+         result = new Rate(value, targetUnits);
       }
 
-      return (result);
+      return result;
    }
 
    /**

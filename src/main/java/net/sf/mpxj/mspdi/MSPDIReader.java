@@ -281,8 +281,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
       properties.setDefaultEndTime(project.getDefaultFinishTime());
       properties.setDefaultFixedCostAccrual(project.getDefaultFixedCostAccrual());
-      properties.setDefaultOvertimeRate(DatatypeConverter.parseRate(project.getDefaultOvertimeRate()));
-      properties.setDefaultStandardRate(DatatypeConverter.parseRate(project.getDefaultStandardRate()));
+      properties.setDefaultOvertimeRate(DatatypeConverter.parseRate(project.getDefaultOvertimeRate(), TimeUnit.HOURS));
+      properties.setDefaultStandardRate(DatatypeConverter.parseRate(project.getDefaultStandardRate(), TimeUnit.HOURS));
       properties.setDefaultStartTime(project.getDefaultStartTime());
       properties.setDefaultTaskEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getDefaultTaskEVMethod()));
       properties.setDefaultTaskType(project.getDefaultTaskType());
@@ -949,7 +949,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setNtAccount(xml.getNTAccount());
       //mpx.setObjects();
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
+      mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat())));
       mpx.setOvertimeRateUnits(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
       mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getOvertimeWork()));
       mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
@@ -960,7 +960,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
       mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingWork()));
       mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingOvertimeWork()));
-      mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate()));
+      mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat())));
       mpx.setStandardRateUnits(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
@@ -1115,9 +1115,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                continue;
             }
 
-            Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate());
+            Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate(), TimeUnit.HOURS);
             TimeUnit standardRateFormat = DatatypeConverter.parseTimeUnit(rate.getStandardRateFormat());
-            Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate());
+            Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate(), TimeUnit.HOURS);
             TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
             Date startDate = rate.getRatesFrom();
