@@ -1115,10 +1115,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                continue;
             }
 
-            Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate(), TimeUnit.HOURS);
             TimeUnit standardRateFormat = DatatypeConverter.parseTimeUnit(rate.getStandardRateFormat());
-            Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate(), TimeUnit.HOURS);
+            Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate(), standardRateFormat);
+
             TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
+            Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate(), overtimeRateFormat);
+
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
             Date startDate = rate.getRatesFrom();
             Date endDate = rate.getRatesTo();

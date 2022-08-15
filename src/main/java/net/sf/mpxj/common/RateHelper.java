@@ -94,7 +94,7 @@ public final class RateHelper
       {
          case MINUTES:
          {
-            value = value * 60.0;
+            value = value / 60.0;
             break;
          }
 

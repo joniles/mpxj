@@ -1656,7 +1656,7 @@ final class MPP9Reader implements MPPVariantReader
          //
          // Process cost rate tables
          //
-         CostRateTableFactory crt = new CostRateTableFactory();
+         CostRateTableFactory crt = new CostRateTableFactory(m_file);
          crt.process(resource, 0, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_A)));
          crt.process(resource, 1, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_B)));
          crt.process(resource, 2, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.COST_RATE_C)));

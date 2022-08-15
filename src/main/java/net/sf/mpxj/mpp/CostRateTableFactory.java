@@ -31,18 +31,25 @@ import java.util.List;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.RateHelper;
 
 /**
  * Common code to read resource cost rate tables from MPP files.
  */
 final class CostRateTableFactory
 {
+   public CostRateTableFactory(ProjectFile file)
+   {
+      m_file = file;
+   }
+
    /**
     * Creates a CostRateTable instance from a block of data.
     *
@@ -88,10 +95,12 @@ final class CostRateTableFactory
       {
          for (int i = 16; i + 44 <= data.length; i += 44)
          {
-            Rate standardRate = new Rate(MPPUtility.getDouble(data, i), TimeUnit.HOURS);
             TimeUnit standardRateFormat = getFormat(MPPUtility.getShort(data, i + 8));
-            Rate overtimeRate = new Rate(MPPUtility.getDouble(data, i + 16), TimeUnit.HOURS);
+            Rate standardRate = RateHelper.convertFromHours(m_file, MPPUtility.getDouble(data, i), standardRateFormat);
+
             TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data, i + 24));
+            Rate overtimeRate = RateHelper.convertFromHours(m_file, MPPUtility.getDouble(data, i + 16), overtimeRateFormat);
+
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
             Date endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
 
@@ -165,7 +174,19 @@ final class CostRateTableFactory
       else
       {
          result = MPPUtility.getWorkTimeUnits(format);
+
+         // For "flat" rates (for example, for cost or material resources) where there is
+         // no time component, the MPP file stores a time unit which we recognise
+         // as elapsed minutes. If we encounter this, reset the time units to hours
+         // so we don't try to change the value.
+         // TODO: improve handling of  cost and material rates
+         if (result == TimeUnit.ELAPSED_MINUTES)
+         {
+            result = TimeUnit.HOURS;
+         }
       }
       return result;
    }
+
+   private final ProjectFile m_file;
 }

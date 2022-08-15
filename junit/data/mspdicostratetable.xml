@@ -532,7 +532,7 @@
 					<RateTable>2</RateTable>
 					<StandardRate>0.5</StandardRate>
 					<StandardRateFormat>5</StandardRateFormat>
-					<OvertimeRate>0.04087</OvertimeRate>
+					<OvertimeRate>0.040865</OvertimeRate>
 					<OvertimeRateFormat>7</OvertimeRateFormat>
 					<CostPerUse>9000</CostPerUse>
 				</Rate>
