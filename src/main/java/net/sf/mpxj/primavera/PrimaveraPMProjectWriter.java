@@ -1236,7 +1236,7 @@ final class PrimaveraPMProjectWriter
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
                rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(Double.valueOf(entry.getStandardRate().getAmount()));
+               rate.setPricePerUnit(Double.valueOf(RateHelper.convertToHours(m_projectFile, entry.getStandardRate())));
                //rate.setPricePerUnit2(value);
                //rate.setPricePerUnit3(value);
                //rate.setPricePerUnit4(value);
