@@ -950,7 +950,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       //mpx.setObjects();
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat())));
-      mpx.setOvertimeRateUnits(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
       mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getOvertimeWork()));
       mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
       mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
@@ -961,7 +960,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingWork()));
       mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingOvertimeWork()));
       mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat())));
-      mpx.setStandardRateUnits(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
       mpx.setUniqueID(NumberHelper.getInteger(xml.getUID()));
@@ -1076,18 +1074,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             if (index == 0)
             {
                Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.STANDARD_RATE);
-               TimeUnit standardRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.STANDARD_RATE_UNITS);
-               standardRateUnits = standardRateUnits == null ? TimeUnit.HOURS : standardRateUnits;
-
                Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate)resource.getCachedValue(ResourceField.OVERTIME_RATE);
-               TimeUnit overtimeRateUnits = (TimeUnit)resource.getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
-               overtimeRateUnits = overtimeRateUnits == null ? TimeUnit.HOURS : overtimeRateUnits;
-
                Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number)resource.getCachedValue(ResourceField.COST_PER_USE);
                Date startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
                Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
-               table.add(new CostRateTableEntry(standardRate, standardRateUnits, overtimeRate, overtimeRateUnits, costPerUse, startDate, endDate));
+               table.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate));
             }
             else
             {
@@ -1147,7 +1139,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                endDate = cal.getTime();
             }
 
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             CostRateTable table = resource.getCostRateTable(tableIndex);
             if (table == null)
             {

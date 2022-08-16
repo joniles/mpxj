@@ -1336,6 +1336,6 @@ public final class JsonWriter extends AbstractProjectWriter
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
    }
 
-   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID));
+   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID, ResourceField.STANDARD_RATE_UNITS, ResourceField.OVERTIME_RATE_UNITS));
    private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID, ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
 }

@@ -642,12 +642,6 @@ final class PrimaveraReader
          processFields(m_resourceFields, row, resource);
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("clndr_id")));
 
-         // Even though we're not filling in a rate, filling in a time unit can still be useful
-         // so that we know what rate time unit was originally used in Primavera.
-         TimeUnit timeUnit = TIME_UNIT_MAP.get(row.getString("cost_qty_type"));
-         resource.setStandardRateUnits(timeUnit);
-         resource.setOvertimeRateUnits(timeUnit);
-
          // Add User Defined Fields
          populateUserDefinedFieldValues("RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
@@ -747,7 +741,7 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
@@ -820,7 +814,7 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));

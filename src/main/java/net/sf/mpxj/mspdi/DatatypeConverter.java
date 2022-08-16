@@ -51,6 +51,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -704,6 +705,55 @@ public final class DatatypeConverter
    public static final BigInteger printTimeUnit(TimeUnit value)
    {
       return (BigInteger.valueOf(value == null ? TimeUnit.DAYS.getValue() + 1 : value.getValue() + 1));
+   }
+
+   /**
+    * Print a time unit derived from a Rate.
+    *
+    * @param rate Rate instance
+    * @return time unit value
+    */
+   public static final BigInteger printTimeUnit(Rate rate)
+   {
+      return printTimeUnit(rate == null ? null : rate.getUnits()) ;
+   }
+
+   /**
+    * Print a time unit from a rate, and handle special case
+    * for non-work resources.
+    *
+    * @param resource parent resource
+    * @param rate Rate instance
+    * @return time unit value
+    */
+   public static final BigInteger printOvertimeRateFormat(Resource resource, Rate rate)
+   {
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      {
+         // TODO: improve handling of cost and material rates
+         return printTimeUnit(TimeUnit.HOURS);
+      }
+
+      return printTimeUnit(rate) ;
+   }
+
+   /**
+    * Print a time unit from a rate, and handle special case
+    * for non-work resources.
+    *
+    * @param resource parent resource
+    * @param rate Rate instance
+    * @return time unit value
+    */
+   public static final BigInteger printStandardRateFormat(Resource resource, Rate rate)
+   {
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      {
+         // TODO: improve handling of cost and material rates
+         return printTimeUnit(TimeUnit.ELAPSED_MINUTES);
+      }
+
+      return printTimeUnit(rate) ;
    }
 
    /**
@@ -1664,7 +1714,7 @@ public final class DatatypeConverter
          // no time component, the MPP file stores a time unit which we recognise
          // as elapsed minutes. If we encounter this, reset the time units to hours
          // so we don't try to change the value.
-         // TODO: improve handling of  cost and material rates
+         // TODO: improve handling of cost and material rates
          if (targetUnits == TimeUnit.ELAPSED_MINUTES)
          {
             targetUnits = TimeUnit.HOURS;

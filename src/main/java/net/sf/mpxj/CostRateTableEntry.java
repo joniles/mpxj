@@ -55,14 +55,30 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * @param startDate start date
     * @param endDate end date
     */
-   public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date startDate, Date endDate)
+   @Deprecated public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date startDate, Date endDate)
    {
       m_startDate = startDate;
       m_endDate = endDate;
       m_standardRate = standardRate;
-      m_standardRateFormat = standardRateFormat;
       m_overtimeRate = overtimeRate;
-      m_overtimeRateFormat = overtimeRateFormat;
+      m_costPerUse = costPerUse;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param standardRate standard rate
+    * @param overtimeRate overtime rate
+    * @param costPerUse cost per use
+    * @param startDate start date
+    * @param endDate end date
+    */
+   public CostRateTableEntry(Rate standardRate, Rate overtimeRate, Number costPerUse, Date startDate, Date endDate)
+   {
+      m_startDate = startDate;
+      m_endDate = endDate;
+      m_standardRate = standardRate;
+      m_overtimeRate = overtimeRate;
       m_costPerUse = costPerUse;
    }
 
@@ -101,9 +117,9 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     *
     * @return standard rate format
     */
-   public TimeUnit getStandardRateFormat()
+   @Deprecated public TimeUnit getStandardRateFormat()
    {
-      return m_standardRateFormat;
+      return m_standardRate.getUnits();
    }
 
    /**
@@ -121,9 +137,9 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     *
     * @return overtime rate format
     */
-   public TimeUnit getOvertimeRateFormat()
+   @Deprecated public TimeUnit getOvertimeRateFormat()
    {
-      return m_overtimeRateFormat;
+      return m_overtimeRate.getUnits();
    }
 
    /**
@@ -149,9 +165,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    private final Date m_startDate;
    private final Date m_endDate;
    private final Rate m_standardRate;
-   private final TimeUnit m_standardRateFormat;
    private final Rate m_overtimeRate;
-   private final TimeUnit m_overtimeRateFormat;
    private final Number m_costPerUse;
 
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
