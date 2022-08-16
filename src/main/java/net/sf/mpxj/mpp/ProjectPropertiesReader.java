@@ -163,9 +163,6 @@ public final class ProjectPropertiesReader
          ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
 
          ph.setNewTasksAreManual(props.getBoolean(Props.NEW_TASKS_ARE_MANUAL));
-
-         ph.setResourceRate1Name("Standard");
-         ph.setResourceRate2Name("Overtime");
       }
 
       catch (Exception ex)

@@ -1795,15 +1795,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processResourceRates(APIBusinessObjects apibo)
    {
-      // Sadly although configurable in P6, the user-supplied labels don't appear in PMXML
-      // We'll just use the defaults here.
-//      ProjectProperties properties = m_projectFile.getProjectProperties();
-//      properties.setResourceRate1Name("Price / Unit1");
-//      properties.setResourceRate2Name("Price / Unit2");
-//      properties.setResourceRate3Name("Price / Unit3");
-//      properties.setResourceRate4Name("Price / Unit4");
-//      properties.setResourceRate5Name("Price / Unit5");
-
       List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next

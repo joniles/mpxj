@@ -326,9 +326,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
 
-      properties.setResourceRate1Name("Standard");
-      properties.setResourceRate2Name("Overtime");
-
       updateScheduleSource(properties);
    }
 
