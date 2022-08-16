@@ -741,7 +741,7 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
@@ -814,7 +814,7 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));

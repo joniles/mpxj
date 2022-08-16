@@ -79,7 +79,7 @@ final class CostRateTableFactory
             Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number)resource.getCachedValue(ResourceField.COST_PER_USE);
             Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
-            entries.add(new CostRateTableEntry(standardRate, standardRate.getUnits(), overtimeRate, overtimeRate.getUnits(), costPerUse, null, endDate));
+            entries.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, null, endDate));
          }
          else
          {

@@ -1079,7 +1079,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                Date startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
                Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
-               table.add(new CostRateTableEntry(standardRate, standardRate.getUnits(), overtimeRate, overtimeRate.getUnits(), costPerUse, startDate, endDate));
+               table.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate));
             }
             else
             {
@@ -1139,7 +1139,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                endDate = cal.getTime();
             }
 
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             CostRateTable table = resource.getCostRateTable(tableIndex);
             if (table == null)
             {
