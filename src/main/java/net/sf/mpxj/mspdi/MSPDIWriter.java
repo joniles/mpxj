@@ -1274,12 +1274,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
                   rate.setCostPerUse(DatatypeConverter.printCurrencyMandatory(entry.getCostPerUse()));
                   rate.setOvertimeRate(DatatypeConverter.printRateMandatory(entry.getOvertimeRate()));
-                  rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRateFormat()));
+                  rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRate()));
                   rate.setRatesFrom(entry.getStartDate());
                   rate.setRatesTo(entry.getEndDate());
                   rate.setRateTable(BigInteger.valueOf(tableIndex));
                   rate.setStandardRate(DatatypeConverter.printRateMandatory(entry.getStandardRate()));
-                  rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
+                  rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRate()));
                }
             }
          }

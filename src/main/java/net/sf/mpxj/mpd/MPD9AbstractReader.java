@@ -900,7 +900,7 @@ abstract class MPD9AbstractReader
          //resource.setOutlineCode10();
          resource.setOverAllocated(row.getBoolean("RES_IS_OVERALLOCATED"));
          resource.setOvertimeCost(row.getCurrency("RES_OVT_COST"));
-         resource.setOvertimeRate(RateHelper.convertFromHours(m_project, row.getDouble("RES_OVT_RATE"), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1)));
+         resource.setOvertimeRate(RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1)));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
          resource.setPeakUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_PEAK")) * 100));
          //resource.setPercentWorkComplete();
@@ -911,7 +911,7 @@ abstract class MPD9AbstractReader
          resource.setRemainingOvertimeWork(row.getDuration("RES_REM_OVT_WORK"));
          resource.setRemainingWork(row.getDuration("RES_REM_WORK"));
          //resource.setResourceCalendar();RES_CAL_UID = null ( ) // CHECK THIS
-         resource.setStandardRate(RateHelper.convertFromHours(m_project, row.getDouble("RES_STD_RATE"), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1)));
+         resource.setStandardRate(RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1)));
          //resource.setStart();
          //resource.setStart1();
          //resource.setStart2();

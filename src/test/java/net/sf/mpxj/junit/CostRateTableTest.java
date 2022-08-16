@@ -272,8 +272,8 @@ public class CostRateTableTest
       assertEquals(costPerUse, entry.getCostPerUse().doubleValue(), 0);
       assertEquals(startDate, m_df.format(entry.getStartDate()));
       assertEquals(endDate, m_df.format(entry.getEndDate()));
-      assertEquals(standardRateFormat, entry.getStandardRateFormat());
-      assertEquals(overtimeRateFormat, entry.getOvertimeRateFormat());
+      assertEquals(standardRateFormat, entry.getStandardRate().getUnits());
+      assertEquals(overtimeRateFormat, entry.getOvertimeRate().getUnits());
    }
 
    private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");

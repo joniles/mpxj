@@ -122,7 +122,7 @@ final class CostRateTableFactory
                   endDate = cal.getTime();
                }
             }
-            entries.add(new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, null, endDate));
+            entries.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, null, endDate));
          }
       }
 
@@ -147,7 +147,7 @@ final class CostRateTableFactory
          }
 
          CostRateTableEntry entry = entries.get(i);
-         result.add(new CostRateTableEntry(entry.getStandardRate(), entry.getStandardRateFormat(), entry.getOvertimeRate(), entry.getOvertimeRateFormat(), entry.getCostPerUse(), startDate, entry.getEndDate()));
+         result.add(new CostRateTableEntry(entry.getStandardRate(), entry.getOvertimeRate(), entry.getCostPerUse(), startDate, entry.getEndDate()));
       }
 
       resource.setCostRateTable(index, result);

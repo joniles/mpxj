@@ -1817,9 +1817,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Integer resourceID = row.getResourceObjectId();
          Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
-         TimeUnit standardRateFormat = TimeUnit.HOURS;
          Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
-         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
          Date startDate = row.getEffectiveDate();
@@ -1892,9 +1890,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          RoleRateType row = rates.get(i);
 
          Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
-         TimeUnit standardRateFormat = TimeUnit.HOURS;
          Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
-         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
          Date startDate = row.getEffectiveDate();
@@ -1931,7 +1927,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));

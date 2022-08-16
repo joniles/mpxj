@@ -768,6 +768,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public void setStandardRateUnits(TimeUnit units)
    {
+      // Deprecated method
    }
 
    /**
@@ -850,7 +851,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public void setOvertimeRateUnits(TimeUnit units)
    {
-
+      // Deprecated method
    }
 
    /**

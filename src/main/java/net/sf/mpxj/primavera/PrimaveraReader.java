@@ -701,9 +701,7 @@ final class PrimaveraReader
 
          Integer resourceID = row.getInteger("rsrc_id");
          Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
-         TimeUnit standardRateFormat = TimeUnit.HOURS;
          Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
-         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          Date startDate = row.getDate("start_date");
@@ -775,9 +773,7 @@ final class PrimaveraReader
          Row row = rows.get(i);
 
          Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
-         TimeUnit standardRateFormat = TimeUnit.HOURS;
          Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
-         TimeUnit overtimeRateFormat = TimeUnit.HOURS;
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          Date startDate = row.getDate("start_date");
