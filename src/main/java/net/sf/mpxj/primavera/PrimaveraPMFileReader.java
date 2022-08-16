@@ -1795,6 +1795,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processResourceRates(APIBusinessObjects apibo)
    {
+      // Sadly although configurable in P6, the user-supplied labels don't appear in PMXML
+      // We'll just use the defaults here.
+//      ProjectProperties properties = m_projectFile.getProjectProperties();
+//      properties.setResourceRate1Name("Price / Unit1");
+//      properties.setResourceRate2Name("Price / Unit2");
+//      properties.setResourceRate3Name("Price / Unit3");
+//      properties.setResourceRate4Name("Price / Unit4");
+//      properties.setResourceRate5Name("Price / Unit5");
+
       List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
@@ -1816,8 +1825,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ResourceRateType row = rates.get(i);
 
          Integer resourceID = row.getResourceObjectId();
-         Rate standardRate = new Rate(row.getPricePerUnit(), TimeUnit.HOURS);
-         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         Rate[] values = new Rate[] {
+            readRate(row.getPricePerUnit()),
+            readRate(row.getPricePerUnit2()),
+            readRate(row.getPricePerUnit3()),
+            readRate(row.getPricePerUnit4()),
+            readRate(row.getPricePerUnit5()),
+         };
+
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
          Date startDate = row.getEffectiveDate();
@@ -1854,12 +1869,21 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, standardRate, overtimeRate);
-            costRateTable.add(entry);
 
+            costRateTable.add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
          }
       }
+   }
+
+   private Rate readRate(Double value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+
+      return new Rate(value, TimeUnit.HOURS);
    }
 
    /**

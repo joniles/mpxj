@@ -2919,7 +2919,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @param name rate name
     */
-   public void setRate3Name(String name)
+   public void setResourceRate3Name(String name)
    {
       set(ProjectField.RESOURCE_RATE3_NAME, name);
    }
