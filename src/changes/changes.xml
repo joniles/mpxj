@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">The values for a resource's standard rate, overtime rate, and cost per use attributes are now derived from the cost rate table. The values stored on the resource itself are only used if a cost rate table for the resource is not present.</action>
 			<action dev="joniles" type="update">The Resource methods `getStandardRateUnits` and `getOvertimeRateUnits` are deprecated. Use the `getStandardRate` and `getOvertimeRate` methods to retrieve a `Rate` instance which will include the units for these rates.</action>
 			<action dev="joniles" type="update">The Resource methods `setStandardRateUnits` and `setOvertimeRateUnits` are deprecated. Supply `Rate` instances to the `setStandardRate` and `setOvertimeRate` methods with the required units instead.</action>
+			<action dev="joniles" type="update">The CostRateTableEntry methods `getStandardRateUnits` and `getOvertimeRateUnits` are deprecated. Use the `getStandardRate` and `getOvertimeRate` methods to retrieve a `Rate` instance which will include the units for these rates.</action>
 			<action dev="joniles" type="update">Ensure rates are formatted "per hour" when writing MSPDI and PMXML files.</action>
 			<action dev="joniles" type="update">Include cost rate tables in JSON output.</action>
 		</release>
