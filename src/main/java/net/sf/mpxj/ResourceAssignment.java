@@ -1132,7 +1132,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       if (table == null)
       {
          Resource resource = getResource();
-         result = new CostRateTableEntry(resource.getStandardRate(), resource.getOvertimeRate(), resource.getCostPerUse(), DateHelper.START_DATE_NA, DateHelper.END_DATE_NA);
+         result = new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, resource.getCostPerUse(), resource.getStandardRate(), resource.getOvertimeRate());
       }
       else
       {

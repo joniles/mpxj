@@ -79,7 +79,7 @@ final class CostRateTableFactory
             Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number)resource.getCachedValue(ResourceField.COST_PER_USE);
             Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
-            entries.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, null, endDate));
+            entries.add(new CostRateTableEntry(null, endDate, costPerUse, standardRate, overtimeRate));
          }
          else
          {
@@ -122,7 +122,7 @@ final class CostRateTableFactory
                   endDate = cal.getTime();
                }
             }
-            entries.add(new CostRateTableEntry(standardRate, overtimeRate, costPerUse, null, endDate));
+            entries.add(new CostRateTableEntry(null, endDate, costPerUse, standardRate, overtimeRate));
          }
       }
 
@@ -147,7 +147,7 @@ final class CostRateTableFactory
          }
 
          CostRateTableEntry entry = entries.get(i);
-         result.add(new CostRateTableEntry(entry.getStandardRate(), entry.getOvertimeRate(), entry.getCostPerUse(), startDate, entry.getEndDate()));
+         result.add(new CostRateTableEntry(startDate, entry.getEndDate(), entry.getCostPerUse(), entry.getStandardRate(), entry.getOvertimeRate()));
       }
 
       resource.setCostRateTable(index, result);
