@@ -1050,7 +1050,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeRate(DatatypeConverter.printRate(mpx.getOvertimeRate()));
-      xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRateUnits()));
+      xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRate()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPeakUnits(DatatypeConverter.printUnits(mpx.getPeakUnits()));
       xml.setPercentWorkComplete(mpx.getPercentWorkComplete());
@@ -1061,7 +1061,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setStandardRate(DatatypeConverter.printRate(mpx.getStandardRate()));
-      xml.setStandardRateFormat(DatatypeConverter.printTimeUnit(mpx.getStandardRateUnits()));
+      xml.setStandardRateFormat(DatatypeConverter.printTimeUnit(mpx.getStandardRate()));
       xml.setStart(mpx.getStart());
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setUID(mpx.getUniqueID());

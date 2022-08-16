@@ -766,26 +766,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     *
     * @param units standard rate format
     */
-   public void setStandardRateUnits(TimeUnit units)
+   @Deprecated public void setStandardRateUnits(TimeUnit units)
    {
-      set(ResourceField.STANDARD_RATE_UNITS, units);
-   }
-
-   /**
-    * Retrieve the current standard rate units from the specified cost rate table.
-    * 
-    * @param costRateTable cost rate table index
-    * @return current standard rate units
-    */
-   public TimeUnit getCurrentStandardRateUnits(int costRateTable)
-   {
-      TimeUnit units = null;
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
-      if (entry != null)
-      {
-         units = entry.getStandardRateFormat();
-      }
-      return units;
    }
 
    /**
@@ -793,14 +775,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     *
     * @return standard rate format
     */
-   public TimeUnit getStandardRateUnits()
+   @Deprecated public TimeUnit getStandardRateUnits()
    {
-      TimeUnit units = getCurrentStandardRateUnits(0);
-      if (units == null)
-      {
-         units = (TimeUnit) getCachedValue(ResourceField.STANDARD_RATE_UNITS);
-      }
-      return units;
+     Rate rate = getStandardRate();
+     return rate == null ? TimeUnit.HOURS : rate.getUnits();
    }
 
    /**
@@ -835,7 +813,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the current overtime rate from the specified cost rate table.
-    * 
+    *
     * @param costRateTable cost rate table index
     * @return current overtime rate
     */
@@ -870,26 +848,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     *
     * @param units overtime rate format
     */
-   public void setOvertimeRateUnits(TimeUnit units)
+   @Deprecated public void setOvertimeRateUnits(TimeUnit units)
    {
-      set(ResourceField.OVERTIME_RATE_UNITS, units);
-   }
 
-   /**
-    * Retrieve the current overtime rate units from the specified cost rate table.
-    * 
-    * @param costRateTable cost rate table index
-    * @return current overtime rate units
-    */
-   public TimeUnit getCurrentOvertimeRateUnits(int costRateTable)
-   {
-      TimeUnit units = null;
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
-      if (entry != null)
-      {
-         units = entry.getOvertimeRateFormat();
-      }
-      return units;
    }
 
    /**
@@ -897,14 +858,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     *
     * @return overtime rate format
     */
-   public TimeUnit getOvertimeRateUnits()
+   @Deprecated public TimeUnit getOvertimeRateUnits()
    {
-      TimeUnit units = getCurrentOvertimeRateUnits(0);
-      if (units == null)
-      {
-         units = (TimeUnit) getCachedValue(ResourceField.OVERTIME_RATE_UNITS);
-      }
-      return units;
+      Rate rate = getOvertimeRate();
+      return rate == null ? TimeUnit.HOURS : rate.getUnits();
    }
 
    /**

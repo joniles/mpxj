@@ -269,7 +269,6 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       // phoenixResource.getMaximum()
       mpxjResource.setCostPerUse(phoenixResource.getMonetarycostperuse());
       mpxjResource.setStandardRate(new Rate(phoenixResource.getMonetaryrate(), rateUnits));
-      mpxjResource.setStandardRateUnits(rateUnits);
       mpxjResource.setName(phoenixResource.getName());
       mpxjResource.setType(phoenixResource.getType());
       mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());

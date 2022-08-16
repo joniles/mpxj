@@ -706,6 +706,11 @@ public final class DatatypeConverter
       return (BigInteger.valueOf(value == null ? TimeUnit.DAYS.getValue() + 1 : value.getValue() + 1));
    }
 
+   public static final BigInteger printTimeUnit(Rate rate)
+   {
+      return printTimeUnit(rate == null ? TimeUnit.HOURS : rate.getUnits()) ;
+   }
+
    /**
     * Parse time unit.
     *
