@@ -51,6 +51,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -709,6 +710,26 @@ public final class DatatypeConverter
    public static final BigInteger printTimeUnit(Rate rate)
    {
       return printTimeUnit(rate == null ? null : rate.getUnits()) ;
+   }
+
+   public static final BigInteger printOvertimeRateFormat(Resource resource, Rate rate)
+   {
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      {
+         return printTimeUnit(TimeUnit.HOURS);
+      }
+
+      return printTimeUnit(rate) ;
+   }
+
+   public static final BigInteger printStandardRateFormat(Resource resource, Rate rate)
+   {
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      {
+         return printTimeUnit(TimeUnit.ELAPSED_MINUTES);
+      }
+
+      return printTimeUnit(rate) ;
    }
 
    /**
