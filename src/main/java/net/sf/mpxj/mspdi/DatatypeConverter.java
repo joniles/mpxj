@@ -708,7 +708,7 @@ public final class DatatypeConverter
 
    public static final BigInteger printTimeUnit(Rate rate)
    {
-      return printTimeUnit(rate == null ? TimeUnit.HOURS : rate.getUnits()) ;
+      return printTimeUnit(rate == null ? null : rate.getUnits()) ;
    }
 
    /**
