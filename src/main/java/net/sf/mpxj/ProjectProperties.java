@@ -2864,6 +2864,106 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return (Date) getCachedValue(ProjectField.PLANNED_START);
    }
 
+   /**
+    * Retrieve the name of a rate in the cost rate table.
+    *
+    * @return rate name
+    */
+   public String getResourceRate1Name()
+   {
+      return (String)getCachedValue(ProjectField.RESOURCE_RATE1_NAME);
+   }
+
+   /**
+    * Set the name of a rate in the cost rate table.
+    *
+    * @param name rate name
+    */
+   public void setResourceRate1Name(String name)
+   {
+      set(ProjectField.RESOURCE_RATE1_NAME, name);
+   }
+
+   /**
+    * Retrieve the name of a rate in the cost rate table.
+    *
+    * @return rate name
+    */
+   public String getResourceRate2Name()
+   {
+      return (String)getCachedValue(ProjectField.RESOURCE_RATE2_NAME);
+   }
+
+   /**
+    * Set the name of a rate in the cost rate table.
+    *
+    * @param name rate name
+    */
+   public void setResourceRate2Name(String name)
+   {
+      set(ProjectField.RESOURCE_RATE2_NAME, name);
+   }
+
+   /**
+    * Retrieve the name of a rate in the cost rate table.
+    *
+    * @return rate name
+    */
+   public String getResourceRate3Name()
+   {
+      return (String)getCachedValue(ProjectField.RESOURCE_RATE3_NAME);
+   }
+
+   /**
+    * Set the name of a rate in the cost rate table.
+    *
+    * @param name rate name
+    */
+   public void setRate3Name(String name)
+   {
+      set(ProjectField.RESOURCE_RATE3_NAME, name);
+   }
+
+   /**
+    * Retrieve the name of a rate in the cost rate table.
+    *
+    * @return rate name
+    */
+   public String getResourceRate4Name()
+   {
+      return (String)getCachedValue(ProjectField.RESOURCE_RATE4_NAME);
+   }
+
+   /**
+    * Set the name of a rate in the cost rate table.
+    *
+    * @param name rate name
+    */
+   public void setResourceRate4Name(String name)
+   {
+      set(ProjectField.RESOURCE_RATE4_NAME, name);
+   }
+
+   /**
+    * Retrieve the name of a rate in the cost rate table.
+    *
+    * @return rate name
+    */
+   public String getResourceRate5Name()
+   {
+      return (String)getCachedValue(ProjectField.RESOURCE_RATE5_NAME);
+   }
+
+   /**
+    * Set the name of a rate in the cost rate table.
+    *
+    * @param name rate name
+    */
+   public void setResourceRate5Name(String name)
+   {
+      set(ProjectField.RESOURCE_RATE5_NAME, name);
+   }
+
    @Override public void addFieldListener(FieldListener listener)
    {
       // We don't currently generate events for project properties

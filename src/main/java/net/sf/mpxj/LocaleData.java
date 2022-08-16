@@ -2533,6 +2533,11 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.MUST_FINISH_BY.getValue()] = "Must Finish By";
       PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULED_FINISH.getValue()] = "Scheduled Finish";
       PROJECT_COLUMNS_ARRAY[ProjectField.PLANNED_START.getValue()] = "Planned Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_RATE1_NAME.getValue()] = "Resource Rate 1 Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_RATE2_NAME.getValue()] = "Resource Rate 2 Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_RATE3_NAME.getValue()] = "Resource Rate 3 Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_RATE4_NAME.getValue()] = "Resource Rate 4 Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_RATE5_NAME.getValue()] = "Resource Rate 5 Name";
 
       PROJECT_COLUMNS_ARRAY[ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       PROJECT_COLUMNS_ARRAY[ProjectField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";

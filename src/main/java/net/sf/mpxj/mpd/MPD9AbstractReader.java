@@ -609,6 +609,9 @@ abstract class MPD9AbstractReader
       //    PROJ_CHECKEDOUTDATE
       //    RESERVED_BINARY_DATA
 
+      properties.setResourceRate1Name("Standard");
+      properties.setResourceRate2Name("Overtime");
+
       m_defaultCalendarName = row.getString("PROJ_INFO_CAL_NAME");
    }
 

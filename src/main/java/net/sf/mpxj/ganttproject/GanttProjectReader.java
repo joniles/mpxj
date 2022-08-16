@@ -176,6 +176,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       mpxjProperties.setCompany(ganttProject.getCompany());
       mpxjProperties.setDefaultDurationUnits(TimeUnit.DAYS);
 
+      mpxjProperties.setResourceRate1Name("Standard");
+
       String locale = ganttProject.getLocale();
       if (locale == null)
       {
