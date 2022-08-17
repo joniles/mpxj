@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.8.0 (unreleased)
+## 10.8.1 (unreleased)
+
+## 10.8.0 (2022-08-17)
 * When reading P6 schedules, all five cost rates for a resource are now available via the `CostRateTableEntry.getRate` method.
 * All five rates from each cost rate table entry can now be written to PMXML files.
 * When reading files written by Microsoft Project, resource rate values now use the same units as seen by the end user rather than defaulting to hours as was the case previously. (For example, if the user sees $8/day in the source application, you will receive a Rate instance of $8/day rather than $1/hr).
