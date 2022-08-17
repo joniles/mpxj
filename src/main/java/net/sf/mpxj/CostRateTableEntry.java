@@ -175,6 +175,5 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    private final Number m_costPerUse;
    private final Rate[] m_rates = new Rate[MAX_RATES];
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
-
    public static final int MAX_RATES = 5;
 }
