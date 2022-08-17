@@ -613,8 +613,10 @@ public final class JsonWriter extends AbstractProjectWriter
             writeTimestampField("end_date", endDate);
             writeDoubleField("cost_per_use", entry.getCostPerUse());
             m_writer.writeStartObject("rates");
-            writeCostRate(0, entry.getStandardRate());
-            writeCostRate(1, entry.getOvertimeRate());
+            for (int rateIndex=0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
+            {
+               writeCostRate(rateIndex, entry.getRate(rateIndex));
+            }
             m_writer.writeEndObject();
 
             m_writer.writeEndObject();

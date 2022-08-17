@@ -24,6 +24,8 @@
 package net.sf.mpxj;
 
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -57,29 +59,23 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    @Deprecated public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date startDate, Date endDate)
    {
-      m_startDate = startDate;
-      m_endDate = endDate;
-      m_standardRate = standardRate;
-      m_overtimeRate = overtimeRate;
-      m_costPerUse = costPerUse;
+      this(startDate, endDate, costPerUse, standardRate, overtimeRate);
    }
 
    /**
     * Constructor.
     *
-    * @param standardRate standard rate
-    * @param overtimeRate overtime rate
-    * @param costPerUse cost per use
-    * @param startDate start date
-    * @param endDate end date
+    * @param startDate    start date
+    * @param endDate      end date
+    * @param costPerUse   cost per use
+    * @param rates Rate instances
     */
-   public CostRateTableEntry(Rate standardRate, Rate overtimeRate, Number costPerUse, Date startDate, Date endDate)
+   public CostRateTableEntry(Date startDate, Date endDate, Number costPerUse, Rate... rates)
    {
       m_startDate = startDate;
       m_endDate = endDate;
-      m_standardRate = standardRate;
-      m_overtimeRate = overtimeRate;
       m_costPerUse = costPerUse;
+      System.arraycopy(rates, 0, m_rates, 0, rates.length);
    }
 
    /**
@@ -103,13 +99,24 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    }
 
    /**
+    * Retrieve the rate with the specified index.
+    *
+    * @param index rate index
+    * @return Rate instance
+    */
+   public Rate getRate(int index)
+   {
+      return m_rates[index];
+   }
+
+   /**
     * Retrieves the standard rate represented by this entry.
     *
     * @return standard rate
     */
    public Rate getStandardRate()
    {
-      return m_standardRate;
+      return getRate(0);
    }
 
    /**
@@ -119,7 +126,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    @Deprecated public TimeUnit getStandardRateFormat()
    {
-      return m_standardRate.getUnits();
+      return getStandardRate().getUnits();
    }
 
    /**
@@ -129,7 +136,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public Rate getOvertimeRate()
    {
-      return m_overtimeRate;
+      return getRate(1);
    }
 
    /**
@@ -139,7 +146,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    @Deprecated public TimeUnit getOvertimeRateFormat()
    {
-      return m_overtimeRate.getUnits();
+      return getOvertimeRate().getUnits();
    }
 
    /**
@@ -159,14 +166,14 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    @Override public String toString()
    {
-      return "[CostRateTableEntry standardRate=" + m_standardRate + " overtimeRate=" + m_overtimeRate + " costPerUse=" + m_costPerUse + " startDate=" + m_startDate + " endDate=" + m_endDate + "]";
+      String rates = Stream.of(m_rates).map(String::valueOf).collect(Collectors.joining(", "));
+      return "[CostRateTableEntry startDate=" + m_startDate + " endDate=" + m_endDate + " costPerUse=" + m_costPerUse + " rates=" + rates + "]";
    }
 
    private final Date m_startDate;
    private final Date m_endDate;
-   private final Rate m_standardRate;
-   private final Rate m_overtimeRate;
    private final Number m_costPerUse;
-
+   private final Rate[] m_rates = new Rate[MAX_RATES];
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
+   public static final int MAX_RATES = 5;
 }

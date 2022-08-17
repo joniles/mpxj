@@ -700,8 +700,14 @@ final class PrimaveraReader
          Row row = rows.get(i);
 
          Integer resourceID = row.getInteger("rsrc_id");
-         Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
-         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         Rate[] values = new Rate[] {
+            readRate(row.getDouble("cost_per_qty")),
+            readRate(row.getDouble("cost_per_qty2")),
+            readRate(row.getDouble("cost_per_qty3")),
+            readRate(row.getDouble("cost_per_qty4")),
+            readRate(row.getDouble("cost_per_qty5")),
+         };
+
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          Date startDate = row.getDate("start_date");
@@ -739,12 +745,28 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, values);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
          }
       }
+   }
+
+   /**
+    * Read a rate value, handle null.
+    *
+    * @param value rate as a double
+    * @return new Rate instance
+    */
+   private Rate readRate(Double value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+
+      return new Rate(value, TimeUnit.HOURS);
    }
 
    /**
@@ -772,8 +794,14 @@ final class PrimaveraReader
       {
          Row row = rows.get(i);
 
-         Rate standardRate = new Rate(row.getDouble("cost_per_qty"), TimeUnit.HOURS);
-         Rate overtimeRate = new Rate(0, TimeUnit.HOURS); // does this exist in Primavera?
+         Rate[] values = new Rate[] {
+            readRate(row.getDouble("cost_per_qty")),
+            readRate(row.getDouble("cost_per_qty2")),
+            readRate(row.getDouble("cost_per_qty3")),
+            readRate(row.getDouble("cost_per_qty4")),
+            readRate(row.getDouble("cost_per_qty5")),
+         };
+
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          Date startDate = row.getDate("start_date");
@@ -810,7 +838,7 @@ final class PrimaveraReader
                costRateTable = new CostRateTable();
                resource.setCostRateTable(0, costRateTable);
             }
-            CostRateTableEntry entry = new CostRateTableEntry(standardRate, overtimeRate, costPerUse, startDate, endDate);
+            CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, values);
             costRateTable.add(entry);
 
             resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
@@ -2271,6 +2299,7 @@ final class PrimaveraReader
       ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
+/*
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
    static
    {
@@ -2281,7 +2310,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Month", TimeUnit.MONTHS);
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
-
+*/
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
