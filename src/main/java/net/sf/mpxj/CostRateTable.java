@@ -98,7 +98,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
    {
       for (CostRateTableEntry entry : this)
       {
-         for (int rateIndex=0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
+         for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
          {
             Rate rate = entry.getRate(rateIndex);
             if (rate != null && rate.getAmount() != 0.0)

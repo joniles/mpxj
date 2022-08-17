@@ -111,7 +111,7 @@ public final class RateHelper
    {
       if (targetUnits == TimeUnit.YEARS)
       {
-         double v = ((long)(value.doubleValue() * file.getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0)) / 60.0;
+         double v = ((long) (value.doubleValue() * file.getProjectProperties().getMinutesPerWeek().doubleValue() * 52.0)) / 60.0;
          return new Rate(NumberHelper.round(v, 2), targetUnits);
       }
       return convertFromHours(file, value.doubleValue(), targetUnits);

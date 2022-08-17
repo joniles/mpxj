@@ -715,7 +715,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printTimeUnit(Rate rate)
    {
-      return printTimeUnit(rate == null ? null : rate.getUnits()) ;
+      return printTimeUnit(rate == null ? null : rate.getUnits());
    }
 
    /**
@@ -734,7 +734,7 @@ public final class DatatypeConverter
          return printTimeUnit(TimeUnit.HOURS);
       }
 
-      return printTimeUnit(rate) ;
+      return printTimeUnit(rate);
    }
 
    /**
@@ -753,7 +753,7 @@ public final class DatatypeConverter
          return printTimeUnit(TimeUnit.ELAPSED_MINUTES);
       }
 
-      return printTimeUnit(rate) ;
+      return printTimeUnit(rate);
    }
 
    /**

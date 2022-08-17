@@ -1816,7 +1816,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ResourceRateType row = rates.get(i);
 
          Integer resourceID = row.getResourceObjectId();
-         Rate[] values = new Rate[] {
+         Rate[] values = new Rate[]
+         {
             readRate(row.getPricePerUnit()),
             readRate(row.getPricePerUnit2()),
             readRate(row.getPricePerUnit3()),
@@ -1910,7 +1911,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          RoleRateType row = rates.get(i);
 
-         Rate[] values = new Rate[] {
+         Rate[] values = new Rate[]
+         {
             readRate(row.getPricePerUnit()),
             readRate(row.getPricePerUnit2()),
             readRate(row.getPricePerUnit3()),

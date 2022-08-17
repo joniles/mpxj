@@ -731,7 +731,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the current standard rate from the specified cost rate table.
-    * 
+    *
     * @param costRateTable cost rate table index
     * @return current standard rate
     */
@@ -778,8 +778,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public TimeUnit getStandardRateUnits()
    {
-     Rate rate = getStandardRate();
-     return rate == null ? TimeUnit.HOURS : rate.getUnits();
+      Rate rate = getStandardRate();
+      return rate == null ? TimeUnit.HOURS : rate.getUnits();
    }
 
    /**
@@ -897,7 +897,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the current cost per use from the specified cost rate table.
-    * 
+    *
     * @param costRateTable cost rate table index
     * @return current cost per use
     */
@@ -2734,7 +2734,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    /**
     * Retrieve the cost rate table entry effective for the current date.
-    * 
+    *
     * @param costRateTable cost rate table index
     * @return cost rate table entry
     */

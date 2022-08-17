@@ -1330,7 +1330,7 @@ final class PrimaveraPMProjectWriter
       boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
       boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean nonZeroRates = false;
-      for (int rateIndex=0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
+      for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
       {
          if (entry.getRate(rateIndex) != null && entry.getRate(rateIndex).getAmount() != 0)
          {

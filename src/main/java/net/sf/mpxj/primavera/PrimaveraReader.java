@@ -700,7 +700,8 @@ final class PrimaveraReader
          Row row = rows.get(i);
 
          Integer resourceID = row.getInteger("rsrc_id");
-         Rate[] values = new Rate[] {
+         Rate[] values = new Rate[]
+         {
             readRate(row.getDouble("cost_per_qty")),
             readRate(row.getDouble("cost_per_qty2")),
             readRate(row.getDouble("cost_per_qty3")),
@@ -794,7 +795,8 @@ final class PrimaveraReader
       {
          Row row = rows.get(i);
 
-         Rate[] values = new Rate[] {
+         Rate[] values = new Rate[]
+         {
             readRate(row.getDouble("cost_per_qty")),
             readRate(row.getDouble("cost_per_qty2")),
             readRate(row.getDouble("cost_per_qty3")),
@@ -2299,7 +2301,7 @@ final class PrimaveraReader
       ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
-/*
+   /*
    private static final Map<String, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
    static
    {
@@ -2310,7 +2312,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Month", TimeUnit.MONTHS);
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
-*/
+   */
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {

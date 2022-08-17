@@ -562,7 +562,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCostRateTables(Resource resource) throws IOException
    {
       boolean tablesArePopulated = false;
-      for (int index=0; index < CostRateTable.MAX_TABLES; index++)
+      for (int index = 0; index < CostRateTable.MAX_TABLES; index++)
       {
          CostRateTable table = resource.getCostRateTable(index);
          tablesArePopulated = table != null && table.tableIsPopulated();
@@ -613,7 +613,7 @@ public final class JsonWriter extends AbstractProjectWriter
             writeTimestampField("end_date", endDate);
             writeDoubleField("cost_per_use", entry.getCostPerUse());
             m_writer.writeStartObject("rates");
-            for (int rateIndex=0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
+            for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
             {
                writeCostRate(rateIndex, entry.getRate(rateIndex));
             }
