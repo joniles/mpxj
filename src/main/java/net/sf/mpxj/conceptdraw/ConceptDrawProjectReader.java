@@ -144,6 +144,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjProps.setDaysPerMonth(props.getDaysPerMonth());
       mpxjProps.setMinutesPerDay(props.getHoursPerDay());
       mpxjProps.setMinutesPerWeek(props.getHoursPerWeek());
+
       m_workHoursPerDay = mpxjProps.getMinutesPerDay().doubleValue() / 60.0;
    }
 
