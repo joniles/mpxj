@@ -1106,6 +1106,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("cost_per_qty2", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("cost_per_qty3", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("cost_per_qty4", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("cost_per_qty5", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
