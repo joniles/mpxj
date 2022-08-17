@@ -1867,6 +1867,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Read a rate value, handle null.
+    *
+    * @param value rate as a double
+    * @return new Rate instance
+    */
    private Rate readRate(Double value)
    {
       if (value == null)
