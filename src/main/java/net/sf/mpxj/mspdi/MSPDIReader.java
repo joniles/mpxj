@@ -325,7 +325,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setSymbolPosition(project.getCurrencySymbolPosition());
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
-
       updateScheduleSource(properties);
    }
 
