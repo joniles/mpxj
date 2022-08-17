@@ -64,6 +64,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -1236,11 +1237,11 @@ final class PrimaveraPMProjectWriter
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
                rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(Double.valueOf(RateHelper.convertToHours(m_projectFile, entry.getStandardRate())));
-               //rate.setPricePerUnit2(value);
-               //rate.setPricePerUnit3(value);
-               //rate.setPricePerUnit4(value);
-               //rate.setPricePerUnit5(value);
+               rate.setPricePerUnit(writeRate(entry.getRate(0)));
+               rate.setPricePerUnit2(writeRate(entry.getRate(1)));
+               rate.setPricePerUnit3(writeRate(entry.getRate(2)));
+               rate.setPricePerUnit4(writeRate(entry.getRate(3)));
+               rate.setPricePerUnit5(writeRate(entry.getRate(4)));
                //rate.setResourceId(value);
                //rate.setResourceName(value);
                rate.setResourceObjectId(resource.getUniqueID());
@@ -1248,6 +1249,22 @@ final class PrimaveraPMProjectWriter
             }
          }
       }
+   }
+
+   /**
+    * Write a rate value, handling null.
+    *
+    * @param rate rate
+    * @return rate in hours as a Double
+    */
+   private Double writeRate(Rate rate)
+   {
+      if (rate == null || rate.getAmount() == 0.0)
+      {
+         return null;
+      }
+
+      return Double.valueOf(RateHelper.convertToHours(m_projectFile, rate));
    }
 
    /**
@@ -1287,11 +1304,11 @@ final class PrimaveraPMProjectWriter
                //rate.setLastUpdateUser(value);
                rate.setMaxUnitsPerTime(maxUnits);
                rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(Double.valueOf(RateHelper.convertToHours(m_projectFile, entry.getStandardRate())));
-               //rate.setPricePerUnit2(value);
-               //rate.setPricePerUnit3(value);
-               //rate.setPricePerUnit4(value);
-               //rate.setPricePerUnit5(value);
+               rate.setPricePerUnit(writeRate(entry.getRate(0)));
+               rate.setPricePerUnit2(writeRate(entry.getRate(1)));
+               rate.setPricePerUnit3(writeRate(entry.getRate(2)));
+               rate.setPricePerUnit4(writeRate(entry.getRate(3)));
+               rate.setPricePerUnit5(writeRate(entry.getRate(4)));
                //rate.setResourceId(value);
                //rate.setResourceName(value);
                rate.setRoleObjectId(resource.getUniqueID());
@@ -1312,9 +1329,17 @@ final class PrimaveraPMProjectWriter
    {
       boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
       boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
-      boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
-      boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
-      return (fromDate || toDate || overtimeRate || standardRate);
+      boolean nonZeroRates = false;
+      for (int rateIndex=0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
+      {
+         if (entry.getRate(rateIndex) != null && entry.getRate(rateIndex).getAmount() != 0)
+         {
+            nonZeroRates = true;
+            break;
+         }
+      }
+
+      return (fromDate || toDate || nonZeroRates);
    }
 
    /**
