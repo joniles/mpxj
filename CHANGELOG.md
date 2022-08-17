@@ -1,6 +1,15 @@
 # Changelog
 
-## 10.7.1 (unreleased)
+## 10.8.0 (unreleased)
+* When reading P6 schedules, all five cost rates for a resource are now available via the `CostRateTableEntry.getRate` method.
+* All five rates from each cost rate table entry can now be written to PMXML files.
+* When reading files written by Microsoft Project, resource rate values now use the same units as seen by the end user rather than defaulting to hours as was the case previously. (For example, if the user sees $8/day in the source application, you will receive a Rate instance of $8/day rather than $1/hr).
+* The values for a resource's standard rate, overtime rate, and cost per use attributes are now derived from the cost rate table. The values stored on the resource itself are only used if a cost rate table for the resource is not present.
+* The Resource methods `getStandardRateUnits` and `getOvertimeRateUnits` are deprecated. Use the `getStandardRate` and `getOvertimeRate` methods to retrieve a `Rate` instance which will include the units for these rates.
+* The Resource methods `setStandardRateUnits` and `setOvertimeRateUnits` are deprecated. Supply `Rate` instances to the `setStandardRate` and `setOvertimeRate` methods with the required units instead.
+* The CostRateTableEntry methods `getStandardRateUnits` and `getOvertimeRateUnits` are deprecated. Use the `getStandardRate` and `getOvertimeRate` methods to retrieve a `Rate` instance which will include the units for these rates.
+* Ensure rates are formatted "per hour" when writing MSPDI and PMXML files.
+* Include cost rate tables in JSON output.
 
 ## 10.7.0 (2022-08-09)
 * Use Jackcess to read Asta MDB and Microsoft Project MPD files. This allows these file to be read on platforms other than Windows.
