@@ -57,8 +57,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
 
-      // Ensure the rate index always defaults to zero
+      // Ensure the rate index defaults to zero
       setRateIndex(Integer.valueOf(0));
+
+      // Ensure the rate source defaults to resource
+      setRateSource(RateSource.RESOURCE);
 
       m_task = task;
    }
@@ -597,6 +600,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    public void setOverrideRate(Rate rate)
    {
       set(AssignmentField.OVERRIDE_RATE, rate);
+   }
+
+   /**
+    * Retrieve the source of the cost rate to be used for this resource assignment.
+    *
+    * @return rate source
+    */
+   public RateSource getRateSource()
+   {
+      return (RateSource)getCachedValue(AssignmentField.RATE_SOURCE);
+   }
+
+   /**
+    * Set the source of the cost rate to be used for this resource assignment.
+    *
+    * @param source rate source
+    */
+   public void setRateSource(RateSource source)
+   {
+      set(AssignmentField.RATE_SOURCE, source);
    }
 
    /**

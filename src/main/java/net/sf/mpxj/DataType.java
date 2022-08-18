@@ -80,7 +80,8 @@ public enum DataType implements MpxjEnum
    CRITICAL_ACTIVITY_TYPE(47),
    ACTIVITY_CODE_LIST(48),
    TIME(49),
-   CUSTOM(50);
+   CUSTOM(50),
+   RATE_SOURCE(51);
 
    /**
     * Private constructor.

@@ -45,6 +45,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.RateSource;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -1761,6 +1762,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getRateType(), Integer.valueOf(0)));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
+            assignment.setRateSource(RATE_SOURCE_MAP.get(row.getRateSource()));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
@@ -2527,6 +2529,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       RATE_TYPE_MAP.put("Price / Unit 3", Integer.valueOf(2));
       RATE_TYPE_MAP.put("Price / Unit 4", Integer.valueOf(3));
       RATE_TYPE_MAP.put("Price / Unit 5", Integer.valueOf(4));
+   }
+
+   private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();
+   static
+   {
+      RATE_SOURCE_MAP.put("Resource", RateSource.RESOURCE);
+      RATE_SOURCE_MAP.put("Role", RateSource.ROLE);
+      RATE_SOURCE_MAP.put("Override", RateSource.OVERRIDE);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();

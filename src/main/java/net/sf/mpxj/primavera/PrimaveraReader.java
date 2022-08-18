@@ -78,6 +78,7 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -1710,6 +1711,7 @@ final class PrimaveraReader
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
+            assignment.setRateSource(RATE_SOURCE_MAP.getOrDefault(row.getString("cost_per_qty_source_type"), RateSource.RESOURCE));
 
             // include actual overtime cost in cost calculations
             assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
@@ -2410,6 +2412,14 @@ final class PrimaveraReader
       RATE_TYPE_MAP.put("COST_PER_QTY3", Integer.valueOf(2));
       RATE_TYPE_MAP.put("COST_PER_QTY4", Integer.valueOf(3));
       RATE_TYPE_MAP.put("COST_PER_QTY5", Integer.valueOf(4));
+   }
+
+   private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();
+   static
+   {
+      RATE_SOURCE_MAP.put("ST_Rsrc", RateSource.RESOURCE);
+      RATE_SOURCE_MAP.put("ST_Role", RateSource.ROLE);
+      RATE_SOURCE_MAP.put("ST_Custom", RateSource.OVERRIDE);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;
