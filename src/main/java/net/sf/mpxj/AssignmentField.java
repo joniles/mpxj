@@ -526,6 +526,7 @@ public enum AssignmentField implements FieldType
    PLANNED_FINISH(DataType.DATE),
    RATE_INDEX(DataType.INTEGER),
    ROLE_UNIQUE_ID(DataType.INTEGER),
+   OVERRIDE_RATE(DataType.RATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.CUSTOM),
