@@ -580,6 +580,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the rate to use in place of the value from the cost rate table.
+    *
+    * @return override rate
+    */
+   public Rate getOverrideRate()
+   {
+      return (Rate)getCachedValue(AssignmentField.OVERRIDE_RATE);
+   }
+
+   /**
+    * Set the rate to use in place of the value from the cost rate table.
+    *
+    * @param rate override rate
+    */
+   public void setOverrideRate(Rate rate)
+   {
+      set(AssignmentField.OVERRIDE_RATE, rate);
+   }
+
+   /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment.
     *

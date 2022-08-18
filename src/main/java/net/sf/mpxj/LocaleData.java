@@ -1971,6 +1971,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.PLANNED_FINISH.getValue()] = "Planned Finish";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RATE_INDEX.getValue()] = "Rate Index";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ROLE_UNIQUE_ID.getValue()] = "Role Unique ID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERRIDE_RATE.getValue()] = "Override Rate";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
