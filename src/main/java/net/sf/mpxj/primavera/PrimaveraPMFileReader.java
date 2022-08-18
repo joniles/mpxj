@@ -1748,6 +1748,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
             assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
+            assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getRateType(), Integer.valueOf(0)));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
@@ -2504,6 +2505,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACTIVITY_CODE_SCOPE_MAP.put("Global", ActivityCodeScope.GLOBAL);
       ACTIVITY_CODE_SCOPE_MAP.put("EPS", ActivityCodeScope.EPS);
       ACTIVITY_CODE_SCOPE_MAP.put("Project", ActivityCodeScope.PROJECT);
+   }
+
+   private static final Map<String, Integer> RATE_TYPE_MAP = new HashMap<>();
+   static
+   {
+      RATE_TYPE_MAP.put("Price / Unit", Integer.valueOf(0));
+      RATE_TYPE_MAP.put("Price / Unit 2", Integer.valueOf(1));
+      RATE_TYPE_MAP.put("Price / Unit 3", Integer.valueOf(2));
+      RATE_TYPE_MAP.put("Price / Unit 4", Integer.valueOf(3));
+      RATE_TYPE_MAP.put("Price / Unit 5", Integer.valueOf(4));
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
