@@ -1726,7 +1726,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
-         Integer resourceID = row.getResourceObjectId() == null ? m_roleClashMap.getID(row.getRoleObjectId()) : row.getResourceObjectId();
+
+         Integer roleID = m_roleClashMap.getID(row.getRoleObjectId());
+         Integer resourceID = row.getResourceObjectId();
+
+         // If we don't have a resource ID, but we do have a role ID then the task is being assigned to a role
+         if (resourceID == null && roleID != null)
+         {
+            resourceID = roleID;
+            roleID = null;
+         }
+
          Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
 
          if (task != null && resource != null)
@@ -1749,6 +1759,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
             assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getRateType(), Integer.valueOf(0)));
+            assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);

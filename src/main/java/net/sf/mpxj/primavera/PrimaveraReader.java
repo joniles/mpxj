@@ -1678,7 +1678,17 @@ final class PrimaveraReader
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
-         Integer resourceID = row.getInteger("rsrc_id") == null ? m_roleClashMap.getID(row.getInteger("role_id")) : row.getInteger("rsrc_id");
+
+         Integer roleID = m_roleClashMap.getID(row.getInteger("role_id"));
+         Integer resourceID = row.getInteger("rsrc_id");
+
+         // If we don't have a resource ID, but we do have a role ID then the task is being assigned to a role
+         if (resourceID == null && roleID != null)
+         {
+            resourceID = roleID;
+            roleID = null;
+         }
+
          Resource resource = m_project.getResourceByUniqueID(resourceID);
          if (task != null && resource != null)
          {
@@ -1698,6 +1708,7 @@ final class PrimaveraReader
             assignment.setWork(totalWork);
             assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
+            assignment.setRole(m_project.getResourceByUniqueID(roleID));
 
             // include actual overtime cost in cost calculations
             assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));

@@ -560,6 +560,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the role in which this resource assignment is being performed.
+    *
+    * @return Resource instance representing a role
+    */
+   public Resource getRole()
+   {
+      return getParentFile().getResourceByUniqueID((Integer)getCachedValue(AssignmentField.ROLE_UNIQUE_ID));
+   }
+
+   /**
+    * Set the role in which this resource assignment is being performed.
+    *
+    * @param role Resource instance representing a role
+    */
+   public void setRole(Resource role)
+   {
+      set(AssignmentField.ROLE_UNIQUE_ID, role == null ? null : role.getUniqueID());
+   }
+
+   /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment.
     *
