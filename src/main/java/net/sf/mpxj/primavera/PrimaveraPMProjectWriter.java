@@ -1092,6 +1092,7 @@ final class PrimaveraPMProjectWriter
       xml.setWBSObjectId(parentTaskUniqueID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
       xml.setRateType(getRateType(mpxj.getRateIndex()));
+      xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
    }
 
    /**

@@ -1709,6 +1709,7 @@ final class PrimaveraReader
             assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
+            assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
 
             // include actual overtime cost in cost calculations
             assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));

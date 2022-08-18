@@ -10,6 +10,8 @@
 			<action dev="joniles" type="update">Add support for writing a resource assignment's rate type to PMXML files.</action>
 			<action dev="joniles" type="update">Add support for reading a resource assignment's role from P6 schedules. The role is accessed via the `ResourceAssignment.getRole` and `ResourceAssignment.setRole` methods.</action>
 			<action dev="joniles" type="update">Add support for writing a resource assignment's role to PMXML files.</action>
+			<action dev="joniles" type="update">Add support for reading a resource assignment's override rate (Price / Unit) from P6 schedules. The rate is accessed via the `ResourceAssignment.getOverrideRate` and `ResourceAssignment.setOverrideRate` methods.</action>
+			<action dev="joniles" type="update">Add support for writing a resource assignment's override rate (Price / Unit) to PMXML files.</action>
 		</release>
 		<release date="2022-08-17" version="10.8.0">
 			<action dev="joniles" type="update">When reading P6 schedules, all five cost rates for a resource are now available via the `CostRateTableEntry.getRate` method.</action>
