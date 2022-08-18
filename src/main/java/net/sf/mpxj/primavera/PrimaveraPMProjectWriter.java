@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -65,6 +66,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -1093,6 +1095,7 @@ final class PrimaveraPMProjectWriter
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
       xml.setRateType(getRateType(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
+      xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
    }
 
    /**
@@ -1999,6 +2002,14 @@ final class PrimaveraPMProjectWriter
       "Price / Unit 4",
       "Price / Unit 5"
    };
+
+   private static final Map<RateSource, String> RATE_SOURCE_MAP = new HashMap<>();
+   static
+   {
+      RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
+      RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
+      RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
+   }
 
    private final ProjectFile m_projectFile;
    private final APIBusinessObjects m_apibo;
