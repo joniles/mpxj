@@ -57,6 +57,9 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
 
+      // Ensure the rate index always defaults to zero
+      setRateIndex(Integer.valueOf(0));
+
       m_task = task;
    }
 
@@ -532,6 +535,28 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    public void setLevelingDelay(Duration levelingDelay)
    {
       set(AssignmentField.LEVELING_DELAY, levelingDelay);
+   }
+
+   /**
+    * Retrieve the index of the rate in the cost rate table used
+    * to calculate the cost for this resource assignment.
+    *
+    * @return rate index
+    */
+   public Integer getRateIndex()
+   {
+      return (Integer)getCachedValue(AssignmentField.RATE_INDEX);
+   }
+
+   /**
+    * Set the index of the rate in the cost rate table used
+    * to calculate the cost for this resource assignment.
+    *
+    * @param index rate index
+    */
+   public void setRateIndex(Integer index)
+   {
+      set(AssignmentField.RATE_INDEX, index);
    }
 
    /**
@@ -1101,7 +1126,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       {
          //
          // We assume here that if there is just one entry in the cost rate
-         // table, this is an open ended rate which covers any work, it won't
+         // table, this is an open-ended rate which covers any work, it won't
          // have specific dates attached to it.
          //
          if (table.size() > 1)

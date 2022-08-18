@@ -1090,6 +1090,7 @@ final class PrimaveraPMProjectWriter
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(parentTaskUniqueID);
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
+      xml.setRateType(getRateType(mpxj.getRateIndex()));
    }
 
    /**
@@ -1802,6 +1803,21 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
+    * Convert a rate index to a rate type.
+    *
+    * @param index rate index
+    * @return rate type
+    */
+   private String getRateType(Integer index)
+   {
+      if (index == null || index.intValue() < 0 || index.intValue() > RATE_TYPE_ARRAY.length)
+      {
+         return RATE_TYPE_ARRAY[0];
+      }
+      return RATE_TYPE_ARRAY[index.intValue()];
+   }
+
+   /**
     * Retrieve an activity status.
     *
     * @param mpxj MPXJ Task instance
@@ -1972,6 +1988,15 @@ final class PrimaveraPMProjectWriter
       CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.PROJECT, "Project");
       CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.RESOURCE, "Resource");
    }
+
+   private static final String[] RATE_TYPE_ARRAY = new String[]
+   {
+      "Price / Unit",
+      "Price / Unit 2",
+      "Price / Unit 3",
+      "Price / Unit 4",
+      "Price / Unit 5"
+   };
 
    private final ProjectFile m_projectFile;
    private final APIBusinessObjects m_apibo;
