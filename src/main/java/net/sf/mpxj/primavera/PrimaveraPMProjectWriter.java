@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -599,8 +598,8 @@ final class PrimaveraPMProjectWriter
       ProjectCalendar result = calendar;
       if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
       {
-         // Global calendar in P6 are not derived from other calendars.
-         // If this calendar is marked as a global calendar and it is
+         // Global calendars in P6 are not derived from other calendars.
+         // If this calendar is marked as a global calendar, and it is
          // derived then we'll flatten it.
          result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
       }
@@ -803,7 +802,7 @@ final class PrimaveraPMProjectWriter
       // we do this to ensure that they are ordered correctly on import.
 
       // Filter out WBS entries and generate a sequence number.
-      // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, its a WBS entry
+      // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, it's a WBS entry
       Map<Task, Integer> wbsSequence = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> m_wbsSequence.getNext()));
 
       // Sort the tasks into unique ID order
@@ -902,7 +901,7 @@ final class PrimaveraPMProjectWriter
 
          // If we have a parent task, and it looks like WBS contains the full path
          // (including the parent's WBS), remove the parent's WBS. This matches
-         // how P6 exports this value. This test is brittle as it assumes the
+         // how P6 exports this value. This test is brittle as it assumes
          // the default WBS separator has been used.
          if (prefix != null && code.startsWith(prefix))
          {
