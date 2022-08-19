@@ -38,6 +38,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -267,13 +269,15 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
       }
 
       // phoenixResource.getMaximum()
-      mpxjResource.setCostPerUse(phoenixResource.getMonetarycostperuse());
-      mpxjResource.setStandardRate(new Rate(phoenixResource.getMonetaryrate(), rateUnits));
       mpxjResource.setName(phoenixResource.getName());
       mpxjResource.setType(phoenixResource.getType());
       mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());
       //phoenixResource.getUnitsperbase()
       mpxjResource.setGUID(phoenixResource.getUuid());
+
+      CostRateTable costRateTable = new CostRateTable();
+      costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, phoenixResource.getMonetarycostperuse(), new Rate(phoenixResource.getMonetaryrate(), rateUnits)));
+      mpxjResource.setCostRateTable(0, costRateTable);
 
       m_eventManager.fireResourceReadEvent(mpxjResource);
 
