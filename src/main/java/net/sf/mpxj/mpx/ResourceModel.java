@@ -128,7 +128,7 @@ final class ResourceModel
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
             ResourceField field = MPXResourceField.getMpxjField(loop);
-            Object value = resource.getCachedValue(field);
+            Object value = resource.getCurrentValue(field);
             if (ModelUtility.isFieldPopulated(field, value))
             {
                if (!m_flags[loop])
