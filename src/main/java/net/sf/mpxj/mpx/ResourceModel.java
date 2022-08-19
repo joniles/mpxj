@@ -31,6 +31,7 @@ import java.util.Locale;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 
 /**
  * This class represents the resource table definition record in an MPX file.
@@ -126,7 +127,9 @@ final class ResourceModel
       {
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
+            ResourceField field = MPXResourceField.getMpxjField(loop);
+            Object value = resource.getCachedValue(field);
+            if (ModelUtility.isFieldPopulated(field, value))
             {
                if (!m_flags[loop])
                {
@@ -139,7 +142,7 @@ final class ResourceModel
       }
 
       //
-      // Ensure the the model fields always appear in the same order
+      // Ensure the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);

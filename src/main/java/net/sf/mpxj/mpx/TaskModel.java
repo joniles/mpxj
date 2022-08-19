@@ -29,8 +29,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -159,7 +162,7 @@ final class TaskModel
       }
 
       //
-      // Ensure the the model fields always appear in the same order
+      // Ensure the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
@@ -198,7 +201,7 @@ final class TaskModel
 
             default:
             {
-               result = value != null;
+               result = ModelUtility.isFieldPopulated(field, value);
                break;
             }
          }
