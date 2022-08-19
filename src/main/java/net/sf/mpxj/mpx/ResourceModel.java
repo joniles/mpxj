@@ -30,7 +30,10 @@ import java.util.Locale;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents the resource table definition record in an MPX file.
@@ -126,14 +129,41 @@ final class ResourceModel
       {
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
+            ResourceField field = MPXResourceField.getMpxjField(loop);
+            if (field == null)
             {
-               if (!m_flags[loop])
+               continue;
+            }
+
+            boolean fieldPopulated;
+            switch (field)
+            {
+               case STANDARD_RATE:
+               case OVERTIME_RATE:
                {
-                  m_flags[loop] = true;
-                  m_fields[m_count] = loop;
-                  ++m_count;
+                  Rate rate = (Rate)resource.getCurrentValue(field);
+                  fieldPopulated = rate != null && rate.getAmount() != 0.0;
+                  break;
                }
+
+               case COST_PER_USE:
+               {
+                  fieldPopulated = NumberHelper.getDouble(resource.getCostPerUse()) != 0.0;
+                  break;
+               }
+
+               default:
+               {
+                  fieldPopulated = resource.getCachedValue(field) != null;
+                  break;
+               }
+            }
+
+            if (fieldPopulated && !m_flags[loop])
+            {
+               m_flags[loop] = true;
+               m_fields[m_count] = loop;
+               ++m_count;
             }
          }
       }
