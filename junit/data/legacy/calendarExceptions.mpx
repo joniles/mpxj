@@ -19,17 +19,17 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 25,6,08:00,12:00,13:00,17:00
 25,7
 30,caltest98,,,Standard,14 November 2005 08:00,14 November 2005 17:00,0,14 November 2005 08:00,,£0.00,£0.00,£0.00,0h,0h,0h,0%,1d,0d,0d,0%,,,,,0d,0d
-40,Name,Initials,Work,Baseline Work,Actual Work,Overtime Work,Cost,Baseline Cost,Actual Cost,ID,Max Units,Standard Rate,Overtime Rate,Cost Per Use,Accrue At,Unique ID
-41,1,2,20,21,22,24,30,31,32,40,41,42,43,44,45,49
-50,Resource One,R,0h,0h,0h,0h,£0.00,£0.00,£0.00,1,1,£0.00/h,£0.00/h,£0.00,Prorated,1
+40,Name,Initials,ID,Max Units,Accrue At,Unique ID
+41,1,2,40,41,45,49
+50,Resource One,R,1,1,Prorated,1
 55,Standard,2,2,2,2,2,2,2
-50,Resource Two,R,0h,0h,0h,0h,£0.00,£0.00,£0.00,2,1,£0.00/h,£0.00/h,£0.00,Prorated,2
+50,Resource Two,R,2,1,Prorated,2
 55,Base Calendar,2,2,2,2,2,2,2
-50,Resource Three,R,0h,0h,0h,0h,£0.00,£0.00,£0.00,3,1,£0.00/h,£0.00/h,£0.00,Prorated,3
+50,Resource Three,R,3,1,Prorated,3
 55,Base Calendar,2,2,2,2,2,2,2
 57,01/11/05,04/11/05,0
 57,21/11/05,25/11/05,0
-60,Name,WBS,Outline Level,Work,Baseline Work,Actual Work,Cost,Baseline Cost,Actual Cost,Remaining Cost,Fixed Cost,Cost1,Cost2,Cost3,Duration,Baseline Duration,% Complete,Duration1,Duration2,Duration3,Start,Finish,Early Start,Early Finish,Late Start,Late Finish,Fixed,Milestone,Marked,Rollup,ID,Constraint Type,Delay,Free Slack,Total Slack,Priority,Unique ID,Flag1,Flag2,Flag3,Flag4,Flag5,Flag6,Flag7,Flag8,Flag9,Flag10,Summary,Created,Number1,Number2,Number3,Number4,Number5
-61,1,2,3,20,21,22,30,31,32,33,35,36,37,38,40,41,44,46,47,48,50,51,52,53,54,55,80,81,83,84,90,91,92,93,94,95,98,110,111,112,113,114,115,116,117,118,119,120,125,140,141,142,143,144
-70,caltest98,0,0,0h,0h,0h,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,1d,0d,0%,0d,0d,0d,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,No,No,No,0,As Soon As Possible,0ed,0d,0d,Medium,0,No,No,No,No,No,No,No,No,No,No,Yes,14 November 2005 23:05,0,0,0,0,0
-70,Task One,1,1,0h,0h,0h,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,1d,0d,0%,0d,0d,0d,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,No,No,No,1,As Soon As Possible,0ed,0d,0d,Medium,2,No,No,No,No,No,No,No,No,No,No,No,14 November 2005 23:07,0,0,0,0,0
+60,Name,WBS,Outline Level,Duration,% Complete,Start,Finish,Early Start,Early Finish,Late Start,Late Finish,Fixed,ID,Constraint Type,Priority,Unique ID,Summary,Created
+61,1,2,3,40,44,50,51,52,53,54,55,80,90,91,95,98,120,125
+70,caltest98,0,0,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,0,As Soon As Possible,Medium,0,Yes,14 November 2005 23:05
+70,Task One,1,1,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,1,As Soon As Possible,Medium,2,No,14 November 2005 23:07
