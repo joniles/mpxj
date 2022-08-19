@@ -159,7 +159,7 @@ final class TaskModel
       }
 
       //
-      // Ensure the the model fields always appear in the same order
+      // Ensure the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
@@ -177,7 +177,7 @@ final class TaskModel
       boolean result = false;
       if (field != null)
       {
-         Object value = task.getCachedValue(field);
+         Object value = task.getCurrentValue(field);
          switch (field)
          {
             // We never write these fields to the task record.
@@ -198,7 +198,7 @@ final class TaskModel
 
             default:
             {
-               result = value != null;
+               result = ModelUtility.isFieldPopulated(field, value);
                break;
             }
          }

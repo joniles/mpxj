@@ -520,24 +520,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
-         Object value;
-         switch (resourceField)
-         {
-            case STANDARD_RATE:
-            case OVERTIME_RATE:
-            case COST_PER_USE:
-            {
-               value = record.getCurrentValue(resourceField);
-               break;
-            }
-
-            default:
-            {
-               value = record.getCachedValue(resourceField);
-               break;
-            }
-         }
-
+         Object value = record.getCurrentValue(resourceField);
          value = formatType(resourceField.getDataType(), value);
 
          m_buffer.append(m_delimiter);
@@ -738,7 +721,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          TaskField taskField = MPXTaskField.getMpxjField(field);
-         Object value = record.getCachedValue(taskField);
+         Object value = record.getCurrentValue(taskField);
          value = formatType(taskField.getDataType(), value);
 
          m_buffer.append(m_delimiter);

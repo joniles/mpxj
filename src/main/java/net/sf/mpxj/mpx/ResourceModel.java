@@ -30,10 +30,8 @@ import java.util.Locale;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents the resource table definition record in an MPX file.
@@ -130,46 +128,21 @@ final class ResourceModel
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
             ResourceField field = MPXResourceField.getMpxjField(loop);
-            if (field == null)
+            Object value = resource.getCurrentValue(field);
+            if (ModelUtility.isFieldPopulated(field, value))
             {
-               continue;
-            }
-
-            boolean fieldPopulated;
-            switch (field)
-            {
-               case STANDARD_RATE:
-               case OVERTIME_RATE:
+               if (!m_flags[loop])
                {
-                  Rate rate = (Rate)resource.getCurrentValue(field);
-                  fieldPopulated = rate != null && rate.getAmount() != 0.0;
-                  break;
+                  m_flags[loop] = true;
+                  m_fields[m_count] = loop;
+                  ++m_count;
                }
-
-               case COST_PER_USE:
-               {
-                  fieldPopulated = NumberHelper.getDouble(resource.getCostPerUse()) != 0.0;
-                  break;
-               }
-
-               default:
-               {
-                  fieldPopulated = resource.getCachedValue(field) != null;
-                  break;
-               }
-            }
-
-            if (fieldPopulated && !m_flags[loop])
-            {
-               m_flags[loop] = true;
-               m_fields[m_count] = loop;
-               ++m_count;
             }
          }
       }
 
       //
-      // Ensure the the model fields always appear in the same order
+      // Ensure the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
       System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
