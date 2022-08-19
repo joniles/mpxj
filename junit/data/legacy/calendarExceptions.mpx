@@ -29,7 +29,7 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 55,Base Calendar,2,2,2,2,2,2,2
 57,01/11/05,04/11/05,0
 57,21/11/05,25/11/05,0
-60,Name,WBS,Outline Level,Duration,% Complete,Start,Finish,Early Start,Early Finish,Late Start,Late Finish,Fixed,ID,Constraint Type,Priority,Unique ID,Summary,Created
-61,1,2,3,40,44,50,51,52,53,54,55,80,90,91,95,98,120,125
-70,caltest98,0,0,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,0,As Soon As Possible,Medium,0,Yes,14 November 2005 23:05
-70,Task One,1,1,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,1,As Soon As Possible,Medium,2,No,14 November 2005 23:07
+60,Name,WBS,Outline Level,Duration,% Complete,Start,Finish,Early Start,Early Finish,Late Start,Late Finish,Fixed,Critical,ID,Constraint Type,Priority,Unique ID,Summary,Created
+61,1,2,3,40,44,50,51,52,53,54,55,80,82,90,91,95,98,120,125
+70,caltest98,0,0,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,Yes,0,As Soon As Possible,Medium,0,Yes,14 November 2005 23:05
+70,Task One,1,1,1d,0%,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,14 November 2005 08:00,14 November 2005 17:00,No,Yes,1,As Soon As Possible,Medium,2,No,14 November 2005 23:07
