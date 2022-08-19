@@ -33,6 +33,8 @@ import java.util.Map;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -62,6 +64,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
@@ -797,7 +800,6 @@ abstract class MPD9AbstractReader
          //resource.setCost8();
          //resource.setCost9();
          //resource.setCost10();
-         resource.setCostPerUse(row.getCurrency("RES_COST_PER_USE"));
          //resource.setCreationDate();
          //resource.setCV();
          //resource.setDate1();
@@ -900,7 +902,6 @@ abstract class MPD9AbstractReader
          //resource.setOutlineCode10();
          resource.setOverAllocated(row.getBoolean("RES_IS_OVERALLOCATED"));
          resource.setOvertimeCost(row.getCurrency("RES_OVT_COST"));
-         resource.setOvertimeRate(RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1)));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
          resource.setPeakUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_PEAK")) * 100));
          //resource.setPercentWorkComplete();
@@ -911,7 +912,6 @@ abstract class MPD9AbstractReader
          resource.setRemainingOvertimeWork(row.getDuration("RES_REM_OVT_WORK"));
          resource.setRemainingWork(row.getDuration("RES_REM_WORK"));
          //resource.setResourceCalendar();RES_CAL_UID = null ( ) // CHECK THIS
-         resource.setStandardRate(RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1)));
          //resource.setStart();
          //resource.setStart1();
          //resource.setStart2();
@@ -996,6 +996,15 @@ abstract class MPD9AbstractReader
          // Set the overallocated flag
          //
          resource.setOverAllocated(NumberHelper.getDouble(resource.getPeakUnits()) > NumberHelper.getDouble(resource.getMaxUnits()));
+
+         Number costPerUse = row.getCurrency("RES_COST_PER_USE");
+         Rate standardRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
+         Rate overtimeRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
+
+         CostRateTable costRateTable = new CostRateTable();
+         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+         resource.setCostRateTable(0, costRateTable);
+
 
          m_eventManager.fireResourceReadEvent(resource);
 
