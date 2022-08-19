@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.8.1">
+
+			<action dev="joniles" type="update">When writing MPX files, only include attributes which have a non-empty, non-default value in at least one task or resource.</action>
 			<action dev="joniles" type="update">Add support for reading a resource assignment's rate type from P6 schedules. The rate type is accessed via the `ResourceAssignment.getRateIndex` method. The value returned by this method can be used to select the required rate using the `CostRateTableEntry,getRate` method.</action>
 			<action dev="joniles" type="update">Add support for writing a resource assignment's rate type to PMXML files.</action>
 			<action dev="joniles" type="update">Add support for reading a resource assignment's role from P6 schedules. The role is accessed via the `ResourceAssignment.getRole` and `ResourceAssignment.setRole` methods.</action>

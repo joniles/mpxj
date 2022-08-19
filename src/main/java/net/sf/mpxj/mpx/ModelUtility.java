@@ -65,7 +65,7 @@ final class ModelUtility
          case DURATION:
          case WORK:
          {
-            populated = ((Duration)value).getDuration() != 0.0;
+            populated = value instanceof Duration && ((Duration)value).getDuration() != 0.0;
             break;
          }
 
