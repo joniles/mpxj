@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -43,7 +44,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      this(new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, new Rate(0, TimeUnit.HOURS), TimeUnit.HOURS, NumberHelper.DOUBLE_ZERO, DateHelper.START_DATE_NA, DateHelper.END_DATE_NA);
+      this(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO);
    }
 
    /**
@@ -75,6 +76,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       m_startDate = startDate;
       m_endDate = endDate;
       m_costPerUse = costPerUse;
+      Arrays.fill(m_rates, Rate.ZERO);
       System.arraycopy(rates, 0, m_rates, 0, rates.length);
    }
 

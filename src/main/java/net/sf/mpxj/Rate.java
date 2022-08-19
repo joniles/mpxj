@@ -142,4 +142,6 @@ public final class Rate
     * Time type.
     */
    private final TimeUnit m_units;
+
+   public static final Rate ZERO = new Rate(0, TimeUnit.HOURS);
 }
