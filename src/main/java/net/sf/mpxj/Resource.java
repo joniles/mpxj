@@ -2820,6 +2820,24 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
                break;
             }
 
+            case STANDARD_RATE:
+            {
+               result = getStandardRate();
+               break;
+            }
+
+            case OVERTIME_RATE:
+            {
+               result = getOvertimeRate();
+               break;
+            }
+
+            case COST_PER_USE:
+            {
+               result = getCostPerUse();
+               break;
+            }
+
             default:
             {
                result = m_array[field.getValue()];
