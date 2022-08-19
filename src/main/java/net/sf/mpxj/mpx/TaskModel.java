@@ -29,11 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
