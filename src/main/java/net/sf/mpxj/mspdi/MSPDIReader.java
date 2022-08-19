@@ -922,7 +922,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setCanLevel(BooleanHelper.getBoolean(xml.isCanLevel()));
       mpx.setCode(xml.getCode());
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
-      mpx.setCostPerUse(DatatypeConverter.parseCurrency(xml.getCostPerUse()));
       mpx.setCostVariance(DatatypeConverter.parseCurrency(xml.getCostVariance()));
       mpx.setCreationDate(xml.getCreationDate());
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
@@ -949,7 +948,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setNtAccount(xml.getNTAccount());
       //mpx.setObjects();
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat())));
       mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getOvertimeWork()));
       mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
       mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
@@ -959,7 +957,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
       mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingWork()));
       mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingOvertimeWork()));
-      mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat())));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
       mpx.setUniqueID(NumberHelper.getInteger(xml.getUID()));
@@ -982,7 +979,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       // ensure that we cache this value
       mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
 
-      readCostRateTables(mpx, xml.getRates());
+      Rate standardRate = DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
+      Rate overtimeRate = DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
+      Number costPerUse = DatatypeConverter.parseCurrency(xml.getCostPerUse());
+      readCostRateTables(mpx, standardRate, overtimeRate, costPerUse, xml.getRates());
 
       readAvailabilityTable(mpx, xml.getAvailabilityPeriods());
 
@@ -1062,9 +1062,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * Reads the cost rate tables from the file.
     *
     * @param resource parent resource
-    * @param rates XML cot rate tables
+    * @param defaultStandardRate default standard rate
+    * @param defaultOvertimeRate default overtime rate
+    * @param defaultCostPerUse default cost per use
+    * @param rates XML cost rate tables
     */
-   private void readCostRateTables(Resource resource, Rates rates)
+   private void readCostRateTables(Resource resource, Rate defaultStandardRate, Rate defaultOvertimeRate, Number defaultCostPerUse, Rates rates)
    {
       if (rates == null)
       {
@@ -1073,13 +1076,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             CostRateTable table = new CostRateTable();
             if (index == 0)
             {
-               Rate standardRate = resource.getStandardRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate) resource.getCachedValue(ResourceField.STANDARD_RATE);
-               Rate overtimeRate = resource.getOvertimeRate() == null ? new Rate(0, TimeUnit.HOURS) : (Rate) resource.getCachedValue(ResourceField.OVERTIME_RATE);
-               Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number) resource.getCachedValue(ResourceField.COST_PER_USE);
                Date startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
                Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
-
-               table.add(new CostRateTableEntry(startDate, endDate, costPerUse, standardRate, overtimeRate));
+               table.add(new CostRateTableEntry(startDate, endDate, defaultCostPerUse, defaultStandardRate, defaultOvertimeRate));
             }
             else
             {
