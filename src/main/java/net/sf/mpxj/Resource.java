@@ -723,10 +723,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets standard rate for this resource.
     *
     * @param val value
+    * @deprecated configure this value in a cost rate table
     */
-   public void setStandardRate(Rate val)
+   @Deprecated public void setStandardRate(Rate val)
    {
-      set(ResourceField.STANDARD_RATE, val);
+
    }
 
    /**
@@ -806,10 +807,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the overtime rate for this resource.
     *
     * @param overtimeRate overtime rate value
+    * @deprecated configure this value in a cost rate table
     */
    public void setOvertimeRate(Rate overtimeRate)
    {
-      set(ResourceField.OVERTIME_RATE, overtimeRate);
+
    }
 
    /**
@@ -889,10 +891,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Set the cost per use.
     *
     * @param costPerUse cost per use
+    * @deprecated configure this value in a cost rate table
     */
-   public void setCostPerUse(Number costPerUse)
+   @Deprecated public void setCostPerUse(Number costPerUse)
    {
-      set(ResourceField.COST_PER_USE, costPerUse);
+
    }
 
    /**
