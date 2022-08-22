@@ -629,7 +629,7 @@ Calendar GUID| | |✓|✓
 Calendar Unique ID|✓|✓|✓|✓
 Code| |✓|✓|✓
 Cost|✓|✓|✓|✓
-Cost Per Use| |✓|✓|✓
+Cost Per Use|✓|✓|✓|✓
 Cost Rate A| |✓|✓|✓
 Cost Rate B| |✓|✓|✓
 Cost Rate C| |✓|✓|✓
@@ -654,7 +654,7 @@ Name|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
 Overallocated|✓|✓|✓|✓
 Overtime Cost| |✓|✓|✓
-Overtime Rate| |✓|✓|✓
+Overtime Rate|✓|✓|✓|✓
 Overtime Rate Units| |✓|✓|✓
 Overtime Work| |✓|✓|✓
 Peak|✓|✓|✓|✓
@@ -664,7 +664,7 @@ Remaining Cost|✓|✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
-Standard Rate| |✓|✓|✓
+Standard Rate|✓|✓|✓|✓
 Standard Rate Units| |✓|✓|✓
 Subproject Unique Resource ID| |✓|✓| 
 Type|✓|✓|✓|✓
@@ -919,7 +919,6 @@ Notes| |✓|✓|✓
 Overtime Work| |✓|✓|✓
 Owner| | |✓|✓
 Percent Work Complete|✓|✓|✓|✓
-Rate Source|✓|✓|✓|✓
 Regular Work| |✓|✓|✓
 Remaining Cost| |✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
