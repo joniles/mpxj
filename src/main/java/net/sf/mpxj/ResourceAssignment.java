@@ -2830,6 +2830,29 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       set(AssignmentField.PLANNED_FINISH, value);
    }
 
+   public Rate getEffectiveRate(int costRateTableIndex, Date date)
+   {
+      RateSource rateSource = getRateSource();
+      if (rateSource == RateSource.OVERRIDE)
+      {
+         return getOverrideRate();
+      }
+
+      Resource resource = rateSource== RateSource.ROLE ? getRole() : getResource();
+      if (resource == null)
+      {
+         return null;
+      }
+
+      CostRateTableEntry entry = resource.getCostRateTable(costRateTableIndex).getEntryByDate(date);
+      if (entry == null)
+      {
+         return null;
+      }
+
+      return entry.getRate(getRateIndex().intValue());
+   }
+
    /**
     * Maps a field index to an AssignmentField instance.
     *
@@ -3044,5 +3067,4 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
-
 }
