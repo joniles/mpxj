@@ -1826,11 +1826,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          return DateHelper.compare(d1, d2);
       });
 
+      Resource resource = null;
+
       for (int i = 0; i < rates.size(); ++i)
       {
          ResourceRateType row = rates.get(i);
 
          Integer resourceID = row.getResourceObjectId();
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_projectFile.getResourceByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
+
          Rate[] values = new Rate[]
          {
             readRate(row.getPricePerUnit()),
@@ -1857,29 +1869,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
-         Resource resource = m_projectFile.getResourceByUniqueID(resourceID);
-         if (resource != null)
+         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
          {
-            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
-            {
-               startDate = DateHelper.START_DATE_NA;
-            }
-
-            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
-            {
-               endDate = DateHelper.END_DATE_NA;
-            }
-
-            CostRateTable costRateTable = resource.getCostRateTable(0);
-            if (costRateTable == null)
-            {
-               costRateTable = new CostRateTable();
-               resource.setCostRateTable(0, costRateTable);
-            }
-
-            costRateTable.add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
-            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+            startDate = DateHelper.START_DATE_NA;
          }
+
+         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         {
+            endDate = DateHelper.END_DATE_NA;
+         }
+
+         CostRateTable costRateTable = resource.getCostRateTable(0);
+         costRateTable.add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
 
@@ -1922,9 +1924,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          return DateHelper.compare(d1, d2);
       });
 
+      Resource resource = null;
+
       for (int i = 0; i < rates.size(); ++i)
       {
          RoleRateType row = rates.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getRoleObjectId());
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_projectFile.getResourceByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
 
          Rate[] values = new Rate[]
          {
@@ -1952,30 +1967,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
-         Resource resource = m_projectFile.getResourceByUniqueID(m_roleClashMap.getID(row.getRoleObjectId()));
-         if (resource != null)
+         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
          {
-            if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
-            {
-               startDate = DateHelper.START_DATE_NA;
-            }
-
-            if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
-            {
-               endDate = DateHelper.END_DATE_NA;
-            }
-
-            CostRateTable costRateTable = resource.getCostRateTable(0);
-            if (costRateTable == null)
-            {
-               costRateTable = new CostRateTable();
-               resource.setCostRateTable(0, costRateTable);
-            }
-            CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, values);
-            costRateTable.add(entry);
-
-            resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+            startDate = DateHelper.START_DATE_NA;
          }
+
+         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         {
+            endDate = DateHelper.END_DATE_NA;
+         }
+
+         CostRateTable costRateTable = resource.getCostRateTable(0);
+         if (costRateTable == null)
+         {
+            costRateTable = new CostRateTable();
+            resource.setCostRateTable(0, costRateTable);
+         }
+         CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, values);
+         costRateTable.add(entry);
+
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
 

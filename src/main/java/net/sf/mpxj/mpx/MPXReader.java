@@ -36,6 +36,8 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.CalendarType;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -51,6 +53,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
@@ -737,6 +740,9 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       int length = record.getLength();
       int[] model = m_resourceModel.getModel();
+      Rate standardRate = Rate.ZERO;
+      Rate overtimeRate = Rate.ZERO;
+      Number costPerUse = NumberHelper.DOUBLE_ZERO;
 
       for (int i = 0; i < length; i++)
       {
@@ -788,7 +794,6 @@ public final class MPXReader extends AbstractProjectStreamReader
             }
 
             case COST:
-            case COST_PER_USE:
             case COST_VARIANCE:
             case BASELINE_COST:
             case ACTUAL_COST:
@@ -798,10 +803,21 @@ public final class MPXReader extends AbstractProjectStreamReader
                break;
             }
 
+            case COST_PER_USE:
+            {
+               costPerUse = record.getCurrency(i);
+               break;
+            }
+
             case OVERTIME_RATE:
+            {
+               overtimeRate = record.getRate(i);
+               break;
+            }
+
             case STANDARD_RATE:
             {
-               resource.set(resourceField, record.getRate(i));
+               standardRate = record.getRate(i);
                break;
             }
 
@@ -846,6 +862,10 @@ public final class MPXReader extends AbstractProjectStreamReader
       {
          resource.setID(Integer.valueOf(m_projectConfig.getNextResourceID()));
       }
+
+      CostRateTable table = new CostRateTable();
+      table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+      resource.setCostRateTable(0, table);
 
       //
       // Handle malformed MPX files - ensure we have a unique ID

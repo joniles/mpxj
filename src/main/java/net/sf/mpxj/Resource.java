@@ -63,6 +63,14 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       {
          setID(Integer.valueOf(config.getNextResourceID()));
       }
+
+      m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
+      for (int index=0; index < m_costRateTables.length; index++)
+      {
+         CostRateTable table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         m_costRateTables[index] = table;
+      }
    }
 
    /**
@@ -3044,7 +3052,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private boolean m_null;
    private String m_activeDirectoryGUID;
 
-   private final CostRateTable[] m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
+   private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 }
