@@ -32,7 +32,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.common.DateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -916,7 +918,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setCost(8, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST8)) / 100));
          resource.setCost(9, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST9)) / 100));
          resource.setCost(10, NumberHelper.getDouble(((double) rscExtData.getLong(RESOURCE_COST10)) / 100));
-         resource.setCostPerUse(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 80)) / 100));
          resource.setDate(1, rscExtData.getTimestamp(RESOURCE_DATE1));
          resource.setDate(2, rscExtData.getTimestamp(RESOURCE_DATE2));
          resource.setDate(3, rscExtData.getTimestamp(RESOURCE_DATE3));
@@ -977,7 +978,6 @@ final class MPP8Reader implements MPPVariantReader
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
-         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 44), TimeUnit.HOURS));
          resource.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 74)) / 100, TimeUnit.HOURS));
          resource.setPeakUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 110)) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
@@ -985,7 +985,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
          resource.setRemainingOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 150)) / 100));
          resource.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 86)) / 100, TimeUnit.HOURS));
-         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
          resource.setStart(1, rscExtData.getTimestamp(RESOURCE_START1));
          resource.setStart(2, rscExtData.getTimestamp(RESOURCE_START2));
          resource.setStart(3, rscExtData.getTimestamp(RESOURCE_START3));
@@ -1044,11 +1043,13 @@ final class MPP8Reader implements MPPVariantReader
             resource.setNotesObject(new RtfNotes(notes));
          }
 
-         //
-         // Convert rate units
-         //
-         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.STANDARD_RATE, ResourceField.STANDARD_RATE_UNITS);
-         MPPUtility.convertRateFromHours(m_file, resource, ResourceField.OVERTIME_RATE, ResourceField.OVERTIME_RATE_UNITS);
+         Number costPerUse = NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 80)) / 100);
+         Rate standardRate = new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS);
+         Rate overtimeRate = new Rate(MPPUtility.getDouble(data, 44), TimeUnit.HOURS);
+
+         CostRateTable costRateTable = new CostRateTable();
+         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+         resource.setCostRateTable(0, costRateTable);
 
          m_eventManager.fireResourceReadEvent(resource);
       }

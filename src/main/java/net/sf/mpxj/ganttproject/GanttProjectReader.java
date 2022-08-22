@@ -39,6 +39,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -453,12 +455,16 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       mpxjResource.setPhone(gpResource.getPhone());
       mpxjResource.setGroup(m_roleDefinitions.get(gpResource.getFunction()));
 
+      readResourceCustomFields(gpResource, mpxjResource);
+
       net.sf.mpxj.ganttproject.schema.Rate gpRate = gpResource.getRate();
       if (gpRate != null)
       {
-         mpxjResource.setStandardRate(new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS));
+         CostRateTable table = new CostRateTable();
+         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS)));
+         mpxjResource.setCostRateTable(0, table);
       }
-      readResourceCustomFields(gpResource, mpxjResource);
+
       m_eventManager.fireResourceReadEvent(mpxjResource);
    }
 

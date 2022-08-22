@@ -53,7 +53,7 @@ abstract class VarDataFieldReader
     */
    public Object getValue(Var2Data varData, Integer id, Integer type)
    {
-      Object result = null;
+      Object result;
 
       int flag = varData.getShort(id, type);
       if (flag == VALUE_LIST_WITH_ID_MASK || flag == VALUE_LIST_WITHOUT_ID_MASK)

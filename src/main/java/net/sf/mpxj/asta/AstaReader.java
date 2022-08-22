@@ -43,6 +43,8 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -205,7 +207,6 @@ final class AstaReader
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.MATERIAL);
          resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
-         resource.setCostPerUse(row.getDouble("COST_PER_USEDEFAULTSAMOUNT"));
          resource.setPeakUnits(Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100));
          resource.setName(row.getString("NASE"));
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
@@ -214,6 +215,10 @@ final class AstaReader
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setMaterialLabel(row.getString("MEASUREMENT"));
          resource.setInitials(getInitials(resource.getName()));
+
+         CostRateTable table = new CostRateTable();
+         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
+         resource.setCostRateTable(0, table);
       }
    }
 

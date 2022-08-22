@@ -1223,35 +1223,32 @@ final class PrimaveraPMProjectWriter
       CostRateTable table = resource.getCostRateTable(0);
       AvailabilityTable availabilityTable = resource.getAvailability();
 
-      if (table != null)
+      for (CostRateTableEntry entry : table)
       {
-         for (CostRateTableEntry entry : table)
+         if (costRateTableWriteRequired(entry))
          {
-            if (costRateTableWriteRequired(entry))
-            {
-               Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
-               Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+            Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
+            Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
 
-               ResourceRateType rate = m_factory.createResourceRateType();
-               m_apibo.getResourceRate().add(rate);
+            ResourceRateType rate = m_factory.createResourceRateType();
+            m_apibo.getResourceRate().add(rate);
 
-               //rate.setCreateDate(value);
-               //rate.setCreateUser(value);
-               rate.setEffectiveDate(entry.getStartDate());
-               //rate.setLastUpdateDate(value);
-               //rate.setLastUpdateUser(value);
-               rate.setMaxUnitsPerTime(maxUnits);
-               rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(writeRate(entry.getRate(0)));
-               rate.setPricePerUnit2(writeRate(entry.getRate(1)));
-               rate.setPricePerUnit3(writeRate(entry.getRate(2)));
-               rate.setPricePerUnit4(writeRate(entry.getRate(3)));
-               rate.setPricePerUnit5(writeRate(entry.getRate(4)));
-               //rate.setResourceId(value);
-               //rate.setResourceName(value);
-               rate.setResourceObjectId(resource.getUniqueID());
-               //rate.setShiftPeriodObjectId(value);
-            }
+            //rate.setCreateDate(value);
+            //rate.setCreateUser(value);
+            rate.setEffectiveDate(entry.getStartDate());
+            //rate.setLastUpdateDate(value);
+            //rate.setLastUpdateUser(value);
+            rate.setMaxUnitsPerTime(maxUnits);
+            rate.setObjectId(m_sequences.getRateObjectID());
+            rate.setPricePerUnit(writeRate(entry.getRate(0)));
+            rate.setPricePerUnit2(writeRate(entry.getRate(1)));
+            rate.setPricePerUnit3(writeRate(entry.getRate(2)));
+            rate.setPricePerUnit4(writeRate(entry.getRate(3)));
+            rate.setPricePerUnit5(writeRate(entry.getRate(4)));
+            //rate.setResourceId(value);
+            //rate.setResourceName(value);
+            rate.setResourceObjectId(resource.getUniqueID());
+            //rate.setShiftPeriodObjectId(value);
          }
       }
    }
@@ -1290,35 +1287,32 @@ final class PrimaveraPMProjectWriter
       CostRateTable table = resource.getCostRateTable(0);
       AvailabilityTable availabilityTable = resource.getAvailability();
 
-      if (table != null)
+      for (CostRateTableEntry entry : table)
       {
-         for (CostRateTableEntry entry : table)
+         if (costRateTableWriteRequired(entry))
          {
-            if (costRateTableWriteRequired(entry))
-            {
-               Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
-               Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+            Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
+            Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
 
-               RoleRateType rate = m_factory.createRoleRateType();
-               m_apibo.getRoleRate().add(rate);
+            RoleRateType rate = m_factory.createRoleRateType();
+            m_apibo.getRoleRate().add(rate);
 
-               //rate.setCreateDate(value);
-               //rate.setCreateUser(value);
-               rate.setEffectiveDate(entry.getStartDate());
-               //rate.setLastUpdateDate(value);
-               //rate.setLastUpdateUser(value);
-               rate.setMaxUnitsPerTime(maxUnits);
-               rate.setObjectId(m_sequences.getRateObjectID());
-               rate.setPricePerUnit(writeRate(entry.getRate(0)));
-               rate.setPricePerUnit2(writeRate(entry.getRate(1)));
-               rate.setPricePerUnit3(writeRate(entry.getRate(2)));
-               rate.setPricePerUnit4(writeRate(entry.getRate(3)));
-               rate.setPricePerUnit5(writeRate(entry.getRate(4)));
-               //rate.setResourceId(value);
-               //rate.setResourceName(value);
-               rate.setRoleObjectId(resource.getUniqueID());
-               //rate.setShiftPeriodObjectId(value);
-            }
+            //rate.setCreateDate(value);
+            //rate.setCreateUser(value);
+            rate.setEffectiveDate(entry.getStartDate());
+            //rate.setLastUpdateDate(value);
+            //rate.setLastUpdateUser(value);
+            rate.setMaxUnitsPerTime(maxUnits);
+            rate.setObjectId(m_sequences.getRateObjectID());
+            rate.setPricePerUnit(writeRate(entry.getRate(0)));
+            rate.setPricePerUnit2(writeRate(entry.getRate(1)));
+            rate.setPricePerUnit3(writeRate(entry.getRate(2)));
+            rate.setPricePerUnit4(writeRate(entry.getRate(3)));
+            rate.setPricePerUnit5(writeRate(entry.getRate(4)));
+            //rate.setResourceId(value);
+            //rate.setResourceName(value);
+            rate.setRoleObjectId(resource.getUniqueID());
+            //rate.setShiftPeriodObjectId(value);
          }
       }
    }

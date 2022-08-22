@@ -63,6 +63,14 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       {
          setID(Integer.valueOf(config.getNextResourceID()));
       }
+
+      m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
+      for (int index=0; index < m_costRateTables.length; index++)
+      {
+         CostRateTable table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         m_costRateTables[index] = table;
+      }
    }
 
    /**
@@ -723,10 +731,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets standard rate for this resource.
     *
     * @param val value
+    * @deprecated configure this value in a cost rate table
     */
-   public void setStandardRate(Rate val)
+   @Deprecated public void setStandardRate(Rate val)
    {
-      set(ResourceField.STANDARD_RATE, val);
+
    }
 
    /**
@@ -753,12 +762,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      Rate rate = getCurrentStandardRate(0);
-      if (rate == null)
-      {
-         rate = (Rate) getCachedValue(ResourceField.STANDARD_RATE);
-      }
-      return rate;
+      return getCurrentStandardRate(0);
    }
 
    /**
@@ -806,10 +810,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Sets the overtime rate for this resource.
     *
     * @param overtimeRate overtime rate value
+    * @deprecated configure this value in a cost rate table
     */
-   public void setOvertimeRate(Rate overtimeRate)
+   @Deprecated public void setOvertimeRate(Rate overtimeRate)
    {
-      set(ResourceField.OVERTIME_RATE, overtimeRate);
+
    }
 
    /**
@@ -836,12 +841,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      Rate rate = getCurrentOvertimeRate(0);
-      if (rate == null)
-      {
-         rate = (Rate) getCachedValue(ResourceField.OVERTIME_RATE);
-      }
-      return rate;
+      return getCurrentOvertimeRate(0);
    }
 
    /**
@@ -889,10 +889,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Set the cost per use.
     *
     * @param costPerUse cost per use
+    * @deprecated configure this value in a cost rate table
     */
-   public void setCostPerUse(Number costPerUse)
+   @Deprecated public void setCostPerUse(Number costPerUse)
    {
-      set(ResourceField.COST_PER_USE, costPerUse);
+
    }
 
    /**
@@ -919,12 +920,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      Number cost = getCurrentCostPerUse(0);
-      if (cost == null)
-      {
-         cost = (Number) getCachedValue(ResourceField.COST_PER_USE);
-      }
-      return cost;
+      return getCurrentCostPerUse(0);
    }
 
    /**
@@ -2185,7 +2181,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * this value will be non-zero. The value itself is the unique ID value shown
     * in the parent project. To retrieve the value of the resource unique ID in
     * the child project, remove the top two bytes:
-    *
+    * <p>
     * resourceID = (subprojectUniqueID &amp; 0xFFFF)
     *
     * @return sub project unique resource ID
@@ -2740,13 +2736,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public CostRateTableEntry getCurrentCostRateTableEntry(int costRateTable)
    {
-      CostRateTableEntry entry = null;
-      CostRateTable table = getCostRateTable(costRateTable);
-      if (table != null)
-      {
-         entry = table.getEntryByDate(new Date());
-      }
-      return entry;
+      return getCostRateTable(costRateTable).getEntryByDate(new Date());
    }
 
    /**
@@ -3041,7 +3031,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private boolean m_null;
    private String m_activeDirectoryGUID;
 
-   private final CostRateTable[] m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
+   private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 }

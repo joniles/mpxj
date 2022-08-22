@@ -564,8 +564,7 @@ public final class JsonWriter extends AbstractProjectWriter
       boolean tablesArePopulated = false;
       for (int index = 0; index < CostRateTable.MAX_TABLES; index++)
       {
-         CostRateTable table = resource.getCostRateTable(index);
-         tablesArePopulated = table != null && table.tableIsPopulated();
+         tablesArePopulated = resource.getCostRateTable(index).tableIsPopulated();
          if (tablesArePopulated)
          {
             break;
@@ -591,7 +590,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCostRateTable(int index, CostRateTable table) throws IOException
    {
-      if (table != null && table.tableIsPopulated())
+      if (table.tableIsPopulated())
       {
          m_writer.writeStartList(Integer.toString(index));
          for (CostRateTableEntry entry : table)

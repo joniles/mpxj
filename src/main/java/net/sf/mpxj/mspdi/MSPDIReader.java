@@ -33,10 +33,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -1090,7 +1088,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
       else
       {
-         Set<CostRateTable> tables = new HashSet<>();
+         CostRateTable[] tables = new CostRateTable[CostRateTable.MAX_TABLES];
          Calendar cal = DateHelper.popCalendar();
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
@@ -1139,18 +1137,26 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             }
 
             CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, standardRate, overtimeRate);
-            CostRateTable table = resource.getCostRateTable(tableIndex);
+            CostRateTable table = tables[tableIndex];
             if (table == null)
             {
                table = new CostRateTable();
-               resource.setCostRateTable(tableIndex, table);
+               tables[tableIndex] = table;
             }
             table.add(entry);
-            tables.add(table);
          }
 
          DateHelper.pushCalendar(cal);
-         tables.forEach(Collections::sort);
+
+         for (int tableIndex=0; tableIndex < tables.length; tableIndex++)
+         {
+            CostRateTable table = tables[tableIndex];
+            if (table != null)
+            {
+               Collections.sort(table);
+               resource.setCostRateTable(tableIndex, table);
+            }
+         }
       }
    }
 

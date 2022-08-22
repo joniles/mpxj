@@ -34,6 +34,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -150,7 +152,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
 
          Resource resource = m_project.addResource();
          resource.setCode(row.getString(ResourceField.CODE));
-         resource.setCostPerUse(row.getCurrency(ResourceField.PER_USE_COST));
          resource.setEmailAddress(row.getString(ResourceField.EMAIL_ADDRESS));
          resource.setFlag(1, row.getBoolean(ResourceField.FLAG_1));
          resource.setFlag(2, row.getBoolean(ResourceField.FLAG_2));
@@ -229,6 +230,11 @@ public final class FastTrackReader extends AbstractProjectFileReader
          resource.setText(29, row.getString(ResourceField.TEXT_29));
          resource.setText(30, row.getString(ResourceField.TEXT_30));
          resource.setUniqueID(Integer.valueOf(uniqueID));
+
+         CostRateTable costRateTable = new CostRateTable();
+         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getCurrency(ResourceField.PER_USE_COST)));
+         resource.setCostRateTable(0, costRateTable);
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
