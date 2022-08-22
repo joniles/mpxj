@@ -42,7 +42,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests to ensure effective rates are determined correctly.
+ * Tests to ensure effective rates are determined correctly for data from P6.
  */
 public class EffectiveRateTest
 {
@@ -91,7 +91,4 @@ public class EffectiveRateTest
       assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
       assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
    }
-
-
-   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 }
