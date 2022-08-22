@@ -1905,7 +1905,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param apibo xml container
     */
    private void processRoleRates(APIBusinessObjects apibo)
-   {      
+   {
       List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRateNew().isEmpty() ? apibo.getRoleRate() : apibo.getRoleRateNew());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
