@@ -50,11 +50,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the deploymentName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDeploymentName()
    {
@@ -63,11 +63,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the deploymentName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDeploymentName(String value)
    {
@@ -76,11 +76,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -89,11 +89,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -102,11 +102,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the providerId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProviderId()
    {
@@ -115,11 +115,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the providerId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProviderId(Integer value)
    {
@@ -128,11 +128,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the providerName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProviderName()
    {
@@ -141,11 +141,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the providerName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProviderName(String value)
    {
