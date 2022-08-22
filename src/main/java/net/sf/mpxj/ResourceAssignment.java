@@ -1213,19 +1213,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private CostRateTableEntry getCostRateTableEntry(Date date)
    {
-      CostRateTableEntry result;
-
       CostRateTable table = getCostRateTable();
-      if (table.size() == 1)
-      {
-         result = table.get(0);
-      }
-      else
-      {
-         result = table.getEntryByDate(date);
-      }
-
-      return result;
+      return table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
    }
 
    /**
@@ -1236,20 +1225,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    private int getCostRateTableEntryIndex(Date date)
    {
-      int result = -1;
-
       CostRateTable table = getCostRateTable();
-
-      if (table.size() == 1)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = table.getIndexByDate(date);
-      }
-
-      return result;
+      return table.size() == 1 ? 0 : table.getIndexByDate(date);
    }
 
    /**
