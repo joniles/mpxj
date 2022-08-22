@@ -762,12 +762,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      Rate rate = getCurrentStandardRate(0);
-      if (rate == null)
-      {
-         rate = (Rate) getCachedValue(ResourceField.STANDARD_RATE);
-      }
-      return rate;
+      return getCurrentStandardRate(0);
    }
 
    /**
@@ -846,12 +841,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      Rate rate = getCurrentOvertimeRate(0);
-      if (rate == null)
-      {
-         rate = (Rate) getCachedValue(ResourceField.OVERTIME_RATE);
-      }
-      return rate;
+      return getCurrentOvertimeRate(0);
    }
 
    /**
@@ -930,12 +920,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      Number cost = getCurrentCostPerUse(0);
-      if (cost == null)
-      {
-         cost = (Number) getCachedValue(ResourceField.COST_PER_USE);
-      }
-      return cost;
+      return getCurrentCostPerUse(0);
    }
 
    /**
