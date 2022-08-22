@@ -735,7 +735,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public void setStandardRate(Rate val)
    {
-
+      // Deprecated method
    }
 
    /**
@@ -802,7 +802,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public void setOvertimeRate(Rate overtimeRate)
    {
-
+      // Deprecated method
    }
 
    /**
@@ -869,7 +869,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public void setCostPerUse(Number costPerUse)
    {
-
+      // Deprecated method
    }
 
    /**
