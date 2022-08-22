@@ -1103,7 +1103,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
       double amountForLastDay = totalAmount % standardAmountPerDay;
 
-      //first block contains all the normal work at the beginning of the assignments life, if any
+      //first block contains all the normal work at the beginning of the assignment's life, if any
 
       if (numStandardAmountDays > 0)
       {
