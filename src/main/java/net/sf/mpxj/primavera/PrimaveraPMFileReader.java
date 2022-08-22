@@ -1879,8 +1879,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             endDate = DateHelper.END_DATE_NA;
          }
 
-         CostRateTable costRateTable = resource.getCostRateTable(0);
-         costRateTable.add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
@@ -1977,15 +1976,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             endDate = DateHelper.END_DATE_NA;
          }
 
-         CostRateTable costRateTable = resource.getCostRateTable(0);
-         if (costRateTable == null)
-         {
-            costRateTable = new CostRateTable();
-            resource.setCostRateTable(0, costRateTable);
-         }
-         CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, values);
-         costRateTable.add(entry);
-
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }

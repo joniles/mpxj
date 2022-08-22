@@ -1185,24 +1185,23 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       boolean result = false;
       CostRateTable table = getCostRateTable();
-      if (table != null)
+
+      //
+      // We assume here that if there is just one entry in the cost rate
+      // table, this is an open-ended rate which covers any work, it won't
+      // have specific dates attached to it.
+      //
+      if (table.size() > 1)
       {
          //
-         // We assume here that if there is just one entry in the cost rate
-         // table, this is an open-ended rate which covers any work, it won't
-         // have specific dates attached to it.
+         // If we have multiple rates in the table, see if the same rate
+         // is in force at the start and the end of the assignment.
          //
-         if (table.size() > 1)
-         {
-            //
-            // If we have multiple rates in the table, see if the same rate
-            // is in force at the start and the end of the assignment.
-            //
-            CostRateTableEntry startEntry = table.getEntryByDate(getStart());
-            CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
-            result = (startEntry != finishEntry);
-         }
+         CostRateTableEntry startEntry = table.getEntryByDate(getStart());
+         CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
+         result = (startEntry != finishEntry);
       }
+
       return result;
    }
 
@@ -1217,21 +1216,13 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CostRateTableEntry result;
 
       CostRateTable table = getCostRateTable();
-      if (table == null)
+      if (table.size() == 1)
       {
-         Resource resource = getResource();
-         result = new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, resource.getCostPerUse(), resource.getStandardRate(), resource.getOvertimeRate());
+         result = table.get(0);
       }
       else
       {
-         if (table.size() == 1)
-         {
-            result = table.get(0);
-         }
-         else
-         {
-            result = table.getEntryByDate(date);
-         }
+         result = table.getEntryByDate(date);
       }
 
       return result;
@@ -1248,16 +1239,14 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       int result = -1;
 
       CostRateTable table = getCostRateTable();
-      if (table != null)
+
+      if (table.size() == 1)
       {
-         if (table.size() == 1)
-         {
-            result = 0;
-         }
-         else
-         {
-            result = table.getIndexByDate(date);
-         }
+         result = 0;
+      }
+      else
+      {
+         result = table.getIndexByDate(date);
       }
 
       return result;

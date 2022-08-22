@@ -817,7 +817,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param overtimeRate overtime rate value
     * @deprecated configure this value in a cost rate table
     */
-   public void setOvertimeRate(Rate overtimeRate)
+   @Deprecated public void setOvertimeRate(Rate overtimeRate)
    {
 
    }
@@ -2196,7 +2196,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * this value will be non-zero. The value itself is the unique ID value shown
     * in the parent project. To retrieve the value of the resource unique ID in
     * the child project, remove the top two bytes:
-    *
+    * <p>
     * resourceID = (subprojectUniqueID &amp; 0xFFFF)
     *
     * @return sub project unique resource ID
@@ -2751,13 +2751,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public CostRateTableEntry getCurrentCostRateTableEntry(int costRateTable)
    {
-      CostRateTableEntry entry = null;
-      CostRateTable table = getCostRateTable(costRateTable);
-      if (table != null)
-      {
-         entry = table.getEntryByDate(new Date());
-      }
-      return entry;
+      return getCostRateTable(costRateTable).getEntryByDate(new Date());
    }
 
    /**

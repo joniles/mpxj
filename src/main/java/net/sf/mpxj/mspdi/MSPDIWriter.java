@@ -1314,7 +1314,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private boolean costRateTableWriteRequired(int index, Resource resource, CostRateTable table)
    {
       // Don't write anything if we don't have a table
-      if (table == null || table.isEmpty())
+      if (table.isEmpty())
       {
          return false;
       }
