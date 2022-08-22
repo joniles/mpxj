@@ -739,30 +739,18 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieve the current standard rate from the specified cost rate table.
-    *
-    * @param costRateTable cost rate table index
-    * @return current standard rate
-    */
-   public Rate getCurrentStandardRate(int costRateTable)
-   {
-      Rate rate = null;
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
-      if (entry != null)
-      {
-         rate = entry.getStandardRate();
-      }
-      return rate;
-   }
-
-   /**
     * Gets Standard Rate field value.
     *
     * @return Rate
     */
    public Rate getStandardRate()
    {
-      return getCurrentStandardRate(0);
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getStandardRate();
    }
 
    /**
@@ -818,30 +806,18 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieve the current overtime rate from the specified cost rate table.
-    *
-    * @param costRateTable cost rate table index
-    * @return current overtime rate
-    */
-   public Rate getCurrentOvertimeRate(int costRateTable)
-   {
-      Rate rate = null;
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
-      if (entry != null)
-      {
-         rate = entry.getOvertimeRate();
-      }
-      return rate;
-   }
-
-   /**
     * Retrieves the overtime rate for this resource.
     *
     * @return overtime rate
     */
    public Rate getOvertimeRate()
    {
-      return getCurrentOvertimeRate(0);
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getOvertimeRate();
    }
 
    /**
@@ -897,30 +873,18 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieve the current cost per use from the specified cost rate table.
-    *
-    * @param costRateTable cost rate table index
-    * @return current cost per use
-    */
-   public Number getCurrentCostPerUse(int costRateTable)
-   {
-      Number cost = null;
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(costRateTable);
-      if (entry != null)
-      {
-         cost = entry.getCostPerUse();
-      }
-      return cost;
-   }
-
-   /**
     * Retrieve the cost per use.
     *
     * @return cost per use
     */
    public Number getCostPerUse()
    {
-      return getCurrentCostPerUse(0);
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getCostPerUse();
    }
 
    /**
