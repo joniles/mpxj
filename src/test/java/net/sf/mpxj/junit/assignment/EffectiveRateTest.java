@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RateSource;
@@ -65,30 +64,30 @@ public class EffectiveRateTest
       ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6639));
       assertEquals(RateSource.RESOURCE, assignment.getRateSource());
       assertEquals(0, assignment.getRateIndex().intValue());
-      assertEquals(new Rate(1.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
-      assertEquals(new Rate(21.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
+      assertEquals(new Rate(1.0, TimeUnit.HOURS), assignment.getEffectiveRate(date1));
+      assertEquals(new Rate(21.0, TimeUnit.HOURS), assignment.getEffectiveRate(date2));
 
       assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6640));
       assertEquals(RateSource.RESOURCE, assignment.getRateSource());
       assertEquals(1, assignment.getRateIndex().intValue());
-      assertEquals(new Rate(2.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
-      assertEquals(new Rate(22.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
+      assertEquals(new Rate(2.0, TimeUnit.HOURS), assignment.getEffectiveRate(date1));
+      assertEquals(new Rate(22.0, TimeUnit.HOURS), assignment.getEffectiveRate(date2));
 
       assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6641));
       assertEquals(RateSource.ROLE, assignment.getRateSource());
       assertEquals(0, assignment.getRateIndex().intValue());
-      assertEquals(new Rate(6.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
-      assertEquals(new Rate(31.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
+      assertEquals(new Rate(6.0, TimeUnit.HOURS), assignment.getEffectiveRate(date1));
+      assertEquals(new Rate(31.0, TimeUnit.HOURS), assignment.getEffectiveRate(date2));
 
       assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6642));
       assertEquals(RateSource.ROLE, assignment.getRateSource());
       assertEquals(1, assignment.getRateIndex().intValue());
-      assertEquals(new Rate(7.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
-      assertEquals(new Rate(32.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
+      assertEquals(new Rate(7.0, TimeUnit.HOURS), assignment.getEffectiveRate(date1));
+      assertEquals(new Rate(32.0, TimeUnit.HOURS), assignment.getEffectiveRate(date2));
 
       assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6643));
       assertEquals(RateSource.OVERRIDE, assignment.getRateSource());
-      assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date1));
-      assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(0, date2));
+      assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(date1));
+      assertEquals(new Rate(99.0, TimeUnit.HOURS), assignment.getEffectiveRate(date2));
    }
 }

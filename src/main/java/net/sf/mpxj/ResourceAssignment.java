@@ -2667,7 +2667,19 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public CostRateTable getCostRateTable()
    {
-      return getResource() == null ? null : getResource().getCostRateTable(getCostRateTableIndex());
+      RateSource rateSource = getRateSource();
+      if (rateSource == RateSource.OVERRIDE)
+      {
+         return null;
+      }
+
+      Resource resource = rateSource== RateSource.ROLE ? getRole() : getResource();
+      if (resource == null)
+      {
+         return null;
+      }
+
+      return resource.getCostRateTable(getCostRateTableIndex());
    }
 
    /**
@@ -2830,21 +2842,20 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       set(AssignmentField.PLANNED_FINISH, value);
    }
 
-   public Rate getEffectiveRate(int costRateTableIndex, Date date)
+   public Rate getEffectiveRate(Date date)
    {
-      RateSource rateSource = getRateSource();
-      if (rateSource == RateSource.OVERRIDE)
+      if (getRateSource() == RateSource.OVERRIDE)
       {
          return getOverrideRate();
       }
 
-      Resource resource = rateSource== RateSource.ROLE ? getRole() : getResource();
-      if (resource == null)
+      CostRateTable table = getCostRateTable();
+      if (table == null)
       {
          return null;
       }
 
-      CostRateTableEntry entry = resource.getCostRateTable(costRateTableIndex).getEntryByDate(date);
+      CostRateTableEntry entry = table.getEntryByDate(date);
       if (entry == null)
       {
          return null;
