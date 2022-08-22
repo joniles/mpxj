@@ -11,7 +11,6 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.NumberHelper;
@@ -652,34 +651,6 @@ public final class MppXmlCompare
                assertEquals(expected, (Object) actual);
             }
          }
-      }
-   }
-
-   /**
-    * Rate equality assertion.
-    *
-    * @param expected expected value
-    * @param actual actual value
-    */
-   private void assertEquals(Rate expected, Rate actual) throws Exception
-   {
-      if (expected != null && actual != null && expected.getUnits() == actual.getUnits())
-      {
-         assertEquals(expected.getAmount(), actual.getAmount(), 0.99);
-      }
-      else
-      {
-         if (expected != null && expected.getAmount() == 0)
-         {
-            expected = null;
-         }
-
-         if (actual != null && actual.getAmount() == 0)
-         {
-            actual = null;
-         }
-
-         assertEquals(expected, (Object) actual);
       }
    }
 
