@@ -28,26 +28,19 @@ import java.awt.Color;
 /**
  * Represents an individual activity code value.
  */
-public class ActivityCodeValue
+public class ActivityCodeValue extends ProjectEntity implements ProjectEntityWithUniqueID
 {
-   /**
-    * Constructor.
-    *
-    * @param type parent activity code type
-    * @param uniqueID unique ID
-    * @param sequenceNumber value sequence number
-    * @param name value name
-    * @param description value description
-    * @param color value color
-    */
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
-   {
+   public ActivityCodeValue(ProjectFile file, ActivityCode type) {
+      super(file);
+
+      ProjectConfig config = file.getProjectConfig();
+
+      if (config.getAutoActivityCodeValueUniqueID())
+      {
+         setUniqueID(Integer.valueOf(config.getNextActivityCodeValueUniqueID()));
+      }
+
       m_type = type;
-      m_uniqueID = uniqueID;
-      m_sequenceNumber = sequenceNumber;
-      m_name = name;
-      m_description = description;
-      m_color = color;
    }
 
    /**
@@ -70,6 +63,11 @@ public class ActivityCodeValue
       return m_uniqueID;
    }
 
+   public void setUniqueID(Integer uniqueID)
+   {
+      m_uniqueID = uniqueID;
+   }
+
    /**
     * Retrieves the sequence number for this value.
     *
@@ -78,6 +76,11 @@ public class ActivityCodeValue
    public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
+   }
+
+   public void setSequenceNumber(Integer sequenceNumber)
+   {
+      m_sequenceNumber = sequenceNumber;
    }
 
    /**
@@ -90,6 +93,11 @@ public class ActivityCodeValue
       return m_name;
    }
 
+   public void setName(String name)
+   {
+      m_name = name;
+   }
+
    /**
     * Retrieves the value description.
     *
@@ -100,6 +108,11 @@ public class ActivityCodeValue
       return m_description;
    }
 
+   public void setDescription(String description)
+   {
+      m_description = description;
+   }
+
    /**
     * Retrieves the color associated with this value.
     *
@@ -108,6 +121,11 @@ public class ActivityCodeValue
    public Color getColor()
    {
       return m_color;
+   }
+
+   public void setColor(Color color)
+   {
+      m_color = color;
    }
 
    /**
@@ -136,10 +154,10 @@ public class ActivityCodeValue
    }
 
    private final ActivityCode m_type;
-   private final Integer m_uniqueID;
-   private final Integer m_sequenceNumber;
-   private final String m_name;
-   private final String m_description;
-   private final Color m_color;
+   private Integer m_uniqueID;
+   private Integer m_sequenceNumber;
+   private String m_name;
+   private String m_description;
+   private Color m_color;
    private ActivityCodeValue m_parent;
 }

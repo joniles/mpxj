@@ -227,13 +227,21 @@ final class PrimaveraReader
     */
    public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
    {
-      ActivityCodeContainer container = m_project.getActivityCodes();
+      ProjectConfig config = m_project.getProjectConfig();
+      config.setAutoActivityCodeUniqueID(false);
+      config.setAutoActivityCodeValueUniqueID(false);
+
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), ACTIVITY_CODE_SCOPE_MAP.get(row.getString("actv_code_type_scope")), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"));
-         container.add(code);
+         ActivityCode code = m_project.addActivityCode();
+         code.setUniqueID(row.getInteger("actv_code_type_id"));
+         code.setScope(ACTIVITY_CODE_SCOPE_MAP.get(row.getString("actv_code_type_scope")));
+         code.setScopeUniqueId(row.getInteger("proj_id"));
+         code.setSequenceNumber(row.getInteger("seq_num"));
+         code.setName(row.getString("actv_code_type"));
+
          map.put(code.getUniqueID(), code);
       }
 
@@ -242,7 +250,13 @@ final class PrimaveraReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), getColor(row.getString("color")));
+            ActivityCodeValue value = code.addValue();
+            value.setUniqueID(row.getInteger("actv_code_id"));
+            value.setSequenceNumber(row.getInteger("seq_num"));
+            value.setName(row.getString("short_name"));
+            value.setDescription(row.getString("actv_code_name"));
+            value.setColor(getColor(row.getString("color")));
+
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }

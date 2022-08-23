@@ -39,6 +39,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.ActivityCodeValue;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -86,6 +89,11 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class Phoenix5Reader extends AbstractProjectStreamReader
 {
+   public Phoenix5Reader(boolean useActivityCodesForTaskHierarchy)
+   {
+      m_useActivityCodesForTaskHierarchy = useActivityCodesForTaskHierarchy;
+   }
+
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       openLogFile();
@@ -100,7 +108,6 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          m_projectFile = new ProjectFile();
          m_activityMap = new HashMap<>();
          m_activityCodeValues = new HashMap<>();
-         m_activityCodeSequence = new HashMap<>();
          m_activityCodeCache = new HashMap<>();
          m_codeSequence = new ArrayList<>();
          m_eventManager = m_projectFile.getEventManager();
@@ -110,6 +117,8 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+         config.setAutoActivityCodeUniqueID(true);
+         config.setAutoActivityCodeValueUniqueID(true);
 
          m_projectFile.getProjectProperties().setFileApplication("Phoenix");
          m_projectFile.getProjectProperties().setFileType("PPX");
@@ -120,9 +129,16 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
          readProjectProperties(phoenixProject.getSettings(), storepoint);
          readCalendars(storepoint);
+         readActivityCodes(storepoint);
          readTasks(phoenixProject, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
+
+         if (m_useActivityCodesForTaskHierarchy)
+         {
+            // clear out activity codes from project file since they were used for hierarchy instead
+            m_projectFile.getActivityCodes().clear();
+         }
 
          //
          // Ensure that the unique ID counters are correct
@@ -142,7 +158,6 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_activityMap = null;
          m_activityCodeValues = null;
-         m_activityCodeSequence = null;
          m_activityCodeCache = null;
          m_codeSequence = null;
 
@@ -189,6 +204,54 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             m_projectFile.getProjectProperties().setDefaultCalendar(defaultCalendar);
          }
+      }
+   }
+
+   /**
+    * This method extracts activity code data from a Phoenix file.
+    *
+    * @param phoenixProject Root node of the Phoenix file
+    */
+   private void readActivityCodes(Storepoint phoenixProject)
+   {
+      int activityCodeSequence = 0;
+      ActivityCodes activityCodes = phoenixProject.getActivityCodes();
+      if (activityCodes != null)
+      {
+         for (Code code : activityCodes.getCode())
+         {
+            readActivityCode(code, Integer.valueOf(++activityCodeSequence));
+         }
+      }
+   }
+
+   /**
+    * This method extracts data for an Activity Code from a Phoenix file.
+    *
+    * @param code Activity Code
+    */
+   private void readActivityCode(Code code, Integer activityCodeSequence)
+   {
+      ActivityCode activityCode = m_projectFile.addActivityCode();
+      Map<Integer, ActivityCode> map = new HashMap<>();
+
+      activityCode.setName(code.getName());
+      activityCode.setScope(ActivityCodeScope.GLOBAL);
+      activityCode.setSequenceNumber(activityCodeSequence);
+
+      UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
+
+      int activityCodeValueSequence = 0;
+      for (Value typeValue : code.getValue())
+      {
+         ActivityCodeValue activityCodeValue = activityCode.addValue();
+         activityCodeValue.setName(typeValue.getName());
+         activityCodeValue.setDescription(typeValue.getName());
+         activityCodeValue.setSequenceNumber(Integer.valueOf(++activityCodeValueSequence));
+
+         String name = typeValue.getName();
+         UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
+         m_activityCodeValues.put(uuid, activityCodeValue);
       }
    }
 
@@ -289,35 +352,8 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private void readTasks(Project phoenixProject, Storepoint storepoint)
    {
       processLayouts(phoenixProject);
-      processActivityCodes(storepoint);
       processActivities(storepoint);
       updateDates();
-   }
-
-   /**
-    * Map from an activity code value UUID to the actual value itself, and its
-    * sequence number.
-    *
-    * @param storepoint storepoint containing current project data
-    */
-   private void processActivityCodes(Storepoint storepoint)
-   {
-      ActivityCodes activityCodes = storepoint.getActivityCodes();
-      if (activityCodes != null)
-      {
-         for (Code code : activityCodes.getCode())
-         {
-            int sequence = 0;
-            UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
-            for (Value value : code.getValue())
-            {
-               String name = value.getName();
-               UUID uuid = getValueUUID(codeUUID, value.getUuid(), name);
-               m_activityCodeValues.put(uuid, name);
-               m_activityCodeSequence.put(uuid, Integer.valueOf(++sequence));
-            }
-         }
-      }
    }
 
    /**
@@ -378,7 +414,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeSequence.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1 + ""));
+         m_activityCodeValues.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1.getSequenceNumber() + ""));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");
@@ -424,8 +460,8 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
 
             if (!codeValue1.equals(codeValue2))
             {
-               Integer sequence1 = m_activityCodeSequence.get(codeValue1);
-               Integer sequence2 = m_activityCodeSequence.get(codeValue2);
+               Integer sequence1 = m_activityCodeValues.get(codeValue1) != null ? m_activityCodeValues.get(codeValue1).getSequenceNumber() : null;
+               Integer sequence2 = m_activityCodeValues.get(codeValue2) != null ? m_activityCodeValues.get(codeValue2).getSequenceNumber() : null;
 
                return NumberHelper.compare(sequence1, sequence2);
             }
@@ -447,7 +483,20 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void processActivity(Activity activity)
    {
-      Task task = getParentTask(activity).addTask();
+      Task task;
+
+      if (m_useActivityCodesForTaskHierarchy)
+      {
+         task = getParentTask(activity).addTask();
+      }
+      else
+      {
+         task = m_projectFile.addTask();
+
+         // Activity codes
+         populateActivityCodes(task, getActivityCodes(activity));
+      }
+
       task.setActivityID(activity.getId());
 
       task.setActualDuration(activity.getActualDuration());
@@ -455,7 +504,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       task.setActualStart(activity.getActualStart());
       //activity.getBaseunit()
       //activity.getBilled()
-      //activity.getCalendar()
+      task.setCalendar(m_projectFile.getCalendarByName(activity.getCalendar()));
       //activity.getCostAccount()
       task.setCreateDate(activity.getCreationTime());
       task.setFinish(activity.getCurrentFinish());
@@ -543,6 +592,25 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    /**
+    * This method adds the activity code assignments to the task
+    *
+    */
+   private void populateActivityCodes(Task task, Map<UUID, UUID> codeAssignments)
+   {
+      if (!codeAssignments.isEmpty())
+      {
+         for (UUID valueUUID : codeAssignments.values())
+         {
+            ActivityCodeValue value = m_activityCodeValues.get(valueUUID);
+            if (value != null)
+            {
+               task.addActivityCode(value);
+            }
+         }
+      }
+   }
+
+   /**
     * Returns true if the activity is a milestone.
     *
     * @param activity Phoenix activity
@@ -586,15 +654,15 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       StringBuilder uniqueIdentifier = new StringBuilder();
       for (UUID activityCode : m_codeSequence)
       {
-         UUID activityCodeValue = map.get(activityCode);
-         String activityCodeText = m_activityCodeValues.get(activityCodeValue);
+         UUID valueUUID = map.get(activityCode);
+         String activityCodeText = m_activityCodeValues.get(valueUUID) != null ? m_activityCodeValues.get(valueUUID).getName() : null;
          if (activityCodeText != null)
          {
             if (uniqueIdentifier.length() != 0)
             {
                uniqueIdentifier.append('>');
             }
-            uniqueIdentifier.append(activityCodeValue.toString());
+            uniqueIdentifier.append(valueUUID.toString());
             UUID uuid = UUID.nameUUIDFromBytes(uniqueIdentifier.toString().getBytes());
             Task newParent = findChildTaskByUUID(parent, uuid);
             if (newParent == null)
@@ -868,11 +936,11 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
    private PrintWriter m_log;
    private ProjectFile m_projectFile;
    private Map<String, Task> m_activityMap;
-   private Map<UUID, String> m_activityCodeValues;
-   Map<UUID, Integer> m_activityCodeSequence;
+   private Map<UUID, ActivityCodeValue> m_activityCodeValues;
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
+   private boolean m_useActivityCodesForTaskHierarchy;
 
    /**
     * Cached context to minimise construction cost.

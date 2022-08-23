@@ -377,6 +377,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
          config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+         config.setAutoActivityCodeUniqueID(false);
+         config.setAutoActivityCodeValueUniqueID(false);
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
@@ -690,7 +692,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processActivityCodes(APIBusinessObjects apibo, List<ActivityCodeTypeType> activityCodeTypes, List<ActivityCodeType> activityCodes)
    {
-      ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       List<ActivityCodeTypeType> types = new ArrayList<>();
@@ -699,8 +700,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode(type.getObjectId(), ACTIVITY_CODE_SCOPE_MAP.get(type.getScope()), type.getProjectObjectId(), type.getSequenceNumber(), type.getName());
-         container.add(code);
+         ActivityCode code = m_projectFile.addActivityCode();
+         code.setUniqueID(type.getObjectId());
+         code.setScope(ACTIVITY_CODE_SCOPE_MAP.get(type.getScope()));
+         code.setScopeUniqueId(type.getProjectObjectId());
+         code.setSequenceNumber(type.getSequenceNumber());
+         code.setName(type.getName());
+
          map.put(code.getUniqueID(), code);
       }
 
@@ -713,7 +719,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), getColor(typeValue.getColor()));
+            ActivityCodeValue value = code.addValue();
+            value.setUniqueID(typeValue.getObjectId());
+            value.setSequenceNumber(typeValue.getSequenceNumber());
+            value.setName(typeValue.getCodeValue());
+            value.setDescription(typeValue.getDescription());
+            value.setColor(getColor(typeValue.getColor()));
+
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }

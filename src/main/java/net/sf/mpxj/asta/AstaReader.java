@@ -89,6 +89,8 @@ final class AstaReader
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoCalendarUniqueID(false);
+      config.setAutoActivityCodeUniqueID(false);
+      config.setAutoActivityCodeValueUniqueID(false);
       config.setBaselineStrategy(new AstaBaselineStrategy());
 
       m_project.getProjectProperties().setFileApplication("Asta");
@@ -2010,15 +2012,20 @@ final class AstaReader
 
    public void processCodeLibraries(List<Row> types, List<Row> typeValues, List<Row> assignments)
    {
-      ActivityCodeContainer container = m_project.getActivityCodes();
       Map<Integer, ActivityCode> codeMap = new HashMap<>();
       Map<Integer, ActivityCodeValue> valueMap = new HashMap<>();
 
       for (Row row : types)
       {
          Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
-         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, sequenceNumber, row.getString("NAME"));
-         container.add(code);
+
+         ActivityCode code = m_project.addActivityCode();
+         code.setUniqueID(row.getInteger("ID"));
+         code.setScope(ActivityCodeScope.GLOBAL);
+         code.setScopeUniqueId(null);
+         code.setSequenceNumber(sequenceNumber);
+         code.setName(row.getString("NAME"));
+
          codeMap.put(code.getUniqueID(), code);
       }
 
@@ -2028,7 +2035,14 @@ final class AstaReader
          if (code != null)
          {
             Integer sequenceNumber = Integer.valueOf(code.getValues().size() + 1);
-            ActivityCodeValue value = code.addValue(row.getInteger("ID"), sequenceNumber, row.getString("SHORT_NAME"), row.getString("NAME"), null);
+
+            ActivityCodeValue value = code.addValue();
+            value.setUniqueID(row.getInteger("ID"));
+            value.setSequenceNumber(sequenceNumber);
+            value.setName(row.getString("SHORT_NAME"));
+            value.setDescription(row.getString("NAME"));
+            value.setColor(null);
+
             valueMap.put(value.getUniqueID(), value);
          }
       }
