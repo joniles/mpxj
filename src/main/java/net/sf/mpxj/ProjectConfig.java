@@ -208,6 +208,26 @@ public class ProjectConfig
    }
 
    /**
+    * Used to set whether the activity code ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoActivityCodeUniqueID(boolean flag)
+   {
+      m_autoActivityCodeUniqueID = flag;
+   }
+
+   /**
+    * Used to set whether the activity code value ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoActivityCodeValueUniqueID(boolean flag)
+   {
+      m_autoActivityCodeValueUniqueID = flag;
+   }
+
+   /**
     * Retrieve the flag that determines whether the resource unique ID
     * is generated automatically.
     *
@@ -227,6 +247,28 @@ public class ProjectConfig
    public boolean getAutoResourceID()
    {
       return m_autoResourceID;
+   }
+
+   /**
+    * Retrieve the flag that determines whether the activity code unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoActivityCodeUniqueID()
+   {
+      return m_autoActivityCodeUniqueID;
+   }
+
+   /**
+    * Retrieve the flag that determines whether the activity code value unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoActivityCodeValueUniqueID()
+   {
+      return m_autoActivityCodeValueUniqueID;
    }
 
    /**
@@ -290,6 +332,26 @@ public class ProjectConfig
    }
 
    /**
+    * This method is used to retrieve the next unique ID for an activity code.
+    *
+    * @return next unique ID
+    */
+   public int getNextActivityCodeUniqueID()
+   {
+      return ++m_activityCodeUniqueID;
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for an activity code value.
+    *
+    * @return next unique ID
+    */
+   public int getNextActivityCodeValueUniqueID()
+   {
+      return ++m_activityCodeValueUniqueID;
+   }
+
+   /**
     * Returns true if a task's Complete Through attribute is reported as
     * the time work can next start. Defaults to false. When set to true this
     * matches the behaviour of MS Project versions prior to 2007.
@@ -324,6 +386,7 @@ public class ProjectConfig
       updateResourceUniqueCounter();
       updateCalendarUniqueCounter();
       updateAssignmentUniqueCounter();
+      updateActivityCodeUniqueCounters();
    }
 
    /**
@@ -382,6 +445,30 @@ public class ProjectConfig
          if (uniqueID > m_assignmentUniqueID)
          {
             m_assignmentUniqueID = uniqueID;
+         }
+      }
+   }
+
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    */
+   public void updateActivityCodeUniqueCounters()
+   {
+      for (ActivityCode activityCode : m_parent.getActivityCodes())
+      {
+         int acUniqueID = NumberHelper.getInt(activityCode.getUniqueID());
+         if (acUniqueID > m_activityCodeUniqueID)
+         {
+            m_activityCodeUniqueID = acUniqueID;
+         }
+
+         for (ActivityCodeValue activityCodeValue : activityCode.getValues())
+         {
+            int acvUniqueID = NumberHelper.getInt(activityCodeValue.getUniqueID());
+            if (acvUniqueID > m_activityCodeValueUniqueID)
+            {
+               m_activityCodeValueUniqueID = acvUniqueID;
+            }
          }
       }
    }
@@ -463,6 +550,17 @@ public class ProjectConfig
    private boolean m_autoResourceID = true;
 
    /**
+    * Indicating whether the unique ID of an activity code should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoActivityCodeUniqueID = true;
+
+   /**
+    * Indicating whether the unique ID of an activity code value should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoActivityCodeValueUniqueID = true;
+   /**
     * Counter used to populate the unique ID field of a task.
     */
    private int m_taskUniqueID;
@@ -491,6 +589,16 @@ public class ProjectConfig
     * Counter used to populate the ID field of a resource.
     */
    private int m_resourceID;
+
+   /**
+    * Counter used to populate the unique ID field of an activity code.
+    */
+   private int m_activityCodeUniqueID;
+
+   /**
+    * Counter used to populate the unique ID field of an activity code value.
+    */
+   private int m_activityCodeValueUniqueID;
 
    /**
     * Set to true provides compatibility with MS Project versions prior to 2007.
