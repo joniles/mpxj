@@ -3056,6 +3056,13 @@ module MPXJ
       get_boolean_value(attribute_values['overallocated'])
     end
 
+    # Retrieve the Override Rate value
+    #
+    # @return Override Rate value
+    def override_rate
+      attribute_values['override_rate']
+    end
+
     # Retrieve the Overtime Cost value
     #
     # @return Overtime Cost value
@@ -3124,6 +3131,20 @@ module MPXJ
     # @return Project value
     def project
       attribute_values['project']
+    end
+
+    # Retrieve the Rate Index value
+    #
+    # @return Rate Index value
+    def rate_index
+      get_integer_value(attribute_values['rate_index'])
+    end
+
+    # Retrieve the Rate Source value
+    #
+    # @return Rate Source value
+    def rate_source
+      attribute_values['rate_source']
     end
 
     # Retrieve the Regular Work value
@@ -3208,6 +3229,13 @@ module MPXJ
     # @return Resume value
     def resume
       get_date_value(attribute_values['resume'])
+    end
+
+    # Retrieve the Role Unique ID value
+    #
+    # @return Role Unique ID value
+    def role_unique_id
+      get_integer_value(attribute_values['role_unique_id'])
     end
 
     # Retrieve the Start value
@@ -4242,6 +4270,7 @@ module MPXJ
       'number8' => :numeric,
       'number9' => :numeric,
       'overallocated' => :boolean,
+      'override_rate' => :rate,
       'overtime_cost' => :currency,
       'overtime_work' => :work,
       'owner' => :string,
@@ -4252,6 +4281,8 @@ module MPXJ
       'planned_start' => :date,
       'planned_work' => :work,
       'project' => :string,
+      'rate_index' => :integer,
+      'rate_source' => :rate_source,
       'regular_work' => :work,
       'remaining_cost' => :currency,
       'remaining_overtime_cost' => :currency,
@@ -4264,6 +4295,7 @@ module MPXJ
       'resource_unique_id' => :integer,
       'response_pending' => :boolean,
       'resume' => :date,
+      'role_unique_id' => :integer,
       'start' => :date,
       'start1' => :date,
       'start10' => :date,

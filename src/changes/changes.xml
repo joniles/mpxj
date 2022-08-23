@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.9.0">
+		<release date="unreleased" version="10.10.0">
+		</release>
+		<release date="2022-08-23" version="10.9.0">
 			<action dev="joniles" type="update">Added the `ResourceAssignment.getEffectiveRate` method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.</action>
 			<action dev="joniles" type="update">For P6 schedules, the `ResourceAssignment.getCostRateTable` method now takes in account any cost rate configuration details from the resource assignment when determining which table to return.</action>
 			<action dev="joniles" type="update">A resource's Standard Rate, Overtime Rate and Cost per Use are now all derived from the resource's cost rate table, and not stored as attributes of the resource itself.</action>

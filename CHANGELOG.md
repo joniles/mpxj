@@ -1,6 +1,22 @@
 # Changelog
 
-## 10.8.1 (unreleased)
+## 10.10.0 (unreleased)
+
+## 10.9.0 (2022-08-23)
+* Added the `ResourceAssignment.getEffectiveRate` method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.
+* For P6 schedules, the `ResourceAssignment.getCostRateTable` method now takes in account any cost rate configuration details from the resource assignment when determining which table to return.
+* A resource's Standard Rate, Overtime Rate and Cost per Use are now all derived from the resource's cost rate table, and not stored as attributes of the resource itself.
+* The resource methods `setStandardRate`, `setOvertimeRate`, and `setCostPerUse` have been deprecated. These attributes can now only be set or updated by modifying the resource's cost rate table.
+* When writing MPX files, only include attributes which have a non-empty, non-default value in at least one task or resource.
+* When writing MPX files, ensure attributes which have calculated values are used.
+* Add support for reading a resource assignment's rate type from P6 schedules. The rate type is accessed via the `ResourceAssignment.getRateIndex` method. The value returned by this method can be used to select the required rate using the `CostRateTableEntry,getRate` method.
+* Add support for writing a resource assignment's rate type to PMXML files.
+* Add support for reading a resource assignment's role from P6 schedules. The role is accessed via the `ResourceAssignment.getRole` and `ResourceAssignment.setRole` methods.
+* Add support for writing a resource assignment's role to PMXML files.
+* Add support for reading a resource assignment's override rate (Price / Unit) from P6 schedules. The rate is accessed via the `ResourceAssignment.getOverrideRate` and `ResourceAssignment.setOverrideRate` methods.
+* Add support for writing a resource assignment's override rate (Price / Unit) to PMXML files.
+* Add support for reading a resource assignment's rate source from P6 schedules. The rate source is accessed via the `ResourceAssignment.getRateSource` and `ResourceAssignment.setRateSource` methods.
+* Add support for writing a resource assignment's rate source to PMXML files.
 
 ## 10.8.0 (2022-08-17)
 * When reading P6 schedules, all five cost rates for a resource are now available via the `CostRateTableEntry.getRate` method.
