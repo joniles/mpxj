@@ -51,33 +51,33 @@ final class ModelUtility
       {
          case STRING:
          {
-            populated = !((String)value).isEmpty();
+            populated = !((String) value).isEmpty();
             break;
          }
 
          case NUMERIC:
          case CURRENCY:
          {
-            populated = ((Number)value).doubleValue() != 0.0;
+            populated = ((Number) value).doubleValue() != 0.0;
             break;
          }
 
          case DURATION:
          case WORK:
          {
-            populated = value instanceof Duration && ((Duration)value).getDuration() != 0.0;
+            populated = value instanceof Duration && ((Duration) value).getDuration() != 0.0;
             break;
          }
 
          case RATE:
          {
-            populated = ((Rate)value).getAmount() != 0.0;
+            populated = ((Rate) value).getAmount() != 0.0;
             break;
          }
 
          case BOOLEAN:
          {
-            populated = ((Boolean)value).booleanValue();
+            populated = ((Boolean) value).booleanValue();
             break;
          }
 

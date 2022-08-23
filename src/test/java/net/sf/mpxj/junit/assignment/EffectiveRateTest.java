@@ -23,11 +23,9 @@
 
 package net.sf.mpxj.junit.assignment;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
@@ -45,11 +43,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class EffectiveRateTest
 {
+   /**
+    * Validate rates read from an XER file.
+    */
    @Test public void testXer() throws Exception
    {
       testRates(new UniversalProjectReader().read(MpxjTestData.filePath("assignment/resource-rates-test.xer")));
    }
 
+   /**
+    * Validate rates read from a PMXML file.
+    */
    @Test public void testXml() throws Exception
    {
       testRates(new UniversalProjectReader().read(MpxjTestData.filePath("assignment/resource-rates-test.xml")));

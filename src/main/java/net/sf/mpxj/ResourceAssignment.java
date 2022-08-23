@@ -548,7 +548,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Integer getRateIndex()
    {
-      return (Integer)getCachedValue(AssignmentField.RATE_INDEX);
+      return (Integer) getCachedValue(AssignmentField.RATE_INDEX);
    }
 
    /**
@@ -569,7 +569,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Resource getRole()
    {
-      return getParentFile().getResourceByUniqueID((Integer)getCachedValue(AssignmentField.ROLE_UNIQUE_ID));
+      return getParentFile().getResourceByUniqueID((Integer) getCachedValue(AssignmentField.ROLE_UNIQUE_ID));
    }
 
    /**
@@ -589,7 +589,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Rate getOverrideRate()
    {
-      return (Rate)getCachedValue(AssignmentField.OVERRIDE_RATE);
+      return (Rate) getCachedValue(AssignmentField.OVERRIDE_RATE);
    }
 
    /**
@@ -609,7 +609,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public RateSource getRateSource()
    {
-      return (RateSource)getCachedValue(AssignmentField.RATE_SOURCE);
+      return (RateSource) getCachedValue(AssignmentField.RATE_SOURCE);
    }
 
    /**
@@ -2677,7 +2677,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       }
 
       // If we can't find the resource/role we're assigned to, return null
-      Resource resource = rateSource== RateSource.ROLE ? getRole() : getResource();
+      Resource resource = rateSource == RateSource.ROLE ? getRole() : getResource();
       if (resource == null)
       {
          return null;

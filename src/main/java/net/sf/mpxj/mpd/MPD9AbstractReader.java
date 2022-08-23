@@ -1005,7 +1005,6 @@ abstract class MPD9AbstractReader
          costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
 
-
          m_eventManager.fireResourceReadEvent(resource);
 
          //

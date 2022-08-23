@@ -65,7 +65,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       }
 
       m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
-      for (int index=0; index < m_costRateTables.length; index++)
+      for (int index = 0; index < m_costRateTables.length; index++)
       {
          CostRateTable table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);

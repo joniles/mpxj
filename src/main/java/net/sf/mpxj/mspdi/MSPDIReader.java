@@ -1148,7 +1148,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          DateHelper.pushCalendar(cal);
 
-         for (int tableIndex=0; tableIndex < tables.length; tableIndex++)
+         for (int tableIndex = 0; tableIndex < tables.length; tableIndex++)
          {
             CostRateTable table = tables[tableIndex];
             if (table != null)
