@@ -1103,7 +1103,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
       double amountForLastDay = totalAmount % standardAmountPerDay;
 
-      //first block contains all the normal work at the beginning of the assignments life, if any
+      //first block contains all the normal work at the beginning of the assignment's life, if any
 
       if (numStandardAmountDays > 0)
       {
@@ -2667,7 +2667,23 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public CostRateTable getCostRateTable()
    {
-      return getResource() == null ? null : getResource().getCostRateTable(getCostRateTableIndex());
+      // If the rate source is "override" then there is no
+      // cost rate table: we're just using a single rate value,
+      // so we return null here.
+      RateSource rateSource = getRateSource();
+      if (rateSource == RateSource.OVERRIDE)
+      {
+         return null;
+      }
+
+      // If we can't find the resource/role we're assigned to, return null
+      Resource resource = rateSource== RateSource.ROLE ? getRole() : getResource();
+      if (resource == null)
+      {
+         return null;
+      }
+
+      return resource.getCostRateTable(getCostRateTableIndex());
    }
 
    /**
@@ -2828,6 +2844,41 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    public void setPlannedFinish(Date value)
    {
       set(AssignmentField.PLANNED_FINISH, value);
+   }
+
+   /**
+    * Based on the configuration data for this resource assignment,
+    * return the cost rate effective on the supplied date.
+    *
+    * @param date target date
+    * @return cost rate effective on the target date
+    */
+   public Rate getEffectiveRate(Date date)
+   {
+      // If the rate source is "override", return the
+      // override rate value configured for this assignment.
+      if (getRateSource() == RateSource.OVERRIDE)
+      {
+         return getOverrideRate();
+      }
+
+      // Based on the configuration from this assignment,
+      // retrieve the correct cost rate table.
+      CostRateTable table = getCostRateTable();
+      if (table == null)
+      {
+         return null;
+      }
+
+      // Retrieve the active table entry for the target date
+      CostRateTableEntry entry = table.getEntryByDate(date);
+      if (entry == null)
+      {
+         return null;
+      }
+
+      // Retrieve the required rate from the table entry
+      return entry.getRate(getRateIndex().intValue());
    }
 
    /**
@@ -3044,5 +3095,4 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
-
 }

@@ -1,0 +1,60 @@
+ERMHDR	20.12	2022-08-22	Project	ADMIN	jon	dbxDatabaseNoName	Project Management	USD
+%T	CURRTYPE
+%F	curr_id	decimal_digit_cnt	curr_symbol	decimal_symbol	digit_group_symbol	pos_curr_fmt_type	neg_curr_fmt_type	curr_type	curr_short_name	group_digit_cnt	base_exch_rate
+%R	1	2	$	.	,	#1.1	(#1.1)	US Dollar	USD	3	1
+%R	10	2	$	.	,	#1.1	(#1.1)	Argentine Peso	ARS	3	3.077
+%R	11	2	A$	.	,	#1.1	(#1.1)	Australian Dollar	AUST	3	1.208
+%R	13	2	R$	.	,	#1.1	(#1.1)	Brazilian Real	BRL	3	2.014
+%R	14	2	£	.	,	#1.1	(#1.1)	British Pound	U.K.	3	0.501762
+%R	15	2	CA$	.	,	#1.1	(#1.1)	Canadian Dollar	CAD	3	1.10573
+%R	16	2	Y	.	,	#1.1	(#1.1)	Chinese Yuan	CNY	3	7.694
+%R	17	2	€	.	,	#1.1	(#1.1)	EURO	EUR	3	0.739088
+%R	20	2	HK$	.	,	#1.1	(#1.1)	Hong Kong Dollar	HKD	3	7.81967
+%R	21	2	Rs	.	,	#1.1	(#1.1)	Indian Rupee	INR	3	40.67
+%R	23	2	¥	.	,	#1.1	(#1.1)	Japanese Yen	JPY	3	120.167
+%R	24	2	K	.	,	#1.1	(#1.1)	Korean Won	KRW	3	924.743
+%R	25	2	N$	.	,	#1.1	(#1.1)	Mexican Peso	MXN	3	10.7938
+%R	26	2	R	.	,	#1.1	(#1.1)	Russian Rouble	RUB	3	25.8085
+%R	28	2	Sk	.	,	#1.1	(#1.1)	Swedish Krona	SEK	3	6.80579
+%R	29	2	kr	.	,	#1.1	(#1.1)	Swiss Franc	CHF	3	1.21864
+%R	30	2	NIS	.	,	#1.1	(#1.1)	Israel Shekel	ILS	3	3.96384
+%T	FINTMPL
+%F	fintmpl_id	fintmpl_name	default_flag
+%R	1	Calendar	Y
+%T	OBS
+%F	obs_id	parent_obs_id	guid	seq_num	obs_name	obs_descr
+%R	565			0	Enterprise	<HTML><BODY></BODY></HT
+%T	ROLES
+%F	role_id	parent_role_id	seq_num	role_name	role_short_name	pobs_id	def_cost_qty_link_flag	cost_qty_type	role_descr	last_checksum
+%R	332		0	Role 1	ROLE1		Y	QT_Hour		
+%T	PROJECT
+%F	proj_id	fy_start_month_num	rsrc_self_add_flag	allow_complete_flag	rsrc_multi_assign_flag	checkout_flag	project_flag	step_complete_flag	cost_qty_recalc_flag	batch_sum_flag	name_sep_char	def_complete_pct_type	proj_short_name	acct_id	orig_proj_id	source_proj_id	base_type_id	clndr_id	sum_base_proj_id	task_code_base	task_code_step	priority_num	wbs_max_sum_level	strgy_priority_num	last_checksum	critical_drtn_hr_cnt	def_cost_per_qty	last_recalc_date	plan_start_date	plan_end_date	scd_end_date	add_date	last_tasksum_date	fcst_start_date	def_duration_type	task_code_prefix	guid	def_qty_type	add_by_name	web_local_root_path	proj_url	def_rate_type	add_act_remain_flag	act_this_per_link_flag	def_task_type	act_pct_link_flag	critical_path_type	task_code_prefix_flag	def_rollup_dates_flag	use_project_baseline_flag	rem_target_link_flag	reset_planned_flag	allow_neg_act_flag	sum_assign_level	last_fin_dates_id	fintmpl_id	last_baseline_update_date	cr_external_key	apply_actuals_date	location_id	loaded_scope_level	export_flag	new_fin_dates_id	baselines_to_export	baseline_names_to_export	next_data_date	close_period_flag	sum_refresh_date	trsrcsum_loaded	sumtask_loaded
+%R	368	1	Y	Y	Y	N	Y	N	N	Y	.	CP_Drtn	NEWPROJ					597		1000	10	10	2	500		0	0.0000	2022-08-22 00:00	2022-08-22 00:00			2022-08-22 00:00			DT_FixedDUR2	A	K4DbcwgvfkKz8ytf+MZzHA	QT_Hour	ADMIN			COST_PER_QTY	N	Y	TT_Task	Y	CT_TotFloat	Y	Y	Y	Y	N	N	SL_Taskrsrc		1					7	Y								
+%T	ROLERATE
+%F	role_rate_id	role_id	cost_per_qty	cost_per_qty2	cost_per_qty3	cost_per_qty4	cost_per_qty5	start_date	max_qty_per_hr
+%R	100	332	6.0000	7.0000	8.0000	9.0000	10.0000	2022-01-01 00:00	1
+%R	102	332	31.0000	32.0000	33.0000	34.0000	35.0000	2023-01-01 00:00	1
+%T	CALENDAR
+%F	clndr_id	default_flag	clndr_name	proj_id	base_clndr_id	last_chng_date	clndr_type	day_hr_cnt	week_hr_cnt	month_hr_cnt	year_hr_cnt	rsrc_private	clndr_data
+%R	597	Y	Standard 5 Day Workweek			2000-04-26 14:11	CA_Base	8	40	172	2000	N	(0||CalendarData()(    (0||DaysOfWeek()(      (0||1()())      (0||2()(        (0||0(s|08:00|f|12:00)())        (0||1(s|13:00|f|17:00)())))      (0||3()(        (0||0(s|08:00|f|12:00)())        (0||1(s|13:00|f|17:00)())))      (0||4()(        (0||0(s|08:00|f|12:00)())        (0||1(s|13:00|f|17:00)())))      (0||5()(        (0||0(s|08:00|f|12:00)())        (0||1(s|13:00|f|17:00)())))      (0||6()(        (0||0(s|08:00|f|12:00)())        (0||1(s|13:00|f|17:00)())))      (0||7()())))    (0||Exceptions()())))
+%T	PROJWBS
+%F	wbs_id	proj_id	obs_id	seq_num	est_wt	proj_node_flag	sum_data_flag	status_code	wbs_short_name	wbs_name	phase_id	parent_wbs_id	ev_user_pct	ev_etc_user_value	orig_cost	indep_remain_total_cost	ann_dscnt_rate_pct	dscnt_period_type	indep_remain_work_qty	anticip_start_date	anticip_end_date	ev_compute_type	ev_etc_compute_type	guid	tmpl_guid	plan_open_state
+%R	3680	368	565	200	1	Y	N	WS_Open	NEWPROJ	Resource Rates Test		3667	6	0.88	0.0000	0.0000						EC_Cmp_pct	EE_Rem_hr	L56sQzMw10CHnm54Jbc87A		
+%T	RSRC
+%F	rsrc_id	parent_rsrc_id	clndr_id	role_id	shift_id	user_id	pobs_id	guid	rsrc_seq_num	email_addr	employee_code	office_phone	other_phone	rsrc_name	rsrc_short_name	rsrc_title_name	def_qty_per_hr	cost_qty_type	ot_factor	active_flag	auto_compute_act_flag	def_cost_qty_link_flag	ot_flag	curr_id	unit_id	rsrc_type	location_id	rsrc_notes	load_tasks_flag	level_flag	last_checksum
+%R	1316		597					v9s8rxF+F0+kG2ksDWRCLw	0					Resource 1	R1		1	QT_Hour		Y	Y	Y	N	1		RT_Labor					
+%T	RSRCRATE
+%F	rsrc_rate_id	rsrc_id	max_qty_per_hr	cost_per_qty	start_date	shift_period_id	cost_per_qty2	cost_per_qty3	cost_per_qty4	cost_per_qty5
+%R	1761	1316	1	1.0000	2022-01-01 00:00		2.0000	3.0000	4.0000	5.0000
+%R	1762	1316	1	21.0000	2023-01-01 00:00		22.0000	23.0000	24.0000	25.0000
+%T	TASK
+%F	task_id	proj_id	wbs_id	clndr_id	phys_complete_pct	rev_fdbk_flag	est_wt	lock_plan_flag	auto_compute_act_flag	complete_pct_type	task_type	duration_type	status_code	task_code	task_name	rsrc_id	total_float_hr_cnt	free_float_hr_cnt	remain_drtn_hr_cnt	act_work_qty	remain_work_qty	target_work_qty	target_drtn_hr_cnt	target_equip_qty	act_equip_qty	remain_equip_qty	cstr_date	act_start_date	act_end_date	late_start_date	late_end_date	expect_end_date	early_start_date	early_end_date	restart_date	reend_date	target_start_date	target_end_date	rem_late_start_date	rem_late_end_date	cstr_type	priority_type	suspend_date	resume_date	float_path	float_path_order	guid	tmpl_guid	cstr_date2	cstr_type2	driving_path_flag	act_this_per_work_qty	act_this_per_equip_qty	external_early_start_date	external_late_end_date	create_date	update_date	create_user	update_user	location_id
+%R	35845	368	3680	597	0	N	1	N	N	CP_Drtn	TT_Task	DT_FixedDUR2	TK_NotStart	A1000	Activity 1	1316			240	0	1200	1200	240	0	0	0									2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00				PT_Normal					Srku3cUgVU2awGSJDttRVQ				N	0	0			2022-08-22 16:54	2022-08-22 16:54	NotPrmUser	NotPrmUser	
+%T	TASKRSRC
+%F	taskrsrc_id	task_id	proj_id	cost_qty_link_flag	role_id	acct_id	rsrc_id	pobs_id	skill_level	remain_qty	target_qty	remain_qty_per_hr	target_lag_drtn_hr_cnt	target_qty_per_hr	act_ot_qty	act_reg_qty	relag_drtn_hr_cnt	ot_factor	cost_per_qty	target_cost	act_reg_cost	act_ot_cost	remain_cost	act_start_date	act_end_date	restart_date	reend_date	target_start_date	target_end_date	rem_late_start_date	rem_late_end_date	rollup_dates_flag	target_crv	remain_crv	actual_crv	ts_pend_act_end_flag	guid	rate_type	act_this_per_cost	act_this_per_qty	curv_id	rsrc_type	cost_per_qty_source_type	create_user	create_date	has_rsrchours	taskrsrc_sum_id
+%R	6639	35845	368	Y			1316			240	240	1	0	1	0	0	0		1.0000	240.0000	0.0000	0.0000	240.0000			2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00			Y				N	m7nOSp+VBkadLIWqELbamg	COST_PER_QTY	0.0000	0		RT_Labor	ST_Rsrc				
+%R	6640	35845	368	Y			1316			240	240	1	0	1	0	0	0		2.0000	480.0000	0.0000	0.0000	480.0000			2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00			Y				N	ydn80+otKUG81U90xPpirw	COST_PER_QTY2	0.0000	0		RT_Labor	ST_Rsrc	NotPrmUser	2022-08-22 16:56		
+%R	6641	35845	368	Y	332		1316			240	240	1	0	1	0	0	0		6.0000	1440.0000	0.0000	0.0000	1440.0000			2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00			Y				N	Wx1f5mZHR0Gk84LL9+YyeA	COST_PER_QTY	0.0000	0		RT_Labor	ST_Role	NotPrmUser	2022-08-22 16:56		
+%R	6642	35845	368	Y	332		1316			240	240	1	0	1	0	0	0		7.0000	1680.0000	0.0000	0.0000	1680.0000			2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00			Y				N	Y+RPUL7pZkOIAgvr1zde0A	COST_PER_QTY2	0.0000	0		RT_Labor	ST_Role	NotPrmUser	2022-08-22 16:57		
+%R	6643	35845	368	Y			1316			240	240	1	0	1	0	0	0		99.0000	23760.0000	0.0000	0.0000	23760.0000			2022-08-22 08:00	2022-09-30 17:00	2022-08-22 08:00	2022-09-30 17:00			Y				N	6zDt6YOu40+hkXbypnLlyA	COST_PER_QTY	0.0000	0		RT_Labor	ST_Custom	NotPrmUser	2022-08-22 16:58		
+%E
