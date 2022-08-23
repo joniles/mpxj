@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2022-08-17</li>
+        <li id="publishDate">Last Published: 2022-08-23</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,70 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a10.8.1">Release 10.8.1 &#x2013; unreleased</h3>
+<h3 id="a10.10.0">Release 10.10.0 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a10.9.0">Release 10.9.0 &#x2013; 2022-08-23</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the `ResourceAssignment.getEffectiveRate` method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For P6 schedules, the `ResourceAssignment.getCostRateTable` method now takes in account any cost rate configuration details from the resource assignment when determining which table to return.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>A resource's Standard Rate, Overtime Rate and Cost per Use are now all derived from the resource's cost rate table, and not stored as attributes of the resource itself.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The resource methods `setStandardRate`, `setOvertimeRate`, and `setCostPerUse` have been deprecated. These attributes can now only be set or updated by modifying the resource's cost rate table.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When writing MPX files, only include attributes which have a non-empty, non-default value in at least one task or resource.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When writing MPX files, ensure attributes which have calculated values are used.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading a resource assignment's rate type from P6 schedules. The rate type is accessed via the `ResourceAssignment.getRateIndex` method. The value returned by this method can be used to select the required rate using the `CostRateTableEntry,getRate` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for writing a resource assignment's rate type to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading a resource assignment's role from P6 schedules. The role is accessed via the `ResourceAssignment.getRole` and `ResourceAssignment.setRole` methods.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for writing a resource assignment's role to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading a resource assignment's override rate (Price / Unit) from P6 schedules. The rate is accessed via the `ResourceAssignment.getOverrideRate` and `ResourceAssignment.setOverrideRate` methods.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for writing a resource assignment's override rate (Price / Unit) to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading a resource assignment's rate source from P6 schedules. The rate source is accessed via the `ResourceAssignment.getRateSource` and `ResourceAssignment.setRateSource` methods.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for writing a resource assignment's rate source to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a10.8.0">Release 10.8.0 &#x2013; 2022-08-17</h3>
 <table border="0" class="table table-striped">
 <tr class="a">

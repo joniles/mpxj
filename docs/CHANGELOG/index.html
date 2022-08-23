@@ -262,8 +262,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1081-unreleased" class="md-nav__link">
-    10.8.1 (unreleased)
+  <a href="#10100-unreleased" class="md-nav__link">
+    10.10.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1090-2022-08-23" class="md-nav__link">
+    10.9.0 (2022-08-23)
   </a>
   
 </li>
@@ -2438,8 +2445,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1081-unreleased" class="md-nav__link">
-    10.8.1 (unreleased)
+  <a href="#10100-unreleased" class="md-nav__link">
+    10.10.0 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1090-2022-08-23" class="md-nav__link">
+    10.9.0 (2022-08-23)
   </a>
   
 </li>
@@ -3835,7 +3849,24 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1081-unreleased">10.8.1 (unreleased)</h2>
+<h2 id="10100-unreleased">10.10.0 (unreleased)</h2>
+<h2 id="1090-2022-08-23">10.9.0 (2022-08-23)</h2>
+<ul>
+<li>Added the <code>ResourceAssignment.getEffectiveRate</code> method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.</li>
+<li>For P6 schedules, the <code>ResourceAssignment.getCostRateTable</code> method now takes in account any cost rate configuration details from the resource assignment when determining which table to return.</li>
+<li>A resource's Standard Rate, Overtime Rate and Cost per Use are now all derived from the resource's cost rate table, and not stored as attributes of the resource itself.</li>
+<li>The resource methods <code>setStandardRate</code>, <code>setOvertimeRate</code>, and <code>setCostPerUse</code> have been deprecated. These attributes can now only be set or updated by modifying the resource's cost rate table.</li>
+<li>When writing MPX files, only include attributes which have a non-empty, non-default value in at least one task or resource.</li>
+<li>When writing MPX files, ensure attributes which have calculated values are used.</li>
+<li>Add support for reading a resource assignment's rate type from P6 schedules. The rate type is accessed via the <code>ResourceAssignment.getRateIndex</code> method. The value returned by this method can be used to select the required rate using the <code>CostRateTableEntry,getRate</code> method.</li>
+<li>Add support for writing a resource assignment's rate type to PMXML files.</li>
+<li>Add support for reading a resource assignment's role from P6 schedules. The role is accessed via the <code>ResourceAssignment.getRole</code> and <code>ResourceAssignment.setRole</code> methods.</li>
+<li>Add support for writing a resource assignment's role to PMXML files.</li>
+<li>Add support for reading a resource assignment's override rate (Price / Unit) from P6 schedules. The rate is accessed via the <code>ResourceAssignment.getOverrideRate</code> and <code>ResourceAssignment.setOverrideRate</code> methods.</li>
+<li>Add support for writing a resource assignment's override rate (Price / Unit) to PMXML files.</li>
+<li>Add support for reading a resource assignment's rate source from P6 schedules. The rate source is accessed via the <code>ResourceAssignment.getRateSource</code> and <code>ResourceAssignment.setRateSource</code> methods.</li>
+<li>Add support for writing a resource assignment's rate source to PMXML files.</li>
+</ul>
 <h2 id="1080-2022-08-17">10.8.0 (2022-08-17)</h2>
 <ul>
 <li>When reading P6 schedules, all five cost rates for a resource are now available via the <code>CostRateTableEntry.getRate</code> method.</li>
