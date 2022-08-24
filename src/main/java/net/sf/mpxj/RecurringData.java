@@ -573,7 +573,7 @@ public class RecurringData
             setCalendarToOrdinalRelativeDay(calendar, dayNumber);
          }
 
-         if (calendar.getTimeInMillis() > startDate)
+         if (calendar.getTimeInMillis() >= startDate)
          {
             dates.add(calendar.getTime());
             if (!moreDates(calendar, dates))
@@ -660,7 +660,7 @@ public class RecurringData
             setCalendarToOrdinalRelativeDay(calendar, dayNumber);
          }
 
-         if (calendar.getTimeInMillis() > startDate)
+         if (calendar.getTimeInMillis() >= startDate)
          {
             dates.add(calendar.getTime());
             if (!moreDates(calendar, dates))
