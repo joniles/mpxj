@@ -41,6 +41,33 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
  */
 public final class PhoenixReader extends AbstractProjectStreamReader
 {
+
+   /**
+    * Retrieve a flag indicating if the Activity Codes should be used
+    * to form parent/child Task hierarchy.
+    * If true then Task hierarchy will be created and Activity Codes will
+    * not be returned in the Project File.
+    * If false then Tasks will be a flat hierarchy and Activity Codes will
+    * be returned in the Project File.
+    *
+    * @return true if task hierarchy should be formed
+    */
+   public boolean getUseActivityCodesForTaskHierarchy()
+   {
+      return m_useActivityCodesForTaskHierarchy;
+   }
+
+   /**
+    * Sets a flag indicating if the Activity Codes should be used
+    * to form parent/child Task hierarchy
+    *
+    * @param useActivityCodesForTaskHierarchy true if task hierarchy should be formed
+    */
+   public void setUseActivityCodesForTaskHierarchy(boolean useActivityCodesForTaskHierarchy)
+   {
+      m_useActivityCodesForTaskHierarchy = useActivityCodesForTaskHierarchy;
+   }
+
    @Override public ProjectFile read(InputStream stream) throws MPXJException
    {
       try
@@ -62,7 +89,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
 
          Matcher matcher = VERSION_PATTERN.matcher(new String(buffer, CharsetHelper.UTF8));
          SemVer version = matcher.find() ? new SemVer(matcher.group(1)) : VERSION_4;
-         return (version.before(VERSION_5) ? new Phoenix4Reader() : new Phoenix5Reader()).read(bis);
+         return (version.before(VERSION_5) ? new Phoenix4Reader(m_useActivityCodesForTaskHierarchy) : new Phoenix5Reader(m_useActivityCodesForTaskHierarchy)).read(bis);
       }
 
       catch (Exception ex)
@@ -75,6 +102,8 @@ public final class PhoenixReader extends AbstractProjectStreamReader
    {
       return Collections.singletonList(read(inputStream));
    }
+
+   private boolean m_useActivityCodesForTaskHierarchy = false;
 
    private static final int BUFFER_SIZE = 512;
 
