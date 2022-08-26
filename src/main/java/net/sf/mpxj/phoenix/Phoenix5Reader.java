@@ -459,7 +459,7 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
       task.setActualStart(activity.getActualStart());
       //activity.getBaseunit()
       //activity.getBilled()
-      //activity.getCalendar()
+      task.setCalendar(m_projectFile.getCalendarByName(activity.getCalendar()));
       //activity.getCostAccount()
       task.setCreateDate(activity.getCreationTime());
       task.setFinish(activity.getCurrentFinish());
