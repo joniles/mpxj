@@ -1893,18 +1893,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getCostVariance()
    {
-      Number variance = (Number) getCachedValue(TaskField.COST_VARIANCE);
-      if (variance == null)
-      {
-         Number cost = getCost();
-         Number baselineCost = getBaselineCost();
-         if (cost != null && baselineCost != null)
-         {
-            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
-            set(TaskField.COST_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Number) getCurrentValue(TaskField.COST_VARIANCE);
    }
 
    /**
@@ -1927,19 +1916,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public boolean getCritical()
    {
-      Boolean critical = (Boolean) getCachedValue(TaskField.CRITICAL);
-      if (critical == null)
-      {
-         Duration totalSlack = getTotalSlack();
-         int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
-         if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
-         {
-            totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, getEffectiveCalendar());
-         }
-         critical = Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
-         set(TaskField.CRITICAL, critical);
-      }
-      return (BooleanHelper.getBoolean(critical));
+      return BooleanHelper.getBoolean((Boolean)getCurrentValue(TaskField.CRITICAL));
    }
 
    /**
@@ -1956,13 +1933,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getCV()
    {
-      Number variance = (Number) getCachedValue(TaskField.CV);
-      if (variance == null)
-      {
-         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
-         set(TaskField.CV, variance);
-      }
-      return (variance);
+      return (Number) getCurrentValue(TaskField.CV);
    }
 
    /**
@@ -2028,19 +1999,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getDurationVariance()
    {
-      Duration variance = (Duration) getCachedValue(TaskField.DURATION_VARIANCE);
-      if (variance == null)
-      {
-         Duration duration = getDuration();
-         Duration baselineDuration = getBaselineDuration();
-
-         if (duration != null && baselineDuration != null)
-         {
-            variance = Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectProperties()).getDuration(), duration.getUnits());
-            set(TaskField.DURATION_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Duration) getCurrentValue(TaskField.DURATION_VARIANCE);
    }
 
    /**
@@ -2139,14 +2098,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getFinishVariance()
    {
-      Duration variance = (Duration) getCachedValue(TaskField.FINISH_VARIANCE);
-      if (variance == null)
-      {
-         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-         variance = DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
-         set(TaskField.FINISH_VARIANCE, variance);
-      }
-      return (variance);
+      return (Duration) getCurrentValue(TaskField.FINISH_VARIANCE);
    }
 
    /**
@@ -2179,7 +2131,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(TaskFieldLists.CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(selectField(TaskFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2605,14 +2557,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getStartVariance()
    {
-      Duration variance = (Duration) getCachedValue(TaskField.START_VARIANCE);
-      if (variance == null)
-      {
-         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-         variance = DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
-         set(TaskField.START_VARIANCE, variance);
-      }
-      return (variance);
+      return (Duration) getCurrentValue(TaskField.START_VARIANCE);
    }
 
    /**
@@ -2658,18 +2603,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getSV()
    {
-      Number variance = (Number) getCachedValue(TaskField.SV);
-      if (variance == null)
-      {
-         Number bcwp = getBCWP();
-         Number bcws = getBCWS();
-         if (bcwp != null && bcws != null)
-         {
-            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
-            set(TaskField.SV, variance);
-         }
-      }
-      return (variance);
+      return (Number) getCurrentValue(TaskField.SV);
    }
 
    /**
@@ -2724,73 +2658,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getTotalSlack()
    {
-      Duration totalSlack = (Duration) getCachedValue(TaskField.TOTAL_SLACK);
-      if (totalSlack == null)
-      {
-         Duration duration = getDuration();
-         if (duration == null)
-         {
-            duration = Duration.getInstance(0, TimeUnit.DAYS);
-         }
-
-         TimeUnit units = duration.getUnits();
-
-         Duration startSlack = getStartSlack();
-         if (startSlack == null)
-         {
-            startSlack = Duration.getInstance(0, units);
-         }
-         else
-         {
-            if (startSlack.getUnits() != units)
-            {
-               startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
-            }
-         }
-
-         Duration finishSlack = getFinishSlack();
-         if (finishSlack == null)
-         {
-            finishSlack = Duration.getInstance(0, units);
-         }
-         else
-         {
-            if (finishSlack.getUnits() != units)
-            {
-               finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
-            }
-         }
-
-         double startSlackDuration = startSlack.getDuration();
-         double finishSlackDuration = finishSlack.getDuration();
-
-         if (startSlackDuration == 0 || finishSlackDuration == 0)
-         {
-            if (startSlackDuration != 0)
-            {
-               totalSlack = startSlack;
-            }
-            else
-            {
-               totalSlack = finishSlack;
-            }
-         }
-         else
-         {
-            if (startSlackDuration < finishSlackDuration)
-            {
-               totalSlack = startSlack;
-            }
-            else
-            {
-               totalSlack = finishSlack;
-            }
-         }
-
-         set(TaskField.TOTAL_SLACK, totalSlack);
-      }
-
-      return (totalSlack);
+      return (Duration) getCurrentValue(TaskField.TOTAL_SLACK);
    }
 
    /**
@@ -2851,18 +2719,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getWorkVariance()
    {
-      Duration variance = (Duration) getCachedValue(TaskField.WORK_VARIANCE);
-      if (variance == null)
-      {
-         Duration work = getWork();
-         Duration baselineWork = getBaselineWork();
-         if (work != null && baselineWork != null)
-         {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
-            set(TaskField.WORK_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Duration) getCurrentValue(TaskField.WORK_VARIANCE);
    }
 
    /**
@@ -3773,17 +3630,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getStartSlack()
    {
-      Duration startSlack = (Duration) getCachedValue(TaskField.START_SLACK);
-      if (startSlack == null)
-      {
-         Duration duration = getDuration();
-         if (duration != null)
-         {
-            startSlack = DateHelper.getVariance(this, getEarlyStart(), getLateStart(), duration.getUnits());
-            set(TaskField.START_SLACK, startSlack);
-         }
-      }
-      return (startSlack);
+      return (Duration) getCurrentValue(TaskField.START_SLACK);
    }
 
    /**
@@ -3793,17 +3640,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getFinishSlack()
    {
-      Duration finishSlack = (Duration) getCachedValue(TaskField.FINISH_SLACK);
-      if (finishSlack == null)
-      {
-         Duration duration = getDuration();
-         if (duration != null)
-         {
-            finishSlack = DateHelper.getVariance(this, getEarlyFinish(), getLateFinish(), duration.getUnits());
-            set(TaskField.FINISH_SLACK, finishSlack);
-         }
-      }
-      return (finishSlack);
+      return (Duration) getCurrentValue(TaskField.FINISH_SLACK);
    }
 
    /**
@@ -3814,7 +3651,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Object getFieldByAlias(String alias)
    {
-      return getCachedValue(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.TASK, alias));
+      return getCurrentValue(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.TASK, alias));
    }
 
    /**
@@ -4042,7 +3879,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Object getEnterpriseCustomField(int index)
    {
-      return getCachedValue(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
+      return getCurrentValue(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
@@ -4300,41 +4137,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getCompleteThrough()
    {
-      Date value = (Date) getCachedValue(TaskField.COMPLETE_THROUGH);
-      if (value == null)
-      {
-         int percentComplete = NumberHelper.getInt(getPercentageComplete());
-         switch (percentComplete)
-         {
-            case 0:
-            {
-               break;
-            }
-
-            case 100:
-            {
-               value = getActualFinish();
-               break;
-            }
-
-            default:
-            {
-               Date actualStart = getActualStart();
-               Duration duration = getDuration();
-               if (actualStart != null && duration != null)
-               {
-                  double durationValue = (duration.getDuration() * percentComplete) / 100d;
-                  duration = Duration.getInstance(durationValue, duration.getUnits());
-                  ProjectCalendar calendar = getEffectiveCalendar();
-                  value = calendar.getDate(actualStart, duration, getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart());
-               }
-               break;
-            }
-         }
-
-         set(TaskField.COMPLETE_THROUGH, value);
-      }
-      return value;
+      return (Date) getCurrentValue(TaskField.COMPLETE_THROUGH);
    }
 
    /**
@@ -5443,99 +5246,31 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
    @Override public Object getCurrentValue(FieldType field)
    {
-      Object result = null;
-
-      if (field != null)
+      if (field == null)
       {
-         switch ((TaskField) field)
+         return null;
+      }
+
+      if (field == TaskField.PARENT_TASK_UNIQUE_ID)
+      {
+         return getParentTaskUniqueID();
+      }
+
+      Object result = m_array[field.getValue()];
+      if (result == null)
+      {
+         Function<Task, Object> f = CALCULATED_FIELD_MAP.get(field);
+         if (f != null)
          {
-            case PARENT_TASK_UNIQUE_ID:
+            result = f.apply(this);
+            if (result != null)
             {
-               result = m_parent == null ? null : m_parent.getUniqueID();
-               break;
-            }
-
-            case START_VARIANCE:
-            {
-               result = getStartVariance();
-               break;
-            }
-
-            case FINISH_VARIANCE:
-            {
-               result = getFinishVariance();
-               break;
-            }
-
-            case START_SLACK:
-            {
-               result = getStartSlack();
-               break;
-            }
-
-            case FINISH_SLACK:
-            {
-               result = getFinishSlack();
-               break;
-            }
-
-            case COST_VARIANCE:
-            {
-               result = getCostVariance();
-               break;
-            }
-
-            case DURATION_VARIANCE:
-            {
-               result = getDurationVariance();
-               break;
-            }
-
-            case WORK_VARIANCE:
-            {
-               result = getWorkVariance();
-               break;
-            }
-
-            case CV:
-            {
-               result = getCV();
-               break;
-            }
-
-            case SV:
-            {
-               result = getSV();
-               break;
-            }
-
-            case TOTAL_SLACK:
-            {
-               result = getTotalSlack();
-               break;
-            }
-
-            case CRITICAL:
-            {
-               result = Boolean.valueOf(getCritical());
-               break;
-            }
-
-            case COMPLETE_THROUGH:
-            {
-               result = getCompleteThrough();
-               break;
-            }
-
-            default:
-            {
-               result = m_array[field.getValue()];
-               break;
+               set(field, result);
             }
          }
       }
 
-      return (result);
+      return result;
    }
 
    @Override public void set(FieldType field, Object value)
@@ -5782,34 +5517,35 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_eventsEnabled = true;
    }
 
-   private Integer parentTaskUniqueID()
+   private Integer getParentTaskUniqueID()
    {
       return m_parent == null ? null : m_parent.getUniqueID();
    }
 
-   private Duration startVariance()
+   private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
       return DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
    }
 
-   private Duration finishVariance()
+   private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
       return DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
    }
 
-   private Duration startSlack()
+   private Duration calculateStartSlack()
    {
       Duration duration = getDuration();
       if (duration == null)
       {
          return null;
       }
+
       return DateHelper.getVariance(this, getEarlyStart(), getLateStart(), duration.getUnits());
    }
 
-   private Duration finishSlack()
+   private Duration calculatFinishSlack()
    {
       Duration duration = getDuration();
       if (duration == null)
@@ -5820,7 +5556,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return DateHelper.getVariance(this, getEarlyFinish(), getLateFinish(), duration.getUnits());
    }
 
-   private Double costVariance()
+   private Double calculateCostVariance()
    {
       Number cost = getCost();
       Number baselineCost = getBaselineCost();
@@ -5832,7 +5568,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
    }
 
-   private Duration durationVariance()
+   private Duration calculateDurationVariance()
    {
       Duration duration = getDuration();
       Duration baselineDuration = getBaselineDuration();
@@ -5844,7 +5580,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectProperties()).getDuration(), duration.getUnits());
    }
 
-   private Duration workVariance()
+   private Duration calculatWorkVariance()
    {
       Duration work = getWork();
       Duration baselineWork = getBaselineWork();
@@ -5856,12 +5592,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
    }
 
-   private Double cv()
+   private Double calculateCV()
    {
       return Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
    }
 
-   private Double sv()
+   private Double calculateSV()
    {
       Number bcwp = getBCWP();
       Number bcws = getBCWS();
@@ -5873,7 +5609,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
    }
 
-   private Duration totalSlack()
+   private Duration calculateTotalSlack()
    {
       Duration duration = getDuration();
       if (duration == null)
@@ -5940,7 +5676,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
 
-   private Boolean critical()
+   private Boolean calculateCritical()
    {
       Duration totalSlack = getTotalSlack();
       int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
@@ -5951,7 +5687,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
    }
 
-   private Date completeThrough()
+   private Date calculateCompleteThrough()
    {
       Date value = null;
       int percentComplete = NumberHelper.getInt(getPercentageComplete());
@@ -6023,18 +5759,18 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
-      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::parentTaskUniqueID);
-      CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::startVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::finishVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::startSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, Task::finishSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.COST_VARIANCE, Task::costVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.DURATION_VARIANCE, Task::durationVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::workVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.CV, Task::cv);
-      CALCULATED_FIELD_MAP.put(TaskField.SV, Task::sv);
-      CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::totalSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::critical);
-      CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::completeThrough);
+      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::getParentTaskUniqueID);
+      CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::calculateStartVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::calculateFinishVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::calculateStartSlack);
+      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, Task::calculatFinishSlack);
+      CALCULATED_FIELD_MAP.put(TaskField.COST_VARIANCE, Task::calculateCostVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.DURATION_VARIANCE, Task::calculateDurationVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::calculatWorkVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.CV, Task::calculateCV);
+      CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
+      CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
+      CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
+      CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
    }
 }
