@@ -5,9 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.10.0">
+		<release date="unreleased" version="10.9.1">
 			<action dev="joniles" type="update">Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Add support for reading task calenadrs from Phoenix files (Contributed by Rohit Sinha).</action>
+			<action dev="joniles" type="update">Improve reliability of ProjectCleanUtility when using the replacement strategy.</action>
 		</release>
 		<release date="2022-08-23" version="10.9.0">
 			<action dev="joniles" type="update">Added the `ResourceAssignment.getEffectiveRate` method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.</action>

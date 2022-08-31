@@ -98,16 +98,54 @@ public class CleanByReplacementStrategy implements CleanStrategy
    {
       Integer key = Integer.valueOf(word.length());
       List<String> words = m_dictionary.get(key);
-      String replacement;
+      if (words == null)
+      {
+         return generateRandomWord(word);
+      }
 
+      if (words.size() == 1 && words.get(0).equalsIgnoreCase(word))
+      {
+         return generateRandomWord(word);
+      }
+
+      String replacement;
       do
       {
-         int wordIndex = m_random.nextInt(words.size() - 1);
+         int wordIndex = m_random.nextInt(words.size());
          replacement = words.get(wordIndex);
       }
       while (replacement.equalsIgnoreCase(word));
 
       return replacement;
+   }
+
+   /**
+    * Where a replacement word can't be sourced directly from the dictionary
+    * generate a random word by concatenating dictionary words together
+    * until the desired length is reached.
+    *
+    * @param word original word
+    * @return replacement word
+    */
+   private String generateRandomWord(String word)
+   {
+      StringBuilder sb = new StringBuilder();
+      int targetLength = word.length();
+
+      while(sb.length() < targetLength)
+      {
+         int wordLength = m_random.nextInt(targetLength);
+         List<String> words = m_dictionary.get(Integer.valueOf(wordLength));
+         if (words == null)
+         {
+            continue;
+         }
+         sb.append(words.get(m_random.nextInt(words.size())));
+      }
+
+      sb.setLength(targetLength);
+
+      return sb.toString();
    }
 
    /**
