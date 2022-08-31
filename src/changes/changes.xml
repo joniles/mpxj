@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.9.1">
+		<release date="unreleased" version="10.10.0">
+		</release>
+		<release date="2022-08-31" version="10.9.1">
 			<action dev="joniles" type="update">Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Add support for reading task calenadrs from Phoenix files (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Improve reliability of ProjectCleanUtility when using the replacement strategy.</action>

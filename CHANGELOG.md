@@ -2,6 +2,11 @@
 
 ## 10.10.0 (unreleased)
 
+## 10.9.1 (2022-08-31)
+* Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).
+* Add support for reading task calenadrs from Phoenix files (Contributed by Rohit Sinha).
+* Improve reliability of ProjectCleanUtility when using the replacement strategy.
+
 ## 10.9.0 (2022-08-23)
 * Added the `ResourceAssignment.getEffectiveRate` method to allow the cost rate effective on a given date for a resource assignment to be calculated. For P6 schedules this will take account of the cost rate configuration included as part of the resource assignment.
 * For P6 schedules, the `ResourceAssignment.getCostRateTable` method now takes in account any cost rate configuration details from the resource assignment when determining which table to return.
