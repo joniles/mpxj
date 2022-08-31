@@ -132,7 +132,7 @@ public class CleanByReplacementStrategy implements CleanStrategy
       StringBuilder sb = new StringBuilder();
       int targetLength = word.length();
 
-      while(sb.length() < targetLength)
+      while (sb.length() < targetLength)
       {
          int wordLength = m_random.nextInt(targetLength);
          List<String> words = m_dictionary.get(Integer.valueOf(wordLength));
