@@ -884,8 +884,8 @@
 		</replaceregexp>
 
 		<replaceregexp file="${basedir}/readme.md"
-		               match='images/'
-		               replace='mkdocs/docs/images/'
+		               match='"images/'
+		               replace='"mkdocs/docs/images/'
 		               byline="true">
 		</replaceregexp>
 

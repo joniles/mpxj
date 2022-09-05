@@ -11,9 +11,9 @@ features and concepts from other applications.
 Work to build and maintain MPXJ is kindly supported by my sponsors:
 
 <p float="left" align="middle">
-<a href="https://steelray.com/"><img width="30%" alt="Steelray Logo" src="mkdocs/docs/mkdocs/docs/images/steelray.png"/></a>
+<a href="https://steelray.com/"><img width="30%" alt="Steelray Logo" src="mkdocs/docs/images/steelray.png"/></a>
 <img width="10%"/>
-<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="mkdocs/docs/mkdocs/docs/images/bryntum.png"/></a>
+<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="mkdocs/docs/images/bryntum.png"/></a>
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
