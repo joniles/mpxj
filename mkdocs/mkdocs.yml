@@ -9,9 +9,6 @@ theme:
   logo: images/mpxj-white.svg
   favicon: images/favicon.png
 
-extra_css:
-  - css/sponsors.css
-
 extra:
   analytics:
     provider: google
