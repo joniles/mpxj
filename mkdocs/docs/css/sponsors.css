@@ -1,0 +1,14 @@
+table.sponsors {
+	width: 100%;
+	text-align: center;
+}
+
+td.sponsor-image {
+	vertical-align: middle;
+}
+
+img.sponsors {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
