@@ -90,7 +90,7 @@ public class ProjectTreeController
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent", "getCalendar", "getWorkWeeks");
    private static final Set<String> CALENDAR_WEEK_EXCLUDED_METHODS = excludedMethods("getCalendar", "getDays", "getHours");
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
-   private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("getRange");
+   private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("get", "getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
    private static final Set<String> ACTIVITY_CODE_EXCLUDED_METHODS = excludedMethods("getValues");
    private static final Set<String> ACTIVITY_CODE_VALUE_EXCLUDED_METHODS = excludedMethods("getParent", "getType");
