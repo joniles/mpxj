@@ -9,12 +9,14 @@ features and concepts from other applications.
 
 ## Sponsors
 Work to build and maintain MPXJ is kindly supported by my sponsors:
+
 <table class="" style="width: 100%; text-align: center;">
 	<tr>
 		<td style="vertical-align: middle;"><a href="https://steelray.com/"><img style="display: block; margin-left: auto; margin-right: auto;" alt="Steelray Logo" src="images/steelray.png"/></a></td>
 		<td style="vertical-align: middle;"><a href="https://www.bryntum.com/"><img style="display: block; margin-left: auto; margin-right: auto; width: 25%;" alt="Bryntum Logo" src="images/bryntum.png"/></a></td>
 	</tr>
 </table>
+
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
 if you'd like to see your name and logo here!
 
