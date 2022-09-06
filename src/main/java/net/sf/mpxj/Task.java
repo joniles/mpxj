@@ -32,7 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -1619,17 +1618,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getBaselineDuration()
    {
-      Object result = getCachedValue(TaskField.BASELINE_DURATION);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
-      }
-
-      if (!(result instanceof Duration))
-      {
-         result = null;
-      }
-      return (Duration) result;
+      return (Duration) getCurrentValue(TaskField.BASELINE_DURATION);
    }
 
    /**
@@ -1671,17 +1660,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getBaselineFinish()
    {
-      Object result = getCachedValue(TaskField.BASELINE_FINISH);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
-      }
-
-      if (!(result instanceof Date))
-      {
-         result = null;
-      }
-      return (Date) result;
+      return (Date) getCurrentValue(TaskField.BASELINE_FINISH);
    }
 
    /**
@@ -1723,17 +1702,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getBaselineStart()
    {
-      Object result = getCachedValue(TaskField.BASELINE_START);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
-      }
-
-      if (!(result instanceof Date))
-      {
-         result = null;
-      }
-      return (Date) result;
+      return (Date) getCurrentValue(TaskField.BASELINE_START);
    }
 
    /**
@@ -5259,11 +5228,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       Object result = m_array[field.getValue()];
       if (result == null)
       {
-         Function<Task, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
+         FieldContainerEntry entry = CALCULATED_FIELD_MAP.get(field);
+         if (entry != null)
          {
-            result = f.apply(this);
-            if (result != null)
+            result = entry.getFunction().apply(this);
+            if (result != null && entry.cacheResult())
             {
                set(field, result);
             }
@@ -5722,6 +5691,54 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return value;
    }
 
+   private Duration calculateBaselineDuration()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_DURATION);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
+      }
+
+      if (!(result instanceof Duration))
+      {
+         result = null;
+      }
+
+      return (Duration) result;
+   }
+
+   private Date calculateBaselineStart()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_START);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
+      }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
+
+      return (Date) result;
+   }
+
+   private Date calculateBaselineFinish()
+   {
+      Object result = getCachedValue(TaskField.BASELINE_FINISH);
+      if (result == null)
+      {
+         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
+      }
+
+      if (!(result instanceof Date))
+      {
+         result = null;
+      }
+
+      return (Date) result;
+   }
+
    /**
     * Array of field values.
     */
@@ -5756,21 +5773,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private boolean m_expanded = true;
    private List<FieldListener> m_listeners;
 
-   private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
+   private static final Map<FieldType, FieldContainerEntry> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
-      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::getParentTaskUniqueID);
-      CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::calculateStartVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::calculateFinishVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::calculateStartSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, Task::calculatFinishSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.COST_VARIANCE, Task::calculateCostVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.DURATION_VARIANCE, Task::calculateDurationVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::calculatWorkVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.CV, Task::calculateCV);
-      CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
-      CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
-      CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
+      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, FieldContainerEntry.cached(Task::getParentTaskUniqueID));
+      CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, FieldContainerEntry.cached(Task::calculateStartVariance));
+      CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, FieldContainerEntry.cached(Task::calculateFinishVariance));
+      CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, FieldContainerEntry.cached(Task::calculateStartSlack));
+      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, FieldContainerEntry.cached(Task::calculatFinishSlack));
+      CALCULATED_FIELD_MAP.put(TaskField.COST_VARIANCE, FieldContainerEntry.cached(Task::calculateCostVariance));
+      CALCULATED_FIELD_MAP.put(TaskField.DURATION_VARIANCE, FieldContainerEntry.cached(Task::calculateDurationVariance));
+      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, FieldContainerEntry.cached(Task::calculatWorkVariance));
+      CALCULATED_FIELD_MAP.put(TaskField.CV, FieldContainerEntry.cached(Task::calculateCV));
+      CALCULATED_FIELD_MAP.put(TaskField.SV, FieldContainerEntry.cached(Task::calculateSV));
+      CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, FieldContainerEntry.cached(Task::calculateTotalSlack));
+      CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, FieldContainerEntry.cached(Task::calculateCritical));
+      CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, FieldContainerEntry.cached(Task::calculateCompleteThrough));
+
+      CALCULATED_FIELD_MAP.put(TaskField.BASELINE_DURATION, FieldContainerEntry.calculated(Task::calculateBaselineDuration));
+      CALCULATED_FIELD_MAP.put(TaskField.BASELINE_START, FieldContainerEntry.calculated(Task::calculateBaselineStart));
+      CALCULATED_FIELD_MAP.put(TaskField.BASELINE_FINISH, FieldContainerEntry.calculated(Task::calculateBaselineFinish));
    }
 }
