@@ -500,26 +500,6 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method is used to add a new activity code to the file.
-    *
-    * @return new activity code object
-    */
-   public ActivityCode addActivityCode()
-   {
-      return m_activityCodes.add();
-   }
-
-   /**
-    * Removes an activity code.
-    *
-    * @param activityCode activity code to be removed
-    */
-   public void removeActivityCode(ActivityCode activityCode)
-   {
-      m_activityCodes.remove(activityCode);
-   }
-
-   /**
     * Retrieves the activity code configuration for this project.
     *
     * @return activity codes
@@ -684,7 +664,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
-   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
+   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);

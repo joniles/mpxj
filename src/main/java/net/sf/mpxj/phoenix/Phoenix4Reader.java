@@ -116,8 +116,6 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
-         config.setAutoActivityCodeUniqueID(true);
-         config.setAutoActivityCodeValueUniqueID(true);
 
          m_projectFile.getProjectProperties().setFileApplication("Phoenix");
          m_projectFile.getProjectProperties().setFileType("PPX");
@@ -132,12 +130,6 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          readTasks(phoenixProject, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
-
-         if (m_useActivityCodesForTaskHierarchy)
-         {
-            // clear out activity codes from project file since they were used for hierarchy instead
-            m_projectFile.getActivityCodes().clear();
-         }
 
          //
          // Ensure that the unique ID counters are correct
@@ -208,22 +200,13 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    private void readActivityCode(net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = m_projectFile.addActivityCode();
-      Map<Integer, ActivityCode> map = new HashMap<>();
-
-      activityCode.setName(code.getName());
-      activityCode.setScope(ActivityCodeScope.GLOBAL);
-      activityCode.setSequenceNumber(activityCodeSequence);
-
+      ActivityCode activityCode = new ActivityCode(++m_activityCodeUniqueID, ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName() );
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
 
       int activityCodeValueSequence = 0;
       for (net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value typeValue : code.getValue())
       {
-         ActivityCodeValue activityCodeValue = activityCode.addValue();
-         activityCodeValue.setName(typeValue.getName());
-         activityCodeValue.setDescription(typeValue.getName());
-         activityCodeValue.setSequenceNumber(Integer.valueOf(++activityCodeValueSequence));
+         ActivityCodeValue activityCodeValue = activityCode.addValue(++m_activityCodeValueUniqueID, Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
 
          String name = typeValue.getName();
          UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
@@ -971,6 +954,16 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
    private boolean m_useActivityCodesForTaskHierarchy;
+
+   /**
+    * Counter used to populate the unique ID field of Activity Code.
+    */
+   private int m_activityCodeUniqueID;
+
+   /**
+    * Counter used to populate the unique ID field of Activity Code Value.
+    */
+   private int m_activityCodeValueUniqueID;
 
    /**
     * Cached context to minimise construction cost.

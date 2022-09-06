@@ -26,21 +26,7 @@ package net.sf.mpxj;
 /**
  * Container for activity code definitions.
  */
-public class ActivityCodeContainer extends ProjectEntityContainer<ActivityCode>
+public class ActivityCodeContainer extends ListWithCallbacks<ActivityCode>
 {
-   public ActivityCodeContainer(ProjectFile projectFile)
-   {
-      super(projectFile);
-   }
-   /**
-    * Add an activity code to the project.
-    *
-    * @return new activity code instance
-    */
-   public ActivityCode add()
-   {
-      ActivityCode activityCode = new ActivityCode(m_projectFile);
-      add(activityCode);
-      return activityCode;
-   }
+   // No body
 }
