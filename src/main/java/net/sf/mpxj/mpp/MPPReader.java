@@ -34,6 +34,7 @@ import java.util.Map;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.TaskField;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -167,6 +168,7 @@ public final class MPPReader extends AbstractProjectStreamReader
                task.setSplits(null);
             }
             validationRelations(task);
+            copyEstimatedBaselineFields(task);
          }
 
          //
@@ -260,6 +262,28 @@ public final class MPPReader extends AbstractProjectStreamReader
          for (Relation relation : invalid)
          {
             relation.getSourceTask().removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+         }
+      }
+   }
+
+   /**
+    * If a baseline field is not populate, but the estimated version of that field is populated
+    * then we fall back on using the estimated field.
+    *
+    * @param task task to update
+    */
+   private void copyEstimatedBaselineFields(Task task)
+   {
+      for(Map.Entry<TaskField, TaskField> entry : TASK_ESTIMATED_BASELINE_FIELDS.entrySet())
+      {
+         Object value = task.getCachedValue(entry.getKey());
+         if (value == null)
+         {
+            value = task.getCachedValue(entry.getValue());
+            if (value != null)
+            {
+               task.set(entry.getKey(), value);
+            }
          }
       }
    }
@@ -412,5 +436,53 @@ public final class MPPReader extends AbstractProjectStreamReader
       FILE_CLASS_MAP.put("MSProject.MPP14", MPP14Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT14", MPP14Reader.class);
       FILE_CLASS_MAP.put("MSProject.GLOBAL14", MPP14Reader.class);
+   }
+
+   private static final Map<TaskField, TaskField> TASK_ESTIMATED_BASELINE_FIELDS = new HashMap<>();
+   static
+   {
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE_DURATION, TaskField.BASELINE_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE_START, TaskField.BASELINE_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE_FINISH, TaskField.BASELINE_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE1_DURATION, TaskField.BASELINE1_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE1_START, TaskField.BASELINE1_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE1_FINISH, TaskField.BASELINE1_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE2_DURATION, TaskField.BASELINE2_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE2_START, TaskField.BASELINE2_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE2_FINISH, TaskField.BASELINE2_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE3_DURATION, TaskField.BASELINE3_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE3_START, TaskField.BASELINE3_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE3_FINISH, TaskField.BASELINE3_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE4_DURATION, TaskField.BASELINE4_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE4_START, TaskField.BASELINE4_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE4_FINISH, TaskField.BASELINE4_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE5_DURATION, TaskField.BASELINE5_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE5_START, TaskField.BASELINE5_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE5_FINISH, TaskField.BASELINE5_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE6_DURATION, TaskField.BASELINE6_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE6_START, TaskField.BASELINE6_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE6_FINISH, TaskField.BASELINE6_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE7_DURATION, TaskField.BASELINE7_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE7_START, TaskField.BASELINE7_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE7_FINISH, TaskField.BASELINE7_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE8_DURATION, TaskField.BASELINE8_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE8_START, TaskField.BASELINE8_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE8_FINISH, TaskField.BASELINE8_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE9_DURATION, TaskField.BASELINE9_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE9_START, TaskField.BASELINE9_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE9_FINISH, TaskField.BASELINE9_ESTIMATED_FINISH);
+
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE10_DURATION, TaskField.BASELINE10_ESTIMATED_DURATION);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE10_START, TaskField.BASELINE10_ESTIMATED_START);
+      TASK_ESTIMATED_BASELINE_FIELDS.put(TaskField.BASELINE10_FINISH, TaskField.BASELINE10_ESTIMATED_FINISH);
    }
 }

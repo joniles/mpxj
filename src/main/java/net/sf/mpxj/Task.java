@@ -1617,11 +1617,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Duration getBaselineDuration()
    {
       Object result = getCachedValue(TaskField.BASELINE_DURATION);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
-      }
-
       if (!(result instanceof Duration))
       {
          result = null;
@@ -1637,11 +1632,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineDurationText()
    {
       Object result = getCachedValue(TaskField.BASELINE_DURATION);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_DURATION);
-      }
-
       if (!(result instanceof String))
       {
          result = null;
@@ -1669,11 +1659,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getBaselineFinish()
    {
       Object result = getCachedValue(TaskField.BASELINE_FINISH);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
-      }
-
       if (!(result instanceof Date))
       {
          result = null;
@@ -1689,11 +1674,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineFinishText()
    {
       Object result = getCachedValue(TaskField.BASELINE_FINISH);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_FINISH);
-      }
-
       if (!(result instanceof String))
       {
          result = null;
@@ -1721,11 +1701,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getBaselineStart()
    {
       Object result = getCachedValue(TaskField.BASELINE_START);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
-      }
-
       if (!(result instanceof Date))
       {
          result = null;
@@ -1741,11 +1716,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineStartText()
    {
       Object result = getCachedValue(TaskField.BASELINE_START);
-      if (result == null)
-      {
-         result = getCachedValue(TaskField.BASELINE_ESTIMATED_START);
-      }
-
       if (!(result instanceof String))
       {
          result = null;
@@ -4128,11 +4098,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Duration getBaselineDuration(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber));
-      }
-
       if (!(result instanceof Duration))
       {
          result = null;
@@ -4149,11 +4114,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineDurationText(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_DURATIONS, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_DURATIONS, baselineNumber));
-      }
-
       if (!(result instanceof String))
       {
          result = null;
@@ -4181,11 +4141,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getBaselineFinish(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
-      }
-
       if (!(result instanceof Date))
       {
          result = null;
@@ -4202,11 +4157,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineFinishText(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
-      }
-
       if (!(result instanceof String))
       {
          result = null;
@@ -4234,11 +4184,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public Date getBaselineStart(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
-      }
-
       if (!(result instanceof Date))
       {
          result = null;
@@ -4255,11 +4200,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    public String getBaselineStartText(int baselineNumber)
    {
       Object result = getCachedValue(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber));
-      if (result == null)
-      {
-         result = getCachedValue(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
-      }
-
       if (!(result instanceof String))
       {
          result = null;
