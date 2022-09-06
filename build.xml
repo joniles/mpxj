@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="10.9.0" />
+		<property name="current.version" value="10.9.1" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
@@ -37,7 +37,7 @@
 		<property name="log4j-api.jar" value="log4j-api-2.17.2" />
 		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
 		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.36.0.3" />
-		<property name="jsoup.jar" value="jsoup-1.15.1" />
+		<property name="jsoup.jar" value="jsoup-1.15.3" />
 		<property name="commons-lang3.jar" value="commons-lang3-3.10" />
 		<property name="commons-logging.jar" value="commons-logging-1.2" />
 		<property name="jackcess.jar" value="jackcess-4.0.1" />
@@ -880,6 +880,12 @@
 		<replaceregexp file="${basedir}/readme.md"
 		               match='\]\((.+)\.md\)'
 		               replace='](https://www.mpxj.org/\1/)'
+		               byline="true">
+		</replaceregexp>
+
+		<replaceregexp file="${basedir}/readme.md"
+		               match='"images/'
+		               replace='"mkdocs/docs/images/'
 		               byline="true">
 		</replaceregexp>
 

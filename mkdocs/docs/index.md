@@ -7,6 +7,19 @@ The library is based on data structures which follow the way
 schedule data is represented by Microsoft Project, extended to accommodate
 features and concepts from other applications.
 
+## Sponsors
+Work to build and maintain MPXJ is kindly supported by my sponsors:
+
+<p float="left" align="middle">
+<a href="https://steelray.com/"><img width="30%" alt="Steelray Logo" src="images/steelray.png"/></a>
+<img width="10%"/>
+<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
+</p>
+
+Head over to my [sponsors page](https://github.com/sponsors/joniles)
+if you'd like to see your name and logo here!
+
+
 ## File Formats
 MPXJ can read file formats including MPX, MPP, MSPDI, MPD, Planner, Primavera
 P6, Primavera P3, SureTrak, Asta Powerproject, Asta Easyplan, Phoenix,
@@ -21,11 +34,8 @@ More details of the supported file formats can be found
 
 ## Languages
 MPXJ is written and maintained in Java, however this is no barrier to using
-its functionality in other languages.
-
-Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
-[available for .Net](https://www.nuget.org/packages?q=net.sf.mpxj), allowing
-it to be used  from any .Net programming language.
+its functionality in other languages. Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
+[available for .Net](https://www.nuget.org/packages?q=net.sf.mpxj), allowing it to be used from any .Net language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
 native Ruby access to read from schedule files using MPXJ, and a

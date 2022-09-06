@@ -11,6 +11,7 @@ like to be featured in this list.
 * Atlas Authority [atlasauthority.com](https://atlasauthority.com/)
 * Aurea Savvion BPM Studio [www.aurea.com](https://www.aurea.com/)
 * Autodesk Build – Schedule [construction.autodesk.com/products/autodesk-build/](https://construction.autodesk.com/products/autodesk-build/)
+* Bryntum [bryntum.com](https://www.bryntum.com/)
 * Celoxis [www.celoxis.com](http://www.celoxis.com)
 * Change Inspector [www.changeinspector.com](http://www.changeinspector.com)
 * Comindwork [www.comindwork.com](http://www.comindwork.com)
