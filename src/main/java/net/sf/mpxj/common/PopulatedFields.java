@@ -36,6 +36,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 
@@ -185,6 +186,12 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
          case ACCRUE:
          {
             result = value != m_defaultFixedCostAccrual;
+            break;
+         }
+
+         case TASK_MODE:
+         {
+            result = value != TaskMode.AUTO_SCHEDULED;
             break;
          }
 

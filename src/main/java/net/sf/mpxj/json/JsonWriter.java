@@ -58,6 +58,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -799,6 +800,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case TASK_MODE:
+         {
+            writeTaskModeField(fieldName, value);
+            break;
+         }
+
          case BINARY:
          {
             // Don't write binary data
@@ -1317,6 +1324,19 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
       }
    }
+
+   private void writeTaskModeField(String fieldName, Object value) throws IOException
+   {
+      if (value != null)
+      {
+         TaskMode type = (TaskMode) value;
+         if (type != TaskMode.AUTO_SCHEDULED)
+         {
+            m_writer.writeNameValuePair(fieldName, type.name());
+         }
+      }
+   }
+
 
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;

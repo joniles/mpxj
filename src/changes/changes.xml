@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.10.0">
 			<action dev="joniles" type="update">Move MPP file-specific functionality for determining baseline values from the Task class into the MPP reader class.</action>
+			<action dev="joniles" type="update">Improve handling of the TaskMode attribute.</action>
 		</release>
 		<release date="2022-08-31" version="10.9.1">
 			<action dev="joniles" type="update">Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).</action>

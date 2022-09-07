@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -1151,6 +1152,8 @@ final class MPP14Reader implements MPPVariantReader
          task.setExpanded(((metaData[12] & 0x02) == 0));
          readBitFields(metaDataBitFlags, task, metaData);
          readBitFields(metaData2BitFlags, task, metaData2);
+
+         task.setTaskMode(BooleanHelper.getBoolean((Boolean)task.getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
          m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 

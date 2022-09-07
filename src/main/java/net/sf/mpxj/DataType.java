@@ -81,7 +81,8 @@ public enum DataType implements MpxjEnum
    ACTIVITY_CODE_LIST(48),
    TIME(49),
    CUSTOM(50),
-   RATE_SOURCE(51);
+   RATE_SOURCE(51),
+   TASK_MODE(52);
 
    /**
     * Private constructor.
