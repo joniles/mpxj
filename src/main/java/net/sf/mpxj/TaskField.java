@@ -519,7 +519,7 @@ public enum TaskField implements FieldType
    GUID(DataType.GUID),
 
    ACTIVE(DataType.BOOLEAN),
-   TASK_MODE(DataType.BOOLEAN),
+   TASK_MODE(DataType.TASK_MODE),
 
    ASSIGNMENT_OWNER(DataType.STRING),
    BASELINE_BUDGET_COST(DataType.CURRENCY),
