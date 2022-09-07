@@ -626,6 +626,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = getParentFile().getEarliestStartDate();
+         set(ProjectField.START_DATE, result);
       }
       return (result);
    }
@@ -642,6 +643,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = getParentFile().getLatestFinishDate();
+         set(ProjectField.FINISH_DATE, result);
       }
       return (result);
    }
@@ -1290,6 +1292,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = DEFAULT_DAYS_PER_MONTH;
+         set(ProjectField.DAYS_PER_MONTH, result);
       }
       return result;
    }
