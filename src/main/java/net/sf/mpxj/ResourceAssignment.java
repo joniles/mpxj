@@ -3037,12 +3037,65 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
       if (field != null)
       {
-         int fieldValue = field.getValue();
+         switch ((AssignmentField)field)
+         {
+            case OVERTIME_COST:
+            {
+               result = getOvertimeCost();
+               break;
+            }
 
-         result = m_array[fieldValue];
+            case COST_VARIANCE:
+            {
+               result = getCostVariance();
+               break;
+            }
+
+            case CV:
+            {
+               result = getCV();
+               break;
+            }
+
+            case SV:
+            {
+               result = getSV();
+               break;
+            }
+
+            case START_VARIANCE:
+            {
+               result = getStartVariance();
+               break;
+            }
+
+            case FINISH_VARIANCE:
+            {
+               result = getFinishVariance();
+               break;
+            }
+
+            case PERCENT_WORK_COMPLETE:
+            {
+               result = getPercentageWorkComplete();
+               break;
+            }
+
+            case WORK_VARIANCE:
+            {
+               result = getWorkVariance();
+               break;
+            }
+
+            default:
+            {
+               result = m_array[field.getValue()];
+               break;
+            }
+         }
       }
 
-      return (result);
+      return result;
    }
 
    /**
