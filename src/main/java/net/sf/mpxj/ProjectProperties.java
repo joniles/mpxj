@@ -156,7 +156,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public TimeUnit getDefaultDurationUnits()
    {
-      return (TimeUnit) getCachedValue(ProjectField.DEFAULT_DURATION_UNITS);
+      return (TimeUnit) getCurrentValue(ProjectField.DEFAULT_DURATION_UNITS);
    }
 
    /**
@@ -178,7 +178,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getDefaultDurationIsFixed()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.DEFAULT_DURATION_IS_FIXED));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.DEFAULT_DURATION_IS_FIXED));
    }
 
    /**
@@ -200,7 +200,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public TimeUnit getDefaultWorkUnits()
    {
-      return (TimeUnit) getCachedValue(ProjectField.DEFAULT_WORK_UNITS);
+      return (TimeUnit) getCurrentValue(ProjectField.DEFAULT_WORK_UNITS);
    }
 
    /**
@@ -222,7 +222,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Rate getDefaultStandardRate()
    {
-      return (Rate) getCachedValue(ProjectField.DEFAULT_STANDARD_RATE);
+      return (Rate) getCurrentValue(ProjectField.DEFAULT_STANDARD_RATE);
    }
 
    /**
@@ -242,7 +242,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Rate getDefaultOvertimeRate()
    {
-      return (Rate) getCachedValue(ProjectField.DEFAULT_OVERTIME_RATE);
+      return (Rate) getCurrentValue(ProjectField.DEFAULT_OVERTIME_RATE);
    }
 
    /**
@@ -262,7 +262,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getUpdatingTaskStatusUpdatesResourceStatus()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS));
    }
 
    /**
@@ -282,7 +282,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getSplitInProgressTasks()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPLIT_IN_PROGRESS_TASKS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.SPLIT_IN_PROGRESS_TASKS));
    }
 
    /**
@@ -302,7 +302,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public DateOrder getDateOrder()
    {
-      return (DateOrder) getCachedValue(ProjectField.DATE_ORDER);
+      return (DateOrder) getCurrentValue(ProjectField.DATE_ORDER);
    }
 
    /**
@@ -322,7 +322,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public ProjectTimeFormat getTimeFormat()
    {
-      return (ProjectTimeFormat) getCachedValue(ProjectField.TIME_FORMAT);
+      return (ProjectTimeFormat) getCurrentValue(ProjectField.TIME_FORMAT);
    }
 
    /**
@@ -345,7 +345,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getDefaultStartTime()
    {
-      return (Date) getCachedValue(ProjectField.DEFAULT_START_TIME);
+      return (Date) getCurrentValue(ProjectField.DEFAULT_START_TIME);
    }
 
    /**
@@ -408,7 +408,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getAMText()
    {
-      return (String) getCachedValue(ProjectField.AM_TEXT);
+      return (String) getCurrentValue(ProjectField.AM_TEXT);
    }
 
    /**
@@ -428,7 +428,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getPMText()
    {
-      return (String) getCachedValue(ProjectField.PM_TEXT);
+      return (String) getCurrentValue(ProjectField.PM_TEXT);
    }
 
    /**
@@ -448,7 +448,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public ProjectDateFormat getDateFormat()
    {
-      return (ProjectDateFormat) getCachedValue(ProjectField.DATE_FORMAT);
+      return (ProjectDateFormat) getCurrentValue(ProjectField.DATE_FORMAT);
    }
 
    /**
@@ -468,7 +468,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public ProjectDateFormat getBarTextDateFormat()
    {
-      return (ProjectDateFormat) getCachedValue(ProjectField.BAR_TEXT_DATE_FORMAT);
+      return (ProjectDateFormat) getCurrentValue(ProjectField.BAR_TEXT_DATE_FORMAT);
    }
 
    /**
@@ -488,7 +488,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getDefaultEndTime()
    {
-      return (Date) getCachedValue(ProjectField.DEFAULT_END_TIME);
+      return (Date) getCurrentValue(ProjectField.DEFAULT_END_TIME);
    }
 
    /**
@@ -518,7 +518,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getProjectTitle()
    {
-      return (String) getCachedValue(ProjectField.PROJECT_TITLE);
+      return (String) getCurrentValue(ProjectField.PROJECT_TITLE);
    }
 
    /**
@@ -538,7 +538,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getCompany()
    {
-      return (String) getCachedValue(ProjectField.COMPANY);
+      return (String) getCurrentValue(ProjectField.COMPANY);
    }
 
    /**
@@ -558,7 +558,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getManager()
    {
-      return (String) getCachedValue(ProjectField.MANAGER);
+      return (String) getCurrentValue(ProjectField.MANAGER);
    }
 
    /**
@@ -601,7 +601,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public ProjectCalendar getDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID((Integer) getCachedValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
+      return getParentFile().getCalendars().getByUniqueID((Integer) getCurrentValue(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**
@@ -664,7 +664,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public ScheduleFrom getScheduleFrom()
    {
-      return (ScheduleFrom) getCachedValue(ProjectField.SCHEDULE_FROM);
+      return (ScheduleFrom) getCurrentValue(ProjectField.SCHEDULE_FROM);
    }
 
    /**
@@ -685,7 +685,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getCurrentDate()
    {
-      return (Date) getCachedValue(ProjectField.CURRENT_DATE);
+      return (Date) getCurrentValue(ProjectField.CURRENT_DATE);
    }
 
    /**
@@ -705,7 +705,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getComments()
    {
-      return (String) getCachedValue(ProjectField.COMMENTS);
+      return (String) getCurrentValue(ProjectField.COMMENTS);
    }
 
    /**
@@ -725,7 +725,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Number getCost()
    {
-      return (Number) getCachedValue(ProjectField.COST);
+      return (Number) getCurrentValue(ProjectField.COST);
    }
 
    /**
@@ -755,7 +755,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Number getBaselineCost()
    {
-      return (Number) getCachedValue(ProjectField.BASELINE_COST);
+      return (Number) getCurrentValue(ProjectField.BASELINE_COST);
    }
 
    /**
@@ -775,7 +775,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Number getActualCost()
    {
-      return (Number) getCachedValue(ProjectField.ACTUAL_COST);
+      return (Number) getCurrentValue(ProjectField.ACTUAL_COST);
    }
 
    /**
@@ -795,7 +795,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getWork()
    {
-      return (Duration) getCachedValue(ProjectField.WORK);
+      return (Duration) getCurrentValue(ProjectField.WORK);
    }
 
    /**
@@ -815,7 +815,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getBaselineWork()
    {
-      return (Duration) getCachedValue(ProjectField.BASELINE_WORK);
+      return (Duration) getCurrentValue(ProjectField.BASELINE_WORK);
    }
 
    /**
@@ -835,7 +835,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getActualWork()
    {
-      return (Duration) getCachedValue(ProjectField.ACTUAL_WORK);
+      return (Duration) getCurrentValue(ProjectField.ACTUAL_WORK);
    }
 
    /**
@@ -845,7 +845,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Number getWork2()
    {
-      return (Number) getCachedValue(ProjectField.WORK2);
+      return (Number) getCurrentValue(ProjectField.WORK2);
    }
 
    /**
@@ -865,7 +865,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getDuration()
    {
-      return (Duration) getCachedValue(ProjectField.DURATION);
+      return (Duration) getCurrentValue(ProjectField.DURATION);
    }
 
    /**
@@ -885,7 +885,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getBaselineDuration()
    {
-      return (Duration) getCachedValue(ProjectField.BASELINE_DURATION);
+      return (Duration) getCurrentValue(ProjectField.BASELINE_DURATION);
    }
 
    /**
@@ -905,7 +905,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getActualDuration()
    {
-      return (Duration) getCachedValue(ProjectField.ACTUAL_DURATION);
+      return (Duration) getCurrentValue(ProjectField.ACTUAL_DURATION);
    }
 
    /**
@@ -925,7 +925,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Number getPercentageComplete()
    {
-      return (Number) getCachedValue(ProjectField.PERCENTAGE_COMPLETE);
+      return (Number) getCurrentValue(ProjectField.PERCENTAGE_COMPLETE);
    }
 
    /**
@@ -955,7 +955,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getBaselineStart()
    {
-      return (Date) getCachedValue(ProjectField.BASELINE_START);
+      return (Date) getCurrentValue(ProjectField.BASELINE_START);
    }
 
    /**
@@ -975,7 +975,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getBaselineFinish()
    {
-      return (Date) getCachedValue(ProjectField.BASELINE_FINISH);
+      return (Date) getCurrentValue(ProjectField.BASELINE_FINISH);
    }
 
    /**
@@ -995,7 +995,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getActualStart()
    {
-      return (Date) getCachedValue(ProjectField.ACTUAL_START);
+      return (Date) getCurrentValue(ProjectField.ACTUAL_START);
    }
 
    /**
@@ -1015,7 +1015,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getActualFinish()
    {
-      return (Date) getCachedValue(ProjectField.ACTUAL_FINISH);
+      return (Date) getCurrentValue(ProjectField.ACTUAL_FINISH);
    }
 
    /**
@@ -1025,7 +1025,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getStartVariance()
    {
-      return (Duration) getCachedValue(ProjectField.START_VARIANCE);
+      return (Duration) getCurrentValue(ProjectField.START_VARIANCE);
    }
 
    /**
@@ -1045,7 +1045,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Duration getFinishVariance()
    {
-      return (Duration) getCachedValue(ProjectField.FINISH_VARIANCE);
+      return (Duration) getCurrentValue(ProjectField.FINISH_VARIANCE);
    }
 
    /**
@@ -1065,7 +1065,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getSubject()
    {
-      return (String) getCachedValue(ProjectField.SUBJECT);
+      return (String) getCurrentValue(ProjectField.SUBJECT);
    }
 
    /**
@@ -1085,7 +1085,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getAuthor()
    {
-      return (String) getCachedValue(ProjectField.AUTHOR);
+      return (String) getCurrentValue(ProjectField.AUTHOR);
    }
 
    /**
@@ -1105,7 +1105,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getKeywords()
    {
-      return (String) getCachedValue(ProjectField.KEYWORDS);
+      return (String) getCurrentValue(ProjectField.KEYWORDS);
    }
 
    /**
@@ -1140,7 +1140,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getCurrencySymbol()
    {
-      return (String) getCachedValue(ProjectField.CURRENCY_SYMBOL);
+      return (String) getCurrentValue(ProjectField.CURRENCY_SYMBOL);
    }
 
    /**
@@ -1164,7 +1164,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public CurrencySymbolPosition getSymbolPosition()
    {
-      return (CurrencySymbolPosition) getCachedValue(ProjectField.CURRENCY_SYMBOL_POSITION);
+      return (CurrencySymbolPosition) getCurrentValue(ProjectField.CURRENCY_SYMBOL_POSITION);
    }
 
    /**
@@ -1188,7 +1188,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getCurrencyDigits()
    {
-      return (Integer) getCachedValue(ProjectField.CURRENCY_DIGITS);
+      return (Integer) getCurrentValue(ProjectField.CURRENCY_DIGITS);
    }
 
    /**
@@ -1246,7 +1246,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getProjectExternallyEdited()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.PROJECT_EXTERNALLY_EDITED));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.PROJECT_EXTERNALLY_EDITED));
    }
 
    /**
@@ -1266,7 +1266,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getCategory()
    {
-      return (String) getCachedValue(ProjectField.CATEGORY);
+      return (String) getCurrentValue(ProjectField.CATEGORY);
    }
 
    /**
@@ -1415,7 +1415,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getFiscalYearStart()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.FISCAL_YEAR_START));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.FISCAL_YEAR_START));
    }
 
    /**
@@ -1435,7 +1435,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public EarnedValueMethod getDefaultTaskEarnedValueMethod()
    {
-      return (EarnedValueMethod) getCachedValue(ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD);
+      return (EarnedValueMethod) getCurrentValue(ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD);
    }
 
    /**
@@ -1455,7 +1455,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getRemoveFileProperties()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.REMOVE_FILE_PROPERTIES));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.REMOVE_FILE_PROPERTIES));
    }
 
    /**
@@ -1475,7 +1475,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMoveCompletedEndsBack()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_COMPLETED_ENDS_BACK));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MOVE_COMPLETED_ENDS_BACK));
    }
 
    /**
@@ -1495,7 +1495,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getNewTasksEstimated()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_ESTIMATED));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.NEW_TASKS_ESTIMATED));
    }
 
    /**
@@ -1515,7 +1515,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getSpreadActualCost()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPREAD_ACTUAL_COST));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.SPREAD_ACTUAL_COST));
    }
 
    /**
@@ -1535,7 +1535,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMultipleCriticalPaths()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MULTIPLE_CRITICAL_PATHS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MULTIPLE_CRITICAL_PATHS));
    }
 
    /**
@@ -1555,7 +1555,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getAutoAddNewResourcesAndTasks()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS));
    }
 
    /**
@@ -1575,7 +1575,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getLastSaved()
    {
-      return (Date) getCachedValue(ProjectField.LAST_SAVED);
+      return (Date) getCurrentValue(ProjectField.LAST_SAVED);
    }
 
    /**
@@ -1595,7 +1595,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getStatusDate()
    {
-      return (Date) getCachedValue(ProjectField.STATUS_DATE);
+      return (Date) getCurrentValue(ProjectField.STATUS_DATE);
    }
 
    /**
@@ -1615,7 +1615,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMoveRemainingStartsBack()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_REMAINING_STARTS_BACK));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MOVE_REMAINING_STARTS_BACK));
    }
 
    /**
@@ -1635,7 +1635,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getAutolink()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTO_LINK));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.AUTO_LINK));
    }
 
    /**
@@ -1655,7 +1655,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMicrosoftProjectServerURL()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MICROSOFT_PROJECT_SERVER_URL));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MICROSOFT_PROJECT_SERVER_URL));
    }
 
    /**
@@ -1675,7 +1675,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getHonorConstraints()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.HONOR_CONSTRAINTS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.HONOR_CONSTRAINTS));
    }
 
    /**
@@ -1695,7 +1695,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getAdminProject()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.ADMIN_PROJECT));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.ADMIN_PROJECT));
    }
 
    /**
@@ -1715,7 +1715,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getInsertedProjectsLikeSummary()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.INSERTED_PROJECTS_LIKE_SUMMARY));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.INSERTED_PROJECTS_LIKE_SUMMARY));
    }
 
    /**
@@ -1735,7 +1735,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getName()
    {
-      return (String) getCachedValue(ProjectField.NAME);
+      return (String) getCurrentValue(ProjectField.NAME);
    }
 
    /**
@@ -1755,7 +1755,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getSpreadPercentComplete()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SPREAD_PERCENT_COMPLETE));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.SPREAD_PERCENT_COMPLETE));
    }
 
    /**
@@ -1775,7 +1775,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMoveCompletedEndsForward()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_COMPLETED_ENDS_FORWARD));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MOVE_COMPLETED_ENDS_FORWARD));
    }
 
    /**
@@ -1795,7 +1795,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getEditableActualCosts()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.EDITABLE_ACTUAL_COSTS));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.EDITABLE_ACTUAL_COSTS));
    }
 
    /**
@@ -1815,7 +1815,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getUniqueID()
    {
-      return (Integer) getCachedValue(ProjectField.UNIQUE_ID);
+      return (Integer) getCurrentValue(ProjectField.UNIQUE_ID);
    }
 
    /**
@@ -1835,7 +1835,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public UUID getGUID()
    {
-      return (UUID) getCachedValue(ProjectField.GUID);
+      return (UUID) getCurrentValue(ProjectField.GUID);
    }
 
    /**
@@ -1855,7 +1855,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getRevision()
    {
-      return (Integer) getCachedValue(ProjectField.REVISION);
+      return (Integer) getCurrentValue(ProjectField.REVISION);
    }
 
    /**
@@ -1865,7 +1865,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getNewTasksEffortDriven()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_EFFORT_DRIVEN));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.NEW_TASKS_EFFORT_DRIVEN));
    }
 
    /**
@@ -1895,7 +1895,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getMoveRemainingStartsForward()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.MOVE_REMAINING_STARTS_FORWARD));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.MOVE_REMAINING_STARTS_FORWARD));
    }
 
    /**
@@ -1915,7 +1915,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getActualsInSync()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.ACTUALS_IN_SYNC));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.ACTUALS_IN_SYNC));
    }
 
    /**
@@ -1935,7 +1935,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public TaskType getDefaultTaskType()
    {
-      return (TaskType) getCachedValue(ProjectField.DEFAULT_TASK_TYPE);
+      return (TaskType) getCurrentValue(ProjectField.DEFAULT_TASK_TYPE);
    }
 
    /**
@@ -1955,7 +1955,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public EarnedValueMethod getEarnedValueMethod()
    {
-      return (EarnedValueMethod) getCachedValue(ProjectField.EARNED_VALUE_METHOD);
+      return (EarnedValueMethod) getCurrentValue(ProjectField.EARNED_VALUE_METHOD);
    }
 
    /**
@@ -1975,7 +1975,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getCreationDate()
    {
-      return (Date) getCachedValue(ProjectField.CREATION_DATE);
+      return (Date) getCurrentValue(ProjectField.CREATION_DATE);
    }
 
    /**
@@ -1995,7 +1995,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getExtendedCreationDate()
    {
-      return (Date) getCachedValue(ProjectField.EXTENDED_CREATION_DATE);
+      return (Date) getCurrentValue(ProjectField.EXTENDED_CREATION_DATE);
    }
 
    /**
@@ -2005,7 +2005,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public AccrueType getDefaultFixedCostAccrual()
    {
-      return (AccrueType) getCachedValue(ProjectField.DEFAULT_FIXED_COST_ACCRUAL);
+      return (AccrueType) getCurrentValue(ProjectField.DEFAULT_FIXED_COST_ACCRUAL);
    }
 
    /**
@@ -2035,7 +2035,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getCriticalSlackLimit()
    {
-      return (Integer) getCachedValue(ProjectField.CRITICAL_SLACK_LIMIT);
+      return (Integer) getCurrentValue(ProjectField.CRITICAL_SLACK_LIMIT);
    }
 
    /**
@@ -2056,7 +2056,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getBaselineForEarnedValue()
    {
-      return (Integer) getCachedValue(ProjectField.BASELINE_FOR_EARNED_VALUE);
+      return (Integer) getCurrentValue(ProjectField.BASELINE_FOR_EARNED_VALUE);
    }
 
    /**
@@ -2077,7 +2077,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getFiscalYearStartMonth()
    {
-      return (Integer) getCachedValue(ProjectField.FISCAL_YEAR_START_MONTH);
+      return (Integer) getCurrentValue(ProjectField.FISCAL_YEAR_START_MONTH);
    }
 
    /**
@@ -2098,7 +2098,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getNewTaskStartIsProjectStart()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASK_START_IS_PROJECT_START));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.NEW_TASK_START_IS_PROJECT_START));
    }
 
    /**
@@ -2120,7 +2120,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getNewTasksAreManual()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.NEW_TASKS_ARE_MANUAL));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.NEW_TASKS_ARE_MANUAL));
    }
 
    /**
@@ -2141,7 +2141,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Day getWeekStartDay()
    {
-      return (Day) getCachedValue(ProjectField.WEEK_START_DAY);
+      return (Day) getCurrentValue(ProjectField.WEEK_START_DAY);
    }
 
    /**
@@ -2161,7 +2161,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getCurrencyCode()
    {
-      return (String) getCachedValue(ProjectField.CURRENCY_CODE);
+      return (String) getCurrentValue(ProjectField.CURRENCY_CODE);
    }
 
    /**
@@ -2191,7 +2191,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @SuppressWarnings("unchecked") public Map<String, Object> getCustomProperties()
    {
-      return (Map<String, Object>) getCachedValue(ProjectField.CUSTOM_PROPERTIES);
+      return (Map<String, Object>) getCurrentValue(ProjectField.CUSTOM_PROPERTIES);
    }
 
    /**
@@ -2211,7 +2211,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getHyperlinkBase()
    {
-      return (String) getCachedValue(ProjectField.HYPERLINK_BASE);
+      return (String) getCurrentValue(ProjectField.HYPERLINK_BASE);
    }
 
    /**
@@ -2221,7 +2221,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getShowProjectSummaryTask()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.SHOW_PROJECT_SUMMARY_TASK));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
@@ -2241,7 +2241,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getBaselineDate()
    {
-      return (Date) getCachedValue(ProjectField.BASELINE_DATE);
+      return (Date) getCurrentValue(ProjectField.BASELINE_DATE);
    }
 
    /**
@@ -2262,7 +2262,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getBaselineDate(int baselineNumber)
    {
-      return (Date) getCachedValue(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber));
+      return (Date) getCurrentValue(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber));
    }
 
    /**
@@ -2283,7 +2283,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getTemplate()
    {
-      return (String) getCachedValue(ProjectField.TEMPLATE);
+      return (String) getCurrentValue(ProjectField.TEMPLATE);
    }
 
    /**
@@ -2303,7 +2303,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getLastAuthor()
    {
-      return (String) getCachedValue(ProjectField.LAST_AUTHOR);
+      return (String) getCurrentValue(ProjectField.LAST_AUTHOR);
    }
 
    /**
@@ -2323,7 +2323,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getLastPrinted()
    {
-      return (Date) getCachedValue(ProjectField.LASTPRINTED);
+      return (Date) getCurrentValue(ProjectField.LASTPRINTED);
    }
 
    /**
@@ -2343,7 +2343,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getShortApplicationName()
    {
-      return (String) getCachedValue(ProjectField.SHORT_APPLICATION_NAME);
+      return (String) getCurrentValue(ProjectField.SHORT_APPLICATION_NAME);
    }
 
    /**
@@ -2363,7 +2363,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getEditingTime()
    {
-      return (Integer) getCachedValue(ProjectField.EDITING_TIME);
+      return (Integer) getCurrentValue(ProjectField.EDITING_TIME);
    }
 
    /**
@@ -2383,7 +2383,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getPresentationFormat()
    {
-      return (String) getCachedValue(ProjectField.PRESENTATION_FORMAT);
+      return (String) getCurrentValue(ProjectField.PRESENTATION_FORMAT);
    }
 
    /**
@@ -2403,7 +2403,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getContentType()
    {
-      return (String) getCachedValue(ProjectField.CONTENT_TYPE);
+      return (String) getCurrentValue(ProjectField.CONTENT_TYPE);
    }
 
    /**
@@ -2423,7 +2423,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getContentStatus()
    {
-      return (String) getCachedValue(ProjectField.CONTENT_STATUS);
+      return (String) getCurrentValue(ProjectField.CONTENT_STATUS);
    }
 
    /**
@@ -2443,7 +2443,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getLanguage()
    {
-      return (String) getCachedValue(ProjectField.LANGUAGE);
+      return (String) getCurrentValue(ProjectField.LANGUAGE);
    }
 
    /**
@@ -2463,7 +2463,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getDocumentVersion()
    {
-      return (String) getCachedValue(ProjectField.DOCUMENT_VERSION);
+      return (String) getCurrentValue(ProjectField.DOCUMENT_VERSION);
    }
 
    /**
@@ -2513,7 +2513,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getMpxProgramName()
    {
-      return (String) getCachedValue(ProjectField.MPX_PROGRAM_NAME);
+      return (String) getCurrentValue(ProjectField.MPX_PROGRAM_NAME);
    }
 
    /**
@@ -2533,7 +2533,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public FileVersion getMpxFileVersion()
    {
-      return (FileVersion) getCachedValue(ProjectField.MPX_FILE_VERSION);
+      return (FileVersion) getCurrentValue(ProjectField.MPX_FILE_VERSION);
    }
 
    /**
@@ -2553,7 +2553,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public CodePage getMpxCodePage()
    {
-      return (CodePage) getCachedValue(ProjectField.MPX_CODE_PAGE);
+      return (CodePage) getCurrentValue(ProjectField.MPX_CODE_PAGE);
    }
 
    /**
@@ -2573,7 +2573,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getProjectFilePath()
    {
-      return (String) getCachedValue(ProjectField.PROJECT_FILE_PATH);
+      return (String) getCurrentValue(ProjectField.PROJECT_FILE_PATH);
    }
 
    /**
@@ -2583,7 +2583,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getFullApplicationName()
    {
-      return (String) getCachedValue(ProjectField.FULL_APPLICATION_NAME);
+      return (String) getCurrentValue(ProjectField.FULL_APPLICATION_NAME);
    }
 
    /**
@@ -2603,7 +2603,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getApplicationVersion()
    {
-      return (Integer) getCachedValue(ProjectField.APPLICATION_VERSION);
+      return (Integer) getCurrentValue(ProjectField.APPLICATION_VERSION);
    }
 
    /**
@@ -2627,7 +2627,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getMppFileType()
    {
-      return (Integer) getCachedValue(ProjectField.MPP_FILE_TYPE);
+      return (Integer) getCurrentValue(ProjectField.MPP_FILE_TYPE);
    }
 
    /**
@@ -2647,7 +2647,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getAutoFilter()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.AUTOFILTER));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.AUTOFILTER));
    }
 
    /**
@@ -2667,7 +2667,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getFileApplication()
    {
-      return (String) getCachedValue(ProjectField.FILE_APPLICATION);
+      return (String) getCurrentValue(ProjectField.FILE_APPLICATION);
    }
 
    /**
@@ -2687,7 +2687,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getFileType()
    {
-      return (String) getCachedValue(ProjectField.FILE_TYPE);
+      return (String) getCurrentValue(ProjectField.FILE_TYPE);
    }
 
    /**
@@ -2709,7 +2709,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public boolean getExportFlag()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ProjectField.EXPORT_FLAG));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ProjectField.EXPORT_FLAG));
    }
 
    /**
@@ -2720,7 +2720,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public byte[] getEnterpriseCustomField(int index)
    {
-      return ((byte[]) getCachedValue(selectField(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD, index)));
+      return (byte[]) getCurrentValue(selectField(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
@@ -2751,7 +2751,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Integer getBaselineProjectUniqueID()
    {
-      return (Integer) getCachedValue(ProjectField.BASELINE_PROJECT_UNIQUE_ID);
+      return (Integer) getCurrentValue(ProjectField.BASELINE_PROJECT_UNIQUE_ID);
    }
 
    /**
@@ -2771,7 +2771,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public String getProjectID()
    {
-      return (String) getCachedValue(ProjectField.PROJECT_ID);
+      return (String) getCurrentValue(ProjectField.PROJECT_ID);
    }
 
    /**
@@ -2791,7 +2791,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public CriticalActivityType getCriticalActivityType()
    {
-      return (CriticalActivityType) getCachedValue(ProjectField.CRITICAL_ACTIVITY_TYPE);
+      return (CriticalActivityType) getCurrentValue(ProjectField.CRITICAL_ACTIVITY_TYPE);
    }
 
    /**
@@ -2821,7 +2821,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getMustFinishBy()
    {
-      return (Date) getCachedValue(ProjectField.MUST_FINISH_BY);
+      return (Date) getCurrentValue(ProjectField.MUST_FINISH_BY);
    }
 
    /**
@@ -2841,7 +2841,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getScheduledFinish()
    {
-      return (Date) getCachedValue(ProjectField.SCHEDULED_FINISH);
+      return (Date) getCurrentValue(ProjectField.SCHEDULED_FINISH);
    }
 
    /**
@@ -2861,7 +2861,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getPlannedStart()
    {
-      return (Date) getCachedValue(ProjectField.PLANNED_START);
+      return (Date) getCurrentValue(ProjectField.PLANNED_START);
    }
 
    @Override public void addFieldListener(FieldListener listener)
