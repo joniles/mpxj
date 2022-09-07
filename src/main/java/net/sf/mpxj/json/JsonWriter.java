@@ -1325,6 +1325,12 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write a TaskMode field to the JSON file.
+    *
+    * @param fieldName field name
+    * @param value field value
+    */
    private void writeTaskModeField(String fieldName, Object value) throws IOException
    {
       if (value != null)
