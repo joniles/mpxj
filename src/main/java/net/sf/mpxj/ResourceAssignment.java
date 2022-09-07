@@ -356,12 +356,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getStart()
    {
-      Date result = (Date) getCachedValue(AssignmentField.START);
-      if (result == null)
-      {
-         result = getTask().getStart();
-      }
-      return result;
+      return (Date) getCurrentValue(AssignmentField.START);
    }
 
    /**
@@ -381,12 +376,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getFinish()
    {
-      Date result = (Date) getCachedValue(AssignmentField.FINISH);
-      if (result == null)
-      {
-         result = getTask().getFinish();
-      }
-      return result;
+      return (Date) getCurrentValue(AssignmentField.FINISH);
    }
 
    /**
@@ -2969,7 +2959,15 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       // Always calculated
       switch((AssignmentField)field)
       {
+         case START:
+         {
+            return calculateStart();
+         }
 
+         case FINISH:
+         {
+            return calculateFinish();
+         }
       }
 
       Object result = m_array[field.getValue()];
@@ -3065,6 +3063,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
       return DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
+   }
+
+   private Date calculateStart()
+   {
+      Date result = (Date) getCachedValue(AssignmentField.START);
+      if (result == null)
+      {
+         result = getTask().getStart();
+      }
+      return result;
+   }
+
+   private Date calculateFinish()
+   {
+      Date result = (Date) getCachedValue(AssignmentField.FINISH);
+      if (result == null)
+      {
+         result = getTask().getFinish();
+      }
+      return result;
    }
 
    /**
