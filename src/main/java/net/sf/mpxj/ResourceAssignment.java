@@ -27,9 +27,12 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
@@ -93,7 +96,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    @Override public Integer getUniqueID()
    {
-      return (Integer) getCachedValue(AssignmentField.UNIQUE_ID);
+      return (Integer) getCurrentValue(AssignmentField.UNIQUE_ID);
    }
 
    /**
@@ -113,7 +116,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getUnits()
    {
-      return ((Number) getCachedValue(AssignmentField.ASSIGNMENT_UNITS));
+      return (Number) getCurrentValue(AssignmentField.ASSIGNMENT_UNITS);
    }
 
    /**
@@ -133,7 +136,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.WORK));
+      return (Duration) getCurrentValue(AssignmentField.WORK);
    }
 
    /**
@@ -153,7 +156,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getBaselineStart()
    {
-      return ((Date) getCachedValue(AssignmentField.BASELINE_START));
+      return (Date) getCurrentValue(AssignmentField.BASELINE_START);
    }
 
    /**
@@ -173,7 +176,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getActualStart()
    {
-      return ((Date) getCachedValue(AssignmentField.ACTUAL_START));
+      return (Date) getCurrentValue(AssignmentField.ACTUAL_START);
    }
 
    /**
@@ -193,7 +196,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getBaselineFinish()
    {
-      return ((Date) getCachedValue(AssignmentField.BASELINE_FINISH));
+      return (Date) getCurrentValue(AssignmentField.BASELINE_FINISH);
    }
 
    /**
@@ -213,7 +216,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getActualFinish()
    {
-      return ((Date) getCachedValue(AssignmentField.ACTUAL_FINISH));
+      return (Date) getCurrentValue(AssignmentField.ACTUAL_FINISH);
    }
 
    /**
@@ -233,7 +236,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getBaselineWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.BASELINE_WORK));
+      return (Duration) getCurrentValue(AssignmentField.BASELINE_WORK);
    }
 
    /**
@@ -253,7 +256,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getActualWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.ACTUAL_WORK));
+      return (Duration) getCurrentValue(AssignmentField.ACTUAL_WORK);
    }
 
    /**
@@ -273,7 +276,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getOvertimeWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.OVERTIME_WORK));
+      return (Duration) getCurrentValue(AssignmentField.OVERTIME_WORK);
    }
 
    /**
@@ -293,7 +296,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getCost()
    {
-      return ((Number) getCachedValue(AssignmentField.COST));
+      return (Number) getCurrentValue(AssignmentField.COST);
    }
 
    /**
@@ -313,7 +316,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBaselineCost()
    {
-      return ((Number) getCachedValue(AssignmentField.BASELINE_COST));
+      return (Number) getCurrentValue(AssignmentField.BASELINE_COST);
    }
 
    /**
@@ -333,7 +336,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getActualCost()
    {
-      return ((Number) getCachedValue(AssignmentField.ACTUAL_COST));
+      return (Number) getCurrentValue(AssignmentField.ACTUAL_COST);
    }
 
    /**
@@ -403,7 +406,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getDelay()
    {
-      return ((Duration) getCachedValue(AssignmentField.ASSIGNMENT_DELAY));
+      return (Duration) getCurrentValue(AssignmentField.ASSIGNMENT_DELAY);
    }
 
    /**
@@ -423,7 +426,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Integer getResourceUniqueID()
    {
-      return (Integer) getCachedValue(AssignmentField.RESOURCE_UNIQUE_ID);
+      return (Integer) getCurrentValue(AssignmentField.RESOURCE_UNIQUE_ID);
    }
 
    /**
@@ -443,7 +446,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public ResourceAssignmentWorkgroupFields getWorkgroupAssignment()
    {
-      return (m_workgroup);
+      return m_workgroup;
    }
 
    /**
@@ -479,7 +482,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public WorkContour getWorkContour()
    {
-      return ((WorkContour) getCachedValue(AssignmentField.WORK_CONTOUR));
+      return (WorkContour) getCurrentValue(AssignmentField.WORK_CONTOUR);
    }
 
    /**
@@ -507,7 +510,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getRemainingWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.REMAINING_WORK));
+      return (Duration) getCurrentValue(AssignmentField.REMAINING_WORK);
    }
 
    /**
@@ -527,7 +530,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getLevelingDelay()
    {
-      return ((Duration) getCachedValue(AssignmentField.LEVELING_DELAY));
+      return (Duration) getCurrentValue(AssignmentField.LEVELING_DELAY);
    }
 
    /**
@@ -548,7 +551,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Integer getRateIndex()
    {
-      return (Integer) getCachedValue(AssignmentField.RATE_INDEX);
+      return (Integer) getCurrentValue(AssignmentField.RATE_INDEX);
    }
 
    /**
@@ -569,7 +572,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Resource getRole()
    {
-      return getParentFile().getResourceByUniqueID((Integer) getCachedValue(AssignmentField.ROLE_UNIQUE_ID));
+      return getParentFile().getResourceByUniqueID((Integer) getCurrentValue(AssignmentField.ROLE_UNIQUE_ID));
    }
 
    /**
@@ -589,7 +592,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Rate getOverrideRate()
    {
-      return (Rate) getCachedValue(AssignmentField.OVERRIDE_RATE);
+      return (Rate) getCurrentValue(AssignmentField.OVERRIDE_RATE);
    }
 
    /**
@@ -609,7 +612,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public RateSource getRateSource()
    {
-      return (RateSource) getCachedValue(AssignmentField.RATE_SOURCE);
+      return (RateSource) getCurrentValue(AssignmentField.RATE_SOURCE);
    }
 
    /**
@@ -1318,7 +1321,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public TimeUnit getVariableRateUnits()
    {
-      return (TimeUnit) getCachedValue(AssignmentField.VARIABLE_RATE_UNITS);
+      return (TimeUnit) getCurrentValue(AssignmentField.VARIABLE_RATE_UNITS);
    }
 
    /**
@@ -1348,7 +1351,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Integer getTaskUniqueID()
    {
-      return (Integer) getCachedValue(AssignmentField.TASK_UNIQUE_ID);
+      return (Integer) getCurrentValue(AssignmentField.TASK_UNIQUE_ID);
    }
 
    /**
@@ -1358,7 +1361,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBudgetCost()
    {
-      return (Number) getCachedValue(AssignmentField.BUDGET_COST);
+      return (Number) getCurrentValue(AssignmentField.BUDGET_COST);
    }
 
    /**
@@ -1378,7 +1381,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getBudgetWork()
    {
-      return (Duration) getCachedValue(AssignmentField.BUDGET_WORK);
+      return (Duration) getCurrentValue(AssignmentField.BUDGET_WORK);
    }
 
    /**
@@ -1398,7 +1401,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBaselineBudgetCost()
    {
-      return (Number) getCachedValue(AssignmentField.BASELINE_BUDGET_COST);
+      return (Number) getCurrentValue(AssignmentField.BASELINE_BUDGET_COST);
    }
 
    /**
@@ -1418,7 +1421,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getBaselineBudgetWork()
    {
-      return (Duration) getCachedValue(AssignmentField.BASELINE_BUDGET_WORK);
+      return (Duration) getCurrentValue(AssignmentField.BASELINE_BUDGET_WORK);
    }
 
    /**
@@ -1461,7 +1464,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(AssignmentFieldLists.BASELINE_WORKS, baselineNumber)));
+      return (Duration) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_WORKS, baselineNumber));
    }
 
    /**
@@ -1472,7 +1475,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(AssignmentFieldLists.BASELINE_COSTS, baselineNumber)));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_COSTS, baselineNumber));
    }
 
    /**
@@ -1494,7 +1497,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getBaselineStart(int baselineNumber)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber));
    }
 
    /**
@@ -1516,7 +1519,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getBaselineFinish(int baselineNumber)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber));
    }
 
    /**
@@ -1549,7 +1552,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getBaselineBudgetWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_WORKS, baselineNumber)));
+      return (Duration) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_WORKS, baselineNumber));
    }
 
    /**
@@ -1560,7 +1563,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBaselineBudgetCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_COSTS, baselineNumber)));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.BASELINE_BUDGET_COSTS, baselineNumber));
    }
 
    /**
@@ -1582,7 +1585,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getText(int index)
    {
-      return (String) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_TEXT, index));
+      return (String) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_TEXT, index));
    }
 
    /**
@@ -1604,7 +1607,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getStart(int index)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_START, index));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -1626,7 +1629,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getFinish(int index)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_FINISH, index));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -1648,7 +1651,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getDate(int index)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_DATE, index));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -1670,7 +1673,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getNumber(int index)
    {
-      return (Number) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_NUMBER, index));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_NUMBER, index));
    }
 
    /**
@@ -1692,7 +1695,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_DURATION, index));
+      return (Duration) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_DURATION, index));
    }
 
    /**
@@ -1714,7 +1717,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getCost(int index)
    {
-      return (Number) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_COST, index));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_COST, index));
    }
 
    /**
@@ -1736,7 +1739,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(AssignmentFieldLists.CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(selectField(AssignmentFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1758,7 +1761,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_COST, index));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_COST, index));
    }
 
    /**
@@ -1780,7 +1783,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index));
+      return (Date) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index));
    }
 
    /**
@@ -1802,7 +1805,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index));
+      return (Duration) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index));
    }
 
    /**
@@ -1824,7 +1827,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index)));
    }
 
    /**
@@ -1846,7 +1849,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index));
+      return (Number) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index));
    }
 
    /**
@@ -1868,7 +1871,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getEnterpriseText(int index)
    {
-      return (String) getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index));
+      return (String) getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index));
    }
 
    /**
@@ -1879,7 +1882,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Object getEnterpriseCustomField(int index)
    {
-      return getCachedValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
+      return getCurrentValue(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
@@ -1900,7 +1903,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getRegularWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.REGULAR_WORK));
+      return (Duration) getCurrentValue(AssignmentField.REGULAR_WORK);
    }
 
    /**
@@ -1920,7 +1923,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getActualOvertimeWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.ACTUAL_OVERTIME_WORK));
+      return (Duration) getCurrentValue(AssignmentField.ACTUAL_OVERTIME_WORK);
    }
 
    /**
@@ -1940,7 +1943,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getRemainingOvertimeWork()
    {
-      return ((Duration) getCachedValue(AssignmentField.REMAINING_OVERTIME_WORK));
+      return (Duration) getCurrentValue(AssignmentField.REMAINING_OVERTIME_WORK);
    }
 
    /**
@@ -1960,18 +1963,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getOvertimeCost()
    {
-      Number cost = (Number) getCachedValue(AssignmentField.OVERTIME_COST);
-      if (cost == null)
-      {
-         Number actual = getActualOvertimeCost();
-         Number remaining = getRemainingOvertimeCost();
-         if (actual != null && remaining != null)
-         {
-            cost = NumberHelper.getDouble(actual.doubleValue() + remaining.doubleValue());
-            set(AssignmentField.OVERTIME_COST, cost);
-         }
-      }
-      return (cost);
+      return (Number)getCurrentValue(AssignmentField.OVERTIME_COST);
    }
 
    /**
@@ -1991,7 +1983,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getRemainingCost()
    {
-      return ((Number) getCachedValue(AssignmentField.REMAINING_COST));
+      return (Number) getCurrentValue(AssignmentField.REMAINING_COST);
    }
 
    /**
@@ -2011,7 +2003,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getActualOvertimeCost()
    {
-      return ((Number) getCachedValue(AssignmentField.ACTUAL_OVERTIME_COST));
+      return (Number) getCurrentValue(AssignmentField.ACTUAL_OVERTIME_COST);
    }
 
    /**
@@ -2031,7 +2023,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getRemainingOvertimeCost()
    {
-      return ((Number) getCachedValue(AssignmentField.REMAINING_OVERTIME_COST));
+      return (Number) getCurrentValue(AssignmentField.REMAINING_OVERTIME_COST);
    }
 
    /**
@@ -2071,7 +2063,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBCWP()
    {
-      return ((Number) getCachedValue(AssignmentField.BCWP));
+      return (Number) getCurrentValue(AssignmentField.BCWP);
    }
 
    /**
@@ -2093,7 +2085,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getBCWS()
    {
-      return ((Number) getCachedValue(AssignmentField.BCWS));
+      return (Number) getCurrentValue(AssignmentField.BCWS);
    }
 
    /**
@@ -2103,7 +2095,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getACWP()
    {
-      return ((Number) getCachedValue(AssignmentField.ACWP));
+      return (Number) getCurrentValue(AssignmentField.ACWP);
    }
 
    /**
@@ -2138,18 +2130,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getSV()
    {
-      Number variance = (Number) getCachedValue(AssignmentField.SV);
-      if (variance == null)
-      {
-         Number bcwp = getBCWP();
-         Number bcws = getBCWS();
-         if (bcwp != null && bcws != null)
-         {
-            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
-            set(AssignmentField.SV, variance);
-         }
-      }
-      return (variance);
+      return (Number)getCurrentValue(AssignmentField.SV);
    }
 
    /**
@@ -2179,13 +2160,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getCV()
    {
-      Number variance = (Number) getCachedValue(AssignmentField.CV);
-      if (variance == null)
-      {
-         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
-         set(AssignmentField.CV, variance);
-      }
-      return (variance);
+      return (Number) getCurrentValue(AssignmentField.CV);
    }
 
    /**
@@ -2211,18 +2186,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getCostVariance()
    {
-      Number variance = (Number) getCachedValue(AssignmentField.COST_VARIANCE);
-      if (variance == null)
-      {
-         Number cost = getCost();
-         Number baselineCost = getBaselineCost();
-         if (cost != null && baselineCost != null)
-         {
-            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
-            set(AssignmentField.COST_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Number) getCurrentValue(AssignmentField.COST_VARIANCE);
    }
 
    /**
@@ -2251,18 +2215,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getPercentageWorkComplete()
    {
-      Number pct = (Number) getCachedValue(AssignmentField.PERCENT_WORK_COMPLETE);
-      if (pct == null)
-      {
-         Duration actualWork = getActualWork();
-         Duration work = getWork();
-         if (actualWork != null && work != null && work.getDuration() != 0)
-         {
-            pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectProperties()).getDuration());
-            set(AssignmentField.PERCENT_WORK_COMPLETE, pct);
-         }
-      }
-      return pct;
+      return (Number) getCurrentValue(AssignmentField.PERCENT_WORK_COMPLETE);
    }
 
    /**
@@ -2285,7 +2238,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getNotes()
    {
-      Object notes = getCachedValue(AssignmentField.NOTES);
+      Object notes = getCurrentValue(AssignmentField.NOTES);
       return notes == null ? "" : notes.toString();
    }
 
@@ -2307,7 +2260,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Notes getNotesObject()
    {
-      return (Notes) getCachedValue(AssignmentField.NOTES);
+      return (Notes) getCurrentValue(AssignmentField.NOTES);
    }
 
    /**
@@ -2331,7 +2284,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getConfirmed()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.CONFIRMED)));
+      return (BooleanHelper.getBoolean((Boolean) getCurrentValue(AssignmentField.CONFIRMED)));
    }
 
    /**
@@ -2355,7 +2308,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getUpdateNeeded()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.UPDATE_NEEDED)));
+      return (BooleanHelper.getBoolean((Boolean) getCurrentValue(AssignmentField.UPDATE_NEEDED)));
    }
 
    /**
@@ -2379,7 +2332,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getLinkedFields()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.LINKED_FIELDS)));
+      return (BooleanHelper.getBoolean((Boolean) getCurrentValue(AssignmentField.LINKED_FIELDS)));
    }
 
    /**
@@ -2389,7 +2342,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getHyperlink()
    {
-      return ((String) getCachedValue(AssignmentField.HYPERLINK));
+      return (String) getCurrentValue(AssignmentField.HYPERLINK);
    }
 
    /**
@@ -2399,7 +2352,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getHyperlinkAddress()
    {
-      return ((String) getCachedValue(AssignmentField.HYPERLINK_ADDRESS));
+      return (String) getCurrentValue(AssignmentField.HYPERLINK_ADDRESS);
    }
 
    /**
@@ -2409,7 +2362,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getHyperlinkSubAddress()
    {
-      return ((String) getCachedValue(AssignmentField.HYPERLINK_SUBADDRESS));
+      return (String) getCurrentValue(AssignmentField.HYPERLINK_SUBADDRESS);
    }
 
    /**
@@ -2461,18 +2414,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getWorkVariance()
    {
-      Duration variance = (Duration) getCachedValue(AssignmentField.WORK_VARIANCE);
-      if (variance == null)
-      {
-         Duration work = getWork();
-         Duration baselineWork = getBaselineWork();
-         if (work != null && baselineWork != null)
-         {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
-            set(AssignmentField.WORK_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Duration) getCurrentValue(AssignmentField.WORK_VARIANCE);
    }
 
    /**
@@ -2494,14 +2436,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getStartVariance()
    {
-      Duration variance = (Duration) getCachedValue(AssignmentField.START_VARIANCE);
-      if (variance == null)
-      {
-         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-         variance = DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
-         set(AssignmentField.START_VARIANCE, variance);
-      }
-      return (variance);
+      return (Duration) getCurrentValue(AssignmentField.START_VARIANCE);
    }
 
    /**
@@ -2523,14 +2458,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getFinishVariance()
    {
-      Duration variance = (Duration) getCachedValue(AssignmentField.FINISH_VARIANCE);
-      if (variance == null)
-      {
-         TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-         variance = DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
-         set(AssignmentField.FINISH_VARIANCE, variance);
-      }
-      return (variance);
+      return (Duration) getCurrentValue(AssignmentField.FINISH_VARIANCE);
    }
 
    /**
@@ -2541,7 +2469,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getCreateDate()
    {
-      return ((Date) getCachedValue(AssignmentField.CREATED));
+      return (Date) getCurrentValue(AssignmentField.CREATED);
    }
 
    /**
@@ -2562,7 +2490,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public UUID getGUID()
    {
-      return (UUID) getCachedValue(AssignmentField.GUID);
+      return (UUID) getCurrentValue(AssignmentField.GUID);
    }
 
    /**
@@ -2594,7 +2522,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getResponsePending()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.RESPONSE_PENDING)));
+      return (BooleanHelper.getBoolean((Boolean) getCurrentValue(AssignmentField.RESPONSE_PENDING)));
    }
 
    /**
@@ -2616,7 +2544,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getTeamStatusPending()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(AssignmentField.TEAM_STATUS_PENDING)));
+      return (BooleanHelper.getBoolean((Boolean) getCurrentValue(AssignmentField.TEAM_STATUS_PENDING)));
    }
 
    /**
@@ -2636,7 +2564,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getVAC()
    {
-      return ((Number) getCachedValue(AssignmentField.VAC));
+      return (Number) getCurrentValue(AssignmentField.VAC);
    }
 
    /**
@@ -2656,7 +2584,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public int getCostRateTableIndex()
    {
-      int value = NumberHelper.getInt((Integer) getCachedValue(AssignmentField.COST_RATE_TABLE));
+      int value = NumberHelper.getInt((Integer) getCurrentValue(AssignmentField.COST_RATE_TABLE));
       return value < 0 || value >= CostRateTable.MAX_TABLES ? 0 : value;
    }
 
@@ -2693,7 +2621,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getHyperlinkScreenTip()
    {
-      return ((String) getCachedValue(AssignmentField.HYPERLINK_SCREEN_TIP));
+      return (String) getCurrentValue(AssignmentField.HYPERLINK_SCREEN_TIP);
    }
 
    /**
@@ -2713,7 +2641,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public ResourceRequestType getResourceRequestType()
    {
-      return (ResourceRequestType) getCachedValue(AssignmentField.RESOURCE_REQUEST_TYPE);
+      return (ResourceRequestType) getCurrentValue(AssignmentField.RESOURCE_REQUEST_TYPE);
    }
 
    /**
@@ -2733,7 +2661,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getStop()
    {
-      return ((Date) getCachedValue(AssignmentField.STOP));
+      return (Date) getCurrentValue(AssignmentField.STOP);
    }
 
    /**
@@ -2753,7 +2681,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getResume()
    {
-      return ((Date) getCachedValue(AssignmentField.RESUME));
+      return (Date) getCurrentValue(AssignmentField.RESUME);
    }
 
    /**
@@ -2773,7 +2701,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getPlannedWork()
    {
-      return (Duration) getCachedValue(AssignmentField.PLANNED_WORK);
+      return (Duration) getCurrentValue(AssignmentField.PLANNED_WORK);
    }
 
    /**
@@ -2793,7 +2721,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getPlannedCost()
    {
-      return (Number) getCachedValue(AssignmentField.PLANNED_COST);
+      return (Number) getCurrentValue(AssignmentField.PLANNED_COST);
    }
 
    /**
@@ -2813,7 +2741,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getPlannedStart()
    {
-      return (Date) getCachedValue(AssignmentField.PLANNED_START);
+      return (Date) getCurrentValue(AssignmentField.PLANNED_START);
    }
 
    /**
@@ -2833,7 +2761,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getPlannedFinish()
    {
-      return (Date) getCachedValue(AssignmentField.PLANNED_FINISH);
+      return (Date) getCurrentValue(AssignmentField.PLANNED_FINISH);
    }
 
    /**
@@ -3033,16 +2961,110 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object getCurrentValue(FieldType field)
    {
-      Object result = null;
-
-      if (field != null)
+      if (field == null)
       {
-         int fieldValue = field.getValue();
-
-         result = m_array[fieldValue];
+         return null;
       }
 
-      return (result);
+      // Always calculated
+      switch((AssignmentField)field)
+      {
+
+      }
+
+      Object result = m_array[field.getValue()];
+      if (result == null)
+      {
+         Function<ResourceAssignment, Object> f = CALCULATED_FIELD_MAP.get(field);
+         if (f != null)
+         {
+            result = f.apply(this);
+            if (result != null)
+            {
+               set(field, result);
+            }
+         }
+      }
+
+      return result;
+   }
+
+   private Number calculateOvertimeCost()
+   {
+      Double cost = null;
+      Number actual = getActualOvertimeCost();
+      Number remaining = getRemainingOvertimeCost();
+      if (actual != null && remaining != null)
+      {
+         cost = NumberHelper.getDouble(actual.doubleValue() + remaining.doubleValue());
+      }
+      return cost;
+   }
+
+   private Double calculateSV()
+   {
+      Double variance = null;
+      Number bcwp = getBCWP();
+      Number bcws = getBCWS();
+      if (bcwp != null && bcws != null)
+      {
+         variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+      }
+      return variance;
+   }
+
+   private Double calculateCV()
+   {
+      return Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
+   }
+
+   private Double calculateCostVariance()
+   {
+      Double variance = null;
+      Number cost = getCost();
+      Number baselineCost = getBaselineCost();
+      if (cost != null && baselineCost != null)
+      {
+         variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+      }
+      return variance;
+   }
+
+   private Double calculatePercentWorkComplete()
+   {
+      Double pct = null;
+      Duration actualWork = getActualWork();
+      Duration work = getWork();
+      if (actualWork != null && work != null && work.getDuration() != 0)
+      {
+         pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectProperties()).getDuration());
+      }
+      return pct;
+   }
+
+   private Duration calculateWorkVariance()
+   {
+      Duration variance = null;
+      Duration work = getWork();
+      Duration baselineWork = getBaselineWork();
+      if (work != null && baselineWork != null)
+      {
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+         set(AssignmentField.WORK_VARIANCE, variance);
+      }
+      return variance;
+   }
+
+   private Duration calculateStartVariance()
+   {
+      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      return DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
+   }
+
+   private Duration calculateFinishVariance()
+   {
+      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      return DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
    }
 
    /**
@@ -3095,4 +3117,17 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
+
+   private static final Map<FieldType, Function<ResourceAssignment, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
+   static
+   {
+      CALCULATED_FIELD_MAP.put(AssignmentField.OVERTIME_COST, ResourceAssignment::calculateOvertimeCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.COST_VARIANCE, ResourceAssignment::calculateCostVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.CV, ResourceAssignment::calculateCV);
+      CALCULATED_FIELD_MAP.put(AssignmentField.SV, ResourceAssignment::calculateSV);
+      CALCULATED_FIELD_MAP.put(AssignmentField.START_VARIANCE, ResourceAssignment::calculateStartVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.FINISH_VARIANCE, ResourceAssignment::calculateFinishVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.PERCENT_WORK_COMPLETE, ResourceAssignment::calculatePercentWorkComplete);
+      CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
+   }
 }
