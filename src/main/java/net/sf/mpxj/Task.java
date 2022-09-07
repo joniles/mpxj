@@ -2243,7 +2243,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public String getNotes()
    {
-      Object notes = getCachedValue(TaskField.NOTES);
+      Object notes = getCurrentValue(TaskField.NOTES);
       return notes == null ? "" : notes.toString();
    }
 
@@ -2255,7 +2255,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Notes getNotesObject()
    {
-      Object notes = getCachedValue(TaskField.NOTES);
+      Object notes = getCurrentValue(TaskField.NOTES);
       return notes == null ? null : (Notes) notes;
    }
 
@@ -4138,7 +4138,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public TaskMode getTaskMode()
    {
-      return (TaskMode) getCachedValue(TaskField.TASK_MODE);
+      return (TaskMode) getCurrentValue(TaskField.TASK_MODE);
    }
 
    /**
