@@ -3039,6 +3039,18 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       {
          switch ((AssignmentField)field)
          {
+            case START:
+            {
+               result = getStart();
+               break;
+            }
+
+            case FINISH:
+            {
+               result = getFinish();
+               break;
+            }
+
             case OVERTIME_COST:
             {
                result = getOvertimeCost();
