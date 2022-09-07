@@ -2682,6 +2682,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          return null;
       }
 
+      // Always calculated
       switch((ResourceField)field)
       {
          case STANDARD_RATE:

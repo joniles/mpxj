@@ -5191,6 +5191,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return null;
       }
 
+      // Always calculated
       if (field == TaskField.PARENT_TASK_UNIQUE_ID)
       {
          return getParentTaskUniqueID();
