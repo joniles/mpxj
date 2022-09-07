@@ -26,8 +26,11 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -430,15 +433,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getOverAllocated()
    {
-      Boolean overallocated = (Boolean) getCachedValue(ResourceField.OVERALLOCATED);
-      if (overallocated == null)
-      {
-         Number peakUnits = getPeakUnits();
-         Number maxUnits = getMaxUnits();
-         overallocated = Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
-         set(ResourceField.OVERALLOCATED, overallocated);
-      }
-      return (overallocated.booleanValue());
+      return BooleanHelper.getBoolean((Boolean)getCurrentValue(ResourceField.OVERALLOCATED));
    }
 
    /**
@@ -745,12 +740,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getStandardRate();
+      return (Rate) getCurrentValue(ResourceField.STANDARD_RATE);
    }
 
    /**
@@ -812,12 +802,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getOvertimeRate();
+      return (Rate) getCurrentValue(ResourceField.OVERTIME_RATE);
    }
 
    /**
@@ -879,12 +864,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getCostPerUse();
+      return (Number) getCurrentValue(ResourceField.COST_PER_USE);
    }
 
    /**
@@ -984,18 +964,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getWorkVariance()
    {
-      Duration variance = (Duration) getCachedValue(ResourceField.WORK_VARIANCE);
-      if (variance == null)
-      {
-         Duration work = getWork();
-         Duration baselineWork = getBaselineWork();
-         if (work != null && baselineWork != null)
-         {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
-            set(ResourceField.WORK_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Duration) getCurrentValue(ResourceField.WORK_VARIANCE);
    }
 
    /**
@@ -1015,18 +984,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostVariance()
    {
-      Number variance = (Number) getCachedValue(ResourceField.COST_VARIANCE);
-      if (variance == null)
-      {
-         Number cost = getCost();
-         Number baselineCost = getBaselineCost();
-         if (cost != null && baselineCost != null)
-         {
-            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
-            set(ResourceField.COST_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Number) getCurrentValue(ResourceField.COST_VARIANCE);
    }
 
    /**
@@ -1046,18 +1004,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getSV()
    {
-      Number variance = (Number) getCachedValue(ResourceField.SV);
-      if (variance == null)
-      {
-         Number bcwp = getBCWP();
-         Number bcws = getBCWS();
-         if (bcwp != null && bcws != null)
-         {
-            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
-            set(ResourceField.SV, variance);
-         }
-      }
-      return (variance);
+      return (Number) getCurrentValue(ResourceField.SV);
    }
 
    /**
@@ -1077,13 +1024,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCV()
    {
-      Number variance = (Number) getCachedValue(ResourceField.CV);
-      if (variance == null)
-      {
-         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
-         set(ResourceField.CV, variance);
-      }
-      return (variance);
+      return (Number) getCurrentValue(ResourceField.CV);
    }
 
    /**
@@ -1126,7 +1067,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getNotes()
    {
-      Object notes = getCachedValue(ResourceField.NOTES);
+      Object notes = getCurrentValue(ResourceField.NOTES);
       return notes == null ? "" : notes.toString();
    }
 
@@ -1208,7 +1149,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getGeneric()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.GENERIC));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ResourceField.GENERIC));
    }
 
    /**
@@ -1228,7 +1169,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getActive()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ACTIVE));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ResourceField.ACTIVE));
    }
 
    /**
@@ -1348,7 +1289,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterprise()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ENTERPRISE));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(ResourceField.ENTERPRISE));
    }
 
    /**
@@ -1829,7 +1770,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ResourceFieldLists.CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(selectField(ResourceFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -2090,7 +2031,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getFieldByAlias(String alias)
    {
-      return (getCachedValue(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias)));
+      return (getCurrentValue(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias)));
    }
 
    /**
@@ -2305,7 +2246,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getEnterpriseCustomField(int index)
    {
-      return getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
+      return getCurrentValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
@@ -2736,71 +2677,44 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object getCurrentValue(FieldType field)
    {
-      Object result = null;
-
-      if (field != null)
+      if (field == null)
       {
-         ResourceField resourceField = (ResourceField) field;
+         return null;
+      }
 
-         switch (resourceField)
+      switch((ResourceField)field)
+      {
+         case STANDARD_RATE:
          {
-            case COST_VARIANCE:
-            {
-               result = getCostVariance();
-               break;
-            }
+            return calculateStandardRate();
+         }
 
-            case WORK_VARIANCE:
-            {
-               result = getWorkVariance();
-               break;
-            }
+         case OVERTIME_RATE:
+         {
+            return calculateOvertimeRate();
+         }
 
-            case CV:
-            {
-               result = getCV();
-               break;
-            }
+         case COST_PER_USE:
+         {
+            return calculateCostPerUse();
+         }
+      }
 
-            case SV:
+      Object result = m_array[field.getValue()];
+      if (result == null)
+      {
+         Function<Resource, Object> f = CALCULATED_FIELD_MAP.get(field);
+         if (f != null)
+         {
+            result = f.apply(this);
+            if (result != null)
             {
-               result = getSV();
-               break;
-            }
-
-            case OVERALLOCATED:
-            {
-               result = Boolean.valueOf(getOverAllocated());
-               break;
-            }
-
-            case STANDARD_RATE:
-            {
-               result = getStandardRate();
-               break;
-            }
-
-            case OVERTIME_RATE:
-            {
-               result = getOvertimeRate();
-               break;
-            }
-
-            case COST_PER_USE:
-            {
-               result = getCostPerUse();
-               break;
-            }
-
-            default:
-            {
-               result = m_array[field.getValue()];
-               break;
+               set(field, result);
             }
          }
       }
 
-      return (result);
+      return result;
    }
 
    @Override public void set(FieldType field, Object value)
@@ -2927,6 +2841,84 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
+   private Double calculateCostVariance()
+   {
+      Double variance = null;
+      Number cost = getCost();
+      Number baselineCost = getBaselineCost();
+      if (cost != null && baselineCost != null)
+      {
+         variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+      }
+      return variance;
+   }
+
+   private Duration calculateWorkVariance()
+   {
+      Duration variance = null;
+      Duration work = getWork();
+      Duration baselineWork = getBaselineWork();
+      if (work != null && baselineWork != null)
+      {
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+      }
+      return variance;
+   }
+
+   private Double calculateCV()
+   {
+      return Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
+   }
+
+   private Boolean calculateOverallocated()
+   {
+      Number peakUnits = getPeakUnits();
+      Number maxUnits = getMaxUnits();
+      return Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
+   }
+
+   private Double calculateSV()
+   {
+      Double variance = null;
+      Number bcwp = getBCWP();
+      Number bcws = getBCWS();
+      if (bcwp != null && bcws != null)
+      {
+         variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+      }
+      return variance;
+   }
+
+   private Rate calculateStandardRate()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getStandardRate();
+   }
+
+   private Rate calculateOvertimeRate()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getOvertimeRate();
+   }
+
+   private Number calculateCostPerUse()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getCostPerUse();
+   }
+
    /**
     * Disable events firing when fields are updated.
     */
@@ -2998,4 +2990,14 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
+
+   private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
+   static
+   {
+      CALCULATED_FIELD_MAP.put(ResourceField.COST_VARIANCE, Resource::calculateCostVariance);
+      CALCULATED_FIELD_MAP.put(ResourceField.WORK_VARIANCE, Resource::calculateWorkVariance);
+      CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
+      CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
+      CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+   }
 }
