@@ -26,9 +26,11 @@ package net.sf.mpxj;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -622,13 +624,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getStartDate()
    {
-      Date result = (Date) getCachedValue(ProjectField.START_DATE);
-      if (result == null)
-      {
-         result = getParentFile().getEarliestStartDate();
-         set(ProjectField.START_DATE, result);
-      }
-      return (result);
+      return (Date) getCurrentValue(ProjectField.START_DATE);
    }
 
    /**
@@ -639,13 +635,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Date getFinishDate()
    {
-      Date result = (Date) getCachedValue(ProjectField.FINISH_DATE);
-      if (result == null)
-      {
-         result = getParentFile().getLatestFinishDate();
-         set(ProjectField.FINISH_DATE, result);
-      }
-      return (result);
+      return (Date) getCurrentValue(ProjectField.FINISH_DATE);
    }
 
    /**
@@ -1288,13 +1278,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Override public Integer getDaysPerMonth()
    {
-      Integer result = (Integer) getCachedValue(ProjectField.DAYS_PER_MONTH);
-      if (result == null)
-      {
-         result = DEFAULT_DAYS_PER_MONTH;
-         set(ProjectField.DAYS_PER_MONTH, result);
-      }
-      return result;
+      return (Integer) getCurrentValue(ProjectField.DAYS_PER_MONTH);
    }
 
    /**
@@ -1314,13 +1298,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Override public Integer getMinutesPerDay()
    {
-      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_DAY);
-      if (result == null)
-      {
-         result = DEFAULT_MINUTES_PER_DAY;
-         set(ProjectField.MINUTES_PER_DAY, result);
-      }
-      return result;
+      return (Integer) getCurrentValue(ProjectField.MINUTES_PER_DAY);
    }
 
    /**
@@ -1340,13 +1318,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Override public Integer getMinutesPerWeek()
    {
-      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_WEEK);
-      if (result == null)
-      {
-         result = Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
-         set(ProjectField.MINUTES_PER_WEEK, result);
-      }
-      return result;
+      return (Integer) getCurrentValue(ProjectField.MINUTES_PER_WEEK);
    }
 
    /**
@@ -1366,13 +1338,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Override public Integer getMinutesPerMonth()
    {
-      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_MONTH);
-      if (result == null)
-      {
-         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
-         set(ProjectField.MINUTES_PER_MONTH, result);
-      }
-      return result;
+      return (Integer) getCurrentValue(ProjectField.MINUTES_PER_MONTH);
    }
 
    /**
@@ -1392,13 +1358,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    @Override public Integer getMinutesPerYear()
    {
-      Integer result = (Integer) getCachedValue(ProjectField.MINUTES_PER_YEAR);
-      if (result == null)
-      {
-         result = Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
-         set(ProjectField.MINUTES_PER_YEAR, result);
-      }
-      return result;
+      return (Integer) getCurrentValue(ProjectField.MINUTES_PER_YEAR);
    }
 
    /**
@@ -2913,64 +2873,28 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    @Override public Object getCurrentValue(FieldType field)
    {
-      Object result = null;
-
-      if (field != null)
+      if (field == null)
       {
-         switch ((ProjectField)field)
+         return null;
+      }
+
+      Object result = m_array[field.getValue()];
+      if (result == null)
+      {
+         Function<ProjectProperties, Object> f = CALCULATED_FIELD_MAP.get(field);
+         if (f != null)
          {
-            case START_DATE:
+            result = f.apply(this);
+            if (result != null)
             {
-               result = getStartDate();
-               break;
-            }
-
-            case FINISH_DATE:
-            {
-               result = getFinishDate();
-               break;
-            }
-
-            case DAYS_PER_MONTH:
-            {
-               result = getDaysPerMonth();
-               break;
-            }
-
-            case MINUTES_PER_DAY:
-            {
-               result = getMinutesPerDay();
-               break;
-            }
-
-            case MINUTES_PER_WEEK:
-            {
-               result = getMinutesPerWeek();
-               break;
-            }
-
-            case MINUTES_PER_MONTH:
-            {
-               result = getMinutesPerMonth();
-               break;
-            }
-
-            case MINUTES_PER_YEAR:
-            {
-               result = getMinutesPerYear();
-               break;
-            }
-
-            default:
-            {
-               result = m_array[field.getValue()];
-               break;
+               set(field, result);
             }
          }
       }
 
       return result;
    }
+
 
    @Override public void set(FieldType field, Object value)
    {
@@ -3000,6 +2924,41 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    private void set(FieldType field, boolean value)
    {
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   private Date calculateStartDate()
+   {
+      return getParentFile().getEarliestStartDate();
+   }
+
+   private Date calculateFinishDate()
+   {
+      return getParentFile().getLatestFinishDate();
+   }
+
+   private Integer calculateDaysPerMonth()
+   {
+      return DEFAULT_DAYS_PER_MONTH;
+   }
+
+   private Integer calculateMinutesPerDay()
+   {
+      return DEFAULT_MINUTES_PER_DAY;
+   }
+
+   private Integer calculateMinutesPerWeek()
+   {
+      return Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
+   }
+
+   private Integer calculateMinutesPerMonth()
+   {
+      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
+   }
+
+   private Integer calculateMinutesPerYear()
+   {
+      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
 
    /**
@@ -3116,4 +3075,16 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     * Default minutes per week.
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
+
+   private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
+   static
+   {
+      CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
+      CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::calculateDaysPerMonth);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::calculateMinutesPerDay);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
+   }
 }
