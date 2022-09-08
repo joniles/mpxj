@@ -626,6 +626,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = getParentFile().getEarliestStartDate();
+         set(ProjectField.START_DATE, result);
       }
       return (result);
    }
@@ -642,6 +643,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = getParentFile().getLatestFinishDate();
+         set(ProjectField.FINISH_DATE, result);
       }
       return (result);
    }
@@ -1290,6 +1292,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       if (result == null)
       {
          result = DEFAULT_DAYS_PER_MONTH;
+         set(ProjectField.DAYS_PER_MONTH, result);
       }
       return result;
    }
@@ -2910,7 +2913,63 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    @Override public Object getCurrentValue(FieldType field)
    {
-      return (getCachedValue(field));
+      Object result = null;
+
+      if (field != null)
+      {
+         switch ((ProjectField)field)
+         {
+            case START_DATE:
+            {
+               result = getStartDate();
+               break;
+            }
+
+            case FINISH_DATE:
+            {
+               result = getFinishDate();
+               break;
+            }
+
+            case DAYS_PER_MONTH:
+            {
+               result = getDaysPerMonth();
+               break;
+            }
+
+            case MINUTES_PER_DAY:
+            {
+               result = getMinutesPerDay();
+               break;
+            }
+
+            case MINUTES_PER_WEEK:
+            {
+               result = getMinutesPerWeek();
+               break;
+            }
+
+            case MINUTES_PER_MONTH:
+            {
+               result = getMinutesPerMonth();
+               break;
+            }
+
+            case MINUTES_PER_YEAR:
+            {
+               result = getMinutesPerYear();
+               break;
+            }
+
+            default:
+            {
+               result = m_array[field.getValue()];
+               break;
+            }
+         }
+      }
+
+      return result;
    }
 
    @Override public void set(FieldType field, Object value)
