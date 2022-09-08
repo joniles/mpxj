@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Move MPP file-specific functionality for determining baseline values from the Task class into the MPP reader class.</action>
 			<action dev="joniles" type="update">Improve handling of the TaskMode attribute.</action>
 			<action dev="joniles" type="update">Ensure `ResourceAssignment` calculated fields are returned correctly when using the `getCurrentValue` method.</action>
+			<action dev="joniles" type="update">Ensure `ProjectProperties` calculated fields are returned correctly when using the `getCurrentValue` method.</action>
 			<action dev="joniles" type="update">Updated to use jsoup 1.15.3</action>
 		</release>
 		<release date="2022-08-31" version="10.9.1">
