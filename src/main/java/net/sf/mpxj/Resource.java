@@ -2838,6 +2838,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve the cost center.
+    *
+    * @return cost center value
+    */
+   public String getCostCenter()
+   {
+      return (String) getCurrentValue(ResourceField.COST_CENTER);
+   }
+
+   /**
+    * Set the cost center.
+    *
+    * @param value cost center value
+    */
+   public void setCostCenter(String value)
+   {
+      set(ResourceField.COST_CENTER, value);
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

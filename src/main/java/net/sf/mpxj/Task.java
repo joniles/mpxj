@@ -5257,46 +5257,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retrieve the ignore warnings flag.
-    *
-    * @return ignore warings flag value
-    */
-   public boolean getIgnoreWarnings()
-   {
-      return BooleanHelper.getBoolean((Boolean) getCurrentValue(TaskField.IGNORE_WARNINGS));
-   }
-
-   /**
-    * Set the ignore warnings flag.
-    *
-    * @param value ignore warnings flag value
-    */
-   public void setIgnoreWarnings(boolean value)
-   {
-      set(TaskField.IGNORE_WARNINGS, value);
-   }
-
-   /**
-    * Retrieve the publish flag.
-    *
-    * @return pubish flag value
-    */
-   public boolean getPublish()
-   {
-      return BooleanHelper.getBoolean((Boolean) getCurrentValue(TaskField.PUBLISH));
-   }
-
-   /**
-    * Set the publish flag value.
-    *
-    * @param value publish flag value
-    */
-   public void setPublish(boolean value)
-   {
-      set(TaskField.PUBLISH, value);
-   }
-
-   /**
     * Retrieve the response pending flag.
     *
     * @return response pending flag value
