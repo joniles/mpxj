@@ -370,7 +370,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getDateSeparator()
    {
-      return getCachedCharValue(ProjectField.DATE_SEPARATOR, DEFAULT_DATE_SEPARATOR);
+      return ((Character)getCurrentValue(ProjectField.DATE_SEPARATOR)).charValue();
    }
 
    /**
@@ -390,7 +390,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getTimeSeparator()
    {
-      return getCachedCharValue(ProjectField.TIME_SEPARATOR, DEFAULT_TIME_SEPARATOR);
+      return ((Character)getCurrentValue(ProjectField.TIME_SEPARATOR)).charValue();
    }
 
    /**
@@ -1204,7 +1204,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getThousandsSeparator()
    {
-      return getCachedCharValue(ProjectField.THOUSANDS_SEPARATOR, DEFAULT_THOUSANDS_SEPARATOR);
+      return ((Character)getCurrentValue(ProjectField.THOUSANDS_SEPARATOR)).charValue();
    }
 
    /**
@@ -1228,7 +1228,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getDecimalSeparator()
    {
-      return getCachedCharValue(ProjectField.DECIMAL_SEPARATOR, DEFAULT_DECIMAL_SEPARATOR);
+      return ((Character)getCurrentValue(ProjectField.DECIMAL_SEPARATOR)).charValue();
    }
 
    /**
@@ -2456,7 +2456,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getMpxDelimiter()
    {
-      return getCachedCharValue(ProjectField.MPX_DELIMITER, DEFAULT_MPX_DELIMITER);
+      return ((Character)getCurrentValue(ProjectField.MPX_DELIMITER)).charValue();
    }
 
    /**
@@ -2853,19 +2853,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return (fields[index - 1]);
    }
 
-   /**
-    * Handles retrieval of primitive char type.
-    *
-    * @param field required field
-    * @param defaultValue default value if field is missing
-    * @return char value
-    */
-   private char getCachedCharValue(FieldType field, char defaultValue)
-   {
-      Character c = (Character) getCachedValue(field);
-      return c == null ? defaultValue : c.charValue();
-   }
-
    @Override public Object getCachedValue(FieldType field)
    {
       return (field == null ? null : m_array[field.getValue()]);
@@ -2959,6 +2946,31 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    private Integer calculateMinutesPerYear()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+   }
+
+   private Character calculateDateSeparator()
+   {
+      return Character.valueOf(DEFAULT_DATE_SEPARATOR);
+   }
+
+   private Character calculateTimeSeparator()
+   {
+      return Character.valueOf(DEFAULT_TIME_SEPARATOR);
+   }
+
+   private Character calculateDecimalSeparator()
+   {
+      return DEFAULT_DECIMAL_SEPARATOR;
+   }
+
+   private Character calculateThousandsSeparator()
+   {
+      return Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR);
+   }
+
+   private Character calculateMpxDelimiter()
+   {
+      return Character.valueOf(DEFAULT_MPX_DELIMITER);
    }
 
    /**
@@ -3086,5 +3098,10 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::calculateDateSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::calculateTimeSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::calculateThousandsSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::calculateDecimalSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::calculateMpxDelimiter);
    }
 }
