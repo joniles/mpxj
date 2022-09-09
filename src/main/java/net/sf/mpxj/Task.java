@@ -5301,7 +5301,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     *
     * @return scheduled finish value
     */
-   public Date getScheduledFinisht()
+   public Date getScheduledFinish()
    {
       return (Date) getCurrentValue(TaskField.SCHEDULED_FINISH);
    }

@@ -6,6 +6,15 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.10.0">
+
+			<action dev="joniles" type="update">Add getter and setter methods for the Resource attributes Cost Center, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.</action>
+
+
+			<action dev="joniles" type="update">Add getter and setter methods for the Task attributes Response Pending, Scheduled Start,  Scheduled Finish, Scheduled Duration, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.</action>
+
+
+			<action dev="joniles" type="update">Added support for the Resource Cost Centre attribute for MSPDI files.</action>
+
 			<action dev="joniles" type="update">Move MPP file-specific functionality for determining baseline values from the Task class into the MPP reader class.</action>
 			<action dev="joniles" type="update">Improve handling of the TaskMode attribute.</action>
 			<action dev="joniles" type="update">Ensure `ResourceAssignment` calculated fields are returned correctly when using the `getCurrentValue` method.</action>
