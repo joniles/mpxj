@@ -1020,6 +1020,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setCanLevel(Boolean.valueOf(mpx.getCanLevel()));
       xml.setCode(mpx.getCode());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
+      xml.setCostCenter(mpx.getCostCenter());
       xml.setCostPerUse(DatatypeConverter.printCurrency(mpx.getCostPerUse()));
       xml.setCostVariance(DatatypeConverter.printCurrency(mpx.getCostVariance()));
       xml.setCreationDate(mpx.getCreationDate());
