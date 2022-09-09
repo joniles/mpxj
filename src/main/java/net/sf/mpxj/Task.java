@@ -1898,6 +1898,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
+         if (totalSlack == null)
+         {
+            return false;
+         }
+
          int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
          if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
          {
@@ -2697,35 +2702,38 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          Duration duration = getDuration();
          if (duration == null)
          {
-            duration = Duration.getInstance(0, TimeUnit.DAYS);
+            return null;
+         }
+
+         Duration startSlack = getStartSlack();
+         Duration finishSlack = getFinishSlack();
+
+         if (startSlack == null && finishSlack == null)
+         {
+            return null;
          }
 
          TimeUnit units = duration.getUnits();
 
-         Duration startSlack = getStartSlack();
          if (startSlack == null)
          {
             startSlack = Duration.getInstance(0, units);
          }
-         else
-         {
-            if (startSlack.getUnits() != units)
-            {
-               startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
-            }
-         }
 
-         Duration finishSlack = getFinishSlack();
          if (finishSlack == null)
          {
             finishSlack = Duration.getInstance(0, units);
          }
-         else
+
+
+         if (startSlack.getUnits() != units)
          {
-            if (finishSlack.getUnits() != units)
-            {
-               finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
-            }
+            startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
+         }
+
+         if (finishSlack.getUnits() != units)
+         {
+            finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
          }
 
          double startSlackDuration = startSlack.getDuration();
@@ -3744,7 +3752,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (startSlack == null)
       {
          Duration duration = getDuration();
-         if (duration != null)
+         Date lateStart = getLateStart();
+         Date earlyStart = getEarlyStart();
+
+         if (duration != null && lateStart != null && earlyStart != null)
          {
             startSlack = DateHelper.getVariance(this, getEarlyStart(), getLateStart(), duration.getUnits());
             set(TaskField.START_SLACK, startSlack);
@@ -3764,7 +3775,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       if (finishSlack == null)
       {
          Duration duration = getDuration();
-         if (duration != null)
+         Date earlyFinish = getEarlyFinish();
+         Date lateFinish = getLateFinish();
+
+         if (duration != null && earlyFinish != null & lateFinish != null)
          {
             finishSlack = DateHelper.getVariance(this, getEarlyFinish(), getLateFinish(), duration.getUnits());
             set(TaskField.FINISH_SLACK, finishSlack);
