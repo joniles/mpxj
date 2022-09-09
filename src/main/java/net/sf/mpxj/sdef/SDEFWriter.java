@@ -471,6 +471,11 @@ public final class SDEFWriter extends AbstractProjectWriter
          if (record.getActualFinish() == null)
          {
             dd = record.getTotalSlack();
+            if (dd == null)
+            {
+               dd = Duration.getInstance(0, TimeUnit.DAYS);
+            }
+
             if (dd.getUnits() != TimeUnit.DAYS)
             {
                dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
