@@ -483,6 +483,34 @@ public final class ResourceFieldLists
       ResourceField.OUTLINE_CODE10_INDEX
    };
 
+   public static final ResourceField[] BASELINE_BUDGET_COSTS =
+   {
+      ResourceField.BASELINE1_BUDGET_COST,
+      ResourceField.BASELINE2_BUDGET_COST,
+      ResourceField.BASELINE3_BUDGET_COST,
+      ResourceField.BASELINE4_BUDGET_COST,
+      ResourceField.BASELINE5_BUDGET_COST,
+      ResourceField.BASELINE6_BUDGET_COST,
+      ResourceField.BASELINE7_BUDGET_COST,
+      ResourceField.BASELINE8_BUDGET_COST,
+      ResourceField.BASELINE9_BUDGET_COST,
+      ResourceField.BASELINE10_BUDGET_COST
+   };
+
+   public static final ResourceField[] BASELINE_BUDGET_WORKS =
+   {
+      ResourceField.BASELINE1_BUDGET_WORK,
+      ResourceField.BASELINE2_BUDGET_WORK,
+      ResourceField.BASELINE3_BUDGET_WORK,
+      ResourceField.BASELINE4_BUDGET_WORK,
+      ResourceField.BASELINE5_BUDGET_WORK,
+      ResourceField.BASELINE6_BUDGET_WORK,
+      ResourceField.BASELINE7_BUDGET_WORK,
+      ResourceField.BASELINE8_BUDGET_WORK,
+      ResourceField.BASELINE9_BUDGET_WORK,
+      ResourceField.BASELINE10_BUDGET_WORK
+   };
+
    public static final ResourceField[] EXTENDED_FIELDS;
    static
    {

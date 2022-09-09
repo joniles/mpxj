@@ -5257,6 +5257,211 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve the response pending flag.
+    *
+    * @return response pending flag value
+    */
+   public boolean getResponsePending()
+   {
+      return BooleanHelper.getBoolean((Boolean) getCurrentValue(TaskField.RESPONSE_PENDING));
+   }
+
+   /**
+    * Set the response pending flag.
+    *
+    * @param value response pending flag value
+    */
+   public void setResponsePending(boolean value)
+   {
+      set(TaskField.RESPONSE_PENDING, value);
+   }
+
+   /**
+    * Retrieve the scheduled start.
+    *
+    * @return scheduled start value
+    */
+   public Date getScheduledStart()
+   {
+      return (Date) getCurrentValue(TaskField.SCHEDULED_START);
+   }
+
+   /**
+    * Set the scheduled start.
+    *
+    * @param value scheduled start value
+    */
+   public void setScheduledStart(Date value)
+   {
+      set(TaskField.SCHEDULED_START, value);
+   }
+
+   /**
+    * Retrieve the scheduled finish.
+    *
+    * @return scheduled finish value
+    */
+   public Date getScheduledFinish()
+   {
+      return (Date) getCurrentValue(TaskField.SCHEDULED_FINISH);
+   }
+
+   /**
+    *
+    * Set the scheduled finish.
+    *
+    * @param value scheduled finish value
+    */
+   public void setScheduledFinish(Date value)
+   {
+      set(TaskField.SCHEDULED_FINISH, value);
+   }
+
+   /**
+    * Retreve the scheduled duration.
+    *
+    * @return scheduled duration value
+    */
+   public Duration getScheduledDuration()
+   {
+      return (Duration) getCurrentValue(TaskField.SCHEDULED_DURATION);
+   }
+
+   /**
+    * Set the scheduled duration.
+    *
+    * @param value scheduled duration value
+    */
+   public void setScheduledDuration(Duration value)
+   {
+      set(TaskField.SCHEDULED_DURATION, value);
+   }
+
+   /**
+    * Retrieve the budget cost.
+    *
+    * @return budget cost value
+    */
+   public Number getBudgetCost()
+   {
+      return (Number) getCurrentValue(TaskField.BUDGET_COST);
+   }
+
+   /**
+    * Set the budget cost.
+    *
+    * @param value budget cost value
+    */
+   public void setBudgetCost(Number value)
+   {
+      set(TaskField.BUDGET_COST, value);
+   }
+
+   /**
+    * Retrieve the budget work.
+    *
+    * @return budget work value
+    */
+   public Duration getBudgetWork()
+   {
+      return (Duration) getCurrentValue(TaskField.BUDGET_WORK);
+   }
+
+   /**
+    * Set the budget work.
+    *
+    * @param value budget work value
+    */
+   public void setBudgetWork(Duration value)
+   {
+      set(TaskField.BUDGET_WORK, value);
+   }
+
+   /**
+    * Retrieve the baseline budget cost.
+    *
+    * @return baseline budgte cost value
+    */
+   public Number getBaselineBudgetCost()
+   {
+      return (Number) getCurrentValue(TaskField.BASELINE_BUDGET_COST);
+   }
+
+   /**
+    * Set the baseline budgte cost.
+    *
+    * @param value baseline budget cost value
+    */
+   public void setBaselineBudgetCost(Number value)
+   {
+      set(TaskField.BASELINE_BUDGET_COST, value);
+   }
+
+   /**
+    * Retrieve the baseline budget work.
+    *
+    * @return baseline budget work value
+    */
+   public Duration getBaselineBudgetWork()
+   {
+      return (Duration) getCurrentValue(TaskField.BASELINE_BUDGET_WORK);
+   }
+
+   /**
+    * Set the baseline budget work.
+    *
+    * @param value baseline budget work value
+    */
+   public void setBaselineBudgetWork(Duration value)
+   {
+      set(TaskField.BASELINE_BUDGET_WORK, value);
+   }
+
+   /**
+    * Retrieve a baseline budget cost.
+    *
+    * @param baselineNumber baseline number
+    * @return baseline budget cost
+    */
+   public Number getBaselineBudgetCost(int baselineNumber)
+   {
+      return (Number) getCurrentValue(selectField(TaskFieldLists.BASELINE_BUDGET_COSTS, baselineNumber));
+   }
+
+   /**
+    * Set a baseline budget cost.
+    *
+    * @param baselineNumber baseline number
+    * @param value baseline budget cost value
+    */
+   public void setBaselineBudgetCost(int baselineNumber, Number value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_BUDGET_COSTS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve a baseline budget work.
+    *
+    * @param baselineNumber baseline number
+    * @return baseline budget work value
+    */
+   public Duration getBaselineBudgetWork(int baselineNumber)
+   {
+      return (Duration) getCurrentValue(selectField(TaskFieldLists.BASELINE_BUDGET_WORKS, baselineNumber));
+   }
+
+   /**
+    * Set a baseline budget work.
+    *
+    * @param baselineNumber baseline number
+    * @param value baseline budget work value
+    */
+   public void setBaselineBudgetWork(int baselineNumber, Duration value)
+   {
+      set(selectField(TaskFieldLists.BASELINE_BUDGET_WORKS, baselineNumber), value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

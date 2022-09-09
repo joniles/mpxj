@@ -920,6 +920,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setCanLevel(BooleanHelper.getBoolean(xml.isCanLevel()));
       mpx.setCode(xml.getCode());
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
+      mpx.setCostCenter(xml.getCostCenter());
       mpx.setCostVariance(DatatypeConverter.parseCurrency(xml.getCostVariance()));
       mpx.setCreationDate(xml.getCreationDate());
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));

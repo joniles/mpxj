@@ -2714,6 +2714,150 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve the budget cost.
+    *
+    * @return budget cost value
+    */
+   public Number getBudgetCost()
+   {
+      return (Number) getCurrentValue(ResourceField.BUDGET_COST);
+   }
+
+   /**
+    * Set the budget cost.
+    *
+    * @param value budget cost value
+    */
+   public void setBudgetCost(Number value)
+   {
+      set(ResourceField.BUDGET_COST, value);
+   }
+
+   /**
+    * Retrieve the budget work.
+    *
+    * @return budget work value
+    */
+   public Duration getBudgetWork()
+   {
+      return (Duration) getCurrentValue(ResourceField.BUDGET_WORK);
+   }
+
+   /**
+    * Set the budget work.
+    *
+    * @param value budget work value
+    */
+   public void setBudgetWork(Duration value)
+   {
+      set(ResourceField.BUDGET_WORK, value);
+   }
+
+   /**
+    * Retrieve the baseline budget cost.
+    *
+    * @return baseline budgte cost value
+    */
+   public Number getBaselineBudgetCost()
+   {
+      return (Number) getCurrentValue(ResourceField.BASELINE_BUDGET_COST);
+   }
+
+   /**
+    * Set the baseline budgte cost.
+    *
+    * @param value baseline budget cost value
+    */
+   public void setBaselineBudgetCost(Number value)
+   {
+      set(ResourceField.BASELINE_BUDGET_COST, value);
+   }
+
+   /**
+    * Retrieve the baseline budget work.
+    *
+    * @return baseline budget work value
+    */
+   public Duration getBaselineBudgetWork()
+   {
+      return (Duration) getCurrentValue(ResourceField.BASELINE_BUDGET_WORK);
+   }
+
+   /**
+    * Set the baseline budget work.
+    *
+    * @param value baseline budget work value
+    */
+   public void setBaselineBudgetWork(Duration value)
+   {
+      set(ResourceField.BASELINE_BUDGET_WORK, value);
+   }
+
+   /**
+    * Retrieve a baseline budget cost.
+    *
+    * @param baselineNumber baseline number
+    * @return baseline budget cost
+    */
+   public Number getBaselineBudgetCost(int baselineNumber)
+   {
+      return (Number) getCurrentValue(selectField(ResourceFieldLists.BASELINE_BUDGET_COSTS, baselineNumber));
+   }
+
+   /**
+    * Set a baseline budget cost.
+    *
+    * @param baselineNumber baseline number
+    * @param value baseline budget cost value
+    */
+   public void setBaselineBudgetCost(int baselineNumber, Number value)
+   {
+      set(selectField(ResourceFieldLists.BASELINE_BUDGET_COSTS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve a baseline budget work.
+    *
+    * @param baselineNumber baseline number
+    * @return baseline budget work value
+    */
+   public Duration getBaselineBudgetWork(int baselineNumber)
+   {
+      return (Duration) getCurrentValue(selectField(ResourceFieldLists.BASELINE_BUDGET_WORKS, baselineNumber));
+   }
+
+   /**
+    * Set a baseline budget work.
+    *
+    * @param baselineNumber baseline number
+    * @param value baseline budget work value
+    */
+   public void setBaselineBudgetWork(int baselineNumber, Duration value)
+   {
+      set(selectField(ResourceFieldLists.BASELINE_BUDGET_WORKS, baselineNumber), value);
+   }
+
+   /**
+    * Retrieve the cost center.
+    *
+    * @return cost center value
+    */
+   public String getCostCenter()
+   {
+      return (String) getCurrentValue(ResourceField.COST_CENTER);
+   }
+
+   /**
+    * Set the cost center.
+    *
+    * @param value cost center value
+    */
+   public void setCostCenter(String value)
+   {
+      set(ResourceField.COST_CENTER, value);
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
