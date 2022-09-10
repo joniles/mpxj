@@ -713,7 +713,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
          }
 
          // Force total slack calculation to avoid overwriting the critical flag
-         //parentTask.getTotalSlack();
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }
