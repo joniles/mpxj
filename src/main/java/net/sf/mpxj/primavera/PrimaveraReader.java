@@ -887,11 +887,6 @@ final class PrimaveraReader
          processFields(m_wbsFields, row, task);
          populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          task.setNotesObject(wbsNotes.get(task.getUniqueID()));
-         // WBS entries will be critical if any child activities are critical.
-         // Set an explicit value here to deal with WBS entries without child activities.
-         // If we don't do this, the logic in Task.getCritical will mark WBS entries without
-         // child activities as critical.
-         task.setCritical(false);
          m_activityClashMap.addID(task.getUniqueID());
          wbsTasks.add(task);
          m_eventManager.fireTaskReadEvent(task);
@@ -1551,9 +1546,8 @@ final class PrimaveraReader
             parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
-         // Force calculation here to avoid later issues
-         parentTask.getStartSlack();
-         parentTask.getFinishSlack();
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }

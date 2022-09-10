@@ -836,11 +836,9 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
             parentTask.setDuration(duration);
          }
 
-         // Force calculation here to avoid later issues
-         parentTask.getStartSlack();
-         parentTask.getFinishSlack();
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
-
       }
    }
 
