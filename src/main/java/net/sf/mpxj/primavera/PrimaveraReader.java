@@ -1014,10 +1014,6 @@ final class PrimaveraReader
          Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
          task.setDuration(durationAtCompletion);
 
-         // Force calculation here to avoid later issues
-         task.getStartSlack();
-         task.getFinishSlack();
-
          if (forceCriticalToFalse)
          {
             task.setCritical(false);

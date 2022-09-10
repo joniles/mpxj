@@ -559,11 +559,6 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
          }
       }
 
-      // Force calculation to avoid later issues
-      task.getStartSlack();
-      task.getFinishSlack();
-      task.getCritical();
-
       m_activityMap.put(activity.getId(), task);
    }
 
