@@ -203,15 +203,7 @@ public final class SageReader extends AbstractProjectStreamReader
       // columns[15] original float
       task.setText(2, getText(columns, 16));
       task.setNotes(getText(columns, 17));
-
-      // We don't have all of the early/late start/finish attributes, so default these
-      // attributes here to avoid trying to calculate them.
-      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
-      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
       task.setTotalSlack(parseDuration(columns, 11));
-
-      // We do have total slack, so force critical calculation here to avoid later issues
-      task.getCritical();
 
       m_taskMap.put(task.getText(1), task);
       m_eventManager.fireTaskReadEvent(task);

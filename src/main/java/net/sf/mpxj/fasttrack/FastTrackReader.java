@@ -712,6 +712,8 @@ public final class FastTrackReader extends AbstractProjectFileReader
             parentTask.setDuration(m_project.getDefaultCalendar().getWork(parentTask.getStart(), parentTask.getFinish(), TimeUnit.HOURS));
          }
 
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }

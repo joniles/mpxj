@@ -210,12 +210,6 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
          m_taskMap.put(wbs, task);
 
-         // We don't have early/late start/finish.
-         // Set attributes here to avoid trying to calculate them.
-         task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
-         task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
-         task.setCritical(false);
-
          m_eventManager.fireTaskReadEvent(task);
       }
    }

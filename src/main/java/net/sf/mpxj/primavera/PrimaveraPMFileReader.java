@@ -1115,11 +1115,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
-         // WBS entries will be critical if any child activities are critical.
-         // Set an explicit value here to deal with WBS entries without child activities.
-         // If we don't do this the logic in Tsk.getCritical will mark WBS entries without
-         // child activities as critical.
-         task.setCritical(false);
       }
 
       //
@@ -1571,9 +1566,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
          }
 
-         // Force calculation here to avoid later issues
-         parentTask.getStartSlack();
-         parentTask.getFinishSlack();
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }
