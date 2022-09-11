@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -5597,7 +5596,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return DateHelper.getVariance(this, earlyStart, lateStart, duration.getUnits());
    }
 
-   private Duration calculatFinishSlack()
+   private Duration calculateFinishSlack()
    {
       Duration duration = getDuration();
       Date earlyFinish = getEarlyFinish();
@@ -5635,7 +5634,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectProperties()).getDuration(), duration.getUnits());
    }
 
-   private Duration calculatWorkVariance()
+   private Duration calculateWorkVariance()
    {
       Duration work = getWork();
       Duration baselineWork = getBaselineWork();
@@ -5830,10 +5829,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::calculateStartVariance);
       CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::calculateStartSlack);
-      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, Task::calculatFinishSlack);
+      CALCULATED_FIELD_MAP.put(TaskField.FINISH_SLACK, Task::calculateFinishSlack);
       CALCULATED_FIELD_MAP.put(TaskField.COST_VARIANCE, Task::calculateCostVariance);
       CALCULATED_FIELD_MAP.put(TaskField.DURATION_VARIANCE, Task::calculateDurationVariance);
-      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::calculatWorkVariance);
+      CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::calculateWorkVariance);
       CALCULATED_FIELD_MAP.put(TaskField.CV, Task::calculateCV);
       CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);

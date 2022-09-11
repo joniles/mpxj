@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -2869,10 +2870,31 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          int index = field.getValue();
          if (m_eventsEnabled)
          {
-            fireFieldChangeEvent((ResourceField) field, m_array[index], value);
+            invalidateCache(field, value);
+            fireFieldChangeEvent(field, m_array[index], value);
          }
          m_array[index] = value;
       }
+   }
+
+   private void invalidateCache(FieldType field, Object newValue)
+   {
+      if (field == TaskField.UNIQUE_ID)
+      {
+         getParentFile().getResources().clearUniqueIDMap();
+
+         if (!m_assignments.isEmpty())
+         {
+            for (ResourceAssignment assignment : m_assignments)
+            {
+               assignment.setResourceUniqueID((Integer) newValue);
+            }
+         }
+
+         return;
+      }
+
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
    }
 
    /**
@@ -2884,77 +2906,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(ResourceField field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
    {
-      //
-      // Internal event handling
-      //
-      switch (field)
-      {
-         case UNIQUE_ID:
-         {
-            getParentFile().getResources().clearUniqueIDMap();
-
-            if (!m_assignments.isEmpty())
-            {
-               for (ResourceAssignment assignment : m_assignments)
-               {
-                  assignment.setResourceUniqueID((Integer) newValue);
-               }
-            }
-            break;
-         }
-
-         case COST:
-         case BASELINE_COST:
-         {
-            m_array[ResourceField.COST_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case WORK:
-         case BASELINE_WORK:
-         {
-            m_array[ResourceField.WORK_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case BCWP:
-         case ACWP:
-         {
-            m_array[ResourceField.CV.getValue()] = null;
-            m_array[ResourceField.SV.getValue()] = null;
-            break;
-         }
-
-         case BCWS:
-         {
-            m_array[ResourceField.SV.getValue()] = null;
-            break;
-         }
-
-         case PEAK:
-         case MAX_UNITS:
-         {
-            m_array[ResourceField.OVERALLOCATED.getValue()] = null;
-            break;
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-
-      //
-      // External event handling
-      //
       if (m_listeners != null)
       {
-         for (FieldListener listener : m_listeners)
-         {
-            listener.fieldChange(this, field, oldValue, newValue);
-         }
+         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
       }
    }
 
@@ -3144,5 +3100,15 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
       CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+   }
+
+   private static final Map<ResourceField, List<ResourceField>> DEPENDENCY_MAP = new HashMap<>();
+   static
+   {
+      FieldContainerDependencies<ResourceField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      dependencies.calculatedField(ResourceField.COST_VARIANCE).dependsOn(ResourceField.COST, ResourceField.BASELINE_COST);
+      dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
+      dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);
+      dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
    }
 }
