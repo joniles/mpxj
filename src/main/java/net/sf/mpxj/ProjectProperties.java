@@ -2882,7 +2882,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return result;
    }
 
-
    @Override public void set(FieldType field, Object value)
    {
       if (field != null)

@@ -5426,10 +5426,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          int index = field.getValue();
          if (m_eventsEnabled)
          {
-            fireFieldChangeEvent((TaskField) field, m_array[index], value);
+            invalidateCache(field);
+            fireFieldChangeEvent(field, m_array[index], value);
          }
          m_array[index] = value;
       }
+   }
+
+   private void invalidateCache(FieldType field)
+   {
+      if (field == TaskField.UNIQUE_ID)
+      {
+         getParentFile().getTasks().clearUniqueIDMap();
+         return;
+      }
+
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
    }
 
    /**
@@ -5441,31 +5453,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(TaskField field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
    {
-      //
-      // Cache invalidation
-      //
-      if (field == TaskField.UNIQUE_ID)
-      {
-         getParentFile().getTasks().clearUniqueIDMap();
-         return;
-      }
-
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
-
-      //
-      // External event handling
-      //
       if (m_listeners != null)
       {
-         for (FieldListener listener : m_listeners)
-         {
-            listener.fieldChange(this, field, oldValue, newValue);
-         }
+         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
       }
    }
-   
+
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
