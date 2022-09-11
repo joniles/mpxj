@@ -5443,6 +5443,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private void fireFieldChangeEvent(TaskField field, Object oldValue, Object newValue)
    {
+      if (field == TaskField.UNIQUE_ID)
+      {
+         getParentFile().getTasks().clearUniqueIDMap();
+         return;
+      }
+
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> {
+         //         System.out.println("Updating " + field);
+         //         System.out.println("\tResetting " + f);
+         set(f, null); });
+/*
       //
       // Internal event handling
       //
@@ -5540,7 +5551,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
             break;
          }
       }
-
+*/
       //
       // External event handling
       //
@@ -5936,5 +5947,24 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
+   }
+
+   private static final Map<TaskField, List<TaskField>> DEPENDENCY_MAP = new HashMap<>();
+   static
+   {
+      FieldContainerDependencies<TaskField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+
+      dependencies.calculatedField(TaskField.START_VARIANCE).dependsOn(TaskField.START, TaskField.BASELINE_START);
+      dependencies.calculatedField(TaskField.FINISH_VARIANCE).dependsOn(TaskField.FINISH, TaskField.BASELINE_FINISH);
+      dependencies.calculatedField(TaskField.START_SLACK).dependsOn(TaskField.EARLY_START, TaskField.LATE_START);
+      dependencies.calculatedField(TaskField.FINISH_SLACK).dependsOn(TaskField.EARLY_FINISH, TaskField.LATE_FINISH);
+      dependencies.calculatedField(TaskField.COST_VARIANCE).dependsOn(TaskField.COST, TaskField.BASELINE_COST);
+      dependencies.calculatedField(TaskField.DURATION_VARIANCE).dependsOn(TaskField.DURATION, TaskField.BASELINE_DURATION);
+      dependencies.calculatedField(TaskField.WORK_VARIANCE).dependsOn(TaskField.WORK, TaskField.BASELINE_WORK);
+      dependencies.calculatedField(TaskField.CV).dependsOn(TaskField.BCWP, TaskField.ACWP);
+      dependencies.calculatedField(TaskField.SV).dependsOn(TaskField.BCWP, TaskField.BCWS);
+      dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK);
+      dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK);
+      dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
    }
 }
