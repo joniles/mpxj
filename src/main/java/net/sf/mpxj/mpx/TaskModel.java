@@ -177,7 +177,7 @@ final class TaskModel
       boolean result = false;
       if (field != null)
       {
-         Object value = task.getCurrentValue(field);
+         Object value = task.get(field);
          switch (field)
          {
             // We never write these fields to the task record.

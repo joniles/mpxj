@@ -148,7 +148,7 @@ public class GenericCriteria
       }
       else
       {
-         lhs = container.getCurrentValue(field);
+         lhs = container.get(field);
          switch (field.getDataType())
          {
             case DATE:
