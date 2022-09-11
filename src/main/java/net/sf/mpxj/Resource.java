@@ -2877,6 +2877,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       }
    }
 
+   /**
+    * Clear any cached calculated values which will be affected by this change.
+    *
+    * @param field modified field
+    * @param newValue new value
+    */
    private void invalidateCache(FieldType field, Object newValue)
    {
       if (field == ResourceField.UNIQUE_ID)
@@ -2898,9 +2904,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Handle the change in a field value. Reset any cached calculated
-    * values affected by this change, pass on the event to any external
-    * listeners.
+    * Send a change event to any external listeners.
     *
     * @param field field changed
     * @param oldValue old field value

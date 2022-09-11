@@ -5432,6 +5432,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       }
    }
 
+   /**
+    * Clear any cached calculated values which will be affected by this change.
+    *
+    * @param field modified field
+    */
    private void invalidateCache(FieldType field)
    {
       if (field == TaskField.UNIQUE_ID)
@@ -5444,9 +5449,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Handle the change in a field value. Reset any cached calculated
-    * values affected by this change, pass on the event to any external
-    * listeners.
+    * Send a change event to any external listeners.
     *
     * @param field field changed
     * @param oldValue old field value
