@@ -5443,115 +5443,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private void fireFieldChangeEvent(TaskField field, Object oldValue, Object newValue)
    {
+      //
+      // Cache invalidation
+      //
       if (field == TaskField.UNIQUE_ID)
       {
          getParentFile().getTasks().clearUniqueIDMap();
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> {
-         //         System.out.println("Updating " + field);
-         //         System.out.println("\tResetting " + f);
-         set(f, null); });
-/*
-      //
-      // Internal event handling
-      //
-      switch (field)
-      {
-         case UNIQUE_ID:
-         {
-            getParentFile().getTasks().clearUniqueIDMap();
-            break;
-         }
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
 
-         case START:
-         case BASELINE_START:
-         {
-            reset(TaskField.START_VARIANCE);
-            break;
-         }
-
-         case FINISH:
-         case BASELINE_FINISH:
-         {
-            reset(TaskField.FINISH_VARIANCE);
-            break;
-         }
-
-         case COST:
-         case BASELINE_COST:
-         {
-            reset(TaskField.COST_VARIANCE);
-            break;
-         }
-
-         case DURATION:
-         {
-            reset(TaskField.DURATION_VARIANCE, TaskField.COMPLETE_THROUGH);
-            break;
-         }
-
-         case BASELINE_DURATION:
-         {
-            reset(TaskField.DURATION_VARIANCE);
-            break;
-         }
-
-         case WORK:
-         case BASELINE_WORK:
-         {
-            reset(TaskField.WORK_VARIANCE);
-            break;
-         }
-
-         case BCWP:
-         case ACWP:
-         {
-            reset(TaskField.CV, TaskField.SV);
-            break;
-         }
-
-         case BCWS:
-         {
-            reset(TaskField.SV);
-            break;
-         }
-
-         case START_SLACK:
-         case FINISH_SLACK:
-         {
-            reset(TaskField.TOTAL_SLACK, TaskField.CRITICAL);
-            break;
-         }
-
-         case EARLY_FINISH:
-         case LATE_FINISH:
-         {
-            reset(TaskField.FINISH_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
-            break;
-         }
-
-         case EARLY_START:
-         case LATE_START:
-         {
-            reset(TaskField.START_SLACK, TaskField.TOTAL_SLACK, TaskField.CRITICAL);
-            break;
-         }
-
-         case ACTUAL_START:
-         case PERCENT_COMPLETE:
-         {
-            reset(TaskField.COMPLETE_THROUGH);
-            break;
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-*/
       //
       // External event handling
       //
@@ -5563,12 +5465,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          }
       }
    }
-
-   private void reset(TaskField... fields)
-   {
-      Stream.of(fields).forEach(f -> m_array[f.getValue()] = null);
-   }
-
+   
    @Override public void addFieldListener(FieldListener listener)
    {
       if (m_listeners == null)
