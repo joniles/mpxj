@@ -1099,10 +1099,10 @@ final class AstaReader
             assignment.setFinish(row.getDate("ENJ"));
             assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
             assignment.setDelay(row.getDuration("DELAAHOURS"));
-            assignment.setPercentageWorkComplete(percentComplete);
             assignment.setWork(work);
             assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
             assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
+            assignment.setPercentageWorkComplete(percentComplete);
          }
 
          //PROJID

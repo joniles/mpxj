@@ -2879,7 +2879,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    private void invalidateCache(FieldType field, Object newValue)
    {
-      if (field == TaskField.UNIQUE_ID)
+      if (field == ResourceField.UNIQUE_ID)
       {
          getParentFile().getResources().clearUniqueIDMap();
 

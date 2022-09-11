@@ -2827,7 +2827,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          int index = field.getValue();
          if (m_eventsEnabled)
          {
-            fireFieldChangeEvent((AssignmentField) field, m_array[index], value);
+            invalidateCache(field);
+            fireFieldChangeEvent(field, m_array[index], value);
          }
          m_array[index] = value;
       }
@@ -2844,6 +2845,17 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
+   private void invalidateCache(FieldType field)
+   {
+      if (field == AssignmentField.UNIQUE_ID)
+      {
+         getParentFile().getResourceAssignments().clearUniqueIDMap();
+         return;
+      }
+
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+   }
+
    /**
     * Handle the change in a field value. Reset any cached calculated
     * values affected by this change, pass on the event to any external
@@ -2853,77 +2865,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(AssignmentField field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
    {
-      //
-      // Internal event handling
-      //
-      switch (field)
-      {
-         case UNIQUE_ID:
-         {
-            getParentFile().getResourceAssignments().clearUniqueIDMap();
-            break;
-         }
-
-         case START:
-         case BASELINE_START:
-         {
-            m_array[AssignmentField.START_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case FINISH:
-         case BASELINE_FINISH:
-         {
-            m_array[AssignmentField.FINISH_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case BCWP:
-         case ACWP:
-         {
-            m_array[AssignmentField.CV.getValue()] = null;
-            m_array[AssignmentField.SV.getValue()] = null;
-            break;
-         }
-
-         case COST:
-         case BASELINE_COST:
-         {
-            m_array[AssignmentField.COST_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case WORK:
-         case BASELINE_WORK:
-         {
-            m_array[AssignmentField.WORK_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case ACTUAL_OVERTIME_COST:
-         case REMAINING_OVERTIME_COST:
-         {
-            m_array[AssignmentField.OVERTIME_COST.getValue()] = null;
-            break;
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-
-      //
-      // External event handling
-      //
       if (m_listeners != null)
       {
-         for (FieldListener listener : m_listeners)
-         {
-            listener.fieldChange(this, field, oldValue, newValue);
-         }
+         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
       }
    }
 
@@ -3147,5 +3093,19 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH_VARIANCE, ResourceAssignment::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.PERCENT_WORK_COMPLETE, ResourceAssignment::calculatePercentWorkComplete);
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
+   }
+
+   private static final Map<AssignmentField, List<AssignmentField>> DEPENDENCY_MAP = new HashMap<>();
+   static
+   {
+      FieldContainerDependencies<AssignmentField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      dependencies.calculatedField(AssignmentField.OVERTIME_COST).dependsOn(AssignmentField.ACTUAL_OVERTIME_COST, AssignmentField.REMAINING_OVERTIME_COST);
+      dependencies.calculatedField(AssignmentField.COST_VARIANCE).dependsOn(AssignmentField.COST, AssignmentField.BASELINE_COST);
+      dependencies.calculatedField(AssignmentField.CV).dependsOn(AssignmentField.BCWP, AssignmentField.ACWP);
+      dependencies.calculatedField(AssignmentField.SV).dependsOn(AssignmentField.BCWP, AssignmentField.BCWS);
+      dependencies.calculatedField(AssignmentField.START_VARIANCE).dependsOn(AssignmentField.START, AssignmentField.BASELINE_START);
+      dependencies.calculatedField(AssignmentField.FINISH_VARIANCE).dependsOn(AssignmentField.FINISH, AssignmentField.BASELINE_FINISH);
+      dependencies.calculatedField(AssignmentField.PERCENT_WORK_COMPLETE).dependsOn(AssignmentField.ACTUAL_WORK, AssignmentField.WORK);
+      dependencies.calculatedField(AssignmentField.WORK_VARIANCE).dependsOn(AssignmentField.WORK, AssignmentField.BASELINE_WORK);
    }
 }
