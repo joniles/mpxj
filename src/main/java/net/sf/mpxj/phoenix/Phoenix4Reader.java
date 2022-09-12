@@ -74,6 +74,9 @@ import net.sf.mpxj.phoenix.schema.phoenix4.Project.Settings;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
@@ -86,7 +89,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
  */
-public final class Phoenix4Reader extends AbstractProjectStreamReader
+final class Phoenix4Reader extends AbstractProjectStreamReader
 {
    public Phoenix4Reader(boolean useActivityCodesForTaskHierarchy)
    {
@@ -183,10 +186,10 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
    private void readActivityCodes(Storepoint phoenixProject)
    {
       int activityCodeSequence = 0;
-      net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes activityCodes = phoenixProject.getActivityCodes();
+      ActivityCodes activityCodes = phoenixProject.getActivityCodes();
       if (activityCodes != null)
       {
-         for (net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code code : activityCodes.getCode())
+         for (Code code : activityCodes.getCode())
          {
             readActivityCode(code, Integer.valueOf(++activityCodeSequence));
          }
@@ -198,13 +201,13 @@ public final class Phoenix4Reader extends AbstractProjectStreamReader
     *
     * @param code Activity Code
     */
-   private void readActivityCode(net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code code, Integer activityCodeSequence)
+   private void readActivityCode(Code code, Integer activityCodeSequence)
    {
       ActivityCode activityCode = new ActivityCode(++m_activityCodeUniqueID, ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName() );
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
 
       int activityCodeValueSequence = 0;
-      for (net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value typeValue : code.getValue())
+      for (Value typeValue : code.getValue())
       {
          ActivityCodeValue activityCodeValue = activityCode.addValue(++m_activityCodeValueUniqueID, Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
 

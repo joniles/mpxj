@@ -89,7 +89,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.
  */
-public final class Phoenix5Reader extends AbstractProjectStreamReader
+final class Phoenix5Reader extends AbstractProjectStreamReader
 {
    public Phoenix5Reader(boolean useActivityCodesForTaskHierarchy)
    {

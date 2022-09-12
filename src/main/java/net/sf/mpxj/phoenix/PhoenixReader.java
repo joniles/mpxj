@@ -103,7 +103,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
       return Collections.singletonList(read(inputStream));
    }
 
-   private boolean m_useActivityCodesForTaskHierarchy = false;
+   private boolean m_useActivityCodesForTaskHierarchy = true;
 
    private static final int BUFFER_SIZE = 512;
 
