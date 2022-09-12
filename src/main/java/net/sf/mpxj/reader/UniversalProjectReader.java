@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -90,6 +91,36 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  */
 public final class UniversalProjectReader extends AbstractProjectReader
 {
+   /**
+    * Pass a set of Properties to configure the behavior of the reader class selected by
+    * {@code UniversalProjectReader} to read a schedule. Users of {@code UniversalProjectReader} are
+    * not expected to know what type of schedule they are working with ahead of time, so
+    * {@code UniversalProjectReader} will select the correct reader for the supplied file type
+    * use it to read the file.
+    * <p>
+    * Users of {@code UniversalProjectReader} may still want to configure the behavior of the individual reader
+    * classes, but as {@code UniversalProjectReader} hides their use from callers, an alternative
+    * mechanism is required to allow configuration information to be passed. In this case a {@code Properties}
+    * instance can be passed containing properties in this form:
+    * {@code <class name>.<property name>=<property value>}.
+    * <p>
+    * Here's an example of a single property value:
+    * <pre>
+    * net.sf.mpxj.phoenix.PhoenixReader.UseActivityCodesForTaskHierarchy=true
+    * </pre>
+    * This approach allows properties for multiple different reader classes to be specified,
+    * in one {@code Properties} instance, with only the relevant properties being applied to the reader
+    * class actually used by {@code UniversalProjectReader} to read the supplied schedule.
+    *
+    * @param props properties to set
+    * @return current UniversalProjectReader instance to allow method chaining
+    */
+   @Override public ProjectReader setProperties(Properties props)
+   {
+      m_properties = props;
+      return this;
+   }
+
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
@@ -352,6 +383,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
+      reader.setProperties(m_properties);
       return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
    }
 
@@ -366,6 +398,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       addListenersToReader(reader);
       reader.setCharset(m_charset);
+      reader.setProperties(m_properties);
       return m_readAll ? reader.readAll(file) : Collections.singletonList(reader.read(file));
    }
 
@@ -394,6 +427,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
+         reader.setProperties(m_properties);
          return Collections.singletonList(reader.read(fs));
       }
       return Collections.emptyList();
@@ -628,6 +662,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
+               reader.setProperties(m_properties);
                if (m_readAll)
                {
                   List<ProjectFile> result = reader.readAll(file);
@@ -668,7 +703,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return m_readAll ? new P3DatabaseReader().readAll(directory) : Collections.singletonList(P3DatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new P3DatabaseReader().setProperties(m_properties).readAll(directory) : Collections.singletonList(P3DatabaseReader.setProjectNameAndRead(directory, m_properties));
    }
 
    /**
@@ -679,7 +714,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleSureTrakDatabase(File directory) throws Exception
    {
-      return m_readAll ? new SureTrakDatabaseReader().readAll(directory) : Collections.singletonList(SureTrakDatabaseReader.setProjectNameAndRead(directory));
+      return m_readAll ? new SureTrakDatabaseReader().setProperties(m_properties).readAll(directory) : Collections.singletonList(SureTrakDatabaseReader.setProjectNameAndRead(directory, m_properties));
    }
 
    /**
@@ -693,6 +728,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
+      reader.setProperties(m_properties);
       reader.m_skipBytes = length;
       reader.m_charset = charset;
       return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
@@ -793,6 +829,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return populateTableNames(SQLite.createConnection(file));
    }
 
+   private Properties m_properties;
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
