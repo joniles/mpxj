@@ -2849,6 +2849,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          {
             return calculateCostPerUse();
          }
+         
+         default:
+         {
+            break;            
+         }
       }
 
       Object result = m_array[field.getValue()];

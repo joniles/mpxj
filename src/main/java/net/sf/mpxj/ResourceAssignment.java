@@ -2922,6 +2922,11 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          {
             return calculateFinish();
          }
+         
+         default:
+         {
+            break;
+         }
       }
 
       Object result = m_array[field.getValue()];

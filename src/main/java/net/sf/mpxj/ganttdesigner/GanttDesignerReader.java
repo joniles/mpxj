@@ -37,7 +37,6 @@ import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Day;
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -50,7 +49,6 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.ganttdesigner.schema.Gantt;
 import net.sf.mpxj.ganttdesigner.schema.GanttDesignerRemark;

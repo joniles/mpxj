@@ -2964,7 +2964,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    private Character calculateDecimalSeparator()
    {
-      return DEFAULT_DECIMAL_SEPARATOR;
+      return Character.valueOf(DEFAULT_DECIMAL_SEPARATOR);
    }
 
    private Character calculateThousandsSeparator()
