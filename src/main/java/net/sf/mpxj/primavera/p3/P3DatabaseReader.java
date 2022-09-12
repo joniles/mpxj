@@ -74,6 +74,14 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       return setProjectNameAndRead(directory, null);
    }
 
+   /**
+    * Convenience method which locates the first P3 database in a directory
+    * and opens it.
+    *
+    * @param directory directory containing a P3 database
+    * @param properties optional properties to pass to reader's setProperties method
+    * @return ProjectFile instance
+    */
    public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);

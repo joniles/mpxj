@@ -79,6 +79,14 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       return setProjectNameAndRead(directory, null);
    }
 
+   /**
+    * Convenience method which locates the first SureTrak database in a directory
+    * and opens it.
+    *
+    * @param directory directory containing a SureTrak database
+    * @param properties optional properties to pass to reader's setProperties method
+    * @return ProjectFile instance
+    */
    public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);
