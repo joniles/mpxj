@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.10.0">
+			<action dev="joniles" type="update">Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Not ethe default is to disable this behavior so exosting functionality is unchanged. (Contributed by Christopher Johns)</action>
 			<action dev="joniles" type="update">Added the `get` method to `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` as a replacement for the `getCurrentValue` method. The new `get` method is paired with the existing `set` method to provide read and write access to attributes of these classes. This change is intended to improve the interfaces to these classes by making them more consistent, and thus easier to understand.</action>
 			<action dev="joniles" type="update">Deprecated the `getCurrentValue` method on the `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` classes. Use the new `get` method instead.</action>
 			<action dev="joniles" type="update">Add getter and setter methods for the Resource attributes Cost Center, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.</action>
