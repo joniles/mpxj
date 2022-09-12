@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Properties;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
@@ -39,6 +40,9 @@ import net.sf.mpxj.listener.ProjectListener;
  */
 public interface ProjectReader
 {
+
+   public ProjectReader setProperties(Properties props);
+
    /**
     * Add a listener to receive events as a project is being read.
     *

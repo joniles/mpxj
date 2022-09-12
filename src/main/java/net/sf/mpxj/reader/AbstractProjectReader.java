@@ -23,9 +23,11 @@
 
 package net.sf.mpxj.reader;
 
+import java.beans.Statement;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.listener.ProjectListener;
@@ -36,6 +38,50 @@ import net.sf.mpxj.listener.ProjectListener;
  */
 public abstract class AbstractProjectReader implements ProjectReader
 {
+   /**
+    * Pass a set of Properties to allow the behavior of a reader to be configured.
+    * This provides an alternative to calling individual setter methods to set
+    * the values of the properties you need to configure.
+    * <p>
+    * NOTE: currently this only supports Boolean properties.
+    * <p>
+    * Properties are passed in this form:
+    * {@code <class name>.<property name>=<property value>}. This method will ignore any properties
+    * which are not intended for the current reader class. Here's an example:
+    * <pre>
+    * net.sf.mpxj.phoenix.PhoenixReader.UseActivityCodesForTaskHierarchy=true
+    * </pre>
+    *
+    * @param props properties to set
+    * @return current ProjectReader instance to allow method chaining
+    */
+   public ProjectReader setProperties(Properties props)
+   {
+      if (props == null)
+      {
+         return this;
+      }
+
+      String className = getClass().getName() + ".";
+
+      props.entrySet().stream().filter(e -> ((String)e.getKey()).startsWith(className)).forEach(e -> {
+         String methodName = "set" + ((String)e.getKey()).substring(className.length());
+         Boolean propertyValue = Boolean.valueOf((String)e.getValue());
+
+         try
+         {
+            new Statement(this, methodName, new Object[]{propertyValue}).execute();
+         }
+
+         catch (Exception ex)
+         {
+            // Silently ignore failures attempting to set properties
+         }
+      });
+
+      return this;
+   }
+
    @Override public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
