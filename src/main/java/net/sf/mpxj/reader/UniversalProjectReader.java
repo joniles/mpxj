@@ -830,7 +830,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
    }
 
    private Properties m_properties;
-
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
