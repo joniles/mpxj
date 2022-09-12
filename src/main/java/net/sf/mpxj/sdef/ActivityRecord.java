@@ -25,9 +25,7 @@ package net.sf.mpxj.sdef;
 
 import java.util.UUID;
 
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 
 /**
  * SDEF Activity record.

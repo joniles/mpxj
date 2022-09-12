@@ -25,9 +25,13 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -90,7 +94,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getName()
    {
-      return ((String) getCachedValue(ResourceField.NAME));
+      return (String) get(ResourceField.NAME);
    }
 
    /**
@@ -110,7 +114,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public ResourceType getType()
    {
-      return ((ResourceType) getCachedValue(ResourceField.TYPE));
+      return (ResourceType) get(ResourceField.TYPE);
    }
 
    /**
@@ -130,7 +134,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getNull()
    {
-      return (m_null);
+      return m_null;
    }
 
    /**
@@ -150,7 +154,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getInitials()
    {
-      return ((String) getCachedValue(ResourceField.INITIALS));
+      return (String) get(ResourceField.INITIALS);
    }
 
    /**
@@ -170,7 +174,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getPhonetics()
    {
-      return ((String) getCachedValue(ResourceField.PHONETICS));
+      return (String) get(ResourceField.PHONETICS);
    }
 
    /**
@@ -190,7 +194,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getNtAccount()
    {
-      return (String) getCachedValue(ResourceField.WINDOWS_USER_ACCOUNT);
+      return (String) get(ResourceField.WINDOWS_USER_ACCOUNT);
    }
 
    /**
@@ -210,7 +214,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getMaterialLabel()
    {
-      return ((String) getCachedValue(ResourceField.MATERIAL_LABEL));
+      return (String) get(ResourceField.MATERIAL_LABEL);
    }
 
    /**
@@ -230,7 +234,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getCode()
    {
-      return ((String) getCachedValue(ResourceField.CODE));
+      return (String) get(ResourceField.CODE);
    }
 
    /**
@@ -250,7 +254,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getGroup()
    {
-      return ((String) getCachedValue(ResourceField.GROUP));
+      return (String) get(ResourceField.GROUP);
    }
 
    /**
@@ -270,7 +274,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public WorkGroup getWorkGroup()
    {
-      return ((WorkGroup) getCachedValue(ResourceField.WORKGROUP));
+      return (WorkGroup) get(ResourceField.WORKGROUP);
    }
 
    /**
@@ -290,7 +294,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getEmailAddress()
    {
-      return ((String) getCachedValue(ResourceField.EMAIL_ADDRESS));
+      return (String) get(ResourceField.EMAIL_ADDRESS);
    }
 
    /**
@@ -310,7 +314,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getHyperlink()
    {
-      return ((String) getCachedValue(ResourceField.HYPERLINK));
+      return (String) get(ResourceField.HYPERLINK);
    }
 
    /**
@@ -330,7 +334,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getHyperlinkAddress()
    {
-      return ((String) getCachedValue(ResourceField.HYPERLINK_ADDRESS));
+      return (String) get(ResourceField.HYPERLINK_ADDRESS);
    }
 
    /**
@@ -350,7 +354,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getHyperlinkSubAddress()
    {
-      return ((String) getCachedValue(ResourceField.HYPERLINK_SUBADDRESS));
+      return (String) get(ResourceField.HYPERLINK_SUBADDRESS);
    }
 
    /**
@@ -370,7 +374,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getHyperlinkScreenTip()
    {
-      return ((String) getCachedValue(ResourceField.HYPERLINK_SCREEN_TIP));
+      return (String) get(ResourceField.HYPERLINK_SCREEN_TIP);
    }
 
    /**
@@ -390,7 +394,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getMaxUnits()
    {
-      return ((Number) getCachedValue(ResourceField.MAX_UNITS));
+      return (Number) get(ResourceField.MAX_UNITS);
    }
 
    /**
@@ -410,7 +414,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPeakUnits()
    {
-      return ((Number) getCachedValue(ResourceField.PEAK));
+      return (Number) get(ResourceField.PEAK);
    }
 
    /**
@@ -430,15 +434,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getOverAllocated()
    {
-      Boolean overallocated = (Boolean) getCachedValue(ResourceField.OVERALLOCATED);
-      if (overallocated == null)
-      {
-         Number peakUnits = getPeakUnits();
-         Number maxUnits = getMaxUnits();
-         overallocated = Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
-         set(ResourceField.OVERALLOCATED, overallocated);
-      }
-      return (overallocated.booleanValue());
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.OVERALLOCATED));
    }
 
    /**
@@ -448,7 +444,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getAvailableFrom()
    {
-      return ((Date) getCachedValue(ResourceField.AVAILABLE_FROM));
+      return (Date) get(ResourceField.AVAILABLE_FROM);
    }
 
    /**
@@ -468,7 +464,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getAvailableTo()
    {
-      return ((Date) getCachedValue(ResourceField.AVAILABLE_TO));
+      return (Date) get(ResourceField.AVAILABLE_TO);
    }
 
    /**
@@ -536,7 +532,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getCanLevel()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.CAN_LEVEL)));
+      return (BooleanHelper.getBoolean((Boolean) get(ResourceField.CAN_LEVEL)));
    }
 
    /**
@@ -560,7 +556,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public AccrueType getAccrueAt()
    {
-      return ((AccrueType) getCachedValue(ResourceField.ACCRUE_AT));
+      return (AccrueType) get(ResourceField.ACCRUE_AT);
    }
 
    /**
@@ -580,7 +576,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getWork()
    {
-      return ((Duration) getCachedValue(ResourceField.WORK));
+      return (Duration) get(ResourceField.WORK);
    }
 
    /**
@@ -591,7 +587,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getRegularWork()
    {
-      return ((Duration) getCachedValue(ResourceField.REGULAR_WORK));
+      return (Duration) get(ResourceField.REGULAR_WORK);
    }
 
    /**
@@ -624,7 +620,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualWork()
    {
-      return ((Duration) getCachedValue(ResourceField.ACTUAL_WORK));
+      return (Duration) get(ResourceField.ACTUAL_WORK);
    }
 
    /**
@@ -644,7 +640,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getOvertimeWork()
    {
-      return ((Duration) getCachedValue(ResourceField.OVERTIME_WORK));
+      return (Duration) get(ResourceField.OVERTIME_WORK);
    }
 
    /**
@@ -664,7 +660,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getRemainingWork()
    {
-      return ((Duration) getCachedValue(ResourceField.REMAINING_WORK));
+      return (Duration) get(ResourceField.REMAINING_WORK);
    }
 
    /**
@@ -674,7 +670,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualOvertimeWork()
    {
-      return ((Duration) getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK));
+      return (Duration) get(ResourceField.ACTUAL_OVERTIME_WORK);
    }
 
    /**
@@ -694,7 +690,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getRemainingOvertimeWork()
    {
-      return ((Duration) getCachedValue(ResourceField.REMAINING_OVERTIME_WORK));
+      return (Duration) get(ResourceField.REMAINING_OVERTIME_WORK);
    }
 
    /**
@@ -724,7 +720,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPercentWorkComplete()
    {
-      return ((Number) getCachedValue(ResourceField.PERCENT_WORK_COMPLETE));
+      return (Number) get(ResourceField.PERCENT_WORK_COMPLETE);
    }
 
    /**
@@ -745,12 +741,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getStandardRate()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getStandardRate();
+      return (Rate) get(ResourceField.STANDARD_RATE);
    }
 
    /**
@@ -791,7 +782,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCost()
    {
-      return ((Number) getCachedValue(ResourceField.COST));
+      return (Number) get(ResourceField.COST);
    }
 
    /**
@@ -812,12 +803,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Rate getOvertimeRate()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getOvertimeRate();
+      return (Rate) get(ResourceField.OVERTIME_RATE);
    }
 
    /**
@@ -848,7 +834,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getOvertimeCost()
    {
-      return ((Number) getCachedValue(ResourceField.OVERTIME_COST));
+      return (Number) get(ResourceField.OVERTIME_COST);
    }
 
    /**
@@ -879,12 +865,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostPerUse()
    {
-      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getCostPerUse();
+      return (Number) get(ResourceField.COST_PER_USE);
    }
 
    /**
@@ -904,7 +885,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getActualCost()
    {
-      return ((Number) getCachedValue(ResourceField.ACTUAL_COST));
+      return (Number) get(ResourceField.ACTUAL_COST);
    }
 
    /**
@@ -914,7 +895,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getActualOvertimeCost()
    {
-      return ((Number) getCachedValue(ResourceField.ACTUAL_OVERTIME_COST));
+      return (Number) get(ResourceField.ACTUAL_OVERTIME_COST);
    }
 
    /**
@@ -944,7 +925,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getRemainingCost()
    {
-      return ((Number) getCachedValue(ResourceField.REMAINING_COST));
+      return (Number) get(ResourceField.REMAINING_COST);
    }
 
    /**
@@ -954,7 +935,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getRemainingOvertimeCost()
    {
-      return ((Number) getCachedValue(ResourceField.REMAINING_OVERTIME_COST));
+      return (Number) get(ResourceField.REMAINING_OVERTIME_COST);
    }
 
    /**
@@ -984,18 +965,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getWorkVariance()
    {
-      Duration variance = (Duration) getCachedValue(ResourceField.WORK_VARIANCE);
-      if (variance == null)
-      {
-         Duration work = getWork();
-         Duration baselineWork = getBaselineWork();
-         if (work != null && baselineWork != null)
-         {
-            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
-            set(ResourceField.WORK_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Duration) get(ResourceField.WORK_VARIANCE);
    }
 
    /**
@@ -1015,18 +985,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCostVariance()
    {
-      Number variance = (Number) getCachedValue(ResourceField.COST_VARIANCE);
-      if (variance == null)
-      {
-         Number cost = getCost();
-         Number baselineCost = getBaselineCost();
-         if (cost != null && baselineCost != null)
-         {
-            variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
-            set(ResourceField.COST_VARIANCE, variance);
-         }
-      }
-      return (variance);
+      return (Number) get(ResourceField.COST_VARIANCE);
    }
 
    /**
@@ -1046,18 +1005,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getSV()
    {
-      Number variance = (Number) getCachedValue(ResourceField.SV);
-      if (variance == null)
-      {
-         Number bcwp = getBCWP();
-         Number bcws = getBCWS();
-         if (bcwp != null && bcws != null)
-         {
-            variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
-            set(ResourceField.SV, variance);
-         }
-      }
-      return (variance);
+      return (Number) get(ResourceField.SV);
    }
 
    /**
@@ -1077,13 +1025,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCV()
    {
-      Number variance = (Number) getCachedValue(ResourceField.CV);
-      if (variance == null)
-      {
-         variance = Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
-         set(ResourceField.CV, variance);
-      }
-      return (variance);
+      return (Number) get(ResourceField.CV);
    }
 
    /**
@@ -1103,7 +1045,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getACWP()
    {
-      return ((Number) getCachedValue(ResourceField.ACWP));
+      return (Number) get(ResourceField.ACWP);
    }
 
    /**
@@ -1126,7 +1068,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getNotes()
    {
-      Object notes = getCachedValue(ResourceField.NOTES);
+      Object notes = get(ResourceField.NOTES);
       return notes == null ? "" : notes.toString();
    }
 
@@ -1148,7 +1090,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Notes getNotesObject()
    {
-      return (Notes) getCachedValue(ResourceField.NOTES);
+      return (Notes) get(ResourceField.NOTES);
    }
 
    /**
@@ -1168,7 +1110,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBCWS()
    {
-      return ((Number) getCachedValue(ResourceField.BCWS));
+      return (Number) get(ResourceField.BCWS);
    }
 
    /**
@@ -1188,7 +1130,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBCWP()
    {
-      return ((Number) getCachedValue(ResourceField.BCWP));
+      return (Number) get(ResourceField.BCWP);
    }
 
    /**
@@ -1208,7 +1150,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getGeneric()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.GENERIC));
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.GENERIC));
    }
 
    /**
@@ -1228,7 +1170,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getActive()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ACTIVE));
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.ACTIVE));
    }
 
    /**
@@ -1268,7 +1210,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualOvertimeWorkProtected()
    {
-      return (Duration) getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED);
+      return (Duration) get(ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED);
    }
 
    /**
@@ -1288,7 +1230,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getActualWorkProtected()
    {
-      return (Duration) getCachedValue(ResourceField.ACTUAL_WORK_PROTECTED);
+      return (Duration) get(ResourceField.ACTUAL_WORK_PROTECTED);
    }
 
    /**
@@ -1308,7 +1250,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public BookingType getBookingType()
    {
-      return (BookingType) getCachedValue(ResourceField.BOOKING_TYPE);
+      return (BookingType) get(ResourceField.BOOKING_TYPE);
    }
 
    /**
@@ -1328,7 +1270,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getCreationDate()
    {
-      return ((Date) getCachedValue(ResourceField.CREATED));
+      return (Date) get(ResourceField.CREATED);
    }
 
    /**
@@ -1348,7 +1290,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterprise()
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.ENTERPRISE));
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.ENTERPRISE));
    }
 
    /**
@@ -1358,7 +1300,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getCalendarUniqueID()
    {
-      return (Integer) getCachedValue(ResourceField.CALENDAR_UNIQUE_ID);
+      return (Integer) get(ResourceField.CALENDAR_UNIQUE_ID);
    }
 
    /**
@@ -1572,7 +1514,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getText(int index)
    {
-      return (String) getCachedValue(selectField(ResourceFieldLists.CUSTOM_TEXT, index));
+      return (String) get(selectField(ResourceFieldLists.CUSTOM_TEXT, index));
    }
 
    /**
@@ -1603,7 +1545,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getBaseCalendar()
    {
-      return (String) getCachedValue(ResourceField.BASE_CALENDAR);
+      return (String) get(ResourceField.BASE_CALENDAR);
    }
 
    /**
@@ -1615,7 +1557,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBaselineCost()
    {
-      return ((Number) getCachedValue(ResourceField.BASELINE_COST));
+      return (Number) get(ResourceField.BASELINE_COST);
    }
 
    /**
@@ -1625,7 +1567,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBaselineWork()
    {
-      return ((Duration) getCachedValue(ResourceField.BASELINE_WORK));
+      return (Duration) get(ResourceField.BASELINE_WORK);
    }
 
    /**
@@ -1635,7 +1577,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Override public Integer getID()
    {
-      return ((Integer) getCachedValue(ResourceField.ID));
+      return (Integer) get(ResourceField.ID);
    }
 
    /**
@@ -1645,7 +1587,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getLinkedFields()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.LINKED_FIELDS)));
+      return (BooleanHelper.getBoolean((Boolean) get(ResourceField.LINKED_FIELDS)));
    }
 
    /**
@@ -1655,7 +1597,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getObjects()
    {
-      return ((Integer) getCachedValue(ResourceField.OBJECTS));
+      return (Integer) get(ResourceField.OBJECTS);
    }
 
    /**
@@ -1665,7 +1607,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Override public Integer getUniqueID()
    {
-      return ((Integer) getCachedValue(ResourceField.UNIQUE_ID));
+      return (Integer) get(ResourceField.UNIQUE_ID);
    }
 
    /**
@@ -1675,7 +1617,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getParentID()
    {
-      return (Integer) getCachedValue(ResourceField.PARENT_ID);
+      return (Integer) get(ResourceField.PARENT_ID);
    }
 
    /**
@@ -1697,7 +1639,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getStart(int index)
    {
-      return (Date) getCachedValue(selectField(ResourceFieldLists.CUSTOM_START, index));
+      return (Date) get(selectField(ResourceFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -1719,7 +1661,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getFinish(int index)
    {
-      return (Date) getCachedValue(selectField(ResourceFieldLists.CUSTOM_FINISH, index));
+      return (Date) get(selectField(ResourceFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -1741,7 +1683,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getNumber(int index)
    {
-      return (Number) getCachedValue(selectField(ResourceFieldLists.CUSTOM_NUMBER, index));
+      return (Number) get(selectField(ResourceFieldLists.CUSTOM_NUMBER, index));
    }
 
    /**
@@ -1763,7 +1705,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getDuration(int index)
    {
-      return (Duration) getCachedValue(selectField(ResourceFieldLists.CUSTOM_DURATION, index));
+      return (Duration) get(selectField(ResourceFieldLists.CUSTOM_DURATION, index));
    }
 
    /**
@@ -1785,7 +1727,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getDate(int index)
    {
-      return (Date) getCachedValue(selectField(ResourceFieldLists.CUSTOM_DATE, index));
+      return (Date) get(selectField(ResourceFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -1807,7 +1749,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getCost(int index)
    {
-      return (Number) getCachedValue(selectField(ResourceFieldLists.CUSTOM_COST, index));
+      return (Number) get(selectField(ResourceFieldLists.CUSTOM_COST, index));
    }
 
    /**
@@ -1829,7 +1771,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ResourceFieldLists.CUSTOM_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1851,7 +1793,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getOutlineCode(int index)
    {
-      return (String) getCachedValue(selectField(ResourceFieldLists.CUSTOM_OUTLINE_CODE, index));
+      return (String) get(selectField(ResourceFieldLists.CUSTOM_OUTLINE_CODE, index));
    }
 
    /**
@@ -1873,7 +1815,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode1()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE1));
+      return (String) get(ResourceField.OUTLINE_CODE1);
    }
 
    /**
@@ -1895,7 +1837,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode2()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE2));
+      return (String) get(ResourceField.OUTLINE_CODE2);
    }
 
    /**
@@ -1917,7 +1859,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode3()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE3));
+      return (String) get(ResourceField.OUTLINE_CODE3);
    }
 
    /**
@@ -1939,7 +1881,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode4()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE4));
+      return (String) get(ResourceField.OUTLINE_CODE4);
    }
 
    /**
@@ -1961,7 +1903,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode5()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE5));
+      return (String) get(ResourceField.OUTLINE_CODE5);
    }
 
    /**
@@ -1983,7 +1925,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode6()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE6));
+      return (String) get(ResourceField.OUTLINE_CODE6);
    }
 
    /**
@@ -2005,7 +1947,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode7()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE7));
+      return (String) get(ResourceField.OUTLINE_CODE7);
    }
 
    /**
@@ -2027,7 +1969,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode8()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE8));
+      return (String) get(ResourceField.OUTLINE_CODE8);
    }
 
    /**
@@ -2049,7 +1991,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode9()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE9));
+      return (String) get(ResourceField.OUTLINE_CODE9);
    }
 
    /**
@@ -2071,7 +2013,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    @Deprecated public String getOutlineCode10()
    {
-      return ((String) getCachedValue(ResourceField.OUTLINE_CODE10));
+      return (String) get(ResourceField.OUTLINE_CODE10);
    }
 
    /**
@@ -2090,7 +2032,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getFieldByAlias(String alias)
    {
-      return (getCachedValue(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias)));
+      return get(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias));
    }
 
    /**
@@ -2152,7 +2094,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getSubprojectResourceUniqueID()
    {
-      return ((Integer) getCachedValue(ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID));
+      return (Integer) get(ResourceField.SUBPROJECT_RESOURCE_UNIQUE_ID);
    }
 
    /**
@@ -2173,7 +2115,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseCost(int index)
    {
-      return ((Number) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_COST, index)));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_COST, index));
    }
 
    /**
@@ -2195,7 +2137,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getEnterpriseDate(int index)
    {
-      return ((Date) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_DATE, index)));
+      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_DATE, index));
    }
 
    /**
@@ -2217,7 +2159,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return ((Duration) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index)));
+      return (Duration) get(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index));
    }
 
    /**
@@ -2239,7 +2181,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index))));
    }
 
    /**
@@ -2261,7 +2203,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseNumber(int index)
    {
-      return ((Number) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index)));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index));
    }
 
    /**
@@ -2283,7 +2225,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getEnterpriseText(int index)
    {
-      return ((String) getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index)));
+      return (String) get(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index));
    }
 
    /**
@@ -2305,7 +2247,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getEnterpriseCustomField(int index)
    {
-      return getCachedValue(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
+      return get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
    }
 
    /**
@@ -2349,7 +2291,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBaselineCost(int baselineNumber)
    {
-      return ((Number) getCachedValue(selectField(ResourceFieldLists.BASELINE_COSTS, baselineNumber)));
+      return (Number) get(selectField(ResourceFieldLists.BASELINE_COSTS, baselineNumber));
    }
 
    /**
@@ -2360,7 +2302,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBaselineWork(int baselineNumber)
    {
-      return ((Duration) getCachedValue(selectField(ResourceFieldLists.BASELINE_WORKS, baselineNumber)));
+      return (Duration) get(selectField(ResourceFieldLists.BASELINE_WORKS, baselineNumber));
    }
 
    /**
@@ -2370,7 +2312,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getBudget()
    {
-      return (BooleanHelper.getBoolean((Boolean) getCachedValue(ResourceField.BUDGET)));
+      return (BooleanHelper.getBoolean((Boolean) get(ResourceField.BUDGET)));
    }
 
    /**
@@ -2390,7 +2332,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public UUID getGUID()
    {
-      return (UUID) getCachedValue(ResourceField.GUID);
+      return (UUID) get(ResourceField.GUID);
    }
 
    /**
@@ -2410,7 +2352,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getUnit()
    {
-      return (String) getCachedValue(ResourceField.UNIT);
+      return (String) get(ResourceField.UNIT);
    }
 
    /**
@@ -2430,7 +2372,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getSupplyReference()
    {
-      return (String) getCachedValue(ResourceField.SUPPLY_REFERENCE);
+      return (String) get(ResourceField.SUPPLY_REFERENCE);
    }
 
    /**
@@ -2450,7 +2392,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getDescription()
    {
-      return (String) getCachedValue(ResourceField.DESCRIPTION);
+      return (String) get(ResourceField.DESCRIPTION);
    }
 
    /**
@@ -2470,7 +2412,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getResourceID()
    {
-      return (String) getCachedValue(ResourceField.RESOURCE_ID);
+      return (String) get(ResourceField.RESOURCE_ID);
    }
 
    /**
@@ -2490,7 +2432,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Boolean getModifyOnIntegrate()
    {
-      return (Boolean) getCachedValue(ResourceField.MODIFY_ON_INTEGRATE);
+      return (Boolean) get(ResourceField.MODIFY_ON_INTEGRATE);
    }
 
    /**
@@ -2510,7 +2452,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Boolean getExpensesOnly()
    {
-      return (Boolean) getCachedValue(ResourceField.EXPENSES_ONLY);
+      return (Boolean) get(ResourceField.EXPENSES_ONLY);
    }
 
    /**
@@ -2530,7 +2472,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPeriodDur()
    {
-      return (Number) getCachedValue(ResourceField.PERIOD_DUR);
+      return (Number) get(ResourceField.PERIOD_DUR);
    }
 
    /**
@@ -2550,7 +2492,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPriority()
    {
-      return (Number) getCachedValue(ResourceField.PRIORITY);
+      return (Number) get(ResourceField.PRIORITY);
    }
 
    /**
@@ -2570,7 +2512,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getRate()
    {
-      return (Number) getCachedValue(ResourceField.RATE);
+      return (Number) get(ResourceField.RATE);
    }
 
    /**
@@ -2590,7 +2532,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPool()
    {
-      return (Number) getCachedValue(ResourceField.POOL);
+      return (Number) get(ResourceField.POOL);
    }
 
    /**
@@ -2610,7 +2552,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getPerDay()
    {
-      return (Number) getCachedValue(ResourceField.PER_DAY);
+      return (Number) get(ResourceField.PER_DAY);
    }
 
    /**
@@ -2630,7 +2572,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getPhone()
    {
-      return (String) getCachedValue(ResourceField.PHONE);
+      return (String) get(ResourceField.PHONE);
    }
 
    /**
@@ -2651,7 +2593,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Boolean getRole()
    {
-      return (Boolean) getCachedValue(ResourceField.ROLE);
+      return (Boolean) get(ResourceField.ROLE);
    }
 
    /**
@@ -2720,7 +2662,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBudgetCost()
    {
-      return (Number) getCurrentValue(ResourceField.BUDGET_COST);
+      return (Number) get(ResourceField.BUDGET_COST);
    }
 
    /**
@@ -2740,7 +2682,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBudgetWork()
    {
-      return (Duration) getCurrentValue(ResourceField.BUDGET_WORK);
+      return (Duration) get(ResourceField.BUDGET_WORK);
    }
 
    /**
@@ -2760,7 +2702,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBaselineBudgetCost()
    {
-      return (Number) getCurrentValue(ResourceField.BASELINE_BUDGET_COST);
+      return (Number) get(ResourceField.BASELINE_BUDGET_COST);
    }
 
    /**
@@ -2780,7 +2722,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBaselineBudgetWork()
    {
-      return (Duration) getCurrentValue(ResourceField.BASELINE_BUDGET_WORK);
+      return (Duration) get(ResourceField.BASELINE_BUDGET_WORK);
    }
 
    /**
@@ -2801,7 +2743,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getBaselineBudgetCost(int baselineNumber)
    {
-      return (Number) getCurrentValue(selectField(ResourceFieldLists.BASELINE_BUDGET_COSTS, baselineNumber));
+      return (Number) get(selectField(ResourceFieldLists.BASELINE_BUDGET_COSTS, baselineNumber));
    }
 
    /**
@@ -2823,7 +2765,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getBaselineBudgetWork(int baselineNumber)
    {
-      return (Duration) getCurrentValue(selectField(ResourceFieldLists.BASELINE_BUDGET_WORKS, baselineNumber));
+      return (Duration) get(selectField(ResourceFieldLists.BASELINE_BUDGET_WORKS, baselineNumber));
    }
 
    /**
@@ -2844,7 +2786,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getCostCenter()
    {
-      return (String) getCurrentValue(ResourceField.COST_CENTER);
+      return (String) get(ResourceField.COST_CENTER);
    }
 
    /**
@@ -2878,73 +2820,57 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (field == null ? null : m_array[field.getValue()]);
    }
 
-   @Override public Object getCurrentValue(FieldType field)
+   @Deprecated @Override public Object getCurrentValue(FieldType field)
    {
-      Object result = null;
+      return get(field);
+   }
 
-      if (field != null)
+   @Override public Object get(FieldType field)
+   {
+      if (field == null)
       {
-         ResourceField resourceField = (ResourceField) field;
+         return null;
+      }
 
-         switch (resourceField)
+      // Always calculated
+      switch((ResourceField)field)
+      {
+         case STANDARD_RATE:
          {
-            case COST_VARIANCE:
-            {
-               result = getCostVariance();
-               break;
-            }
+            return calculateStandardRate();
+         }
 
-            case WORK_VARIANCE:
-            {
-               result = getWorkVariance();
-               break;
-            }
+         case OVERTIME_RATE:
+         {
+            return calculateOvertimeRate();
+         }
 
-            case CV:
-            {
-               result = getCV();
-               break;
-            }
+         case COST_PER_USE:
+         {
+            return calculateCostPerUse();
+         }
+         
+         default:
+         {
+            break;            
+         }
+      }
 
-            case SV:
+      Object result = m_array[field.getValue()];
+      if (result == null)
+      {
+         Function<Resource, Object> f = CALCULATED_FIELD_MAP.get(field);
+         if (f != null)
+         {
+            result = f.apply(this);
+            if (result != null)
             {
-               result = getSV();
-               break;
-            }
-
-            case OVERALLOCATED:
-            {
-               result = Boolean.valueOf(getOverAllocated());
-               break;
-            }
-
-            case STANDARD_RATE:
-            {
-               result = getStandardRate();
-               break;
-            }
-
-            case OVERTIME_RATE:
-            {
-               result = getOvertimeRate();
-               break;
-            }
-
-            case COST_PER_USE:
-            {
-               result = getCostPerUse();
-               break;
-            }
-
-            default:
-            {
-               result = m_array[field.getValue()];
-               break;
+               set(field, result);
             }
          }
       }
 
-      return (result);
+      return result;
    }
 
    @Override public void set(FieldType field, Object value)
@@ -2954,92 +2880,51 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          int index = field.getValue();
          if (m_eventsEnabled)
          {
-            fireFieldChangeEvent((ResourceField) field, m_array[index], value);
+            invalidateCache(field, value);
+            fireFieldChangeEvent(field, m_array[index], value);
          }
          m_array[index] = value;
       }
    }
 
    /**
-    * Handle the change in a field value. Reset any cached calculated
-    * values affected by this change, pass on the event to any external
-    * listeners.
+    * Clear any cached calculated values which will be affected by this change.
+    *
+    * @param field modified field
+    * @param newValue new value
+    */
+   private void invalidateCache(FieldType field, Object newValue)
+   {
+      if (field == ResourceField.UNIQUE_ID)
+      {
+         getParentFile().getResources().clearUniqueIDMap();
+
+         if (!m_assignments.isEmpty())
+         {
+            for (ResourceAssignment assignment : m_assignments)
+            {
+               assignment.setResourceUniqueID((Integer) newValue);
+            }
+         }
+
+         return;
+      }
+
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+   }
+
+   /**
+    * Send a change event to any external listeners.
     *
     * @param field field changed
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(ResourceField field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
    {
-      //
-      // Internal event handling
-      //
-      switch (field)
-      {
-         case UNIQUE_ID:
-         {
-            getParentFile().getResources().clearUniqueIDMap();
-
-            if (!m_assignments.isEmpty())
-            {
-               for (ResourceAssignment assignment : m_assignments)
-               {
-                  assignment.setResourceUniqueID((Integer) newValue);
-               }
-            }
-            break;
-         }
-
-         case COST:
-         case BASELINE_COST:
-         {
-            m_array[ResourceField.COST_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case WORK:
-         case BASELINE_WORK:
-         {
-            m_array[ResourceField.WORK_VARIANCE.getValue()] = null;
-            break;
-         }
-
-         case BCWP:
-         case ACWP:
-         {
-            m_array[ResourceField.CV.getValue()] = null;
-            m_array[ResourceField.SV.getValue()] = null;
-            break;
-         }
-
-         case BCWS:
-         {
-            m_array[ResourceField.SV.getValue()] = null;
-            break;
-         }
-
-         case PEAK:
-         case MAX_UNITS:
-         {
-            m_array[ResourceField.OVERALLOCATED.getValue()] = null;
-            break;
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-
-      //
-      // External event handling
-      //
       if (m_listeners != null)
       {
-         for (FieldListener listener : m_listeners)
-         {
-            listener.fieldChange(this, field, oldValue, newValue);
-         }
+         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
       }
    }
 
@@ -3069,6 +2954,84 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private void set(FieldType field, boolean value)
    {
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   private Double calculateCostVariance()
+   {
+      Double variance = null;
+      Number cost = getCost();
+      Number baselineCost = getBaselineCost();
+      if (cost != null && baselineCost != null)
+      {
+         variance = NumberHelper.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+      }
+      return variance;
+   }
+
+   private Duration calculateWorkVariance()
+   {
+      Duration variance = null;
+      Duration work = getWork();
+      Duration baselineWork = getBaselineWork();
+      if (work != null && baselineWork != null)
+      {
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+      }
+      return variance;
+   }
+
+   private Double calculateCV()
+   {
+      return Double.valueOf(NumberHelper.getDouble(getBCWP()) - NumberHelper.getDouble(getACWP()));
+   }
+
+   private Boolean calculateOverallocated()
+   {
+      Number peakUnits = getPeakUnits();
+      Number maxUnits = getMaxUnits();
+      return Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
+   }
+
+   private Double calculateSV()
+   {
+      Double variance = null;
+      Number bcwp = getBCWP();
+      Number bcws = getBCWS();
+      if (bcwp != null && bcws != null)
+      {
+         variance = NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+      }
+      return variance;
+   }
+
+   private Rate calculateStandardRate()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getStandardRate();
+   }
+
+   private Rate calculateOvertimeRate()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getOvertimeRate();
+   }
+
+   private Number calculateCostPerUse()
+   {
+      CostRateTableEntry entry = getCurrentCostRateTableEntry(0);
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getCostPerUse();
    }
 
    /**
@@ -3142,4 +3105,24 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
+
+   private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
+   static
+   {
+      CALCULATED_FIELD_MAP.put(ResourceField.COST_VARIANCE, Resource::calculateCostVariance);
+      CALCULATED_FIELD_MAP.put(ResourceField.WORK_VARIANCE, Resource::calculateWorkVariance);
+      CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
+      CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
+      CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+   }
+
+   private static final Map<ResourceField, List<ResourceField>> DEPENDENCY_MAP = new HashMap<>();
+   static
+   {
+      FieldContainerDependencies<ResourceField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      dependencies.calculatedField(ResourceField.COST_VARIANCE).dependsOn(ResourceField.COST, ResourceField.BASELINE_COST);
+      dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
+      dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);
+      dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
+   }
 }
