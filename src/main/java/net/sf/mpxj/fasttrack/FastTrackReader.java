@@ -407,7 +407,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
          task.setCost(9, row.getCurrency(ActBarField.COST_9));
          task.setCost(10, row.getCurrency(ActBarField.COST_10));
          // Created
-         task.setCritical(row.getBoolean(ActBarField.CRITICAL));
          task.setDate(1, row.getDate(ActBarField.DATE_1));
          task.setDate(2, row.getDate(ActBarField.DATE_2));
          task.setDate(3, row.getDate(ActBarField.DATE_3));
@@ -510,6 +509,11 @@ public final class FastTrackReader extends AbstractProjectFileReader
          task.setFinishSlack(row.getDuration(ActBarField.FINISH_FLOAT));
          task.setFreeSlack(row.getDuration(ActBarField.FREE_FLOAT));
          task.setTotalSlack(row.getDuration(ActBarField.TOTAL_FLOAT));
+
+         // The value in this field does not appear to be accurate.
+         // Allowing the critical flag to be calculated produces
+         // results which match FastTrack.
+         //task.setCritical(row.getBoolean(ActBarField.CRITICAL));
       }
 
       m_project.updateStructure();
@@ -712,6 +716,8 @@ public final class FastTrackReader extends AbstractProjectFileReader
             parentTask.setDuration(m_project.getDefaultCalendar().getWork(parentTask.getStart(), parentTask.getFinish(), TimeUnit.HOURS));
          }
 
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }

@@ -905,7 +905,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
       mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualOvertimeWork()));
       mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualOvertimeWorkProtected()));
-      mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWork()));
       mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
       mpx.setAvailableFrom(xml.getAvailableFrom());
@@ -920,6 +919,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setCanLevel(BooleanHelper.getBoolean(xml.isCanLevel()));
       mpx.setCode(xml.getCode());
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
+      mpx.setCostCenter(xml.getCostCenter());
       mpx.setCostVariance(DatatypeConverter.parseCurrency(xml.getCostVariance()));
       mpx.setCreationDate(xml.getCreationDate());
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
@@ -948,12 +948,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getOvertimeWork()));
       mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
-      mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
       mpx.setPhonetics(xml.getPhonetics());
       mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRegularWork()));
       mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
       mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingWork()));
       mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingOvertimeWork()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
@@ -966,6 +964,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          mpx.setType(ResourceType.COST);
       }
+
+      mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWork()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getRemainingWork()));
+      mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
 
       readResourceExtendedAttributes(xml, mpx);
       readResourceOutlineCodes(xml, mpx);
@@ -1913,7 +1915,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualOvertimeWork()));
             //assignment.getActualOvertimeWorkProtected()
             mpx.setActualStart(assignment.getActualStart());
-            mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
             //assignment.getActualWorkProtected()
             mpx.setACWP(DatatypeConverter.parseCurrency(assignment.getACWP()));
             mpx.setBCWP(DatatypeConverter.parseCurrency(assignment.getBCWP()));
@@ -1936,14 +1937,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setNotes(assignment.getNotes());
             mpx.setOvertimeCost(DatatypeConverter.parseCurrency(assignment.getOvertimeCost()));
             mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getOvertimeWork()));
-            mpx.setPercentageWorkComplete(assignment.getPercentWorkComplete());
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
             mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRegularWork()));
             mpx.setRemainingCost(DatatypeConverter.parseCurrency(assignment.getRemainingCost()));
             mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
             mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
-            mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
             mpx.setResume(assignment.getResume());
             mpx.setStart(assignment.getStart());
             mpx.setStop(assignment.getStop());
@@ -1962,6 +1961,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             readAssignmentBaselines(assignment, mpx);
 
             // Read last to ensure caching works as expected
+            mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
+            mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
+            mpx.setPercentageWorkComplete(assignment.getPercentWorkComplete());
+
             mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
             mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getWorkVariance(), TimeUnit.HOURS));
             mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));

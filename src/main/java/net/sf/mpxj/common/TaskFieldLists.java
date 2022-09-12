@@ -745,6 +745,34 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FIXED_COST_ACCRUAL
    };
 
+   public static final TaskField[] BASELINE_BUDGET_COSTS =
+   {
+      TaskField.BASELINE1_BUDGET_COST,
+      TaskField.BASELINE2_BUDGET_COST,
+      TaskField.BASELINE3_BUDGET_COST,
+      TaskField.BASELINE4_BUDGET_COST,
+      TaskField.BASELINE5_BUDGET_COST,
+      TaskField.BASELINE6_BUDGET_COST,
+      TaskField.BASELINE7_BUDGET_COST,
+      TaskField.BASELINE8_BUDGET_COST,
+      TaskField.BASELINE9_BUDGET_COST,
+      TaskField.BASELINE10_BUDGET_COST
+   };
+
+   public static final TaskField[] BASELINE_BUDGET_WORKS =
+   {
+      TaskField.BASELINE1_BUDGET_WORK,
+      TaskField.BASELINE2_BUDGET_WORK,
+      TaskField.BASELINE3_BUDGET_WORK,
+      TaskField.BASELINE4_BUDGET_WORK,
+      TaskField.BASELINE5_BUDGET_WORK,
+      TaskField.BASELINE6_BUDGET_WORK,
+      TaskField.BASELINE7_BUDGET_WORK,
+      TaskField.BASELINE8_BUDGET_WORK,
+      TaskField.BASELINE9_BUDGET_WORK,
+      TaskField.BASELINE10_BUDGET_WORK
+   };
+
    public static final TaskField[] EXTENDED_FIELDS;
    static
    {

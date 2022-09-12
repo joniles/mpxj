@@ -25,9 +25,7 @@ package net.sf.mpxj.sdef;
 
 import java.util.UUID;
 
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 
 /**
  * SDEF Activity record.
@@ -60,12 +58,6 @@ class ActivityRecord extends AbstractSDEFRecord
       task.setFeatureOfWork(getString(14));
       task.setGUID(UUID.nameUUIDFromBytes(activityID.getBytes()));
       task.setMilestone(task.getDuration() != null && task.getDuration().getDuration() == 0);
-
-      // We don't have early/late start/finish yet, so default these
-      // attributes here to avoid trying to calculate them.
-      task.setStartSlack(Duration.getInstance(0, TimeUnit.DAYS));
-      task.setFinishSlack(Duration.getInstance(0, TimeUnit.DAYS));
-      task.setCritical(false);
 
       context.getEventManager().fireTaskReadEvent(task);
    }

@@ -649,7 +649,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       for (FieldType field : fields)
       {
-         Object value = container.getCurrentValue(field);
+         Object value = container.get(field);
          if (value != null)
          {
             writeField(container, field, value);

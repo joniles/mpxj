@@ -574,11 +574,6 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
          }
       }
 
-      // Force calculation to avoid later issues
-      task.getStartSlack();
-      task.getFinishSlack();
-      task.getCritical();
-
       m_activityMap.put(activity.getId(), task);
    }
 
@@ -896,11 +891,9 @@ public final class Phoenix5Reader extends AbstractProjectStreamReader
             parentTask.setDuration(duration);
          }
 
-         // Force calculation here to avoid later issues
-         parentTask.getStartSlack();
-         parentTask.getFinishSlack();
+         // Force total slack calculation to avoid overwriting the critical flag
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
-
       }
    }
 
