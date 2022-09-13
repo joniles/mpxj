@@ -85,7 +85,7 @@ module MPXJ
     #
     # @return Assignment value
     def assignment
-      attribute_values['assignment']
+      get_boolean_value(attribute_values['assignment'])
     end
 
     # Retrieve the Assignment Delay value
@@ -1079,7 +1079,7 @@ module MPXJ
     #
     # @return Enterprise Base Calendar value
     def enterprise_base_calendar
-      attribute_values['enterprise_base_calendar']
+      get_boolean_value(attribute_values['enterprise_base_calendar'])
     end
 
     # Retrieve the Enterprise Checked Out By value
@@ -4216,7 +4216,7 @@ module MPXJ
       'actual_work' => :work,
       'actual_work_protected' => :work,
       'acwp' => :currency,
-      'assignment' => :string,
+      'assignment' => :boolean,
       'assignment_delay' => :string,
       'assignment_owner' => :string,
       'assignment_units' => :string,
@@ -4358,7 +4358,7 @@ module MPXJ
       'email_address' => :string,
       'engagement_status' => :string,
       'enterprise' => :boolean,
-      'enterprise_base_calendar' => :string,
+      'enterprise_base_calendar' => :boolean,
       'enterprise_checked_out_by' => :string,
       'enterprise_cost1' => :currency,
       'enterprise_cost10' => :currency,
