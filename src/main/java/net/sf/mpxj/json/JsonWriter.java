@@ -1343,7 +1343,6 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
-
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;

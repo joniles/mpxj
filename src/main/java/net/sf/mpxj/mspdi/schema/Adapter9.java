@@ -13,14 +13,12 @@ import net.sf.mpxj.AccrueType;
 public class Adapter9 extends XmlAdapter<String, AccrueType>
 {
 
-   @Override
-   public AccrueType unmarshal(String value)
+   @Override public AccrueType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
    }
 
-   @Override
-   public String marshal(AccrueType value)
+   @Override public String marshal(AccrueType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
    }

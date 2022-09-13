@@ -59,7 +59,7 @@ public final class PhoenixReader extends AbstractProjectStreamReader
 
    /**
     * Sets a flag indicating if the Activity Codes should be used
-    * to form parent/child Task hierarchy
+    * to form parent/child Task hierarchy.
     *
     * @param useActivityCodesForTaskHierarchy true if task hierarchy should be formed
     */

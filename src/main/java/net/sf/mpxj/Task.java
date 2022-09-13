@@ -5450,7 +5450,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**
@@ -5679,7 +5679,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return null;
       }
 
-
       Duration startSlack = getStartSlack();
       Duration finishSlack = getFinishSlack();
 
@@ -5743,7 +5742,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       return totalSlack;
    }
-
 
    private Boolean calculateCritical()
    {

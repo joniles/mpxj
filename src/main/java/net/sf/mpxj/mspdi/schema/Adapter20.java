@@ -13,14 +13,12 @@ import net.sf.mpxj.BookingType;
 public class Adapter20 extends XmlAdapter<String, BookingType>
 {
 
-   @Override
-   public BookingType unmarshal(String value)
+   @Override public BookingType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseBookingType(value));
    }
 
-   @Override
-   public String marshal(BookingType value)
+   @Override public String marshal(BookingType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printBookingType(value));
    }

@@ -370,7 +370,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getDateSeparator()
    {
-      return ((Character)get(ProjectField.DATE_SEPARATOR)).charValue();
+      return ((Character) get(ProjectField.DATE_SEPARATOR)).charValue();
    }
 
    /**
@@ -390,7 +390,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getTimeSeparator()
    {
-      return ((Character)get(ProjectField.TIME_SEPARATOR)).charValue();
+      return ((Character) get(ProjectField.TIME_SEPARATOR)).charValue();
    }
 
    /**
@@ -1204,7 +1204,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getThousandsSeparator()
    {
-      return ((Character)get(ProjectField.THOUSANDS_SEPARATOR)).charValue();
+      return ((Character) get(ProjectField.THOUSANDS_SEPARATOR)).charValue();
    }
 
    /**
@@ -1228,7 +1228,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getDecimalSeparator()
    {
-      return ((Character)get(ProjectField.DECIMAL_SEPARATOR)).charValue();
+      return ((Character) get(ProjectField.DECIMAL_SEPARATOR)).charValue();
    }
 
    /**
@@ -2456,7 +2456,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public char getMpxDelimiter()
    {
-      return ((Character)get(ProjectField.MPX_DELIMITER)).charValue();
+      return ((Character) get(ProjectField.MPX_DELIMITER)).charValue();
    }
 
    /**

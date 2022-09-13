@@ -2827,13 +2827,13 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object get(FieldType field)
    {
-      if (field == null)
+      if (field == null || !(field instanceof ResourceField))
       {
          return null;
       }
 
       // Always calculated
-      switch((ResourceField)field)
+      switch ((ResourceField) field)
       {
          case STANDARD_RATE:
          {
@@ -2849,10 +2849,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          {
             return calculateCostPerUse();
          }
-         
+
          default:
          {
-            break;            
+            break;
          }
       }
 
@@ -2910,7 +2910,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**

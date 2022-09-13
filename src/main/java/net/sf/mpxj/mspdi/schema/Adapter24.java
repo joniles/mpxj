@@ -13,14 +13,12 @@ import net.sf.mpxj.TaskType;
 public class Adapter24 extends XmlAdapter<String, TaskType>
 {
 
-   @Override
-   public TaskType unmarshal(String value)
+   @Override public TaskType unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
    }
 
-   @Override
-   public String marshal(TaskType value)
+   @Override public String marshal(TaskType value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
    }

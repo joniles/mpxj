@@ -222,16 +222,17 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     * This method extracts data for an Activity Code from a Phoenix file.
     *
     * @param code Activity Code
+    * @param activityCodeSequence sequence number for this activity code
     */
    private void readActivityCode(Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = new ActivityCode(++m_activityCodeUniqueID, ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName() );
+      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName());
 
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
       int activityCodeValueSequence = 0;
       for (Value typeValue : code.getValue())
       {
-         ActivityCodeValue activityCodeValue = activityCode.addValue(++m_activityCodeValueUniqueID, Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
+         ActivityCodeValue activityCodeValue = activityCode.addValue(Integer.valueOf(++m_activityCodeValueUniqueID), Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
 
          String name = typeValue.getName();
          UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
@@ -578,20 +579,19 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    /**
-    * This method adds the activity code assignments to the task
+    * This method adds the activity code assignments to the task.
     *
+    * @param task target task
+    * @param codeAssignments activity codes to assign
     */
    private void populateActivityCodes(Task task, Map<UUID, UUID> codeAssignments)
    {
-      if (!codeAssignments.isEmpty())
+      for (UUID valueUUID : codeAssignments.values())
       {
-         for (UUID valueUUID : codeAssignments.values())
+         ActivityCodeValue value = m_activityCodeValues.get(valueUUID);
+         if (value != null)
          {
-            ActivityCodeValue value = m_activityCodeValues.get(valueUUID);
-            if (value != null)
-            {
-               task.addActivityCode(value);
-            }
+            task.addActivityCode(value);
          }
       }
    }

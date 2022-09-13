@@ -47,13 +47,16 @@ public abstract class AbstractProjectReader implements ProjectReader
 
       String className = getClass().getName() + ".";
 
-      props.entrySet().stream().filter(e -> ((String)e.getKey()).startsWith(className)).forEach(e -> {
-         String methodName = "set" + ((String)e.getKey()).substring(className.length());
-         Boolean propertyValue = Boolean.valueOf((String)e.getValue());
+      props.entrySet().stream().filter(e -> ((String) e.getKey()).startsWith(className)).forEach(e -> {
+         String methodName = "set" + ((String) e.getKey()).substring(className.length());
+         Boolean propertyValue = Boolean.valueOf((String) e.getValue());
 
          try
          {
-            new Statement(this, methodName, new Object[]{propertyValue}).execute();
+            new Statement(this, methodName, new Object[]
+            {
+               propertyValue
+            }).execute();
          }
 
          catch (Exception ex)

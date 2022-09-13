@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter2 extends XmlAdapter<String, BigDecimal>
 {
 
-   @Override
-   public BigDecimal unmarshal(String value)
+   @Override public BigDecimal unmarshal(String value)
    {
       return (javax.xml.bind.DatatypeConverter.parseDecimal(value));
    }
 
-   @Override
-   public String marshal(BigDecimal value)
+   @Override public String marshal(BigDecimal value)
    {
       if (value == null)
       {

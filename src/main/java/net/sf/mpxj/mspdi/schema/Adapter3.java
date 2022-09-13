@@ -12,14 +12,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter3 extends XmlAdapter<String, String>
 {
 
-   @Override
-   public String unmarshal(String value)
+   @Override public String unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseString(value));
    }
 
-   @Override
-   public String marshal(String value)
+   @Override public String marshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printString(value));
    }

@@ -1953,7 +1953,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getOvertimeCost()
    {
-      return (Number)get(AssignmentField.OVERTIME_COST);
+      return (Number) get(AssignmentField.OVERTIME_COST);
    }
 
    /**
@@ -2858,7 +2858,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**
@@ -2905,13 +2905,13 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object get(FieldType field)
    {
-      if (field == null)
+      if (field == null || !(field instanceof AssignmentField))
       {
          return null;
       }
 
       // Always calculated
-      switch((AssignmentField)field)
+      switch ((AssignmentField) field)
       {
          case START:
          {
@@ -2922,7 +2922,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          {
             return calculateFinish();
          }
-         
+
          default:
          {
             break;

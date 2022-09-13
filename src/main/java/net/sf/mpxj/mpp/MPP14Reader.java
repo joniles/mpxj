@@ -1153,7 +1153,7 @@ final class MPP14Reader implements MPPVariantReader
          readBitFields(metaDataBitFlags, task, metaData);
          readBitFields(metaData2BitFlags, task, metaData2);
 
-         task.setTaskMode(BooleanHelper.getBoolean((Boolean)task.getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+         task.setTaskMode(BooleanHelper.getBoolean((Boolean) task.getCachedValue(TaskField.TASK_MODE)) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
          m_parentTasks.put(task.getUniqueID(), (Integer) task.getCachedValue(TaskField.PARENT_TASK_UNIQUE_ID));
 

@@ -274,7 +274,7 @@ public final class MPPReader extends AbstractProjectStreamReader
     */
    private void copyEstimatedBaselineFields(Task task)
    {
-      for(Map.Entry<TaskField, TaskField> entry : TASK_ESTIMATED_BASELINE_FIELDS.entrySet())
+      for (Map.Entry<TaskField, TaskField> entry : TASK_ESTIMATED_BASELINE_FIELDS.entrySet())
       {
          Object value = task.getCachedValue(entry.getKey());
          if (value == null)

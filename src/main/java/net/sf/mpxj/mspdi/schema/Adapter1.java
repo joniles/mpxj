@@ -12,14 +12,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter1 extends XmlAdapter<String, Boolean>
 {
 
-   @Override
-   public Boolean unmarshal(String value)
+   @Override public Boolean unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean(value));
    }
 
-   @Override
-   public String marshal(Boolean value)
+   @Override public String marshal(Boolean value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printBoolean(value));
    }

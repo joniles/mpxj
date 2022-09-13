@@ -13,14 +13,12 @@ import net.sf.mpxj.WorkGroup;
 public class Adapter17 extends XmlAdapter<String, WorkGroup>
 {
 
-   @Override
-   public WorkGroup unmarshal(String value)
+   @Override public WorkGroup unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkGroup(value));
    }
 
-   @Override
-   public String marshal(WorkGroup value)
+   @Override public String marshal(WorkGroup value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkGroup(value));
    }
