@@ -262,8 +262,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10100-unreleased" class="md-nav__link">
-    10.10.0 (unreleased)
+  <a href="#10101-unreleased" class="md-nav__link">
+    10.10.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10100-2022-09-13" class="md-nav__link">
+    10.10.0 (2022-09-13)
   </a>
   
 </li>
@@ -2452,8 +2459,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10100-unreleased" class="md-nav__link">
-    10.10.0 (unreleased)
+  <a href="#10101-unreleased" class="md-nav__link">
+    10.10.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10100-2022-09-13" class="md-nav__link">
+    10.10.0 (2022-09-13)
   </a>
   
 </li>
@@ -3863,7 +3877,23 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="10100-unreleased">10.10.0 (unreleased)</h2>
+<h2 id="10101-unreleased">10.10.1 (unreleased)</h2>
+<h2 id="10100-2022-09-13">10.10.0 (2022-09-13)</h2>
+<ul>
+<li>Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)</li>
+<li>Add a <code>setProperties</code> method to reader classes to allow configuration to be supplied via a <code>Properties</code> instance rather than having to call setter methods. Properties passed to the <code>UniversalProjectReader</code> version of this method will be forwarded to the reader class <code>UniversalProjectReader</code> chooses to reader the supplied file. Properties for multiple reader classes can be included in the <code>Properties</code> instance, each reader class will ignore irrelevant properties.</li>
+<li>Added the <code>get</code> method to <code>Task</code>, <code>Resource</code>, <code>ResourceAssignment</code> and <code>ProjectProperties</code> as a replacement for the <code>getCurrentValue</code> method. The new <code>get</code> method is paired with the existing <code>set</code> method to provide read and write access to attributes of these classes. This change is intended to improve the interfaces to these classes by making them more consistent, and thus easier to understand.</li>
+<li>Deprecated the <code>getCurrentValue</code> method on the <code>Task</code>, <code>Resource</code>, <code>ResourceAssignment</code> and <code>ProjectProperties</code> classes. Use the new <code>get</code> method instead.</li>
+<li>Add getter and setter methods for the Resource attributes Cost Center, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.</li>
+<li>Add getter and setter methods for the Task attributes Response Pending, Scheduled Start,  Scheduled Finish, Scheduled Duration, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.</li>
+<li>Added support for the Resource Cost Centre attribute for MSPDI files.</li>
+<li>Move MPP file-specific functionality for determining baseline values from the Task class into the MPP reader class.</li>
+<li>Improve handling of the TaskMode attribute.</li>
+<li>Don't set a Task's Critical attribute unless we have valid slack values.</li>
+<li>Ensure <code>ResourceAssignment</code> calculated fields are returned correctly when using the <code>getCurrentValue</code> method.</li>
+<li>Ensure <code>ProjectProperties</code> calculated fields are returned correctly when using the <code>getCurrentValue</code> method.</li>
+<li>Updated to use jsoup 1.15.3</li>
+</ul>
 <h2 id="1091-2022-08-31">10.9.1 (2022-08-31)</h2>
 <ul>
 <li>Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).</li>
