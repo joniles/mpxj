@@ -29,5 +29,5 @@ public enum ActivityCodeScope
 {
    GLOBAL,
    EPS,
-   PROJECT;
+   PROJECT
 }

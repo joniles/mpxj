@@ -2827,7 +2827,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object get(FieldType field)
    {
-      if (field == null || !(field instanceof ResourceField))
+      if (!(field instanceof ResourceField))
       {
          return null;
       }
@@ -3116,10 +3116,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
    }
 
-   private static final Map<ResourceField, List<ResourceField>> DEPENDENCY_MAP = new HashMap<>();
+   private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
    static
    {
-      FieldContainerDependencies<ResourceField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      FieldContainerDependencies<FieldType> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
       dependencies.calculatedField(ResourceField.COST_VARIANCE).dependsOn(ResourceField.COST, ResourceField.BASELINE_COST);
       dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
       dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);

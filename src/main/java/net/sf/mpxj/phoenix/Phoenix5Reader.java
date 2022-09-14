@@ -924,7 +924,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
-   private boolean m_useActivityCodesForTaskHierarchy;
+   private final boolean m_useActivityCodesForTaskHierarchy;
 
    /**
     * Counter used to populate the unique ID field of Activity Code.
