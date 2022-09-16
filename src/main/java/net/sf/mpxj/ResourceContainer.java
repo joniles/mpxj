@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -78,6 +79,17 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       Resource resource = new Resource(m_projectFile);
       add(resource);
       return (resource);
+   }
+
+   public void updateStructure()
+   {
+      if (size() > 1)
+      {
+         Collections.sort(this);
+         m_projectFile.getChildResources().clear();
+         this.stream().forEach(r -> r.getChildResources().clear());
+         this.stream().forEach(r -> r.getParentResource().addChildResource(r));
+      }
    }
 
    /**
