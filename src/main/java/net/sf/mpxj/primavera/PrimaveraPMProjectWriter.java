@@ -736,7 +736,7 @@ final class PrimaveraPMProjectWriter
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setParentObjectId(mpxj.getParentID());
+      xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));

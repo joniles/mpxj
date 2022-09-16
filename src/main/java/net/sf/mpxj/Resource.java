@@ -1528,16 +1528,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Sets Parent ID of this resource.
-    *
-    * @param val Parent ID
-    */
-   public void setParentID(Integer val)
-   {
-      set(ResourceField.PARENT_ID, val);
-   }
-
-   /**
     * Retrieves Base Calendar name associated with this resource. This field
     * indicates which calendar is the base calendar for a resource calendar.
     *
@@ -1614,10 +1604,62 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Gets Parent ID field value.
     *
     * @return value
+    * @deprecated use getParentResourceUniqueID()
     */
-   public Integer getParentID()
+   @Deprecated public Integer getParentID()
+   {
+      return getParentResourceUniqueID();
+   }
+
+   /**
+    * Sets Parent ID of this resource.
+    *
+    * @param val Parent ID
+    * @deprecated use setParentResourceUniqueID()
+    */
+   @Deprecated public void setParentID(Integer val)
+   {
+      setParentResourceUniqueID(val);
+   }
+
+   /**
+    * Retrieve the parent resource's Unique ID.
+    *
+    * @return parent resource Unique ID
+    */
+   public Integer getParentResourceUniqueID()
    {
       return (Integer) get(ResourceField.PARENT_ID);
+   }
+
+   /**
+    * Sets the parent resource's Unique ID.
+    *
+    * @param id parent resource unique ID
+    */
+   public void setParentResourceUniqueID(Integer id)
+   {
+      set(ResourceField.PARENT_ID, id);
+   }
+
+   /**
+    * Retrieve the parent resource.
+    *
+    * @return parent resource
+    */
+   public Resource getParentResource()
+   {
+      return getParentFile().getResourceByUniqueID(getParentResourceUniqueID());
+   }
+
+   /**
+    * Set the parent resource.
+    *
+    * @param resource parent resource
+    */
+   public void setParentResource(Resource resource)
+   {
+      setParentResourceUniqueID(resource.getUniqueID());
    }
 
    /**
