@@ -7,7 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.10.1">
 			<action dev="joniles" type="update">Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.</action>
-			<action dev="joniles" type="update">Adde the `Resource` methods `setParent` and `getParent`.</action>
+			<action dev="joniles" type="update">Added the `Resource` methods `setParent` and `getParent`.</action>
 		</release>
 		<release date="2022-09-13" version="10.10.0">
 			<action dev="joniles" type="update">Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)</action>
