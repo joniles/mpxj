@@ -1642,11 +1642,21 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       set(ResourceField.PARENT_ID, id);
    }
 
+   /**
+    * Retrieve the parent resource.
+    *
+    * @return parent resource
+    */
    public Resource getParentResource()
    {
       return getParentFile().getResourceByUniqueID(getParentResourceUniqueID());
    }
 
+   /**
+    * Set the parent resource.
+    *
+    * @param resource parent resource
+    */
    public void setParentResource(Resource resource)
    {
       setParentResourceUniqueID(resource.getUniqueID());
