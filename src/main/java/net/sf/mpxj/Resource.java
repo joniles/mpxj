@@ -87,6 +87,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return resource;
    }
 
+   /**
+    * Add an existing resurce as a child of the current resource.
+    *
+    * @param child child resource
+    */
    public void addChildResource(Resource child)
    {
       child.setParentResource(this);
