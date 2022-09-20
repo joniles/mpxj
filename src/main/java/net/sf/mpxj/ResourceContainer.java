@@ -81,6 +81,11 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       return (resource);
    }
 
+   /**
+    * Rebuild the hierarchical resource structure based on the Parent Resource ID.
+    * Note that if a resource has a Parent Resource ID which we can't find, the
+    * resource will be left at the top level by default.
+    */
    public void updateStructure()
    {
       if (size() > 1)
