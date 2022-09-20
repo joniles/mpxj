@@ -226,11 +226,12 @@ public class MpxjQuery
     * This method lists all tasks defined in the file in a hierarchical
     * format, reflecting the parent-child relationships between them.
     *
-    * @param file MPX file
+    * @param container child task container
+    * @param indent current hierarchy level indent
     */
-   private static void listTaskHierarchy(ChildTaskContainer file, String indent)
+   private static void listTaskHierarchy(ChildTaskContainer container, String indent)
    {
-      for (Task task : file.getChildTasks())
+      for (Task task : container.getChildTasks())
       {
          System.out.println(indent + "Task: " + task.getName() + "\t" + task.getStart() + "\t" + task.getFinish());
          listTaskHierarchy(task, indent + " ");
@@ -242,6 +243,13 @@ public class MpxjQuery
       }
    }
 
+   /**
+    * This method lists all resources defined in the file in a hierarchical
+    * format, reflecting the parent-child relationships between them.
+    *
+    * @param container child resource container
+    * @param indent current hierarchy level indent
+    */
    private static void listResourceHierarchy(ChildResourceContainer container, String indent)
    {
       for (Resource resource : container.getChildResources())
