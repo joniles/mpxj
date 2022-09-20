@@ -42,7 +42,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer
+public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer, ChildResourceContainer
 {
    /**
     * Default constructor.
@@ -75,6 +75,32 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          m_costRateTables[index] = table;
       }
+   }
+
+   @Override public Resource addResource()
+   {
+      ProjectFile parent = getParentFile();
+      Resource resource = new Resource(parent);
+      resource.setParentResource(this);
+      m_children.add(resource);
+      parent.getResources().add(resource);
+      return resource;
+   }
+
+   /**
+    * Add an existing resurce as a child of the current resource.
+    *
+    * @param child child resource
+    */
+   public void addChildResource(Resource child)
+   {
+      child.setParentResource(this);
+      m_children.add(child);
+   }
+
+   @Override public List<Resource> getChildResources()
+   {
+      return m_children;
    }
 
    /**
@@ -3139,6 +3165,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * List of all assignments for this resource.
     */
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
+
+   /**
+    * This list holds references to all resources that are children of the
+    * current resource.
+    */
+   private final List<Resource> m_children = new ArrayList<>();
 
    private boolean m_eventsEnabled = true;
    private boolean m_null;

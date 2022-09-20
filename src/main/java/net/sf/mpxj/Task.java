@@ -2712,7 +2712,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @Override public List<Task> getChildTasks()
    {
-      return (m_children);
+      return m_children;
    }
 
    /**

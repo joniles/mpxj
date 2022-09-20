@@ -33,7 +33,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * This class represents a project plan.
  */
-public final class ProjectFile implements ChildTaskContainer
+public final class ProjectFile implements ChildTaskContainer, ChildResourceContainer
 {
    /**
     * Retrieve project configuration data.
@@ -86,8 +86,8 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method is used to retrieve a list of all of the top level tasks
-    * that are defined in this project file.
+    * This method is used to retrieve a list of all top level tasks
+    * defined in this project file.
     *
     * @return list of tasks
     */
@@ -97,8 +97,19 @@ public final class ProjectFile implements ChildTaskContainer
    }
 
    /**
-    * This method is used to retrieve a list of all of the tasks
-    * that are defined in this project file.
+    * This method is used to retrieve a list of all top level resources
+    * defined in this project file.
+    *
+    * @return list of resources
+    */
+   @Override public List<Resource> getChildResources()
+   {
+      return m_childResources;
+   }
+
+   /**
+    * This method is used to retrieve a list of all tasks
+    * defined in this project file.
     *
     * @return list of all tasks
     */
@@ -176,7 +187,7 @@ public final class ProjectFile implements ChildTaskContainer
     *
     * @return new resource object
     */
-   public Resource addResource()
+   @Override public Resource addResource()
    {
       return m_resources.add();
    }
@@ -293,6 +304,7 @@ public final class ProjectFile implements ChildTaskContainer
    public void updateStructure()
    {
       m_tasks.updateStructure();
+      m_resources.updateStructure();
    }
 
    /**
@@ -655,6 +667,7 @@ public final class ProjectFile implements ChildTaskContainer
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
    private final List<Task> m_childTasks = new ArrayList<>();
+   private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();

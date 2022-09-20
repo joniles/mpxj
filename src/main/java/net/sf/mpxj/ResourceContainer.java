@@ -81,6 +81,31 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    }
 
    /**
+    * Rebuild the hierarchical resource structure based on the Parent Resource ID.
+    * Note that if a resource has a Parent Resource ID which we can't find, the
+    * resource will be left at the top level by default.
+    */
+   public void updateStructure()
+   {
+      if (size() > 1)
+      {
+         m_projectFile.getChildResources().clear();
+         this.stream().forEach(r -> r.getChildResources().clear());
+         this.stream().forEach(r -> {
+            Resource parent = r.getParentResource();
+            if (parent == null)
+            {
+               m_projectFile.getChildResources().add(r);
+            }
+            else
+            {
+               parent.addChildResource(r);
+            }
+         });
+      }
+   }
+
+   /**
     * Retrieve the set of populated fields for this project.
     *
     * @return set of populated fields
