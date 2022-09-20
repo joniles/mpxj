@@ -79,6 +79,7 @@ like to be featured in this list.
 * Teamwork [www.twproject.com](http://www.twproject.com)
 * ThoughtWeb [www.thoughtweb.com](http://www.thoughtweb.com)
 * TrackStudio [www.trackstudio.com](http://www.trackstudio.com/)
+* Turbo Chart - Linear Project Software [turbo-chart.com](https://www.turbo-chart.com/)
 * Virtuelle Projektverwaltung [www.swissasp.ch](http://www.swissasp.ch)
 * Windchill ProjectLink [www.ptc.com/products/windchill-projectlink](http://www.ptc.com/products/windchill-projectlink)
 * Workfront [www.workfront.com](http://www.workfront.com)

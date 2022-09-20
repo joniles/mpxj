@@ -234,7 +234,7 @@ Work Variance|✓|✓|✓|✓
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Baseline1 Cost| |✓|✓|✓
-Baseline1 Duration| |✓|✓| 
+Baseline1 Duration| |✓|✓|✓
 Baseline1 Duration Units| | |✓|✓
 Baseline1 Estimated Duration| | | |✓
 Baseline1 Estimated Finish| | | |✓
@@ -245,111 +245,111 @@ Baseline1 Fixed Cost Accrual| | |✓|✓
 Baseline1 Start| |✓|✓|✓
 Baseline1 Work| |✓|✓|✓
 Baseline2 Cost| |✓|✓|✓
-Baseline2 Duration| |✓|✓| 
+Baseline2 Duration| |✓|✓|✓
 Baseline2 Duration Units| | |✓|✓
 Baseline2 Estimated Duration| | | |✓
 Baseline2 Estimated Finish| | | |✓
 Baseline2 Estimated Start| | | |✓
-Baseline2 Finish| |✓|✓| 
+Baseline2 Finish| |✓|✓|✓
 Baseline2 Fixed Cost| |✓|✓|✓
 Baseline2 Fixed Cost Accrual| | | |✓
-Baseline2 Start| |✓|✓| 
+Baseline2 Start| |✓|✓|✓
 Baseline2 Work| |✓|✓|✓
 Baseline3 Cost| |✓|✓|✓
-Baseline3 Duration| |✓|✓| 
+Baseline3 Duration| |✓|✓|✓
 Baseline3 Duration Units| | |✓|✓
 Baseline3 Estimated Duration| | | |✓
 Baseline3 Estimated Finish| | | |✓
 Baseline3 Estimated Start| | | |✓
-Baseline3 Finish| |✓|✓| 
+Baseline3 Finish| |✓|✓|✓
 Baseline3 Fixed Cost| |✓|✓|✓
 Baseline3 Fixed Cost Accrual| | |✓|✓
-Baseline3 Start| |✓|✓| 
+Baseline3 Start| |✓|✓|✓
 Baseline3 Work| |✓|✓|✓
 Baseline4 Cost| |✓|✓|✓
-Baseline4 Duration| |✓|✓| 
+Baseline4 Duration| |✓|✓|✓
 Baseline4 Duration Units| | |✓|✓
 Baseline4 Estimated Duration| | | |✓
 Baseline4 Estimated Finish| | | |✓
 Baseline4 Estimated Start| | | |✓
-Baseline4 Finish| |✓|✓| 
+Baseline4 Finish| |✓|✓|✓
 Baseline4 Fixed Cost| |✓|✓|✓
 Baseline4 Fixed Cost Accrual| | |✓|✓
-Baseline4 Start| |✓|✓| 
+Baseline4 Start| |✓|✓|✓
 Baseline4 Work| |✓|✓|✓
 Baseline5 Cost| |✓|✓|✓
-Baseline5 Duration| |✓|✓| 
+Baseline5 Duration| |✓|✓|✓
 Baseline5 Duration Units| | |✓|✓
 Baseline5 Estimated Duration| | | |✓
 Baseline5 Estimated Finish| | | |✓
 Baseline5 Estimated Start| | | |✓
-Baseline5 Finish| |✓|✓| 
+Baseline5 Finish| |✓|✓|✓
 Baseline5 Fixed Cost| |✓|✓|✓
 Baseline5 Fixed Cost Accrual| | | |✓
-Baseline5 Start| |✓|✓| 
+Baseline5 Start| |✓|✓|✓
 Baseline5 Work| |✓|✓|✓
 Baseline6 Cost| |✓|✓|✓
-Baseline6 Duration| |✓|✓| 
+Baseline6 Duration| |✓|✓|✓
 Baseline6 Duration Units| | |✓|✓
 Baseline6 Estimated Duration| | | |✓
 Baseline6 Estimated Finish| | | |✓
 Baseline6 Estimated Start| | | |✓
-Baseline6 Finish| |✓|✓| 
+Baseline6 Finish| |✓|✓|✓
 Baseline6 Fixed Cost| |✓|✓|✓
 Baseline6 Fixed Cost Accrual| | |✓|✓
-Baseline6 Start| |✓|✓| 
+Baseline6 Start| |✓|✓|✓
 Baseline6 Work| |✓|✓|✓
 Baseline7 Cost| |✓|✓|✓
-Baseline7 Duration| |✓|✓| 
+Baseline7 Duration| |✓|✓|✓
 Baseline7 Duration Units| | |✓|✓
 Baseline7 Estimated Duration| | | |✓
 Baseline7 Estimated Finish| | | |✓
 Baseline7 Estimated Start| | | |✓
-Baseline7 Finish| |✓|✓| 
+Baseline7 Finish| |✓|✓|✓
 Baseline7 Fixed Cost| |✓|✓|✓
 Baseline7 Fixed Cost Accrual| | |✓|✓
-Baseline7 Start| |✓|✓| 
+Baseline7 Start| |✓|✓|✓
 Baseline7 Work| |✓|✓|✓
 Baseline8 Cost| |✓|✓|✓
-Baseline8 Duration| |✓|✓| 
+Baseline8 Duration| |✓|✓|✓
 Baseline8 Duration Units| | |✓|✓
 Baseline8 Estimated Duration| | | |✓
 Baseline8 Estimated Finish| | | |✓
 Baseline8 Estimated Start| | | |✓
-Baseline8 Finish| |✓|✓| 
+Baseline8 Finish| |✓|✓|✓
 Baseline8 Fixed Cost| |✓|✓|✓
 Baseline8 Fixed Cost Accrual| | | |✓
-Baseline8 Start| |✓|✓| 
+Baseline8 Start| |✓|✓|✓
 Baseline8 Work| |✓|✓|✓
 Baseline9 Cost| |✓|✓|✓
-Baseline9 Duration| |✓|✓| 
+Baseline9 Duration| |✓|✓|✓
 Baseline9 Duration Units| | |✓|✓
 Baseline9 Estimated Duration| | | |✓
 Baseline9 Estimated Finish| | | |✓
 Baseline9 Estimated Start| | | |✓
-Baseline9 Finish| |✓|✓| 
+Baseline9 Finish| |✓|✓|✓
 Baseline9 Fixed Cost| |✓|✓|✓
 Baseline9 Fixed Cost Accrual| | |✓|✓
-Baseline9 Start| |✓|✓| 
+Baseline9 Start| |✓|✓|✓
 Baseline9 Work| |✓|✓|✓
 Baseline10 Cost| |✓|✓|✓
 Baseline10 Deliverable Finish| | |✓| 
-Baseline10 Duration| |✓|✓| 
+Baseline10 Duration| |✓|✓|✓
 Baseline10 Duration Units| | |✓|✓
 Baseline10 Estimated Duration| | | |✓
 Baseline10 Estimated Finish| | | |✓
 Baseline10 Estimated Start| | | |✓
-Baseline10 Finish| |✓|✓| 
+Baseline10 Finish| |✓|✓|✓
 Baseline10 Fixed Cost| |✓|✓|✓
 Baseline10 Fixed Cost Accrual| | |✓|✓
-Baseline10 Start| |✓|✓| 
+Baseline10 Start| |✓|✓|✓
 Baseline10 Work| |✓|✓|✓
 Baseline Budget Cost| |✓| | 
 Baseline Budget Work| |✓| | 
 Baseline Cost|✓|✓|✓|✓
 Baseline Deliverable Finish| | |✓| 
 Baseline Deliverable Start| | |✓| 
-Baseline Duration|✓|✓|✓| 
+Baseline Duration|✓|✓|✓|✓
 Baseline Duration Units| |✓|✓|✓
 Baseline Estimated Duration| | | |✓
 Baseline Estimated Finish| | | |✓
@@ -530,20 +530,32 @@ Enterprise Custom Field 21| | | |✓
 Enterprise Custom Field 22| | |✓|✓
 Enterprise Custom Field 23| | |✓|✓
 Enterprise Custom Field 24| | | |✓
+Enterprise Custom Field 26| | | |✓
+Enterprise Custom Field 27| | | |✓
+Enterprise Custom Field 34| | | |✓
 Enterprise Custom Field 36| | | |✓
 Enterprise Custom Field 37| | | |✓
+Enterprise Custom Field 38| | | |✓
+Enterprise Custom Field 39| | | |✓
+Enterprise Custom Field 40| | | |✓
+Enterprise Custom Field 41| | | |✓
 Enterprise Custom Field 44| | | |✓
+Enterprise Custom Field 45| | | |✓
 Enterprise Custom Field 46| | | |✓
 Enterprise Custom Field 47| | | |✓
+Enterprise Custom Field 52| | | |✓
 Enterprise Custom Field 53| | |✓|✓
+Enterprise Custom Field 54| | | |✓
+Enterprise Custom Field 55| | | |✓
+Enterprise Custom Field 56| | | |✓
 Enterprise Custom Field 57| | | |✓
 Enterprise Custom Field 58| | | |✓
 Enterprise Custom Field 59| | | |✓
 Enterprise Custom Field 60| | |✓| 
-Enterprise Custom Field 61| | |✓| 
+Enterprise Custom Field 61| | |✓|✓
 Enterprise Custom Field 62| | |✓| 
 Enterprise Custom Field 64| | | |✓
-Enterprise Custom Field 65| | |✓| 
+Enterprise Custom Field 65| | |✓|✓
 Enterprise Custom Field 66| | |✓| 
 Enterprise Custom Field 67| | |✓| 
 Enterprise Custom Field 68| | |✓| 
@@ -553,21 +565,32 @@ Enterprise Custom Field 91| | | |✓
 Enterprise Custom Field 93| | | |✓
 Enterprise Custom Field 96| | | |✓
 Enterprise Custom Field 98| | | |✓
+Enterprise Custom Field 99| | | |✓
 Enterprise Custom Field 100| | | |✓
 Enterprise Custom Field 104| | | |✓
 Enterprise Custom Field 105| | | |✓
 Enterprise Custom Field 111| | | |✓
+Enterprise Custom Field 112| | | |✓
 Enterprise Custom Field 114| | | |✓
 Enterprise Custom Field 115| | | |✓
 Enterprise Custom Field 116| | | |✓
 Enterprise Custom Field 117| | | |✓
 Enterprise Custom Field 118| | | |✓
 Enterprise Custom Field 120| | | |✓
+Enterprise Custom Field 130| | | |✓
+Enterprise Custom Field 131| | | |✓
 Enterprise Custom Field 135| | | |✓
 Enterprise Custom Field 136| | | |✓
 Enterprise Custom Field 137| | | |✓
 Enterprise Custom Field 141| | | |✓
+Enterprise Custom Field 142| | | |✓
 Enterprise Custom Field 145| | | |✓
+Enterprise Custom Field 160| | | |✓
+Enterprise Custom Field 161| | | |✓
+Enterprise Custom Field 162| | | |✓
+Enterprise Custom Field 163| | | |✓
+Enterprise Custom Field 174| | | |✓
+Enterprise Custom Field 196| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
@@ -629,6 +652,7 @@ Calendar GUID| | |✓|✓
 Calendar Unique ID|✓|✓|✓|✓
 Code| |✓|✓|✓
 Cost|✓|✓|✓|✓
+Cost Center| | | |✓
 Cost Per Use| |✓|✓|✓
 Cost Rate A| |✓|✓|✓
 Cost Rate B| |✓|✓|✓
@@ -677,26 +701,48 @@ Workgroup| |✓|✓|✓
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
+Baseline1 Budget Cost| | | |✓
+Baseline1 Budget Work| | | |✓
 Baseline1 Cost| |✓|✓|✓
 Baseline1 Work| |✓|✓|✓
+Baseline2 Budget Cost| | | |✓
+Baseline2 Budget Work| | | |✓
 Baseline2 Cost| |✓|✓|✓
 Baseline2 Work| |✓|✓|✓
+Baseline3 Budget Cost| | | |✓
+Baseline3 Budget Work| | | |✓
 Baseline3 Cost| |✓|✓|✓
 Baseline3 Work| |✓|✓|✓
+Baseline4 Budget Cost| | | |✓
+Baseline4 Budget Work| | | |✓
 Baseline4 Cost| |✓|✓|✓
 Baseline4 Work| |✓|✓|✓
+Baseline5 Budget Cost| | | |✓
+Baseline5 Budget Work| | | |✓
 Baseline5 Cost| |✓|✓|✓
 Baseline5 Work| |✓|✓|✓
+Baseline6 Budget Cost| | | |✓
+Baseline6 Budget Work| | | |✓
 Baseline6 Cost| |✓|✓|✓
 Baseline6 Work| |✓|✓|✓
+Baseline7 Budget Cost| | | |✓
+Baseline7 Budget Work| | | |✓
 Baseline7 Cost| |✓|✓|✓
 Baseline7 Work| |✓|✓|✓
+Baseline8 Budget Cost| | | |✓
+Baseline8 Budget Work| | | |✓
 Baseline8 Cost| |✓|✓|✓
 Baseline8 Work| |✓|✓|✓
+Baseline9 Budget Cost| | | |✓
+Baseline9 Budget Work| | | |✓
 Baseline9 Cost| |✓|✓|✓
 Baseline9 Work| |✓|✓|✓
+Baseline10 Budget Cost| | | |✓
+Baseline10 Budget Work| | | |✓
 Baseline10 Cost| |✓|✓|✓
 Baseline10 Work| |✓|✓|✓
+Baseline Budget Cost| | | |✓
+Baseline Budget Work| | | |✓
 Baseline Cost| |✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
@@ -869,6 +915,8 @@ Enterprise Custom Field 10| | |✓| 
 Enterprise Custom Field 11| | |✓| 
 Enterprise Custom Field 12| | |✓|✓
 Enterprise Custom Field 13| | |✓| 
+Enterprise Custom Field 18| | | |✓
+Enterprise Custom Field 20| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓

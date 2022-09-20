@@ -42,7 +42,7 @@ import net.sf.mpxj.listener.FieldListener;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer
+public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer, ChildResourceContainer
 {
    /**
     * Default constructor.
@@ -75,6 +75,32 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          m_costRateTables[index] = table;
       }
+   }
+
+   @Override public Resource addResource()
+   {
+      ProjectFile parent = getParentFile();
+      Resource resource = new Resource(parent);
+      resource.setParentResource(this);
+      m_children.add(resource);
+      parent.getResources().add(resource);
+      return resource;
+   }
+
+   /**
+    * Add an existing resurce as a child of the current resource.
+    *
+    * @param child child resource
+    */
+   public void addChildResource(Resource child)
+   {
+      child.setParentResource(this);
+      m_children.add(child);
+   }
+
+   @Override public List<Resource> getChildResources()
+   {
+      return m_children;
    }
 
    /**
@@ -1528,16 +1554,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Sets Parent ID of this resource.
-    *
-    * @param val Parent ID
-    */
-   public void setParentID(Integer val)
-   {
-      set(ResourceField.PARENT_ID, val);
-   }
-
-   /**
     * Retrieves Base Calendar name associated with this resource. This field
     * indicates which calendar is the base calendar for a resource calendar.
     *
@@ -1614,10 +1630,62 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * Gets Parent ID field value.
     *
     * @return value
+    * @deprecated use getParentResourceUniqueID()
     */
-   public Integer getParentID()
+   @Deprecated public Integer getParentID()
+   {
+      return getParentResourceUniqueID();
+   }
+
+   /**
+    * Sets Parent ID of this resource.
+    *
+    * @param val Parent ID
+    * @deprecated use setParentResourceUniqueID()
+    */
+   @Deprecated public void setParentID(Integer val)
+   {
+      setParentResourceUniqueID(val);
+   }
+
+   /**
+    * Retrieve the parent resource's Unique ID.
+    *
+    * @return parent resource Unique ID
+    */
+   public Integer getParentResourceUniqueID()
    {
       return (Integer) get(ResourceField.PARENT_ID);
+   }
+
+   /**
+    * Sets the parent resource's Unique ID.
+    *
+    * @param id parent resource unique ID
+    */
+   public void setParentResourceUniqueID(Integer id)
+   {
+      set(ResourceField.PARENT_ID, id);
+   }
+
+   /**
+    * Retrieve the parent resource.
+    *
+    * @return parent resource
+    */
+   public Resource getParentResource()
+   {
+      return getParentFile().getResourceByUniqueID(getParentResourceUniqueID());
+   }
+
+   /**
+    * Set the parent resource.
+    *
+    * @param resource parent resource
+    */
+   public void setParentResource(Resource resource)
+   {
+      setParentResourceUniqueID(resource.getUniqueID());
    }
 
    /**
@@ -2827,13 +2895,13 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object get(FieldType field)
    {
-      if (field == null)
+      if (!(field instanceof ResourceField))
       {
          return null;
       }
 
       // Always calculated
-      switch((ResourceField)field)
+      switch ((ResourceField) field)
       {
          case STANDARD_RATE:
          {
@@ -2849,10 +2917,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          {
             return calculateCostPerUse();
          }
-         
+
          default:
          {
-            break;            
+            break;
          }
       }
 
@@ -2910,7 +2978,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**
@@ -3098,6 +3166,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
+   /**
+    * This list holds references to all resources that are children of the
+    * current resource.
+    */
+   private final List<Resource> m_children = new ArrayList<>();
+
    private boolean m_eventsEnabled = true;
    private boolean m_null;
    private String m_activeDirectoryGUID;
@@ -3116,10 +3190,10 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
    }
 
-   private static final Map<ResourceField, List<ResourceField>> DEPENDENCY_MAP = new HashMap<>();
+   private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
    static
    {
-      FieldContainerDependencies<ResourceField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      FieldContainerDependencies<FieldType> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
       dependencies.calculatedField(ResourceField.COST_VARIANCE).dependsOn(ResourceField.COST, ResourceField.BASELINE_COST);
       dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
       dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);

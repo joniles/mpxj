@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter29 extends XmlAdapter<String, UUID>
 {
 
-   @Override
-   public UUID unmarshal(String value)
+   @Override public UUID unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
    }
 
-   @Override
-   public String marshal(UUID value)
+   @Override public String marshal(UUID value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
    }

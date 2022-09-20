@@ -1953,7 +1953,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getOvertimeCost()
    {
-      return (Number)get(AssignmentField.OVERTIME_COST);
+      return (Number) get(AssignmentField.OVERTIME_COST);
    }
 
    /**
@@ -2858,7 +2858,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**
@@ -2905,13 +2905,13 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object get(FieldType field)
    {
-      if (field == null)
+      if (!(field instanceof AssignmentField))
       {
          return null;
       }
 
       // Always calculated
-      switch((AssignmentField)field)
+      switch ((AssignmentField) field)
       {
          case START:
          {
@@ -2922,7 +2922,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          {
             return calculateFinish();
          }
-         
+
          default:
          {
             break;
@@ -3108,10 +3108,10 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
    }
 
-   private static final Map<AssignmentField, List<AssignmentField>> DEPENDENCY_MAP = new HashMap<>();
+   private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
    static
    {
-      FieldContainerDependencies<AssignmentField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      FieldContainerDependencies<FieldType> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
       dependencies.calculatedField(AssignmentField.OVERTIME_COST).dependsOn(AssignmentField.ACTUAL_OVERTIME_COST, AssignmentField.REMAINING_OVERTIME_COST);
       dependencies.calculatedField(AssignmentField.COST_VARIANCE).dependsOn(AssignmentField.COST, AssignmentField.BASELINE_COST);
       dependencies.calculatedField(AssignmentField.CV).dependsOn(AssignmentField.BCWP, AssignmentField.ACWP);

@@ -1,6 +1,23 @@
 # Changelog
 
-## 10.10.0 (unreleased)
+## 10.10.1 (unreleased)
+* Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.
+* Added the `Resource` methods `setParent` and `getParent`.
+
+## 10.10.0 (2022-09-13)
+* Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)
+* Add a `setProperties` method to reader classes to allow configuration to be supplied via a `Properties` instance rather than having to call setter methods. Properties passed to the `UniversalProjectReader` version of this method will be forwarded to the reader class `UniversalProjectReader` chooses to reader the supplied file. Properties for multiple reader classes can be included in the `Properties` instance, each reader class will ignore irrelevant properties.
+* Added the `get` method to `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` as a replacement for the `getCurrentValue` method. The new `get` method is paired with the existing `set` method to provide read and write access to attributes of these classes. This change is intended to improve the interfaces to these classes by making them more consistent, and thus easier to understand.
+* Deprecated the `getCurrentValue` method on the `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` classes. Use the new `get` method instead.
+* Add getter and setter methods for the Resource attributes Cost Center, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.
+* Add getter and setter methods for the Task attributes Response Pending, Scheduled Start,  Scheduled Finish, Scheduled Duration, Budget Cost, Budget Work, Baseline Budget Cost, Baseline Budget Work, Baseline Budget Cost 1-10, and Baseline Budget Work 1-10.
+* Added support for the Resource Cost Centre attribute for MSPDI files.
+* Move MPP file-specific functionality for determining baseline values from the Task class into the MPP reader class.
+* Improve handling of the TaskMode attribute.
+* Don't set a Task's Critical attribute unless we have valid slack values.
+* Ensure `ResourceAssignment` calculated fields are returned correctly when using the `getCurrentValue` method.
+* Ensure `ProjectProperties` calculated fields are returned correctly when using the `getCurrentValue` method.
+* Updated to use jsoup 1.15.3
 
 ## 10.9.1 (2022-08-31)
 * Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).

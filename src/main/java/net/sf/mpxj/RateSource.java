@@ -30,5 +30,5 @@ public enum RateSource
 {
    RESOURCE,
    ROLE,
-   OVERRIDE;
+   OVERRIDE
 }

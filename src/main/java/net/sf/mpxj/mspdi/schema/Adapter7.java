@@ -13,14 +13,12 @@ import net.sf.mpxj.CurrencySymbolPosition;
 public class Adapter7 extends XmlAdapter<String, CurrencySymbolPosition>
 {
 
-   @Override
-   public CurrencySymbolPosition unmarshal(String value)
+   @Override public CurrencySymbolPosition unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseCurrencySymbolPosition(value));
    }
 
-   @Override
-   public String marshal(CurrencySymbolPosition value)
+   @Override public String marshal(CurrencySymbolPosition value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printCurrencySymbolPosition(value));
    }

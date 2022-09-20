@@ -2712,7 +2712,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @Override public List<Task> getChildTasks()
    {
-      return (m_children);
+      return m_children;
    }
 
    /**
@@ -5450,7 +5450,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null) );
+      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
    /**
@@ -5679,7 +5679,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return null;
       }
 
-
       Duration startSlack = getStartSlack();
       Duration finishSlack = getFinishSlack();
 
@@ -5743,7 +5742,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       return totalSlack;
    }
-
 
    private Boolean calculateCritical()
    {
@@ -5848,10 +5846,10 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
    }
 
-   private static final Map<TaskField, List<TaskField>> DEPENDENCY_MAP = new HashMap<>();
+   private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
    static
    {
-      FieldContainerDependencies<TaskField> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
+      FieldContainerDependencies<FieldType> dependencies = new FieldContainerDependencies<>(DEPENDENCY_MAP);
 
       dependencies.calculatedField(TaskField.START_VARIANCE).dependsOn(TaskField.START, TaskField.BASELINE_START);
       dependencies.calculatedField(TaskField.FINISH_VARIANCE).dependsOn(TaskField.FINISH, TaskField.BASELINE_FINISH);

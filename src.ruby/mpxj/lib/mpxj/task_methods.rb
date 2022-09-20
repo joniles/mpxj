@@ -120,7 +120,7 @@ module MPXJ
     #
     # @return Assignment value
     def assignment
-      attribute_values['assignment']
+      get_boolean_value(attribute_values['assignment'])
     end
 
     # Retrieve the Assignment Delay value
@@ -155,7 +155,7 @@ module MPXJ
     #
     # @return Baseline10 Budget Work value
     def baseline10_budget_work
-      get_float_value(attribute_values['baseline10_budget_work'])
+      get_duration_value(attribute_values['baseline10_budget_work'])
     end
 
     # Retrieve the Baseline10 Cost value
@@ -267,7 +267,7 @@ module MPXJ
     #
     # @return Baseline1 Budget Work value
     def baseline1_budget_work
-      get_float_value(attribute_values['baseline1_budget_work'])
+      get_duration_value(attribute_values['baseline1_budget_work'])
     end
 
     # Retrieve the Baseline1 Cost value
@@ -379,7 +379,7 @@ module MPXJ
     #
     # @return Baseline2 Budget Work value
     def baseline2_budget_work
-      get_float_value(attribute_values['baseline2_budget_work'])
+      get_duration_value(attribute_values['baseline2_budget_work'])
     end
 
     # Retrieve the Baseline2 Cost value
@@ -491,7 +491,7 @@ module MPXJ
     #
     # @return Baseline3 Budget Work value
     def baseline3_budget_work
-      get_float_value(attribute_values['baseline3_budget_work'])
+      get_duration_value(attribute_values['baseline3_budget_work'])
     end
 
     # Retrieve the Baseline3 Cost value
@@ -603,7 +603,7 @@ module MPXJ
     #
     # @return Baseline4 Budget Work value
     def baseline4_budget_work
-      get_float_value(attribute_values['baseline4_budget_work'])
+      get_duration_value(attribute_values['baseline4_budget_work'])
     end
 
     # Retrieve the Baseline4 Cost value
@@ -715,7 +715,7 @@ module MPXJ
     #
     # @return Baseline5 Budget Work value
     def baseline5_budget_work
-      get_float_value(attribute_values['baseline5_budget_work'])
+      get_duration_value(attribute_values['baseline5_budget_work'])
     end
 
     # Retrieve the Baseline5 Cost value
@@ -827,7 +827,7 @@ module MPXJ
     #
     # @return Baseline6 Budget Work value
     def baseline6_budget_work
-      get_float_value(attribute_values['baseline6_budget_work'])
+      get_duration_value(attribute_values['baseline6_budget_work'])
     end
 
     # Retrieve the Baseline6 Cost value
@@ -939,7 +939,7 @@ module MPXJ
     #
     # @return Baseline7 Budget Work value
     def baseline7_budget_work
-      get_float_value(attribute_values['baseline7_budget_work'])
+      get_duration_value(attribute_values['baseline7_budget_work'])
     end
 
     # Retrieve the Baseline7 Cost value
@@ -1051,7 +1051,7 @@ module MPXJ
     #
     # @return Baseline8 Budget Work value
     def baseline8_budget_work
-      get_float_value(attribute_values['baseline8_budget_work'])
+      get_duration_value(attribute_values['baseline8_budget_work'])
     end
 
     # Retrieve the Baseline8 Cost value
@@ -1163,7 +1163,7 @@ module MPXJ
     #
     # @return Baseline9 Budget Work value
     def baseline9_budget_work
-      get_float_value(attribute_values['baseline9_budget_work'])
+      get_duration_value(attribute_values['baseline9_budget_work'])
     end
 
     # Retrieve the Baseline9 Cost value
@@ -6917,7 +6917,7 @@ module MPXJ
     #
     # @return Peak value
     def peak
-      attribute_values['peak']
+      get_float_value(attribute_values['peak'])
     end
 
     # Retrieve the % Complete value
@@ -6959,7 +6959,7 @@ module MPXJ
     #
     # @return Placeholder value
     def placeholder
-      attribute_values['placeholder']
+      get_boolean_value(attribute_values['placeholder'])
     end
 
     # Retrieve the Planned Cost value
@@ -7043,7 +7043,7 @@ module MPXJ
     #
     # @return Publish value
     def publish
-      attribute_values['publish']
+      get_boolean_value(attribute_values['publish'])
     end
 
     # Retrieve the Recalc Outline Codes value
@@ -7820,7 +7820,7 @@ module MPXJ
     #
     # @return Task Mode value
     def task_mode
-      get_boolean_value(attribute_values['task_mode'])
+      attribute_values['task_mode']
     end
 
     # Retrieve the Task Summary Name value
@@ -8114,7 +8114,7 @@ module MPXJ
     #
     # @return Warning value
     def warning
-      attribute_values['warning']
+      get_boolean_value(attribute_values['warning'])
     end
 
     # Retrieve the WBS value
@@ -8190,12 +8190,12 @@ module MPXJ
       'actual_work' => :work,
       'actual_work_protected' => :work,
       'acwp' => :currency,
-      'assignment' => :string,
+      'assignment' => :boolean,
       'assignment_delay' => :string,
       'assignment_owner' => :string,
       'assignment_units' => :string,
       'baseline10_budget_cost' => :currency,
-      'baseline10_budget_work' => :currency,
+      'baseline10_budget_work' => :work,
       'baseline10_cost' => :currency,
       'baseline10_deliverable_finish' => :date,
       'baseline10_deliverable_start' => :date,
@@ -8211,7 +8211,7 @@ module MPXJ
       'baseline10_start' => :date,
       'baseline10_work' => :work,
       'baseline1_budget_cost' => :currency,
-      'baseline1_budget_work' => :currency,
+      'baseline1_budget_work' => :work,
       'baseline1_cost' => :currency,
       'baseline1_deliverable_finish' => :date,
       'baseline1_deliverable_start' => :date,
@@ -8227,7 +8227,7 @@ module MPXJ
       'baseline1_start' => :date,
       'baseline1_work' => :work,
       'baseline2_budget_cost' => :currency,
-      'baseline2_budget_work' => :currency,
+      'baseline2_budget_work' => :work,
       'baseline2_cost' => :currency,
       'baseline2_deliverable_finish' => :date,
       'baseline2_deliverable_start' => :date,
@@ -8243,7 +8243,7 @@ module MPXJ
       'baseline2_start' => :date,
       'baseline2_work' => :work,
       'baseline3_budget_cost' => :currency,
-      'baseline3_budget_work' => :currency,
+      'baseline3_budget_work' => :work,
       'baseline3_cost' => :currency,
       'baseline3_deliverable_finish' => :date,
       'baseline3_deliverable_start' => :date,
@@ -8259,7 +8259,7 @@ module MPXJ
       'baseline3_start' => :date,
       'baseline3_work' => :work,
       'baseline4_budget_cost' => :currency,
-      'baseline4_budget_work' => :currency,
+      'baseline4_budget_work' => :work,
       'baseline4_cost' => :currency,
       'baseline4_deliverable_finish' => :date,
       'baseline4_deliverable_start' => :date,
@@ -8275,7 +8275,7 @@ module MPXJ
       'baseline4_start' => :date,
       'baseline4_work' => :work,
       'baseline5_budget_cost' => :currency,
-      'baseline5_budget_work' => :currency,
+      'baseline5_budget_work' => :work,
       'baseline5_cost' => :currency,
       'baseline5_deliverable_finish' => :date,
       'baseline5_deliverable_start' => :date,
@@ -8291,7 +8291,7 @@ module MPXJ
       'baseline5_start' => :date,
       'baseline5_work' => :work,
       'baseline6_budget_cost' => :currency,
-      'baseline6_budget_work' => :currency,
+      'baseline6_budget_work' => :work,
       'baseline6_cost' => :currency,
       'baseline6_deliverable_finish' => :date,
       'baseline6_deliverable_start' => :date,
@@ -8307,7 +8307,7 @@ module MPXJ
       'baseline6_start' => :date,
       'baseline6_work' => :work,
       'baseline7_budget_cost' => :currency,
-      'baseline7_budget_work' => :currency,
+      'baseline7_budget_work' => :work,
       'baseline7_cost' => :currency,
       'baseline7_deliverable_finish' => :date,
       'baseline7_deliverable_start' => :date,
@@ -8323,7 +8323,7 @@ module MPXJ
       'baseline7_start' => :date,
       'baseline7_work' => :work,
       'baseline8_budget_cost' => :currency,
-      'baseline8_budget_work' => :currency,
+      'baseline8_budget_work' => :work,
       'baseline8_cost' => :currency,
       'baseline8_deliverable_finish' => :date,
       'baseline8_deliverable_start' => :date,
@@ -8339,7 +8339,7 @@ module MPXJ
       'baseline8_start' => :date,
       'baseline8_work' => :work,
       'baseline9_budget_cost' => :currency,
-      'baseline9_budget_work' => :currency,
+      'baseline9_budget_work' => :work,
       'baseline9_cost' => :currency,
       'baseline9_deliverable_finish' => :date,
       'baseline9_deliverable_start' => :date,
@@ -9161,13 +9161,13 @@ module MPXJ
       'path_driving_predecessor' => :boolean,
       'path_predecessor' => :boolean,
       'path_successor' => :boolean,
-      'peak' => :string,
+      'peak' => :units,
       'percent_complete' => :percentage,
       'percent_complete_type' => :percent_complete_type,
       'percent_work_complete' => :percentage,
       'phase_of_work' => :string,
       'physical_percent_complete' => :percentage,
-      'placeholder' => :string,
+      'placeholder' => :boolean,
       'planned_cost' => :currency,
       'planned_duration' => :duration,
       'planned_finish' => :date,
@@ -9179,7 +9179,7 @@ module MPXJ
       'primary_resource_id' => :integer,
       'priority' => :priority,
       'project' => :string,
-      'publish' => :string,
+      'publish' => :boolean,
       'recalc_outline_codes' => :boolean,
       'recurring' => :boolean,
       'recurring_data' => :binary,
@@ -9290,7 +9290,7 @@ module MPXJ
       'svpercent' => :percentage,
       'task_calendar' => :string,
       'task_calendar_guid' => :guid,
-      'task_mode' => :boolean,
+      'task_mode' => :task_mode,
       'task_summary_name' => :string,
       'tcpi' => :numeric,
       'teamstatus_pending' => :boolean,
@@ -9332,7 +9332,7 @@ module MPXJ
       'unique_id_successors' => :string,
       'update_needed' => :boolean,
       'vac' => :currency,
-      'warning' => :string,
+      'warning' => :boolean,
       'wbs' => :string,
       'wbs_predecessors' => :relation_list,
       'wbs_successors' => :relation_list,

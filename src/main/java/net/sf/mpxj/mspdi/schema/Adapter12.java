@@ -13,14 +13,12 @@ import net.sf.mpxj.WorkContour;
 public class Adapter12 extends XmlAdapter<String, WorkContour>
 {
 
-   @Override
-   public WorkContour unmarshal(String value)
+   @Override public WorkContour unmarshal(String value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkContour(value));
    }
 
-   @Override
-   public String marshal(WorkContour value)
+   @Override public String marshal(WorkContour value)
    {
       return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkContour(value));
    }
