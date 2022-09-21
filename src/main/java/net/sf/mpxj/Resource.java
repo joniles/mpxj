@@ -2100,7 +2100,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias));
+      return get(getParentFile().getResources().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -2111,7 +2111,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.RESOURCE, alias), value);
+      set(getParentFile().getResources().getFieldTypeByAlias(alias), value);
    }
 
    /**

@@ -2800,6 +2800,28 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the value of a field using its alias.
+    *
+    * @param alias field alias
+    * @return field value
+    */
+   public Object getFieldByAlias(String alias)
+   {
+      return get(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias));
+   }
+
+   /**
+    * Set the value of a field using its alias.
+    *
+    * @param alias field alias
+    * @param value field value
+    */
+   public void setFieldByAlias(String alias, Object value)
+   {
+      set(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias), value);
+   }
+
+   /**
     * Maps a field index to an AssignmentField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
