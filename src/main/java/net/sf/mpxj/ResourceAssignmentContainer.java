@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.common.PopulatedFields;
@@ -60,5 +61,15 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    public Set<AssignmentField> getPopulatedFields()
    {
       return new PopulatedFields<>(m_projectFile, AssignmentField.class, this).getPopulatedFields();
+   }
+
+   /**
+    * Retrieve a list of resource assignment custom fields.
+    *
+    * @return resource assignment custom fields
+    */
+   public List<CustomField> getCustomFields()
+   {
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.ASSIGNMENT);
    }
 }

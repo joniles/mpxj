@@ -24,7 +24,9 @@
 package net.sf.mpxj;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.PopulatedFields;
@@ -113,5 +115,15 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    public Set<ResourceField> getPopulatedFields()
    {
       return new PopulatedFields<>(m_projectFile, ResourceField.class, this).getPopulatedFields();
+   }
+
+   /**
+    * Retrieve a list of resource custom fields.
+    *
+    * @return resource custom fields
+    */
+   public List<CustomField> getCustomFields()
+   {
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.RESOURCE);
    }
 }

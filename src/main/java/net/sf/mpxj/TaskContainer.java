@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.PopulatedFields;
@@ -232,6 +233,16 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    public Set<TaskField> getPopulatedFields()
    {
       return new PopulatedFields<>(m_projectFile, TaskField.class, this).getPopulatedFields();
+   }
+
+   /**
+    * Retrieve a list of task custom fields.
+    *
+    * @return task custom fields
+    */
+   public List<CustomField> getCustomFields()
+   {
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.TASK);
    }
 
    @Override protected int firstUniqueID()
