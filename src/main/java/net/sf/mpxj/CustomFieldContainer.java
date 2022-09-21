@@ -52,13 +52,26 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve a field from a particular entity using its alias.
+    * Retrieve a field type from a particular entity using its alias.
+    *
+    * @param typeClass the type of entity we are interested in
+    * @param alias the alias
+    * @return the field type referred to be the alias, or null if not found
+    * @deprecated use getFieldTypeByAlias
+    */
+   @Deprecated public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
+   {
+      return getFieldTypeByAlias(typeClass, alias);
+   }
+
+   /**
+    * Retrieve a field type from a particular entity using its alias.
     *
     * @param typeClass the type of entity we are interested in
     * @param alias the alias
     * @return the field type referred to be the alias, or null if not found
     */
-   public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
+   public FieldType getFieldTypeByAlias(FieldTypeClass typeClass, String alias)
    {
       return m_aliasMap.get(new Pair<>(typeClass, alias));
    }

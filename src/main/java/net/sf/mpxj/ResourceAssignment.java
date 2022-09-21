@@ -2807,7 +2807,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.ASSIGNMENT, alias));
+      return get(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -2818,7 +2818,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getCustomFields().getFieldByAlias(FieldTypeClass.ASSIGNMENT, alias), value);
+      set(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias), value);
    }
 
    /**

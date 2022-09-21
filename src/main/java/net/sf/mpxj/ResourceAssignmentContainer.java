@@ -72,4 +72,15 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    {
       return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.ASSIGNMENT);
    }
+
+   /**
+    * Retrieve the type of a custom field by its alias.
+    *
+    * @param alias custom field alias
+    * @return FielType instance
+    */
+   public FieldType getFieldTypeByAlias(String alias)
+   {
+      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.ASSIGNMENT, alias);
+   }
 }
