@@ -25,8 +25,10 @@ package net.sf.mpxj;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -47,6 +49,42 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public CustomField getCustomField(FieldType field)
    {
       return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this));
+   }
+
+   /**
+    * Retrieve a field type from a particular entity using its alias.
+    *
+    * @param typeClass the type of entity we are interested in
+    * @param alias the alias
+    * @return the field type referred to be the alias, or null if not found
+    * @deprecated use getFieldTypeByAlias
+    */
+   @Deprecated public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
+   {
+      return getFieldTypeByAlias(typeClass, alias);
+   }
+
+   /**
+    * Retrieve a field type from a particular entity using its alias.
+    *
+    * @param typeClass the type of entity we are interested in
+    * @param alias the alias
+    * @return the field type referred to be the alias, or null if not found
+    */
+   public FieldType getFieldTypeByAlias(FieldTypeClass typeClass, String alias)
+   {
+      return m_aliasMap.get(new Pair<>(typeClass, alias));
+   }
+
+   /**
+    * Retrieve a list of custom fields by type class.
+    *
+    * @param typeClass required type class
+    * @return list of CustomField instances
+    */
+   public List<CustomField> getCustomFieldsByFieldTypeClass(FieldTypeClass typeClass)
+   {
+      return stream().filter(f -> f.getFieldType().getFieldTypeClass() == typeClass).collect(Collectors.toList());
    }
 
    /**
@@ -123,18 +161,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
    void registerAlias(FieldType type, String alias)
    {
       m_aliasMap.put(new Pair<>(type.getFieldTypeClass(), alias), type);
-   }
-
-   /**
-    * Retrieve a field from a particular entity using its alias.
-    *
-    * @param typeClass the type of entity we are interested in
-    * @param alias the alias
-    * @return the field type referred to be the alias, or null if not found
-    */
-   public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
-   {
-      return m_aliasMap.get(new Pair<>(typeClass, alias));
    }
 
    /**

@@ -234,6 +234,27 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       return new PopulatedFields<>(m_projectFile, TaskField.class, this).getPopulatedFields();
    }
 
+   /**
+    * Retrieve a list of task custom fields.
+    *
+    * @return task custom fields
+    */
+   public List<CustomField> getCustomFields()
+   {
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.TASK);
+   }
+
+   /**
+    * Retrieve the type of a custom field by its alias.
+    *
+    * @param alias custom field alias
+    * @return FielType instance
+    */
+   public FieldType getFieldTypeByAlias(String alias)
+   {
+      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.TASK, alias);
+   }
+
    @Override protected int firstUniqueID()
    {
       Task firstEntity = getByID(Integer.valueOf(0));
