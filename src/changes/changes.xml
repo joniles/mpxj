@@ -8,8 +8,8 @@
 		<release date="unreleased" version="10.10.1">
 			<action dev="joniles" type="update">Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.</action>
 			<action dev="joniles" type="update">Added the `Resource` methods `setParent` and `getParent`.</action>
-			<action dev="joniles" type="update">Added `ChildResourceContainer` interface and `ResourceContainer.updateStructure` to ensure that resources can be accessed hierarchically when reading a schedule.</action>
-			<action dev="joniles" type="update">Added `getCustomFieldsByFieldTypeClass` method to `CustomFieldContainer` to allow retrieval of custom field details by parent class.</action>
+			<action dev="joniles" type="update">Added the `ChildResourceContainer` interface and `ResourceContainer.updateStructure` method to ensure that resources can be accessed hierarchically when reading a schedule.</action>
+			<action dev="joniles" type="update">Added the `getCustomFieldsByFieldTypeClass` method to `CustomFieldContainer` to allow retrieval of custom field details by parent class.</action>
 			<action dev="joniles" type="update">Added the `ResourceAssignment` methods `getFieldByAlias` and `setFieldByAlias` to simplify working with custom fields, and mkae the API consistent with existing methods on `Task` and `Resource`.</action>
 			<action dev="joniles" type="update">Added the `TaskContainer` method `getCustomFields` to simplify access to task custom fields.</action>
 			<action dev="joniles" type="update">Added the `ResourceContainer` method `getCustomFields` to simplify access to resource  custom fields.</action>
