@@ -135,14 +135,17 @@ task2.set(TaskField.BASELINE_START, baselineStart);
 
 // Show the variance being retrieved by method and TaskField enumeration
 System.out.println("Task 1");
-System.out.println("Start Variance from method: " + task1.getStartVariance());
-System.out.println("Start Variance from get: " + task1.get(TaskField.START_VARIANCE));
+System.out.println("Start Variance from method: "
+   + task1.getStartVariance());
+System.out.println("Start Variance from get: "
+   + task1.get(TaskField.START_VARIANCE));
 System.out.println();
 
 System.out.println("Task 2");
-System.out.println("Start Variance from method: " + task2.getStartVariance());
-System.out.println("Start Variance from get: " + task2.get(TaskField.START_VARIANCE));
-System.out.println();
+System.out.println("Start Variance from method: "
+   + task2.getStartVariance());
+System.out.println("Start Variance from get: "
+   + task2.get(TaskField.START_VARIANCE));
 ```
 
 Here's the output from running this code:
@@ -169,88 +172,48 @@ time we use the `getStartVariance` method or we call
 
 ## Cached Values
 The `getCachedValue` method allows us to retrieve a field _without attempting to
-calculate a value_. Let's take a look at what happens with the example we
-were working with in the previous section. If we use the `getCachedValue`
-method to attempt to retrieve the Start Variance for each task, we should get
-the same result we saw when we used the `getStartVariance` method and
-the `get(TaskField.START_VARIANCE)` call:
-
+calculate a value_. It's not a method you'd normally expect to use, but it's
+worth mentioning for completeness. Let's take a look at this using a new
+example:
 
 ```java
-System.out.println("Task1 Start Variance: " + task1.getCachedValue(TaskField.START_VARIANCE));
-System.out.println("Task2 Start Variance: " + task2.getCachedValue(TaskField.START_VARIANCE));
+// Set up the sample project with a default calendar
+ProjectFile file = new ProjectFile();
+file.setDefaultCalendar(file.addDefaultBaseCalendar());
+
+// Set up example dates
+DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+Date baselineStart = df.parse("01/05/2022");
+Date startDate = df.parse("10/05/2022");
+
+// Create a task
+Task task = file.addTask();
+task.setStart(startDate);
+task.setBaselineStart(baselineStart);
+
+System.out.println("Start Variance using getCachedValue(): "
+   + task.getCachedValue(TaskField.START_VARIANCE));
+System.out.println("Start Variance using get(): "
+   + task.get(TaskField.START_VARIANCE));
+System.out.println("Start Variance using getCachedValue(): "
+   + task.getCachedValue(TaskField.START_VARIANCE));
 ```
 
-Here's the output from running this code:
+The output from this code is:
 
 ```
-Task1 Start Variance cached value: 6.0d
-Task2 Start Variance cached value: 6.0d
+Start Variance using getCachedValue(): null
+Start Variance using get(): 6.0d
+Start Variance using getCachedValue(): 6.0d
 ```
 
-This is what we'd expect as we have already calculated the Start Variance
-value for both of these tasks, and this calculate value is cached.
-
-What if we clear this cached value? We can
-do this in two ways: we can either change one of the values the calculation
-depends on, or we can explicitly set the Start Variance to `null`.
-
-```java
-/// Clear the cached start variance by updating one of its dependencies
-baselineStart = df.parse("03/05/2022");
-task1.setBaselineStart(baselineStart);
-
-// Explicitly clear the start variance
-task2.setStartVariance(null);
-```
-
-Now if we repeat out calls to `getCachedValue`:
-
-```java
-System.out.println("Task1 Start Variance: " + task1.getCachedValue(TaskField.START_VARIANCE));
-System.out.println("Task2 Start Variance: " + task2.getCachedValue(TaskField.START_VARIANCE));
-```
-
-We see that we are returned `null` in both cases as there is no longer a 
-cached value, and `getCachedValue` will never attempt to calculate a
-value:
-
-```
-Task1 Start Variance: null
-Task2 Start Variance: null
-```
-
-Finally, just to come full circle, we can use the `getStartVariance` method to
-retrieve the Start Variance values, which forces them to be recalculated:
-
-```java
-System.out.println("Task1 Start Variance: " + task1.getCachedValue(TaskField.START_VARIANCE));
-System.out.println("Task2 Start Variance: " + task2.getCachedValue(TaskField.START_VARIANCE));
-```
-
-Here's the output from running this code, note that for Task 1 we changed the
-baseline start, so now the start variance is only five days rather than the 
-six days it was before:
-
-```
-Task1 Start Variance from method: 5.0d
-Task2 Start Variance from method: 6.0d
-```
-
-Last of all, if we used the `getCachedValue` method we'll see that as a result
-of the calculation being carried out, we now have cached values available:
-
-```java
-System.out.println("Task1 Start Variance cached value: " + task1.getCachedValue(TaskField.START_VARIANCE));
-System.out.println("Task2 Start Variance cached value: " + task2.getCachedValue(TaskField.START_VARIANCE));
-```
-
-Here's the output from running this code:
-
-```
-Task1 Start Variance cached value: 5.0d
-Task2 Start Variance cached value: 6.0d
-```
+What we can see happening here is that using the `getCachedValue` method
+initially returns `null` as the Start Variance is not present, and we're not
+attempting to calculate it. When we use the `get` method, MPXJ sees that it
+doesn't already have a value for this field and knows how to calculate it, and
+returns the expected result. Finally if we use the `getCachedValue` method
+again, as we've now calculated this value and cached it, the method returns the
+Start Variance.
 
 In summary, `getCachedValue` will never attempt to calculate values for fields
 which are not already present. This can be useful if you want to read a
@@ -314,10 +277,10 @@ each of the entities we're interested in.
 ```java
 ProjectFile file = new UniversalProjectReader().read("example.mpp");
 
-Set<ProjectField> populatedProjectFields = file.getProjectProperties().getPopulatedFields();
-Set<TaskField> populatedTaskFields = file.getTasks().getPopulatedFields();
-Set<ResourceField> populatedResourceFields = file.getResources().getPopulatedFields();
-Set<AssignmentField> populatedAssignmentFields = file.getResourceAssignments().getPopulatedFields();
+Set<ProjectField> projectFields = file.getProjectProperties().getPopulatedFields();
+Set<TaskField> taskFields = file.getTasks().getPopulatedFields();
+Set<ResourceField> resourceFields = file.getResources().getPopulatedFields();
+Set<AssignmentField> assignmentFields = file.getResourceAssignments().getPopulatedFields();
 ```
 
 In the example above we're opening a sample file, then for each of the main
