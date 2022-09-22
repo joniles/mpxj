@@ -396,6 +396,34 @@ creating new instances of `DecimalFormat` and `SimpleDateFormat` each time you
 need to format a value!)
 
 
-custom fields
+## Custom Fields
+MPXJ uses the term "custom fields" to group together a couple of related
+concepts. For Microsoft Project, generally speaking each entity
+(Task, Resource , Resource Assignment and so on) has a fixed set of fields
+available for use. The general purpose "indexed" fields (for example, Text
+1-10, Number 1-10 and so on) are available to be used as you wish to meet your
+own needs. Typically these can be customized by changing the label which is
+shown in Microsoft Project to identify this field to a meaningful reflecting
+its use. MPXJ refers to this as the field's alias.
+
+Along with simply renaming the field using an alias, there are a variety of
+other configuration options available allowing lookup tables to be created to
+make data entry for these fields easier, or constrain the values a user enters.
+Masks can also be applied to guide the accepted format of any data entered in
+the field.
+
+Other scheduling applications like P6 have the concept of User Defined Fields
+(UDFs) where the user has the ability to create entirely new fields, assign
+them a name and data type, and potentially provide other configuration like
+lookup tables. As noted elsewhere MPXJ follows Microsoft Project's model of
+using a fixed set of fields, so any UDFs are mapped onto the
+available "indexed" fields. For example, the first text UDF a user defines for
+tasks in P6 might be mapped to the Text 1 field in MPXJ, the next text UDF a
+user defines might be Text 2 and so on.
+
+Now we've seen how MPXJ handles these fields, how can we use them?
+
+
+
 enterprise fields (enterprise_text1 etc)
 enterprise custom fields
