@@ -1774,7 +1774,7 @@ final class AstaReader
          if (field != null)
          {
             map.put(row.getInteger("UDF_ID"), new UserField(field, objectType, row.getInt("DATA_TYPE")));
-            m_project.getCustomFields().getCustomField(field).setAlias(row.getString("UDF_NAME"));
+            m_project.getCustomFields().addCustomField(field).setAlias(row.getString("UDF_NAME"));
          }
       }
    }

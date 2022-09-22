@@ -299,7 +299,7 @@ final class PrimaveraReader
             {
                String fieldName = row.getString("udf_type_label");
                m_udfFields.put(fieldId, fieldType);
-               m_project.getCustomFields().getCustomField(fieldType).setAlias(fieldName).setUniqueID(fieldId);
+               m_project.getCustomFields().addCustomField(fieldType).setAlias(fieldName).setUniqueID(fieldId);
             }
          }
       }

@@ -532,7 +532,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (field != null)
          {
             m_fieldTypeMap.put(udf.getObjectId(), field);
-            m_projectFile.getCustomFields().getCustomField(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
+            m_projectFile.getCustomFields().addCustomField(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
          }
       }
    }

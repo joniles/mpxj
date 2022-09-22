@@ -18,6 +18,7 @@
 			<action dev="joniles" type="update">Don't attempt to write unknown extended attributes to MSPDI files.</action>
 			<action dev="joniles" type="update">Don't populate graphical indicator data if the graphical indicator is not enabled.</action>
 			<action dev="joniles" type="update">Don't set custom field aliases to empty strings.</action>
+			<action dev="joniles" type="update">Added the `CustomFieldContainer` method `addCustomField`.</action>
 		</release>
 		<release date="2022-09-13" version="10.10.0">
 			<action dev="joniles" type="update">Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)</action>

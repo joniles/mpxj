@@ -135,7 +135,7 @@ public class MpxjCreate
       // Let's create an alias for TEXT1
       //
       CustomFieldContainer customFields = file.getCustomFields();
-      CustomField field = customFields.getCustomField(TaskField.TEXT1);
+      CustomField field = customFields.addCustomField(TaskField.TEXT1);
       field.setAlias("My Custom Field");
 
       //

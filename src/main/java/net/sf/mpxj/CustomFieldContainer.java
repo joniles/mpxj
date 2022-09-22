@@ -52,6 +52,19 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
+    * Add a new custom field. Overwrite any previous CustomField definition.
+    *
+    * @param field field type
+    * @return new CustomField instance
+    */
+   public CustomField addCustomField(FieldType field)
+   {
+      CustomField result = new CustomField(field, this);
+      m_configMap.put(field, result);
+      return result;
+   }
+
+   /**
     * Retrieve a field type from a particular entity using its alias.
     *
     * @param typeClass the type of entity we are interested in
