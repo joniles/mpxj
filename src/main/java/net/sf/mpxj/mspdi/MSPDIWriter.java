@@ -61,6 +61,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -339,7 +340,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (CustomField customField : m_projectFile.getCustomFields())
       {
          FieldType fieldType = customField.getFieldType();
-         if (fieldType != null)
+
+         // Don't attempt to write unknown fields
+         if (fieldType != null && FieldTypeHelper.getFieldID(fieldType) != -1)
          {
             customFields.add(fieldType);
          }
