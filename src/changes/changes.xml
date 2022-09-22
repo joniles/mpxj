@@ -16,6 +16,7 @@
 			<action dev="joniles" type="update">Added the `getCustomFieldsByFieldTypeClass` method to `CustomFieldContainer` to allow retrieval of custom field details by parent class.</action>
 			<action dev="joniles" type="update">Deprecated the `CustomFieldContainer` method `getFieldByAlias` to be replaced by `getFieldTypeByAlias` to provide a more consistent method name.</action>
 			<action dev="joniles" type="update">Don't attempt to write unknown extended attributes to MSPDI files.</action>
+			<action dev="joniles" type="update">Don't populate graphical indicator data if the graphical indicator is not enabled.</action>
 		</release>
 		<release date="2022-09-13" version="10.10.0">
 			<action dev="joniles" type="update">Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)</action>
