@@ -423,7 +423,7 @@ user defines might be Text 2 and so on.
 
 Now we've seen how MPXJ handles these fields, how can we use them?
 
-
+Information about custom fields can be obtained from the `CustomFieldsContainer`
 
 enterprise fields (enterprise_text1 etc)
 enterprise custom fields
