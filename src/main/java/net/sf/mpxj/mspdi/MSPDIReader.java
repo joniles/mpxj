@@ -1789,15 +1789,21 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       if (fieldType != null)
       {
-         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-         String currentAlias = field.getAlias();
-         // Don't overwrite an alias we've read from extended attributes
-         if (currentAlias == null || currentAlias.isEmpty())
+         String newAlias = outlineCode.getAlias();
+         if (newAlias != null && !newAlias.isEmpty())
          {
-            field.setAlias(outlineCode.getAlias());
+            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            String currentAlias = field.getAlias();
+
+            // Don't overwrite an alias we've read from extended attributes
+            if (currentAlias == null || currentAlias.isEmpty())
+            {
+               field.setAlias(newAlias);
+            }
          }
-         readOutlineCodeValues(outlineCode, field);
-         readOutlineCodeMasks(outlineCode, field);
+
+         readOutlineCodeValues(outlineCode, fieldType);
+         readOutlineCodeMasks(outlineCode, fieldType);
       }
    }
 
@@ -1805,13 +1811,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * This method extracts the lookup table values for an outline code/custom field from an MSPDI file.
     *
     * @param outlineCode outline code data from the MSPDI file
-    * @param field target field
+    * @param fieldType target field type
     */
-   private void readOutlineCodeValues(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
+   private void readOutlineCodeValues(Project.OutlineCodes.OutlineCode outlineCode, FieldType fieldType)
    {
       Project.OutlineCodes.OutlineCode.Values values = outlineCode.getValues();
       if (values != null)
       {
+         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
          CustomFieldLookupTable table = field.getLookupTable();
 
          table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
@@ -1840,13 +1847,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * This method extracts the lookup table masks for an outline code/custom field from an MSPDI file.
     *
     * @param outlineCode outline code data from the MSPDI file
-    * @param field target field
+    * @param fieldType target field type
     */
-   private void readOutlineCodeMasks(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
+   private void readOutlineCodeMasks(Project.OutlineCodes.OutlineCode outlineCode, FieldType fieldType)
    {
       Project.OutlineCodes.OutlineCode.Masks masks = outlineCode.getMasks();
       if (masks != null)
       {
+         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
          List<CustomFieldValueMask> maskList = field.getMasks();
          for (Project.OutlineCodes.OutlineCode.Masks.Mask mask : masks.getMask())
          {

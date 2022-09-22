@@ -76,7 +76,10 @@ class CustomFieldReader12
             if (aliasOffset < m_data.length)
             {
                String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);
-               m_fields.getCustomField(FieldTypeHelper.getInstance(fieldID)).setAlias(alias);
+               if (!alias.isEmpty())
+               {
+                  m_fields.getCustomField(FieldTypeHelper.getInstance(fieldID)).setAlias(alias);
+               }
             }
             index++;
          }
