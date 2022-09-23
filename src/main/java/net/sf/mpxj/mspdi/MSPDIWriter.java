@@ -61,7 +61,6 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -217,7 +216,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-         m_extendedAttributesInUse = new HashSet<>();
          m_customFieldValueItems = new HashMap<>();
          m_resouceCalendarMap = new HashMap<>();
 
@@ -244,7 +242,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          m_projectFile = null;
          m_factory = null;
-         m_extendedAttributesInUse = null;
          m_customFieldValueItems = null;
          m_resouceCalendarMap = null;
       }
@@ -336,19 +333,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      Set<FieldType> customFields = new HashSet<>();
-      for (CustomField customField : m_projectFile.getCustomFields())
-      {
-         FieldType fieldType = customField.getFieldType();
-
-         // Don't attempt to write unknown fields
-         if (fieldType != null && FieldTypeHelper.getFieldID(fieldType) != -1)
-         {
-            customFields.add(fieldType);
-         }
-      }
-
-      customFields.addAll(m_extendedAttributesInUse);
+      Set<FieldType> customFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes()
+               .stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
       // Don't write definitions for enterprise custom fields.
       // MS Project fails to read MSPDI files with these definitions
@@ -356,6 +342,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // As we don't know the types of these fields presently,
       // we're just reading the raw bytes for each value, so
       // we never write them to the MSPDI file anyway.
+      // TODO: revisit this as we should now have the data to write these fields
       customFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
 
       List<FieldType> customFieldsList = new ArrayList<>(customFields);
@@ -1170,8 +1157,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            m_extendedAttributesInUse.add(mpxFieldID);
-
             Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
@@ -1218,8 +1203,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            m_extendedAttributesInUse.add(mpxFieldID);
-
             Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
@@ -1661,8 +1644,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            m_extendedAttributesInUse.add(mpxFieldID);
-
             Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
@@ -1693,8 +1674,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            m_extendedAttributesInUse.add(mpxFieldID);
-
             Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
@@ -2139,8 +2118,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            m_extendedAttributesInUse.add(mpxFieldID);
-
             Integer xmlFieldID = Integer.valueOf(MPPAssignmentField.getID(mpxFieldID) | MPPAssignmentField.ASSIGNMENT_FIELD_BASE);
 
             attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
@@ -2425,8 +2402,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private ProjectFile m_projectFile;
 
    private EventManager m_eventManager;
-
-   private Set<FieldType> m_extendedAttributesInUse;
 
    private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
 

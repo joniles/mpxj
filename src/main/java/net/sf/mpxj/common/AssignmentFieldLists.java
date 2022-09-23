@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import net.sf.mpxj.AssignmentField;
 
@@ -558,26 +559,24 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE29
    };
 
-   public static final AssignmentField[] EXTENDED_FIELDS;
+   public static final List<AssignmentField> EXTENDED_FIELDS = new ArrayList<>();
    static
    {
-      ArrayList<AssignmentField> result = new ArrayList<>();
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
-      result.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
-      result.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
-      EXTENDED_FIELDS = result.toArray(new AssignmentField[0]);
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
    }
 }
