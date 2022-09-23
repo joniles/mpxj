@@ -334,7 +334,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
       // Don't include field types which we can't map to a valid field id
-      Set<FieldType> customFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes()
+      CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
+      Set<FieldType> customFields = customFieldContainer.getConfiguredAndPopulatedCustomFieldTypes()
                .stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
       // Don't write definitions for enterprise custom fields.
@@ -349,12 +350,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<FieldType> customFieldsList = new ArrayList<>(customFields);
 
       // Sort to ensure consistent order in file
-      final CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
       customFieldsList.sort((o1, o2) -> {
-         CustomField customField1 = customFieldContainer.getCustomField(o1);
-         CustomField customField2 = customFieldContainer.getCustomField(o2);
-         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+         String name1 = o1.getClass().getSimpleName() + "." + o1.name();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.name();
          return name1.compareTo(name2);
       });
 
