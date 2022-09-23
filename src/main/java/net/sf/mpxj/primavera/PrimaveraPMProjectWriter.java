@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -1861,16 +1862,8 @@ final class PrimaveraPMProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      m_sortedCustomFieldsList = new ArrayList<>();
-
-      for (CustomField field : m_projectFile.getCustomFields())
-      {
-         FieldType fieldType = field.getFieldType();
-         if (fieldType != null && fieldType.getDataType() != null)
-         {
-            m_sortedCustomFieldsList.add(fieldType);
-         }
-      }
+      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream()
+               .filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
 
       // Sort to ensure consistent order in file
       m_sortedCustomFieldsList.sort((o1, o2) -> {
