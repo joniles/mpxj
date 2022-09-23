@@ -333,6 +333,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
+      // Don't include field types which we can't map to a valid field id
       Set<FieldType> customFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes()
                .stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
