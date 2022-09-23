@@ -253,9 +253,9 @@ public class FieldReporter
    private static final Set<FieldType> EXTENDED_FIELDS = new HashSet<>();
    static
    {
-      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.EXTENDED_FIELDS));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.EXTENDED_FIELDS));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.EXTENDED_FIELDS));
+      EXTENDED_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));

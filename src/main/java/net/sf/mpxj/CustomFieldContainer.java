@@ -27,12 +27,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.Pair;
+import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
@@ -40,6 +45,16 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
  */
 public class CustomFieldContainer implements Iterable<CustomField>
 {
+   /**
+    * Constructor.
+    *
+    * @param parent parent project file
+    */
+   public CustomFieldContainer(ProjectFile parent)
+   {
+      m_parent = parent;
+   }
+
    /**
     * Retrieve configuration details for a given custom field.
     *
@@ -186,6 +201,41 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return StreamSupport.stream(spliterator(), false);
    }
 
+   /**
+    * This method combines two sets of information: the list
+    * of configured custom fields (from this class) plus
+    * a lst of the custom fields which do not have configuration
+    * but are in use in the schedule.
+    *
+    * @return set of FieldTypes representing configured and in use fields
+    */
+   public Set<FieldType> getConfiguredAndPopulatedCustomFieldTypes()
+   {
+      // Configured custom fields
+      Set<FieldType> result = stream()
+               .map(c -> c.getFieldType())
+               .filter(Objects::nonNull)
+               .collect(Collectors.toSet());
+
+      /// Populated task custom fields
+      Set<TaskField> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
+      populatedTaskFields.retainAll(TaskFieldLists.EXTENDED_FIELDS);
+      result.addAll(populatedTaskFields);
+
+      // Populated resource custom fields
+      Set<ResourceField> populatedResourceFields = m_parent.getResources().getPopulatedFields();
+      populatedResourceFields.retainAll(ResourceFieldLists.EXTENDED_FIELDS);
+      result.addAll(populatedResourceFields);
+
+      // Populated assignment custom fields
+      Set<AssignmentField> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
+      populatedAssignmentFields.retainAll(AssignmentFieldLists.EXTENDED_FIELDS);
+      result.addAll(populatedAssignmentFields);
+
+      return result;
+   }
+
+   private final ProjectFile m_parent;
    private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
    private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
    private final Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();

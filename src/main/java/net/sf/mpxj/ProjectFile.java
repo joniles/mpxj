@@ -676,7 +676,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
+   private final CustomFieldContainer m_customFields = new CustomFieldContainer(this);
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
