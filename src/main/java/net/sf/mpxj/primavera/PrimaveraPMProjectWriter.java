@@ -314,18 +314,15 @@ final class PrimaveraPMProjectWriter
     */
    private void writeUserFieldDefinitions()
    {
-      for (CustomField cf : m_sortedCustomFieldsList)
+      for (FieldType type : m_sortedCustomFieldsList)
       {
-         String title = cf.getAlias();
-         if (title == null || title.isEmpty())
-         {
-            title = cf.getFieldType().getName();
-         }
+         CustomField cf = m_projectFile.getCustomFields().getCustomField(type);
+         String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
 
-         DataType dataType = cf.getFieldType().getDataType();
+         DataType dataType = type.getDataType();
          if (dataType == DataType.CUSTOM)
          {
-            dataType = cf.getCustomFieldDataType();
+            dataType = cf == null ? null : cf.getCustomFieldDataType();
             if (dataType == null)
             {
                dataType = DataType.BINARY;
@@ -1515,9 +1512,8 @@ final class PrimaveraPMProjectWriter
       List<UDFAssignmentType> out = new ArrayList<>();
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
-      for (CustomField cf : m_sortedCustomFieldsList)
+      for (FieldType fieldType : m_sortedCustomFieldsList)
       {
-         FieldType fieldType = cf.getFieldType();
          if (type == fieldType.getFieldTypeClass())
          {
             Object value = mpxj.getCachedValue(fieldType);
@@ -1526,7 +1522,8 @@ final class PrimaveraPMProjectWriter
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
                {
-                  dataType = cf.getCustomFieldDataType();
+                  CustomField cf = customFields.getCustomField(fieldType);
+                  dataType = cf == null ? null : cf.getCustomFieldDataType();
                   if (dataType == null)
                   {
                      dataType = DataType.BINARY;
@@ -1871,16 +1868,14 @@ final class PrimaveraPMProjectWriter
          FieldType fieldType = field.getFieldType();
          if (fieldType != null && fieldType.getDataType() != null)
          {
-            m_sortedCustomFieldsList.add(field);
+            m_sortedCustomFieldsList.add(fieldType);
          }
       }
 
       // Sort to ensure consistent order in file
-      m_sortedCustomFieldsList.sort((customField1, customField2) -> {
-         FieldType o1 = customField1.getFieldType();
-         FieldType o2 = customField2.getFieldType();
-         String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + customField1.getAlias();
-         String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + customField2.getAlias();
+      m_sortedCustomFieldsList.sort((o1, o2) -> {
+         String name1 = o1.getClass().getSimpleName() + "." + o1.name();
+         String name2 = o2.getClass().getSimpleName() + "." + o2.name();
          return name1.compareTo(name2);
       });
    }
@@ -2021,7 +2016,7 @@ final class PrimaveraPMProjectWriter
    private Map<WorkContour, Integer> m_workContours;
 
    private ObjectSequence m_wbsSequence;
-   private List<CustomField> m_sortedCustomFieldsList;
+   private List<FieldType> m_sortedCustomFieldsList;
    private Map<Integer, String> m_topics;
    private boolean m_activityTypePopulated;
 }
