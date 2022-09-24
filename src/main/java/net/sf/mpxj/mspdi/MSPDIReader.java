@@ -1050,11 +1050,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          ResourceField mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
-         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
-         if (customField != null)
-         {
-            mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
-         }
+         mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
 
@@ -1577,11 +1573,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
-         CustomField customField = m_projectFile.getCustomFields().getCustomField(mpxFieldID);
-         if (customField != null)
-         {
-            mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
-         }
+         mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
 
