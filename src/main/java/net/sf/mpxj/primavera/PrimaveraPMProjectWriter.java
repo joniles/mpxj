@@ -319,6 +319,7 @@ final class PrimaveraPMProjectWriter
       {
          CustomField cf = m_projectFile.getCustomFields().getCustomField(type);
          String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
+         Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : cf.getUniqueID();
 
          DataType dataType = type.getDataType();
          if (dataType == DataType.CUSTOM)
@@ -331,9 +332,9 @@ final class PrimaveraPMProjectWriter
          }
 
          UDFTypeType udf = m_factory.createUDFTypeType();
-         udf.setObjectId(cf.getUniqueID());
+         udf.setObjectId(uniqueID);
          udf.setDataType(UserFieldDataType.inferUserFieldDataType(dataType));
-         udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(cf.getFieldType()));
+         udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(type));
          udf.setTitle(title);
          m_apibo.getUDFType().add(udf);
       }
