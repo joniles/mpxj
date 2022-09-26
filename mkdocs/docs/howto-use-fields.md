@@ -463,14 +463,70 @@ field.
 
 > It's important to note that for schedules from Microsoft
 > Project, there won't necessarily be a `CustomField` entry for
-> the "indexed fields" in use in a schedule For example, if a user has
-> added values to the "Text 1" field for each of the task in their schedule,
+> the "indexed fields" in use in a schedule. For example, if a user has
+> added values to the "Text 1" field for each of the tasks in their schedule,
 > unless they have configured Text 1 in some way (for example by setting an
 > alias or adding a lookup table) there won't be an entry in the
 > `CustomFieldContainer`.
 
+As well as iterating through the collection of `CustomField` instances for the
+current schedule, you can directly request the `CustomField` instance for a
+specific field, as shown below:
 
 ```java
 CustomField fieldConfiguration = container.get(TaskField.TEXT1);
 ```
+
+One common use-case for the configuration data help in `CustomFieldContainer`
+is to locate particular information you are expecting to find in the schedule.
+For example, let's say that you know that the schedule you're read show have a
+field which users have named "Number of Widgets Required" on each task.
+You can determine which field contains this data using a method call similar
+to the one shown below:
+
+```java
+FieldType fieldType = container.getFieldTypeByAlias(FieldTypeClass.TASK,
+   "Number of Widgets Required");
+```
+
+Note that the first argument we need to pass identifies which parent entity
+we're expecting to find the field in. The `CustomFieldContainer` will have
+entries from all field containers (tasks, resources, resource assignments and
+son on) so this is used to locate the correct one - particularly useful if, for
+example, a task and a resource might both have a field with the same alias!
+Remember: this method will return `null` if we don't have a field with the
+alias you've provided.
+
+Once we have the `FieldType` of the field we're looking for,  we can use his to
+retrieve the value using the `get` method as we've seen earlier in this
+section:
+
+```java
+Task task = file.getTaskByID(Integer.valueOf(1));
+Object value = task.get(fieldType);
+```
+
+Finally, there are a couple of convenience methods to make retrieving a field by
+its alias easier. The first is that each "container" class for the various
+entities also provides a `getFieldTypeByAlias` method. If you know ahead of
+time you're looking for a field in a particular entity, this will simplify your
+code somewhat. The example below illustrates this: as we're looking for a task
+field we can go straight to the `TaskContainer` and ask for the field with the
+alias we're looking for:
+
+```java
+fieldType = file.getTasks().getFieldTypeByAlias("Number of Widgets Required");
+```
+
+Lastly, you _can_ actually ask retrieve the value of a field directly from the
+parent entity using its alias, as shown below:
+
+```java
+value = task.getFieldByAlias("Number of Widgets Required");
+```
+
+This is not recommended where you are iterating across multiple tasks to
+retrieve value: it's more efficient to look up the `FieldType` once before you
+start, then use that to retrieve the value you are interested in from each
+task.
 
