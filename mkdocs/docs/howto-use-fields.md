@@ -416,14 +416,49 @@ Other scheduling applications like P6 have the concept of User Defined Fields
 (UDFs) where the user has the ability to create entirely new fields, assign
 them a name and data type, and potentially provide other configuration like
 lookup tables. As noted elsewhere MPXJ follows Microsoft Project's model of
-using a fixed set of fields, so any UDFs are mapped onto the
-available "indexed" fields. For example, the first text UDF a user defines for
-tasks in P6 might be mapped to the Text 1 field in MPXJ, the next text UDF a
-user defines might be Text 2 and so on.
+using a fixed set of fields, so any UDFs defined in applications like P6 are
+mapped onto the available "indexed" fields. For example, the first text UDF a
+user defines for tasks in P6 might be mapped to the Text 1 field in MPXJ, the
+next text UDF a user defines might be Text 2 and so on.
 
 Now we've seen how MPXJ handles these fields, how can we use them?
 
-Information about custom fields can be obtained from the `CustomFieldsContainer`
+Information about custom field configurations can be obtained from the
+`CustomFieldsContainer`. The sample code below provides a simple illustration
+of how we can query this data.
 
-enterprise fields (enterprise_text1 etc)
-enterprise custom fields
+```java
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
+
+CustomFieldContainer container = file.getCustomFields();
+for (CustomField field : container)
+{
+    FieldType type = field.getFieldType();
+    String typeClass = type.getFieldTypeClass().toString();
+    String typeName = type.name();
+    String alias = field.getAlias();
+    System.out.println(typeClass + "." + typeName + "\t" + alias);
+}
+```
+
+Depending on how your schedule is configured, you'll see output like this:
+
+```
+TASK.TEXT1      Change Request Reason
+TASK.NUMBER1    Number of Widgets Required
+RESOURCE.DATE1  Significant Date
+```
+
+In the source above, the first thing we're retrieving from each `CustomField`
+instance is the `FieldType`, which identifies the field we're configuring. The
+values we retrieve here will be from one of the enumerations we've touched on
+previously in this section, for example `TaskField`, `ResourceField` and so
+on.
+
+The next thing we're doing in our sample code is to create a representation of
+the parent type to which this field belongs, followed by the name of the field
+itself(this is what's providing us with the value `TASK.TEXT1` for example).
+Finally we're displaying the alias which has been set by the user for this
+field.
+
+> It's important to note that 
