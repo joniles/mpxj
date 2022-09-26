@@ -104,7 +104,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             FieldType field = map.get(lookupTableGuid);
             if (field != null)
             {
-               CustomFieldLookupTable table = m_container.getCustomField(field).getLookupTable();
+               CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
                table.add(item);
                // It's like this to avoid creating empty lookup tables. Need to refactor!
                table.setGUID(lookupTableGuid);

@@ -867,7 +867,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       String alias = attribute.getAlias();
       if (alias != null && alias.length() != 0)
       {
-         m_projectFile.getCustomFields().getCustomField(field).setAlias(attribute.getAlias());
+         m_projectFile.getCustomFields().getOrCreate(field).setAlias(attribute.getAlias());
       }
    }
 
@@ -1795,7 +1795,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (field == null)
                {
-                  field = m_projectFile.getCustomFields().getCustomField(fieldType);
+                  field = m_projectFile.getCustomFields().getOrCreate(fieldType);
                }
                field.setAlias(newAlias);
             }
@@ -1817,7 +1817,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.OutlineCodes.OutlineCode.Values values = outlineCode.getValues();
       if (values != null)
       {
-         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+         CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
          CustomFieldLookupTable table = field.getLookupTable();
 
          table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
@@ -1853,7 +1853,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.OutlineCodes.OutlineCode.Masks masks = outlineCode.getMasks();
       if (masks != null && !masks.getMask().isEmpty())
       {
-         CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+         CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
          List<CustomFieldValueMask> maskList = field.getMasks();
          for (Project.OutlineCodes.OutlineCode.Masks.Mask mask : masks.getMask())
          {

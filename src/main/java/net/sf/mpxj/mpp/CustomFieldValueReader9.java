@@ -200,7 +200,7 @@ public class CustomFieldValueReader9
     */
    private void populateContainer(FieldType field, byte[] values, byte[] descriptions)
    {
-      CustomField config = m_container.getCustomField(field);
+      CustomField config = m_container.getOrCreate(field);
       CustomFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = config.getFieldType().getName();
       table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
@@ -231,7 +231,7 @@ public class CustomFieldValueReader9
     */
    private void populateContainer(FieldType field, List<Pair<String, String>> items)
    {
-      CustomField config = m_container.getCustomField(field);
+      CustomField config = m_container.getOrCreate(field);
       CustomFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = field == null ? "Unknown" : field.getName();
       table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
