@@ -461,4 +461,16 @@ itself(this is what's providing us with the value `TASK.TEXT1` for example).
 Finally we're displaying the alias which has been set by the user for this
 field.
 
-> It's important to note that 
+> It's important to note that for schedules from Microsoft
+> Project, there won't necessarily be a `CustomField` entry for
+> the "indexed fields" in use in a schedule For example, if a user has
+> added values to the "Text 1" field for each of the task in their schedule,
+> unless they have configured Text 1 in some way (for example by setting an
+> alias or adding a lookup table) there won't be an entry in the
+> `CustomFieldContainer`.
+
+
+```java
+CustomField fieldConfiguration = container.get(TaskField.TEXT1);
+```
+
