@@ -57,19 +57,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
 
    /**
     * Retrieve configuration details for a given custom field.
-    * Return null if the field has not been configured.
-    *
-    * @param field target field type
-    * @return field configuration, or null if not configured
-    */
-   public CustomField get(FieldType field)
-   {
-      return m_configMap.get(field);
-   }
-
-
-   /**
-    * Retrieve configuration details for a given custom field.
     *
     * @param field required custom field
     * @return configuration detail
@@ -78,6 +65,18 @@ public class CustomFieldContainer implements Iterable<CustomField>
    @Deprecated public CustomField getCustomField(FieldType field)
    {
       return getOrCreate(field);
+   }
+
+   /**
+    * Retrieve configuration details for a given custom field.
+    * Return null if the field has not been configured.
+    *
+    * @param field target field type
+    * @return field configuration, or null if not configured
+    */
+   public CustomField get(FieldType field)
+   {
+      return m_configMap.get(field);
    }
 
    /**
@@ -98,7 +97,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     * @param field field type
     * @return new CustomField instance
     */
-   public CustomField addCustomField(FieldType field)
+   public CustomField add(FieldType field)
    {
       CustomField result = new CustomField(field, this);
       m_configMap.put(field, result);
