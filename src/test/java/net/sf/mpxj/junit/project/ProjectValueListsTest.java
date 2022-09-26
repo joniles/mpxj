@@ -67,7 +67,7 @@ public class ProjectValueListsTest
       ProjectFile project = new UniversalProjectReader().read(file);
       CustomFieldContainer container = project.getCustomFields();
 
-      CustomField config = container.getCustomField(TaskField.COST1);
+      CustomField config = container.get(TaskField.COST1);
       CustomFieldLookupTable table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals(1, ((Number) table.get(0).getValue()).intValue());
@@ -77,7 +77,7 @@ public class ProjectValueListsTest
       assertEquals(3, ((Number) table.get(2).getValue()).intValue());
       assertEquals("Description 3", table.get(2).getDescription());
 
-      config = container.getCustomField(TaskField.DATE1);
+      config = container.get(TaskField.DATE1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals("01/01/2015", df.format(table.get(0).getValue()));
@@ -87,7 +87,7 @@ public class ProjectValueListsTest
       assertEquals("03/01/2015", df.format(table.get(2).getValue()));
       assertEquals("Description 3", table.get(2).getDescription());
 
-      config = container.getCustomField(TaskField.DURATION1);
+      config = container.get(TaskField.DURATION1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals("1.0d", table.get(0).getValue().toString());
@@ -97,7 +97,7 @@ public class ProjectValueListsTest
       assertEquals("3.0d", table.get(2).getValue().toString());
       assertEquals("Description 3", table.get(2).getDescription());
 
-      config = container.getCustomField(TaskField.NUMBER1);
+      config = container.get(TaskField.NUMBER1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals(1, ((Number) table.get(0).getValue()).intValue());
@@ -107,7 +107,7 @@ public class ProjectValueListsTest
       assertEquals(3, ((Number) table.get(2).getValue()).intValue());
       assertEquals("Description 3", table.get(2).getDescription());
 
-      config = container.getCustomField(TaskField.TEXT1);
+      config = container.get(TaskField.TEXT1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals("Value 1", table.get(0).getValue());

@@ -55,6 +55,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
       m_parent = parent;
    }
 
+   public CustomField get(FieldType field)
+   {
+      return m_configMap.get(field);
+   }
+
    /**
     * Retrieve configuration details for a given custom field.
     *
