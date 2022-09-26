@@ -317,7 +317,7 @@ final class PrimaveraPMProjectWriter
    {
       for (FieldType type : m_sortedCustomFieldsList)
       {
-         CustomField cf = m_projectFile.getCustomFields().getCustomField(type);
+         CustomField cf = m_projectFile.getCustomFields().get(type);
          String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
          Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : cf.getUniqueID();
 
@@ -1521,10 +1521,12 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
+               CustomField cf = customFields.get(fieldType);
+               Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(fieldType)) : cf.getUniqueID();
+
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
                {
-                  CustomField cf = customFields.getCustomField(fieldType);
                   dataType = cf == null ? null : cf.getCustomFieldDataType();
                   if (dataType == null)
                   {
@@ -1533,7 +1535,7 @@ final class PrimaveraPMProjectWriter
                }
 
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(customFields.getCustomField(fieldType).getUniqueID().intValue());
+               udf.setTypeObjectId(uniqueID);
                setUserFieldValue(udf, dataType, value);
                out.add(udf);
             }

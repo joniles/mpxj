@@ -69,7 +69,7 @@ public class CleanByReplacementStrategy implements CleanStrategy
    }
 
    /**
-    * DReturns true if the supplied word is not a numeric value.
+    * Returns true if the supplied word is not a numeric value.
     *
     * @param word text to test
     * @return true if the text is not numeric

@@ -774,7 +774,7 @@ final class MPP9Reader implements MPPVariantReader
                FieldType field = map.get(Integer.valueOf(index));
                if (field != null)
                {
-                  fields.getCustomField(field).setAlias(alias);
+                  fields.getOrCreate(field).setAlias(alias);
                }
             }
             offset += (alias.length() + 1) * 2;

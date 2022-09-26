@@ -152,7 +152,7 @@ public class MppGraphIndTest
     */
    private void testIndicator(ProjectFile project, FieldType fieldType, FieldContainer[] rows, int[] expectedResults)
    {
-      GraphicalIndicator indicator = project.getCustomFields().getCustomField(fieldType).getGraphicalIndicator();
+      GraphicalIndicator indicator = project.getCustomFields().get(fieldType).getGraphicalIndicator();
       for (int loop = 0; loop < expectedResults.length; loop++)
       {
          int value = indicator.evaluate(rows[loop]);

@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
@@ -1119,7 +1120,8 @@ abstract class FieldMap
 
             case CUSTOM:
             {
-               DataType customDataType = m_customFields.getCustomField(m_type).getCustomFieldDataType();
+               CustomField cf = m_customFields.get(m_type);
+               DataType customDataType = cf == null ? null : cf.getCustomFieldDataType();
                if (customDataType == null)
                {
                   result = varData.getByteArray(id, m_varDataKey);

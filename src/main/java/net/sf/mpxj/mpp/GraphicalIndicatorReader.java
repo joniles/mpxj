@@ -97,7 +97,7 @@ public final class GraphicalIndicatorReader
          return;
       }
 
-      GraphicalIndicator indicator = m_container.getCustomField(type).getGraphicalIndicator();
+      GraphicalIndicator indicator = m_container.getOrCreate(type).getGraphicalIndicator();
       indicator.setFieldType(type);
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);
       indicator.setSummaryRowsInheritFromNonSummaryRows((flags & 0x04) != 0);

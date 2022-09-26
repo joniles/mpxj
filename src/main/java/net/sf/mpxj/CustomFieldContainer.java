@@ -60,8 +60,33 @@ public class CustomFieldContainer implements Iterable<CustomField>
     *
     * @param field required custom field
     * @return configuration detail
+    * @deprecated use getOrCreate
     */
-   public CustomField getCustomField(FieldType field)
+   @Deprecated public CustomField getCustomField(FieldType field)
+   {
+      return getOrCreate(field);
+   }
+
+   /**
+    * Retrieve configuration details for a given custom field.
+    * Return null if the field has not been configured.
+    *
+    * @param field target field type
+    * @return field configuration, or null if not configured
+    */
+   public CustomField get(FieldType field)
+   {
+      return m_configMap.get(field);
+   }
+
+   /**
+    * Retrieve configuration details for a given custom field,
+    * create a new CustomField entry if one does not exist.
+    *
+    * @param field required custom field
+    * @return configuration detail
+    */
+   public CustomField getOrCreate(FieldType field)
    {
       return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this));
    }
@@ -72,7 +97,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     * @param field field type
     * @return new CustomField instance
     */
-   public CustomField addCustomField(FieldType field)
+   public CustomField add(FieldType field)
    {
       CustomField result = new CustomField(field, this);
       m_configMap.put(field, result);
@@ -213,7 +238,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    {
       // Configured custom fields
       Set<FieldType> result = stream()
-               .map(c -> c.getFieldType())
+               .map(CustomField::getFieldType)
                .filter(Objects::nonNull)
                .collect(Collectors.toSet());
 

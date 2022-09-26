@@ -363,9 +363,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
          attribute.setFieldName(fieldType.getName());
 
-         CustomField customField = customFieldContainer.getCustomField(fieldType);
-         attribute.setAlias(customField.getAlias());
-         attribute.setLtuid(customField.getLookupTable().getGUID());
+         CustomField customField = customFieldContainer.get(fieldType);
+         if (customField != null)
+         {
+            attribute.setAlias(customField.getAlias());
+            attribute.setLtuid(customField.getLookupTable().getGUID());
+         }
       }
    }
 
@@ -1747,11 +1750,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       CustomFieldValueItem result = null;
 
-      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-      List<CustomFieldValueItem> items = field.getLookupTable();
-      if (!items.isEmpty())
+      CustomField field = m_projectFile.getCustomFields().get(fieldType);
+      if (field != null)
       {
-         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue);
+         List<CustomFieldValueItem> items = field.getLookupTable();
+         if (!items.isEmpty())
+         {
+            result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue);
+         }
       }
 
       return result;
