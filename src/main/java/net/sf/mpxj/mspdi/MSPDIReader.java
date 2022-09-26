@@ -1610,11 +1610,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       CustomFieldValueItem result = null;
 
-      CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-      List<CustomFieldValueItem> items = field.getLookupTable();
-      if (!items.isEmpty())
+      CustomField field = m_projectFile.getCustomFields().get(fieldType);
+      if (field != null)
       {
-         result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
+         List<CustomFieldValueItem> items = field.getLookupTable();
+         if (!items.isEmpty())
+         {
+            result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
+         }
       }
 
       return result;
@@ -1784,12 +1787,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          String newAlias = outlineCode.getAlias();
          if (newAlias != null && !newAlias.isEmpty())
          {
-            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
-            String currentAlias = field.getAlias();
+            CustomField field = m_projectFile.getCustomFields().get(fieldType);
+            String currentAlias = field == null ? null : field.getAlias();
 
             // Don't overwrite an alias we've read from extended attributes
             if (currentAlias == null || currentAlias.isEmpty())
             {
+               if (field == null)
+               {
+                  field = m_projectFile.getCustomFields().getCustomField(fieldType);
+               }
                field.setAlias(newAlias);
             }
          }
@@ -1844,7 +1851,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readOutlineCodeMasks(Project.OutlineCodes.OutlineCode outlineCode, FieldType fieldType)
    {
       Project.OutlineCodes.OutlineCode.Masks masks = outlineCode.getMasks();
-      if (masks != null)
+      if (masks != null && !masks.getMask().isEmpty())
       {
          CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
          List<CustomFieldValueMask> maskList = field.getMasks();
