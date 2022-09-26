@@ -91,10 +91,14 @@ public final class GraphicalIndicatorReader
    {
       //System.out.println("Header: " + type);
       //System.out.println(ByteArrayHelper.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
-
-      GraphicalIndicator indicator = m_container.getCustomField(type).getGraphicalIndicator();
-      indicator.setFieldType(type);
       int flags = m_data[m_dataOffset];
+      if ((flags & 0x02) == 0)
+      {
+         return;
+      }
+
+      GraphicalIndicator indicator = m_container.getOrCreate(type).getGraphicalIndicator();
+      indicator.setFieldType(type);
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);
       indicator.setSummaryRowsInheritFromNonSummaryRows((flags & 0x04) != 0);
       indicator.setDisplayGraphicalIndicators((flags & 0x02) != 0);

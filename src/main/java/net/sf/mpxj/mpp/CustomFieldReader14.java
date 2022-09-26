@@ -76,7 +76,10 @@ class CustomFieldReader14
             if (aliasOffset < m_data.length)
             {
                String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);
-               m_fields.getCustomField(FieldTypeHelper.getInstance(fieldID)).setAlias(alias);
+               if (!alias.isEmpty())
+               {
+                  m_fields.getOrCreate(FieldTypeHelper.getInstance(fieldID)).setAlias(alias);
+               }
             }
             index++;
          }
@@ -135,7 +138,7 @@ class CustomFieldReader14
             // Don't try to set the data type unless it's a custom field
             if (fieldType.getDataType() == DataType.CUSTOM)
             {
-               CustomField customField = m_fields.getCustomField(fieldType);
+               CustomField customField = m_fields.getOrCreate(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
                customField.setCustomFieldDataType(EnterpriseCustomFieldDataType.getDataType(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);

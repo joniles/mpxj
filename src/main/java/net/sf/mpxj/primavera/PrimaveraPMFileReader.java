@@ -532,7 +532,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (field != null)
          {
             m_fieldTypeMap.put(udf.getObjectId(), field);
-            m_projectFile.getCustomFields().getCustomField(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
+            m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
          }
       }
    }
@@ -559,7 +559,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_taskUdfCounters.nextField(TaskField.class, dataType);
                }
-               while (container.getCustomField(field).getAlias() != null);
+               while (container.get(field) != null);
 
                break;
             }
@@ -570,7 +570,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
                }
-               while (container.getCustomField(field).getAlias() != null);
+               while (container.get(field) != null);
 
                break;
             }
@@ -581,7 +581,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                {
                   field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
                }
-               while (container.getCustomField(field).getAlias() != null);
+               while (container.get(field) != null);
 
                break;
             }

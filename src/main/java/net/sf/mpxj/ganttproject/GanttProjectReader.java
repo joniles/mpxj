@@ -357,7 +357,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          //
          if (fieldType != null)
          {
-            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            CustomField field = m_projectFile.getCustomFields().add(fieldType);
             field.setAlias(definition.getName());
             String defaultValue = definition.getDefaultValue();
             if (defaultValue != null && defaultValue.isEmpty())
@@ -406,7 +406,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          //
          if (fieldType != null)
          {
-            CustomField field = m_projectFile.getCustomFields().getCustomField(fieldType);
+            CustomField field = m_projectFile.getCustomFields().add(fieldType);
             field.setAlias(definition.getName());
             String defaultValue = definition.getDefaultvalue();
             if (defaultValue != null && defaultValue.isEmpty())
