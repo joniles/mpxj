@@ -1,8 +1,22 @@
 # Changelog
 
-## 10.10.1 (unreleased)
+## 10.11.1 (unreleased)
+
+## 10.11.0 (2022-09-27)
 * Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.
 * Added the `Resource` methods `setParent` and `getParent`.
+* Added the `ChildResourceContainer` interface and `ResourceContainer.updateStructure` method to ensure that resources can be accessed hierarchically when reading a schedule.
+* Added the `ResourceAssignment` methods `getFieldByAlias` and `setFieldByAlias` to simplify working with custom fields, and mkae the API consistent with existing methods on `Task` and `Resource`.
+* Added the `TaskContainer` methods `getCustomFields` and `getFieldTypeByAlias` to simplify access to task custom fields.
+* Added the `ResourceContainer` methods `getCustomFields` and `getFieldTypeByAlias` to simplify access to resource  custom fields.
+* Added the `ResourceAssignmentContainer` methods `getCustomFields` and `getFieldTypeByAlias` to simplify access to resource assignment custom fields.
+* Added the `getCustomFieldsByFieldTypeClass` method to `CustomFieldContainer` to allow retrieval of custom field details by parent class.
+* Deprecated the `CustomFieldContainer` method `getFieldByAlias` to be replaced by `getFieldTypeByAlias` to provide a more consistent method name.
+* Don't attempt to write unknown extended attributes to MSPDI files.
+* Don't populate graphical indicator data if the graphical indicator is not enabled.
+* Don't set custom field aliases to empty strings.
+* Added the `CustomFieldContainer` method `add`.
+* Deprecated the `CustomFieldContainer` method `getCustomField`, which is replaced by the `get` method (which returns `null` if the field type is not configured) and the `getOrCreate` method (which will return an existing configuration or create a new one if the requested field does not yet have a configuration).
 
 ## 10.10.0 (2022-09-13)
 * Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)

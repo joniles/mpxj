@@ -1522,7 +1522,7 @@ final class PrimaveraPMProjectWriter
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
                CustomField cf = customFields.get(fieldType);
-               Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(fieldType)) : cf.getUniqueID();
+               int uniqueID = cf == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(cf.getUniqueID());
 
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
@@ -1865,8 +1865,7 @@ final class PrimaveraPMProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream()
-               .filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
+      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
 
       // Sort to ensure consistent order in file
       m_sortedCustomFieldsList.sort((o1, o2) -> {

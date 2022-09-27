@@ -266,8 +266,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10101-unreleased" class="md-nav__link">
-    10.10.1 (unreleased)
+  <a href="#10111-unreleased" class="md-nav__link">
+    10.11.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10110-2022-09-27" class="md-nav__link">
+    10.11.0 (2022-09-27)
   </a>
   
 </li>
@@ -2323,6 +2330,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-fields/" class="md-nav__link">
+        Fields
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -2463,8 +2484,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10101-unreleased" class="md-nav__link">
-    10.10.1 (unreleased)
+  <a href="#10111-unreleased" class="md-nav__link">
+    10.11.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10110-2022-09-27" class="md-nav__link">
+    10.11.0 (2022-09-27)
   </a>
   
 </li>
@@ -3883,10 +3911,23 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="10101-unreleased">10.10.1 (unreleased)</h2>
+<h2 id="10111-unreleased">10.11.1 (unreleased)</h2>
+<h2 id="10110-2022-09-27">10.11.0 (2022-09-27)</h2>
 <ul>
 <li>Deprecated the <code>Resource</code> methods <code>getParentID</code> and <code>setParentID</code>. Replaced with <code>getParentResourceUniqueID</code> and <code>setParentResourceUniqueID</code> for clarity and consistency.</li>
 <li>Added the <code>Resource</code> methods <code>setParent</code> and <code>getParent</code>.</li>
+<li>Added the <code>ChildResourceContainer</code> interface and <code>ResourceContainer.updateStructure</code> method to ensure that resources can be accessed hierarchically when reading a schedule.</li>
+<li>Added the <code>ResourceAssignment</code> methods <code>getFieldByAlias</code> and <code>setFieldByAlias</code> to simplify working with custom fields, and mkae the API consistent with existing methods on <code>Task</code> and <code>Resource</code>.</li>
+<li>Added the <code>TaskContainer</code> methods <code>getCustomFields</code> and <code>getFieldTypeByAlias</code> to simplify access to task custom fields.</li>
+<li>Added the <code>ResourceContainer</code> methods <code>getCustomFields</code> and <code>getFieldTypeByAlias</code> to simplify access to resource  custom fields.</li>
+<li>Added the <code>ResourceAssignmentContainer</code> methods <code>getCustomFields</code> and <code>getFieldTypeByAlias</code> to simplify access to resource assignment custom fields.</li>
+<li>Added the <code>getCustomFieldsByFieldTypeClass</code> method to <code>CustomFieldContainer</code> to allow retrieval of custom field details by parent class.</li>
+<li>Deprecated the <code>CustomFieldContainer</code> method <code>getFieldByAlias</code> to be replaced by <code>getFieldTypeByAlias</code> to provide a more consistent method name.</li>
+<li>Don't attempt to write unknown extended attributes to MSPDI files.</li>
+<li>Don't populate graphical indicator data if the graphical indicator is not enabled.</li>
+<li>Don't set custom field aliases to empty strings.</li>
+<li>Added the <code>CustomFieldContainer</code> method <code>add</code>.</li>
+<li>Deprecated the <code>CustomFieldContainer</code> method <code>getCustomField</code>, which is replaced by the <code>get</code> method (which returns <code>null</code> if the field type is not configured) and the <code>getOrCreate</code> method (which will return an existing configuration or create a new one if the requested field does not yet have a configuration).</li>
 </ul>
 <h2 id="10100-2022-09-13">10.10.0 (2022-09-13)</h2>
 <ul>
