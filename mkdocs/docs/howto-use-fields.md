@@ -33,7 +33,7 @@ Task name: Task 1
 
 Here we can see that we are able to set the name of the task using a `String`,
 and when we call the getter method we'll be returned the name as a `String`.
-How about working with a field that has a type other than a String:
+How about working with a field that has a type other than a String?
 
 ```java
 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -43,7 +43,7 @@ task.setStart(startDate);
 System.out.println("Start date: " + df.format(task.getStart()));
 ```
 
-here's the output from the sample code:
+Here's the output from the sample code:
 
 ```
 Start date: 10/05/2022
@@ -56,7 +56,7 @@ to access and modify the field with a convenient type safe interface.
 
 ## Field Enumerations
 What if we don't know ahead of time which fields we need to access? For example,
-what if our application was allowing users to chose which fields to display for
+what if our application allows users to chose which fields to display for
 each task? In this case we can use a data-driven approach to read and write
 fields, as shown in the example below.
 
@@ -99,11 +99,10 @@ Let's take a step back and look at calculated values to understand where
 `getCachedValue` fits in.
 
 ## Calculated Fields
-
 Some of the fields available from each of these classes can actually contain a
 calculated value. For example: the `Task` field "Start Variance" represents the
 difference between the Baseline Start date and the Start date of a task. Some
-schedules may provide this value for use when we read the data they contain,
+schedules may provide this value for us when we read the data they contain,
 others may not. If we don't have this value when we read our schedule data, but
 we do have a Baseline Start and Start date available to us, then we can perform
 the calculation ourselves to produce the Start Variance value. The example
@@ -161,13 +160,13 @@ Start Variance from get: 6.0d
 ```
 
 Regardless of how we set up the data, both the `getStartVariance` method and the
-call to `get(TaskField.START_VARIANCE` trigger the calculation and produce the
-same Start Variance value.
+call to `get(TaskField.START_VARIANCE)` trigger the calculation and produce the
+expected Start Variance value.
 
 Rather than immediately discarding the Start Variance value we've just
-calculated, this value is cached as part of the task, and will be returned next
-time we use the `getStartVariance` method or we call
-`get(TaskField.START_VARIANCE`.
+calculated, this value is cached as part of the data held by the task, and will
+be returned next time we use the `getStartVariance` method or we call
+`get(TaskField.START_VARIANCE)`.
 
 
 ## Cached Values
@@ -208,9 +207,9 @@ Start Variance using getCachedValue(): 6.0d
 ```
 
 What we can see happening here is that using the `getCachedValue` method
-initially returns `null` as the Start Variance is not present, and we're not
-attempting to calculate it. When we use the `get` method, MPXJ sees that it
-doesn't already have a value for this field and knows how to calculate it, and
+initially returns `null` as the Start Variance is not present, and MPXJ
+doesn't attempt to calculate it. When we use the `get` method, MPXJ sees that it
+doesn't have a value for this field and knows how to calculate it, and
 returns the expected result. Finally if we use the `getCachedValue` method
 again, as we've now calculated this value and cached it, the method returns the
 Start Variance.
@@ -222,7 +221,7 @@ schedule, not calculated or inferred by MPXJ.
 
 ## Indexed Fields
 So far we've seen how simple fields like Name and Start can be accessed
-and modified using both field-specific and generic methods. Many organisations
+and modified using both field-specific and generic methods. Many organizations
 rely on using general purpose fields like "Text 1" and "Date 1" to store
 information relevant to their schedules. If we look for methods like `setText1`
 or `setDate1` we won't find them, so how can we work with these fields?
@@ -264,15 +263,15 @@ So far we've touched on how to can read and write fields in examples where we
 are targeting specific fields. If we're reading a schedule whose contents are
 unknown to us, how can we tell which fields are actually populated? A typical
 use-case for this might be where we need to read a schedule, then present the
-user with the ability to select the columns to appear in a tabular display of
-the schedule contents. If you look at the various enumerations which have
-mentioned previously in this section (`TaskField`, `ResourceField` and so on)
-you can see that there are a large number of possible fields a user could
+user with the ability to select the columns they'd like to see in a tabular
+display of the schedule contents. If you look at the various enumerations which
+have mentioned previously in this section (`TaskField`, `ResourceField` and so
+on) you can see that there are a large number of possible fields a user could
 choose from, so ideally we only want to show a user field which actually
 contain non-default values.
 
-To solve this problem we need to use the appropriate `getPopulatedFields` method for
-each of the entities we're interested in.
+To solve this problem we need to use the appropriate `getPopulatedFields` method
+for each of the entities we're interested in.
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("example.mpp");
@@ -299,7 +298,7 @@ representing the fields which particular classes can contain.
 * `AssignmentField`
 
 What I didn't mention earlier is that each of these enumerations inherits from a
-common `FieldType` interface which defines a common set of methods each of
+the `FieldType` interface which defines a common set of methods each of
 these enumerations must implement. The most interesting of these methods are:
 
 * `name()`
@@ -318,7 +317,6 @@ belongs to. Finally the `getDataType()` method will return a value from the
 `DataType` enumeration which indicates the data type you will receive from the
 `get` method when accessing this field, and the type to pass to the `set`
 method when updating the field.
-
 
 Here's some example code to make this a little clearer:
 
@@ -343,7 +341,7 @@ getDataType(): DURATION
 
 Returning to our earlier example of how we might allow a user to select 
 fields we will display, we can use the data type of the selected field
-to determine how we format the the selected value for display.
+to determine how we format the value for display.
 
 ```java
 private String getStringValue(FieldContainer container, FieldType type)
@@ -457,7 +455,7 @@ on.
 
 The next thing we're doing in our sample code is to create a representation of
 the parent type to which this field belongs, followed by the name of the field
-itself(this is what's providing us with the value `TASK.TEXT1` for example).
+itself (this is what's providing us with the value `TASK.TEXT1` for example).
 Finally we're displaying the alias which has been set by the user for this
 field.
 
@@ -477,12 +475,12 @@ specific field, as shown below:
 CustomField fieldConfiguration = container.get(TaskField.TEXT1);
 ```
 
-One common use-case for the configuration data help in `CustomFieldContainer`
-is to locate particular information you are expecting to find in the schedule.
-For example, let's say that you know that the schedule you're read show have a
-field which users have named "Number of Widgets Required" on each task.
-You can determine which field contains this data using a method call similar
-to the one shown below:
+One common use-case for the configuration data help in `CustomFieldContainer` is
+to locate particular information you are expecting to find in the schedule. For
+example, let's say that you know that the schedule you're reading should have a
+field on each task which users have named "Number of Widgets Required". You can
+determine which field contains this data using a method call similar to the one
+shown below:
 
 ```java
 FieldType fieldType = container.getFieldTypeByAlias(FieldTypeClass.TASK,
@@ -518,7 +516,7 @@ alias we're looking for:
 fieldType = file.getTasks().getFieldTypeByAlias("Number of Widgets Required");
 ```
 
-Lastly, you _can_ actually ask retrieve the value of a field directly from the
+Lastly, you _can_ actually retrieve the value of a field directly from the
 parent entity using its alias, as shown below:
 
 ```java
@@ -526,7 +524,6 @@ value = task.getFieldByAlias("Number of Widgets Required");
 ```
 
 This is not recommended where you are iterating across multiple tasks to
-retrieve value: it's more efficient to look up the `FieldType` once before you
+retrieve values: it's more efficient to look up the `FieldType` once before you
 start, then use that to retrieve the value you are interested in from each
 task.
-
