@@ -237,10 +237,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    public Set<FieldType> getConfiguredAndPopulatedCustomFieldTypes()
    {
       // Configured custom fields
-      Set<FieldType> result = stream()
-               .map(CustomField::getFieldType)
-               .filter(Objects::nonNull)
-               .collect(Collectors.toSet());
+      Set<FieldType> result = stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       /// Populated task custom fields
       Set<TaskField> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
