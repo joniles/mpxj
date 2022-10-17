@@ -137,3 +137,31 @@ resolve this issue add the following to your code:
 ```c#
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 ```
+
+## log4j2
+When you start MPXJ, you may see the following message written to the console:
+
+```
+ERROR StatusLogger Log4j2 could not find a logging implementation.
+Please add log4j-core to the classpath. Using SimpleLogger to log to the console.
+```
+
+MPXJ uses Apache POI to read MPP files. Apache POI uses log4j2 to write log
+messages. By default the only dependency POI has on log4j2 is to its
+interfaces. If you're not already using log4j2 as part of your code, and you
+don't explicitly include the rest of the log4j2 implementation jar files,
+you'll see the warning message shown above. This message can safely be ignored,
+it's just telling you that any log messages POI produces will be written to the
+console. If you would like to silence this message, you can supply the
+following argument to the JVM:
+
+```
+-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory
+```
+
+If you are using the Python version of MPXJ, you can provide the argument as
+shown below when you initialize `jpype`.
+
+```python
+jpype.startJVM("-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory")
+```
