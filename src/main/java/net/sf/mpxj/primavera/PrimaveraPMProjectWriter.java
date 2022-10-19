@@ -1076,6 +1076,7 @@ final class PrimaveraPMProjectWriter
       xml.setResourceCurveObjectId(m_workContours.get(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
+      xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
       xml.setPlannedFinishDate(plannedFinish);

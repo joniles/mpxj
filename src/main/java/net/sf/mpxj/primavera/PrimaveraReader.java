@@ -2204,6 +2204,7 @@ final class PrimaveraReader
       map.put(AssignmentField.PLANNED_START, "target_start_date");
       map.put(AssignmentField.PLANNED_FINISH, "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
+      map.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, "cost_qty_link_flag");
 
       return map;
    }

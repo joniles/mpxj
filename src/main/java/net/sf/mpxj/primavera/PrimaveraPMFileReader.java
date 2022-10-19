@@ -1756,6 +1756,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
             assignment.setRateSource(RATE_SOURCE_MAP.get(row.getRateSource()));
+            assignment.setCalculateCostsFromUnits(BooleanHelper.getBoolean(row.isIsCostUnitsLinked()));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);

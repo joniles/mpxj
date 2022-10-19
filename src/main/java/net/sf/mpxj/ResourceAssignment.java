@@ -66,6 +66,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       // Ensure the rate source defaults to resource
       setRateSource(RateSource.RESOURCE);
 
+      setCalculateCostsFromUnits(true);
+
       m_task = task;
    }
 
@@ -2762,6 +2764,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    public void setPlannedFinish(Date value)
    {
       set(AssignmentField.PLANNED_FINISH, value);
+   }
+
+   /**
+    * Retrieve the calculate costs from units flag.
+    *
+    * @return calculate costs from units flag
+    */
+   public boolean getCalculateCostsFromUnits()
+   {
+      return BooleanHelper.getBoolean((Boolean)get(AssignmentField.CALCULATE_COSTS_FROM_UNITS));
+   }
+
+   /**
+    * Set the calculate costs from units flag.
+    *
+    * @param calculateCostsFromUnits calculate costs from units flag
+    */
+   public void setCalculateCostsFromUnits(boolean calculateCostsFromUnits)
+   {
+      set(AssignmentField.CALCULATE_COSTS_FROM_UNITS, calculateCostsFromUnits);
    }
 
    /**
