@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.11.1">
+			<action dev="joniles" type="update">Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</action>
+			<action dev="joniles" type="update">Added the Resource attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</action>
 		</release>
 		<release date="2022-09-27" version="10.11.0">
 			<action dev="joniles" type="update">Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.</action>

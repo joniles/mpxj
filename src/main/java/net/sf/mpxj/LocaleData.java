@@ -1792,7 +1792,8 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.PER_DAY.getValue()] = "Per Day";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PHONE.getValue()] = "Phone";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ROLE.getValue()] = "Role";
-
+      RESOURCE_COLUMNS_ARRAY[ResourceField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
+      
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";
@@ -1973,6 +1974,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ROLE_UNIQUE_ID.getValue()] = "Role Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERRIDE_RATE.getValue()] = "Override Rate";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RATE_SOURCE.getValue()] = "Rate Source";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
