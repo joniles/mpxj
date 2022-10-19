@@ -2091,6 +2091,7 @@ final class PrimaveraReader
       map.put(ResourceField.TYPE, "rsrc_type");
       map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
       map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
+      map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
 
       return map;
    }
@@ -2109,6 +2110,7 @@ final class PrimaveraReader
       map.put(ResourceField.RESOURCE_ID, "role_short_name");
       map.put(ResourceField.NOTES, "role_descr");
       map.put(ResourceField.PARENT_ID, "parent_role_id");
+      map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
 
       return map;
    }

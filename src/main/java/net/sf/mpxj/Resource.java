@@ -55,6 +55,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       setType(ResourceType.WORK);
       setRole(Boolean.FALSE);
+      setCalculateCostsFromUnits(true);
 
       ProjectConfig config = file.getProjectConfig();
 
@@ -2865,6 +2866,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public void setCostCenter(String value)
    {
       set(ResourceField.COST_CENTER, value);
+   }
+
+   /**
+    * Retrieve the calculate costs from units flag.
+    *
+    * @return calculate costs from units flag
+    */
+   public boolean getCalculateCostsFromUnits()
+   {
+      return BooleanHelper.getBoolean((Boolean)get(ResourceField.CALCULATE_COSTS_FROM_UNITS));
+   }
+
+   /**
+    * Set the calculate costs from units flag.
+    *
+    * @param calculateCostsFromUnits calculate costs from units flag
+    */
+   public void setCalculateCostsFromUnits(boolean calculateCostsFromUnits)
+   {
+      set(ResourceField.CALCULATE_COSTS_FROM_UNITS, calculateCostsFromUnits);
    }
 
    /**

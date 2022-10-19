@@ -723,7 +723,7 @@ final class PrimaveraPMProjectWriter
       }
 
       xml.setAutoComputeActuals(Boolean.TRUE);
-      xml.setCalculateCostFromUnits(Boolean.TRUE);
+      xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
       xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
@@ -762,6 +762,7 @@ final class PrimaveraPMProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setName(mpxj.getName());
       xml.setId(mpxj.getResourceID());
+      xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getResourceNotes(mpxj.getNotesObject()));
    }
 
