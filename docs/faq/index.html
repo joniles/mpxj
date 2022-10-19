@@ -1040,6 +1040,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#log4j2" class="md-nav__link">
+    log4j2
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1128,6 +1135,13 @@
         <li class="md-nav__item">
   <a href="#net-core" class="md-nav__link">
     .NET Core
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log4j2" class="md-nav__link">
+    log4j2
   </a>
   
 </li>
@@ -1257,6 +1271,25 @@ is not believed to affect the more recent version of JAXB now used by MPXJ.</p>
 be used by MPXJ (and which are present by default in .NET Framework). To
 resolve this issue add the following to your code:</p>
 <div class="highlight"><pre><span></span><code><span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">RegisterProvider</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">CodePagesEncodingProvider</span><span class="p">.</span><span class="n">Instance</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h2 id="log4j2">log4j2</h2>
+<p>When you start MPXJ, you may see the following message written to the console:</p>
+<div class="highlight"><pre><span></span><code>ERROR StatusLogger Log4j2 could not find a logging implementation.
+Please add log4j-core to the classpath. Using SimpleLogger to log to the console.
+</code></pre></div>
+<p>MPXJ uses Apache POI to read MPP files. Apache POI uses log4j2 to write log
+messages. By default the only dependency POI has on log4j2 is to its
+interfaces. If you're not already using log4j2 as part of your code, and you
+don't explicitly include the rest of the log4j2 implementation jar files,
+you'll see the warning message shown above. This message can safely be ignored,
+it's just telling you that any log messages POI produces will be written to the
+console. If you would like to silence this message, you can supply the
+following argument to the JVM:</p>
+<div class="highlight"><pre><span></span><code>-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory
+</code></pre></div>
+<p>If you are using the Python version of MPXJ, you can provide the argument as
+shown below when you initialize <code>jpype</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">jpype</span><span class="o">.</span><span class="n">startJVM</span><span class="p">(</span><span class="s2">&quot;-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 
