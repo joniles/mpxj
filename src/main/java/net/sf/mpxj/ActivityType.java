@@ -24,7 +24,7 @@
 package net.sf.mpxj;
 
 /**
- * P6 Activity type.
+ * P6/PPX Activity type.
  */
 public enum ActivityType
 {
@@ -33,5 +33,8 @@ public enum ActivityType
    LEVEL_OF_EFFORT,
    START_MILESTONE,
    FINISH_MILESTONE,
-   WBS_SUMMARY
+   WBS_SUMMARY,
+   HAMMOCK,
+   START_FLAG,
+   FINISH_FLAG
 }

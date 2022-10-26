@@ -38,6 +38,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
@@ -507,6 +508,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       }
 
       task.setActivityID(activity.getId());
+      task.setActivityType(ACTIVITY_TYPE_MAP.get(activity.getType()));
 
       task.setActualDuration(activity.getActualDuration());
       task.setActualFinish(activity.getActualFinish());
@@ -990,5 +992,16 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          CONTEXT_EXCEPTION = ex;
          CONTEXT = null;
       }
+   }
+
+   private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_TYPE_MAP.put("Task", ActivityType.TASK_DEPENDENT);
+      ACTIVITY_TYPE_MAP.put("Hammock", ActivityType.HAMMOCK);
+      ACTIVITY_TYPE_MAP.put("StartMilestone", ActivityType.START_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("FinishMilestone", ActivityType.FINISH_MILESTONE);
+      ACTIVITY_TYPE_MAP.put("StartFlag", ActivityType.START_FLAG);
+      ACTIVITY_TYPE_MAP.put("FinishFlag", ActivityType.FINISH_FLAG);
    }
 }
