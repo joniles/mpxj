@@ -1962,6 +1962,9 @@ final class PrimaveraPMProjectWriter
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
       ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_FLAG, "Start Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_FLAG, "Finish Milestone");
+      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.HAMMOCK, "Resource Dependent");
    }
 
    private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
