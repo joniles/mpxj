@@ -351,7 +351,7 @@ final class PrimaveraPMProjectWriter
          ExpenseCategoryType ect = m_factory.createExpenseCategoryType();
          ect.setObjectId(category.getUniqueID());
          ect.setName(category.getName());
-         ect.setSequenceNumber(category.getSequence());
+         ect.setSequenceNumber(category.getSequenceNumber());
          expenseCategories.add(ect);
       }
    }
@@ -369,7 +369,7 @@ final class PrimaveraPMProjectWriter
          cat.setId(account.getID());
          cat.setName(account.getName());
          cat.setDescription(account.getDescription());
-         cat.setSequenceNumber(account.getSequence());
+         cat.setSequenceNumber(account.getSequenceNumber());
 
          if (account.getParent() != null)
          {
