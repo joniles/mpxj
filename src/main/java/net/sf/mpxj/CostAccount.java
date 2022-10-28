@@ -35,15 +35,15 @@ public class CostAccount implements ProjectEntityWithUniqueID
     * @param id short name
     * @param name name
     * @param description description
-    * @param sequence sequence
+    * @param sequenceNumber sequence number
     */
-   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequence)
+   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber)
    {
       m_uniqueID = uniqueID;
       m_id = id;
       m_name = name;
       m_description = description;
-      m_sequence = sequence;
+      m_sequenceNumber = sequenceNumber;
    }
 
    @Override public Integer getUniqueID()
@@ -90,10 +90,21 @@ public class CostAccount implements ProjectEntityWithUniqueID
     * Retrieve the sequence.
     *
     * @return sequence
+    * @deprecated use getSequenceNumber
     */
-   public Integer getSequence()
+   @Deprecated  public Integer getSequence()
    {
-      return m_sequence;
+      return m_sequenceNumber;
+   }
+
+   /**
+    * Retrieve the sequence number.
+    *
+    * @return sequence
+    */
+   public Integer getSequenceNumber()
+   {
+      return m_sequenceNumber;
    }
 
    /**
@@ -125,6 +136,6 @@ public class CostAccount implements ProjectEntityWithUniqueID
    private final String m_id;
    private final String m_name;
    private final String m_description;
-   private final Integer m_sequence;
+   private final Integer m_sequenceNumber;
    private CostAccount m_parent;
 }
