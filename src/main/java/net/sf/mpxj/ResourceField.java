@@ -598,6 +598,7 @@ public enum ResourceField implements FieldType
    PHONE(DataType.STRING),
    ROLE(DataType.BOOLEAN),
    CALCULATE_COSTS_FROM_UNITS(DataType.BOOLEAN),
+   SEQUENCE_NUMBER(DataType.INTEGER),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.CUSTOM),

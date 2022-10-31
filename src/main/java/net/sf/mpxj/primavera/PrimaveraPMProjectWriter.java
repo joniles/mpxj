@@ -738,6 +738,7 @@ final class PrimaveraPMProjectWriter
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
+      xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
    }
 
@@ -764,6 +765,7 @@ final class PrimaveraPMProjectWriter
       xml.setId(mpxj.getResourceID());
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getResourceNotes(mpxj.getNotesObject()));
+      xml.setSequenceNumber(mpxj.getSequenceNumber());
    }
 
    /**
