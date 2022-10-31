@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Ensure activity type is read from Phoenix schedules. (Contributed by Christopher John)</action>
 			<action dev="joniles" type="update">Deprecate the `CostAccount` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.</action>
 			<action dev="joniles" type="update">Deprecate the `ExpenseCategory` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.</action>
+			<action dev="joniles" type="update">Avoid possible ArrayIndexOutOfBoundsException when reading GUID values from MPP files (Contributed by Rohit Sinha).</action>
 		</release>
 		<release date="2022-09-27" version="10.11.0">
 			<action dev="joniles" type="update">Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.</action>
