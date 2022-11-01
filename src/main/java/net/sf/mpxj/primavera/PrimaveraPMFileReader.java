@@ -1047,6 +1047,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setResourceID(xml.getId());
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
+         resource.setSequenceNumber(xml.getSequenceNumber());
          readUDFTypes(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -1068,6 +1069,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setName(role.getName());
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
+         resource.setSequenceNumber(role.getSequenceNumber());
       }
    }
 
@@ -1116,6 +1118,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
+         task.setSequenceNumber(row.getSequenceNumber());
       }
 
       //

@@ -1040,6 +1040,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_LATE_FINISH.getValue()] = "External Late Finish";
       TASK_COLUMNS_ARRAY[TaskField.LONGEST_PATH.getValue()] = "Longest Path";
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODES.getValue()] = "Activity Codes";
+      TASK_COLUMNS_ARRAY[TaskField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
 
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
@@ -1793,7 +1794,8 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.PHONE.getValue()] = "Phone";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ROLE.getValue()] = "Role";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
-      
+      RESOURCE_COLUMNS_ARRAY[ResourceField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
+
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_CUSTOM_FIELD3.getValue()] = "Enterprise Custom Field 3";

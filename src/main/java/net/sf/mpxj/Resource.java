@@ -2889,6 +2889,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve this resource's sequence number.
+    *
+    * @return sequence number
+    */
+   public Integer getSequenceNumber()
+   {
+      return (Integer)get(ResourceField.SEQUENCE_NUMBER);
+   }
+
+   /**
+    * Set this resource's sequence number.
+    *
+    * @param sequenceNumber sequence number
+    */
+   public void setSequenceNumber(Integer sequenceNumber)
+   {
+      set(ResourceField.SEQUENCE_NUMBER, sequenceNumber);
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
