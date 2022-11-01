@@ -1118,6 +1118,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setFinish(row.getAnticipatedFinishDate());
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
+         task.setSequenceNumber(row.getSequenceNumber());
       }
 
       //

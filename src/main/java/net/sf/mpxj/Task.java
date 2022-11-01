@@ -5267,6 +5267,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Set this task's sequence number.
+    *
+    * @param sequenceNumber task sequence number
+    */
+   public void setSequenceNumber(Integer sequenceNumber)
+   {
+      set(TaskField.SEQUENCE_NUMBER, sequenceNumber);
+   }
+
+   /**
+    * Retrieve this task's sequence number.
+    *
+    * @return task sequence number
+    */
+   public Integer getSequenceNumber()
+   {
+      return (Integer)get(TaskField.SEQUENCE_NUMBER);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

@@ -805,7 +805,7 @@ final class PrimaveraPMProjectWriter
 
       // Filter out WBS entries and generate a sequence number.
       // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, it's a WBS entry
-      Map<Task, Integer> wbsSequence = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> m_wbsSequence.getNext()));
+      Map<Task, Integer> wbsSequence = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? m_wbsSequence.getNext() : t.getSequenceNumber()));
 
       // Sort the tasks into unique ID order
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());

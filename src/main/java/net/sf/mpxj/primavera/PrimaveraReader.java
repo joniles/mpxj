@@ -2133,6 +2133,7 @@ final class PrimaveraReader
       map.put(TaskField.REMAINING_WORK, "indep_remain_work_qty");
       map.put(TaskField.DEADLINE, "anticip_end_date");
       map.put(TaskField.WBS, "wbs_short_name");
+      map.put(TaskField.SEQUENCE_NUMBER, "seq_num");
 
       return map;
    }
