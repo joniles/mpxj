@@ -5283,7 +5283,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Integer getSequenceNumber()
    {
-      return (Integer)get(TaskField.SEQUENCE_NUMBER);
+      return (Integer) get(TaskField.SEQUENCE_NUMBER);
    }
 
    /**

@@ -92,7 +92,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
     * @return sequence
     * @deprecated use getSequenceNumber
     */
-   @Deprecated  public Integer getSequence()
+   @Deprecated public Integer getSequence()
    {
       return m_sequenceNumber;
    }

@@ -2875,7 +2875,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getCalculateCostsFromUnits()
    {
-      return BooleanHelper.getBoolean((Boolean)get(ResourceField.CALCULATE_COSTS_FROM_UNITS));
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.CALCULATE_COSTS_FROM_UNITS));
    }
 
    /**
@@ -2895,7 +2895,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Integer getSequenceNumber()
    {
-      return (Integer)get(ResourceField.SEQUENCE_NUMBER);
+      return (Integer) get(ResourceField.SEQUENCE_NUMBER);
    }
 
    /**

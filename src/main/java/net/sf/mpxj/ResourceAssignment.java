@@ -2773,7 +2773,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getCalculateCostsFromUnits()
    {
-      return BooleanHelper.getBoolean((Boolean)get(AssignmentField.CALCULATE_COSTS_FROM_UNITS));
+      return BooleanHelper.getBoolean((Boolean) get(AssignmentField.CALCULATE_COSTS_FROM_UNITS));
    }
 
    /**
