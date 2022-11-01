@@ -8,6 +8,9 @@
 		<release date="unreleased" version="10.11.1">
 			<action dev="joniles" type="update">Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</action>
 			<action dev="joniles" type="update">Added the Resource attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</action>
+			<action dev="joniles" type="update">Added the Resource attribute Sequence Number, and added read and write support for Primavera schedules.</action>
+			<action dev="joniles" type="update">Added the Role attribute Sequence Number, and added read and write support for Primavera schedules.</action>
+			<action dev="joniles" type="update">Added the WBS attribute Sequence Number, and added read and write support for Primavera schedules.</action>
 			<action dev="joniles" type="update">Ensure activity type is read from Phoenix schedules. (Contributed by Christopher John)</action>
 			<action dev="joniles" type="update">Deprecate the `CostAccount` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.</action>
 			<action dev="joniles" type="update">Deprecate the `ExpenseCategory` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.</action>
