@@ -7536,6 +7536,13 @@ module MPXJ
       attribute_values['section']
     end
 
+    # Retrieve the Sequence Number value
+    #
+    # @return Sequence Number value
+    def sequence_number
+      get_integer_value(attribute_values['sequence_number'])
+    end
+
     # Retrieve the Show On Board value
     #
     # @return Show On Board value
@@ -9250,6 +9257,7 @@ module MPXJ
       'secondary_constraint_date' => :date,
       'secondary_constraint_type' => :constraint,
       'section' => :string,
+      'sequence_number' => :integer,
       'show_on_board' => :string,
       'spi' => :numeric,
       'splits' => :date_range_list,

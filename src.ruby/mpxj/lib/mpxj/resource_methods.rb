@@ -641,6 +641,13 @@ module MPXJ
       get_duration_value(attribute_values['budget_work'])
     end
 
+    # Retrieve the Calculate Costs From Units value
+    #
+    # @return Calculate Costs From Units value
+    def calculate_costs_from_units
+      get_boolean_value(attribute_values['calculate_costs_from_units'])
+    end
+
     # Retrieve the Calendar GUID value
     #
     # @return Calendar GUID value
@@ -3763,6 +3770,13 @@ module MPXJ
       get_boolean_value(attribute_values['role'])
     end
 
+    # Retrieve the Sequence Number value
+    #
+    # @return Sequence Number value
+    def sequence_number
+      get_integer_value(attribute_values['sequence_number'])
+    end
+
     # Retrieve the Standard Rate value
     #
     # @return Standard Rate value
@@ -4296,6 +4310,7 @@ module MPXJ
       'budget' => :boolean,
       'budget_cost' => :currency,
       'budget_work' => :work,
+      'calculate_costs_from_units' => :boolean,
       'calendar_guid' => :guid,
       'calendar_unique_id' => :integer,
       'can_level' => :boolean,
@@ -4742,6 +4757,7 @@ module MPXJ
       'resource_id' => :string,
       'response_pending' => :boolean,
       'role' => :boolean,
+      'sequence_number' => :integer,
       'standard_rate' => :rate,
       'standard_rate_units' => :rate_units,
       'start' => :date,

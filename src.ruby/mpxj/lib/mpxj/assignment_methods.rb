@@ -585,6 +585,13 @@ module MPXJ
       get_duration_value(attribute_values['budget_work'])
     end
 
+    # Retrieve the Calculate Costs From Units value
+    #
+    # @return Calculate Costs From Units value
+    def calculate_costs_from_units
+      get_boolean_value(attribute_values['calculate_costs_from_units'])
+    end
+
     # Retrieve the Confirmed value
     #
     # @return Confirmed value
@@ -3917,6 +3924,7 @@ module MPXJ
       'bcws' => :currency,
       'budget_cost' => :currency,
       'budget_work' => :work,
+      'calculate_costs_from_units' => :boolean,
       'confirmed' => :boolean,
       'cost' => :currency,
       'cost1' => :currency,

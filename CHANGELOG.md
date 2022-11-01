@@ -1,6 +1,16 @@
 # Changelog
 
-## 10.11.1 (unreleased)
+## 10.12.1 (unreleased)
+
+## 10.12.0 (2022-11-01)
+* Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.
+* Added the Resource attribute Calculate Costs From Units, and added read and write support for Primavera schedules.
+* Added the Resource and Role attribute Sequence Number, and added read and write support for Primavera schedules.
+* Added the WBS attribute Sequence Number, and added read and write support for Primavera schedules.
+* Ensure activity type is read from Phoenix schedules. (Contributed by Christopher John)
+* Deprecate the `CostAccount` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.
+* Deprecate the `ExpenseCategory` method `getSequence` and replace with `getSequenceNumber` to improve naming consistency.
+* Avoid possible ArrayIndexOutOfBoundsException when reading GUID values from MPP files (Contributed by Rohit Sinha).
 
 ## 10.11.0 (2022-09-27)
 * Deprecated the `Resource` methods `getParentID` and `setParentID`. Replaced with `getParentResourceUniqueID` and `setParentResourceUniqueID` for clarity and consistency.
@@ -19,7 +29,7 @@
 * Deprecated the `CustomFieldContainer` method `getCustomField`, which is replaced by the `get` method (which returns `null` if the field type is not configured) and the `getOrCreate` method (which will return an existing configuration or create a new one if the requested field does not yet have a configuration).
 
 ## 10.10.0 (2022-09-13)
-* Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)
+* Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher John)
 * Add a `setProperties` method to reader classes to allow configuration to be supplied via a `Properties` instance rather than having to call setter methods. Properties passed to the `UniversalProjectReader` version of this method will be forwarded to the reader class `UniversalProjectReader` chooses to reader the supplied file. Properties for multiple reader classes can be included in the `Properties` instance, each reader class will ignore irrelevant properties.
 * Added the `get` method to `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` as a replacement for the `getCurrentValue` method. The new `get` method is paired with the existing `set` method to provide read and write access to attributes of these classes. This change is intended to improve the interfaces to these classes by making them more consistent, and thus easier to understand.
 * Deprecated the `getCurrentValue` method on the `Task`, `Resource`, `ResourceAssignment` and `ProjectProperties` classes. Use the new `get` method instead.
