@@ -266,8 +266,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10111-unreleased" class="md-nav__link">
-    10.11.1 (unreleased)
+  <a href="#10121-unreleased" class="md-nav__link">
+    10.12.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10120-2022-11-01" class="md-nav__link">
+    10.12.0 (2022-11-01)
   </a>
   
 </li>
@@ -2484,8 +2491,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10111-unreleased" class="md-nav__link">
-    10.11.1 (unreleased)
+  <a href="#10121-unreleased" class="md-nav__link">
+    10.12.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10120-2022-11-01" class="md-nav__link">
+    10.12.0 (2022-11-01)
   </a>
   
 </li>
@@ -3906,7 +3920,18 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="10111-unreleased">10.11.1 (unreleased)</h2>
+<h2 id="10121-unreleased">10.12.1 (unreleased)</h2>
+<h2 id="10120-2022-11-01">10.12.0 (2022-11-01)</h2>
+<ul>
+<li>Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</li>
+<li>Added the Resource attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</li>
+<li>Added the Resource and Role attribute Sequence Number, and added read and write support for Primavera schedules.</li>
+<li>Added the WBS attribute Sequence Number, and added read and write support for Primavera schedules.</li>
+<li>Ensure activity type is read from Phoenix schedules. (Contributed by Christopher John)</li>
+<li>Deprecate the <code>CostAccount</code> method <code>getSequence</code> and replace with <code>getSequenceNumber</code> to improve naming consistency.</li>
+<li>Deprecate the <code>ExpenseCategory</code> method <code>getSequence</code> and replace with <code>getSequenceNumber</code> to improve naming consistency.</li>
+<li>Avoid possible ArrayIndexOutOfBoundsException when reading GUID values from MPP files (Contributed by Rohit Sinha).</li>
+</ul>
 <h2 id="10110-2022-09-27">10.11.0 (2022-09-27)</h2>
 <ul>
 <li>Deprecated the <code>Resource</code> methods <code>getParentID</code> and <code>setParentID</code>. Replaced with <code>getParentResourceUniqueID</code> and <code>setParentResourceUniqueID</code> for clarity and consistency.</li>
@@ -3926,7 +3951,7 @@
 </ul>
 <h2 id="10100-2022-09-13">10.10.0 (2022-09-13)</h2>
 <ul>
-<li>Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher Johns)</li>
+<li>Add an option to import Phoenix schedules as a flat set of tasks with separate activity codes, rather than creating a hierarchy of tasks from the activity codes. Note the default is to disable this behavior so existing functionality is unchanged. (Contributed by Christopher John)</li>
 <li>Add a <code>setProperties</code> method to reader classes to allow configuration to be supplied via a <code>Properties</code> instance rather than having to call setter methods. Properties passed to the <code>UniversalProjectReader</code> version of this method will be forwarded to the reader class <code>UniversalProjectReader</code> chooses to reader the supplied file. Properties for multiple reader classes can be included in the <code>Properties</code> instance, each reader class will ignore irrelevant properties.</li>
 <li>Added the <code>get</code> method to <code>Task</code>, <code>Resource</code>, <code>ResourceAssignment</code> and <code>ProjectProperties</code> as a replacement for the <code>getCurrentValue</code> method. The new <code>get</code> method is paired with the existing <code>set</code> method to provide read and write access to attributes of these classes. This change is intended to improve the interfaces to these classes by making them more consistent, and thus easier to understand.</li>
 <li>Deprecated the <code>getCurrentValue</code> method on the <code>Task</code>, <code>Resource</code>, <code>ResourceAssignment</code> and <code>ProjectProperties</code> classes. Use the new <code>get</code> method instead.</li>
