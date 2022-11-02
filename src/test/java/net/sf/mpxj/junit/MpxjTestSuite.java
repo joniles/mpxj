@@ -155,6 +155,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    SemVerTest.class,
    GetStartDateTest.class,
    EffectiveRateTest.class,
+   CombinedCalendarTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
