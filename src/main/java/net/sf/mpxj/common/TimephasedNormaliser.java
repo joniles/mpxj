@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedWorkNormaliser.java
+ * file:       TimephasedNormaliser.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       09/01/2009
