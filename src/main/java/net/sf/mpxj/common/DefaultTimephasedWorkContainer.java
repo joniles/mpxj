@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
 
@@ -38,16 +39,16 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    /**
     * Constructor.
     *
-    * @param calendar calendar to which the timephased data relates
+    * @param assignment resource assignment to which the timephased data relates
     * @param normaliser normaliser used to process this data
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedWorkContainer(ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, List<TimephasedWork> data, boolean raw)
+   public DefaultTimephasedWorkContainer(ResourceAssignment assignment, TimephasedWorkNormaliser normaliser, List<TimephasedWork> data, boolean raw)
    {
       m_data = data;
       m_raw = raw;
-      m_calendar = calendar;
+      m_assignment = assignment;
       m_normaliser = normaliser;
    }
 
@@ -63,7 +64,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    {
       m_data = new ArrayList<>();
       m_raw = source.m_raw;
-      m_calendar = source.m_calendar;
+      m_assignment = source.m_assignment;
       m_normaliser = source.m_normaliser;
 
       for (TimephasedWork sourceItem : source.m_data)
@@ -79,7 +80,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    {
       if (m_raw)
       {
-         m_normaliser.normalise(m_calendar, m_data);
+         m_normaliser.normalise(m_assignment, m_data);
          m_raw = false;
       }
       return m_data;
@@ -103,5 +104,5 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    private final List<TimephasedWork> m_data;
    private boolean m_raw;
    private final TimephasedWorkNormaliser m_normaliser;
-   private final ProjectCalendar m_calendar;
+   private final ResourceAssignment m_assignment;
 }

@@ -26,6 +26,7 @@ package net.sf.mpxj.common;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimephasedWork;
 
 /**
@@ -40,8 +41,8 @@ public interface TimephasedWorkNormaliser
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param calendar current calendar
+    * @param assignment resource assignment
     * @param list list of assignment data
     */
-   public void normalise(ProjectCalendar calendar, List<TimephasedWork> list);
+   public void normalise(ResourceAssignment assignment, List<TimephasedWork> list);
 }
