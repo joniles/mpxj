@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedCostNormaliser.java
+ * file:       TimephasedWorkNormaliser.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       09/01/2009
@@ -25,15 +25,13 @@ package net.sf.mpxj.common;
 
 import java.util.List;
 
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.TimephasedCost;
 
 /**
  * Classes implementing this interface are used to normalise timephased
  * resource assignment data.
  */
-public interface TimephasedCostNormaliser
+public interface TimephasedNormaliser<T>
 {
 
    /**
@@ -41,8 +39,8 @@ public interface TimephasedCostNormaliser
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param assignment current resource assignment
+    * @param assignment resource assignment
     * @param list list of assignment data
     */
-   public void normalise(ResourceAssignment assignment, List<TimephasedCost> list);
+   public void normalise(ResourceAssignment assignment, List<T> list);
 }

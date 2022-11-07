@@ -43,7 +43,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedCostContainer(ResourceAssignment assignment, TimephasedCostNormaliser normaliser, List<TimephasedCost> data, boolean raw)
+   public DefaultTimephasedCostContainer(ResourceAssignment assignment, TimephasedNormaliser<TimephasedCost> normaliser, List<TimephasedCost> data, boolean raw)
    {
       m_data = data;
       m_raw = raw;
@@ -76,6 +76,6 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
 
    private final List<TimephasedCost> m_data;
    private boolean m_raw;
-   private final TimephasedCostNormaliser m_normaliser;
+   private final TimephasedNormaliser<TimephasedCost> m_normaliser;
    private final ResourceAssignment m_assignment;
 }

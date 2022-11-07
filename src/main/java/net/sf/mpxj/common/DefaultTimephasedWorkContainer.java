@@ -26,7 +26,6 @@ package net.sf.mpxj.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
@@ -44,7 +43,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedWorkContainer(ResourceAssignment assignment, TimephasedWorkNormaliser normaliser, List<TimephasedWork> data, boolean raw)
+   public DefaultTimephasedWorkContainer(ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, List<TimephasedWork> data, boolean raw)
    {
       m_data = data;
       m_raw = raw;
@@ -103,6 +102,6 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
 
    private final List<TimephasedWork> m_data;
    private boolean m_raw;
-   private final TimephasedWorkNormaliser m_normaliser;
+   private final TimephasedNormaliser<TimephasedWork> m_normaliser;
    private final ResourceAssignment m_assignment;
 }

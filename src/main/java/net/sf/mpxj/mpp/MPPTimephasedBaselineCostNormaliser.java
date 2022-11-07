@@ -34,12 +34,12 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.TimephasedCostNormaliser;
+import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * Common implementation detail for normalisation.
  */
-public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormaliser
+public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
 {
    /**
     * This method converts the internal representation of timephased

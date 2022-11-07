@@ -28,14 +28,13 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
 /**
  * Common implementation detail for normalisation.
  */
-public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWorkNormaliser
+public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 {
    /**
     * Merges individual days together into time spans where the
