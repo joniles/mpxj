@@ -48,7 +48,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param calendar current calendar
+    * @param assignment resource assignment
     * @param list list of assignment data
     */
    @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)

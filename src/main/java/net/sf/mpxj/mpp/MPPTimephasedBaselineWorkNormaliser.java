@@ -39,7 +39,7 @@ import net.sf.mpxj.common.DateHelper;
  */
 public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
-   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   @Override protected ProjectCalendar getCalendar(ResourceAssignment assignment)
    {
       return assignment.getParentFile().getBaselineCalendar();
    }

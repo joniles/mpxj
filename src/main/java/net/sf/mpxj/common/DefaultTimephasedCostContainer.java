@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.util.List;
 
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;

@@ -30,7 +30,6 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
@@ -68,6 +67,12 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       }
    }
 
+   /**
+    * Retrieve the calendar to be used by this normaliser.
+    * 
+    * @param assignment resource assignment
+    * @return calendar to use when normalising
+    */
    protected abstract ProjectCalendar getCalendar(ResourceAssignment assignment);
 
    /**

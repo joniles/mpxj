@@ -75,7 +75,6 @@ public class ResourceAssignmentFactory
       TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
       TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      ProjectCalendar baselineCalendar = file.getBaselineCalendar();
 
       //      System.out.println(assnFixedMeta);
       //      System.out.println(assnFixedData);
