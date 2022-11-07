@@ -68,10 +68,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       }
    }
 
-   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
-   {
-      return assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : assignment.getTask().getEffectiveCalendar();
-   }
+   protected abstract ProjectCalendar getCalendar(ResourceAssignment assignment);
 
    /**
     * This method breaks down spans of time into individual days.
