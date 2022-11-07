@@ -47,12 +47,12 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param calendar current calendar
+    * @param assignment resource assignment
     * @param list list of assignment data
     */
    @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)
    {
-      ProjectCalendar calendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : assignment.getTask().getEffectiveCalendar();
+      ProjectCalendar calendar = getCalendar(assignment);
 
       if (!list.isEmpty())
       {
@@ -66,6 +66,11 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          convertToHours(list);
          //dumpList(list);
       }
+   }
+
+   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : assignment.getTask().getEffectiveCalendar();
    }
 
    /**

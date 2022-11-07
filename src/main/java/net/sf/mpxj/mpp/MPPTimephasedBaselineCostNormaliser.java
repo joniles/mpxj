@@ -53,16 +53,19 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormal
    {
       if (!list.isEmpty())
       {
-         ProjectCalendar calendar = assignment.getParentFile().getBaselineCalendar();
-
          //dumpList(list);
-         splitDays(calendar, list);
+         splitDays(getCalendar(assignment), list);
          //dumpList(list);
          mergeSameDay(list);
          //dumpList(list);
          mergeSameCost(list);
          //dumpList(list);
       }
+   }
+
+   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getParentFile().getBaselineCalendar();
    }
 
    /**

@@ -29,6 +29,7 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.DateHelper;
@@ -38,6 +39,11 @@ import net.sf.mpxj.common.DateHelper;
  */
 public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
+   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getParentFile().getBaselineCalendar();
+   }
+
    /**
     * This method merges together assignment data for the same day.
     *
