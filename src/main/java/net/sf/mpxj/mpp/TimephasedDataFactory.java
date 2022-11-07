@@ -39,8 +39,7 @@ import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.TimephasedCostNormaliser;
-import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -300,13 +299,12 @@ final class TimephasedDataFactory
     * a list of timephased work items.
     *
     * @param assignment parent assignment
-    * @param calendar baseline calendar
     * @param normaliser normaliser associated with this data
     * @param data timephased baseline work data block
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkContainer getBaselineWork(ResourceAssignment assignment, ProjectCalendar calendar, TimephasedWorkNormaliser normaliser, byte[] data, boolean raw)
+   public TimephasedWorkContainer getBaselineWork(ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
    {
       TimephasedWorkContainer result = null;
 
@@ -363,7 +361,7 @@ final class TimephasedDataFactory
             {
                work.setFinish(assignment.getFinish());
             }
-            result = new DefaultTimephasedWorkContainer(calendar, normaliser, list, raw);
+            result = new DefaultTimephasedWorkContainer(assignment, normaliser, list, raw);
          }
       }
 
@@ -375,13 +373,13 @@ final class TimephasedDataFactory
     * Returns null if no baseline cost is present, otherwise returns
     * a list of timephased work items.
     *
-    * @param calendar baseline calendar
+    * @param assignment resource assignment
     * @param normaliser normaliser associated with this data
     * @param data timephased baseline work data block
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedCostContainer getBaselineCost(ProjectCalendar calendar, TimephasedCostNormaliser normaliser, byte[] data, boolean raw)
+   public TimephasedCostContainer getBaselineCost(ResourceAssignment assignment, TimephasedNormaliser<TimephasedCost> normaliser, byte[] data, boolean raw)
    {
       TimephasedCostContainer result = null;
 
@@ -424,7 +422,7 @@ final class TimephasedDataFactory
 
          if (list != null)
          {
-            result = new DefaultTimephasedCostContainer(calendar, normaliser, list, raw);
+            result = new DefaultTimephasedCostContainer(assignment, normaliser, list, raw);
          }
       }
 

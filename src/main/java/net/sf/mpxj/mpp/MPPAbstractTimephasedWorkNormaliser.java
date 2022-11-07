@@ -29,6 +29,7 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
@@ -45,11 +46,13 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param calendar current calendar
+    * @param assignment resource assignment
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, List<TimephasedWork> list)
+   @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)
    {
+      ProjectCalendar calendar = getCalendar(assignment);
+
       if (!list.isEmpty())
       {
          //dumpList(list);
@@ -63,6 +66,14 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          //dumpList(list);
       }
    }
+
+   /**
+    * Retrieve the calendar to be used by this normaliser.
+    * 
+    * @param assignment resource assignment
+    * @return calendar to use when normalising
+    */
+   protected abstract ProjectCalendar getCalendar(ResourceAssignment assignment);
 
    /**
     * This method breaks down spans of time into individual days.

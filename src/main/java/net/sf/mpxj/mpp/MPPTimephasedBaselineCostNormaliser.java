@@ -29,37 +29,43 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.TimephasedCostNormaliser;
+import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * Common implementation detail for normalisation.
  */
-public class MPPTimephasedBaselineCostNormaliser implements TimephasedCostNormaliser
+public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
 {
    /**
     * This method converts the internal representation of timephased
     * resource assignment data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param calendar current calendar
+    * @param assignment current resource assignment
     * @param list list of assignment data
     */
-   @Override public void normalise(ProjectCalendar calendar, List<TimephasedCost> list)
+   @Override public void normalise(ResourceAssignment assignment, List<TimephasedCost> list)
    {
       if (!list.isEmpty())
       {
          //dumpList(list);
-         splitDays(calendar, list);
+         splitDays(getCalendar(assignment), list);
          //dumpList(list);
          mergeSameDay(list);
          //dumpList(list);
          mergeSameCost(list);
          //dumpList(list);
       }
+   }
+
+   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getParentFile().getBaselineCalendar();
    }
 
    /**

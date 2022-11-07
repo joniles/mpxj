@@ -28,25 +28,14 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
 /**
  * Common implementation detail for normalisation.
  */
-public abstract class AbstractTimephasedWorkNormaliser implements TimephasedWorkNormaliser
+public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 {
-   /**
-    * This method converts the internal representation of timephased
-    * resource assignment data used by MS Project into a standardised
-    * format to make it easy to work with.
-    *
-    * @param calendar current calendar
-    * @param list list of assignment data
-    */
-   @Override public abstract void normalise(ProjectCalendar calendar, List<TimephasedWork> list);
-
    /**
     * Merges individual days together into time spans where the
     * same work is undertaken each day.
