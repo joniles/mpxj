@@ -1254,6 +1254,15 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return result;
    }
 
+   /**
+    * This method retrieves the calendar hours for the specified date.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param date tagre date
+    * @return working housr on the given date
+    */
    public ProjectCalendarHours getHours(Date date)
    {
       return getRanges(date, null, null);
