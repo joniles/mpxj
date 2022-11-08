@@ -33,6 +33,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -42,7 +43,18 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
 {
    @Override protected ProjectCalendar getCalendar(ResourceAssignment assignment)
    {
-      return assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : assignment.getTask().getEffectiveCalendar();
+      ProjectCalendar taskCalendar = assignment.getTask().getCalendar();
+      ProjectCalendar resourceCalendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : null;
+      ProjectCalendar result;
+      if (taskCalendar != null && resourceCalendar != null)
+      {
+         result = new CombinedCalendar(taskCalendar, resourceCalendar);
+      }
+      else
+      {
+         result = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
+      }
+      return result;
    }
 
    /**
