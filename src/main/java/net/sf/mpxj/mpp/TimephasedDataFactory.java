@@ -153,16 +153,17 @@ final class TimephasedDataFactory
     * the day by day work planned for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
-    * @param startDate assignment start date
-    * @param units assignment units
+    * @param assignment resource assignment
     * @param data planned work data block
     * @param timephasedComplete list of complete work
     * @param resourceType resource type
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
+   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
+      // Date startDate, double units
       List<TimephasedWork> list = new ArrayList<>();
+      double units = assignment.getUnits().doubleValue();
 
       if (calendar != null && data != null && data.length > 0)
       {
@@ -193,22 +194,22 @@ final class TimephasedDataFactory
                time *= 6;
                Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
 
-               TimephasedWork assignment = new TimephasedWork();
-               assignment.setStart(startWork);
-               assignment.setAmountPerDay(workPerDay);
-               assignment.setModified(false);
-               assignment.setFinish(finish);
-               assignment.setTotalAmount(totalWork);
+               TimephasedWork work = new TimephasedWork();
+               work.setStart(startWork);
+               work.setAmountPerDay(workPerDay);
+               work.setModified(false);
+               work.setFinish(finish);
+               work.setTotalAmount(totalWork);
 
-               if (assignment.getStart().getTime() != assignment.getFinish().getTime())
+               if (work.getStart().getTime() != work.getFinish().getTime())
                {
-                  list.add(assignment);
+                  list.add(work);
                }
             }
          }
          else
          {
-            Date offset = startDate;
+            Date offset = assignment.getStart();
 
             if (!timephasedComplete.isEmpty())
             {
@@ -252,11 +253,11 @@ final class TimephasedDataFactory
                boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
                previousModifiedFlag = currentModifiedFlag;
 
-               TimephasedWork assignment = new TimephasedWork();
-               assignment.setStart(start);
-               assignment.setAmountPerDay(workPerDay);
-               assignment.setModified(modified);
-               assignment.setTotalAmount(totalWork);
+               TimephasedWork work = new TimephasedWork();
+               work.setStart(start);
+               work.setAmountPerDay(workPerDay);
+               work.setModified(modified);
+               work.setTotalAmount(totalWork);
 
                if (previousAssignment != null)
                {
@@ -268,8 +269,8 @@ final class TimephasedDataFactory
                   }
                }
 
-               list.add(assignment);
-               previousAssignment = assignment;
+               list.add(work);
+               previousAssignment = work;
 
                index += 28;
                ++currentBlock;
