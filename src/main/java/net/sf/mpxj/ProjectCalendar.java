@@ -44,7 +44,7 @@ import net.sf.mpxj.common.NumberHelper;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public final class ProjectCalendar extends ProjectCalendarDays implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
+public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -1255,6 +1255,20 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
    }
 
    /**
+    * This method retrieves the calendar hours for the specified date.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param date tagre date
+    * @return working housr on the given date
+    */
+   public ProjectCalendarHours getHours(Date date)
+   {
+      return getRanges(date, null, null);
+   }
+
+   /**
     * Modifier method to set the unique ID of this calendar.
     *
     * @param uniqueID unique identifier
@@ -2129,7 +2143,7 @@ public final class ProjectCalendar extends ProjectCalendarDays implements Projec
     * @param day optional day instance
     * @return working hours
     */
-   private ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
+   protected ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
    {
       // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarHours ranges = getException(date);

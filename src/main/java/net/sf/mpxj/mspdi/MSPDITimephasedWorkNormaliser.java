@@ -34,6 +34,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
+import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -53,7 +54,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
     */
    @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)
    {
-      ProjectCalendar calendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : assignment.getTask().getEffectiveCalendar();
+      ProjectCalendar calendar = getCalendar(assignment);
 
       //dumpList("raw", result);
       splitDays(calendar, list);
@@ -64,6 +65,22 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       //dumpList("mergeSameWork", result);
       validateSameDay(calendar, list);
       convertToHours(list);
+   }
+
+   private ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      ProjectCalendar taskCalendar = assignment.getTask().getCalendar();
+      ProjectCalendar resourceCalendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : null;
+      ProjectCalendar result;
+      if (taskCalendar != null && resourceCalendar != null)
+      {
+         result = new CombinedCalendar(taskCalendar, resourceCalendar);
+      }
+      else
+      {
+         result = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
+      }
+      return result;
    }
 
    /*
