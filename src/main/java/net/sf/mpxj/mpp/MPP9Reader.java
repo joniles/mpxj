@@ -898,11 +898,19 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
+         // Check for the deleted resource flag
+         byte[] metaData = rscFixedMeta.getByteArrayValue(loop);
+         int flags = MPPUtility.getInt(metaData, 0);
+         if ((flags & 0x02) != 0)
+         {
+            continue;
+         }
+
          Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, 0));
          resourceMap.put(uniqueID, Integer.valueOf(loop));
       }
 
-      return (resourceMap);
+      return resourceMap;
    }
 
    /**

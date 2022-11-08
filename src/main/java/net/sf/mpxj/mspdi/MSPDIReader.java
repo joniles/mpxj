@@ -96,7 +96,7 @@ import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
-import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.common.TimephasedNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -1739,7 +1739,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       if (assignments != null)
       {
          SplitTaskFactory splitFactory = new SplitTaskFactory();
-         TimephasedWorkNormaliser normaliser = new MSPDITimephasedWorkNormaliser();
+         TimephasedNormaliser<TimephasedWork> normaliser = new MSPDITimephasedWorkNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
             readAssignment(assignment, splitFactory, normaliser);
@@ -1878,7 +1878,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param splitFactory split task handling
     * @param normaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedWorkNormaliser normaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedNormaliser<TimephasedWork> normaliser)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1903,18 +1903,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             List<TimephasedWork> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
             boolean raw = true;
 
+            ResourceAssignment mpx = task.addResourceAssignment(resource);
+
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               normaliser.normalise(calendar, timephasedComplete);
-               normaliser.normalise(calendar, timephasedPlanned);
+               normaliser.normalise(mpx, timephasedComplete);
+               normaliser.normalise(mpx, timephasedPlanned);
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
                raw = false;
             }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedComplete, raw);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedPlanned, raw);
-
-            ResourceAssignment mpx = task.addResourceAssignment(resource);
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedPlanned, raw);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());

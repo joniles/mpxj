@@ -37,14 +37,14 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SplitTaskFactory;
-import net.sf.mpxj.common.TimephasedCostNormaliser;
-import net.sf.mpxj.common.TimephasedWorkNormaliser;
+import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * Common implementation detail to extract resource assignment data from
@@ -71,11 +71,10 @@ public class ResourceAssignmentFactory
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
-      TimephasedWorkNormaliser normaliser = new MPPTimephasedWorkNormaliser();
-      TimephasedWorkNormaliser baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
-      TimephasedCostNormaliser baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
+      TimephasedNormaliser<TimephasedWork> normaliser = new MPPTimephasedWorkNormaliser();
+      TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
+      TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
-      ProjectCalendar baselineCalendar = file.getBaselineCalendar();
 
       //      System.out.println(assnFixedMeta);
       //      System.out.println(assnFixedData);
@@ -197,8 +196,8 @@ public class ResourceAssignmentFactory
 
             for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
             {
-               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(assignment, baselineCalendar, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
-               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(baselineCalendar, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
             }
 
             byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
@@ -220,9 +219,9 @@ public class ResourceAssignmentFactory
 
             createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedWork, !useRawTimephasedData));
-            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedActualWork, !useRawTimephasedData));
-            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(calendar, normaliser, timephasedActualOvertimeWork, !useRawTimephasedData));
+            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(assignment, normaliser, timephasedWork, !useRawTimephasedData));
+            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(assignment, normaliser, timephasedActualWork, !useRawTimephasedData));
+            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(assignment, normaliser, timephasedActualOvertimeWork, !useRawTimephasedData));
 
             if (timephasedWorkData != null)
             {
