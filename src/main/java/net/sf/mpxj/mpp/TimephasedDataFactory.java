@@ -178,16 +178,17 @@ final class TimephasedDataFactory
                double time = MPPUtility.getDouble(data, 16);
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-               Duration adjustedTotalWork;
+
+               Date finish;
                if (resourceType == ResourceType.WORK)
                {
-                  adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
+                  Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
+                  finish = calendar.getDate(startWork, adjustedTotalWork, false);
                }
                else
                {
-                  adjustedTotalWork = Duration.getInstance(time, TimeUnit.MINUTES);
+                  finish = assignment.getFinish();
                }
-               Date finish = calendar.getDate(startWork, adjustedTotalWork, false);
 
                time = MPPUtility.getDouble(data, 8);
                time /= 2000;

@@ -8,6 +8,7 @@
 		<release date="unreleased" version="10.12.1">
 			<action dev="joniles" type="update">Improve identification of deleted resources when reading MPP9 files.</action>
 			<action dev="joniles" type="update">Ensure tasks with task calendars in MPP files are handled correctly when generating timephased data.</action>
+			<action dev="joniles" type="update">Improve generation of timephased data for material resource assignments.</action>
 		</release>
 		<release date="2022-11-01" version="10.12.0">
 			<action dev="joniles" type="update">Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.</action>
