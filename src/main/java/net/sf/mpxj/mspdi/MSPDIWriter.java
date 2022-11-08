@@ -83,6 +83,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AssignmentFieldLists;
+import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
@@ -2169,7 +2170,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (m_writeTimephasedData && mpx.getHasTimephasedData())
       {
          List<TimephasedDataType> list = xml.getTimephasedData();
-         ProjectCalendar calendar = mpx.getCalendar();
+         ProjectCalendar calendar = getCalendar(mpx);
          BigInteger assignmentID = xml.getUID();
 
          List<TimephasedWork> complete = mpx.getTimephasedActualWork();
@@ -2210,6 +2211,28 @@ public final class MSPDIWriter extends AbstractProjectWriter
             writeAssignmentTimephasedData(assignmentID, list, complete, 2);
          }
       }
+   }
+
+   /**
+    * Determine the calendar to use when working with timephased resource assignment data.
+    *
+    * @param assignment resource assignment
+    * @return calendar to use
+    */
+   private ProjectCalendar getCalendar(ResourceAssignment assignment)
+   {
+      ProjectCalendar taskCalendar = assignment.getTask().getCalendar();
+      ProjectCalendar resourceCalendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : null;
+      ProjectCalendar result;
+      if (taskCalendar != null && resourceCalendar != null)
+      {
+         result = new CombinedCalendar(taskCalendar, resourceCalendar);
+      }
+      else
+      {
+         result = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
+      }
+      return result;
    }
 
    /**
