@@ -193,30 +193,10 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             Duration assignmentWorkPerDay = assignment.getAmountPerDay();
             Duration splitWork;
 
-            if (calendarSplitWork.durationComponentEquals(calendarWorkPerDay))
-            {
-               {
-                  if (calendarSplitWork.durationComponentEquals(assignmentWorkPerDay))
-                  {
-                     splitWork = assignmentWorkPerDay;
-                     splitMinutes = splitWork.getDuration();
-                  }
-                  else
-                  {
-                     splitMinutes = assignmentWorkPerDay.getDuration();
-                     splitMinutes *= calendarSplitWork.getDuration();
-                     splitMinutes /= (8 * 60); // this appears to be a fixed value
-                     splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
-                  }
-               }
-            }
-            else
-            {
-               splitMinutes = assignmentWorkPerDay.getDuration();
-               splitMinutes *= calendarSplitWork.getDuration();
-               splitMinutes /= (8 * 60); // this appears to be a fixed value
-               splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
-            }
+            splitMinutes = assignmentWorkPerDay.getDuration();
+            splitMinutes *= calendarSplitWork.getDuration();
+            splitMinutes /= (8 * 60); // this appears to be a fixed value
+            splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
             TimephasedWork split = new TimephasedWork();
             split.setStart(assignmentStart);
