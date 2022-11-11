@@ -51,20 +51,21 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)
    {
-      ProjectCalendar calendar = getCalendar(assignment);
-
-      if (!list.isEmpty())
+      if (list.isEmpty())
       {
-         //dumpList(list);
-         splitDays(calendar, list);
-         //dumpList(list);
-         mergeSameDay(calendar, list);
-         //dumpList(list);
-         mergeSameWork(list);
-         //dumpList(list);
-         convertToHours(list);
-         //dumpList(list);
+         return;
       }
+
+      ProjectCalendar calendar = getCalendar(assignment);
+      //dumpList(list);
+      splitDays(calendar, list);
+      //dumpList(list);
+      mergeSameDay(calendar, list);
+      //dumpList(list);
+      mergeSameWork(list);
+      //dumpList(list);
+      convertToHours(list);
+      //dumpList(list);
    }
 
    /**
