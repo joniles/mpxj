@@ -172,38 +172,38 @@ final class TimephasedDataFactory
          {
             if (!timephasedComplete.isEmpty() && units != 0 && data.length >= 24)
             {
-               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-
-               Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
                double time = MPPUtility.getDouble(data, 16);
-               time /= 1000;
-               Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-
-               Date finish;
-               if (resourceType == ResourceType.WORK)
+               if (time != 0.0)
                {
-                  Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
-                  finish = calendar.getDate(startWork, adjustedTotalWork, false);
-               }
-               else
-               {
-                  finish = assignment.getFinish();
-               }
+                  time /= 1000;
+                  Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-               time = MPPUtility.getDouble(data, 8);
-               time /= 2000;
-               time *= 6;
-               Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+                  TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
 
-               TimephasedWork work = new TimephasedWork();
-               work.setStart(startWork);
-               work.setAmountPerDay(workPerDay);
-               work.setModified(false);
-               work.setFinish(finish);
-               work.setTotalAmount(totalWork);
+                  Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
 
-               if (work.getStart().getTime() != work.getFinish().getTime())
-               {
+                  Date finish;
+                  if (resourceType == ResourceType.WORK)
+                  {
+                     Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
+                     finish = calendar.getDate(startWork, adjustedTotalWork, false);
+                  }
+                  else
+                  {
+                     finish = assignment.getFinish();
+                  }
+
+                  time = MPPUtility.getDouble(data, 8);
+                  time /= 2000;
+                  time *= 6;
+                  Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+
+                  TimephasedWork work = new TimephasedWork();
+                  work.setStart(startWork);
+                  work.setAmountPerDay(workPerDay);
+                  work.setModified(false);
+                  work.setFinish(finish);
+                  work.setTotalAmount(totalWork);
                   list.add(work);
                }
             }
