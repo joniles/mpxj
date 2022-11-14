@@ -1,6 +1,7 @@
 # Changelog
 
 ## 10.12.1 (unreleased)
+* Read resource assignment custom field definitions present in MPP14 files.
 * Improve identification of deleted resources when reading MPP9 files.
 * Ensure tasks with task calendars in MPP files are handled correctly when generating timephased data.
 * Improve generation of timephased data for material resource assignments.
