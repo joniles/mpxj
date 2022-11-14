@@ -179,10 +179,6 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-                  TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-
-                  Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
-
                   Date startWork;
                   if (timephasedComplete.isEmpty())
                   {
@@ -213,8 +209,9 @@ final class TimephasedDataFactory
                   TimephasedWork work = new TimephasedWork();
                   work.setStart(startWork);
                   work.setAmountPerDay(workPerDay);
-                  work.setModified(false);
+                  //work.setModified(false);
                   work.setFinish(finish);
+                  //work.setFinish(assignment.getFinsh());
                   work.setTotalAmount(totalWork);
                   list.add(work);
                }

@@ -1721,7 +1721,13 @@ final class MPP14Reader implements MPPVariantReader
       FixedData assnFixedData = new FixedData(110, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
       FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
-      //Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
+
+      // Process aliases
+      if (assnDir.hasEntry("Props"))
+      {
+         Props props = new Props14(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
+         new CustomFieldReader14(m_file.getCustomFields(), props.getByteArray(ASSIGNMENT_FIELD_NAME_ALIASES)).process();
+      }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
@@ -2057,6 +2063,7 @@ final class MPP14Reader implements MPPVariantReader
 
    private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
    private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
+   private static final Integer ASSIGNMENT_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
    /**
     * Deleted and null tasks have their ID and UniqueID attributes at fixed offsets.
