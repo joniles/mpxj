@@ -179,6 +179,7 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
+                  // TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
                   // Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
                   Date startWork;
                   if (timephasedComplete.isEmpty())
