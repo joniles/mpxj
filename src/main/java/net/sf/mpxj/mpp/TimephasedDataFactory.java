@@ -186,8 +186,9 @@ final class TimephasedDataFactory
                   }
                   else
                   {
-                     TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-                     startWork = calendar.getNextWorkStart(lastComplete.getFinish());
+                     //TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+                     //startWork = calendar.getNextWorkStart(lastComplete.getFinish());
+                     startWork = assignment.getResume();
                   }
 
                   Date finish;
