@@ -77,13 +77,13 @@ licences for the third party libraries used by MPXJ.
 ## Acknowledgements
 This library includes functionality provided by:
 
-* [POI](http://poi.apache.org/).
-* [IKVM.NET](http://www.ikvm.net/).
-* [RTF Parser Kit](https://github.com/joniles/rtfparserkit). 
-* [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc).
-* [ZLIB/CONTRIB](https://github.com/madler/zlib).
-* [JWAT](http://jwat.org/).
-* [JSOUP](http://jsoup.org/).
+* [POI](http://poi.apache.org/)
+* [IKVM.NET](http://www.ikvm.net/)
+* [RTF Parser Kit](https://github.com/joniles/rtfparserkit)
+* [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc)
+* [ZLIB/CONTRIB](https://github.com/madler/zlib)
+* [JWAT](http://jwat.org/)
+* [JSOUP](http://jsoup.org/)
 
 This library has been built with the assistance of:
 
