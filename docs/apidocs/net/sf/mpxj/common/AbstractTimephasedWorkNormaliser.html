@@ -25,8 +25,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -116,7 +116,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a></dd>
+<dd><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;</dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
@@ -126,7 +126,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public abstract class <span class="typeNameLabel">AbstractTimephasedWorkNormaliser</span>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
-implements <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a></pre>
+implements <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;</pre>
 <div class="block">Common implementation detail for normalisation.</div>
 </li>
 </ul>
@@ -158,7 +158,7 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -176,15 +176,6 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html
  same work is undertaken each day.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>abstract void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/AbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
-<div class="block">This method converts the internal representation of timephased
- resource assignment data used by MS Project into a standardised
- format to make it easy to work with.</div>
-</td>
-</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -192,6 +183,13 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
 <code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#clone--" title="class or interface in java.lang">clone</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">finalize</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.common.TimephasedNormaliser">
+<!--   -->
+</a>
+<h3>Methods inherited from interface&nbsp;net.sf.mpxj.common.<a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a></h3>
+<code><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></code></li>
 </ul>
 </li>
 </ul>
@@ -224,26 +222,6 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>normalise</h4>
-<pre>public abstract&nbsp;void&nbsp;normalise(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-                               <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</pre>
-<div class="block">This method converts the internal representation of timephased
- resource assignment data used by MS Project into a standardised
- format to make it easy to work with.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>calendar</code> - current calendar</dd>
-<dd><code>list</code> - list of assignment data</dd>
-</dl>
-</li>
-</ul>
 <a name="mergeSameWork-java.util.List-">
 <!--   -->
 </a>

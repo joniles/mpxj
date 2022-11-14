@@ -226,24 +226,6 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>abstract void</code></td>
-<td class="colLast"><span class="typeNameLabel">AbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/AbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
-<div class="block">This method converts the internal representation of timephased
- resource assignment data used by MS Project into a standardised
- format to make it easy to work with.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><span class="typeNameLabel">TimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
-<div class="block">This method converts the internal representation of timephased
- resource assignment data used by MS Project into a standardised
- format to make it easy to work with.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">SplitTaskFactory.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/SplitTaskFactory.html#processSplitData-net.sf.mpxj.Task-java.util.List-java.util.List-">processSplitData</a></span>(<a href="../../../../net/sf/mpxj/Task.html" title="class in net.sf.mpxj">Task</a>&nbsp;task,
                 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;timephasedComplete,
@@ -270,8 +252,16 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.common.TimephasedWorkNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-                              <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a>&nbsp;normaliser,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;normaliser,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;data,
+                              boolean&nbsp;raw)</code>
+<div class="block">Constructor.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;normaliser,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;data,
                               boolean&nbsp;raw)</code>
 <div class="block">Constructor.</div>
@@ -314,7 +304,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><span class="typeNameLabel">MPPAbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
+<td class="colLast"><span class="typeNameLabel">MPPAbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
 <div class="block">This method converts the internal representation of timephased
  resource assignment data used by MS Project into a standardised
@@ -337,7 +327,7 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><span class="typeNameLabel">MSPDITimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDITimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
+<td class="colLast"><span class="typeNameLabel">MSPDITimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDITimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
 <div class="block">This method converts the internal representation of timephased
  resource assignment data used by MS Project into a standardised

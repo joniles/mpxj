@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -116,13 +116,13 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedCostNormaliser</a></dd>
+<dd><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">MPPTimephasedBaselineCostNormaliser</span>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
-implements <a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedCostNormaliser</a></pre>
+implements <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;</pre>
 <div class="block">Common implementation detail for normalisation.</div>
 </li>
 </ul>
@@ -160,14 +160,18 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#mergeSameCost-java.util.List-">mergeSameCost</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
 <div class="block">This method merges together assignment data for the same cost.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
 <div class="block">This method converts the internal representation of timephased
  resource assignment data used by MS Project into a standardised
@@ -213,24 +217,33 @@ implements <a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">
+<a name="normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>normalise</h4>
-<pre>public&nbsp;void&nbsp;normalise(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
+<pre>public&nbsp;void&nbsp;normalise(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
                       <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</pre>
 <div class="block">This method converts the internal representation of timephased
  resource assignment data used by MS Project into a standardised
  format to make it easy to work with.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedCostNormaliser</a></code></dd>
+<dd><code><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>calendar</code> - current calendar</dd>
+<dd><code>assignment</code> - current resource assignment</dd>
 <dd><code>list</code> - list of assignment data</dd>
 </dl>
+</li>
+</ul>
+<a name="getCalendar-net.sf.mpxj.ResourceAssignment-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCalendar</h4>
+<pre>protected&nbsp;<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;getCalendar(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</pre>
 </li>
 </ul>
 <a name="mergeSameCost-java.util.List-">

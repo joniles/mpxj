@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -126,7 +126,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a></dd>
+<dd><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;</dd>
 </dl>
 <hr>
 <br>
@@ -169,6 +169,12 @@ extends <a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>
+<div class="block">Retrieve the calendar to be used by this normaliser.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedWorkNormaliser.html#mergeSameDay-net.sf.mpxj.ProjectCalendar-java.util.List-">mergeSameDay</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
@@ -181,7 +187,7 @@ extends <a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;net.sf.mpxj.mpp.<a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html" title="class in net.sf.mpxj.mpp">MPPAbstractTimephasedWorkNormaliser</a></h3>
-<code><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></code></li>
+<code><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.net.sf.mpxj.common.AbstractTimephasedWorkNormaliser">
@@ -228,6 +234,25 @@ extends <a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getCalendar-net.sf.mpxj.ResourceAssignment-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCalendar</h4>
+<pre>protected&nbsp;<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;getCalendar(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">MPPAbstractTimephasedWorkNormaliser</a></code></span></div>
+<div class="block">Retrieve the calendar to be used by this normaliser.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html" title="class in net.sf.mpxj.mpp">MPPAbstractTimephasedWorkNormaliser</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>assignment</code> - resource assignment</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>calendar to use when normalising</dd>
+</dl>
+</li>
+</ul>
 <a name="mergeSameDay-net.sf.mpxj.ProjectCalendar-java.util.List-">
 <!--   -->
 </a>

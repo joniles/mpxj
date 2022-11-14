@@ -94,7 +94,19 @@
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><a href="#net.sf.mpxj.common">net.sf.mpxj.common</a></td>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><a href="#net.sf.mpxj.listener">net.sf.mpxj.listener</a></td>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="#net.sf.mpxj.mpp">net.sf.mpxj.mpp</a></td>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a href="#net.sf.mpxj.mspdi">net.sf.mpxj.mspdi</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
@@ -192,6 +204,53 @@
 </tbody>
 </table>
 </li>
+<li class="blockList"><a name="net.sf.mpxj.common">
+<!--   -->
+</a>
+<h3>Uses of <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a> in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a></h3>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> with parameters of type <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">TimephasedNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="type parameter in TimephasedNormaliser">T</a>&gt;&nbsp;list)</code>
+<div class="block">This method converts the internal representation of timephased
+ resource assignment data used by MS Project into a standardised
+ format to make it easy to work with.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing constructors, and an explanation">
+<caption><span>Constructors in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> with parameters of type <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedCostContainer.html#DefaultTimephasedCostContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedCostContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;normaliser,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;data,
+                              boolean&nbsp;raw)</code>
+<div class="block">Constructor.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;normaliser,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;data,
+                              boolean&nbsp;raw)</code>
+<div class="block">Constructor.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
 <li class="blockList"><a name="net.sf.mpxj.listener">
 <!--   -->
 </a>
@@ -221,6 +280,79 @@
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">ProjectListener.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/listener/ProjectListener.html#assignmentWritten-net.sf.mpxj.ResourceAssignment-">assignmentWritten</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>
 <div class="block">This method is called when an assignment is written to a file.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList"><a name="net.sf.mpxj.mpp">
+<!--   -->
+</a>
+<h3>Uses of <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a> in <a href="../../../../net/sf/mpxj/mpp/package-summary.html">net.sf.mpxj.mpp</a></h3>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../net/sf/mpxj/mpp/package-summary.html">net.sf.mpxj.mpp</a> with parameters of type <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>protected abstract <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">MPPAbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>
+<div class="block">Retrieve the calendar to be used by this normaliser.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">MPPTimephasedBaselineCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">MPPTimephasedBaselineWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a></code></td>
+<td class="colLast"><span class="typeNameLabel">MPPTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedWorkNormaliser.html#getCalendar-net.sf.mpxj.ResourceAssignment-">getCalendar</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">MPPTimephasedBaselineCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
+<div class="block">This method converts the internal representation of timephased
+ resource assignment data used by MS Project into a standardised
+ format to make it easy to work with.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">MPPAbstractTimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
+<div class="block">This method converts the internal representation of timephased
+ resource assignment data used by MS Project into a standardised
+ format to make it easy to work with.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList"><a name="net.sf.mpxj.mspdi">
+<!--   -->
+</a>
+<h3>Uses of <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a> in <a href="../../../../net/sf/mpxj/mspdi/package-summary.html">net.sf.mpxj.mspdi</a></h3>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../net/sf/mpxj/mspdi/package-summary.html">net.sf.mpxj.mspdi</a> with parameters of type <a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">MSPDITimephasedWorkNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mspdi/MSPDITimephasedWorkNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;list)</code>
+<div class="block">This method converts the internal representation of timephased
+ resource assignment data used by MS Project into a standardised
+ format to make it easy to work with.</div>
 </td>
 </tr>
 </tbody>

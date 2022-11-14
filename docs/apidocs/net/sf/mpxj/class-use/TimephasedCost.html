@@ -165,24 +165,6 @@
 </tr>
 </tbody>
 </table>
-<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Method parameters in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> with type arguments of type <a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Method and Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><span class="typeNameLabel">TimephasedCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
-<div class="block">This method converts the internal representation of timephased
- resource assignment data used by MS Project into a standardised
- format to make it easy to work with.</div>
-</td>
-</tr>
-</tbody>
-</table>
 <table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing constructors, and an explanation">
 <caption><span>Constructor parameters in <a href="../../../../net/sf/mpxj/common/package-summary.html">net.sf.mpxj.common</a> with type arguments of type <a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
@@ -190,8 +172,16 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedCostContainer.html#DefaultTimephasedCostContainer-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.common.TimephasedCostNormaliser-java.util.List-boolean-">DefaultTimephasedCostContainer</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-                              <a href="../../../../net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedCostNormaliser</a>&nbsp;normaliser,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedCostContainer.html#DefaultTimephasedCostContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedCostContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;normaliser,
+                              <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;data,
+                              boolean&nbsp;raw)</code>
+<div class="block">Constructor.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedCostContainer.html#DefaultTimephasedCostContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedCostContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;normaliser,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;data,
                               boolean&nbsp;raw)</code>
 <div class="block">Constructor.</div>
@@ -219,7 +209,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><span class="typeNameLabel">MPPTimephasedBaselineCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#normalise-net.sf.mpxj.ProjectCalendar-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
+<td class="colLast"><span class="typeNameLabel">MPPTimephasedBaselineCostNormaliser.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html#normalise-net.sf.mpxj.ResourceAssignment-java.util.List-">normalise</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedCost.html" title="class in net.sf.mpxj">TimephasedCost</a>&gt;&nbsp;list)</code>
 <div class="block">This method converts the internal representation of timephased
  resource assignment data used by MS Project into a standardised

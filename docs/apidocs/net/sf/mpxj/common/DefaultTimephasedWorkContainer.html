@@ -142,8 +142,8 @@ implements <a href="../../../../net/sf/mpxj/TimephasedWorkContainer.html" title=
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.common.TimephasedWorkNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-                              <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a>&nbsp;normaliser,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/common/DefaultTimephasedWorkContainer.html#DefaultTimephasedWorkContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">DefaultTimephasedWorkContainer</a></span>(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                              <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;normaliser,
                               <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;data,
                               boolean&nbsp;raw)</code>
 <div class="block">Constructor.</div>
@@ -206,20 +206,20 @@ implements <a href="../../../../net/sf/mpxj/TimephasedWorkContainer.html" title=
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="DefaultTimephasedWorkContainer-net.sf.mpxj.ProjectCalendar-net.sf.mpxj.common.TimephasedWorkNormaliser-java.util.List-boolean-">
+<a name="DefaultTimephasedWorkContainer-net.sf.mpxj.ResourceAssignment-net.sf.mpxj.common.TimephasedNormaliser-java.util.List-boolean-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DefaultTimephasedWorkContainer</h4>
-<pre>public&nbsp;DefaultTimephasedWorkContainer(<a href="../../../../net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj">ProjectCalendar</a>&nbsp;calendar,
-                                      <a href="../../../../net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a>&nbsp;normaliser,
+<pre>public&nbsp;DefaultTimephasedWorkContainer(<a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a>&nbsp;assignment,
+                                      <a href="../../../../net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;normaliser,
                                       <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../net/sf/mpxj/TimephasedWork.html" title="class in net.sf.mpxj">TimephasedWork</a>&gt;&nbsp;data,
                                       boolean&nbsp;raw)</pre>
 <div class="block">Constructor.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>calendar</code> - calendar to which the timephased data relates</dd>
+<dd><code>assignment</code> - resource assignment to which the timephased data relates</dd>
 <dd><code>normaliser</code> - normaliser used to process this data</dd>
 <dd><code>data</code> - timephased data</dd>
 <dd><code>raw</code> - flag indicating if this data is raw</dd>

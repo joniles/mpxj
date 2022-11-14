@@ -1,6 +1,10 @@
 # Changelog
 
 ## 10.12.1 (unreleased)
+* Improve identification of deleted resources when reading MPP9 files.
+* Ensure tasks with task calendars in MPP files are handled correctly when generating timephased data.
+* Improve generation of timephased data for material resource assignments.
+* Improve accuracy of timephased data when reading certain MPP files.
 
 ## 10.12.0 (2022-11-01)
 * Added the Resource Assignment attribute Calculate Costs From Units, and added read and write support for Primavera schedules.

@@ -249,7 +249,7 @@
 <li type="circle">net.sf.mpxj.sdef.<a href="net/sf/mpxj/sdef/SDEFWriter.html" title="class in net.sf.mpxj.sdef"><span class="typeNameLink">SDEFWriter</span></a></li>
 </ul>
 </li>
-<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/AbstractTimephasedWorkNormaliser.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">AbstractTimephasedWorkNormaliser</span></a> (implements net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedWorkNormaliser</a>)
+<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/AbstractTimephasedWorkNormaliser.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">AbstractTimephasedWorkNormaliser</span></a> (implements net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;T&gt;)
 <ul>
 <li type="circle">net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPAbstractTimephasedWorkNormaliser.html" title="class in net.sf.mpxj.mpp"><span class="typeNameLink">MPPAbstractTimephasedWorkNormaliser</span></a>
 <ul>
@@ -667,7 +667,7 @@
 <li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/MPPResourceField14.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">MPPResourceField14</span></a></li>
 <li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/MPPTaskField.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">MPPTaskField</span></a></li>
 <li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/MPPTaskField14.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">MPPTaskField14</span></a></li>
-<li type="circle">net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html" title="class in net.sf.mpxj.mpp"><span class="typeNameLink">MPPTimephasedBaselineCostNormaliser</span></a> (implements net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedCostNormaliser</a>)</li>
+<li type="circle">net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPTimephasedBaselineCostNormaliser.html" title="class in net.sf.mpxj.mpp"><span class="typeNameLink">MPPTimephasedBaselineCostNormaliser</span></a> (implements net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common">TimephasedNormaliser</a>&lt;T&gt;)</li>
 <li type="circle">net.sf.mpxj.mpp.<a href="net/sf/mpxj/mpp/MPPUtility.html" title="class in net.sf.mpxj.mpp"><span class="typeNameLink">MPPUtility</span></a></li>
 <li type="circle">net.sf.mpxj.sample.<a href="net/sf/mpxj/sample/MpxjBatchConvert.html" title="class in net.sf.mpxj.sample"><span class="typeNameLink">MpxjBatchConvert</span></a></li>
 <li type="circle">net.sf.mpxj.sample.<a href="net/sf/mpxj/sample/MpxjConvert.html" title="class in net.sf.mpxj.sample"><span class="typeNameLink">MpxjConvert</span></a></li>
@@ -774,7 +774,11 @@
 <li type="circle">net.sf.mpxj.primavera.schema.<a href="net/sf/mpxj/primavera/schema/ProjectBudgetChangeLogType.html" title="class in net.sf.mpxj.primavera.schema"><span class="typeNameLink">ProjectBudgetChangeLogType</span></a></li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/ProjectCalendarDays.html" title="class in net.sf.mpxj"><span class="typeNameLink">ProjectCalendarDays</span></a>
 <ul>
-<li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj"><span class="typeNameLink">ProjectCalendar</span></a> (implements net.sf.mpxj.<a href="net/sf/mpxj/ProjectEntityWithUniqueID.html" title="interface in net.sf.mpxj">ProjectEntityWithUniqueID</a>, net.sf.mpxj.<a href="net/sf/mpxj/TimeUnitDefaultsContainer.html" title="interface in net.sf.mpxj">TimeUnitDefaultsContainer</a>)</li>
+<li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/ProjectCalendar.html" title="class in net.sf.mpxj"><span class="typeNameLink">ProjectCalendar</span></a> (implements net.sf.mpxj.<a href="net/sf/mpxj/ProjectEntityWithUniqueID.html" title="interface in net.sf.mpxj">ProjectEntityWithUniqueID</a>, net.sf.mpxj.<a href="net/sf/mpxj/TimeUnitDefaultsContainer.html" title="interface in net.sf.mpxj">TimeUnitDefaultsContainer</a>)
+<ul>
+<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/CombinedCalendar.html" title="class in net.sf.mpxj.common"><span class="typeNameLink">CombinedCalendar</span></a></li>
+</ul>
+</li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/ProjectCalendarWeek.html" title="class in net.sf.mpxj"><span class="typeNameLink">ProjectCalendarWeek</span></a> (implements java.lang.<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;T&gt;)</li>
 </ul>
 </li>
@@ -1085,9 +1089,8 @@
 <li type="circle">net.sf.mpxj.writer.<a href="net/sf/mpxj/writer/ProjectWriter.html" title="interface in net.sf.mpxj.writer"><span class="typeNameLink">ProjectWriter</span></a></li>
 <li type="circle">net.sf.mpxj.primavera.common.<a href="net/sf/mpxj/primavera/common/RowValidator.html" title="interface in net.sf.mpxj.primavera.common"><span class="typeNameLink">RowValidator</span></a></li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/TimephasedCostContainer.html" title="interface in net.sf.mpxj"><span class="typeNameLink">TimephasedCostContainer</span></a></li>
-<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedCostNormaliser.html" title="interface in net.sf.mpxj.common"><span class="typeNameLink">TimephasedCostNormaliser</span></a></li>
+<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedNormaliser.html" title="interface in net.sf.mpxj.common"><span class="typeNameLink">TimephasedNormaliser</span></a>&lt;T&gt;</li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/TimephasedWorkContainer.html" title="interface in net.sf.mpxj"><span class="typeNameLink">TimephasedWorkContainer</span></a></li>
-<li type="circle">net.sf.mpxj.common.<a href="net/sf/mpxj/common/TimephasedWorkNormaliser.html" title="interface in net.sf.mpxj.common"><span class="typeNameLink">TimephasedWorkNormaliser</span></a></li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/TimeUnitDefaultsContainer.html" title="interface in net.sf.mpxj"><span class="typeNameLink">TimeUnitDefaultsContainer</span></a></li>
 <li type="circle">net.sf.mpxj.<a href="net/sf/mpxj/View.html" title="interface in net.sf.mpxj"><span class="typeNameLink">View</span></a></li>
 </ul>
