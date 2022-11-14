@@ -2063,7 +2063,6 @@ final class MPP14Reader implements MPPVariantReader
 
    private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
    private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-
    private static final Integer ASSIGNMENT_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
    /**
