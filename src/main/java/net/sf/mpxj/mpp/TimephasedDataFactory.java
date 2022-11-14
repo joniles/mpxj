@@ -213,8 +213,8 @@ final class TimephasedDataFactory
                   TimephasedWork work = new TimephasedWork();
                   work.setStart(startWork);
                   work.setAmountPerDay(workPerDay);
-                  //work.setModified(false);
-                  work.setFinish(assignment.getFinish());
+                  work.setModified(false);
+                  work.setFinish(finish);
                   work.setTotalAmount(totalWork);
                   list.add(work);
                }
