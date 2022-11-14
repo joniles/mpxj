@@ -36,6 +36,7 @@ import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
@@ -170,11 +171,19 @@ final class TimephasedDataFactory
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
          {
-            if (!timephasedComplete.isEmpty() && units != 0 && data.length >= 24)
+            if (units != 0 && data.length >= 24)
             {
-               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+               Date startWork;
+               if (timephasedComplete.isEmpty())
+               {
+                  startWork = assignment.getStart();
+               }
+               else
+               {
+                  TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+                  startWork = calendar.getNextWorkStart(lastComplete.getFinish());
+               }
 
-               Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
                double time = MPPUtility.getDouble(data, 16);
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
@@ -198,8 +207,8 @@ final class TimephasedDataFactory
                TimephasedWork work = new TimephasedWork();
                work.setStart(startWork);
                work.setAmountPerDay(workPerDay);
-               work.setModified(false);
-               work.setFinish(finish);
+               //work.setModified(false);
+               work.setFinish(assignment.getFinish());
                work.setTotalAmount(totalWork);
 
                if (work.getStart().getTime() != work.getFinish().getTime())
