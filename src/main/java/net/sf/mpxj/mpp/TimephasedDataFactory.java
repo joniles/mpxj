@@ -197,8 +197,9 @@ final class TimephasedDataFactory
 
             if (!timephasedComplete.isEmpty())
             {
-               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-               offset = lastComplete.getFinish();
+//               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
+//               offset = lastComplete.getFinish();
+               offset = assignment.getResume();
             }
 
             int index = 40;
