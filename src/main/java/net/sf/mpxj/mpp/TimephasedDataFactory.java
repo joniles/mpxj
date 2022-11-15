@@ -193,15 +193,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            Date offset = assignment.getStart();
-
-            if (!timephasedComplete.isEmpty())
-            {
-//               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-//               offset = lastComplete.getFinish();
-               offset = assignment.getResume();
-            }
-
+            Date offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
             int index = 40;
             double previousCumulativeWork = 0;
             TimephasedWork previousAssignment = null;
