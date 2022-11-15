@@ -36,7 +36,6 @@ import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
@@ -162,7 +161,6 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      // Date startDate, double units
       List<TimephasedWork> list = new ArrayList<>();
       double units = assignment.getUnits().doubleValue();
 
@@ -179,39 +177,14 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-                  Date startWork;
-                  if (timephasedComplete.isEmpty())
-                  {
-                     startWork = assignment.getStart();
-                  }
-                  else
-                  {
-                     //TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-                     //startWork = calendar.getNextWorkStart(lastComplete.getFinish());
-                     startWork = assignment.getResume();
-                  }
-
-                  Date finish;
-                  if (resourceType == ResourceType.WORK)
-                  {
-                     Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
-                     finish = calendar.getDate(startWork, adjustedTotalWork, false);
-                  }
-                  else
-                  {
-                     finish = assignment.getFinish();
-                  }
-
                   time = MPPUtility.getDouble(data, 8);
                   time /= 2000;
                   time *= 6;
                   Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
 
                   TimephasedWork work = new TimephasedWork();
-                  work.setStart(startWork);
+                  work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
                   work.setAmountPerDay(workPerDay);
-                  //work.setModified(false);
-                  //work.setFinish(finish);
                   work.setFinish(assignment.getFinish());
                   work.setTotalAmount(totalWork);
                   list.add(work);
