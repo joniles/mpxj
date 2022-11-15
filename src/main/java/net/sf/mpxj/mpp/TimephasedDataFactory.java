@@ -161,7 +161,6 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      // Date startDate, double units
       List<TimephasedWork> list = new ArrayList<>();
       double units = assignment.getUnits().doubleValue();
 
@@ -170,7 +169,7 @@ final class TimephasedDataFactory
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
          {
-            if (!timephasedComplete.isEmpty() && units != 0 && data.length >= 24)
+            if (units != 0 && data.length >= 24)
             {
                double time = MPPUtility.getDouble(data, 16);
                if (time != 0.0)
@@ -178,31 +177,15 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-                  TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-
-                  Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
-
-                  Date finish;
-                  if (resourceType == ResourceType.WORK)
-                  {
-                     Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
-                     finish = calendar.getDate(startWork, adjustedTotalWork, false);
-                  }
-                  else
-                  {
-                     finish = assignment.getFinish();
-                  }
-
                   time = MPPUtility.getDouble(data, 8);
                   time /= 2000;
                   time *= 6;
                   Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
 
                   TimephasedWork work = new TimephasedWork();
-                  work.setStart(startWork);
+                  work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
                   work.setAmountPerDay(workPerDay);
-                  work.setModified(false);
-                  work.setFinish(finish);
+                  work.setFinish(assignment.getFinish());
                   work.setTotalAmount(totalWork);
                   list.add(work);
                }
@@ -210,14 +193,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            Date offset = assignment.getStart();
-
-            if (!timephasedComplete.isEmpty())
-            {
-               TimephasedWork lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
-               offset = lastComplete.getFinish();
-            }
-
+            Date offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
             int index = 40;
             double previousCumulativeWork = 0;
             TimephasedWork previousAssignment = null;
