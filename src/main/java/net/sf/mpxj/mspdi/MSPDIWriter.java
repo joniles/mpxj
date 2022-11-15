@@ -2201,14 +2201,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
          }
 
-         if (planned != null)
-         {
-            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
-         }
-
          if (complete != null)
          {
             writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+         }
+
+         if (planned != null)
+         {
+            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
          }
       }
    }
