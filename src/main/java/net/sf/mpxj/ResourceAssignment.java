@@ -2787,6 +2787,26 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Retrieve the cost account for this resource assignment.
+    *
+    * @return CostAccount instance for this resoure assignment
+    */
+   public CostAccount getCostAccount()
+   {
+      return getParentFile().getCostAccounts().getByUniqueID((Integer)get(AssignmentField.COST_ACCOUNT_UNIQUE_ID));
+   }
+
+   /**
+    * Set the cost account for this resource assignment.
+    *
+    * @param costAccount cost account for this resource assignment
+    */
+   public void setCostAccount(CostAccount costAccount)
+   {
+      set(AssignmentField.COST_ACCOUNT_UNIQUE_ID, costAccount == null ? null : costAccount.getUniqueID());
+   }
+
+   /**
     * Based on the configuration data for this resource assignment,
     * return the cost rate effective on the supplied date.
     *

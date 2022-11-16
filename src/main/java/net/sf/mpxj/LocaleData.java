@@ -1977,6 +1977,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.OVERRIDE_RATE.getValue()] = "Override Rate";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RATE_SOURCE.getValue()] = "Rate Source";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.COST_ACCOUNT_UNIQUE_ID.getValue()] = "Cost Account ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
