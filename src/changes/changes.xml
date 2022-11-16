@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.12.1">
+		<release date="unreleased" version="10.13.1">
+		</release>
+		<release date="2022-11-16" version="10.13.0">
 			<action dev="joniles" type="update">Add support for reading a resource assignment's cost account from P6 schedules.</action>
 			<action dev="joniles" type="update">Add support for writing a resource assignment's cost account to PMXML files.</action>
 			<action dev="joniles" type="update">Read resource assignment custom field definitions present in MPP14 files.</action>
