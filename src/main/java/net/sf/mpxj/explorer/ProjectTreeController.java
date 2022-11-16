@@ -682,8 +682,8 @@ public class ProjectTreeController
 
          if (fileClass == MSPDIWriter.class)
          {
-            ((MSPDIWriter)writer).setWriteTimephasedData(true);
-            ((MSPDIWriter)writer).setSplitTimephasedAsDays(false);
+            ((MSPDIWriter) writer).setWriteTimephasedData(true);
+            ((MSPDIWriter) writer).setSplitTimephasedAsDays(false);
          }
 
          writer.write(m_projectFile, file);

@@ -570,7 +570,10 @@ public class CustomerDataTest
       Consumer<ProjectWriter> jsonConfig = (w) -> ((JsonWriter) w).setPretty(true);
       Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
-      Consumer<ProjectWriter> mspdiConfig = (w) -> {((MSPDIWriter) w).setWriteTimephasedData(true); ((MSPDIWriter) w).setSplitTimephasedAsDays(false); };
+      Consumer<ProjectWriter> mspdiConfig = (w) -> {
+         ((MSPDIWriter) w).setWriteTimephasedData(true);
+         ((MSPDIWriter) w).setSplitTimephasedAsDays(false);
+      };
 
       boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, mspdiConfig);
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);

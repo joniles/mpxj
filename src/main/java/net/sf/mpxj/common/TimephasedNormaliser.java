@@ -30,7 +30,7 @@ import net.sf.mpxj.ResourceAssignment;
 /**
  * Classes implementing this interface are used to normalise timephased
  * resource assignment data.
- * 
+ *
  * @param <T> timephased data type
  */
 public interface TimephasedNormaliser<T>

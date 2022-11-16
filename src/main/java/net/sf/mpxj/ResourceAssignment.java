@@ -2793,7 +2793,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public CostAccount getCostAccount()
    {
-      return getParentFile().getCostAccounts().getByUniqueID((Integer)get(AssignmentField.COST_ACCOUNT_UNIQUE_ID));
+      return getParentFile().getCostAccounts().getByUniqueID((Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID));
    }
 
    /**
