@@ -2,9 +2,6 @@
   <configuration default="false" name="ProjectExplorer" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="BUNDLED" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <envs>
-      <env name="MPXJ_DEBUG_LOG" value="$PROJECT_DIR$/../Downloads/log.txt" />
-    </envs>
     <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.explorer.ProjectExplorer" />
     <module name="mpxj" />
     <extension name="coverage">
