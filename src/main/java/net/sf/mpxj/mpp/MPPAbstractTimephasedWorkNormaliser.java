@@ -70,7 +70,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
    /**
     * Retrieve the calendar to be used by this normaliser.
-    * 
+    *
     * @param assignment resource assignment
     * @return calendar to use when normalising
     */
@@ -190,7 +190,6 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
 
             Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
-            Duration calendarWorkPerDay = calendar.getWork(assignmentStart, TimeUnit.MINUTES);
             Duration assignmentWorkPerDay = assignment.getAmountPerDay();
             Duration splitWork;
 

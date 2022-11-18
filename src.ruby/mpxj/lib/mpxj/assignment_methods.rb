@@ -676,6 +676,13 @@ module MPXJ
       get_float_value(attribute_values['cost9'])
     end
 
+    # Retrieve the Cost Account ID value
+    #
+    # @return Cost Account ID value
+    def cost_account_unique_id
+      get_integer_value(attribute_values['cost_account_unique_id'])
+    end
+
     # Retrieve the Cost Rate Table value
     #
     # @return Cost Rate Table value
@@ -3937,6 +3944,7 @@ module MPXJ
       'cost7' => :currency,
       'cost8' => :currency,
       'cost9' => :currency,
+      'cost_account_unique_id' => :integer,
       'cost_rate_table' => :short,
       'cost_variance' => :currency,
       'created' => :date,

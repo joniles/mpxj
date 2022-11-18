@@ -1,6 +1,10 @@
 # Changelog
 
-## 10.12.1 (unreleased)
+## 10.13.1 (unreleased)
+
+## 10.13.0 (2022-11-16)
+* Add support for reading a resource assignment's cost account from P6 schedules.
+* Add support for writing a resource assignment's cost account to PMXML files.
 * Read resource assignment custom field definitions present in MPP14 files.
 * Improve identification of deleted resources when reading MPP9 files.
 * Ensure tasks with task calendars in MPP files are handled correctly when generating timephased data.
