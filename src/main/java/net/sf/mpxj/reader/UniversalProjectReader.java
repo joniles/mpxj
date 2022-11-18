@@ -178,11 +178,29 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return readInternal(inputStream);
    }
 
+   /**
+    * Internal implementation of the read method using an InputStream.
+    *
+    * @param inputStream input stream to read from
+    * @return list of schedules
+    */
    private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
    {
       return readInternal(null, inputStream);
    }
 
+   /**
+    * Internal implementation of the read method. This primarily works with the
+    * supplied InputStream instance however if the stream is from a file,
+    * we'll pass a File instance too. This allows us to read MPP files
+    * using a more memory-efficient approach based on the File than would
+    * otherwise be possible using an input stream. This also avoids a hard
+    * limit imposed by POI when reading certain very large files.
+    *
+    * @param file optional File instance
+    * @param inputStream input stream to read from
+    * @return list of schedules
+    */
    private List<ProjectFile> readInternal(File file, InputStream inputStream) throws MPXJException
    {
       try

@@ -61,19 +61,12 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       try
       {
-         //
-         // Open the file system
-         //
-         POIFSFileSystem fs = new POIFSFileSystem(is);
-
-         return read(fs);
-
+         return read(new POIFSFileSystem(is));
       }
+
       catch (IOException ex)
       {
-
          throw new MPXJException(MPXJException.READ_ERROR, ex);
-
       }
    }
 
@@ -88,6 +81,10 @@ public final class MPPReader extends AbstractProjectStreamReader
 
       try
       {
+         // Note we provide this version of the read method rather than using
+         // the AbstractProjectStreamReader version as we can work with the File
+         // instance directly for reduced memory consumption and the ability
+         // to open larger MPP files.
          fs = new POIFSFileSystem(file);
          ProjectFile projectFile = read(fs);
          return projectFile;
