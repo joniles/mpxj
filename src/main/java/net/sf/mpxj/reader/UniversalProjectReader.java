@@ -178,7 +178,30 @@ public final class UniversalProjectReader extends AbstractProjectReader
       return readInternal(inputStream);
    }
 
+   /**
+    * Internal implementation of the read method using an InputStream.
+    *
+    * @param inputStream input stream to read from
+    * @return list of schedules
+    */
    private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
+   {
+      return readInternal(null, inputStream);
+   }
+
+   /**
+    * Internal implementation of the read method. This primarily works with the
+    * supplied InputStream instance however if the stream is from a file,
+    * we'll pass a File instance too. This allows us to read MPP files
+    * using a more memory-efficient approach based on the File than would
+    * otherwise be possible using an input stream. This also avoids a hard
+    * limit imposed by POI when reading certain very large files.
+    *
+    * @param file optional File instance
+    * @param inputStream input stream to read from
+    * @return list of schedules
+    */
+   private List<ProjectFile> readInternal(File file, InputStream inputStream) throws MPXJException
    {
       try
       {
@@ -226,7 +249,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
-            return handleOleCompoundDocument(bis);
+            return handleOleCompoundDocument(file, bis);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
@@ -405,16 +428,26 @@ public final class UniversalProjectReader extends AbstractProjectReader
    /**
     * We have an OLE compound document... but is it an MPP file?
     *
+    * @param file File object
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private List<ProjectFile> handleOleCompoundDocument(InputStream stream) throws Exception
+   private List<ProjectFile> handleOleCompoundDocument(File file, InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
+      boolean closeFile = false;
 
       try
       {
-         fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
+         if (file == null)
+         {
+            fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
+         }
+         else
+         {
+            fs = new POIFSFileSystem(file);
+            closeFile = true;
+         }
       }
 
       catch (Exception ex)
@@ -422,15 +455,27 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return Collections.emptyList();
       }
 
-      String fileFormat = MPPReader.getFileFormat(fs);
-      if (fileFormat != null && fileFormat.startsWith("MSProject"))
+      try
       {
+         String fileFormat = MPPReader.getFileFormat(fs);
+         if (fileFormat == null || !fileFormat.startsWith("MSProject"))
+         {
+            return Collections.emptyList();
+         }
+
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
          reader.setProperties(m_properties);
          return Collections.singletonList(reader.read(fs));
       }
-      return Collections.emptyList();
+
+      finally
+      {
+         if (closeFile)
+         {
+            AutoCloseableHelper.closeQuietly(fs);
+         }
+      }
    }
 
    /**
@@ -562,7 +607,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          fis = new FileInputStream(file);
-         List<ProjectFile> projectFiles = readInternal(fis);
+         List<ProjectFile> projectFiles = readInternal(file, fis);
          fis.close();
          return projectFiles;
       }

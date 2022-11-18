@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -58,25 +61,44 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       try
       {
-         //
-         // Open the file system
-         //
-         POIFSFileSystem fs = new POIFSFileSystem(is);
-
-         return read(fs);
-
+         return read(new POIFSFileSystem(is));
       }
+
       catch (IOException ex)
       {
-
          throw new MPXJException(MPXJException.READ_ERROR, ex);
-
       }
    }
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Collections.singletonList(read(inputStream));
+   }
+
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
+      POIFSFileSystem fs = null;
+
+      try
+      {
+         // Note we provide this version of the read method rather than using
+         // the AbstractProjectStreamReader version as we can work with the File
+         // instance directly for reduced memory consumption and the ability
+         // to open larger MPP files.
+         fs = new POIFSFileSystem(file);
+         ProjectFile projectFile = read(fs);
+         return projectFile;
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(fs);
+      }
    }
 
    /**
