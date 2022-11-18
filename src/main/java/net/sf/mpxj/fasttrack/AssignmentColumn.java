@@ -48,7 +48,15 @@ class AssignmentColumn extends AbstractColumn
          m_options = options.getData();
          offset = options.getOffset();
 
-         // Skip bytes
+         if (FastTrackUtility.getByte(buffer, offset+1) == 0x01)
+         {
+            offset += 4;
+            int stringLength = FastTrackUtility.getInt(buffer, offset);
+            offset += 4;
+            // FastTrackUtility.getString(buffer, offset, stringLength);
+            offset += stringLength;
+         }
+
          offset += 8;
       }
 
