@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.13.1">
+			<action dev="joniles" type="update">Handle missing default calendar when reading a PMXML file.</action>
 		</release>
 		<release date="2022-11-16" version="10.13.0">
 			<action dev="joniles" type="update">Add support for reading a resource assignment's cost account from P6 schedules.</action>
