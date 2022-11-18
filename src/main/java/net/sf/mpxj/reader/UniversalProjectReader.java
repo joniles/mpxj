@@ -428,6 +428,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    /**
     * We have an OLE compound document... but is it an MPP file?
     *
+    * @param file File object
     * @param stream file input stream
     * @return ProjectFile instance
     */
