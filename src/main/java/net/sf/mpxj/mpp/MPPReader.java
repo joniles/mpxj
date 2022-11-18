@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.AutoCloseableHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -77,6 +80,28 @@ public final class MPPReader extends AbstractProjectStreamReader
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Collections.singletonList(read(inputStream));
+   }
+
+   @Override public ProjectFile read(File file) throws MPXJException
+   {
+      POIFSFileSystem fs = null;
+
+      try
+      {
+         fs = new POIFSFileSystem(file);
+         ProjectFile projectFile = read(fs);
+         return projectFile;
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(fs);
+      }
    }
 
    /**

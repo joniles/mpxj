@@ -416,6 +416,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleOleCompoundDocument(File file, InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
+      boolean closeFile = false;
 
       try
       {
@@ -426,6 +427,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          else
          {
             fs = new POIFSFileSystem(file);
+            closeFile = true;
          }
       }
 
@@ -434,15 +436,27 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return Collections.emptyList();
       }
 
-      String fileFormat = MPPReader.getFileFormat(fs);
-      if (fileFormat != null && fileFormat.startsWith("MSProject"))
+      try
       {
+         String fileFormat = MPPReader.getFileFormat(fs);
+         if (fileFormat == null || !fileFormat.startsWith("MSProject"))
+         {
+            return Collections.emptyList();
+         }
+
          MPPReader reader = new MPPReader();
          addListenersToReader(reader);
          reader.setProperties(m_properties);
          return Collections.singletonList(reader.read(fs));
       }
-      return Collections.emptyList();
+
+      finally
+      {
+         if (closeFile)
+         {
+            AutoCloseableHelper.closeQuietly(fs);
+         }
+      }
    }
 
    /**
