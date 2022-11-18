@@ -48,6 +48,7 @@ class AssignmentColumn extends AbstractColumn
          m_options = options.getData();
          offset = options.getOffset();
 
+         // Handle unknown string structure see in a couple of examples from v11/2020
          if (FastTrackUtility.getByte(buffer, offset+1) == 0x01)
          {
             offset += 4;
