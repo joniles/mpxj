@@ -180,6 +180,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
    {
+      return readInternal(null, inputStream);
+   }
+
+   private List<ProjectFile> readInternal(File file, InputStream inputStream) throws MPXJException
+   {
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
@@ -226,7 +231,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
-            return handleOleCompoundDocument(bis);
+            return handleOleCompoundDocument(file, bis);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
@@ -408,13 +413,20 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private List<ProjectFile> handleOleCompoundDocument(InputStream stream) throws Exception
+   private List<ProjectFile> handleOleCompoundDocument(File file, InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
 
       try
       {
-         fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
+         if (file == null)
+         {
+            fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
+         }
+         else
+         {
+            fs = new POIFSFileSystem(file);
+         }
       }
 
       catch (Exception ex)
@@ -562,7 +574,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          fis = new FileInputStream(file);
-         List<ProjectFile> projectFiles = readInternal(fis);
+         List<ProjectFile> projectFiles = readInternal(file, fis);
          fis.close();
          return projectFiles;
       }
