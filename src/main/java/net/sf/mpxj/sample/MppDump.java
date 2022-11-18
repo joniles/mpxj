@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.sample;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -82,15 +82,16 @@ public class MppDump
     */
    private static void process(String input, String output) throws Exception
    {
-      File file = new File(input);
+      FileInputStream is = new FileInputStream(input);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      POIFSFileSystem fs = new POIFSFileSystem(file);
+      POIFSFileSystem fs = new POIFSFileSystem(is);
       dumpTree(pw, fs.getRoot(), "", true, true, null);
 
-      fs.close();
+      is.close();
       pw.flush();
       pw.close();
+      fs.close();
    }
 
    /**

@@ -56,15 +56,24 @@ public class PoiTreeController
     */
    public void loadFile(File file)
    {
+      InputStream is = null;
+
       try
       {
-         POIFSFileSystem fs = new POIFSFileSystem(file);
-         m_model.setFile(new POIFSFileSystem(file));
+         is = Files.newInputStream(file.toPath());
+         POIFSFileSystem fs = new POIFSFileSystem(is);
+         m_model.setFile(fs);
       }
 
       catch (IOException ex)
       {
          throw new RuntimeException(ex);
       }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(is);
+      }
    }
+
 }
