@@ -26,6 +26,7 @@ package net.sf.mpxj.junit.legacy;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -74,7 +75,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
@@ -93,7 +94,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample1.xml"));
       ProjectFile xml = new MSPDIReader().read(in);
-      File out = File.createTempFile("junit", ".xml");
+      File out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(xml, out);
       boolean success = FileUtility.equals(in, out);
       assertTrue("Files are not identical", success);
@@ -110,7 +111,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample1.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
@@ -128,7 +129,7 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/empty.mpp"));
       ProjectFile mpx = new MPPReader().read(in);
       mpx.getProjectProperties().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
@@ -144,7 +145,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
-      File out = File.createTempFile("junit", ".planner");
+      File out = Files.createTempFile("junit", ".planner").toFile();
       new PlannerWriter().write(mpx, out);
       //success = FileUtility.equals (in, out);
       //assertTrue ("Files are not identical", success);
@@ -267,7 +268,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample98.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
       commonTests(mpp);
       out.deleteOnExit();
@@ -280,7 +281,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
       commonTests(mpp);
       out.deleteOnExit();
@@ -293,7 +294,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample.xml"));
       ProjectFile xml = new MSPDIReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(xml, out);
       commonTests(xml);
       out.deleteOnExit();
@@ -353,12 +354,12 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/sample.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
 
       ProjectFile mpx = new MPXReader().read(out);
       out.deleteOnExit();
-      out = File.createTempFile("junit", ".xml");
+      out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(mpx, out);
       out.deleteOnExit();
    }
@@ -428,7 +429,7 @@ public class BasicTest
       task5.setStart(new Date());
       task5.setNotes(notes5);
 
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(file1, out);
 
       ProjectFile file2 = new MPXReader().read(out);
@@ -490,7 +491,7 @@ public class BasicTest
       resource5.setName("Test Resource 5");
       resource5.setNotes(notes5);
 
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(file1, out);
 
       ProjectFile file2 = new MPXReader().read(out);
@@ -524,7 +525,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/bug1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
       out.deleteOnExit();
    }
@@ -536,7 +537,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/bug2.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
       out.deleteOnExit();
    }
@@ -563,7 +564,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/bug4.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out.getAbsolutePath());
       out.deleteOnExit();
    }
@@ -896,7 +897,7 @@ public class BasicTest
       //
       // Write this out as an MSPDI file
       //
-      File out = File.createTempFile("junit", ".xml");
+      File out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(mpp, out);
 
       //
@@ -927,7 +928,7 @@ public class BasicTest
       ProjectFile xml = reader.read(in);
       validateAliases(xml);
 
-      File out = File.createTempFile("junit", ".xml");
+      File out = Files.createTempFile("junit", ".xml").toFile();
       writer.write(xml, out);
 
       xml = reader.read(out);
@@ -1247,7 +1248,7 @@ public class BasicTest
       //
       // Write the file
       //
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(file, out);
 
       //
@@ -1338,7 +1339,7 @@ public class BasicTest
       ProjectFile xml = reader.read(MpxjTestData.filePath("legacy/mspextattr.xml"));
       commonMspdiExtendedAttributeTests(xml);
 
-      File out = File.createTempFile("junit", ".xml");
+      File out = Files.createTempFile("junit", ".xml").toFile();
       writer.write(xml, out);
 
       xml = reader.read(out);
@@ -1404,7 +1405,7 @@ public class BasicTest
       // Write the file, re-read it and test to ensure that
       // the project properties have the expected values
       //
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       writer.write(mpx, out);
       mpx = reader.read(out);
       testProperties(mpx);
@@ -1435,7 +1436,7 @@ public class BasicTest
       // Write the file, re-read it and test to ensure that
       // the project properties have the expected values
       //
-      out = File.createTempFile("junit", ".xml");
+      out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(mpx, out);
 
       mpx = new MSPDIReader().read(out);
@@ -1512,13 +1513,13 @@ public class BasicTest
       ProjectFile xml = new MSPDIReader().read(MpxjTestData.filePath("legacy/mspdipriority.xml"));
       validatePriority(xml);
 
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpx, out);
       ProjectFile mpx2 = new MPXReader().read(out);
       validatePriority(mpx2);
       out.deleteOnExit();
 
-      out = File.createTempFile("junit", ".xml");
+      out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(mpx, out);
       ProjectFile xml3 = new MSPDIReader().read(out);
       validatePriority(xml3);
@@ -1720,7 +1721,7 @@ public class BasicTest
       //
       // Write the file and re-read it to ensure we get consistent results.
       //
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       new MPXWriter().write(mpp, out);
 
       ProjectFile mpx = new MPXReader().read(out);
@@ -1737,7 +1738,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/calendarExceptions.mpx"));
       ProjectFile mpx = new MPXReader().read(in);
-      File out = File.createTempFile("junit", ".mpx");
+      File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
