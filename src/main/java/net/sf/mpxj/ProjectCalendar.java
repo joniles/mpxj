@@ -576,20 +576,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          else
          {
             DateRange range = ranges.get(ranges.size() - 1);
-            Date rangeFinish = range.getEnd();
-            Date startDay = DateHelper.getDayStartDate(range.getStart());
-            Date finishDay = DateHelper.getDayStartDate(rangeFinish);
-
-            result = DateHelper.getCanonicalTime(rangeFinish);
-
-            //
-            // Handle the case where the end of the range is at midnight -
-            // this will show up as the start and end days not matching
-            //
-            if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
-            {
-               result = DateHelper.addDays(result, 1);
-            }
+            result = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
          }
       }
       return result;
@@ -713,16 +700,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   continue;
                }
 
-               Date canonicalRangeEnd = DateHelper.getCanonicalTime(rangeEnd);
-               Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
-
                Date rangeStartDay = DateHelper.getDayStartDate(rangeStart);
                Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
-
-               if (rangeStartDay.getTime() != rangeEndDay.getTime())
-               {
-                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
-               }
+               Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
+               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
 
                if (firstRange && canonicalRangeEnd.getTime() < currentDateStartTime.getTime())
                {
@@ -896,16 +877,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   continue;
                }
 
-               Date canonicalRangeEnd = DateHelper.getCanonicalTime(rangeEnd);
                Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
-
-               Date rangeStartDay = DateHelper.getDayStartDate(rangeStart);
-               Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
-
-               if (rangeStartDay.getTime() != rangeEndDay.getTime())
-               {
-                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
-               }
+               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
 
                if (firstRange && canonicalRangeStart.getTime() > currentDateFinishTime.getTime())
                {
@@ -977,14 +950,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          for (DateRange range : ranges)
          {
             Date rangeStart = DateHelper.getCanonicalTime(range.getStart());
-            Date rangeEnd = DateHelper.getCanonicalTime(range.getEnd());
-            Date rangeStartDay = DateHelper.getDayStartDate(range.getStart());
-            Date rangeEndDay = DateHelper.getDayStartDate(range.getEnd());
-
-            if (rangeStartDay.getTime() != rangeEndDay.getTime())
-            {
-               rangeEnd = DateHelper.addDays(rangeEnd, 1);
-            }
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
 
             if (calTime.getTime() < rangeEnd.getTime())
             {
@@ -1050,15 +1016,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          Date finishTime = null;
          for (DateRange range : ranges)
          {
-            Date rangeEnd = DateHelper.getCanonicalTime(range.getEnd());
-            Date rangeStartDay = DateHelper.getDayStartDate(range.getStart());
-            Date rangeEndDay = DateHelper.getDayStartDate(range.getEnd());
-
-            if (rangeStartDay.getTime() != rangeEndDay.getTime())
-            {
-               rangeEnd = DateHelper.addDays(rangeEnd, 1);
-            }
-
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
             if (calTime.getTime() >= rangeEnd.getTime())
             {
                finishTime = rangeEnd;
@@ -1777,19 +1735,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             if (rangeStart != null && rangeEnd != null)
             {
                Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalTime(rangeEnd);
-
-               Date startDay = DateHelper.getDayStartDate(rangeStart);
-               Date finishDay = DateHelper.getDayStartDate(rangeEnd);
-
-               //
-               // Handle the case where the end of the range is at midnight -
-               // this will show up as the start and end days not matching
-               //
-               if (startDay.getTime() != finishDay.getTime())
-               {
-                  canonicalRangeEnd = DateHelper.addDays(canonicalRangeEnd, 1);
-               }
+               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
 
                if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
                {
@@ -1822,19 +1768,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       if (start != null && end != null)
       {
          Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalTime(end);
-
-         Date startDay = DateHelper.getDayStartDate(start);
-         Date finishDay = DateHelper.getDayStartDate(end);
-
-         //
-         // Handle the case where the end of the range is at midnight -
-         // this will show up as the start and end days not matching
-         //
-         if (startDay.getTime() != finishDay.getTime())
-         {
-            endTime = DateHelper.addDays(endTime, 1);
-         }
+         Date endTime = DateHelper.getCanonicalEndTime(start, end);
 
          int diff = DateHelper.compare(startTime, endTime, target);
          if (diff == 0)
@@ -1874,20 +1808,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       if (start != null && end != null)
       {
          Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalTime(end);
-
-         Date startDay = DateHelper.getDayStartDate(start);
-         Date finishDay = DateHelper.getDayStartDate(end);
-
-         //
-         // Handle the case where the end of the range is at midnight -
-         // this will show up as the start and end days not matching
-         //
-         if (startDay.getTime() != finishDay.getTime())
-         {
-            endTime = DateHelper.addDays(endTime, 1);
-         }
-
+         Date endTime = DateHelper.getCanonicalEndTime(start, end);
          total = (endTime.getTime() - startTime.getTime());
       }
       return (total);

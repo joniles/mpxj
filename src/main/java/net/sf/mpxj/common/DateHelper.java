@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.TimeZone;
 
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Task;
@@ -111,6 +112,25 @@ public final class DateHelper
          pushCalendar(cal);
       }
       return (date);
+   }
+
+   public static Date getCanonicalEndTime(Date rangeStart, Date rangeFinish)
+   {
+      Date startDay = DateHelper.getDayStartDate(rangeStart);
+      Date finishDay = DateHelper.getDayStartDate(rangeFinish);
+
+      Date result = DateHelper.getCanonicalTime(rangeFinish);
+
+      //
+      // Handle the case where the end of the range is at midnight -
+      // this will show up as the start and end days not matching
+      //
+      if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
+      {
+         result = DateHelper.addDays(result, 1);
+      }
+
+      return result;
    }
 
    /**
