@@ -40,6 +40,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
@@ -182,16 +183,17 @@ public class ResourceAssignmentFactory
 
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
             ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
-            ProjectCalendar calendar = null;
+            ProjectCalendar taskCalendar = task.getCalendar();
+            ProjectCalendar resourceCalendar = resource != null && resourceType == ResourceType.WORK ? assignment.getCalendar() : null;
 
-            if (resource != null && resourceType == ResourceType.WORK && !task.getIgnoreResourceCalendar())
+            ProjectCalendar calendar;
+            if (taskCalendar != null && resourceCalendar != null)
             {
-               calendar = resource.getCalendar();
+               calendar = new CombinedCalendar(taskCalendar, resourceCalendar);
             }
-
-            if (calendar == null)
+            else
             {
-               calendar = task.getEffectiveCalendar();
+               calendar = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
             }
 
             for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
