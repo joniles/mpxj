@@ -59,7 +59,7 @@ public class CombinedCalendar extends ProjectCalendar
       for (DateRange range1 : hours1)
       {
          Date range1Start = DateHelper.getCanonicalTime(range1.getStart());
-         Date range1End = DateHelper.getCanonicalTime(range1.getEnd());
+         Date range1End = DateHelper.getCanonicalEndTime(range1.getStart(), range1.getEnd());
 
          for (DateRange range2 : hours2)
          {
@@ -70,7 +70,7 @@ public class CombinedCalendar extends ProjectCalendar
                break;
             }
 
-            Date range2End = DateHelper.getCanonicalTime(range2.getEnd());
+            Date range2End = DateHelper.getCanonicalEndTime(range2.getStart(), range2.getEnd());
             if (DateHelper.compare(range1Start, range2End) >= 0)
             {
                // range1 starts after range2 so there is no overlap, get the next range2
