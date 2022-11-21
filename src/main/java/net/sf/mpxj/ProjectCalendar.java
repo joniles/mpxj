@@ -575,9 +575,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            Date rangeStart = ranges.get(0).getStart();
-            Date rangeFinish = ranges.get(ranges.size() - 1).getEnd();
-            Date startDay = DateHelper.getDayStartDate(rangeStart);
+            DateRange range = ranges.get(ranges.size() - 1);
+            Date rangeFinish = range.getEnd();
+            Date startDay = DateHelper.getDayStartDate(range.getStart());
             Date finishDay = DateHelper.getDayStartDate(rangeFinish);
 
             result = DateHelper.getCanonicalTime(rangeFinish);
