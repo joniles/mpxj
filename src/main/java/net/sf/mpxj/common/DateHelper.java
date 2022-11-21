@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.TimeZone;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Task;
@@ -114,6 +113,15 @@ public final class DateHelper
       return (date);
    }
 
+   /**
+    * Assuming two timestamps representing a time range on a single day,
+    * convert the timestamps to a canonical date, and adjust the end
+    * timestamp to handle the case where the time range ends at midnight.
+    *
+    * @param rangeStart start timestamp
+    * @param rangeFinish finish timestamp
+    * @return canonical end date
+    */
    public static Date getCanonicalEndTime(Date rangeStart, Date rangeFinish)
    {
       Date startDay = DateHelper.getDayStartDate(rangeStart);
