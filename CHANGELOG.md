@@ -1,6 +1,13 @@
 # Changelog
 
-## 10.13.1 (unreleased)
+## 10.14.1 (unreleased)
+
+## 10.14.0 (2022-11-21)
+* Handle missing default calendar when reading a PMXML file.
+* When reading an MPP file using a file name or `File` instance, ensure a more memory-efficient approach is used.
+* Improve reading certain FastTrack FTS files.
+* Improve generation of timephased data where working time ends at midnight.
+* Improve generation of timephased data for tasks with a calendar assigned.
 
 ## 10.13.0 (2022-11-16)
 * Add support for reading a resource assignment's cost account from P6 schedules.
