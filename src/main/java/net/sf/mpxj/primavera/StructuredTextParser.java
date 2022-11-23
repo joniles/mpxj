@@ -46,7 +46,7 @@ public class StructuredTextParser
 {
    /**
     * By default, if unexpected structure is encountered while parsing
-    * structured text, the parse wil raise a {@code StructuredTextParseException}.
+    * structured text, the parser will raise a {@code StructuredTextParseException}.
     * In some cases the structured text already parsed will have yielded useful data.
     * Setting this flag to {@code true} will allow the parser to fail silently
     * and return as much of the data as it has been able to extract.
