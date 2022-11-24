@@ -36,8 +36,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.common.DateHelper;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -72,6 +74,7 @@ public class CustomerDataTest
     */
    public CustomerDataTest()
    {
+      TimeZone.setDefault(TimeZone.getTimeZone("Israel"));
       m_privateDirectory = configureDirectory("mpxj.junit.privatedir");
       m_baselineDirectory = configureDirectory("mpxj.junit.baselinedir");
       m_primaveraFile = System.getProperty("mpxj.junit.primavera.file");
@@ -612,7 +615,7 @@ public class CustomerDataTest
 
       File baselineFile = new File(baselineDirectory, name + suffix);
 
-      project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
+      project.getProjectProperties().setCurrentDate(DateHelper.getDateFromLong(1544100702438L));
 
       if (baselineFile.exists())
       {
