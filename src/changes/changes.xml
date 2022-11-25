@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.14.1">
+			<action dev="joniles" type="update">Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</action>
 		</release>
 		<release date="2022-11-21" version="10.14.0">
 			<action dev="joniles" type="update">Handle missing default calendar when reading a PMXML file.</action>
