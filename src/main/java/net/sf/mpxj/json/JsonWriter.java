@@ -812,6 +812,14 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case CUSTOM:
+         {
+            CustomField customField = m_projectFile.getCustomFields().get(fieldType);
+            DataType customFieldType = customField == null ? DataType.STRING : customField.getCustomFieldDataType();
+            writeField(container, fieldType, fieldName, customFieldType, value);
+            break;
+         }
+
          default:
          {
             // If we have an enum, ensure we write the name as it appears in the code.
