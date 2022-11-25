@@ -27,6 +27,7 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -56,6 +57,7 @@ public class ProjectExplorer
     */
    public static void main(String[] args)
    {
+      TimeZone.setDefault(TimeZone.getTimeZone("Israel"));
       EventQueue.invokeLater(() -> {
          try
          {

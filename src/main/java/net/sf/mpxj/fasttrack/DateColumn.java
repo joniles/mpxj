@@ -71,7 +71,7 @@ class DateColumn extends AbstractColumn
             int value = FastTrackUtility.getInt(rawValue, 0);
             if (value > 0)
             {
-               cal.setTimeInMillis(DATE_EPOCH);
+               cal.setTime(DateHelper.getTimestampFromLong(DATE_EPOCH));
                cal.add(Calendar.DAY_OF_YEAR, value);
                int year = cal.get(Calendar.YEAR);
                // Sanity test: ignore dates with obviously incorrect years
