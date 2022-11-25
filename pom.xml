@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>10.14.0</version>
+	<!-- MPXJ --><version>10.14.1</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -211,6 +211,9 @@
 		</contributor>
 		<contributor>
 			<name>Jari Niskala</name>
+		</contributor>
+		<contributor>
+			<name>Jonathan Leitschuh</name>
 		</contributor>
 		<contributor>
 			<name>Kyle Patmore</name>
