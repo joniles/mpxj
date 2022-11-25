@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.14.1">
+		<release date="unreleased" version="10.14.2">
+		</release>
+		<release date="2022-11-25" version="10.14.1">
 			<action dev="joniles" type="update">Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</action>
 		</release>
 		<release date="2022-11-21" version="10.14.0">
