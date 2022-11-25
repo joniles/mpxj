@@ -1,6 +1,9 @@
 # Changelog
 
-## 10.14.1 (unreleased)
+## 10.14.2 (unreleased)
+
+## 10.14.1 (2022-11-25)
+* Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)
 
 ## 10.14.0 (2022-11-21)
 * Handle missing default calendar when reading a PMXML file.

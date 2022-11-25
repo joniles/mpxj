@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
@@ -49,7 +50,7 @@ public class InputStreamHelper
 
       try
       {
-         File file = File.createTempFile("mpxj", tempFileSuffix);
+         File file = Files.createTempFile("mpxj", tempFileSuffix).toFile();
          outputStream = new FileOutputStream(file);
          byte[] buffer = new byte[1024];
          while (true)

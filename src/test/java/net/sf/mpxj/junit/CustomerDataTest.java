@@ -174,7 +174,7 @@ public class CustomerDataTest
 
       // Accessing the database directly from (new) Google Drive is too slow.
       // Make a temporary local copy instead.
-      File file = File.createTempFile("primavera", "db");
+      File file = Files.createTempFile("primavera", "db").toFile();
       file.deleteOnExit();
       Files.copy(new File(m_primaveraFile).toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -616,7 +616,7 @@ public class CustomerDataTest
 
       if (baselineFile.exists())
       {
-         File out = File.createTempFile("junit", suffix);
+         File out = Files.createTempFile("junit", suffix).toFile();
          writer.write(project, out);
          success = FileUtility.equals(baselineFile, out);
 

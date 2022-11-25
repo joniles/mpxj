@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static net.sf.mpxj.junit.MpxjAssert.*;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Locale;
 
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class LocaleTest
 
       File in = new File(MpxjTestData.filePath("legacy/sample.mpx"));
       ProjectFile mpx = reader.read(in);
-      File out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
+      File out = Files.createTempFile("junit-" + locale.getLanguage(), ".mpx").toFile();
       writer.setLocale(locale);
       writer.write(mpx, out);
 
