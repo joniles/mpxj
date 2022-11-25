@@ -114,6 +114,34 @@ public final class DateHelper
    }
 
    /**
+    * Assuming two timestamps representing a time range on a single day,
+    * convert the timestamps to a canonical date, and adjust the end
+    * timestamp to handle the case where the time range ends at midnight.
+    *
+    * @param rangeStart start timestamp
+    * @param rangeFinish finish timestamp
+    * @return canonical end date
+    */
+   public static Date getCanonicalEndTime(Date rangeStart, Date rangeFinish)
+   {
+      Date startDay = DateHelper.getDayStartDate(rangeStart);
+      Date finishDay = DateHelper.getDayStartDate(rangeFinish);
+
+      Date result = DateHelper.getCanonicalTime(rangeFinish);
+
+      //
+      // Handle the case where the end of the range is at midnight -
+      // this will show up as the start and end days not matching
+      //
+      if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
+      {
+         result = DateHelper.addDays(result, 1);
+      }
+
+      return result;
+   }
+
+   /**
     * This method compares a target date with a date range. The method will
     * return 0 if the date is within the range, less than zero if the date
     * is before the range starts, and greater than zero if the date is after

@@ -1640,14 +1640,14 @@ public class BasicTest
       assertEquals(8, mpp.getResourceAssignments().size());
 
       //
-      // Remove a task with no assignments
+      // Remove a task with no explicit assignments
       //
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       assertEquals("Task One", task.getName());
       task.remove();
       assertEquals(9, mpp.getTasks().size());
       assertEquals(8, mpp.getResources().size());
-      assertEquals(8, mpp.getResourceAssignments().size());
+      assertEquals(7, mpp.getResourceAssignments().size());
 
       //
       // Remove a resource with no assignments
@@ -1657,7 +1657,7 @@ public class BasicTest
       resource.remove();
       assertEquals(9, mpp.getTasks().size());
       assertEquals(7, mpp.getResources().size());
-      assertEquals(8, mpp.getResourceAssignments().size());
+      assertEquals(7, mpp.getResourceAssignments().size());
 
       //
       // Remove a task with a single assignment
@@ -1667,7 +1667,7 @@ public class BasicTest
       task.remove();
       assertEquals(8, mpp.getTasks().size());
       assertEquals(7, mpp.getResources().size());
-      assertEquals(7, mpp.getResourceAssignments().size());
+      assertEquals(6, mpp.getResourceAssignments().size());
 
       //
       // Remove a resource with a single assignment
@@ -1677,7 +1677,7 @@ public class BasicTest
       resource.remove();
       assertEquals(8, mpp.getTasks().size());
       assertEquals(6, mpp.getResources().size());
-      assertEquals(6, mpp.getResourceAssignments().size());
+      assertEquals(5, mpp.getResourceAssignments().size());
 
       //
       // Remove an assignment
@@ -1698,7 +1698,7 @@ public class BasicTest
       assertEquals(0, assignments.size());
       assertEquals(8, mpp.getTasks().size());
       assertEquals(6, mpp.getResources().size());
-      assertEquals(5, mpp.getResourceAssignments().size());
+      assertEquals(4, mpp.getResourceAssignments().size());
 
       //
       // Remove a task with child tasks - the child tasks will also be removed
@@ -1708,7 +1708,7 @@ public class BasicTest
       task.remove();
       assertEquals(6, mpp.getTasks().size());
       assertEquals(6, mpp.getResources().size());
-      assertEquals(4, mpp.getResourceAssignments().size());
+      assertEquals(3, mpp.getResourceAssignments().size());
 
       //
       // As we have removed tasks and resources, call the synchronize methods
