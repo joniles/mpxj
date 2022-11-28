@@ -23,9 +23,11 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.DateHelper;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -112,6 +114,21 @@ public final class ProjectPropertiesReader
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
          ph.setLastPrinted(summaryInformation.getLastPrinted());
 
+         if (ph.getLastPrinted() != null)
+         {
+            ph.setLastPrinted(DateHelper.getDateFromLong(ph.getLastPrinted().getTime()));
+         }
+
+         if (ph.getLastSaved() != null)
+         {
+            ph.setLastSaved(DateHelper.getDateFromLong(ph.getLastSaved().getTime()));
+         }
+
+         if (ph.getCreationDate() != null)
+         {
+            ph.setCreationDate(DateHelper.getDateFromLong(ph.getCreationDate().getTime()));
+         }
+
          try
          {
             ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
@@ -143,7 +160,12 @@ public final class ProjectPropertiesReader
          {
             for (CustomProperty property : customProperties.properties())
             {
-               customPropertiesMap.put(property.getName(), property.getValue());
+               Object value = property.getValue();
+               if (value instanceof Date)
+               {
+                  value = DateHelper.getDateFromLong(((Date)value).getTime());
+               }
+               customPropertiesMap.put(property.getName(), value);
             }
          }
          ph.setCustomProperties(customPropertiesMap);
