@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -96,7 +97,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = new Date(TIMESTAMP_EPOCH + (ts * 1000));
+                  value = DateHelper.getTimestampFromLong(TIMESTAMP_EPOCH + (ts * 1000));
                }
                break;
             }
