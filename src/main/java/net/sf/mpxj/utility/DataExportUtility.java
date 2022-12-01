@@ -40,6 +40,7 @@ import java.util.Locale;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.JdbcOdbcHelper;
+import net.sf.mpxj.common.XmlHelper;
 
 /**
  * Simple utility to export data to an XML file from an arbitrary database
@@ -268,7 +269,7 @@ public final class DataExportUtility
 
             default:
             {
-               if (validXMLCharacter(c))
+               if (XmlHelper.validXmlChar(c))
                {
                   if (c > 127)
                   {
@@ -286,16 +287,5 @@ public final class DataExportUtility
       }
 
       return (sb.toString());
-   }
-
-   /**
-    * Quick and dirty valid XML character test.
-    *
-    * @param c input character
-    * @return Boolean flag
-    */
-   private boolean validXMLCharacter(char c)
-   {
-      return (c == 0x9 || c == 0xA || c == 0xD || (c >= 0x20 && c <= 0xD7FF) || (c >= 0xE000 && c <= 0xFFFD));
    }
 }

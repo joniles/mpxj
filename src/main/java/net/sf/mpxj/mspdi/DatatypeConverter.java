@@ -60,6 +60,7 @@ import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
+import net.sf.mpxj.common.XmlHelper;
 import net.sf.mpxj.mpp.MPPUtility;
 
 /**
@@ -1942,7 +1943,8 @@ public final class DatatypeConverter
     */
    public static final String printString(String value)
    {
-      return (value);
+      // JAXB should do this... but doesn't
+      return XmlHelper.replaceInvalidXmlChars(value);
    }
 
    /**
@@ -1955,7 +1957,7 @@ public final class DatatypeConverter
     */
    public static final String parseString(String value)
    {
-      return (value);
+      return value;
    }
 
    /**
