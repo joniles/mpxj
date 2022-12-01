@@ -70,6 +70,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
+import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -1356,36 +1357,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       // MPX only includes total slack. We'll assume this value has been calculated correctly by
       // whatever application has written the MPX file, and backfill start and finish slack values.
       //
-      if (task.getTotalSlack() != null)
-      {
-         Duration startSlack = null;
-         Duration finishSlack = null;
-         Duration totalSlack = task.getTotalSlack();
-         Duration zeroSlack = Duration.getInstance(0, totalSlack.getUnits());
-
-         if (task.getActualFinish() == null)
-         {
-            finishSlack = totalSlack;
-            if (task.getActualStart() == null)
-            {
-               startSlack = totalSlack;
-            }
-            else
-            {
-               startSlack = zeroSlack;
-            }
-         }
-         else
-         {
-            startSlack = zeroSlack;
-            finishSlack = zeroSlack;
-            totalSlack = zeroSlack;
-         }
-
-         task.setStartSlack(startSlack);
-         task.setFinishSlack(finishSlack);
-         task.setStartSlack(totalSlack);
-      }
+      SlackHelper.inferSlack(task);
    }
 
    /**
