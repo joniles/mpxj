@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter5 extends XmlAdapter<String, Date>
 {
 
-   @Override
-   public Date unmarshal(String value)
+   @Override public Date unmarshal(String value)
    {
       return (net.sf.mpxj.primavera.DatatypeConverter.parseTime(value));
    }
 
-   @Override
-   public String marshal(Date value)
+   @Override public String marshal(Date value)
    {
       return (net.sf.mpxj.primavera.DatatypeConverter.printTime(value));
    }

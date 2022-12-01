@@ -265,10 +265,6 @@ public final class DatatypeConverter
 
    public static final String printString(String value)
    {
-      if (value.startsWith("Design Building"))
-      {
-         System.out.println("");
-      }
       return value;
    }
 
