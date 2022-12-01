@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.planner;
 
+import net.sf.mpxj.common.XmlHelper;
+
 /**
  * This class contains methods used to perform the datatype conversions
  * required to read and write Planner files.
@@ -31,7 +33,8 @@ public final class DatatypeConverter
 {
    public static final String printString(String value)
    {
-      return value;
+      // JAXB should do this... but doesn't
+      return XmlHelper.replaceInvalidXmlChars(value);
    }
 
    public static final String parseString(String value)
