@@ -7,21 +7,22 @@
 
 package net.sf.mpxj.primavera.schema;
 
+import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter2 extends XmlAdapter<String, Boolean>
+public class Adapter5 extends XmlAdapter<String, Date>
 {
 
    @Override
-   public Boolean unmarshal(String value)
+   public Date unmarshal(String value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.parseBoolean(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.parseTime(value));
    }
 
    @Override
-   public String marshal(Boolean value)
+   public String marshal(Date value)
    {
-      return (net.sf.mpxj.primavera.DatatypeConverter.printBoolean(value));
+      return (net.sf.mpxj.primavera.DatatypeConverter.printTime(value));
    }
 
 }

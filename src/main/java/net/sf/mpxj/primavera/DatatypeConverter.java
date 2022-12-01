@@ -263,6 +263,20 @@ public final class DatatypeConverter
       return result;
    }
 
+   public static final String printString(String value)
+   {
+      if (value.startsWith("Design Building"))
+      {
+         System.out.println("");
+      }
+      return value;
+   }
+
+   public static final String parseString(String value)
+   {
+      return value;
+   }
+
    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
       df.setLenient(false);
