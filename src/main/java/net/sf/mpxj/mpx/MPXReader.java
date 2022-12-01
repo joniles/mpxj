@@ -1351,6 +1351,41 @@ public final class MPXReader extends AbstractProjectStreamReader
       {
          task.setMilestone(false);
       }
+
+      //
+      // MPX only includes total slack. We'll assume this value has been calculated correctly by
+      // whatever application has written the MPX file, and backfill start and finish slack values.
+      //
+      if (task.getTotalSlack() != null)
+      {
+         Duration startSlack = null;
+         Duration finishSlack = null;
+         Duration totalSlack = task.getTotalSlack();
+         Duration zeroSlack = Duration.getInstance(0, totalSlack.getUnits());
+
+         if (task.getActualFinish() == null)
+         {
+            finishSlack = totalSlack;
+            if (task.getActualStart() == null)
+            {
+               startSlack = totalSlack;
+            }
+            else
+            {
+               startSlack = zeroSlack;
+            }
+         }
+         else
+         {
+            startSlack = zeroSlack;
+            finishSlack = zeroSlack;
+            totalSlack = zeroSlack;
+         }
+
+         task.setStartSlack(startSlack);
+         task.setFinishSlack(finishSlack);
+         task.setStartSlack(totalSlack);
+      }
    }
 
    /**
