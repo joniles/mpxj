@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import net.sf.mpxj.common.XmlHelper;
+
 /**
  * This class contains methods used to perform the datatype conversions
  * required to read and write PM files.
@@ -261,6 +263,17 @@ public final class DatatypeConverter
       }
 
       return result;
+   }
+
+   public static final String printString(String value)
+   {
+      // JAXB should do this... but doesn't
+      return XmlHelper.replaceInvalidXmlChars(value);
+   }
+
+   public static final String parseString(String value)
+   {
+      return value;
    }
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {

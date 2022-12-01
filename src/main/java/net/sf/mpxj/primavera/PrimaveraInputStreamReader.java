@@ -30,6 +30,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 
+import net.sf.mpxj.common.XmlHelper;
+
 /**
  * This class creates an InputStream reader with a CharsetDecoder
  * which can be used to silently ignore incorrectly encoded characters,
@@ -52,9 +54,9 @@ class PrimaveraInputStreamReader extends InputStreamReader
    @Override public int read() throws IOException
    {
       int c = super.read();
-      if (!validXmlChar(c))
+      if (!XmlHelper.validXmlChar(c))
       {
-         c = REPLACEMENT_CHAR;
+         c = XmlHelper.REPLACEMENT_CHAR;
       }
       return c;
    }
@@ -66,24 +68,13 @@ class PrimaveraInputStreamReader extends InputStreamReader
       {
          for (int index = 0; index < result; index++)
          {
-            if (!validXmlChar(cbuf[index]))
+            if (!XmlHelper.validXmlChar(cbuf[index]))
             {
-               cbuf[index] = REPLACEMENT_CHAR;
+               cbuf[index] = XmlHelper.REPLACEMENT_CHAR;
             }
          }
       }
       return result;
-   }
-
-   /**
-    * Returns true if this is a valid XML 1.0 character.
-    *
-    * @param c character value
-    * @return true if this is a valid XML 1.0 character
-    */
-   private boolean validXmlChar(int c)
-   {
-      return c == 0x9 || c == 0xA || c == 0xD || (c >= 0x20 && c <= 0xD7FF) || (c >= 0xE000 && c <= 0xFFFD) || (c >= 0x10000 && c <= 0x10FFFF);
    }
 
    /**
@@ -100,6 +91,4 @@ class PrimaveraInputStreamReader extends InputStreamReader
       decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
       return decoder;
    }
-
-   private static final int REPLACEMENT_CHAR = 0xFFFD;
 }
