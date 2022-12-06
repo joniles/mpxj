@@ -45,6 +45,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -576,6 +577,11 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
             }
          }
       }
+
+      //
+      // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+      //
+      SlackHelper.inferSlack(task);
 
       m_activityMap.put(activity.getId(), task);
    }

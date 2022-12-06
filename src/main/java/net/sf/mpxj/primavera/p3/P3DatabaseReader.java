@@ -53,6 +53,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -440,6 +441,11 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
             }
          }
 
+         //
+         // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+         //
+         SlackHelper.inferSlack(task);
+
          m_activityMap.put(activityID, task);
          m_eventManager.fireTaskReadEvent(task);
       }
@@ -616,5 +622,4 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
       defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
    }
-
 }

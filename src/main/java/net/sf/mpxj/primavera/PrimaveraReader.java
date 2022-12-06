@@ -93,6 +93,7 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.SlackHelper;
 
 /**
  * This class provides a generic front end to read project data from
@@ -1022,6 +1023,11 @@ final class PrimaveraReader
          {
             populateBaselineFromCurrentProject(task);
          }
+
+         //
+         // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+         //
+         SlackHelper.inferSlack(task);
 
          m_eventManager.fireTaskReadEvent(task);
       }

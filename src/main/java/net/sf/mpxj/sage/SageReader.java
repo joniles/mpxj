@@ -46,6 +46,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -204,6 +205,11 @@ public final class SageReader extends AbstractProjectStreamReader
       task.setText(2, getText(columns, 16));
       task.setNotes(getText(columns, 17));
       task.setTotalSlack(parseDuration(columns, 11));
+
+      //
+      // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+      //
+      SlackHelper.inferSlack(task);
 
       m_taskMap.put(task.getText(1), task);
       m_eventManager.fireTaskReadEvent(task);

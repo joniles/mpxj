@@ -70,6 +70,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
+import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -1351,6 +1352,11 @@ public final class MPXReader extends AbstractProjectStreamReader
       {
          task.setMilestone(false);
       }
+
+      //
+      // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+      //
+      SlackHelper.inferSlack(task);
    }
 
    /**
