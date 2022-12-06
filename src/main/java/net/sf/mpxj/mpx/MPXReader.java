@@ -1354,8 +1354,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       }
 
       //
-      // MPX only includes total slack. We'll assume this value has been calculated correctly by
-      // whatever application has written the MPX file, and backfill start and finish slack values.
+      // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
       //
       SlackHelper.inferSlack(task);
    }

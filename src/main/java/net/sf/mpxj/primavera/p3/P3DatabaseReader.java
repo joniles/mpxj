@@ -442,8 +442,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          }
 
          //
-         // P3 only includes total slack. We'll assume this value has been calculated correctly by
-         // P3 and backfill start and finish slack values.
+         // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
          //
          SlackHelper.inferSlack(task);
 
@@ -623,5 +622,4 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       defineField(TASK_FIELDS, "FREE_FLOAT", TaskField.FREE_SLACK);
       defineField(TASK_FIELDS, "TOTAL_FLOAT", TaskField.TOTAL_SLACK);
    }
-
 }

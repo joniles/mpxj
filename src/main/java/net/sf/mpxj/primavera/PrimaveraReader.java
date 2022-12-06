@@ -1024,6 +1024,9 @@ final class PrimaveraReader
             populateBaselineFromCurrentProject(task);
          }
 
+         //
+         // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+         //
          SlackHelper.inferSlack(task);
 
          m_eventManager.fireTaskReadEvent(task);
