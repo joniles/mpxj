@@ -10204,7 +10204,6 @@ import net.sf.mpxj.TimeUnit;
             {
 
                @XmlElement(name = "code_assignment", required = true) protected List<Project.Storepoints.Storepoint.Activities.Activity.CodeAssignment> codeAssignment;
-               @XmlElement(name = "constraint") protected List<Project.Storepoints.Storepoint.Activities.Activity.Constraint> constraint;
                @XmlElement(name = "user_defined", required = true) protected Object userDefined;
                @XmlAttribute(name = "id") protected String id;
                @XmlAttribute(name = "type") protected String type;
@@ -10264,37 +10263,6 @@ import net.sf.mpxj.TimeUnit;
                      codeAssignment = new ArrayList<>();
                   }
                   return this.codeAssignment;
-               }
-
-               /**
-                * Gets the value of the constraint property.
-                *
-                * &lt;p&gt;
-                * This accessor method returns a reference to the live list,
-                * not a snapshot. Therefore any modification you make to the
-                * returned list will be present inside the JAXB object.
-                * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the constraint property.
-                *
-                * &lt;p&gt;
-                * For example, to add a new item, do as follows:
-                * &lt;pre&gt;
-                *    getConstraint().add(newItem);
-                * &lt;/pre&gt;
-                *
-                *
-                * &lt;p&gt;
-                * Objects of the following type(s) are allowed in the list
-                * {@link Project.Storepoints.Storepoint.Activities.Activity.Constraint }
-                *
-                *
-                */
-               public List<Project.Storepoints.Storepoint.Activities.Activity.Constraint> getConstraint()
-               {
-                  if (constraint == null)
-                  {
-                     constraint = new ArrayList<>();
-                  }
-                  return this.constraint;
                }
 
                /**
@@ -11185,62 +11153,6 @@ import net.sf.mpxj.TimeUnit;
 
                }
 
-               @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") public static class Constraint {
-                  @XmlAttribute(name = "type") protected String type;
-                  @XmlAttribute(name = "datetime") @XmlJavaTypeAdapter(Adapter1.class) protected Date datetime;
-
-                  /**
-                   * Gets the value of the type property.
-                   *
-                   * @return
-                   *     possible object is
-                   *     {@link String }
-                   *
-                   */
-                  public String getType()
-                  {
-                     return type;
-                  }
-
-                  /**
-                   * Sets the value of the type property.
-                   *
-                   * @param value
-                   *     allowed object is
-                   *     {@link String }
-                   *
-                   */
-                  public void setType(String value)
-                  {
-                     this.type = value;
-                  }
-
-                  /**
-                   * Gets the value of the datetime property.
-                   *
-                   * @return
-                   *     possible object is
-                   *     {@link Date }
-                   *
-                   */
-                  public Date getDatetime()
-                  {
-                     return datetime;
-                  }
-
-                  /**
-                   * Sets the value of the datetime property.
-                   *
-                   * @param value
-                   *     allowed object is
-                   *     {@link Date }
-                   *
-                   */
-                  public void setDatetime(Date value)
-                  {
-                     this.datetime = value;
-                  }
-               }
             }
 
          }
