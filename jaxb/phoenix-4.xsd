@@ -123,6 +123,12 @@
 													<xs:element name="activity" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:sequence>
+																<xs:element name="constraint">
+																	<xs:complexType>
+																		<xs:attribute name="type" type="xs:string"></xs:attribute>
+																		<xs:attribute name="datetime" type="xs:dateTime"></xs:attribute>
+																	</xs:complexType>
+																</xs:element>
 																<xs:element name="code_assignment" maxOccurs="unbounded">
 																	<xs:complexType>
 																		<xs:attribute name="code" type="xs:string"></xs:attribute>
