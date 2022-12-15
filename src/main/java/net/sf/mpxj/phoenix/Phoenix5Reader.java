@@ -523,9 +523,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
 
-      if (!activity.getConstraint().isEmpty())
+      if (activity.getConstraint() != null)
       {
-         Activity.Constraint constraint = activity.getConstraint().get(0);
+         Project.Storepoints.Storepoint.Activities.Activity.Constraint constraint = activity.getConstraint();
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(constraint.getType()));
          task.setConstraintDate(constraint.getDatetime());
       }
