@@ -39,6 +39,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
@@ -539,6 +540,13 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       //activity.getUserDefined()
       task.setGUID(activity.getUuid());
 
+      if (!activity.getConstraint().isEmpty())
+      {
+         Project.Storepoints.Storepoint.Activities.Activity.Constraint constraint = activity.getConstraint().get(0);
+         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(constraint.getType()));
+         task.setConstraintDate(constraint.getDatetime());
+      }
+
       if (task.getMilestone())
       {
          if (activityIsStartMilestone(activity))
@@ -1009,5 +1017,17 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       ACTIVITY_TYPE_MAP.put("FinishMilestone", ActivityType.FINISH_MILESTONE);
       ACTIVITY_TYPE_MAP.put("StartFlag", ActivityType.START_FLAG);
       ACTIVITY_TYPE_MAP.put("FinishFlag", ActivityType.FINISH_FLAG);
+   }
+
+   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
+   static
+   {
+      CONSTRAINT_TYPE_MAP.put("StartNoLater", ConstraintType.START_NO_LATER_THAN);
+      CONSTRAINT_TYPE_MAP.put("StartNoEarlier", ConstraintType.START_NO_EARLIER_THAN);
+      CONSTRAINT_TYPE_MAP.put("FinishNoLater", ConstraintType.FINISH_NO_LATER_THAN);
+      CONSTRAINT_TYPE_MAP.put("FinishNoEarlier", ConstraintType.FINISH_NO_EARLIER_THAN);
+      CONSTRAINT_TYPE_MAP.put("AsLateAsPossible", ConstraintType.AS_LATE_AS_POSSIBLE);
+      CONSTRAINT_TYPE_MAP.put("MustStartOn", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("MustFinishOn", ConstraintType.MUST_FINISH_ON);
    }
 }
