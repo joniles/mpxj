@@ -114,13 +114,18 @@
                                        <xs:element maxOccurs="unbounded" name="activity">
                                           <xs:complexType>
                                              <xs:sequence>
+                                                <xs:element name="constraint">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                                      <xs:attribute name="datetime" type="xs:dateTime"></xs:attribute>
+                                                   </xs:complexType>
+                                                </xs:element>
                                                 <xs:element maxOccurs="unbounded" name="code_assignment">
                                                    <xs:complexType>
                                                       <xs:attribute name="code_uuid" type="phoenixUuid"/>
                                                       <xs:attribute name="value_uuid" type="phoenixUuid"/>
                                                    </xs:complexType>
                                                 </xs:element>
-
                                              </xs:sequence>
                                              <xs:attribute name="id" type="xs:string"/>
                                              <xs:attribute name="type" type="xs:string"/>
