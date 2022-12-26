@@ -162,14 +162,12 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      double units = assignment.getUnits().doubleValue();
-
       if (calendar != null && data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
          {
-            if (units != 0 && data.length >= 24)
+            if (data.length >= 24)
             {
                double time = MPPUtility.getDouble(data, 16);
                if (time != 0.0)
