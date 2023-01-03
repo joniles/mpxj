@@ -119,7 +119,7 @@ final class XsdDuration
                case MINUTES:
                case ELAPSED_MINUTES:
                {
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -127,9 +127,9 @@ final class XsdDuration
                case HOURS:
                case ELAPSED_HOURS:
                {
-                  m_hours = (int) amount;
+                  m_hours = (long) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -137,11 +137,11 @@ final class XsdDuration
                case DAYS:
                case ELAPSED_DAYS:
                {
-                  m_days = (int) amount;
+                  m_days = (long) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int) amount;
+                  m_hours = (long) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -150,11 +150,11 @@ final class XsdDuration
                case ELAPSED_WEEKS:
                {
                   amount *= 7;
-                  m_days = (int) amount;
+                  m_days = (long) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int) amount;
+                  m_hours = (long) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -162,13 +162,13 @@ final class XsdDuration
                case MONTHS:
                case ELAPSED_MONTHS:
                {
-                  m_months = (int) amount;
+                  m_months = (long) amount;
                   amount = (amount * 28) - (m_months * 28);
-                  m_days = (int) amount;
+                  m_days = (long) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int) amount;
+                  m_hours = (long) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -176,15 +176,15 @@ final class XsdDuration
                case YEARS:
                case ELAPSED_YEARS:
                {
-                  m_years = (int) amount;
+                  m_years = (long) amount;
                   amount = (amount * 12) - (m_years * 12);
-                  m_months = (int) amount;
+                  m_months = (long) amount;
                   amount = (amount * 28) - (m_months * 28);
-                  m_days = (int) amount;
+                  m_days = (long) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int) amount;
+                  m_hours = (long) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int) amount;
+                  m_minutes = (long) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
@@ -238,7 +238,7 @@ final class XsdDuration
       {
          case 'Y':
          {
-            m_years = Integer.parseInt(number.toString());
+            m_years = Long.parseLong(number.toString());
             break;
          }
 
@@ -246,18 +246,18 @@ final class XsdDuration
          {
             if (!m_hasTime)
             {
-               m_months = Integer.parseInt(number.toString());
+               m_months = Long.parseLong(number.toString());
             }
             else
             {
-               m_minutes = Integer.parseInt(number.toString());
+               m_minutes = Long.parseLong(number.toString());
             }
             break;
          }
 
          case 'D':
          {
-            m_days = Integer.parseInt(number.toString());
+            m_days = Long.parseLong(number.toString());
             break;
          }
 
@@ -269,7 +269,7 @@ final class XsdDuration
 
          case 'H':
          {
-            m_hours = Integer.parseInt(number.toString());
+            m_hours = Long.parseLong(number.toString());
             break;
          }
 
@@ -287,67 +287,67 @@ final class XsdDuration
 
       ++index;
 
-      return (index);
+      return index;
    }
 
    /**
     * Retrieves the number of days.
     *
-    * @return int
+    * @return number of days
     */
-   public int getDays()
+   public long getDays()
    {
-      return (m_days);
+      return m_days;
    }
 
    /**
     * Retrieves the number of hours.
     *
-    * @return int
+    * @return number of hours
     */
-   public int getHours()
+   public long getHours()
    {
-      return (m_hours);
+      return m_hours;
    }
 
    /**
     * Retrieves the number of minutes.
     *
-    * @return int
+    * @return number of minutes
     */
-   public int getMinutes()
+   public long getMinutes()
    {
-      return (m_minutes);
+      return m_minutes;
    }
 
    /**
     * Retrieves the number of months.
     *
-    * @return int
+    * @return number of months
     */
-   public int getMonths()
+   public long getMonths()
    {
-      return (m_months);
+      return m_months;
    }
 
    /**
     * Retrieves the number of seconds.
     *
-    * @return double
+    * @return number of seconds
     */
    public double getSeconds()
    {
-      return (m_seconds);
+      return m_seconds;
    }
 
    /**
     * Retrieves the number of years.
     *
-    * @return int
+    * @return number of years
     */
-   public int getYears()
+   public long getYears()
    {
-      return (m_years);
+      return m_years;
    }
 
    /**
@@ -468,11 +468,11 @@ final class XsdDuration
    }
 
    private boolean m_hasTime;
-   private int m_years;
-   private int m_months;
-   private int m_days;
-   private int m_hours;
-   private int m_minutes;
+   private long m_years;
+   private long m_months;
+   private long m_days;
+   private long m_hours;
+   private long m_minutes;
    private double m_seconds;
 
    /**
