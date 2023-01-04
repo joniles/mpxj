@@ -57,7 +57,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       super(file);
 
       setType(TaskType.FIXED_UNITS);
-      setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
       setActive(true);
       set(TaskField.PREDECESSORS, new ArrayList<Relation>());
@@ -5815,6 +5814,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Supply a default value for constraint type.
+    *
+    * @return constraint type default value
+    */
+   private ConstraintType defaultConstraintType()
+   {
+      return ConstraintType.AS_SOON_AS_POSSIBLE;
+   }
+
+   /**
     * Array of field values.
     */
    private final Object[] m_array = new Object[TaskField.MAX_VALUE];
@@ -5864,6 +5873,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
+      CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

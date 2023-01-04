@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Improve timephased data calculation when assignment has zero units.</action>
 			<action dev="joniles" type="update">Improve handling of very large duration values when reading and writing MSPDI files.</action>
+			<action dev="joniles" type="update">Ensure the Task Constraint Type attribute always has a value.</action>
 		</release>
 		<release date="2022-11-25" version="10.14.1">
 			<action dev="joniles" type="update">Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</action>
