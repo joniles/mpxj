@@ -58,7 +58,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
 
       setType(TaskType.FIXED_UNITS);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
-      setActive(true);
       set(TaskField.PREDECESSORS, new ArrayList<Relation>());
       set(TaskField.SUCCESSORS, new ArrayList<Relation>());
 
@@ -5824,6 +5823,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Supply a default value for the active flag.
+    *
+    * @return active flag default value
+    */
+   private Boolean defaultActive()
+   {
+      return Boolean.TRUE;
+   }
+
+   /**
     * Array of field values.
     */
    private final Object[] m_array = new Object[TaskField.MAX_VALUE];
@@ -5874,6 +5883,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
