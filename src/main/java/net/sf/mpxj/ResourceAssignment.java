@@ -60,8 +60,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
 
-      setCalculateCostsFromUnits(true);
-
       m_task = task;
    }
 
@@ -3123,6 +3121,16 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Supply a default value for the calculate costs from units flag.
+    *
+    * @return calculate costs from units flag default value
+    */
+   private Boolean defaultCalculateCostsFromUnits()
+   {
+      return Boolean.TRUE;
+   }
+
+   /**
     * Disable events firing when fields are updated.
     */
    public void disableEvents()
@@ -3186,6 +3194,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
+      CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
