@@ -56,7 +56,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       super(file);
 
-      setTaskMode(TaskMode.AUTO_SCHEDULED);
       set(TaskField.PREDECESSORS, new ArrayList<Relation>());
       set(TaskField.SUCCESSORS, new ArrayList<Relation>());
 
@@ -5842,6 +5841,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Supply a default value for the task mode.
+    *
+    * @return task mode default value
+    */
+   private TaskMode defaultTaskMode()
+   {
+      return TaskMode.AUTO_SCHEDULED;
+   }
+
+   /**
     * Array of field values.
     */
    private final Object[] m_array = new Object[TaskField.MAX_VALUE];
@@ -5894,6 +5903,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
+      CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
