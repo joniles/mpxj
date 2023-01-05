@@ -60,9 +60,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
       }
 
-      // Ensure the rate index defaults to zero
-      setRateIndex(Integer.valueOf(0));
-
       // Ensure the rate source defaults to resource
       setRateSource(RateSource.RESOURCE);
 
@@ -3109,6 +3106,16 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
+    * Supply a default value for the rate index.
+    *
+    * @return rate index default value
+    */
+   private Integer defaultRateIndex()
+   {
+      return Integer.valueOf(0);
+   }
+
+   /**
     * Disable events firing when fields are updated.
     */
    public void disableEvents()
@@ -3170,6 +3177,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH_VARIANCE, ResourceAssignment::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.PERCENT_WORK_COMPLETE, ResourceAssignment::calculatePercentWorkComplete);
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
