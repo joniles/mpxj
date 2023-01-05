@@ -53,8 +53,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       super(file);
 
-      setCalculateCostsFromUnits(true);
-
       ProjectConfig config = file.getProjectConfig();
 
       if (config.getAutoResourceUniqueID())
@@ -3119,6 +3117,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return Boolean.FALSE;
    }
 
+   /**
+    * Supply a default value for the calculate costs from units flag.
+    *
+    * @return calculate costs from units flag default value
+    */
+   private Boolean defaultCalculateCostsFromUnits()
+   {
+      return Boolean.TRUE;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -3249,6 +3257,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
+      CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
