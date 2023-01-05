@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.</action>
 			<action dev="joniles" type="update">Ensure the Resource attributes Type, Calculate Costs from Units, and Role always have a value.</action>
 			<action dev="joniles" type="update">Ensure the Resource Assignment attributes Calculate Costs from Units, Rate Index, and Rate Source always have a value.</action>
+			<action dev="joniles" type="update">A version number constant to the Java source, accessible as `MPXJ.VERSION`.</action>
 		</release>
 		<release date="2022-11-25" version="10.14.1">
 			<action dev="joniles" type="update">Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</action>
