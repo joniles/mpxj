@@ -868,6 +868,8 @@ final class PrimaveraPMProjectWriter
 
       xml.setStatus("Active");
 
+      // TODO: we don't currently write WBS UDF values as we don't distinguish between WBS and Activity UDFs
+      // xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
       writeWbsNote(mpxj);
    }
 

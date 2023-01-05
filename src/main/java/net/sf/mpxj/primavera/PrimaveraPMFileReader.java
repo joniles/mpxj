@@ -1048,7 +1048,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
-         readUDFTypes(resource, xml.getUDF());
+         populateUserDefinedFieldValues(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -1119,6 +1119,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
+
+         populateUserDefinedFieldValues(task, row.getUDF());
       }
 
       //
@@ -1317,7 +1319,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setLateFinish(null);
          task.enableEvents();
 
-         readUDFTypes(task, row.getUDF());
+         populateUserDefinedFieldValues(task, row.getUDF());
          readActivityCodes(task, row.getCode());
 
          if (forceCriticalToFalse)
@@ -1803,7 +1805,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
             assignment.setUnits(NumberHelper.getDouble(units));
 
-            readUDFTypes(assignment, row.getUDF());
+            populateUserDefinedFieldValues(assignment, row.getUDF());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
@@ -2114,7 +2116,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param mpxj field container
     * @param udfs UDF values
     */
-   private void readUDFTypes(FieldContainer mpxj, List<UDFAssignmentType> udfs)
+   private void populateUserDefinedFieldValues(FieldContainer mpxj, List<UDFAssignmentType> udfs)
    {
       for (UDFAssignmentType udf : udfs)
       {
