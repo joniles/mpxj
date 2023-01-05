@@ -752,21 +752,24 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write any resource assignments
       //
-      Set<Integer> resources = new HashSet<>();
-      for (ResourceAssignment assignment : record.getResourceAssignments())
+      if (!record.getResourceAssignments().isEmpty())
       {
-         if (assignment.getResource() != null)
+         Set<Integer> resources = new HashSet<>();
+         for (ResourceAssignment assignment : record.getResourceAssignments())
          {
-            // As we now allow a resource to be assigned multiple times to a task
-            // we need to handle this for file formats which allow a resource to be
-            // assigned only once. The code below attempts to preserve the original
-            // behaviour when we ignored multiple assignments of the same resource.
-            // TODO: implement more intelligent rollup of multiple resource assignments
-            if (!resources.add(assignment.getResourceUniqueID()))
+            if (assignment.getResource() != null)
             {
-               continue;
+               // As we now allow a resource to be assigned multiple times to a task
+               // we need to handle this for file formats which allow a resource to be
+               // assigned only once. The code below attempts to preserve the original
+               // behaviour when we ignored multiple assignments of the same resource.
+               // TODO: implement more intelligent rollup of multiple resource assignments
+               if (!resources.add(assignment.getResourceUniqueID()))
+               {
+                  continue;
+               }
+               writeResourceAssignment(assignment);
             }
-            writeResourceAssignment(assignment);
          }
       }
 
