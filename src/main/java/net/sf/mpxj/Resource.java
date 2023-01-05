@@ -53,7 +53,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       super(file);
 
-      setRole(Boolean.FALSE);
       setCalculateCostsFromUnits(true);
 
       ProjectConfig config = file.getProjectConfig();
@@ -3110,6 +3109,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ResourceType.WORK;
    }
 
+   /**
+    * Supply a default value for the role flag.
+    *
+    * @return role flag default value
+    */
+   private Boolean defaultRoleFlag()
+   {
+      return Boolean.FALSE;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -3239,6 +3248,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
+      CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

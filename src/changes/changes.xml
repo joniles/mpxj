@@ -12,7 +12,7 @@
 			<action dev="joniles" type="update">Improve timephased data calculation when assignment has zero units.</action>
 			<action dev="joniles" type="update">Improve handling of very large duration values when reading and writing MSPDI files.</action>
 			<action dev="joniles" type="update">Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.</action>
-			<action dev="joniles" type="update">Ensure the Resource attribute Type always has a value.</action>
+			<action dev="joniles" type="update">Ensure the Resource attributes Type and Role always have a value.</action>
 		</release>
 		<release date="2022-11-25" version="10.14.1">
 			<action dev="joniles" type="update">Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</action>
