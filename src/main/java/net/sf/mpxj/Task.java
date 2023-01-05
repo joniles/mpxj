@@ -368,8 +368,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
-      List<ActivityCodeValue> result = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
-      return result == null ? Collections.emptyList() : result;
+      return (List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES);
    }
 
    /**
@@ -379,13 +378,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
-      List<ActivityCodeValue> list = (List<ActivityCodeValue>) getCachedValue(TaskField.ACTIVITY_CODES);
-      if (list == null)
-      {
-         list = new ArrayList<>();
-         set(TaskField.ACTIVITY_CODES, list);
-      }
-      list.add(value);
+      ((List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES)).add(value);
    }
 
    /**
@@ -5854,7 +5847,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private List<Relation> defaultRelationList()
    {
-      return new ArrayList<Relation>();
+      return new ArrayList<>();
+   }
+
+   private List<ActivityCodeValue> defaultActivityCodesList()
+   {
+      return new ArrayList<>();
    }
 
    /**
@@ -5913,6 +5911,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::defaultRelationList);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::defaultRelationList);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
