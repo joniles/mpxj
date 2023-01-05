@@ -102,6 +102,12 @@
 		               byline="true"
 		/>
 
+		<replaceregexp file="${basedir}/src/main/java/net/sf/mpxj/MPXJ.java"
+					   match='VERSION = ".*"'
+					   replace='VERSION = "${current.version}"'
+					   byline="true"
+		/>
+
 		<replaceregexp file="${basedir}/src.ruby/mpxj/lib/mpxj/version.rb"
 		               match='VERSION = ".*"'
 		               replace='VERSION = "${current.version}"'
