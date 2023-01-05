@@ -56,9 +56,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    {
       super(file);
 
-      set(TaskField.PREDECESSORS, new ArrayList<Relation>());
-      set(TaskField.SUCCESSORS, new ArrayList<Relation>());
-
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
 
@@ -484,7 +481,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       // Retrieve the list of predecessors
       //
-      List<Relation> predecessorList = (List<Relation>) getCachedValue(TaskField.PREDECESSORS);
+      List<Relation> predecessorList = (List<Relation>) get(TaskField.PREDECESSORS);
 
       //
       // Ensure that there is only one predecessor relationship between
@@ -518,7 +515,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       //
       // Retrieve the list of successors
       //
-      List<Relation> successorList = (List<Relation>) targetTask.getCachedValue(TaskField.SUCCESSORS);
+      List<Relation> successorList = (List<Relation>) targetTask.get(TaskField.SUCCESSORS);
 
       //
       // Ensure that there is only one successor relationship between
@@ -5851,6 +5848,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Supply a default value for predecessor and successor lists.
+    *
+    * @return predecessor and successor list default value
+    */
+   private List<Relation> defaultRelationList()
+   {
+      return new ArrayList<Relation>();
+   }
+
+   /**
     * Array of field values.
     */
    private final Object[] m_array = new Object[TaskField.MAX_VALUE];
@@ -5904,6 +5911,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
+      CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::defaultRelationList);
+      CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::defaultRelationList);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
