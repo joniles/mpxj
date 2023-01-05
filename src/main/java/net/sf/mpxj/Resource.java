@@ -53,7 +53,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       super(file);
 
-      setType(ResourceType.WORK);
       setRole(Boolean.FALSE);
       setCalculateCostsFromUnits(true);
 
@@ -3101,6 +3100,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return Boolean.valueOf(NumberHelper.getDouble(peakUnits) > NumberHelper.getDouble(maxUnits));
    }
 
+   /**
+    * Supply a default value for the resource type.
+    *
+    * @return resource type default value
+    */
+   private ResourceType defaultType()
+   {
+      return ResourceType.WORK;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -3229,6 +3238,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
       CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+      CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
