@@ -1,6 +1,17 @@
 # Changelog
 
-## 10.14.2 (unreleased)
+## 10.15.0 (unreleased)
+* Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.
+* Improve handling of slack values for schedules which only contain a value for total slack.
+* Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).
+* Improve timephased data calculation when assignment has zero units.
+* Improve handling of very large duration values when reading and writing MSPDI files.
+* Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.
+* Ensure the Resource attributes Type, Calculate Costs from Units, and Role always have a value.
+* Ensure the Resource Assignment attributes Calculate Costs from Units, Rate Index, and Rate Source always have a value.
+* Add version number constant to the Java source, accessible as `MPXJ.VERSION`.
+* Ensure that UDF values are read for WBS entries in PMXML files.
+* Avoid writing duplicate resource assignments to MPX files.
 
 ## 10.14.1 (2022-11-25)
 * Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)

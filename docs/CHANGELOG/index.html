@@ -266,8 +266,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10142-unreleased" class="md-nav__link">
-    10.14.2 (unreleased)
+  <a href="#10150-unreleased" class="md-nav__link">
+    10.15.0 (unreleased)
   </a>
   
 </li>
@@ -2512,8 +2512,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10142-unreleased" class="md-nav__link">
-    10.14.2 (unreleased)
+  <a href="#10150-unreleased" class="md-nav__link">
+    10.15.0 (unreleased)
   </a>
   
 </li>
@@ -3962,7 +3962,20 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="10142-unreleased">10.14.2 (unreleased)</h2>
+<h2 id="10150-unreleased">10.15.0 (unreleased)</h2>
+<ul>
+<li>Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</li>
+<li>Improve handling of slack values for schedules which only contain a value for total slack.</li>
+<li>Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).</li>
+<li>Improve timephased data calculation when assignment has zero units.</li>
+<li>Improve handling of very large duration values when reading and writing MSPDI files.</li>
+<li>Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.</li>
+<li>Ensure the Resource attributes Type, Calculate Costs from Units, and Role always have a value.</li>
+<li>Ensure the Resource Assignment attributes Calculate Costs from Units, Rate Index, and Rate Source always have a value.</li>
+<li>Add version number constant to the Java source, accessible as <code>MPXJ.VERSION</code>.</li>
+<li>Ensure that UDF values are read for WBS entries in PMXML files.</li>
+<li>Avoid writing duplicate resource assignments to MPX files.</li>
+</ul>
 <h2 id="10141-2022-11-25">10.14.1 (2022-11-25)</h2>
 <ul>
 <li>Fix CVE-2022-41954: Temporary File Information Disclosure Vulnerability (Contributed by Jonathan Leitschuh)</li>

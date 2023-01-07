@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2022-11-25</li>
+        <li id="publishDate">Last Published: 2023-01-07</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,56 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a10.14.2">Release 10.14.2 &#x2013; unreleased</h3>
-<p>No changes in this release.</p></section><section>
+<h3 id="a10.15.0">Release 10.15.0 &#x2013; unreleased</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of slack values for schedules which only contain a value for total slack.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve timephased data calculation when assignment has zero units.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of very large duration values when reading and writing MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the Resource attributes Type, Calculate Costs from Units, and Role always have a value.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the Resource Assignment attributes Calculate Costs from Units, Rate Index, and Rate Source always have a value.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add version number constant to the Java source, accessible as `MPXJ.VERSION`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that UDF values are read for WBS entries in PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Avoid writing duplicate resource assignments to MPX files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a10.14.1">Release 10.14.1 &#x2013; 2022-11-25</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -6581,7 +6629,7 @@
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>&#169;      2000&#x2013;2022
+            <p>&#169;      2000&#x2013;2023
 <a href="http://mpxj.org">Packwood Software</a>
 </p>
         </div>
