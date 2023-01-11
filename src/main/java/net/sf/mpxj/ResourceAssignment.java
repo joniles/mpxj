@@ -2880,13 +2880,13 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    {
       if (field != null)
       {
+         Object oldValue = m_fields.put(field, value);
          int index = field.getValue();
          if (m_eventsEnabled)
          {
             invalidateCache(field);
-            fireFieldChangeEvent(field, m_array[index], value);
+            fireFieldChangeEvent(field, oldValue, value);
          }
-         m_array[index] = value;
       }
    }
 
@@ -2951,7 +2951,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object getCachedValue(FieldType field)
    {
-      return (field == null ? null : m_array[field.getValue()]);
+      return m_fields.get(field);
    }
 
    @Deprecated @Override public Object getCurrentValue(FieldType field)
@@ -2985,7 +2985,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
          }
       }
 
-      Object result = m_array[field.getValue()];
+      Object result = m_fields.get(field);
       if (result == null)
       {
          Function<ResourceAssignment, Object> f = CALCULATED_FIELD_MAP.get(field);
@@ -3149,7 +3149,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Array of field values.
     */
-   private final Object[] m_array = new Object[AssignmentField.MAX_VALUE];
+   private final Map<FieldType, Object> m_fields = new HashMap<>();
 
    private boolean m_eventsEnabled = true;
 

@@ -2855,7 +2855,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
 
    @Override public Object getCachedValue(FieldType field)
    {
-      return (field == null ? null : m_array[field.getValue()]);
+      return m_fields.get(field);
    }
 
    @Deprecated @Override public Object getCurrentValue(FieldType field)
@@ -2870,7 +2870,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
          return null;
       }
 
-      Object result = m_array[field.getValue()];
+      Object result = m_fields.get(field);
       if (result == null)
       {
          Function<ProjectProperties, Object> f = CALCULATED_FIELD_MAP.get(field);
@@ -2891,8 +2891,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    {
       if (field != null)
       {
-         int index = field.getValue();
-         m_array[index] = value;
+         m_fields.put(field, value);
       }
    }
 
@@ -2980,7 +2979,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    /**
     * Array of field values.
     */
-   private final Object[] m_array = new Object[ProjectField.MAX_VALUE];
+   private final Map<FieldType, Object> m_fields = new HashMap<>();
 
    /**
     * Default time separator character.

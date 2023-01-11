@@ -2922,7 +2922,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object getCachedValue(FieldType field)
    {
-      return (field == null ? null : m_array[field.getValue()]);
+      return m_fields.get(field);
    }
 
    @Deprecated @Override public Object getCurrentValue(FieldType field)
@@ -2961,7 +2961,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
          }
       }
 
-      Object result = m_array[field.getValue()];
+      Object result = m_fields.get(field);
       if (result == null)
       {
          Function<Resource, Object> f = CALCULATED_FIELD_MAP.get(field);
@@ -2982,13 +2982,12 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       if (field != null)
       {
-         int index = field.getValue();
+         Object oldValue = m_fields.put(field, value);
          if (m_eventsEnabled)
          {
             invalidateCache(field, value);
-            fireFieldChangeEvent(field, m_array[index], value);
+            fireFieldChangeEvent(field, oldValue, value);
          }
-         m_array[index] = value;
       }
    }
 
@@ -3226,7 +3225,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Array of field values.
     */
-   private final Object[] m_array = new Object[ResourceField.MAX_VALUE];
+   private final Map<FieldType, Object> m_fields = new HashMap<>();
 
    /**
     * List of all assignments for this resource.
