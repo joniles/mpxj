@@ -53,7 +53,7 @@ public final class XmlHelper
          return value;
       }
 
-      for (int index=0; index < value.length(); index++)
+      for (int index = 0; index < value.length(); index++)
       {
          if (!validXmlChar(value.charAt(index)))
          {
@@ -67,7 +67,7 @@ public final class XmlHelper
    private static String replaceInvalidXmlChars(String value, int firstInvalidIndex)
    {
       StringBuilder sb = firstInvalidIndex == 0 ? new StringBuilder() : new StringBuilder(value.substring(0, firstInvalidIndex));
-      for (int index=firstInvalidIndex ; index < value.length(); index++)
+      for (int index = firstInvalidIndex; index < value.length(); index++)
       {
          char c = value.charAt(index);
          sb.append(validXmlChar(c) ? c : REPLACEMENT_CHAR);

@@ -78,25 +78,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the properties property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the properties property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getProperties().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link Properties }
-    * 
-    * 
+    *
+    *
     */
    public List<Properties> getProperties()
    {
@@ -109,11 +109,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the phases property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Phases }
-    *     
+    *
     */
    public Phases getPhases()
    {
@@ -122,11 +122,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the phases property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Phases }
-    *     
+    *
     */
    public void setPhases(Phases value)
    {
@@ -135,11 +135,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the calendars property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Calendars }
-    *     
+    *
     */
    public Calendars getCalendars()
    {
@@ -148,11 +148,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the calendars property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Calendars }
-    *     
+    *
     */
    public void setCalendars(Calendars value)
    {
@@ -161,11 +161,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the tasks property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Tasks }
-    *     
+    *
     */
    public Tasks getTasks()
    {
@@ -174,11 +174,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the tasks property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Tasks }
-    *     
+    *
     */
    public void setTasks(Tasks value)
    {
@@ -187,11 +187,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceGroups property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link ResourceGroups }
-    *     
+    *
     */
    public ResourceGroups getResourceGroups()
    {
@@ -200,11 +200,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourceGroups property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link ResourceGroups }
-    *     
+    *
     */
    public void setResourceGroups(ResourceGroups value)
    {
@@ -213,11 +213,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resources property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Resources }
-    *     
+    *
     */
    public Resources getResources()
    {
@@ -226,11 +226,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resources property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Resources }
-    *     
+    *
     */
    public void setResources(Resources value)
    {
@@ -239,11 +239,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the allocations property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Allocations }
-    *     
+    *
     */
    public Allocations getAllocations()
    {
@@ -252,11 +252,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the allocations property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Allocations }
-    *     
+    *
     */
    public void setAllocations(Allocations value)
    {
@@ -265,11 +265,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the mrprojectVersion property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getMrprojectVersion()
    {
@@ -278,11 +278,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the mrprojectVersion property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMrprojectVersion(String value)
    {
@@ -291,11 +291,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -304,11 +304,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -317,11 +317,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the company property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCompany()
    {
@@ -330,11 +330,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the company property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCompany(String value)
    {
@@ -343,11 +343,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the manager property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getManager()
    {
@@ -356,11 +356,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the manager property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setManager(String value)
    {
@@ -369,11 +369,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectStart property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectStart()
    {
@@ -382,11 +382,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectStart property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectStart(String value)
    {
@@ -395,11 +395,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the calendar property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCalendar()
    {
@@ -408,11 +408,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the calendar property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCalendar(String value)
    {
@@ -421,11 +421,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the phase property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPhase()
    {
@@ -434,11 +434,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the phase property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPhase(String value)
    {
