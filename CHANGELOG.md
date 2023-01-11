@@ -1,6 +1,8 @@
 # Changelog
 
-## 10.15.0 (unreleased)
+## 10.15.1 (unreleased)
+
+## 10.15.0 (2023-01-11)
 * Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.
 * Improve handling of slack values for schedules which only contain a value for total slack.
 * Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).
