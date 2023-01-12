@@ -1164,15 +1164,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(formattedValue);
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-
-            setValueGUID(attrib, mpxFieldID, formattedValue);
+            setValueGUID(attrib, mpxFieldID);
          }
       }
    }
@@ -1182,11 +1179,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param attrib parent attribute
     * @param fieldType field type
-    * @param formattedValue formatted value
     */
-   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType)
    {
-      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
@@ -1657,15 +1653,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(formattedValue);
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-
-            setValueGUID(attrib, mpxFieldID, formattedValue);
+            setValueGUID(attrib, mpxFieldID);
          }
       }
    }
@@ -1704,11 +1697,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param attrib parent attribute
     * @param fieldType field type
-    * @param formattedValue formatted value
     */
-   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType)
    {
-      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
