@@ -76,12 +76,12 @@ public class MPPResourceField14
       if (MPPResourceField.ENTERPRISE_CUSTOM_FIELDS.contains(value))
       {
          int baseValue = ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
+         int id = ((ResourceField)value).getValue() - baseValue;
          result = 0x8000 + id;
       }
       else
       {
-         result = ID_ARRAY[value.getValue()];
+         result = ID_ARRAY[((ResourceField)value).getValue()];
       }
       return result;
    }

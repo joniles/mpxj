@@ -78,12 +78,12 @@ public class MPPTaskField
       if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
       {
          int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
+         int id = ((TaskField)value).getValue() - baseValue;
          result = 0x8000 + id;
       }
       else
       {
-         result = ID_ARRAY[value.getValue()];
+         result = ID_ARRAY[((TaskField)value).getValue()];
       }
       return result;
    }
