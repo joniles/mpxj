@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.TaskField;
 
 /**
@@ -43,9 +44,9 @@ public class MPPTaskField
     * @param value value from an MS Project file
     * @return TaskField instance
     */
-   public static TaskField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
-      TaskField result = null;
+      FieldType result = null;
 
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
@@ -70,7 +71,7 @@ public class MPPTaskField
     * @param value field instance
     * @return field ID
     */
-   public static int getID(TaskField value)
+   public static int getID(FieldType value)
    {
       int result;
 

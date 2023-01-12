@@ -29,7 +29,7 @@ import java.io.PrintWriter;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.sf.mpxj.TaskField;
+import net.sf.mpxj.FieldType;
 
 /**
  * This class represents the default style for a Gantt chart bar.
@@ -41,7 +41,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @return from field
     */
-   public TaskField getFromField()
+   public FieldType getFromField()
    {
       return (m_fromField);
    }
@@ -51,7 +51,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @param field from field
     */
-   public void setFromField(TaskField field)
+   public void setFromField(FieldType field)
    {
       m_fromField = field;
    }
@@ -101,7 +101,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @return to field
     */
-   public TaskField getToField()
+   public FieldType getToField()
    {
       return (m_toField);
    }
@@ -111,7 +111,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @param field to field
     */
-   public void setToField(TaskField field)
+   public void setToField(FieldType field)
    {
       m_toField = field;
    }
@@ -158,8 +158,8 @@ public final class GanttBarStyle extends GanttBarCommonStyle
    }
 
    private String m_name;
-   private TaskField m_fromField;
-   private TaskField m_toField;
+   private FieldType m_fromField;
+   private FieldType m_toField;
    private int m_row;
    private final Set<GanttBarShowForTasks> m_showForTasks = new TreeSet<>();
 }

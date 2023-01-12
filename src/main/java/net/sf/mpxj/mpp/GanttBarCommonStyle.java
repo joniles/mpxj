@@ -27,7 +27,7 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
-import net.sf.mpxj.TaskField;
+import net.sf.mpxj.FieldType;
 
 /**
  * This class represents common elements of the Gantt char bar styles
@@ -41,7 +41,7 @@ public class GanttBarCommonStyle
     *
     * @return bottom text
     */
-   public TaskField getBottomText()
+   public FieldType getBottomText()
    {
       return (m_bottomText);
    }
@@ -51,7 +51,7 @@ public class GanttBarCommonStyle
     *
     * @param field bottom text
     */
-   public void setBottomText(TaskField field)
+   public void setBottomText(FieldType field)
    {
       m_bottomText = field;
    }
@@ -81,7 +81,7 @@ public class GanttBarCommonStyle
     *
     * @return inside text
     */
-   public TaskField getInsideText()
+   public FieldType getInsideText()
    {
       return (m_insideText);
    }
@@ -91,7 +91,7 @@ public class GanttBarCommonStyle
     *
     * @param field inside text
     */
-   public void setInsideText(TaskField field)
+   public void setInsideText(FieldType field)
    {
       m_insideText = field;
    }
@@ -101,7 +101,7 @@ public class GanttBarCommonStyle
     *
     * @return left text
     */
-   public TaskField getLeftText()
+   public FieldType getLeftText()
    {
       return (m_leftText);
    }
@@ -111,7 +111,7 @@ public class GanttBarCommonStyle
     *
     * @param field left text
     */
-   public void setLeftText(TaskField field)
+   public void setLeftText(FieldType field)
    {
       m_leftText = field;
    }
@@ -181,7 +181,7 @@ public class GanttBarCommonStyle
     *
     * @return right text
     */
-   public TaskField getRightText()
+   public FieldType getRightText()
    {
       return (m_rightText);
    }
@@ -191,7 +191,7 @@ public class GanttBarCommonStyle
     *
     * @param field right text
     */
-   public void setRightText(TaskField field)
+   public void setRightText(FieldType field)
    {
       m_rightText = field;
    }
@@ -301,7 +301,7 @@ public class GanttBarCommonStyle
     *
     * @return top text
     */
-   public TaskField getTopText()
+   public FieldType getTopText()
    {
       return (m_topText);
    }
@@ -311,7 +311,7 @@ public class GanttBarCommonStyle
     *
     * @param field top text
     */
-   public void setTopText(TaskField field)
+   public void setTopText(FieldType field)
    {
       m_topText = field;
    }
@@ -355,9 +355,9 @@ public class GanttBarCommonStyle
    private GanttBarStartEndType m_endType;
    private Color m_endColor;
 
-   private TaskField m_leftText;
-   private TaskField m_rightText;
-   private TaskField m_topText;
-   private TaskField m_bottomText;
-   private TaskField m_insideText;
+   private FieldType m_leftText;
+   private FieldType m_rightText;
+   private FieldType m_topText;
+   private FieldType m_bottomText;
+   private FieldType m_insideText;
 }
