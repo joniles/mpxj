@@ -77,6 +77,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
@@ -187,6 +188,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeTasks();
          writeAssignments();
          writeTables();
+         writeViews();
          m_writer.writeEndObject();
 
          m_writer.flush();
@@ -1378,6 +1380,26 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("width", column.getWidth());
          writeIntegerField("align_data", column.getAlignData());
          writeIntegerField("align_title", column.getAlignTitle());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeViews() throws IOException
+   {
+      if (m_projectFile.getViews().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("views");
+      for (View view : m_projectFile.getViews())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("id", view.getID());
+         writeStringField("name", view.getName());
+         writeStringField("type", view.getType().name().toLowerCase());
+         writeStringField("table_name", view.getTableName());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
