@@ -2881,7 +2881,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       if (field != null)
       {
          Object oldValue = m_fields.put(field, value);
-         int index = field.getValue();
          if (m_eventsEnabled)
          {
             invalidateCache(field);
