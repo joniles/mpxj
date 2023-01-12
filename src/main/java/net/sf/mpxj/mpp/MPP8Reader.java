@@ -35,6 +35,7 @@ import java.util.List;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1263,15 +1264,7 @@ final class MPP8Reader implements MPPVariantReader
             table.setResourceFlag(MPPUtility.getShort(data, index) == 0);
          }
 
-         if (!table.getResourceFlag())
-         {
-            column.setFieldType(MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
-         }
-         else
-         {
-            column.setFieldType(MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
-         }
-
+         column.setFieldType(FieldTypeHelper.getInstance(MPPUtility.getInt(data, index)));
          column.setWidth(MPPUtility.getByte(data, index + 4));
 
          columnTitleOffset = MPPUtility.getShort(data, index + 6);

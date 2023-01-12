@@ -259,7 +259,7 @@ public final class FieldTypeHelper
 
          @Override public String getName()
          {
-            return "Unknown " + (type == null ? "" : type.getSimpleName() + "(" + fieldID + ")");
+            return "Unknown" + (type == null ? "" : " " + type.getSimpleName() + "(" + fieldID + ")");
          }
 
          @Override public String getName(Locale locale)

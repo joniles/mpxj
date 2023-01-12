@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
 
@@ -111,15 +112,7 @@ final class TableFactory
          for (int loop = 0; loop < columnCount; loop++)
          {
             column = new Column(file);
-            int fieldType = MPPUtility.getShort(data, index);
-            if (!table.getResourceFlag())
-            {
-               column.setFieldType(MPPTaskField.getInstance(fieldType));
-            }
-            else
-            {
-               column.setFieldType(MPPResourceField.getInstance(fieldType));
-            }
+            column.setFieldType(FieldTypeHelper.getInstance(MPPUtility.getInt(data, index)));
 
             //                        if (column.getFieldType() == null)
             //                        {
