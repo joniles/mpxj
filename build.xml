@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="10.14.1" />
+		<property name="current.version" value="10.15.0" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
@@ -205,14 +205,14 @@
 		</copy>
 	</target>
 
-	<target name="python-deploy-test" depends="python-build" description="Deploy python package to PyPI">
+	<target name="python-deploy-test" depends="python-build" description="Deploy python package to pypitest">
 		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj" failonerror="true">
 			<arg line="-m twine upload -r pypitest dist/*" />
 		</exec>
 	</target>
 
 	<!-- Ensure twine is installed py -m pip install twine -->
-	<target name="python-deploy" depends="python-build" description="Deploy python package to PyPI">
+	<target name="python-deploy" depends="python-build" description="Deploy python package to pypi">
 		<exec executable="${python.cmd}" dir="${basedir}/src.python/mpxj" failonerror="true">
 			<arg line="-m twine upload -r pypi dist/*" />
 		</exec>

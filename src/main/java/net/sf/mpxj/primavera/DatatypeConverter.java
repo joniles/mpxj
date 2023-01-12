@@ -265,12 +265,24 @@ public final class DatatypeConverter
       return result;
    }
 
+   /**
+    * Format string for output.
+    *
+    * @param value string value
+    * @return formatted string
+    */
    public static final String printString(String value)
    {
       // JAXB should do this... but doesn't
       return XmlHelper.replaceInvalidXmlChars(value);
    }
 
+   /**
+    * Parse string.
+    *
+    * @param value string value
+    * @return parsed string
+    */
    public static final String parseString(String value)
    {
       return value;
