@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ProjectCalendarDays;
@@ -58,6 +59,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
@@ -184,6 +186,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeResources();
          writeTasks();
          writeAssignments();
+         writeTables();
          m_writer.writeEndObject();
 
          m_writer.flush();
@@ -535,6 +538,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
       m_writer.writeEndList();
    }
+
 
    /**
     * Generates a mapping between attribute names and data types.
@@ -1331,6 +1335,52 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
       }
+   }
+
+   private void writeTables() throws IOException
+   {
+      if (m_projectFile.getTables().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("tables");
+      for (Table table : m_projectFile.getTables())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("id", table.getID());
+         writeStringField("name", table.getName());
+         writeBooleanField("resource", table.getResourceFlag());
+         writeTableColumns(table);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeTableColumns(Table table) throws IOException
+   {
+      if (table.getColumns().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("columns");
+      for (Column column : table.getColumns())
+      {
+         m_writer.writeStartObject(null);
+         FieldType fieldType = column.getFieldType();
+         if (fieldType != null)
+         {
+            writeStringField("field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
+            writeStringField("field_type", fieldType.name().toLowerCase());
+         }
+         writeStringField("title", column.getTitle());
+         writeIntegerField("width", column.getWidth());
+         writeIntegerField("align_data", column.getAlignData());
+         writeIntegerField("align_title", column.getAlignTitle());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**
