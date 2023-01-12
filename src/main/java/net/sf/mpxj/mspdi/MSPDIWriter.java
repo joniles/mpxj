@@ -1164,12 +1164,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
             attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
             attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
 
@@ -1215,13 +1214,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Resources.Resource.OutlineCode attrib = m_factory.createProjectResourcesResourceOutlineCode();
             outlineCodes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            setValueID(attrib, mpxFieldID, formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -1661,12 +1657,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
             String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
 
             Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
             attrib.setValue(formattedValue);
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
 
@@ -1696,13 +1691,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Tasks.Task.OutlineCode attrib = m_factory.createProjectTasksTaskOutlineCode();
             outlineCodes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            setValueID(attrib, mpxFieldID, formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -2148,11 +2140,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPAssignmentField.getID(mpxFieldID) | MPPAssignmentField.ASSIGNMENT_FIELD_BASE);
-
             attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
