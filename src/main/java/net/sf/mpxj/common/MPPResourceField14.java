@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import java.util.Arrays;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ResourceField;
 
 /**
@@ -41,9 +42,9 @@ public class MPPResourceField14
     * @param value value from an MS Project file
     * @return ResourceField instance
     */
-   public static ResourceField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
-      ResourceField result = null;
+      FieldType result = null;
 
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
@@ -68,7 +69,7 @@ public class MPPResourceField14
     * @param value field instance
     * @return field ID
     */
-   public static int getID(ResourceField value)
+   public static int getID(FieldType value)
    {
       int result;
 

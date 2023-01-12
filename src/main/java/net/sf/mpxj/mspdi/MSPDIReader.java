@@ -1028,7 +1028,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       for (Project.Resources.Resource.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
-         ResourceField mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
+         FieldType mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
@@ -1049,7 +1049,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             continue;
          }
 
-         ResourceField mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         FieldType mpxFieldID = MPPResourceField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
          mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
@@ -1551,7 +1551,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       for (Project.Tasks.Task.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
-         TaskField mpxFieldID = MPPTaskField.getInstance(xmlFieldID);
+         FieldType mpxFieldID = MPPTaskField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
@@ -1572,7 +1572,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             continue;
          }
 
-         TaskField mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
+         FieldType mpxFieldID = MPPTaskField.getInstance(Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF);
          mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
@@ -2031,7 +2031,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       for (Project.Assignments.Assignment.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
-         AssignmentField mpxFieldID = MPPAssignmentField.getInstance(xmlFieldID);
+         FieldType mpxFieldID = MPPAssignmentField.getInstance(xmlFieldID);
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
