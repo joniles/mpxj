@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectField;
 
 /**
@@ -43,9 +44,9 @@ public class MPPProjectField
     * @param value value from an MS Project file
     * @return ProjectField instance
     */
-   public static ProjectField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
-      ProjectField result = null;
+      FieldType result = null;
 
       if (value >= 0x8000)
       {
@@ -66,7 +67,7 @@ public class MPPProjectField
     * @param value field instance
     * @return field ID
     */
-   public static int getID(ProjectField value)
+   public static int getID(FieldType value)
    {
       int result;
 

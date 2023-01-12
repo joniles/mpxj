@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ResourceField;
 
 /**
@@ -43,7 +44,7 @@ public final class MPPResourceField
     * @param value value from an MS Project file
     * @return ResourceField instance
     */
-   public static ResourceField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
       ResourceField result = null;
 
@@ -70,7 +71,7 @@ public final class MPPResourceField
     * @param value field instance
     * @return field ID
     */
-   public static int getID(ResourceField value)
+   public static int getID(FieldType value)
    {
       int result;
 

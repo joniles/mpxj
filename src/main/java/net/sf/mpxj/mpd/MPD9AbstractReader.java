@@ -40,6 +40,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -1126,7 +1127,7 @@ abstract class MPD9AbstractReader
       {
          case MPPTaskField.TASK_FIELD_BASE:
          {
-            TaskField field = MPPTaskField.getInstance(index);
+            FieldType field = MPPTaskField.getInstance(index);
             if (field != null && field != TaskField.NOTES)
             {
                Task task = m_project.getTaskByUniqueID(entityID);
@@ -1144,7 +1145,7 @@ abstract class MPD9AbstractReader
 
          case MPPResourceField.RESOURCE_FIELD_BASE:
          {
-            ResourceField field = MPPResourceField.getInstance(index);
+            FieldType field = MPPResourceField.getInstance(index);
             if (field != null && field != ResourceField.NOTES)
             {
                Resource resource = m_project.getResourceByUniqueID(entityID);
@@ -1162,7 +1163,7 @@ abstract class MPD9AbstractReader
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
-            AssignmentField field = MPPAssignmentField.getInstance(index);
+            FieldType field = MPPAssignmentField.getInstance(index);
             if (field != null && field != AssignmentField.NOTES)
             {
                ResourceAssignment assignment = m_assignmentMap.get(entityID);

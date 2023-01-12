@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.FieldType;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -43,9 +44,9 @@ public final class MPPAssignmentField
     * @param value value from an MS Project file
     * @return AssignmentField instance
     */
-   public static AssignmentField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
-      AssignmentField result = null;
+      FieldType result = null;
 
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
@@ -70,7 +71,7 @@ public final class MPPAssignmentField
     * @param value field instance
     * @return field ID
     */
-   public static int getID(AssignmentField value)
+   public static int getID(FieldType value)
    {
       int result;
 

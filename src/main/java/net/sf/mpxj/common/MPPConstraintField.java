@@ -26,6 +26,7 @@ package net.sf.mpxj.common;
 import java.util.Arrays;
 
 import net.sf.mpxj.ConstraintField;
+import net.sf.mpxj.FieldType;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -41,9 +42,9 @@ public class MPPConstraintField
     * @param value value from an MS Project file
     * @return ConstraintField instance
     */
-   public static ConstraintField getInstance(int value)
+   public static FieldType getInstance(int value)
    {
-      ConstraintField result = null;
+      FieldType result = null;
 
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
@@ -59,7 +60,7 @@ public class MPPConstraintField
     * @param value field instance
     * @return field ID
     */
-   public static int getID(ConstraintField value)
+   public static int getID(FieldType value)
    {
       return (ID_ARRAY[value.getValue()]);
    }
