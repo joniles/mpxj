@@ -88,7 +88,7 @@ public final class MPPResourceField
       return result;
    }
 
-   public static final int MAX_VALUE = 809;
+   public static final int MAX_VALUE = 863;
 
    private static final ResourceField[] FIELD_ARRAY = new ResourceField[MAX_VALUE];
 
@@ -633,6 +633,10 @@ public final class MPPResourceField
       FIELD_ARRAY[718] = ResourceField.ENTERPRISE_MULTI_VALUE29;
       FIELD_ARRAY[720] = ResourceField.ACTUAL_WORK_PROTECTED;
       FIELD_ARRAY[721] = ResourceField.ACTUAL_OVERTIME_WORK_PROTECTED;
+      FIELD_ARRAY[853] = ResourceField.PROPOSED_START;
+      FIELD_ARRAY[856] = ResourceField.PROPOSED_FINISH;
+      FIELD_ARRAY[859] = ResourceField.PROPOSED_MAX_UNITS;
+      FIELD_ARRAY[862] = ResourceField.ENGAGEMENT_STATUS;
    }
 
    private static final int[] ID_ARRAY = new int[ResourceField.MAX_VALUE];
