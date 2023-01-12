@@ -252,7 +252,7 @@ public final class FieldTypeHelper
             return "UNKNOWN";
          }
 
-         @Override public int getValue()
+         public int getValue()
          {
             return fieldID;
          }

@@ -29,7 +29,7 @@ import java.util.Locale;
  * This interface is implemented by classes which represent a field
  * in a Task, Resource or Assignment entity.
  */
-public interface FieldType extends MpxjEnum
+public interface FieldType
 {
    /**
     * Retrieve an enum representing the type of entity to which this field belongs.

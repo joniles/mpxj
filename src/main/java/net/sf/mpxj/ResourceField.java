@@ -700,7 +700,7 @@ public enum ResourceField implements FieldType
       return (result);
    }
 
-   @Override public int getValue()
+   public int getValue()
    {
       return (m_value);
    }
