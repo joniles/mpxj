@@ -1,18 +1,29 @@
 
 package net.sf.mpxj;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.mpxj.common.NumberHelper;
 
 
-public class UserDefinedFieldContainer extends ProjectEntityContainer<UserDefinedField>
+public class UserDefinedFieldContainer
 {
-   /**
-    * Constructor.
-    *
-    * @param projectFile parent project
-    */
-   public UserDefinedFieldContainer(ProjectFile projectFile)
+   public Collection<UserDefinedField> getTaskFields()
    {
-      super(projectFile);
+      return m_taskFields.values();
    }
+
+   public UserDefinedField getTaskField(Integer id)
+   {
+      return m_taskFields.get(id);
+   }
+
+   public void addTaskField(UserDefinedField field)
+   {
+      m_taskFields.put(field.getUniqueID(), field);
+   }
+
+   private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();
 }

@@ -1,7 +1,7 @@
 package net.sf.mpxj;
 import java.util.Locale;
 
-public class UserDefinedField implements FieldType, ProjectEntityWithUniqueID
+public class UserDefinedField implements FieldType
 {
    public void setUniqueID(Integer value)
    {
