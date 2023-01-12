@@ -63,35 +63,6 @@ public class MPPTaskField14
    }
 
    /**
-    * Retrieve an instance of the TaskField class based on the data read from an
-    * MS Project file. This method does not attempt to apply any mapping to
-    * the result.
-    *
-    * @param value value from an MS Project file
-    * @return TaskField instance
-    */
-   public static TaskField getInstanceUnmapped(int value)
-   {
-      TaskField result = null;
-
-      if (value >= 0 && value < FIELD_ARRAY.length)
-      {
-         result = FIELD_ARRAY[value];
-      }
-      else
-      {
-         if ((value & 0x8000) != 0)
-         {
-            int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-            int id = baseValue + (value & 0xFFF);
-            result = TaskField.getInstance(id);
-         }
-      }
-
-      return (result);
-   }
-
-   /**
     * Retrieve the ID of a field, as used by MS Project.
     *
     * @param value field instance
