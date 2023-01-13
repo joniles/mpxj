@@ -1251,113 +1251,115 @@ final class MPP9Reader implements MPPVariantReader
          data = taskVarData.getByteArray(task.getUniqueID(), varDataKey);
       }
 
-      if (data != null)
+      if (data == null)
       {
-         PropsBlock props = new PropsBlock(data);
-         //System.out.println(props);
+         return;
+      }
 
-         for (Integer key : props.keySet())
+      PropsBlock props = new PropsBlock(data);
+      //System.out.println(props);
+
+      for (Integer key : props.keySet())
+      {
+         FieldType field = FieldTypeHelper.getInstance(key.intValue());
+         if (field == null || field.getDataType() == null)
          {
-            int keyValue = key.intValue() - MPPTaskField.TASK_FIELD_BASE;
-            FieldType field = MPPTaskField.getInstance(keyValue);
+            continue;
+         }
 
-            if (field != null)
+         Object value = null;
+
+         switch (field.getDataType())
+         {
+            case CURRENCY:
             {
-               Object value = null;
+               value = Double.valueOf(props.getDouble(key) / 100);
+               break;
+            }
 
-               switch (field.getDataType())
+            case DATE:
+            {
+               value = props.getTimestamp(key);
+               break;
+            }
+
+            case WORK:
+            {
+               double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key), 0) / 60000;
+               value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+               break;
+            }
+
+            case DURATION:
+            {
+               byte[] durationData = props.getByteArray(key);
+               double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
+               TimeUnit durationUnits;
+               if (durationData.length < 6)
                {
-                  case CURRENCY:
-                  {
-                     value = Double.valueOf(props.getDouble(key) / 100);
-                     break;
-                  }
-
-                  case DATE:
-                  {
-                     value = props.getTimestamp(key);
-                     break;
-                  }
-
-                  case WORK:
-                  {
-                     double durationValueInHours = MPPUtility.getDouble(props.getByteArray(key), 0) / 60000;
-                     value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     break;
-                  }
-
-                  case DURATION:
-                  {
-                     byte[] durationData = props.getByteArray(key);
-                     double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
-                     TimeUnit durationUnits;
-                     if (durationData.length < 6)
-                     {
-                        durationUnits = TimeUnit.DAYS;
-                     }
-                     else
-                     {
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
-                     }
-                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
-                     break;
-                  }
-
-                  case BOOLEAN:
-                  {
-                     field = null;
-                     int bits = props.getInt(key);
-                     task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
-                     break;
-                  }
-
-                  case NUMERIC:
-                  {
-                     value = Double.valueOf(props.getDouble(key));
-                     break;
-                  }
-
-                  case STRING:
-                  {
-                     value = props.getUnicodeString(key);
-                     break;
-                  }
-
-                  case PERCENTAGE:
-                  {
-                     value = Integer.valueOf(props.getShort(key));
-                     break;
-                  }
-
-                  default:
-                  {
-                     break;
-                  }
+                  durationUnits = TimeUnit.DAYS;
                }
+               else
+               {
+                  durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
+               }
+               Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+               value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
+               break;
+            }
 
-               task.set(field, value);
+            case BOOLEAN:
+            {
+               field = null;
+               int bits = props.getInt(key);
+               task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
+               task.set(TaskField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
+               break;
+            }
+
+            case NUMERIC:
+            {
+               value = Double.valueOf(props.getDouble(key));
+               break;
+            }
+
+            case STRING:
+            {
+               value = props.getUnicodeString(key);
+               break;
+            }
+
+            case PERCENTAGE:
+            {
+               value = Integer.valueOf(props.getShort(key));
+               break;
+            }
+
+            default:
+            {
+               break;
             }
          }
+
+         task.set(field, value);
       }
    }
 
