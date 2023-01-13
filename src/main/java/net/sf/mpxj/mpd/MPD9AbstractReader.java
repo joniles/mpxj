@@ -40,6 +40,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
@@ -66,6 +67,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPAssignmentField;
 import net.sf.mpxj.common.MPPResourceField;
 import net.sf.mpxj.common.MPPTaskField;
@@ -1118,68 +1120,51 @@ abstract class MPD9AbstractReader
     */
    private void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
    {
-      int fieldID = row.getInt(fieldIDColumn);
-
-      int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID & 0x0000FFFF;
-
-      switch (prefix)
+      FieldType field = FieldTypeHelper.getInstance(row.getInt(fieldIDColumn));
+      if (field == null || field == TaskField.NOTES || field == ResourceField.NOTES || field == AssignmentField.NOTES)
       {
-         case MPPTaskField.TASK_FIELD_BASE:
+         return;
+      }
+
+      FieldContainer container;
+      switch (field.getFieldTypeClass())
+      {
+         case TASK:
          {
-            FieldType field = MPPTaskField.getInstance(index);
-            if (field != null && field != TaskField.NOTES)
-            {
-               Task task = m_project.getTaskByUniqueID(entityID);
-               if (task != null)
-               {
-                  if (field.getDataType() == DataType.CURRENCY)
-                  {
-                     value = Double.valueOf(((Double) value).doubleValue() / 100);
-                  }
-                  task.set(field, value);
-               }
-            }
+            container = m_project.getTaskByUniqueID(entityID);
             break;
          }
 
-         case MPPResourceField.RESOURCE_FIELD_BASE:
+         case RESOURCE:
          {
-            FieldType field = MPPResourceField.getInstance(index);
-            if (field != null && field != ResourceField.NOTES)
-            {
-               Resource resource = m_project.getResourceByUniqueID(entityID);
-               if (resource != null)
-               {
-                  if (field.getDataType() == DataType.CURRENCY)
-                  {
-                     value = Double.valueOf(((Double) value).doubleValue() / 100);
-                  }
-                  resource.set(field, value);
-               }
-            }
+            container = m_project.getResourceByUniqueID(entityID);
             break;
          }
 
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
+         case ASSIGNMENT:
          {
-            FieldType field = MPPAssignmentField.getInstance(index);
-            if (field != null && field != AssignmentField.NOTES)
-            {
-               ResourceAssignment assignment = m_assignmentMap.get(entityID);
-               if (assignment != null)
-               {
-                  if (field.getDataType() == DataType.CURRENCY)
-                  {
-                     value = Double.valueOf(((Double) value).doubleValue() / 100);
-                  }
-                  assignment.set(field, value);
-               }
-            }
+            container = m_assignmentMap.get(entityID);
+            break;
+         }
 
+         default:
+         {
+            container = null;
             break;
          }
       }
+
+      if (container == null)
+      {
+         return;
+      }
+
+      if (field.getDataType() == DataType.CURRENCY)
+      {
+         value = Double.valueOf(((Double) value).doubleValue() / 100);
+      }
+
+      container.set(field, value);
    }
 
    /**
