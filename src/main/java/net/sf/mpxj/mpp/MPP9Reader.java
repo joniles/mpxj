@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -1376,114 +1377,113 @@ final class MPP9Reader implements MPPVariantReader
          data = resourceVarData.getByteArray(resource.getUniqueID(), varDataKey);
       }
 
-      if (data != null)
+      if (data == null)
       {
-         PropsBlock props = new PropsBlock(data);
-         //System.out.println(props);
-         resource.setCreationDate(props.getTimestamp(Props.RESOURCE_CREATION_DATE));
+         return;
+      }
 
-         for (Integer key : props.keySet())
+      PropsBlock props = new PropsBlock(data);
+      //System.out.println(props);
+      resource.setCreationDate(props.getTimestamp(Props.RESOURCE_CREATION_DATE));
+
+      for (Integer key : props.keySet())
+      {
+         FieldType field = FieldTypeHelper.getInstance(key.intValue());
+         if (field == null || field.getDataType() == null)
          {
-            int keyValue = key.intValue() - MPPResourceField.RESOURCE_FIELD_BASE;
-            //System.out.println("Key=" + keyValue);
+            continue;
+         }
+         Object value = null;
 
-            FieldType field = MPPResourceField.getInstance(keyValue);
-
-            if (field != null)
+         switch (field.getDataType())
+         {
+            case CURRENCY:
             {
-               Object value = null;
+               value = Double.valueOf(props.getDouble(key) / 100);
+               break;
+            }
 
-               switch (field.getDataType())
+            case DATE:
+            {
+               value = props.getTimestamp(key);
+               break;
+            }
+
+            case DURATION:
+            {
+               byte[] durationData = props.getByteArray(key);
+               double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
+               TimeUnit durationUnits;
+               if (durationData.length < 6)
                {
-                  case CURRENCY:
-                  {
-                     value = Double.valueOf(props.getDouble(key) / 100);
-                     break;
-                  }
+                  durationUnits = TimeUnit.DAYS;
+               }
+               else
+               {
+                  durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
+               }
+               Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+               value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
+               break;
 
-                  case DATE:
-                  {
-                     value = props.getTimestamp(key);
-                     break;
-                  }
+            }
 
-                  case DURATION:
-                  {
-                     byte[] durationData = props.getByteArray(key);
-                     double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
-                     TimeUnit durationUnits;
-                     if (durationData.length < 6)
-                     {
-                        durationUnits = TimeUnit.DAYS;
-                     }
-                     else
-                     {
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(durationData, 4));
-                     }
-                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     value = duration.convertUnits(durationUnits, m_file.getProjectProperties());
-                     break;
-
-                  }
-
-                  case BOOLEAN:
-                  {
-                     if (field == ResourceField.FLAG1)
-                     {
-                        field = null;
-                        int bits = props.getInt(key);
-                        resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
-                        resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
-                     }
-
-                     if (field == ResourceField.GENERIC)
-                     {
-                        field = null;
-                        resource.setGeneric(props.getShort(key) != 0);
-                     }
-
-                     break;
-                  }
-
-                  case NUMERIC:
-                  {
-                     value = Double.valueOf(props.getDouble(key));
-                     break;
-                  }
-
-                  case STRING:
-                  {
-                     value = props.getUnicodeString(key);
-                     break;
-                  }
-
-                  default:
-                  {
-                     break;
-                  }
+            case BOOLEAN:
+            {
+               if (field == ResourceField.FLAG1)
+               {
+                  field = null;
+                  int bits = props.getInt(key);
+                  resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
+                  resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
                }
 
-               resource.set(field, value);
+               if (field == ResourceField.GENERIC)
+               {
+                  field = null;
+                  resource.setGeneric(props.getShort(key) != 0);
+               }
+
+               break;
+            }
+
+            case NUMERIC:
+            {
+               value = Double.valueOf(props.getDouble(key));
+               break;
+            }
+
+            case STRING:
+            {
+               value = props.getUnicodeString(key);
+               break;
+            }
+
+            default:
+            {
+               break;
             }
          }
+
+         resource.set(field, value);
       }
    }
 
