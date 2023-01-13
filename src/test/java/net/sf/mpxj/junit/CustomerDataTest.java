@@ -567,7 +567,10 @@ public class CustomerDataTest
          return true;
       }
 
-      Consumer<ProjectWriter> jsonConfig = (w) -> ((JsonWriter) w).setPretty(true);
+      Consumer<ProjectWriter> jsonConfig = (w) -> {
+         ((JsonWriter) w).setPretty(true);
+         ((JsonWriter) w).setIncludeLayoutData(true);
+      };
       Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
       Consumer<ProjectWriter> mspdiConfig = (w) -> {

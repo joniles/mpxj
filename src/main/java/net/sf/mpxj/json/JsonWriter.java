@@ -82,6 +82,8 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.mpp.GanttChartView;
+import net.sf.mpxj.mpp.TableFontStyle;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -108,6 +110,27 @@ public final class JsonWriter extends AbstractProjectWriter
    public void setPretty(boolean pretty)
    {
       m_pretty = pretty;
+   }
+
+   /**
+    * Retrieve a flag indicating if layout data should be included in the output.
+    * Defaults to false.
+    *
+    * @return true if layout data is included
+    */
+   public boolean getIncludeLayoutData()
+   {
+      return m_includeLayoutData;
+   }
+
+   /**
+    * Set a flag indicating if layout data should be included in the output.
+    *
+    * @param includeLayoutData true if layout data is included
+    */
+   public void setIncludeLayoutData(boolean includeLayoutData)
+   {
+      m_includeLayoutData = includeLayoutData;
    }
 
    /**
@@ -187,8 +210,13 @@ public final class JsonWriter extends AbstractProjectWriter
          writeResources();
          writeTasks();
          writeAssignments();
-         writeTables();
-         writeViews();
+
+         if (m_includeLayoutData)
+         {
+            writeTables();
+            writeViews();
+         }
+
          m_writer.writeEndObject();
 
          m_writer.flush();
@@ -1400,6 +1428,38 @@ public final class JsonWriter extends AbstractProjectWriter
          writeStringField("name", view.getName());
          writeStringField("type", view.getType().name().toLowerCase());
          writeStringField("table_name", view.getTableName());
+         writeViewTableFontStyles(view);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeViewTableFontStyles(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView)view;
+      if (ganttChartView.getTableFontStyles() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("table_font_styles");
+      for (TableFontStyle style : ganttChartView.getTableFontStyles())
+      {
+         m_writer.writeStartObject(null);
+         FieldType fieldType = style.getFieldType();
+         writeIntegerField("row_unique_id", style.getRowUniqueID());
+         if (fieldType != null)
+         {
+            writeStringField("field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
+            writeStringField("field_type", fieldType.name().toLowerCase());
+         }
+         // TODO: add more of the style attributes as needed
+
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -1426,6 +1486,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
+   private boolean m_includeLayoutData = false;
    private Charset m_encoding = DEFAULT_ENCODING;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;
