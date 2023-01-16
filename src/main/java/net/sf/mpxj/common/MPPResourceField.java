@@ -624,7 +624,7 @@ public final class MPPResourceField
       FIELD_ARRAY[800] = ResourceField.TEAM_ASSIGNMENT_POOL;
       FIELD_ARRAY[801] = ResourceField.COST_CENTER;
       FIELD_ARRAY[803] = ResourceField.ASSIGNMENT_OWNER;
-      FIELD_ARRAY[808] = ResourceField.UNAVAILABLE;
+      FIELD_ARRAY[808] = ResourceField.ACTIVE;
       FIELD_ARRAY[853] = ResourceField.PROPOSED_START;
       FIELD_ARRAY[856] = ResourceField.PROPOSED_FINISH;
       FIELD_ARRAY[859] = ResourceField.PROPOSED_MAX_UNITS;

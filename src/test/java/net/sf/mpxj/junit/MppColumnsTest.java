@@ -1237,7 +1237,7 @@ public class MppColumnsTest
       "Name",
       "% Work Complete",
       "Accrue At",
-      "<Unavailable>",
+      "Active",
       "Actual Cost",
       "Actual Finish",
       "Actual Overtime Cost",
