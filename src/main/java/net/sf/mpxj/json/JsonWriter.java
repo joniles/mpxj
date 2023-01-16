@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ProjectCalendarDays;
@@ -58,6 +59,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
@@ -75,10 +77,15 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.mpp.GanttBarStyle;
+import net.sf.mpxj.mpp.GanttBarStyleException;
+import net.sf.mpxj.mpp.GanttChartView;
+import net.sf.mpxj.mpp.TableFontStyle;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -105,6 +112,27 @@ public final class JsonWriter extends AbstractProjectWriter
    public void setPretty(boolean pretty)
    {
       m_pretty = pretty;
+   }
+
+   /**
+    * Retrieve a flag indicating if layout data should be included in the output.
+    * Defaults to false.
+    *
+    * @return true if layout data is included
+    */
+   public boolean getIncludeLayoutData()
+   {
+      return m_includeLayoutData;
+   }
+
+   /**
+    * Set a flag indicating if layout data should be included in the output.
+    *
+    * @param includeLayoutData true if layout data is included
+    */
+   public void setIncludeLayoutData(boolean includeLayoutData)
+   {
+      m_includeLayoutData = includeLayoutData;
    }
 
    /**
@@ -184,6 +212,13 @@ public final class JsonWriter extends AbstractProjectWriter
          writeResources();
          writeTasks();
          writeAssignments();
+
+         if (m_includeLayoutData)
+         {
+            writeTables();
+            writeViews();
+         }
+
          m_writer.writeEndObject();
 
          m_writer.flush();
@@ -265,8 +300,7 @@ public final class JsonWriter extends AbstractProjectWriter
             m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
          }
 
-         m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());
-         m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
+         writeFieldType("", field.getFieldType());
          m_writer.writeNameValuePair("field_alias", field.getAlias());
 
          if (field.getCustomFieldDataType() != null)
@@ -535,6 +569,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
       m_writer.writeEndList();
    }
+
 
    /**
     * Generates a mapping between attribute names and data types.
@@ -1333,6 +1368,155 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   private void writeTables() throws IOException
+   {
+      if (m_projectFile.getTables().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("tables");
+      for (Table table : m_projectFile.getTables())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("id", table.getID());
+         writeStringField("name", table.getName());
+         writeBooleanField("resource", table.getResourceFlag());
+         writeTableColumns(table);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeTableColumns(Table table) throws IOException
+   {
+      if (table.getColumns().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("columns");
+      for (Column column : table.getColumns())
+      {
+         m_writer.writeStartObject(null);
+         writeFieldType("", column.getFieldType());
+         writeStringField("title", column.getTitle());
+         writeIntegerField("width", column.getWidth());
+         writeIntegerField("align_data", column.getAlignData());
+         writeIntegerField("align_title", column.getAlignTitle());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeViews() throws IOException
+   {
+      if (m_projectFile.getViews().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("views");
+      for (View view : m_projectFile.getViews())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("id", view.getID());
+         writeStringField("name", view.getName());
+         writeStringField("type", view.getType().name().toLowerCase());
+         writeStringField("table_name", view.getTableName());
+         writeViewTableFontStyles(view);
+         writeBarStyles(view);
+         writeBarStyleExceptions(view);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeViewTableFontStyles(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView)view;
+      if (ganttChartView.getTableFontStyles() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("table_font_styles");
+      for (TableFontStyle style : ganttChartView.getTableFontStyles())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("row_unique_id", style.getRowUniqueID());
+         writeFieldType("", style.getFieldType());
+         // TODO: add more of the style attributes as needed
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeBarStyles(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      if (ganttChartView.getBarStyles() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("bar_styles");
+      for (GanttBarStyle style : ((GanttChartView) view).getBarStyles())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("row", style.getRow());
+         writeStringField("name", style.getName());
+         writeFieldType("from_", style.getFromField());
+         writeFieldType("to_", style.getToField());
+         writeFieldType("top_", style.getTopText());
+         writeFieldType("bottom_", style.getBottomText());
+         writeFieldType("left_", style.getLeftText());
+         writeFieldType("right_", style.getRightText());
+         writeFieldType("inside_", style.getInsideText());
+         m_writer.writeEndObject();;
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeBarStyleExceptions(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      if (ganttChartView.getBarStyleExceptions() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("bar_style_exceptions");
+      for (GanttBarStyleException style : ((GanttChartView) view).getBarStyleExceptions())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("task_unique_id", style.getTaskUniqueID());
+         writeIntegerField("bar_style_index", style.getBarStyleIndex());
+         writeFieldType("top_", style.getTopText());
+         writeFieldType("bottom_", style.getBottomText());
+         writeFieldType("left_", style.getLeftText());
+         writeFieldType("right_", style.getRightText());
+         writeFieldType("inside_", style.getInsideText());
+         m_writer.writeEndObject();;
+      }
+      m_writer.writeEndList();
+   }
+
    /**
     * Write a TaskMode field to the JSON file.
     *
@@ -1351,9 +1535,19 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   private void writeFieldType(String prefix, FieldType fieldType) throws IOException
+   {
+      if (fieldType != null)
+      {
+         writeStringField(prefix + "field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
+         writeStringField(prefix + "field_type", fieldType.name().toLowerCase());
+      }
+   }
+
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
+   private boolean m_includeLayoutData = false;
    private Charset m_encoding = DEFAULT_ENCODING;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;

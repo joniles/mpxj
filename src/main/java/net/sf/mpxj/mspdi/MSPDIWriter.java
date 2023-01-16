@@ -1164,16 +1164,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-
-            setValueGUID(attrib, mpxFieldID, formattedValue);
+            setValueGUID(attrib, mpxFieldID);
          }
       }
    }
@@ -1183,11 +1179,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param attrib parent attribute
     * @param fieldType field type
-    * @param formattedValue formatted value
     */
-   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType)
    {
-      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
@@ -1215,13 +1210,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Resources.Resource.OutlineCode attrib = m_factory.createProjectResourcesResourceOutlineCode();
             outlineCodes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            setValueID(attrib, mpxFieldID, formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -1661,16 +1653,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-
-            setValueGUID(attrib, mpxFieldID, formattedValue);
+            setValueGUID(attrib, mpxFieldID);
          }
       }
    }
@@ -1696,13 +1684,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
-            String formattedValue = DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType());
-
             Project.Tasks.Task.OutlineCode attrib = m_factory.createProjectTasksTaskOutlineCode();
             outlineCodes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
-            setValueID(attrib, mpxFieldID, formattedValue);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -1712,11 +1697,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param attrib parent attribute
     * @param fieldType field type
-    * @param formattedValue formatted value
     */
-   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType, String formattedValue)
+   private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType)
    {
-      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
@@ -2148,11 +2132,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
          {
-            Integer xmlFieldID = Integer.valueOf(MPPAssignmentField.getID(mpxFieldID) | MPPAssignmentField.ASSIGNMENT_FIELD_BASE);
-
             attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setFieldID(xmlFieldID.toString());
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }

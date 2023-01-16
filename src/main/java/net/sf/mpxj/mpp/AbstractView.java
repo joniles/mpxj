@@ -48,17 +48,17 @@ public abstract class AbstractView implements View
 
    @Override public Integer getID()
    {
-      return (m_id);
+      return m_id;
    }
 
    @Override public String getName()
    {
-      return (m_name);
+      return m_name;
    }
 
    @Override public ViewType getType()
    {
-      return (m_type);
+      return m_type;
    }
 
    /**
@@ -66,9 +66,9 @@ public abstract class AbstractView implements View
     *
     * @return table name
     */
-   public String getTableName()
+   @Override public String getTableName()
    {
-      return (m_tableName);
+      return m_tableName;
    }
 
    /**
@@ -77,9 +77,9 @@ public abstract class AbstractView implements View
     *
     * @return table instance
     */
-   public Table getTable()
+   @Override public Table getTable()
    {
-      return (m_tables.getTaskTableByName(m_tableName));
+      return m_tables.getTaskTableByName(m_tableName);
    }
 
    /**
@@ -90,7 +90,7 @@ public abstract class AbstractView implements View
     */
    @Override public String toString()
    {
-      return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name + (m_tableName == null ? "" : " table=" + m_tableName) + "]");
+      return "[View id=" + m_id + " type=" + m_type + " name=" + m_name + (m_tableName == null ? "" : " table=" + m_tableName) + "]";
    }
 
    protected final ProjectProperties m_properties;

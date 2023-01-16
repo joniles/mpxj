@@ -58,4 +58,19 @@ public interface View
     * @return view type
     */
    public ViewType getType();
+
+   /**
+    * Retrieve the name of the table part of the view.
+    *
+    * @return table name
+    */
+   String getTableName();
+
+   /**
+    * Retrieve an instance of the Table class representing the
+    * table part of this view.
+    *
+    * @return table instance
+    */
+   public Table getTable();
 }

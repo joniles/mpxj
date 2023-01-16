@@ -288,7 +288,7 @@ public final class GanttChartView14 extends GanttChartView
    @Override protected TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = MPPTaskField14.getInstance(MPPUtility.getShort(data, offset + 4));
+      FieldType fieldType = FieldTypeHelper.getInstance14(MPPUtility.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 11);
       Color color = MPPUtility.getColor(data, offset + 12);

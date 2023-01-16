@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MPPTaskField;
 
 /**
@@ -61,19 +62,19 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
             style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
 
-            style.setFromField(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 8)));
-            style.setToField(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 12)));
+            style.setFromField(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 8)));
+            style.setToField(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 12)));
 
             extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 16));
             extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 24));
 
             style.setRow(barStyleData[styleOffset + 32] + 1);
 
-            style.setLeftText(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 34)));
-            style.setRightText(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 38)));
-            style.setTopText(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 42)));
-            style.setBottomText(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 46)));
-            style.setInsideText(MPPTaskField.getInstance(MPPUtility.getShort(barStyleData, styleOffset + 50)));
+            style.setLeftText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 34)));
+            style.setRightText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 38)));
+            style.setTopText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 42)));
+            style.setBottomText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 46)));
+            style.setInsideText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 50)));
 
             styleOffset += 58;
          }
@@ -113,11 +114,11 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
             style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
 
-            style.setLeftText(MPPTaskField.getInstance(MPPUtility.getShort(barData, offset + 16)));
-            style.setRightText(MPPTaskField.getInstance(MPPUtility.getShort(barData, offset + 20)));
-            style.setTopText(MPPTaskField.getInstance(MPPUtility.getShort(barData, offset + 24)));
-            style.setBottomText(MPPTaskField.getInstance(MPPUtility.getShort(barData, offset + 28)));
-            style.setInsideText(MPPTaskField.getInstance(MPPUtility.getShort(barData, offset + 32)));
+            style.setLeftText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 16)));
+            style.setRightText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 20)));
+            style.setTopText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 24)));
+            style.setBottomText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 28)));
+            style.setInsideText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 32)));
 
             offset += 38;
          }

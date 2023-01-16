@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="10.16.0">
 			<action dev="joniles" type="update">Updated methods in the `GanttBarCommonStyle` and `GanttBarStyle` classes to use a `FieldType` instance rather than a `TaskField` instance to allow more flexibility. (Note: this may be a breaking change if you are currently using these classes.)</action>
+			<action dev="joniles" type="update">Optionally include layout data in JSON output.</action>
 		</release>
 		<release date="2023-01-11" version="10.15.0">
 			<action dev="joniles" type="update">Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</action>
