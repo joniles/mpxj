@@ -435,7 +435,7 @@ public class MppColumnsTest
 
    private static final String[] MPP14_TASK_COLUMNS_2 =
    {
-      "Unknown",
+      null,
       "Task Mode",
       "Flag17",
       "Flag18",
@@ -1029,7 +1029,7 @@ public class MppColumnsTest
 
    private static final String[] MPP12_TASK_COLUMNS_2 =
    {
-      "Unknown",
+      null,
       "Flag17",
       "Flag18",
       "Flag19",

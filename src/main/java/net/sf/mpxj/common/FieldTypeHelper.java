@@ -99,6 +99,11 @@ public final class FieldTypeHelper
     */
    public static final FieldType getInstance(int fieldID)
    {
+      if (fieldID == -1)
+      {
+         return null;
+      }
+
       FieldType result;
       int prefix = fieldID & 0xFFFF0000;
       int index = fieldID & 0x0000FFFF;
@@ -175,6 +180,11 @@ public final class FieldTypeHelper
     */
    public static final FieldType getInstance14(int fieldID)
    {
+      if (fieldID == -1)
+      {
+         return null;
+      }
+
       FieldType result;
       int prefix = fieldID & 0xFFFF0000;
       int index = fieldID & 0x0000FFFF;
