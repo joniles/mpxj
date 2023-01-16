@@ -82,6 +82,8 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.mpp.GanttBarStyle;
+import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
 import net.sf.mpxj.mpp.TableFontStyle;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -298,8 +300,7 @@ public final class JsonWriter extends AbstractProjectWriter
             m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
          }
 
-         m_writer.writeNameValuePair("field_type_class", field.getFieldType().getFieldTypeClass().name().toLowerCase());
-         m_writer.writeNameValuePair("field_type", field.getFieldType().name().toLowerCase());
+         writeFieldType("", field.getFieldType());
          m_writer.writeNameValuePair("field_alias", field.getAlias());
 
          if (field.getCustomFieldDataType() != null)
@@ -1398,12 +1399,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (Column column : table.getColumns())
       {
          m_writer.writeStartObject(null);
-         FieldType fieldType = column.getFieldType();
-         if (fieldType != null)
-         {
-            writeStringField("field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
-            writeStringField("field_type", fieldType.name().toLowerCase());
-         }
+         writeFieldType("", column.getFieldType());
          writeStringField("title", column.getTitle());
          writeIntegerField("width", column.getWidth());
          writeIntegerField("align_data", column.getAlignData());
@@ -1429,6 +1425,8 @@ public final class JsonWriter extends AbstractProjectWriter
          writeStringField("type", view.getType().name().toLowerCase());
          writeStringField("table_name", view.getTableName());
          writeViewTableFontStyles(view);
+         writeBarStyles(view);
+         writeBarStyleExceptions(view);
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -1451,16 +1449,70 @@ public final class JsonWriter extends AbstractProjectWriter
       for (TableFontStyle style : ganttChartView.getTableFontStyles())
       {
          m_writer.writeStartObject(null);
-         FieldType fieldType = style.getFieldType();
          writeIntegerField("row_unique_id", style.getRowUniqueID());
-         if (fieldType != null)
-         {
-            writeStringField("field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
-            writeStringField("field_type", fieldType.name().toLowerCase());
-         }
+         writeFieldType("", style.getFieldType());
          // TODO: add more of the style attributes as needed
-
          m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeBarStyles(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      if (ganttChartView.getBarStyles() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("bar_styles");
+      for (GanttBarStyle style : ((GanttChartView) view).getBarStyles())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("row", style.getRow());
+         writeStringField("name", style.getName());
+         writeFieldType("from_", style.getFromField());
+         writeFieldType("to_", style.getToField());
+         writeFieldType("top_", style.getTopText());
+         writeFieldType("bottom_", style.getBottomText());
+         writeFieldType("left_", style.getLeftText());
+         writeFieldType("right_", style.getRightText());
+         writeFieldType("inside_", style.getInsideText());
+         m_writer.writeEndObject();;
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeBarStyleExceptions(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      if (ganttChartView.getBarStyleExceptions() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartList("bar_style_exceptions");
+      for (GanttBarStyleException style : ((GanttChartView) view).getBarStyleExceptions())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("task_unique_id", style.getTaskUniqueID());
+         writeIntegerField("bar_style_index", style.getBarStyleIndex());
+         writeFieldType("top_", style.getTopText());
+         writeFieldType("bottom_", style.getBottomText());
+         writeFieldType("left_", style.getLeftText());
+         writeFieldType("right_", style.getRightText());
+         writeFieldType("inside_", style.getInsideText());
+         m_writer.writeEndObject();;
       }
       m_writer.writeEndList();
    }
@@ -1480,6 +1532,15 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeNameValuePair(fieldName, type.name());
          }
+      }
+   }
+
+   private void writeFieldType(String prefix, FieldType fieldType) throws IOException
+   {
+      if (fieldType != null)
+      {
+         writeStringField(prefix + "field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
+         writeStringField(prefix + "field_type", fieldType.name().toLowerCase());
       }
    }
 
