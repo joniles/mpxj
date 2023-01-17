@@ -90,7 +90,7 @@ public class MPPTaskField
 
    private static final int MAX_VALUE = 1414;
 
-   private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
+   static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
 
    static
    {
