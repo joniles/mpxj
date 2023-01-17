@@ -203,7 +203,7 @@ public final class FieldTypeHelper
 
          case MPPResourceField.RESOURCE_FIELD_BASE:
          {
-            result = MPPResourceField14.getInstance(index);
+            result = MPPResourceField.getInstance(index);
             if (result == null)
             {
                result = getPlaceholder(ResourceField.class, index);
@@ -213,7 +213,7 @@ public final class FieldTypeHelper
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
-            result = MPPAssignmentField14.getInstance(index);
+            result = MPPAssignmentField.getInstance(index);
             if (result == null)
             {
                result = getPlaceholder(AssignmentField.class, index);
