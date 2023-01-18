@@ -32,6 +32,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectField;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
@@ -97,7 +98,7 @@ public final class FieldTypeHelper
     * @param fieldID field ID
     * @return FieldType instance
     */
-   public static final FieldType getInstance(int fieldID)
+   public static final FieldType getInstance(ProjectFile project, int fieldID)
    {
       if (fieldID == -1)
       {
@@ -178,7 +179,7 @@ public final class FieldTypeHelper
     * @param fieldID field ID
     * @return FieldType instance
     */
-   public static final FieldType getInstance14(int fieldID)
+   public static final FieldType getInstance14(ProjectFile file, int fieldID)
    {
       if (fieldID == -1)
       {

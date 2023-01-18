@@ -42,6 +42,7 @@ public abstract class AbstractView implements View
     */
    public AbstractView(ProjectFile parent)
    {
+      m_file = parent;
       m_properties = parent.getProjectProperties();
       m_tables = parent.getTables();
    }
@@ -93,6 +94,7 @@ public abstract class AbstractView implements View
       return "[View id=" + m_id + " type=" + m_type + " name=" + m_name + (m_tableName == null ? "" : " table=" + m_tableName) + "]";
    }
 
+   protected final ProjectFile m_file;
    protected final ProjectProperties m_properties;
    protected final TableContainer m_tables;
    protected Integer m_id;

@@ -1154,10 +1154,10 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return ColumnFontStyle instance
     */
-   protected TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   protected TableFontStyle getColumnFontStyle(ProjectFile file, byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(data, offset + 4));
+      FieldType fieldType = FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 9);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 10));

@@ -1264,7 +1264,7 @@ final class MPP8Reader implements MPPVariantReader
             table.setResourceFlag(MPPUtility.getShort(data, index) == 0);
          }
 
-         column.setFieldType(FieldTypeHelper.getInstance(MPPUtility.getInt(data, index)));
+         column.setFieldType(FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(data, index)));
          column.setWidth(MPPUtility.getByte(data, index + 4));
 
          columnTitleOffset = MPPUtility.getShort(data, index + 6);

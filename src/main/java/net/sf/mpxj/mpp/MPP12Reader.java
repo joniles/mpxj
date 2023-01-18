@@ -217,7 +217,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          Props taskProps = new Props12(m_inputStreamFactory.getInstance(dir, "Props"));
 
-         CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file.getProjectProperties(), m_file.getCustomFields(), m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
+         CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file, m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
          reader.process();
       }
    }
@@ -237,7 +237,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processGraphicalIndicators()
    {
       GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
-      graphicalIndicatorReader.process(m_file.getCustomFields(), m_file.getProjectProperties(), m_projectProps);
+      graphicalIndicatorReader.process(m_file, m_projectProps);
    }
 
    /**
@@ -957,10 +957,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap12(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -982,7 +982,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(props);
 
       // Process aliases
-      new CustomFieldReader12(m_file.getCustomFields(), props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+      new CustomFieldReader12(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskFixed2Data, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
@@ -1499,10 +1499,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap12(m_file);
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -1522,7 +1522,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(props);
 
       // Process aliases
-      new CustomFieldReader12(m_file.getCustomFields(), props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -1664,10 +1664,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap12(m_file);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -1777,7 +1777,7 @@ final class MPP12Reader implements MPPVariantReader
          //System.out.println(varData);
 
          FilterReader reader = new FilterReader12();
-         reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
+         reader.process(m_file, fixedData, varData);
       }
    }
 

@@ -112,7 +112,7 @@ final class TableFactory
          for (int loop = 0; loop < columnCount; loop++)
          {
             column = new Column(file);
-            column.setFieldType(FieldTypeHelper.getInstance(MPPUtility.getInt(data, index)));
+            column.setFieldType(FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, index)));
 
             //                        if (column.getFieldType() == null)
             //                        {

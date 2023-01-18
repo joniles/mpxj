@@ -30,6 +30,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TestOperator;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -47,10 +48,11 @@ public final class GraphicalIndicatorReader
     * @param properties project properties
     * @param props properties data
     */
-   public void process(CustomFieldContainer indicators, ProjectProperties properties, Props props)
+   public void process(ProjectFile file, Props props)
    {
-      m_container = indicators;
-      m_properties = properties;
+      m_file = file;
+      m_container = file.getCustomFields();
+      m_properties = file.getProjectProperties();
       m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
       if (m_data != null)
@@ -75,7 +77,7 @@ public final class GraphicalIndicatorReader
       m_dataOffset = MPPUtility.getInt(m_data, m_headerOffset);
       m_headerOffset += 4;
 
-      FieldType type = FieldTypeHelper.getInstance(fieldID);
+      FieldType type = FieldTypeHelper.getInstance(m_file, fieldID);
       if (type.getDataType() != null)
       {
          processKnownType(type);
@@ -194,7 +196,7 @@ public final class GraphicalIndicatorReader
       if (!valueFlag)
       {
          int fieldID = MPPUtility.getInt(m_data, m_dataOffset);
-         criteria.setRightValue(index, FieldTypeHelper.getInstance(fieldID));
+         criteria.setRightValue(index, FieldTypeHelper.getInstance(m_file, fieldID));
          m_dataOffset += 4;
       }
       else
@@ -264,5 +266,6 @@ public final class GraphicalIndicatorReader
    private int m_headerOffset;
    private int m_dataOffset;
    private CustomFieldContainer m_container;
+   private ProjectFile m_file;
    private ProjectProperties m_properties;
 }

@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
@@ -45,10 +46,11 @@ public abstract class CustomFieldValueReader
     * @param outlineCodeFixedData2 raw mpp data
     * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader(ProjectProperties properties, CustomFieldContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader(ProjectFile file, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
    {
-      m_properties = properties;
-      m_container = container;
+      m_file = file;
+      m_properties = file.getProjectProperties();
+      m_container = file.getCustomFields();
       m_outlineCodeVarMeta = outlineCodeVarMeta;
       m_outlineCodeVarData = outlineCodeVarData;
       m_outlineCodeFixedData = outlineCodeFixedData;
@@ -153,6 +155,7 @@ public abstract class CustomFieldValueReader
       return result;
    }
 
+   protected final ProjectFile m_file;
    protected final ProjectProperties m_properties;
    protected final CustomFieldContainer m_container;
    protected final VarMeta m_outlineCodeVarMeta;

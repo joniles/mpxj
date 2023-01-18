@@ -29,6 +29,7 @@ import java.util.Map;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
@@ -45,14 +46,14 @@ class FieldMap14 extends FieldMap
     * @param properties project properties
     * @param customFields custom field values
     */
-   public FieldMap14(ProjectProperties properties, CustomFieldContainer customFields)
+   public FieldMap14(ProjectFile file)
    {
-      super(properties, customFields);
+      super(file);
    }
 
    @Override protected FieldType getFieldType(int fieldID)
    {
-      return FieldTypeHelper.getInstance14(fieldID);
+      return FieldTypeHelper.getInstance14(m_file, fieldID);
    }
 
    @Override protected boolean useTypeAsVarDataKey()

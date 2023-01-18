@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.GenericCriteriaPrompt;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 
 /**
@@ -58,7 +59,7 @@ public abstract class FilterReader
     * @param fixedData filter fixed data
     * @param varData filter var data
     */
-   public void process(ProjectProperties properties, FilterContainer filters, FixedData fixedData, Var2Data varData)
+   public void process(ProjectFile file, FixedData fixedData, Var2Data varData)
    {
       int filterCount = fixedData.getItemCount();
       boolean[] criteriaType = new boolean[2];
@@ -85,13 +86,13 @@ public abstract class FilterReader
          List<GenericCriteriaPrompt> prompts = new ArrayList<>();
 
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
-         filter.setCriteria(criteriaReader.process(properties, filterVarData, 0, -1, prompts, null, criteriaType));
+         filter.setCriteria(criteriaReader.process(file, filterVarData, 0, -1, prompts, null, criteriaType));
 
          filter.setIsTaskFilter(criteriaType[0]);
          filter.setIsResourceFilter(criteriaType[1]);
          filter.setPrompts(prompts);
 
-         filters.addFilter(filter);
+         file.getFilters().addFilter(filter);
          //System.out.println(filter);
       }
    }

@@ -31,6 +31,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -51,9 +52,9 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
     * @param outlineCodeFixedData2 raw mpp data
     * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader14(ProjectProperties properties, CustomFieldContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader14(ProjectFile file, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
    {
-      super(properties, container, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
+      super(file, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
    }
 
    @Override public void process()
@@ -130,7 +131,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          while (index + 52 <= data.length)
          {
             int extendedAttributeFieldID = MPPUtility.getInt(data, index);
-            FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
+            FieldType field = FieldTypeHelper.getInstance(m_file, extendedAttributeFieldID);
             // UUID extendedAttributeGuid = MPPUtility.getGUID(data, index + 20);
             UUID lookupTableGuid = MPPUtility.getGUID(data, index + 36);
             map.put(lookupTableGuid, field);
