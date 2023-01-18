@@ -281,5 +281,5 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       }
    */
 
-   private static final double EQUALITY_DELTA = 0.1;
+   private static final double EQUALITY_DELTA = 0.2;
 }
