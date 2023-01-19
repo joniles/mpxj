@@ -113,15 +113,7 @@ public final class FieldTypeHelper
       {
          case MPPTaskField.TASK_FIELD_BASE:
          {
-            if (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 14)
-            {
-               result = MPPTaskField14.getInstance(index);
-            }
-            else
-            {
-               result = MPPTaskField.getInstance(index);
-            }
-
+            result = MPPTaskField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(TaskField.class, index);
