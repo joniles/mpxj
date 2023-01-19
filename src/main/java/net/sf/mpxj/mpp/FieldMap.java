@@ -52,6 +52,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -247,7 +248,11 @@ abstract class FieldMap
     * @param fieldID field ID
     * @return field type
     */
-   protected abstract FieldType getFieldType(int fieldID);
+   protected FieldType getFieldType(int fieldID)
+   {
+      return FieldTypeHelper.getInstance(m_file, fieldID);
+   }
+
 
    /**
     * In some circumstances the var data key used in the file

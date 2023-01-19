@@ -123,7 +123,7 @@ public final class GanttChartView14 extends GanttChartView
    private FieldType getFieldType(byte[] data, int offset)
    {
       int fieldIndex = MPPUtility.getInt(data, offset);
-      return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(m_file, fieldIndex));
+      return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance(m_file, fieldIndex));
    }
 
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
@@ -288,7 +288,7 @@ public final class GanttChartView14 extends GanttChartView
    @Override protected TableFontStyle getColumnFontStyle(ProjectFile file, byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = FieldTypeHelper.getInstance14(file, MPPUtility.getInt(data, offset + 4));
+      FieldType fieldType = FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 11);
       Color color = MPPUtility.getColor(data, offset + 12);

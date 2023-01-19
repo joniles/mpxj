@@ -51,11 +51,6 @@ class FieldMap14 extends FieldMap
       super(file);
    }
 
-   @Override protected FieldType getFieldType(int fieldID)
-   {
-      return FieldTypeHelper.getInstance14(m_file, fieldID);
-   }
-
    @Override protected boolean useTypeAsVarDataKey()
    {
       return true;

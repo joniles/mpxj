@@ -169,7 +169,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
     */
    private FieldType getTaskField(ProjectFile file, int field)
    {
-      FieldType result = FieldTypeHelper.getInstance14(file, field);
+      FieldType result = FieldTypeHelper.getInstance(file, field);
       if (!(result instanceof TaskField))
       {
          return result;

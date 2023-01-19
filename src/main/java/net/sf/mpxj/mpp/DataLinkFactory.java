@@ -99,7 +99,7 @@ class DataLinkFactory
       String dataLinkID = props.getUnicodeString(PATH);
       DataLink dataLink = map.computeIfAbsent(dataLinkID, DataLink::new);
       Integer rowUniqueID = Integer.valueOf(props.getInt(UNIQUE_ID));
-      FieldType fieldType = FieldTypeHelper.getInstance14(m_project, props.getInt(FIELD_TYPE));
+      FieldType fieldType = FieldTypeHelper.getInstance(m_project, props.getInt(FIELD_TYPE));
 
       if (props.getUnicodeString(VIEW_NAME) == null)
       {
