@@ -3,6 +3,11 @@ import java.util.Locale;
 
 public class UserDefinedField implements FieldType
 {
+   @Override public int getValue()
+   {
+      return m_id;
+   }
+
    public void setUniqueID(Integer value)
    {
       m_id = value;
