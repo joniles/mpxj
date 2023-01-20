@@ -64,8 +64,7 @@ abstract class FieldMap
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param customFields custom field values
+    * @param file project file
     */
    public FieldMap(ProjectFile file)
    {

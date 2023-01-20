@@ -59,9 +59,8 @@ public class CustomFieldValueReader9
     * Constructor.
     *
     * @param projectDir project directory
-    * @param properties MPXJ project properties
+    * @param file project file
     * @param projectProps MPP project properties
-    * @param container custom field container
     */
    public CustomFieldValueReader9(DirectoryEntry projectDir, ProjectFile file, Props projectProps)
    {

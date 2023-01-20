@@ -38,7 +38,7 @@ class CustomFieldReader14
    /**
     * Constructor.
     *
-    * @param fields field definition container
+    * @param file project file
     * @param data raw MP data
     */
    public CustomFieldReader14(ProjectFile file, byte[] data)

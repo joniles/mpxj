@@ -44,8 +44,7 @@ public final class GraphicalIndicatorReader
    /**
     * The main entry point for processing graphical indicator definitions.
     *
-    * @param indicators graphical indicators container
-    * @param properties project properties
+    * @param file project file
     * @param props properties data
     */
    public void process(ProjectFile file, Props props)

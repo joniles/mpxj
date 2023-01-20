@@ -38,8 +38,7 @@ public abstract class CustomFieldValueReader
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param container custom field config
+    * @param file project file
     * @param outlineCodeVarMeta raw mpp data
     * @param outlineCodeVarData raw mpp data
     * @param outlineCodeFixedData raw mpp data

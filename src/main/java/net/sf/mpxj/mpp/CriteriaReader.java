@@ -120,7 +120,7 @@ public abstract class CriteriaReader
    /**
     * Main entry point to read criteria data.
     *
-    * @param properties project properties
+    * @param file project file
     * @param data criteria data block
     * @param dataOffset offset of the data start within the larger data block
     * @param entryOffset offset of start node for walking the tree

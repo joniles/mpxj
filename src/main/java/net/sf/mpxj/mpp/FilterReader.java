@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.Filter;
-import net.sf.mpxj.FilterContainer;
 import net.sf.mpxj.GenericCriteriaPrompt;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
@@ -54,8 +52,7 @@ public abstract class FilterReader
    /**
     * Entry point for processing filter definitions.
     *
-    * @param properties project properties
-    * @param filters project filters
+    * @param file project file
     * @param fixedData filter fixed data
     * @param varData filter var data
     */
