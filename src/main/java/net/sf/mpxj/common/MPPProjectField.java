@@ -74,7 +74,7 @@ public class MPPProjectField
       if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
       {
          int baseValue = ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = ((ProjectField)value).getValue() - baseValue;
+         int id = value.getValue() - baseValue;
          result = 0x8000 + id;
       }
       else

@@ -62,7 +62,7 @@ public class MPPConstraintField
     */
    public static int getID(FieldType value)
    {
-      return (ID_ARRAY[((ConstraintField)value).getValue()]);
+      return (ID_ARRAY[value.getValue()]);
    }
 
    private static final int MAX_VALUE = 10;

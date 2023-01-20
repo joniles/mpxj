@@ -631,7 +631,7 @@ public enum AssignmentField implements FieldType
       return (result);
    }
 
-   public int getValue()
+   @Override public int getValue()
    {
       return (m_value);
    }

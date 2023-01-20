@@ -78,12 +78,12 @@ public final class MPPAssignmentField
       if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
       {
          int baseValue = AssignmentField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = ((AssignmentField)value).getValue() - baseValue;
+         int id = value.getValue() - baseValue;
          result = 0x8000 + id;
       }
       else
       {
-         result = ID_ARRAY[((AssignmentField)value).getValue()];
+         result = ID_ARRAY[value.getValue()];
       }
       return result;
    }
