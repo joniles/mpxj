@@ -27,8 +27,6 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * This interface is implemented by classes which can create Table classes

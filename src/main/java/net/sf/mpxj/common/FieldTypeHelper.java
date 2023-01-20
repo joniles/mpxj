@@ -60,25 +60,25 @@ public final class FieldTypeHelper
          {
             case TASK:
             {
-               result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID((TaskField) type);
+               result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID(type);
                break;
             }
 
             case RESOURCE:
             {
-               result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID((ResourceField) type);
+               result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID(type);
                break;
             }
 
             case ASSIGNMENT:
             {
-               result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID((AssignmentField) type);
+               result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID(type);
                break;
             }
 
             case PROJECT:
             {
-               result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID((ProjectField) type);
+               result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID(type);
                break;
             }
 
