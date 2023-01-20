@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
@@ -141,7 +142,7 @@ public class ResourceAssignmentFactory
 
          assignment.disableEvents();
 
-         fieldMap.populateContainer(AssignmentField.class, assignment, varDataId, new byte[][]
+         fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, new byte[][]
          {
             data,
             data2
@@ -149,7 +150,7 @@ public class ResourceAssignmentFactory
 
          if (enterpriseCustomFieldMap != null)
          {
-            enterpriseCustomFieldMap.populateContainer(AssignmentField.class, assignment, varDataId, null, assnVarData);
+            enterpriseCustomFieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, null, assnVarData);
          }
 
          assignment.enableEvents();

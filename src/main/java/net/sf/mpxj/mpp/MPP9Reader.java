@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -1027,7 +1028,7 @@ final class MPP9Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.disableEvents();
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
          {
             data
          }, taskVarData);
@@ -1591,7 +1592,7 @@ final class MPP9Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
          {
             data
          }, rscVarData);

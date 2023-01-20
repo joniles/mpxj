@@ -42,6 +42,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -432,18 +433,18 @@ abstract class FieldMap
     * Given a container, and a set of raw data blocks, this method extracts
     * the field data and writes it into the container.
     *
-    * @param type expected type
+    * @param fieldTypeClass expected type
     * @param container field container
     * @param id entity ID
     * @param fixedData fixed data block
     * @param varData var data block
     */
-   public void populateContainer(Class<? extends FieldType> type, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   public void populateContainer(FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       //System.out.println(container.getClass().getSimpleName()+": " + id);
       for (FieldItem item : m_map.values())
       {
-         if (item.getType().getClass().equals(type))
+         if (item.getType().getFieldTypeClass() == fieldTypeClass)
          {
             //System.out.println(item.m_type);
             Object value = item.read(id, fixedData, varData);
