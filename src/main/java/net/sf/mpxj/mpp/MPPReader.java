@@ -85,8 +85,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          // instance directly for reduced memory consumption and the ability
          // to open larger MPP files.
          fs = new POIFSFileSystem(file);
-         ProjectFile projectFile = read(fs);
-         return projectFile;
+         return read(fs);
       }
 
       catch (IOException ex)

@@ -57,8 +57,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This

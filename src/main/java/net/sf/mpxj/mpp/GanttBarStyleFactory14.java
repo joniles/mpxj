@@ -26,7 +26,6 @@ package net.sf.mpxj.mpp;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPTaskField14;
 
 /**
  * Reads Gantt bar styles from an MPP14 file.

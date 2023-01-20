@@ -34,7 +34,6 @@ import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPTaskField14;
 
 /**
  * This class represents the set of properties used to define the appearance
