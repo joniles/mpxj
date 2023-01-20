@@ -219,7 +219,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processGraphicalIndicators()
    {
       GraphicalIndicatorReader graphicalIndicatorReader = new GraphicalIndicatorReader();
-      graphicalIndicatorReader.process(m_file.getCustomFields(), m_file.getProjectProperties(), m_projectProps);
+      graphicalIndicatorReader.process(m_file, m_projectProps);
    }
 
    /**
@@ -748,7 +748,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processCustomValueLists() throws IOException
    {
-      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_projectDir, m_file.getProjectProperties(), m_projectProps, m_file.getCustomFields());
+      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_projectDir, m_file, m_projectProps);
       reader.process();
    }
 
@@ -936,7 +936,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
@@ -1259,7 +1259,7 @@ final class MPP9Reader implements MPPVariantReader
 
       for (Integer key : props.keySet())
       {
-         FieldType field = FieldTypeHelper.getInstance(key.intValue());
+         FieldType field = FieldTypeHelper.getInstance(m_file, key.intValue());
          if (field == null || field.getDataType() == null)
          {
             continue;
@@ -1388,7 +1388,7 @@ final class MPP9Reader implements MPPVariantReader
 
       for (Integer key : props.keySet())
       {
-         FieldType field = FieldTypeHelper.getInstance(key.intValue());
+         FieldType field = FieldTypeHelper.getInstance(m_file, key.intValue());
          if (field == null || field.getDataType() == null)
          {
             continue;
@@ -1553,7 +1553,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createResourceFieldMap(m_projectProps);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
@@ -1688,7 +1688,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FieldMap fieldMap = new FieldMap9(m_file.getProjectProperties(), m_file.getCustomFields());
+      FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
@@ -1808,7 +1808,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(varData);
 
          FilterReader reader = new FilterReader9();
-         reader.process(m_file.getProjectProperties(), m_file.getFilters(), fixedData, varData);
+         reader.process(m_file, fixedData, varData);
       }
    }
 

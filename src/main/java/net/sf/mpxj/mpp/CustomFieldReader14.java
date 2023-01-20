@@ -27,6 +27,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -37,12 +38,13 @@ class CustomFieldReader14
    /**
     * Constructor.
     *
-    * @param fields field definition container
+    * @param file project file
     * @param data raw MP data
     */
-   public CustomFieldReader14(CustomFieldContainer fields, byte[] data)
+   public CustomFieldReader14(ProjectFile file, byte[] data)
    {
-      m_fields = fields;
+      m_file = file;
+      m_fields = file.getCustomFields();
       m_data = data;
    }
 
@@ -78,7 +80,7 @@ class CustomFieldReader14
                String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);
                if (!alias.isEmpty())
                {
-                  m_fields.getOrCreate(FieldTypeHelper.getInstance(fieldID)).setAlias(alias);
+                  m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, fieldID)).setAlias(alias);
                }
             }
             index++;
@@ -133,7 +135,7 @@ class CustomFieldReader14
                break;
             }
 
-            FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
+            FieldType fieldType = FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(m_data, offset));
 
             // Don't try to set the data type unless it's a custom field
             if (fieldType.getDataType() == DataType.CUSTOM)
@@ -149,6 +151,7 @@ class CustomFieldReader14
       }
    }
 
+   private final ProjectFile m_file;
    private final CustomFieldContainer m_fields;
    private final byte[] m_data;
 }

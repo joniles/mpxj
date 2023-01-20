@@ -24,12 +24,10 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
  * MPP9 field map.
@@ -39,17 +37,11 @@ class FieldMap9 extends FieldMap
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param customFields custom fields
+    * @param file project file
     */
-   public FieldMap9(ProjectProperties properties, CustomFieldContainer customFields)
+   public FieldMap9(ProjectFile file)
    {
-      super(properties, customFields);
-   }
-
-   @Override protected FieldType getFieldType(int fieldID)
-   {
-      return FieldTypeHelper.getInstance(fieldID);
+      super(file);
    }
 
    @Override protected boolean useTypeAsVarDataKey()

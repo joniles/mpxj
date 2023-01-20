@@ -56,7 +56,7 @@ public final class FilterCriteriaReader14 extends CriteriaReader
    @Override protected FieldType getFieldType(byte[] block)
    {
       int fieldIndex = MPPUtility.getInt(block, 8);
-      return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance14(fieldIndex));
+      return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance(m_file, fieldIndex));
    }
 
    @Override protected int getTextOffset(byte[] block)

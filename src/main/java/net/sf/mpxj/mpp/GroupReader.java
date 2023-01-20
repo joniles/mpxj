@@ -98,7 +98,7 @@ public abstract class GroupReader
             group.addGroupClause(clause);
 
             int fieldID = MPPUtility.getInt(groupVarData, offset);
-            FieldType type = FieldTypeHelper.getInstance(fieldID);
+            FieldType type = FieldTypeHelper.getInstance(file, fieldID);
             clause.setField(type);
 
             // from byte 0 2 byte short int - field type

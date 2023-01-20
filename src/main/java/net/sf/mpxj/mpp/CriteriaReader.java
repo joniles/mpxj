@@ -33,6 +33,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GenericCriteriaPrompt;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TestOperator;
 
@@ -119,7 +120,7 @@ public abstract class CriteriaReader
    /**
     * Main entry point to read criteria data.
     *
-    * @param properties project properties
+    * @param file project file
     * @param data criteria data block
     * @param dataOffset offset of the data start within the larger data block
     * @param entryOffset offset of start node for walking the tree
@@ -128,9 +129,10 @@ public abstract class CriteriaReader
     * @param criteriaType optional array representing criteria types
     * @return first node of the criteria
     */
-   public GenericCriteria process(ProjectProperties properties, byte[] data, int dataOffset, int entryOffset, List<GenericCriteriaPrompt> prompts, List<FieldType> fields, boolean[] criteriaType)
+   public GenericCriteria process(ProjectFile file, byte[] data, int dataOffset, int entryOffset, List<GenericCriteriaPrompt> prompts, List<FieldType> fields, boolean[] criteriaType)
    {
-      m_properties = properties;
+      m_file = file;
+      m_properties = file.getProjectProperties();
       m_prompts = prompts;
       m_fields = fields;
       m_criteriaType = criteriaType;
@@ -424,6 +426,7 @@ public abstract class CriteriaReader
       return prompt;
    }
 
+   protected ProjectFile m_file;
    private ProjectProperties m_properties;
    private byte[] m_criteriaData;
    private boolean[] m_criteriaType;

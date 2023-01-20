@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
 
 /**
@@ -44,13 +45,21 @@ public class MPPTaskField
     * @param value value from an MS Project file
     * @return TaskField instance
     */
-   public static FieldType getInstance(int value)
+   public static FieldType getInstance(ProjectFile project, int value)
    {
       FieldType result = null;
 
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
-         result = FIELD_ARRAY[value];
+         if (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 14)
+         {
+            result = mapMpp14(value);
+         }
+
+         if (result == null)
+         {
+            result = FIELD_ARRAY[value];
+         }
       }
       else
       {
@@ -85,6 +94,244 @@ public class MPPTaskField
       {
          result = ID_ARRAY[value.getValue()];
       }
+      return result;
+   }
+
+   /**
+    * Handle field ID values which are different in MPP14 files compared to other MPP file variants.
+    *
+    * @param value field ID
+    * @return field type
+    */
+   private static FieldType mapMpp14(int value)
+   {
+      FieldType result;
+
+      switch(value)
+      {
+         case 27:
+         {
+            result = TaskField.BASELINE_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 29:
+         {
+            result = TaskField.SCHEDULED_DURATION;
+            break;
+         }
+
+         case 35:
+         {
+            result = TaskField.SCHEDULED_START;
+            break;
+         }
+
+         case 36:
+         {
+            result = TaskField.SCHEDULED_FINISH;
+            break;
+         }
+
+         case 43:
+         {
+            result = TaskField.BASELINE_ESTIMATED_START;
+            break;
+         }
+
+         case 44:
+         {
+            result = TaskField.BASELINE_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 482:
+         {
+            result = TaskField.BASELINE1_ESTIMATED_START;
+            break;
+         }
+
+         case 483:
+         {
+            result = TaskField.BASELINE1_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 487:
+         {
+            result = TaskField.BASELINE1_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 493:
+         {
+            result = TaskField.BASELINE2_ESTIMATED_START;
+            break;
+         }
+
+         case 494:
+         {
+            result = TaskField.BASELINE2_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 498:
+         {
+            result = TaskField.BASELINE2_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 504:
+         {
+            result = TaskField.BASELINE3_ESTIMATED_START;
+            break;
+         }
+
+         case 505:
+         {
+            result = TaskField.BASELINE3_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 509:
+         {
+            result = TaskField.BASELINE3_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 515:
+         {
+            result = TaskField.BASELINE4_ESTIMATED_START;
+            break;
+         }
+
+         case 516:
+         {
+            result = TaskField.BASELINE4_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 520:
+         {
+            result = TaskField.BASELINE4_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 526:
+         {
+            result = TaskField.BASELINE5_ESTIMATED_START;
+            break;
+         }
+
+         case 527:
+         {
+            result = TaskField.BASELINE5_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 531:
+         {
+            result = TaskField.BASELINE5_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 544:
+         {
+            result = TaskField.BASELINE6_ESTIMATED_START;
+            break;
+         }
+
+         case 545:
+         {
+            result = TaskField.BASELINE6_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 549:
+         {
+            result = TaskField.BASELINE6_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 555:
+         {
+            result = TaskField.BASELINE7_ESTIMATED_START;
+            break;
+         }
+
+         case 556:
+         {
+            result = TaskField.BASELINE7_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 560:
+         {
+            result = TaskField.BASELINE7_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 566:
+         {
+            result = TaskField.BASELINE8_ESTIMATED_START;
+            break;
+         }
+
+         case 567:
+         {
+            result = TaskField.BASELINE8_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 571:
+         {
+            result = TaskField.BASELINE8_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 577:
+         {
+            result = TaskField.BASELINE9_ESTIMATED_START;
+            break;
+         }
+
+         case 578:
+         {
+            result = TaskField.BASELINE9_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 582:
+         {
+            result = TaskField.BASELINE9_ESTIMATED_DURATION;
+            break;
+         }
+
+         case 588:
+         {
+            result = TaskField.BASELINE10_ESTIMATED_START;
+            break;
+         }
+
+         case 589:
+         {
+            result = TaskField.BASELINE10_ESTIMATED_FINISH;
+            break;
+         }
+
+         case 593:
+         {
+            result = TaskField.BASELINE10_ESTIMATED_DURATION;
+            break;
+         }
+
+         default:
+         {
+            result = null;
+            break;
+         }
+      }
+
       return result;
    }
 

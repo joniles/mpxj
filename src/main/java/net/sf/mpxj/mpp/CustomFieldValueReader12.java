@@ -27,11 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -42,17 +41,16 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param container custom field config
+    * @param file project file
     * @param outlineCodeVarMeta raw mpp data
     * @param outlineCodeVarData raw mpp data
     * @param outlineCodeFixedData raw mpp data
     * @param outlineCodeFixedData2 raw mpp data
     * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader12(ProjectProperties properties, CustomFieldContainer container, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader12(ProjectFile file, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
    {
-      super(properties, container, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
+      super(file, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
    }
 
    @Override public void process()
@@ -124,7 +122,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
             }
 
             int extendedAttributeFieldID = MPPUtility.getInt(data, index + 4);
-            FieldType field = FieldTypeHelper.getInstance(extendedAttributeFieldID);
+            FieldType field = FieldTypeHelper.getInstance(m_file, extendedAttributeFieldID);
             UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
             map.put(lookupTableGuid, field);
             index += blockLength;

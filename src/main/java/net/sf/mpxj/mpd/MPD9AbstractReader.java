@@ -1117,7 +1117,7 @@ abstract class MPD9AbstractReader
     */
    private void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
    {
-      FieldType field = FieldTypeHelper.getInstance(row.getInt(fieldIDColumn));
+      FieldType field = FieldTypeHelper.getInstance(m_project, row.getInt(fieldIDColumn));
       if (field == null || field == TaskField.NOTES || field == ResourceField.NOTES || field == AssignmentField.NOTES)
       {
          return;
