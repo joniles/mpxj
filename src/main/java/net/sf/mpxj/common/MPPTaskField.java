@@ -97,6 +97,12 @@ public class MPPTaskField
       return result;
    }
 
+   /**
+    * Handle field ID values which are different in MPP14 files compared to other MPP file variants.
+    *
+    * @param value field ID
+    * @return field type
+    */
    private static FieldType mapMpp14(int value)
    {
       FieldType result;
