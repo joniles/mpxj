@@ -1483,7 +1483,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFieldType("left_", style.getLeftText());
          writeFieldType("right_", style.getRightText());
          writeFieldType("inside_", style.getInsideText());
-         m_writer.writeEndObject();;
+         m_writer.writeEndObject();
       }
       m_writer.writeEndList();
    }
@@ -1512,7 +1512,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFieldType("left_", style.getLeftText());
          writeFieldType("right_", style.getRightText());
          writeFieldType("inside_", style.getInsideText());
-         m_writer.writeEndObject();;
+         m_writer.writeEndObject();
       }
       m_writer.writeEndList();
    }

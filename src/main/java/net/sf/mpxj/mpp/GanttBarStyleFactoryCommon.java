@@ -23,15 +23,15 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPTaskField;
 
 /**
  * Reads Gantt bar styles from a MPP9 and MPP12 files.
  */
 public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 {
-   @Override public GanttBarStyle[] processDefaultStyles(Props props)
+   @Override public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props)
    {
       GanttBarStyle[] barStyles = null;
       byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
@@ -62,19 +62,19 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
             style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
 
-            style.setFromField(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 8)));
-            style.setToField(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 12)));
+            style.setFromField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 8)));
+            style.setToField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 12)));
 
             extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 16));
             extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 24));
 
             style.setRow(barStyleData[styleOffset + 32] + 1);
 
-            style.setLeftText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 34)));
-            style.setRightText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 38)));
-            style.setTopText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 42)));
-            style.setBottomText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 46)));
-            style.setInsideText(FieldTypeHelper.getInstance(MPPUtility.getInt(barStyleData, styleOffset + 50)));
+            style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 34)));
+            style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 38)));
+            style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 42)));
+            style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 46)));
+            style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 50)));
 
             styleOffset += 58;
          }
@@ -82,7 +82,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
       return barStyles;
    }
 
-   @Override public GanttBarStyleException[] processExceptionStyles(Props props)
+   @Override public GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props)
    {
       GanttBarStyleException[] barStyle = null;
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
@@ -114,11 +114,11 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
             style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
             style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
 
-            style.setLeftText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 16)));
-            style.setRightText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 20)));
-            style.setTopText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 24)));
-            style.setBottomText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 28)));
-            style.setInsideText(FieldTypeHelper.getInstance(MPPUtility.getInt(barData, offset + 32)));
+            style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 16)));
+            style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 20)));
+            style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 24)));
+            style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 28)));
+            style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 32)));
 
             offset += 38;
          }

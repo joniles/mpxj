@@ -68,9 +68,6 @@ import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPAssignmentField;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RateHelper;
@@ -1120,7 +1117,7 @@ abstract class MPD9AbstractReader
     */
    private void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
    {
-      FieldType field = FieldTypeHelper.getInstance(row.getInt(fieldIDColumn));
+      FieldType field = FieldTypeHelper.getInstance(m_project, row.getInt(fieldIDColumn));
       if (field == null || field == TaskField.NOTES || field == ResourceField.NOTES || field == AssignmentField.NOTES)
       {
          return;

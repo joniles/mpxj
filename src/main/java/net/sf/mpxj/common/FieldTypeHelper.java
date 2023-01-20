@@ -32,6 +32,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectField;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
@@ -59,25 +60,25 @@ public final class FieldTypeHelper
          {
             case TASK:
             {
-               result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID((TaskField) type);
+               result = MPPTaskField.TASK_FIELD_BASE | MPPTaskField.getID(type);
                break;
             }
 
             case RESOURCE:
             {
-               result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID((ResourceField) type);
+               result = MPPResourceField.RESOURCE_FIELD_BASE | MPPResourceField.getID(type);
                break;
             }
 
             case ASSIGNMENT:
             {
-               result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID((AssignmentField) type);
+               result = MPPAssignmentField.ASSIGNMENT_FIELD_BASE | MPPAssignmentField.getID(type);
                break;
             }
 
             case PROJECT:
             {
-               result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID((ProjectField) type);
+               result = MPPProjectField.PROJECT_FIELD_BASE | MPPProjectField.getID(type);
                break;
             }
 
@@ -97,7 +98,7 @@ public final class FieldTypeHelper
     * @param fieldID field ID
     * @return FieldType instance
     */
-   public static final FieldType getInstance(int fieldID)
+   public static final FieldType getInstance(ProjectFile project, int fieldID)
    {
       if (fieldID == -1)
       {
@@ -112,7 +113,7 @@ public final class FieldTypeHelper
       {
          case MPPTaskField.TASK_FIELD_BASE:
          {
-            result = MPPTaskField.getInstance(index);
+            result = MPPTaskField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(TaskField.class, index);
@@ -156,77 +157,6 @@ public final class FieldTypeHelper
             if (result == null)
             {
                result = getPlaceholder(ProjectField.class, index);
-            }
-            break;
-         }
-
-         default:
-         {
-            result = getPlaceholder(null, index);
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve a FieldType instance based on an ID value from
-    * an MPP14 field, mapping the START_TEXT, FINISH_TEXT, and DURATION_TEXT
-    * values to START, FINISH, and DURATION respectively.
-    *
-    * @param fieldID field ID
-    * @return FieldType instance
-    */
-   public static final FieldType getInstance14(int fieldID)
-   {
-      if (fieldID == -1)
-      {
-         return null;
-      }
-
-      FieldType result;
-      int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID & 0x0000FFFF;
-
-      switch (prefix)
-      {
-         case MPPTaskField.TASK_FIELD_BASE:
-         {
-            result = MPPTaskField14.getInstance(index);
-            if (result == null)
-            {
-               result = getPlaceholder(TaskField.class, index);
-            }
-            break;
-         }
-
-         case MPPResourceField.RESOURCE_FIELD_BASE:
-         {
-            result = MPPResourceField14.getInstance(index);
-            if (result == null)
-            {
-               result = getPlaceholder(ResourceField.class, index);
-            }
-            break;
-         }
-
-         case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
-         {
-            result = MPPAssignmentField14.getInstance(index);
-            if (result == null)
-            {
-               result = getPlaceholder(AssignmentField.class, index);
-            }
-            break;
-         }
-
-         case MPPConstraintField.CONSTRAINT_FIELD_BASE:
-         {
-            result = MPPConstraintField.getInstance(index);
-            if (result == null)
-            {
-               result = getPlaceholder(ConstraintField.class, index);
             }
             break;
          }

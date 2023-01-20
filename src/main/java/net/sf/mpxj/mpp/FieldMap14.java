@@ -27,12 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
  * MPP14 field map.
@@ -42,17 +40,11 @@ class FieldMap14 extends FieldMap
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param customFields custom field values
+    * @param file project file
     */
-   public FieldMap14(ProjectProperties properties, CustomFieldContainer customFields)
+   public FieldMap14(ProjectFile file)
    {
-      super(properties, customFields);
-   }
-
-   @Override protected FieldType getFieldType(int fieldID)
-   {
-      return FieldTypeHelper.getInstance14(fieldID);
+      super(file);
    }
 
    @Override protected boolean useTypeAsVarDataKey()

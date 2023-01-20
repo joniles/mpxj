@@ -43,6 +43,7 @@ import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceRequestType;
@@ -51,6 +52,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.ByteArrayHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -62,16 +64,16 @@ abstract class FieldMap
    /**
     * Constructor.
     *
-    * @param properties project properties
-    * @param customFields custom field values
+    * @param file project file
     */
-   public FieldMap(ProjectProperties properties, CustomFieldContainer customFields)
+   public FieldMap(ProjectFile file)
    {
-      m_properties = properties;
-      m_customFields = customFields;
-      m_stringVarDataReader = new StringVarDataFieldReader(customFields);
-      m_doubleVarDataReader = new DoubleVarDataFieldReader(customFields);
-      m_timestampVarDataReader = new TimestampVarDataFieldReader(customFields);
+      m_file = file;
+      m_properties = file.getProjectProperties();
+      m_customFields = file.getCustomFields();
+      m_stringVarDataReader = new StringVarDataFieldReader(m_customFields);
+      m_doubleVarDataReader = new DoubleVarDataFieldReader(m_customFields);
+      m_timestampVarDataReader = new TimestampVarDataFieldReader(m_customFields);
    }
 
    /**
@@ -245,7 +247,11 @@ abstract class FieldMap
     * @param fieldID field ID
     * @return field type
     */
-   protected abstract FieldType getFieldType(int fieldID);
+   protected FieldType getFieldType(int fieldID)
+   {
+      return FieldTypeHelper.getInstance(m_file, fieldID);
+   }
+
 
    /**
     * In some circumstances the var data key used in the file
@@ -1323,6 +1329,7 @@ abstract class FieldMap
       private final int m_metaBlock;
    }
 
+   protected final ProjectFile m_file;
    private final ProjectProperties m_properties;
    final CustomFieldContainer m_customFields;
    final VarDataFieldReader m_stringVarDataReader;

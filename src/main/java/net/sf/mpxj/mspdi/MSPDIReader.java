@@ -46,7 +46,6 @@ import net.sf.mpxj.CalendarType;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
@@ -76,7 +75,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
@@ -90,9 +88,6 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.MPPAssignmentField;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
@@ -862,7 +857,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private void readExtendedAttributeDefinition(Project.ExtendedAttributes.ExtendedAttribute attribute)
    {
-      FieldType field = FieldTypeHelper.getInstance(Integer.parseInt(attribute.getFieldID()));
+      FieldType field = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attribute.getFieldID()));
       m_lookupTableMap.put(attribute.getLtuid(), field);
       String alias = attribute.getAlias();
       if (alias != null && alias.length() != 0)
@@ -1027,7 +1022,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       for (Project.Resources.Resource.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
-         FieldType mpxFieldID = FieldTypeHelper.getInstance(Integer.parseInt(attrib.getFieldID()));
+         FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
@@ -1048,7 +1043,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             continue;
          }
 
-         FieldType mpxFieldID = FieldTypeHelper.getInstance(Integer.parseInt(attrib.getFieldID()));
+         FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
@@ -1549,7 +1544,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       for (Project.Tasks.Task.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
-         FieldType mpxFieldID = FieldTypeHelper.getInstance(Integer.parseInt(attrib.getFieldID()));
+         FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
@@ -1570,7 +1565,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             continue;
          }
 
-         FieldType mpxFieldID = FieldTypeHelper.getInstance(Integer.parseInt(attrib.getFieldID()));
+         FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          mpx.set(mpxFieldID, getOutlineCodeValue(mpxFieldID, attrib.getValueID()));
       }
    }
@@ -1777,7 +1772,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
       else
       {
-         fieldType = FieldTypeHelper.getInstance(NumberHelper.getInt(outlineCode.getFieldID()));
+         fieldType = FieldTypeHelper.getInstance(m_projectFile, NumberHelper.getInt(outlineCode.getFieldID()));
       }
 
       if (fieldType != null)
@@ -2028,7 +2023,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       for (Project.Assignments.Assignment.ExtendedAttribute attrib : xml.getExtendedAttribute())
       {
-         FieldType mpxFieldID = FieldTypeHelper.getInstance(Integer.parseInt(attrib.getFieldID()));
+         FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }

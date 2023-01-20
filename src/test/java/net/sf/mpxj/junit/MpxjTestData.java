@@ -78,7 +78,7 @@ public class MpxjTestData
     *
     * @param path path to test files
     * @param name file name prefix
-    * @return list of files
+    * @return array of files
     */
    public static File[] listFiles(String path, final String name)
    {

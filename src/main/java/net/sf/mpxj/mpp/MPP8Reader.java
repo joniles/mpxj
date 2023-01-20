@@ -66,8 +66,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
-import net.sf.mpxj.common.MPPResourceField;
-import net.sf.mpxj.common.MPPTaskField;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 
@@ -1264,7 +1262,7 @@ final class MPP8Reader implements MPPVariantReader
             table.setResourceFlag(MPPUtility.getShort(data, index) == 0);
          }
 
-         column.setFieldType(FieldTypeHelper.getInstance(MPPUtility.getInt(data, index)));
+         column.setFieldType(FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(data, index)));
          column.setWidth(MPPUtility.getByte(data, index + 4));
 
          columnTitleOffset = MPPUtility.getShort(data, index + 6);

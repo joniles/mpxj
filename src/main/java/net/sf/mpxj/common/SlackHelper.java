@@ -41,8 +41,8 @@ public final class SlackHelper
    {
       if (task.getTotalSlack() != null)
       {
-         Duration startSlack = null;
-         Duration finishSlack = null;
+         Duration startSlack;
+         Duration finishSlack;
          Duration totalSlack = task.getTotalSlack();
          Duration zeroSlack = Duration.getInstance(0, totalSlack.getUnits());
 

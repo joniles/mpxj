@@ -82,7 +82,7 @@ final class TaskModel
     * This method is used to retrieve a linked list of field identifiers
     * indicating the fields present in a task record.
     *
-    * @return list of field names
+    * @return array of field identifiers
     */
    public int[] getModel()
    {

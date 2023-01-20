@@ -103,7 +103,7 @@ final class ResourceModel
     * indicating the fields present in a resource record. Note that
     * the values in this array will be terminated by -1.
     *
-    * @return list of field names
+    * @return array of field identifiers
     */
    public int[] getModel()
    {

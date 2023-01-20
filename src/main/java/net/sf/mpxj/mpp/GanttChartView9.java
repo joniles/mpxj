@@ -50,13 +50,13 @@ public final class GanttChartView9 extends GanttChartView
    @Override protected void processDefaultBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
-      m_barStyles = f.processDefaultStyles(props);
+      m_barStyles = f.processDefaultStyles(m_file, props);
    }
 
    @Override protected void processExceptionBarStyles(Props props)
    {
       GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
-      m_barStyleExceptions = f.processExceptionStyles(props);
+      m_barStyleExceptions = f.processExceptionStyles(m_file, props);
    }
 
    @Override protected void processAutoFilters(byte[] data)
@@ -92,7 +92,7 @@ public final class GanttChartView9 extends GanttChartView
 
          int entryOffset = MPPUtility.getShort(data, offset + 12);
          fields.clear();
-         GenericCriteria c = criteria.process(m_properties, data, offset + 4, entryOffset, null, fields, null);
+         GenericCriteria c = criteria.process(m_file, data, offset + 4, entryOffset, null, fields, null);
          //System.out.println(c);
 
          if (!fields.isEmpty())
@@ -230,7 +230,7 @@ public final class GanttChartView9 extends GanttChartView
       int offset = 0;
       for (int loop = 0; loop < m_tableFontStyles.length; loop++)
       {
-         m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
+         m_tableFontStyles[loop] = getColumnFontStyle(m_file, columnData, offset, fontBases);
          offset += 16;
       }
    }

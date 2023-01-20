@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import net.sf.mpxj.ProjectFile;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -58,16 +59,16 @@ public class CustomFieldValueReader9
     * Constructor.
     *
     * @param projectDir project directory
-    * @param properties MPXJ project properties
+    * @param file project file
     * @param projectProps MPP project properties
-    * @param container custom field container
     */
-   public CustomFieldValueReader9(DirectoryEntry projectDir, ProjectProperties properties, Props projectProps, CustomFieldContainer container)
+   public CustomFieldValueReader9(DirectoryEntry projectDir, ProjectFile file, Props projectProps)
    {
       m_projectDir = projectDir;
-      m_properties = properties;
+      m_file = file;
+      m_properties = file.getProjectProperties();
       m_projectProps = projectProps;
-      m_container = container;
+      m_container = file.getCustomFields();
    }
 
    /**
@@ -104,7 +105,7 @@ public class CustomFieldValueReader9
             // Each item consists of the Field ID (4 bytes) and the offset to the value list (4 bytes)
 
             // Get the Field
-            field = FieldTypeHelper.getInstance(MPPUtility.getInt(data, offset));
+            field = FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(data, offset));
             offset += 4;
 
             // Get the value list offset
@@ -163,7 +164,7 @@ public class CustomFieldValueReader9
 
          int index = MPPUtility.getShort(data, 0);
          int fieldID = MPPUtility.getInt(data, 12);
-         FieldType fieldType = FieldTypeHelper.getInstance(fieldID);
+         FieldType fieldType = FieldTypeHelper.getInstance(m_file, fieldID);
          if (fieldType.getFieldTypeClass() != FieldTypeClass.UNKNOWN)
          {
             map.put(Integer.valueOf(index), fieldType);
@@ -347,6 +348,7 @@ public class CustomFieldValueReader9
    }
 
    private final DirectoryEntry m_projectDir;
+   private final ProjectFile m_file;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
    private final CustomFieldContainer m_container;

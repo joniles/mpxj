@@ -49,7 +49,7 @@ public final class TimescaleUtility
     * @param startDate start date
     * @param segmentUnit units to be represented by each segment (column)
     * @param segmentCount number of segments (columns) required
-    * @return array of date ranges
+    * @return list of date ranges
     */
    public final ArrayList<DateRange> createTimescale(Date startDate, TimescaleUnits segmentUnit, int segmentCount)
    {
