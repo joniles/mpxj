@@ -28,8 +28,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.UserDefinedField;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -49,6 +51,11 @@ public class MPPTaskField
    {
       FieldType result = null;
 
+      if ((value & 0x8000) != 0)
+      {
+         return project.getUserDefinedFields().getTaskField(Integer.valueOf(value), (k)-> new UserDefinedField(k, "ENTERPRISE_CUSTOM_FIELD", "Enterprise Custom Field", FieldTypeClass.TASK));
+      }
+
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
          if (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 14)
@@ -61,17 +68,8 @@ public class MPPTaskField
             result = FIELD_ARRAY[value];
          }
       }
-      else
-      {
-         if ((value & 0x8000) != 0)
-         {
-            int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-            int id = baseValue + (value & 0xFFF);
-            result = TaskField.getInstance(id);
-         }
-      }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -84,11 +82,9 @@ public class MPPTaskField
    {
       int result;
 
-      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      if (value instanceof UserDefinedField)
       {
-         int baseValue = TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
-         result = 0x8000 + id;
+         result = value.getValue();
       }
       else
       {

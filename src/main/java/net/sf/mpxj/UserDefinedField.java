@@ -3,14 +3,17 @@ import java.util.Locale;
 
 public class UserDefinedField implements FieldType
 {
-   @Override public int getValue()
+   public UserDefinedField(int id, String internalPrefix, String presentationPrefix, FieldTypeClass fieldypeClass)
    {
-      return m_id;
+      m_id = id;
+      m_internalName = internalPrefix + "_" + id;
+      m_presentationName = presentationPrefix + " " + id;
+      m_fieldTypeClass = fieldypeClass;
    }
 
-   public void setUniqueID(Integer value)
+   @Override public int getValue()
    {
-      m_id = value;
+      return m_id.intValue();
    }
 
    public Integer getUniqueID()
@@ -18,29 +21,19 @@ public class UserDefinedField implements FieldType
       return m_id;
    }
 
-   public void setFieldTypeClass(FieldTypeClass value)
-   {
-      m_fieldTypeClass = value;
-   }
-
    @Override public FieldTypeClass getFieldTypeClass()
    {
       return m_fieldTypeClass;
    }
 
-   public void setName(String value)
-   {
-      m_name = value;
-   }
-
    @Override public String getName()
    {
-      return m_name;
+      return m_presentationName;
    }
 
    @Override public String name()
    {
-      return getName();
+      return m_internalName;
    }
 
    @Override public String getName(Locale locale)
@@ -48,19 +41,9 @@ public class UserDefinedField implements FieldType
       return getName();
    }
 
-   public void setDataType(DataType value)
-   {
-      m_dataType = value;
-   }
-
    @Override public DataType getDataType()
    {
-      return m_dataType;
-   }
-
-   public void setUnitsType(FieldType value)
-   {
-      m_unitsType = value;
+      return DataType.CUSTOM;
    }
 
    @Override public FieldType getUnitsType()
@@ -68,9 +51,8 @@ public class UserDefinedField implements FieldType
       return null;
    }
 
-   private Integer m_id;
-   private FieldTypeClass m_fieldTypeClass;
-   private String m_name;
-   private DataType m_dataType;
-   private FieldType m_unitsType;
+   private final Integer m_id;
+   private final FieldTypeClass m_fieldTypeClass;
+   private final String m_presentationName;
+   private final String m_internalName;
 }

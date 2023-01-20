@@ -551,6 +551,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_costAccounts;
    }
 
+   public UserDefinedFieldContainer getUserDefinedFields()
+   {
+      return m_userDefinedFields;
+   }
+
    /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
@@ -681,6 +686,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
-   private final UserDefinedFieldContainer m_userdefinedFields = new UserDefinedFieldContainer();
+   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }
