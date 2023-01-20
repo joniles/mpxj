@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -1111,13 +1112,13 @@ final class MPP14Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(TaskField.class, task, uniqueID, new byte[][]
+         fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
          {
             data,
             data2
          }, taskVarData);
 
-         enterpriseCustomFieldMap.populateContainer(TaskField.class, task, uniqueID, null, taskVarData);
+         enterpriseCustomFieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, null, taskVarData);
 
          task.enableEvents();
 
@@ -1617,13 +1618,13 @@ final class MPP14Reader implements MPPVariantReader
 
          resource.disableEvents();
 
-         fieldMap.populateContainer(ResourceField.class, resource, id, new byte[][]
+         fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
          {
             data,
             data2
          }, rscVarData);
 
-         enterpriseCustomFieldMap.populateContainer(ResourceField.class, resource, id, null, rscVarData);
+         enterpriseCustomFieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, null, rscVarData);
 
          resource.enableEvents();
 
