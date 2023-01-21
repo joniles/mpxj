@@ -325,7 +325,7 @@ abstract class FieldMap
     * @param props props data
     * @param c target class
     */
-   public void createEnterpriseCustomFieldMap(Props props, Class<?> c)
+   public void createEnterpriseCustomFieldMap(Props props, FieldTypeClass fieldTypeClass)
    {
       byte[] fieldMapData = null;
       for (Integer key : ENTERPRISE_CUSTOM_KEYS)
@@ -346,7 +346,7 @@ abstract class FieldMap
             //System.out.println(ByteArrayHelper.hexdump(fieldMapData, index, 4, false));
             int typeValue = MPPUtility.getInt(fieldMapData, index);
             FieldType type = getFieldType(typeValue);
-            if (type != null && type.getClass() == c && type.toString().startsWith("Enterprise Custom Field"))
+            if (type != null && type.getFieldTypeClass() == fieldTypeClass && type.toString().startsWith("Enterprise Custom Field"))
             {
                int varDataKey = (typeValue & 0xFFFF);
                FieldItem item = new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey, 0, 0);

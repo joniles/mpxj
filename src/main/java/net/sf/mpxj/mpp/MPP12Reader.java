@@ -962,7 +962,7 @@ final class MPP12Reader implements MPPVariantReader
       fieldMap.createTaskFieldMap(m_projectProps);
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
-      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, TaskField.class);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.TASK);
 
       DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
       VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
@@ -1504,7 +1504,7 @@ final class MPP12Reader implements MPPVariantReader
       fieldMap.createResourceFieldMap(m_projectProps);
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
-      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, ResourceField.class);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.RESOURCE);
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
@@ -1669,7 +1669,7 @@ final class MPP12Reader implements MPPVariantReader
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
       FieldMap enterpriseCustomFieldMap = new FieldMap12(m_file);
-      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, AssignmentField.class);
+      enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.ASSIGNMENT);
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
