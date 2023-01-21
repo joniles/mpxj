@@ -273,8 +273,8 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       FieldType o1 = f1.getFieldType();
       FieldType o2 = f2.getFieldType();
-      String name1 = o1.getClass().getSimpleName() + "." + o1.getName() + " " + f1.getAlias();
-      String name2 = o2.getClass().getSimpleName() + "." + o2.getName() + " " + f2.getAlias();
+      String name1 = o1.getFieldTypeClass().name() + "." + o1.getName() + " " + f1.getAlias();
+      String name2 = o2.getFieldTypeClass().name() + "." + o2.getName() + " " + f2.getAlias();
       return name1.compareTo(name2);
    }
 
