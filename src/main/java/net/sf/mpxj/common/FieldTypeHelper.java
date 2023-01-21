@@ -233,33 +233,35 @@ public final class FieldTypeHelper
     */
    public static FieldType mapTextFields(FieldType field)
    {
-      if (field != null && field.getFieldTypeClass() == FieldTypeClass.TASK)
+      if (!(field instanceof TaskField))
       {
-         TaskField taskField = (TaskField) field;
-         switch (taskField)
+         return field;
+      }
+
+      TaskField taskField = (TaskField) field;
+      switch (taskField)
+      {
+         case START_TEXT:
          {
-            case START_TEXT:
-            {
-               field = TaskField.START;
-               break;
-            }
+            field = TaskField.START;
+            break;
+         }
 
-            case FINISH_TEXT:
-            {
-               field = TaskField.FINISH;
-               break;
-            }
+         case FINISH_TEXT:
+         {
+            field = TaskField.FINISH;
+            break;
+         }
 
-            case DURATION_TEXT:
-            {
-               field = TaskField.DURATION;
-               break;
-            }
+         case DURATION_TEXT:
+         {
+            field = TaskField.DURATION;
+            break;
+         }
 
-            default:
-            {
-               break;
-            }
+         default:
+         {
+            break;
          }
       }
 
