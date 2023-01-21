@@ -3,12 +3,12 @@ import java.util.Locale;
 
 public class UserDefinedField implements FieldType
 {
-   public UserDefinedField(int id, String internalPrefix, String presentationPrefix, FieldTypeClass fieldypeClass)
+   public UserDefinedField(int id, String internalName, String externalName, FieldTypeClass fieldTypeClass)
    {
       m_id = id;
-      m_internalName = internalPrefix + "_" + id;
-      m_presentationName = presentationPrefix + " " + id;
-      m_fieldTypeClass = fieldypeClass;
+      m_internalName = internalName;
+      m_externalName = externalName;
+      m_fieldTypeClass = fieldTypeClass;
    }
 
    @Override public int getValue()
@@ -28,7 +28,7 @@ public class UserDefinedField implements FieldType
 
    @Override public String getName()
    {
-      return m_presentationName;
+      return m_externalName;
    }
 
    @Override public String name()
@@ -58,6 +58,6 @@ public class UserDefinedField implements FieldType
 
    private final Integer m_id;
    private final FieldTypeClass m_fieldTypeClass;
-   private final String m_presentationName;
+   private final String m_externalName;
    private final String m_internalName;
 }

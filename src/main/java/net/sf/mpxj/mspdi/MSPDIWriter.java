@@ -82,6 +82,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
@@ -228,6 +229,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          // we never write them to the MSPDI file anyway.
          // TODO: revisit this as we should now have the data to write these fields
          m_populatedCustomFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
+         m_populatedCustomFields.removeIf((x) -> x instanceof UserDefinedField);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();

@@ -53,7 +53,12 @@ public class MPPTaskField
 
       if ((value & 0x8000) != 0)
       {
-         return project.getUserDefinedFields().getTaskField(Integer.valueOf(value), (k)-> new UserDefinedField(k, "ENTERPRISE_CUSTOM_FIELD", "Enterprise Custom Field", FieldTypeClass.TASK));
+         return project.getUserDefinedFields().getTaskField(Integer.valueOf(value), (k)-> {
+            int id = (k.intValue() & 0xFFF) +1 ;
+            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
+            String externalName = "Enterprise Custom Field " + id;
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.TASK);
+         });
       }
 
       if (value >= 0 && value < FIELD_ARRAY.length)
