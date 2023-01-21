@@ -51,6 +51,11 @@ public class UserDefinedField implements FieldType
       return null;
    }
 
+   @Override public String toString()
+   {
+      return getName();
+   }
+
    private final Integer m_id;
    private final FieldTypeClass m_fieldTypeClass;
    private final String m_presentationName;
