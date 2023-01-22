@@ -2932,32 +2932,30 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object get(FieldType field)
    {
-      if (!(field instanceof ResourceField))
-      {
-         return null;
-      }
-
       // Always calculated
-      switch ((ResourceField) field)
+      if (field instanceof ResourceField)
       {
-         case STANDARD_RATE:
+         switch ((ResourceField) field)
          {
-            return calculateStandardRate();
-         }
+            case STANDARD_RATE:
+            {
+               return calculateStandardRate();
+            }
 
-         case OVERTIME_RATE:
-         {
-            return calculateOvertimeRate();
-         }
+            case OVERTIME_RATE:
+            {
+               return calculateOvertimeRate();
+            }
 
-         case COST_PER_USE:
-         {
-            return calculateCostPerUse();
-         }
+            case COST_PER_USE:
+            {
+               return calculateCostPerUse();
+            }
 
-         default:
-         {
-            break;
+            default:
+            {
+               break;
+            }
          }
       }
 
