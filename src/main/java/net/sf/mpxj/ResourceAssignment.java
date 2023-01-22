@@ -2960,27 +2960,25 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object get(FieldType field)
    {
-      if (!(field instanceof AssignmentField))
+      if (field instanceof AssignmentField)
       {
-         return null;
-      }
-
-      // Always calculated
-      switch ((AssignmentField) field)
-      {
-         case START:
+         // Always calculated
+         switch ((AssignmentField) field)
          {
-            return calculateStart();
-         }
+            case START:
+            {
+               return calculateStart();
+            }
 
-         case FINISH:
-         {
-            return calculateFinish();
-         }
+            case FINISH:
+            {
+               return calculateFinish();
+            }
 
-         default:
-         {
-            break;
+            default:
+            {
+               break;
+            }
          }
       }
 

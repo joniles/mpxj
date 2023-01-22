@@ -29,6 +29,9 @@ import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.UserDefinedField;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -44,25 +47,25 @@ public final class MPPAssignmentField
     * @param value value from an MS Project file
     * @return AssignmentField instance
     */
-   public static FieldType getInstance(int value)
+   public static FieldType getInstance(ProjectFile project, int value)
    {
-      FieldType result = null;
+      if ((value & 0x8000) != 0)
+      {
+         return project.getUserDefinedFields().getAssignmentField(Integer.valueOf(value), (k)-> {
+            int id = (k.intValue() & 0xFFF) +1 ;
+            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
+            String externalName = "Enterprise Custom Field " + id;
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.ASSIGNMENT);
+         });
+      }
 
+      FieldType result = null;
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
-      else
-      {
-         if ((value & 0x8000) != 0)
-         {
-            int baseValue = AssignmentField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-            int id = baseValue + (value & 0xFFF);
-            result = AssignmentField.getInstance(id);
-         }
-      }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -74,12 +77,9 @@ public final class MPPAssignmentField
    public static int getID(FieldType value)
    {
       int result;
-
-      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      if (value instanceof UserDefinedField)
       {
-         int baseValue = AssignmentField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
-         result = 0x8000 + id;
+         result = value.getValue();
       }
       else
       {

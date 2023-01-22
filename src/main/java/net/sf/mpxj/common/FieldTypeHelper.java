@@ -133,7 +133,7 @@ public final class FieldTypeHelper
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
-            result = MPPAssignmentField.getInstance(index);
+            result = MPPAssignmentField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(AssignmentField.class, index);

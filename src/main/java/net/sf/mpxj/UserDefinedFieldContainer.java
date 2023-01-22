@@ -21,6 +21,11 @@ public class UserDefinedFieldContainer
       return m_resourceFields.values();
    }
 
+   public Collection<UserDefinedField> getAssignmentFields()
+   {
+      return m_assignmentFields.values();
+   }
+
 
    public UserDefinedField getTaskField(Integer id)
    {
@@ -28,6 +33,11 @@ public class UserDefinedFieldContainer
    }
 
    public UserDefinedField getResourceField(Integer id)
+   {
+      return m_resourceFields.get(id);
+   }
+
+   public UserDefinedField getAssignmentField(Integer id)
    {
       return m_resourceFields.get(id);
    }
@@ -42,6 +52,11 @@ public class UserDefinedFieldContainer
       return m_resourceFields.computeIfAbsent(id, createFunction);
    }
 
+   public UserDefinedField getAssignmentField(Integer id, Function<Integer, UserDefinedField> createFunction)
+   {
+      return m_assignmentFields.computeIfAbsent(id, createFunction);
+   }
+
    public void addTaskField(UserDefinedField field)
    {
       m_taskFields.put(field.getUniqueID(), field);
@@ -52,6 +67,13 @@ public class UserDefinedFieldContainer
       m_resourceFields.put(field.getUniqueID(), field);
    }
 
+   public void addAssignmentField(UserDefinedField field)
+   {
+      m_assignmentFields.put(field.getUniqueID(), field);
+   }
+
    private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_resourceFields = new HashMap<>();
+   private final Map<Integer, UserDefinedField> m_assignmentFields = new HashMap<>();
+
 }
