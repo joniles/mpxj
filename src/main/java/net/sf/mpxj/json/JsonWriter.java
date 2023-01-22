@@ -335,6 +335,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(null);
          writeFields(resource, ResourceField.values());
+         writeFields(resource, m_projectFile.getUserDefinedFields().getResourceFields().toArray(new FieldType[0]));
          writeCostRateTables(resource);
          m_writer.writeEndObject();
       }

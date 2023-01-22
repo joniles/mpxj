@@ -123,7 +123,7 @@ public final class FieldTypeHelper
 
          case MPPResourceField.RESOURCE_FIELD_BASE:
          {
-            result = MPPResourceField.getInstance(index);
+            result = MPPResourceField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(ResourceField.class, index);

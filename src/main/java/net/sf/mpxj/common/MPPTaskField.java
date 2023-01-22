@@ -49,8 +49,6 @@ public class MPPTaskField
     */
    public static FieldType getInstance(ProjectFile project, int value)
    {
-      FieldType result = null;
-
       if ((value & 0x8000) != 0)
       {
          return project.getUserDefinedFields().getTaskField(Integer.valueOf(value), (k)-> {
@@ -61,6 +59,7 @@ public class MPPTaskField
          });
       }
 
+      FieldType result = null;
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
          if (NumberHelper.getInt(project.getProjectProperties().getMppFileType()) == 14)
