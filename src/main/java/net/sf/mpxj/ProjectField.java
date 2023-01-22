@@ -168,6 +168,7 @@ public enum ProjectField implements FieldType
    MUST_FINISH_BY(DataType.DATE),
    SCHEDULED_FINISH(DataType.DATE),
    PLANNED_START(DataType.DATE),
+   FINISH_DATE(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.CUSTOM),
@@ -369,10 +370,8 @@ public enum ProjectField implements FieldType
    ENTERPRISE_CUSTOM_FIELD197(DataType.CUSTOM),
    ENTERPRISE_CUSTOM_FIELD198(DataType.CUSTOM),
    ENTERPRISE_CUSTOM_FIELD199(DataType.CUSTOM),
-   ENTERPRISE_CUSTOM_FIELD200(DataType.CUSTOM),
+   ENTERPRISE_CUSTOM_FIELD200(DataType.CUSTOM);
    // KEEP THESE TOGETHER AND IN ORDER
-
-   FINISH_DATE(DataType.DATE); // Must always be last value
 
    /**
     * Constructor.
