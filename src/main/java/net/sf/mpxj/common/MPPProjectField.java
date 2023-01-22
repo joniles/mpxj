@@ -28,7 +28,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectField;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.UserDefinedField;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -44,21 +47,19 @@ public class MPPProjectField
     * @param value value from an MS Project file
     * @return ProjectField instance
     */
-   public static FieldType getInstance(int value)
+   public static FieldType getInstance(ProjectFile project, int value)
    {
-      FieldType result = null;
-
-      if (value >= 0x8000)
+      if ((value & 0x8000) != 0)
       {
-         if ((value & 0x8000) != 0)
-         {
-            int baseValue = ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-            int id = baseValue + (value & 0xFFF);
-            result = ProjectField.getInstance(id);
-         }
+         return project.getUserDefinedFields().getProjectField(Integer.valueOf(value), (k)-> {
+            int id = (k.intValue() & 0xFFF) +1 ;
+            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
+            String externalName = "Enterprise Custom Field " + id;
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.PROJECT);
+         });
       }
 
-      return (result);
+      return null;
    }
 
    /**
@@ -70,18 +71,14 @@ public class MPPProjectField
    public static int getID(FieldType value)
    {
       int result;
-
-      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      if (value instanceof UserDefinedField)
       {
-         int baseValue = ProjectField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
-         result = 0x8000 + id;
+         result = value.getValue();
       }
       else
       {
          result = -1;
       }
-
       return result;
    }
 

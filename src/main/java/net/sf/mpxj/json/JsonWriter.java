@@ -320,6 +320,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeAttributeTypes("property_types", ProjectField.values());
       m_writer.writeStartObject("property_values");
       writeFields(m_projectFile.getProjectProperties(), ProjectField.values());
+      writeFields(m_projectFile.getProjectProperties(), m_projectFile.getUserDefinedFields().getProjectFields().toArray(new FieldType[0]));
       m_writer.writeEndObject();
    }
 

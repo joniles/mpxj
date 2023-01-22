@@ -153,7 +153,7 @@ public final class FieldTypeHelper
 
          case MPPProjectField.PROJECT_FIELD_BASE:
          {
-            result = MPPProjectField.getInstance(index);
+            result = MPPProjectField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(ProjectField.class, index);
