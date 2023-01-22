@@ -599,6 +599,7 @@ public enum ResourceField implements FieldType
    ROLE(DataType.BOOLEAN),
    CALCULATE_COSTS_FROM_UNITS(DataType.BOOLEAN),
    SEQUENCE_NUMBER(DataType.INTEGER),
+   FINISH(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER
    ENTERPRISE_CUSTOM_FIELD1(DataType.CUSTOM),
@@ -650,10 +651,8 @@ public enum ResourceField implements FieldType
    ENTERPRISE_CUSTOM_FIELD47(DataType.CUSTOM),
    ENTERPRISE_CUSTOM_FIELD48(DataType.CUSTOM),
    ENTERPRISE_CUSTOM_FIELD49(DataType.CUSTOM),
-   ENTERPRISE_CUSTOM_FIELD50(DataType.CUSTOM),
+   ENTERPRISE_CUSTOM_FIELD50(DataType.CUSTOM);
    // KEEP THESE TOGETHER AND IN ORDER
-
-   FINISH(DataType.DATE); // Must always be last value
 
    /**
     * Constructor.
