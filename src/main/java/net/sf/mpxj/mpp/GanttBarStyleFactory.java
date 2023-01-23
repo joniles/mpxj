@@ -33,6 +33,7 @@ public interface GanttBarStyleFactory
    /**
     * Reads the default set of Gantt bar styles.
     *
+    * @param file parent file
     * @param props props structure containing the Gantt chart style data
     * @return array of styles
     */
@@ -41,6 +42,7 @@ public interface GanttBarStyleFactory
    /**
     * Reads the set of exception bar styles from MPP files.
     *
+    * @param file parent file
     * @param props props structure containing the Gantt chart style data
     * @return array of styles
     */

@@ -1149,6 +1149,7 @@ public abstract class GanttChartView extends GenericView
    /**
     * Retrieve column font details from a block of property data.
     *
+    * @param file parent file
     * @param data property data
     * @param offset offset into property data
     * @param fontBases map of font bases

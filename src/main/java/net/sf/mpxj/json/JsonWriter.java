@@ -570,7 +570,6 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndList();
    }
 
-
    /**
     * Generates a mapping between attribute names and data types.
     *
@@ -1379,9 +1378,9 @@ public final class JsonWriter extends AbstractProjectWriter
       for (Table table : m_projectFile.getTables())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("id", table.getID());
+         writeIntegerField("id", Integer.valueOf(table.getID()));
          writeStringField("name", table.getName());
-         writeBooleanField("resource", table.getResourceFlag());
+         writeBooleanField("resource", Boolean.valueOf(table.getResourceFlag()));
          writeTableColumns(table);
          m_writer.writeEndObject();
       }
@@ -1401,9 +1400,9 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeFieldType("", column.getFieldType());
          writeStringField("title", column.getTitle());
-         writeIntegerField("width", column.getWidth());
-         writeIntegerField("align_data", column.getAlignData());
-         writeIntegerField("align_title", column.getAlignTitle());
+         writeIntegerField("width", Integer.valueOf(column.getWidth()));
+         writeIntegerField("align_data", Integer.valueOf(column.getAlignData()));
+         writeIntegerField("align_title", Integer.valueOf(column.getAlignTitle()));
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -1439,7 +1438,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      GanttChartView ganttChartView = (GanttChartView)view;
+      GanttChartView ganttChartView = (GanttChartView) view;
       if (ganttChartView.getTableFontStyles() == null)
       {
          return;
@@ -1449,7 +1448,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (TableFontStyle style : ganttChartView.getTableFontStyles())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("row_unique_id", style.getRowUniqueID());
+         writeIntegerField("row_unique_id", Integer.valueOf(style.getRowUniqueID()));
          writeFieldType("", style.getFieldType());
          // TODO: add more of the style attributes as needed
          m_writer.writeEndObject();
@@ -1474,7 +1473,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (GanttBarStyle style : ((GanttChartView) view).getBarStyles())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("row", style.getRow());
+         writeIntegerField("row", Integer.valueOf(style.getRow()));
          writeStringField("name", style.getName());
          writeFieldType("from_", style.getFromField());
          writeFieldType("to_", style.getToField());
@@ -1505,8 +1504,8 @@ public final class JsonWriter extends AbstractProjectWriter
       for (GanttBarStyleException style : ((GanttChartView) view).getBarStyleExceptions())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("task_unique_id", style.getTaskUniqueID());
-         writeIntegerField("bar_style_index", style.getBarStyleIndex());
+         writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));
+         writeIntegerField("bar_style_index", Integer.valueOf(style.getBarStyleIndex()));
          writeFieldType("top_", style.getTopText());
          writeFieldType("bottom_", style.getBottomText());
          writeFieldType("left_", style.getLeftText());
@@ -1547,7 +1546,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private ProjectFile m_projectFile;
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
-   private boolean m_includeLayoutData = false;
+   private boolean m_includeLayoutData;
    private Charset m_encoding = DEFAULT_ENCODING;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;
