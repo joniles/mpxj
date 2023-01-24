@@ -1856,6 +1856,11 @@ final class PrimaveraReader
       }
    }
 
+   /**
+    * Extract activity steps and add to their parent task.
+    *
+    * @param rows expense item rows
+    */
    public void processActivitySteps(List<Row> rows)
    {
       for (Row row : rows)
