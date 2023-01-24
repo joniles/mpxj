@@ -38,9 +38,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
+import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.ExpenseCategory;
+import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -854,6 +858,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case EXPENSE_ITEM_LIST:
+         {
+            writeExpenseItemList(fieldName, value);
+            break;
+         }
+
          default:
          {
             // If we have an enum, ensure we write the name as it appears in the code.
@@ -1365,6 +1375,49 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
       }
+   }
+
+   private void writeExpenseItemList(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      List<ExpenseItem> list = (List<ExpenseItem>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList(fieldName);
+      for (ExpenseItem item : list)
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("unique_id", item.getUniqueID());
+         writeStringField("name", item.getName());
+         writeStringField("description", item.getDescription());
+         if (item.getAccount() != null)
+         {
+            writeIntegerField("account_unique_id", item.getAccount().getUniqueID());
+         }
+         if (item.getCategory() != null)
+         {
+            writeIntegerField("category_unique_id", item.getCategory().getUniqueID());
+         }
+         writeStringField("document_number", item.getDocumentNumber());
+         writeStringField("vendor", item.getVendor());
+         writeDoubleField("at_completion_cost", item.getAtCompletionCost());
+         writeDoubleField("at_completion_units", item.getAtCompletionUnits());
+         writeDoubleField("actual_cost", item.getActualCost());
+         writeDoubleField("actual_units", item.getActualUnits());
+         writeDoubleField("price_per_unit", item.getPricePerUnit());
+         writeDoubleField("remaining_cost", item.getRemainingCost());
+         writeDoubleField("remaining_units", item.getRemainingUnits());
+         writeDoubleField("planned_cost", item.getPlannedCost());
+         writeDoubleField("planned_units", item.getPlannedUnits());
+         writeStringField("accrue_type", item.getAccrueType().name().toLowerCase());
+         writeBooleanField("auto_compute_actuals", item.getAutoComputeActuals());
+         writeStringField("unit_of_measure", item.getUnitOfMeasure());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    private void writeTables() throws IOException
