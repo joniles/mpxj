@@ -1814,7 +1814,7 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("task_id"));
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          if (task != null)
          {
             List<ExpenseItem> items = task.getExpenseItems();

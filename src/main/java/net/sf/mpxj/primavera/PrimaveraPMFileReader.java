@@ -777,7 +777,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (ActivityExpenseType item : expenseItems)
       {
-         Task task = m_projectFile.getTaskByUniqueID(item.getActivityObjectId());
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(item.getActivityObjectId()));
          if (task != null)
          {
             List<ExpenseItem> items = task.getExpenseItems();
