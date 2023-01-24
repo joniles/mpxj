@@ -7711,6 +7711,13 @@ module MPXJ
       attribute_values['status_manager']
     end
 
+    # Retrieve the Steps value
+    #
+    # @return Steps value
+    def steps
+      attribute_values['steps']
+    end
+
     # Retrieve the Stop value
     #
     # @return Stop value
@@ -9282,6 +9289,7 @@ module MPXJ
       'status' => :string,
       'status_indicator' => :string,
       'status_manager' => :string,
+      'steps' => :step_list,
       'stop' => :date,
       'stored_material' => :currency,
       'subproject' => :subproject,

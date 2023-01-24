@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.16.0">
+		<release date="unreleased" version="10.16.1">
+		</release>
+		<release date="2023-01-24" version="10.16.0">
 			<action dev="joniles" type="update">Improve accuracy when normalising timephased data.</action>
 			<action dev="joniles" type="add">Add support for reading activity steps from XER files, PMXML files and Primavera databases.</action>
 			<action dev="joniles" type="add">Add support for writing activity steps to PMXML files.</action>
